@@ -1,0 +1,18 @@
+.textWhite {
+  @apply text-white;
+}
+.opacity70 {
+  @apply opacity-70;
+}
+.desktopHeadline2 {
+  @apply font-inter font-semibold text-[2.5rem] leading-[3.375rem];
+}
+.desktopBodyLarge {
+  @apply font-inter font-normal text-[1.125rem] leading-[1.688rem];
+}
+.desktopBodySmall {
+  @apply font-inter font-normal text-[0.875rem] leading-[1.313rem];
+}
+.desktopBodyLargeSemibold {
+  @apply font-inter font-semibold text-[1.125rem] leading-[1.688rem];
+}
