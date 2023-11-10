@@ -7,7 +7,7 @@ body {
 #root {
   @apply mx-auto px-[7.5rem] py-10 font-inter;
   height: 100%;
-  min-height: inherit;
+  min-height: calc(100Vh - 5rem);
 }
 
 .flexible {

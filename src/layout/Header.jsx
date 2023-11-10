@@ -11,7 +11,7 @@ function Header () {
       <div className={styles.header}>
         <div className={commonStyles.smallFlexRow}>
           <Logo width={70.74} height={56} />
-          <span className={`${typographyStyles.textWhite} ${typographyStyles.desktopBodyLargeSemibold}`}>Platormatic</span>
+          <span className={`${typographyStyles.textWhite} ${typographyStyles.desktopBodyLargeSemibold}`}>Platformatic</span>
         </div>
         <div className={commonStyles.smallFlexRow}>
           <Button

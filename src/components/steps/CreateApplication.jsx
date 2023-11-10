@@ -91,6 +91,7 @@ const CreateApplication = React.forwardRef(({ onNext }, ref) => {
 
   return (
     <form className={styles.container} onSubmit={handleSubmit} ref={ref}>
+      <div className={styles.imageContainer} />
       <div className={`${commonStyles.largeFlexBlock} ${commonStyles.halfWidth}`}>
         <div className={commonStyles.mediumFlexBlock}>
           <div className={commonStyles.mediumFlexRow}>
@@ -127,6 +128,7 @@ const CreateApplication = React.forwardRef(({ onNext }, ref) => {
       <div className={`${styles.buttonContainer} ${commonStyles.fullWidth}`}>
         <Button
           disabled={!validForm}
+          classes={commonStyles.buttonPadding}
           label='Next'
           onClick={() => handleSubmit}
           color={RICH_BLACK}
