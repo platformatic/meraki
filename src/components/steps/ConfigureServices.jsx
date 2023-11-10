@@ -7,8 +7,12 @@ import typographyStyles from '~/styles/Typography.module.css'
 import { WHITE, LARGE, RICH_BLACK } from '@platformatic/ui-components/src/components/constants'
 import Icons from '@platformatic/ui-components/src/components/icons'
 import { Button } from '@platformatic/ui-components'
+import useStackablesStore from '~/useStackablesStore'
 
 const ConfigureServices = React.forwardRef(({ onNext }, ref) => {
+  const globalState = useStackablesStore()
+  const { formDataWizard } = globalState
+
   function onClick () {
     onNext()
   }
@@ -18,7 +22,7 @@ const ConfigureServices = React.forwardRef(({ onNext }, ref) => {
         <div className={commonStyles.mediumFlexBlock}>
           <div className={commonStyles.mediumFlexRow}>
             <Icons.AppIcon color={WHITE} size={LARGE} />
-            <h2 className={`${typographyStyles.desktopHeadline2} ${typographyStyles.textWhite}`}>Configure application</h2>
+            <h2 className={`${typographyStyles.desktopHeadline2} ${typographyStyles.textWhite}`}>{formDataWizard.createApplication.application}</h2>
           </div>
           <p className={`${typographyStyles.desktopBodyLarge} ${typographyStyles.textWhite} ${typographyStyles.opacity70}`}>Start by entering the name of your Application and the name of your service.</p>
         </div>

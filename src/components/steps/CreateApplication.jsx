@@ -8,23 +8,61 @@ import typographyStyles from '~/styles/Typography.module.css'
 import { WHITE, LARGE, RICH_BLACK } from '@platformatic/ui-components/src/components/constants'
 import Icons from '@platformatic/ui-components/src/components/icons'
 import { Button } from '@platformatic/ui-components'
+import useStackablesStore from '~/useStackablesStore'
 
 const CreateApplication = React.forwardRef(({ onNext }, ref) => {
   const [form, setForm] = useState({ application: '', service: '' })
   const [validations, setValidations] = useState({ applicationValid: false, serviceValid: false, formErrors: { application: '', service: '' } })
   const [validForm, setValidForm] = useState(false)
+  const [inputOnServiceField, setInputOnServiceField] = useState(false)
+  const globalState = useStackablesStore()
+  const { addFormDataWizard } = globalState
 
   function handleSubmit (event) {
-    console.log('handleSubmit')
     event.preventDefault()
-    /* addFormDataWizard({
-      configureApplication: {
-        name: form.name,
-        workspaceTypeDynamic: form.workspaceTypeDynamic,
-        language: form.language
+    addFormDataWizard({
+      createApplication: {
+        application: form.application,
+        service: form.service
       }
-    }) */
+    })
     onNext()
+  }
+
+  function handleChangeApplication (event) {
+    if (inputOnServiceField) {
+      handleChange(event)
+    } else {
+      handleChangeBoth(event)
+    }
+  }
+
+  function handleChangeBoth (event) {
+    const value = event.target.value
+    validateBothField(value, setForm(form => ({ ...form, application: value, service: value })))
+  }
+
+  function validateBothField (fieldValue, callback = () => {}) {
+    let applicationValid = validations.applicationValid
+    const formErrors = { ...validations.formErrors }
+    applicationValid = fieldValue.length > 0 && /^[\w-]+$/g.test(fieldValue)
+    formErrors.application = fieldValue.length > 0 ? (applicationValid ? '' : 'The field is not valid, make sure you are using regular characters') : ''
+    formErrors.service = fieldValue.length > 0 ? (applicationValid ? '' : 'The field is not valid, make sure you are using regular characters') : ''
+    const nextValidation = { ...validations, formErrors }
+    nextValidation.applicationValid = applicationValid
+    nextValidation.serviceValid = applicationValid
+    setValidations(nextValidation)
+    validateForm(nextValidation, callback())
+  }
+
+  function handleChangeService (event) {
+    if (event.target.value !== '' && inputOnServiceField === false) {
+      setInputOnServiceField(true)
+    }
+    if (event.target.value === '' && inputOnServiceField === true) {
+      setInputOnServiceField(false)
+    }
+    handleChange(event)
   }
 
   function handleChange (event) {
@@ -68,7 +106,7 @@ const CreateApplication = React.forwardRef(({ onNext }, ref) => {
               name='application'
               borderColor={WHITE}
               value={form.application}
-              onChange={handleChange}
+              onChange={handleChangeApplication}
               errorMessage={validations.formErrors.application}
               backgroundTransparent
             />
@@ -79,7 +117,7 @@ const CreateApplication = React.forwardRef(({ onNext }, ref) => {
               name='service'
               borderColor={WHITE}
               value={form.service}
-              onChange={handleChange}
+              onChange={handleChangeService}
               errorMessage={validations.formErrors.service}
               backgroundTransparent
             />
