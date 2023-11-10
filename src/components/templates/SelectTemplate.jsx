@@ -10,6 +10,7 @@ import Template from './Template'
 
 function SelectTemplate () {
   const [templateSelected, setTemplateSelected] = useState('0')
+  const [pages] = useState([1])
   const [templates] = useState([{
     id: '0', title: 'Platformatic service', platformaticService: true
   }, {
@@ -44,6 +45,9 @@ function SelectTemplate () {
               {...template}
             />
           )}
+        </div>
+        <div className={`${commonStyles.mediumFlexRow} ${commonStyles.fullWidth} ${commonStyles.justifyCenter}`}>
+          {pages.map(page => <div className={styles.page} key={page}>{page}</div>)}
         </div>
       </div>
       <Button
