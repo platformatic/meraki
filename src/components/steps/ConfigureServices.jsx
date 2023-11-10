@@ -18,7 +18,7 @@ const ConfigureServices = React.forwardRef(({ onNext }, ref) => {
   }
   return (
     <div className={styles.container} ref={ref}>
-      <div className={`${commonStyles.extraLargeFlexBlock} ${commonStyles.halfWidth}`}>
+      <div className={`${commonStyles.largeFlexBlock} ${commonStyles.halfWidth}`}>
         <div className={commonStyles.mediumFlexBlock}>
           <div className={commonStyles.mediumFlexRow}>
             <Icons.AppIcon color={WHITE} size={LARGE} />

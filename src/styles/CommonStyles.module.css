@@ -1,14 +1,14 @@
 .smallFlexRow {
   @apply flex flex-row items-center gap-x-2;
 }
+.smallFlexBlock {
+  @apply flex flex-col items-start gap-y-2;
+}
 .mediumFlexRow {
-  @apply flex flex-row items-center gap-x-4;
+  @apply flex flex-row items-center gap-x-4 w-full;
 }
 .mediumFlexBlock {
   @apply flex flex-col items-start gap-y-4;
-}
-.extraLargeFlexBlock {
-  @apply flex flex-col items-start gap-y-[6.5rem];
 }
 .largeFlexBlock {
   @apply flex flex-col items-start gap-y-10;
@@ -21,4 +21,13 @@
 }
 .justifyBetween {
   @apply justify-between;
+}
+.justifyCenter{
+  @apply justify-center;
+}
+.itemsStart {
+  @apply items-start;
+}
+.itemsStretch {
+  @apply items-stretch;
 }
