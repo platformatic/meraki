@@ -1,4 +1,3 @@
-.container {
-  @apply flex flex-col justify-center max-h-[323px] min-h-[323px] w-full cursor-pointer border-0;
-  background: url('~/assets/templateBackground.svg') no-repeat ;;
+.gridContainer {
+  @apply grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4
 }
