@@ -1,7 +1,7 @@
 'use strict'
 import styles from './Header.module.css'
-import commonStyles from '../styles/CommonStyles.module.css'
-import typographyStyles from '../styles/Typography.module.css'
+import commonStyles from '~/styles/CommonStyles.module.css'
+import typographyStyles from '~/styles/Typography.module.css'
 import { Button, HorizontalSeparator, Logo } from '@platformatic/ui-components'
 import { WHITE, MARGIN_8 } from '@platformatic/ui-components/src/components/constants'
 

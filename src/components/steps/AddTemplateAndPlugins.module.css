@@ -1,0 +1,6 @@
+.container {
+  @apply flex flex-col justify-between h-[80vH]
+}
+.buttonContainer {
+  @apply flex justify-end;
+}

@@ -1,28 +1,30 @@
 'use strict'
-import { useState } from 'react'
+import React, { useState } from 'react'
+import PropTypes from 'prop-types'
 import Forms from '@platformatic/ui-components/src/components/forms'
 import styles from './CreateApplication.module.css'
-import commonStyles from '../../styles/CommonStyles.module.css'
-import typographyStyles from '../../styles/Typography.module.css'
+import commonStyles from '~/styles/CommonStyles.module.css'
+import typographyStyles from '~/styles/Typography.module.css'
 import { WHITE, LARGE, RICH_BLACK } from '@platformatic/ui-components/src/components/constants'
 import Icons from '@platformatic/ui-components/src/components/icons'
 import { Button } from '@platformatic/ui-components'
 
-function CreateApplication () {
+const CreateApplication = React.forwardRef(({ onNext }, ref) => {
   const [form, setForm] = useState({ application: '', service: '' })
   const [validations, setValidations] = useState({ applicationValid: false, serviceValid: false, formErrors: { application: '', service: '' } })
   const [validForm, setValidForm] = useState(false)
 
   function handleSubmit (event) {
-    /* event.preventDefault()
-    addFormDataWizard({
+    console.log('handleSubmit')
+    event.preventDefault()
+    /* addFormDataWizard({
       configureApplication: {
         name: form.name,
         workspaceTypeDynamic: form.workspaceTypeDynamic,
         language: form.language
       }
     }) */
-    /* onNext() */
+    onNext()
   }
 
   function handleChange (event) {
@@ -50,7 +52,7 @@ function CreateApplication () {
   }
 
   return (
-    <div className={styles.container}>
+    <form className={styles.container} onSubmit={handleSubmit} ref={ref}>
       <div className={`${commonStyles.extraLargeFlexBlock} ${commonStyles.halfWidth}`}>
         <div className={commonStyles.mediumFlexBlock}>
           <div className={commonStyles.mediumFlexRow}>
@@ -94,8 +96,19 @@ function CreateApplication () {
           backgroundColor={WHITE}
         />
       </div>
-    </div>
+    </form>
   )
+})
+
+CreateApplication.propTypes = {
+  /**
+     * onNext
+     */
+  onNext: PropTypes.func
+}
+
+CreateApplication.defaultProps = {
+  onNext: () => {}
 }
 
 export default CreateApplication
