@@ -1,0 +1,4 @@
+.routes {
+  @apply flex flex-col justify-center max-h-[58px] min-h-[58px] w-full border-0;
+  background: url('~/assets/routesBackground.svg') no-repeat ;
+}

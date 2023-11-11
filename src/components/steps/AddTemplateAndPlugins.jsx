@@ -39,11 +39,7 @@ const AddTemplateAndPlugins = React.forwardRef(({ onNext }, ref) => {
             <div className={`${commonStyles.mediumFlexRow} ${commonStyles.itemsStretch}`}>
               <div className={`${commonStyles.smallFlexBlock} ${commonStyles.fullWidth} ${styles.containerPuzzle}`}>
                 <AddPlugin />
-                <AddTemplate onClick={() => {
-                  console.log('hola')
-                  setShowModalTemplate(true)
-                }}
-                />
+                <AddTemplate onClick={() => { setShowModalTemplate(true) }} />
               </div>
               <div className={`${commonStyles.mediumFlexBlock} ${commonStyles.fullWidth} ${styles.containerPuzzle}`}>
                 <AddService />
@@ -75,7 +71,7 @@ const AddTemplateAndPlugins = React.forwardRef(({ onNext }, ref) => {
           title='Back to Application view'
           titleClassName={`${typographyStyles.desktopBody} ${typographyStyles.textWhite} ${typographyStyles.opacity70}`}
         >
-          <SelectTemplate />
+          <SelectTemplate onClick={() => setShowModalTemplate(false)} />
         </ModalDirectional>}
     </div>
   )

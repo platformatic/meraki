@@ -7,7 +7,7 @@ import commonStyles from '~/styles/CommonStyles.module.css'
 import styles from './Template.module.css'
 import { Button, Logo } from '@platformatic/ui-components'
 
-function Template ({ id, platformaticService, title, onClick, isSelected }) {
+function Template ({ id, platformaticService, name, onClick, isSelected }) {
   let className = `${commonStyles.smallFlexBlock} ${styles.container} `
   if (isSelected) {
     className += styles.selected
@@ -18,9 +18,9 @@ function Template ({ id, platformaticService, title, onClick, isSelected }) {
         {platformaticService ? (<Logo width={30.32} height={24} />) : (<Icons.StackablesTemplate color={MAIN_GREEN} size={MEDIUM} />)}
         <p
           className={`${typographyStyles.desktopHeadline5} ${typographyStyles.textWhite} ${styles.ellipsis}`}
-          title={title}
+          title={name}
         >
-          {title}
+          {name}
         </p>
       </div>
       <Button
@@ -40,9 +40,9 @@ Template.propTypes = {
     */
   id: PropTypes.string.isRequired,
   /**
-   * title
+   * name
     */
-  title: PropTypes.string,
+  name: PropTypes.string,
   /**
    * platformaticService
     */
@@ -54,7 +54,7 @@ Template.propTypes = {
 }
 
 Template.defaultProps = {
-  title: '',
+  name: '',
   platformaticService: false,
   isSelected: false
 }

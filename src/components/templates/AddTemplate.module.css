@@ -1,4 +1,7 @@
 .container {
   @apply flex flex-col justify-center max-h-[323px] min-h-[323px] w-full cursor-pointer border-0;
-  background: url('~/assets/templateBackground.svg') no-repeat ;;
+  background: url('~/assets/templateBackground.svg') no-repeat ;
+}
+.added {
+  background: url('~/assets/templateBackgroundAdded.svg') no-repeat ;
 }

@@ -1,6 +1,9 @@
 .textWhite {
   @apply text-white;
 }
+.textCenter {
+  @apply text-center;
+}
 .opacity70 {
   @apply opacity-70;
 }
@@ -13,6 +16,9 @@
 .desktopBodyLarge {
   @apply font-inter font-normal text-[1.125rem] leading-[1.688rem];
 }
+.desktopBody {
+  @apply font-inter font-normal text-[1rem] leading-[1.5rem];
+}
 .desktopBodySmall {
   @apply font-inter font-normal text-[0.875rem] leading-[1.313rem];
 }
@@ -20,6 +26,3 @@
   @apply font-inter font-semibold text-[1.125rem] leading-[1.688rem];
 }
 
-.desktopBody {
-  @apply font-inter font-normal text-[1rem] leading-[1.5rem];
-}

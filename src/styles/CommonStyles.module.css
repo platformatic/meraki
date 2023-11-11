@@ -28,6 +28,9 @@
 .itemsStart {
   @apply items-start;
 }
+.itemsCenter {
+  @apply items-center;
+}
 .itemsStretch {
   @apply items-stretch;
 }

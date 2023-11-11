@@ -3,23 +3,62 @@ import PropTypes from 'prop-types'
 import { BorderedBox } from '@platformatic/ui-components'
 import { SMALL, TRANSPARENT, WHITE } from '@platformatic/ui-components/src/components/constants'
 import Icons from '@platformatic/ui-components/src/components/icons'
+import commonStyles from '~/styles/CommonStyles.module.css'
 import typographyStyles from '~/styles/Typography.module.css'
 import styles from './AddPlugin.module.css'
+import useStackablesStore from '~/useStackablesStore'
+import { useEffect, useRef, useState } from 'react'
+import { CSSTransition } from 'react-transition-group'
+import Routes from '../routes/Routes'
 
-function AddPlugin ({ disabled, onClick, usePuzzle }) {
-  return usePuzzle
-    ? (
-      <BorderedBox
-        color={WHITE}
-        backgroundColor={TRANSPARENT}
-        borderColorOpacity={disabled ? 20 : 100}
-        classes={styles.boxDisabled}
+function AddPlugin ({ disabled, onClick }) {
+  const [templateAdded, setTemplateAdded] = useState(false)
+  const globalState = useStackablesStore()
+  const { formDataWizard } = globalState
+  const nodeRef = useRef(null)
+
+  useEffect(() => {
+    if (formDataWizard?.template?.id) {
+      setTemplateAdded(true)
+    }
+  }, [formDataWizard?.template?.id])
+
+  return (
+    <>
+      <CSSTransition
+        in={templateAdded}
+        nodeRef={nodeRef}
+        timeout={300}
+        classNames='template'
       >
-        <Icons.CircleAddIcon color={WHITE} size={SMALL} />
-        <span className={`${typographyStyles.desktopBodyLarge} ${typographyStyles.textWhite} ${typographyStyles.opacity70}`}>Add Plugin</span>
-      </BorderedBox>
-      )
-    : <></>
+        {!templateAdded
+          ? (
+            <BorderedBox
+              color={WHITE}
+              backgroundColor={TRANSPARENT}
+              borderColorOpacity={disabled ? 20 : 100}
+              classes={styles.pluginDisabled}
+            >
+              <Icons.CircleAddIcon color={WHITE} size={SMALL} />
+              <span className={`${typographyStyles.desktopBodyLarge} ${typographyStyles.textWhite} ${typographyStyles.opacity70}`}>Add Plugin</span>
+            </BorderedBox>
+            )
+          : (
+            <div className={`${commonStyles.smallFlexBlock} ${commonStyles.fullWidth}`}>
+              <Routes />
+              <div className={styles.pluginEnabled}>
+                <div className={`${commonStyles.smallFlexBlock} ${commonStyles.itemsCenter}`} ref={nodeRef}>
+                  <div className={`${commonStyles.smallFlexRow} ${commonStyles.textCenter}`}>
+                    <Icons.CircleAddIcon color={WHITE} size={SMALL} />
+                    <span className={`${typographyStyles.desktopBodyLarge} ${typographyStyles.textWhite} ${typographyStyles.opacity70}`}>Add Plugin</span>
+                  </div>
+                </div>
+              </div>
+            </div>
+            )}
+      </CSSTransition>
+    </>
+  )
 }
 
 AddPlugin.propTypes = {

@@ -1,4 +1,5 @@
 'use strict'
+import PropTypes from 'prop-types'
 import { useState } from 'react'
 import { RICH_BLACK, WHITE } from '@platformatic/ui-components/src/components/constants'
 import typographyStyles from '~/styles/Typography.module.css'
@@ -7,23 +8,33 @@ import styles from './SelectTemplate.module.css'
 import { Button, SearchBarV2 } from '@platformatic/ui-components'
 import Template from './Template'
 import Title from '~/components/ui/Title'
+import useStackablesStore from '~/useStackablesStore'
 
-function SelectTemplate () {
-  const [templateSelected, setTemplateSelected] = useState('0')
+function SelectTemplate ({ onClick }) {
   const [pages] = useState([1])
   const [templates] = useState([{
-    id: '0', title: 'Platformatic service', platformaticService: true
+    id: '0', name: 'Platformatic service', platformaticService: true
   }, {
-    id: '1', title: 'Template really long really longreally long name'
+    id: '1', name: 'Template really long really longreally long name'
   }, {
-    id: '2', title: 'Template name#1'
+    id: '2', name: 'Template name#1'
   }, {
-    id: '3', title: 'Short'
+    id: '3', name: 'Short'
   }, {
-    id: '4', title: 'Template name#2'
+    id: '4', name: 'Template name#2'
   }, {
-    id: '5', title: 'Casual Template'
+    id: '5', name: 'Casual Template'
   }])
+  const [templateSelected, setTemplateSelected] = useState(templates[0])
+  const globalState = useStackablesStore()
+  const { addFormDataWizard } = globalState
+
+  function handleUsePlatformaticService () {
+    addFormDataWizard({
+      template: { ...templateSelected }
+    })
+    onClick()
+  }
 
   return (
     <div className={`${commonStyles.largeFlexBlock} ${commonStyles.fullWidth}`}>
@@ -38,8 +49,8 @@ function SelectTemplate () {
             {templates.map(template =>
               <Template
                 key={template.id}
-                isSelected={templateSelected === template.id}
-                onClick={() => setTemplateSelected(template.id)}
+                isSelected={templateSelected.id === template.id}
+                onClick={() => setTemplateSelected(template)}
                 {...template}
               />
             )}
@@ -56,10 +67,22 @@ function SelectTemplate () {
         color={RICH_BLACK}
         fullWidth
         bordered={false}
+        onClick={() => handleUsePlatformaticService()}
       />
 
     </div>
   )
+}
+
+SelectTemplate.propTypes = {
+  /**
+   * onClick
+    */
+  onClick: PropTypes.func
+}
+
+SelectTemplate.defaultProps = {
+  onClick: () => {}
 }
 
 export default SelectTemplate
