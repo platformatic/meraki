@@ -4,14 +4,15 @@ import PropTypes from 'prop-types'
 import styles from './AddTemplateAndPlugins.module.css'
 import commonStyles from '~/styles/CommonStyles.module.css'
 import typographyStyles from '~/styles/Typography.module.css'
-import { WHITE, LARGE, RICH_BLACK, MEDIUM, TRANSPARENT, SMALL } from '@platformatic/ui-components/src/components/constants'
+import { WHITE, RICH_BLACK, MEDIUM, TRANSPARENT, SMALL } from '@platformatic/ui-components/src/components/constants'
 import Icons from '@platformatic/ui-components/src/components/icons'
 import { BorderedBox, Button, ModalDirectional } from '@platformatic/ui-components'
 import useStackablesStore from '~/useStackablesStore'
-import AddPlugin from '../plugins/AddPlugin'
-import AddTemplate from '../templates/AddTemplate'
-import AddService from '../services/AddService'
-import SelectTemplate from '../templates/SelectTemplate'
+import AddPlugin from '~/components/plugins/AddPlugin'
+import AddTemplate from '~/components/templates/AddTemplate'
+import AddService from '~/components/services/AddService'
+import SelectTemplate from '~/components/templates/SelectTemplate'
+import Title from '~/components/ui/Title'
 
 const AddTemplateAndPlugins = React.forwardRef(({ onNext }, ref) => {
   const globalState = useStackablesStore()
@@ -26,10 +27,7 @@ const AddTemplateAndPlugins = React.forwardRef(({ onNext }, ref) => {
     <div className={styles.container} ref={ref}>
       <div className={`${commonStyles.largeFlexBlock} ${commonStyles.halfWidth}`}>
         <div className={commonStyles.mediumFlexBlock}>
-          <div className={commonStyles.mediumFlexRow}>
-            <Icons.AppIcon color={WHITE} size={LARGE} />
-            <h2 className={`${typographyStyles.desktopHeadline2} ${typographyStyles.textWhite}`}>{formDataWizard.createApplication.application}</h2>
-          </div>
+          <Title title={formDataWizard.createApplication.application} iconName='AppIcon' />
           <p className={`${typographyStyles.desktopBodyLarge} ${typographyStyles.textWhite} ${typographyStyles.opacity70}`}>Select a template and plugins for your service from our Stackables Marketplace. Once you have chosen a template you can add another Service.</p>
         </div>
         <div className={`${commonStyles.mediumFlexBlock}`}>

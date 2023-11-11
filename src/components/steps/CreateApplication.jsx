@@ -5,10 +5,10 @@ import Forms from '@platformatic/ui-components/src/components/forms'
 import styles from './CreateApplication.module.css'
 import commonStyles from '~/styles/CommonStyles.module.css'
 import typographyStyles from '~/styles/Typography.module.css'
-import { WHITE, LARGE, RICH_BLACK } from '@platformatic/ui-components/src/components/constants'
-import Icons from '@platformatic/ui-components/src/components/icons'
+import { WHITE, RICH_BLACK } from '@platformatic/ui-components/src/components/constants'
 import { Button } from '@platformatic/ui-components'
 import useStackablesStore from '~/useStackablesStore'
+import Title from '~/components/ui/Title'
 
 const CreateApplication = React.forwardRef(({ onNext }, ref) => {
   const [form, setForm] = useState({ application: '', service: '' })
@@ -94,10 +94,7 @@ const CreateApplication = React.forwardRef(({ onNext }, ref) => {
       <div className={styles.imageContainer} />
       <div className={`${commonStyles.largeFlexBlock} ${commonStyles.halfWidth}`}>
         <div className={commonStyles.mediumFlexBlock}>
-          <div className={commonStyles.mediumFlexRow}>
-            <Icons.AppIcon color={WHITE} size={LARGE} />
-            <h2 className={`${typographyStyles.desktopHeadline2} ${typographyStyles.textWhite}`}>Create Application</h2>
-          </div>
+          <Title title='Create Application' iconName='AppIcon' />
           <p className={`${typographyStyles.desktopBodyLarge} ${typographyStyles.textWhite} ${typographyStyles.opacity70}`}>Start by entering the name of your Application and the name of your service.</p>
         </div>
         <div className={`${commonStyles.largeFlexBlock} ${commonStyles.fullWidth}`}>
