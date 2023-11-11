@@ -8,8 +8,8 @@ import { WHITE, RICH_BLACK, MEDIUM, TRANSPARENT, SMALL } from '@platformatic/ui-
 import Icons from '@platformatic/ui-components/src/components/icons'
 import { BorderedBox, Button, ModalDirectional } from '@platformatic/ui-components'
 import useStackablesStore from '~/useStackablesStore'
-import AddPlugin from '~/components/plugins/AddPlugin'
-import AddTemplate from '~/components/templates/AddTemplate'
+import PluginHandler from '~/components/plugins/PluginHandler'
+import TemplateHandler from '~/components/templates/TemplateHandler'
 import AddService from '~/components/services/AddService'
 import SelectTemplate from '~/components/templates/SelectTemplate'
 import Title from '~/components/ui/Title'
@@ -40,8 +40,8 @@ const AddTemplateAndPlugins = React.forwardRef(({ onNext }, ref) => {
             </div>
             <div className={`${commonStyles.mediumFlexRow} ${commonStyles.itemsStretch}`}>
               <div className={`${commonStyles.smallFlexBlock} ${commonStyles.fullWidth} ${styles.containerPuzzle}`}>
-                <AddPlugin onClick={() => { setShowModalPlugin(true) }} />
-                <AddTemplate onClick={() => { setShowModalTemplate(true) }} />
+                <PluginHandler onClick={() => { setShowModalPlugin(true) }} />
+                <TemplateHandler onClick={() => { setShowModalTemplate(true) }} />
               </div>
               <div className={`${commonStyles.mediumFlexBlock} ${commonStyles.fullWidth} ${styles.containerPuzzle}`}>
                 <AddService />

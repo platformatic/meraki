@@ -1,7 +1,0 @@
-.pluginDisabled {
-  @apply flex flex-row justify-center gap-x-2 items-center py-10 px-4 w-full;
-}
-.pluginEnabled {
-  @apply flex flex-col justify-center max-h-[74px] min-h-[74px] w-full cursor-pointer border-0;
-  background: url('~/assets/pluginBackground.svg') no-repeat ;
-}

@@ -30,7 +30,6 @@ function Wizard () {
   const [currentComponent, setCurrentComponent] = useState(components.find(component => component.key === STEP_CREATE_APPLICATION))
 
   function nextStep (step) {
-    console.log('nextStep', step)
     setCurrentStep(step)
   }
 
