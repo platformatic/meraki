@@ -46,7 +46,7 @@ function AddPlugin ({ disabled, onClick }) {
           : (
             <div className={`${commonStyles.smallFlexBlock} ${commonStyles.fullWidth}`}>
               <Routes />
-              <div className={styles.pluginEnabled}>
+              <div className={styles.pluginEnabled} onClick={() => onClick()}>
                 <div className={`${commonStyles.smallFlexBlock} ${commonStyles.itemsCenter}`} ref={nodeRef}>
                   <div className={`${commonStyles.smallFlexRow} ${commonStyles.textCenter}`}>
                     <Icons.CircleAddIcon color={WHITE} size={SMALL} />

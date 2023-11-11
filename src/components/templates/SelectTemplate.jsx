@@ -39,7 +39,7 @@ function SelectTemplate ({ onClick }) {
   return (
     <div className={`${commonStyles.largeFlexBlock} ${commonStyles.fullWidth}`}>
       <div className={commonStyles.mediumFlexBlock}>
-        <Title title='Select a Template' iconName='StackablesTemplate' />
+        <Title title='Select a Template' iconName='StackablesTemplateIcon' />
         <p className={`${typographyStyles.desktopBodyLarge} ${typographyStyles.textWhite} ${typographyStyles.opacity70}`}>Select a template from our Stackables Marketplace to be uses as a base for your new Service.If you don’t want to select any Template your new service will be built on top of Platformatic Service.</p>
       </div>
       <div className={`${commonStyles.mediumFlexBlock} ${commonStyles.fullWidth}`}>

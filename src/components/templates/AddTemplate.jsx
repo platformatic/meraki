@@ -42,7 +42,7 @@ function AddTemplate ({ onClick }) {
             )
           : (
             <div className={`${commonStyles.smallFlexBlock} ${commonStyles.itemsCenter}`} ref={nodeRef}>
-              <Icons.StackablesTemplate color={MAIN_GREEN} size={LARGE} />
+              <Icons.StackablesTemplateIcon color={MAIN_GREEN} size={LARGE} />
               <p className={`${typographyStyles.desktopBodyLarge} ${typographyStyles.textWhite} ${typographyStyles.textCenter}`}>{formDataWizard?.template?.name}</p>
               <p className={`${typographyStyles.desktopBodySmall} ${typographyStyles.textWhite} ${typographyStyles.textCenter} ${typographyStyles.opacity70}`}>Change Template</p>
             </div>

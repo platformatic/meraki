@@ -13,11 +13,13 @@ import AddTemplate from '~/components/templates/AddTemplate'
 import AddService from '~/components/services/AddService'
 import SelectTemplate from '~/components/templates/SelectTemplate'
 import Title from '~/components/ui/Title'
+import SelectPlugin from '../plugins/SelectPlugin'
 
 const AddTemplateAndPlugins = React.forwardRef(({ onNext }, ref) => {
   const globalState = useStackablesStore()
   const { formDataWizard } = globalState
   const [showModalTemplate, setShowModalTemplate] = useState(false)
+  const [showModalPlugin, setShowModalPlugin] = useState(false)
 
   function onClick () {
     onNext()
@@ -38,7 +40,7 @@ const AddTemplateAndPlugins = React.forwardRef(({ onNext }, ref) => {
             </div>
             <div className={`${commonStyles.mediumFlexRow} ${commonStyles.itemsStretch}`}>
               <div className={`${commonStyles.smallFlexBlock} ${commonStyles.fullWidth} ${styles.containerPuzzle}`}>
-                <AddPlugin />
+                <AddPlugin onClick={() => { setShowModalPlugin(true) }} />
                 <AddTemplate onClick={() => { setShowModalTemplate(true) }} />
               </div>
               <div className={`${commonStyles.mediumFlexBlock} ${commonStyles.fullWidth} ${styles.containerPuzzle}`}>
@@ -65,14 +67,26 @@ const AddTemplateAndPlugins = React.forwardRef(({ onNext }, ref) => {
           backgroundColor={WHITE}
         />
       </div>
-      {showModalTemplate &&
+      {showModalTemplate && (
         <ModalDirectional
+          key='modalTemplate'
           setIsOpen={() => setShowModalTemplate(false)}
           title='Back to Application view'
           titleClassName={`${typographyStyles.desktopBody} ${typographyStyles.textWhite} ${typographyStyles.opacity70}`}
         >
           <SelectTemplate onClick={() => setShowModalTemplate(false)} />
-        </ModalDirectional>}
+        </ModalDirectional>
+      )}
+      {showModalPlugin && (
+        <ModalDirectional
+          key='modalPlugin'
+          setIsOpen={() => setShowModalPlugin(false)}
+          title='Back to Application view'
+          titleClassName={`${typographyStyles.desktopBody} ${typographyStyles.textWhite} ${typographyStyles.opacity70}`}
+        >
+          <SelectPlugin onClick={() => setShowModalPlugin(false)} />
+        </ModalDirectional>
+      )}
     </div>
   )
 })

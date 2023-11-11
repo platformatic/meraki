@@ -4,10 +4,10 @@ import { MAIN_GREEN, MEDIUM, WHITE } from '@platformatic/ui-components/src/compo
 import Icons from '@platformatic/ui-components/src/components/icons'
 import typographyStyles from '~/styles/Typography.module.css'
 import commonStyles from '~/styles/CommonStyles.module.css'
-import styles from './Template.module.css'
-import { Button, Logo } from '@platformatic/ui-components'
+import styles from './Plugin.module.css'
+import { Button } from '@platformatic/ui-components'
 
-function Template ({ id, platformaticService, name, onClick, isSelected }) {
+function Plugin ({ id, name, onClick, isSelected }) {
   let className = `${commonStyles.smallFlexBlock} ${styles.container} `
   if (isSelected) {
     className += styles.selected
@@ -15,7 +15,7 @@ function Template ({ id, platformaticService, name, onClick, isSelected }) {
   return (
     <div className={className} onClick={() => onClick()}>
       <div className={`${commonStyles.mediumFlexBlock} ${commonStyles.fullWidth} ${styles.overflowHidden}`}>
-        {platformaticService ? (<Logo width={30.32} height={24} />) : (<Icons.StackablesTemplateIcon color={MAIN_GREEN} size={MEDIUM} />)}
+        <Icons.StackablesPluginIcon color={MAIN_GREEN} size={MEDIUM} />
         <p
           className={`${typographyStyles.desktopHeadline5} ${typographyStyles.textWhite} ${styles.ellipsis}`}
           title={name}
@@ -34,7 +34,7 @@ function Template ({ id, platformaticService, name, onClick, isSelected }) {
   )
 }
 
-Template.propTypes = {
+Plugin.propTypes = {
   /**
    * id
     */
@@ -44,19 +44,14 @@ Template.propTypes = {
     */
   name: PropTypes.string,
   /**
-   * platformaticService
-    */
-  platformaticService: PropTypes.bool,
-  /**
    * isSelected
     */
   isSelected: PropTypes.bool
 }
 
-Template.defaultProps = {
+Plugin.defaultProps = {
   name: '',
-  platformaticService: false,
   isSelected: false
 }
 
-export default Template
+export default Plugin
