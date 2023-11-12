@@ -25,32 +25,35 @@ function PluginHandler ({ disabled, onClick }) {
     }
   }, [formDataWizard?.template?.id])
 
-  return !templateAdded
-    ? (
-      <BorderedBox
-        color={WHITE}
-        backgroundColor={TRANSPARENT}
-        borderColorOpacity={disabled ? 20 : 100}
-        classes={styles.pluginDisabled}
-      >
-        <Icons.CircleAddIcon color={WHITE} size={SMALL} />
-        <span className={`${typographyStyles.desktopBodyLarge} ${typographyStyles.textWhite} ${typographyStyles.opacity70}`}>Add Plugin</span>
-      </BorderedBox>
-      )
-    : (
-      <CSSTransition
-        in={templateAdded}
-        nodeRef={nodeRef}
-        timeout={300}
-        classNames='plugin'
-      >
-        <div className={`${commonStyles.smallFlexBlock} ${commonStyles.fullWidth}`}>
-          <Routes />
-          <AddPlugin onClick={() => onClick()} ref={nodeRef} />
-        </div>
-      </CSSTransition>
+  return (
+    <CSSTransition
+      in={templateAdded}
+      nodeRef={nodeRef}
+      timeout={300}
+      classNames='plugin'
+    > {
+      !templateAdded
+        ? (
+          <BorderedBox
+            color={WHITE}
+            backgroundColor={TRANSPARENT}
+            borderColorOpacity={disabled ? 20 : 100}
+            classes={styles.pluginDisabled}
+          >
+            <Icons.CircleAddIcon color={WHITE} size={SMALL} />
+            <span className={`${typographyStyles.desktopBodyLarge} ${typographyStyles.textWhite} ${typographyStyles.opacity70}`}>Add Plugin</span>
+          </BorderedBox>
+          )
+        : (
+          <div className={`${commonStyles.smallFlexBlock} ${commonStyles.fullWidth}`} ref={nodeRef}>
+            <Routes />
+            <AddPlugin onClick={() => onClick()} />
+          </div>
+          )
+    }
+    </CSSTransition>
 
-      )
+  )
 }
 
 PluginHandler.propTypes = {

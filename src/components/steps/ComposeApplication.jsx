@@ -1,7 +1,7 @@
 'use strict'
 import React, { useState } from 'react'
 import PropTypes from 'prop-types'
-import styles from './AddTemplateAndPlugins.module.css'
+import styles from './ComposeApplication.module.css'
 import commonStyles from '~/styles/CommonStyles.module.css'
 import typographyStyles from '~/styles/Typography.module.css'
 import { WHITE, RICH_BLACK, MEDIUM, TRANSPARENT, SMALL } from '@platformatic/ui-components/src/components/constants'
@@ -15,7 +15,7 @@ import SelectTemplate from '~/components/templates/SelectTemplate'
 import Title from '~/components/ui/Title'
 import SelectPlugin from '../plugins/SelectPlugin'
 
-const AddTemplateAndPlugins = React.forwardRef(({ onNext }, ref) => {
+const ComposeApplication = React.forwardRef(({ onNext }, ref) => {
   const globalState = useStackablesStore()
   const { formDataWizard } = globalState
   const [showModalTemplate, setShowModalTemplate] = useState(false)
@@ -91,15 +91,15 @@ const AddTemplateAndPlugins = React.forwardRef(({ onNext }, ref) => {
   )
 })
 
-AddTemplateAndPlugins.propTypes = {
+ComposeApplication.propTypes = {
   /**
      * onNext
      */
   onNext: PropTypes.func
 }
 
-AddTemplateAndPlugins.defaultProps = {
+ComposeApplication.defaultProps = {
   onNext: () => {}
 }
 
-export default AddTemplateAndPlugins
+export default ComposeApplication

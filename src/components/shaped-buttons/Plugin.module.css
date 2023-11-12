@@ -1,0 +1,21 @@
+.container {
+  @apply flex flex-col justify-center max-h-[106px] min-h-[106px] w-full cursor-pointer border-0 relative;
+}
+.content {
+  @apply px-4 relative
+}
+.leftContent {
+  @apply overflow-hidden w-1/2
+}
+.ellipsis {
+  @apply truncate;
+}
+.svg {
+  @apply absolute top-0 left-0 w-full h-full z-[-1]
+}
+.svg > path {
+  @apply stroke-tertiary-blue fill-tertiary-blue;
+}
+.deleteContainer {
+  @apply absolute right-[1rem] translate-y-[-50%]
+}

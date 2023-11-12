@@ -4,8 +4,7 @@ import PropTypes from 'prop-types'
 import useStackablesStore from '~/useStackablesStore'
 import { CSSTransition } from 'react-transition-group'
 import AddTemplate from '~/components/shaped-buttons/AddTemplate'
-import ChangeTemplate from '~/components/shaped-buttons/ChangeTemplate'
-import './template.animation.css'
+import TemplateAndPluginHandler from '~/components/template-and-plugins/TemplateAndPluginHandler'
 
 function TemplateHandler ({ onClick }) {
   const [templateAdded, setTemplateAdded] = useState(false)
@@ -29,10 +28,9 @@ function TemplateHandler ({ onClick }) {
 
       {!templateAdded
         ? <AddTemplate onClick={() => onClick()} />
-        : <ChangeTemplate
-            name={formDataWizard?.template?.name}
+        : <TemplateAndPluginHandler
             ref={nodeRef}
-            onClick={() => onClick()}
+            onClickTemplate={() => onClick()}
           />}
     </CSSTransition>
   )
