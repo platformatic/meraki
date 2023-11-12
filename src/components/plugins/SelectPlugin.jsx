@@ -63,7 +63,7 @@ function SelectPlugin ({ onClick }) {
             {plugins.map(plugin =>
               <Plugin
                 key={plugin.id}
-                isSelected={pluginsSelected.find(pluginSelected => pluginSelected.id === plugin.id)}
+                isSelected={pluginsSelected.find(pluginSelected => pluginSelected.id === plugin.id) !== undefined}
                 onClick={() => handleClickPlugin(plugin)}
                 {...plugin}
               />

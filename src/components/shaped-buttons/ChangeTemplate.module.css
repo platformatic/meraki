@@ -1,9 +1,15 @@
 .container {
-  @apply flex flex-col justify-center max-h-[288px] min-h-[288px] w-full cursor-pointer border-0 relative;
+  @apply flex flex-col justify-center w-full cursor-pointer border-0 relative;
 }
 .svg {
   @apply absolute top-0 left-0 w-full h-full z-[-1];
 }
 .svg > path {
   @apply stroke-main-green fill-main-green;
+}
+.rectBordered {
+  @apply stroke-main-green
+}
+.rectFilled {
+  @apply fill-main-green/30;
 }

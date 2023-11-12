@@ -1,5 +1,5 @@
 .container {
-  @apply flex flex-col justify-center max-h-[106px] min-h-[106px] w-full cursor-pointer border-0 relative;
+  @apply flex flex-col justify-center w-full border-0 relative;
 }
 .content {
   @apply px-4 relative
@@ -18,4 +18,10 @@
 }
 .deleteContainer {
   @apply absolute right-[1rem] translate-y-[-50%]
+}
+.rectBordered {
+  @apply stroke-tertiary-blue
+}
+.rectFilled {
+  @apply fill-tertiary-blue/15;
 }
