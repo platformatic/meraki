@@ -1,0 +1,13 @@
+.container {
+  @apply flex flex-col justify-center max-h-[74px] min-h-[74px] w-full border-0 relative;
+}
+.svg {
+  @apply absolute top-0 left-0 w-full h-full z-[-1]
+}
+.rectBordered {
+  @apply stroke-electric-purple;
+  stroke-opacity: 0.7;
+}
+.rectFilled {
+  @apply fill-electric-purple/15;
+}
