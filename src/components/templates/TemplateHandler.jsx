@@ -5,34 +5,40 @@ import useStackablesStore from '~/useStackablesStore'
 import { CSSTransition } from 'react-transition-group'
 import AddTemplate from '~/components/shaped-components/AddTemplate'
 import TemplateAndPluginHandler from '~/components/template-and-plugins/TemplateAndPluginHandler'
+import '~/components/component.animation.css'
 
 function TemplateHandler ({ onClick, serviceId }) {
-  const [templateAdded, setTemplateAdded] = useState(false)
   const globalState = useStackablesStore()
   const { services } = globalState
-  const nodeRef = useRef(null)
+  const addTemplateRef = useRef(null)
+  const templateAndPluginRef = useRef(null)
+  const [templateAdded, setTemplateAdded] = useState(false)
+  const [currentComponent, setCurrentComponent] = useState(
+    <AddTemplate onClick={() => onClick()} ref={addTemplateRef} />
+  )
 
   useEffect(() => {
     if (services[serviceId]?.template?.id) {
       setTemplateAdded(true)
+      setCurrentComponent(
+        <TemplateAndPluginHandler
+          ref={templateAndPluginRef}
+          onClickTemplate={() => onClick()}
+          serviceId={serviceId}
+        />
+      )
     }
   }, [services[serviceId]?.template?.id])
 
   return (
     <CSSTransition
       in={templateAdded}
-      nodeRef={nodeRef}
+      out={!templateAdded}
+      nodeRef={templateAdded ? templateAndPluginRef : addTemplateRef}
       timeout={300}
       classNames='template'
     >
-
-      {!templateAdded
-        ? <AddTemplate onClick={() => onClick()} />
-        : <TemplateAndPluginHandler
-            ref={nodeRef}
-            onClickTemplate={() => onClick()}
-            serviceId={serviceId}
-          />}
+      {currentComponent}
     </CSSTransition>
   )
 }

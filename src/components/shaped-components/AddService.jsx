@@ -4,10 +4,9 @@ import typographyStyles from '~/styles/Typography.module.css'
 import styles from './AddService.module.css'
 import commonStyles from '~/styles/CommonStyles.module.css'
 import SmallTitle from '../ui/SmallTitle'
-import React, { useEffect, useRef, useState } from 'react'
+import React, { useRef } from 'react'
 
 function AddService ({ onClick, enabled }) {
-  const [height, setHeight] = useState(0)
   const ref = useRef(null)
 
   let classNameContainer = `${styles.container} `
@@ -18,14 +17,10 @@ function AddService ({ onClick, enabled }) {
     titleClassName += `${typographyStyles.opacity70}`
   }
 
-  useEffect(() => {
-    setHeight(ref.current.clientHeight)
-  })
-
   return (
     <div className={classNameContainer} onClick={() => enabled ? onClick() : {}} ref={ref}>
-      <svg width={264} height={height} viewBox={`0 0 264 ${height}`} fill='none' xmlns='http://www.w3.org/2000/svg' className={styles.svg}>
-        <rect x='0.5' y='0.613281' width='263' height={height} rx={3.5} stroke='none' strokeOpacity={enabled ? 1 : 0.3} strokeDasharray='8 8' />
+      <svg width={264} height={440} viewBox='0 0 264 440' fill='none' xmlns='http://www.w3.org/2000/svg' className={styles.svg}>
+        <rect x='0.5' y='0.613281' width={263} height={438} rx={3.5} stroke='none' strokeOpacity={enabled ? 1 : 0.3} strokeDasharray='8 8' />
       </svg>
 
       <div className={`${commonStyles.smallFlexBlock} ${commonStyles.itemsCenter}`}>

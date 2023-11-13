@@ -15,6 +15,8 @@ import SelectTemplate from '~/components/templates/SelectTemplate'
 import Title from '~/components/ui/Title'
 import SelectPlugin from '~/components/plugins/SelectPlugin'
 import Services from '~/components/services/Services'
+import { CSSTransition, TransitionGroup } from 'react-transition-group'
+import '~/components/component.animation.css'
 
 const ComposeApplication = React.forwardRef(({ onNext }, ref) => {
   const globalState = useStackablesStore()
@@ -62,12 +64,20 @@ const ComposeApplication = React.forwardRef(({ onNext }, ref) => {
                 <h5 className={`${typographyStyles.desktopHeadline5} ${typographyStyles.textWhite}`}>{formData.createApplication.service}</h5>
               </div>
               <div className={`${commonStyles.mediumFlexRow} ${commonStyles.itemsStretch}`}>
-                {services.map(service => (
-                  <div className={`${commonStyles.smallFlexBlock} ${commonStyles.fullWidth} ${styles.containerPuzzle}`} key={service.id}>
-                    <PluginHandler onClick={() => { handleOpenModalPlugin(service.id) }} serviceId={service.id} />
-                    <TemplateHandler onClick={() => { handleOpenModalTemplate(service.id) }} serviceId={service.id} />
-                  </div>
-                ))}
+                <TransitionGroup component={null}>
+                  {services.map(service => (
+                    <CSSTransition
+                      key={`handling-service-${service.id}`}
+                      timeout={300}
+                      classNames='template'
+                    >
+                      <div className={`${commonStyles.smallFlexBlock} ${commonStyles.fullWidth} ${styles.containerPuzzle}`} key={service.id}>
+                        <PluginHandler onClick={() => { handleOpenModalPlugin(service.id) }} serviceId={service.id} />
+                        <TemplateHandler onClick={() => { handleOpenModalTemplate(service.id) }} serviceId={service.id} />
+                      </div>
+                    </CSSTransition>
+                  ))}
+                </TransitionGroup>
                 <div className={`${commonStyles.mediumFlexBlock} ${commonStyles.fullWidth} ${styles.containerPuzzle}`}>
                   <AddService onClick={() => addService()} enabled={services.find(service => Object.keys(service.template).length === 0) === undefined} />
                 </div>

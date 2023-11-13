@@ -4,9 +4,11 @@ import React, { useEffect, useState } from 'react'
 import PropTypes from 'prop-types'
 import useStackablesStore from '~/useStackablesStore'
 import ChangeTemplate from '~/components/shaped-components/ChangeTemplate'
-import Plugin from '../shaped-components/Plugin'
+import Plugin from '~/components/shaped-components/Plugin'
 import styles from './TemplateAndPluginHandler.module.css'
 import { DEFAULT_HEIGHT_TEMPLATE, HEIGHT_PLUGIN_1, HEIGHT_PLUGIN_2, HEIGHT_PLUGIN_3 } from '~/ui-constants'
+import { TransitionGroup, CSSTransition } from 'react-transition-group'
+import '~/components/component.animation.css'
 
 const TemplateAndPluginHandler = React.forwardRef(({ onClickTemplate, serviceId }, ref) => {
   const globalState = useStackablesStore()
@@ -40,21 +42,36 @@ const TemplateAndPluginHandler = React.forwardRef(({ onClickTemplate, serviceId 
 
   return (
     <div className={styles.container} ref={ref}>
-      {showTemplates && (services[serviceId].plugins.map((plugin, index) =>
-        <Plugin
-          key={plugin.id}
-          index={index}
-          {...plugin}
-          height={heightPlugin}
-          sortable={services[serviceId].plugins.length !== 1}
-          onClickRemove={() => removePlugin(serviceId, plugin.id)}
-        />
-      ))}
-      <ChangeTemplate
-        name={services[serviceId].template.name}
-        onClick={() => onClickTemplate()}
-        height={heightTemplate}
-      />
+      <TransitionGroup component={null}>
+        {showTemplates && (services[serviceId].plugins.map((plugin, index) =>
+          <CSSTransition
+            key={`changePlugin-${plugin.id}-${services[serviceId].plugins.length}`}
+            timeout={300}
+            classNames='fade-vertical'
+          >
+            <Plugin
+              key={plugin.id}
+              index={index}
+              {...plugin}
+              height={heightPlugin}
+              sortable={services[serviceId].plugins.length !== 1}
+              onClickRemove={() => removePlugin(serviceId, plugin.id)}
+            />
+          </CSSTransition>
+
+        ))}
+        <CSSTransition
+          key={`changeTemplate${services[serviceId].plugins.length}`}
+          timeout={300}
+          classNames='fade-vertical'
+        >
+          <ChangeTemplate
+            name={services[serviceId].template.name}
+            onClick={() => onClickTemplate()}
+            height={heightTemplate}
+          />
+        </CSSTransition>
+      </TransitionGroup>
     </div>
   )
 })

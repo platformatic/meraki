@@ -6,7 +6,7 @@ import CreateApplication from '~/components/steps/CreateApplication'
 import ComposeApplication from '~/components/steps/ComposeApplication'
 import ConfigureServices from '~/components/steps/ConfigureServices'
 import { STEP_ADD_TEMPLATE_AND_PLUGINS, STEP_CONFIGURE_SERVICES, STEP_CREATE_APPLICATION } from '~/ui-constants'
-import './component.animation.css'
+import '~/components/component.animation.css'
 
 function Wizard () {
   const [currentStep, setCurrentStep] = useState(STEP_CREATE_APPLICATION)
