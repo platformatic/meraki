@@ -9,8 +9,8 @@ import styles from './PluginHandler.module.css'
 import useStackablesStore from '~/useStackablesStore'
 import { useEffect, useRef, useState } from 'react'
 import { CSSTransition } from 'react-transition-group'
-import Routes from '~/components/shaped-buttons/Routes'
-import AddPlugin from '~/components/shaped-buttons/AddPlugin'
+import Routes from '~/components/shaped-components/Routes'
+import AddPlugin from '~/components/shaped-components/AddPlugin'
 import './plugin.animation.css'
 
 function PluginHandler ({ disabled, onClick, serviceId }) {

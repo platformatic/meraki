@@ -10,7 +10,7 @@ import { BorderedBox, Button, ModalDirectional } from '@platformatic/ui-componen
 import useStackablesStore from '~/useStackablesStore'
 import PluginHandler from '~/components/plugins/PluginHandler'
 import TemplateHandler from '~/components/templates/TemplateHandler'
-import AddService from '~/components/shaped-buttons/AddService'
+import AddService from '~/components/shaped-components/AddService'
 import SelectTemplate from '~/components/templates/SelectTemplate'
 import Title from '~/components/ui/Title'
 import SelectPlugin from '~/components/plugins/SelectPlugin'
@@ -82,9 +82,7 @@ const ComposeApplication = React.forwardRef(({ onNext }, ref) => {
               </BorderedBox>
             </div>
           </div>
-          <div className={`${commonStyles.mediumFlexBlock}`}>
-            <Services />
-          </div>
+          <Services />
         </div>
       </div>
       <div className={`${styles.buttonContainer} ${commonStyles.fullWidth}`}>

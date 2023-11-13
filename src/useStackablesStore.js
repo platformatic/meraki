@@ -38,10 +38,6 @@ const useStackablesStore = create((set, get) => ({
         if (service.id === serviceId) {
           let { template: templateReplaced, ...rest } = service
           templateReplaced = template
-          console.log({
-            template: templateReplaced,
-            ...rest
-          })
           return {
             template: templateReplaced,
             ...rest

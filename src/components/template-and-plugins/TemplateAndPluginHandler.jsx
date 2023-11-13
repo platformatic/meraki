@@ -3,8 +3,8 @@
 import React, { useEffect, useState } from 'react'
 import PropTypes from 'prop-types'
 import useStackablesStore from '~/useStackablesStore'
-import ChangeTemplate from '~/components/shaped-buttons/ChangeTemplate'
-import Plugin from '../shaped-buttons/Plugin'
+import ChangeTemplate from '~/components/shaped-components/ChangeTemplate'
+import Plugin from '../shaped-components/Plugin'
 import styles from './TemplateAndPluginHandler.module.css'
 import { DEFAULT_HEIGHT_TEMPLATE, HEIGHT_PLUGIN_1, HEIGHT_PLUGIN_2, HEIGHT_PLUGIN_3 } from '~/ui-constants'
 

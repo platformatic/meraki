@@ -1,0 +1,7 @@
+.container {
+  @apply flex flex-col items-center justify-center w-full border-0 relative;
+}
+.svg {
+  @apply absolute left-0 min-h-[24px] max-h-[24px] h-full z-[-1];
+  width: calc(100% - 1px);
+}

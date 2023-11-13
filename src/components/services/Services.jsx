@@ -11,6 +11,7 @@ import { CSSTransition } from 'react-transition-group'
 import useStackablesStore from '~/useStackablesStore'
 import SmallTitle from '~/components/ui/SmallTitle'
 import './service.animation.css'
+import ArrowConnector from '../shaped-components/ArrowConnector'
 
 function Services ({ onClick }) {
   const [templateAdded, setTemplateAdded] = useState(false)
@@ -20,7 +21,6 @@ function Services ({ onClick }) {
 
   useEffect(() => {
     if (services[0]?.template?.id) {
-      console.log('services[0]', services[0])
       setTemplateAdded(true)
     }
   }, [services[0]?.template?.id])
@@ -34,28 +34,31 @@ function Services ({ onClick }) {
     >
       {templateAdded
         ? (
-          <>
-            <h5 className={`${typographyStyles.desktopHeadline5} ${typographyStyles.textWhite}`}>{formData.createApplication.service}</h5>
-            <BorderedBox color={WHITE} borderColorOpacity={30} backgroundColor={TRANSPARENT} ref={nodeRef}>
-              <div className={`${commonStyles.smallFlexBlock} ${commonStyles.fullWidth}`}>
-                <div className={`${commonStyles.smallFlexRow} ${commonStyles.justifyCenter}`}>
-                  <Icons.FoldersIcon color={WHITE} size={MEDIUM} />
-                  <h5 className={`${typographyStyles.desktopHeadline5} ${typographyStyles.textWhite}`}>Services</h5>
+          <div className={`${commonStyles.mediumFlexRow} ${commonStyles.itemsCenter}`}>
+            <ArrowConnector />
+            <div className={`${commonStyles.mediumFlexBlock} ${styles.serviceContainer}`}>
+              <h5 className={`${typographyStyles.desktopHeadline5} ${typographyStyles.textWhite}`}>{formData.createApplication.service}</h5>
+              <BorderedBox color={WHITE} borderColorOpacity={30} backgroundColor={TRANSPARENT} ref={nodeRef}>
+                <div className={`${commonStyles.smallFlexBlock} ${commonStyles.fullWidth}`}>
+                  <div className={`${commonStyles.smallFlexRow} ${commonStyles.justifyCenter}`}>
+                    <Icons.FoldersIcon color={WHITE} size={MEDIUM} />
+                    <h5 className={`${typographyStyles.desktopHeadline5} ${typographyStyles.textWhite}`}>Services</h5>
+                  </div>
+                  <div className={`${commonStyles.smallFlexBlock} ${styles.foldersContainer}`}>
+                    {services.length > 0 && services.map((service, index) => (
+                      <SmallTitle
+                        key={index}
+                        iconName='FoldersIcon'
+                        title={service.name}
+                        titleClassName={`${typographyStyles.desktopBodyLarge} ${typographyStyles.textWhite} ${typographyStyles.opacity70}`}
+                        containerClassName={`${commonStyles.smallFlexRow} ${commonStyles.textCenter}`}
+                      />
+                    ))}
+                  </div>
                 </div>
-                <div className={`${commonStyles.smallFlexBlock} ${styles.foldersContainer}`}>
-                  {services.length > 0 && services.map((service, index) => (
-                    <SmallTitle
-                      key={index}
-                      iconName='FoldersIcon'
-                      title={service.name}
-                      titleClassName={`${typographyStyles.desktopBodyLarge} ${typographyStyles.textWhite} ${typographyStyles.opacity70}`}
-                      containerClassName={`${commonStyles.smallFlexRow} ${commonStyles.textCenter}`}
-                    />
-                  ))}
-                </div>
-              </div>
-            </BorderedBox>
-          </>
+              </BorderedBox>
+            </div>
+          </div>
           )
         : <></>}
     </CSSTransition>

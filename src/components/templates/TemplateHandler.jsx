@@ -3,7 +3,7 @@ import { useEffect, useRef, useState } from 'react'
 import PropTypes from 'prop-types'
 import useStackablesStore from '~/useStackablesStore'
 import { CSSTransition } from 'react-transition-group'
-import AddTemplate from '~/components/shaped-buttons/AddTemplate'
+import AddTemplate from '~/components/shaped-components/AddTemplate'
 import TemplateAndPluginHandler from '~/components/template-and-plugins/TemplateAndPluginHandler'
 
 function TemplateHandler ({ onClick, serviceId }) {
