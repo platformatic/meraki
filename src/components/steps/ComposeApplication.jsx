@@ -4,9 +4,9 @@ import PropTypes from 'prop-types'
 import styles from './ComposeApplication.module.css'
 import commonStyles from '~/styles/CommonStyles.module.css'
 import typographyStyles from '~/styles/Typography.module.css'
-import { WHITE, RICH_BLACK, MEDIUM, TRANSPARENT, SMALL } from '@platformatic/ui-components/src/components/constants'
+import { WHITE, RICH_BLACK, MEDIUM } from '@platformatic/ui-components/src/components/constants'
 import Icons from '@platformatic/ui-components/src/components/icons'
-import { BorderedBox, Button, ModalDirectional } from '@platformatic/ui-components'
+import { Button, ModalDirectional } from '@platformatic/ui-components'
 import useStackablesStore from '~/useStackablesStore'
 import PluginHandler from '~/components/plugins/PluginHandler'
 import TemplateHandler from '~/components/templates/TemplateHandler'
@@ -17,6 +17,7 @@ import SelectPlugin from '~/components/plugins/SelectPlugin'
 import Services from '~/components/services/Services'
 import { CSSTransition, TransitionGroup } from 'react-transition-group'
 import '~/components/component.animation.css'
+import PlatformaticRuntimeButton from '../shaped-components/PlatformaticRuntimeButton'
 
 const ComposeApplication = React.forwardRef(({ onNext }, ref) => {
   const globalState = useStackablesStore()
@@ -57,7 +58,7 @@ const ComposeApplication = React.forwardRef(({ onNext }, ref) => {
           <p className={`${typographyStyles.desktopBodyLarge} ${typographyStyles.textWhite} ${typographyStyles.opacity70}`}>Select a template and plugins for your service from our Stackables Marketplace. Once you have chosen a template you can add another Service.</p>
         </div>
         <div className={`${commonStyles.mediumFlexRow} ${commonStyles.fullWidth} ${commonStyles.justifyBetween} ${commonStyles.itemsCenter}`}>
-          <div className={`${commonStyles.mediumFlexBlock}`}>
+          <div className={`${styles.flexBlockNoGap}`}>
             <div className={`${commonStyles.largeFlexBlock}`}>
               <div className={commonStyles.mediumFlexRow}>
                 <Icons.GearIcon color={WHITE} size={MEDIUM} />
@@ -82,15 +83,8 @@ const ComposeApplication = React.forwardRef(({ onNext }, ref) => {
                   <AddService onClick={() => addService()} enabled={services.find(service => Object.keys(service.template).length === 0) === undefined} />
                 </div>
               </div>
-              <BorderedBox
-                color={WHITE}
-                backgroundColor={TRANSPARENT}
-                classes={styles.platformaticRuntimeButton}
-              >
-                <Icons.CircleExclamationIcon color={WHITE} size={SMALL} />
-                <span className={`${typographyStyles.desktopBodyLarge} ${typographyStyles.textWhite} ${typographyStyles.opacity70}`}>Platformatic Runtime</span>
-              </BorderedBox>
             </div>
+            <PlatformaticRuntimeButton />
           </div>
           <Services />
         </div>

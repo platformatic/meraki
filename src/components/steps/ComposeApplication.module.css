@@ -7,6 +7,6 @@
 .containerPuzzle {
   @apply min-w-[264px] max-w-[264px] w-[264px];
 }
-.platformaticRuntimeButton {
- @apply w-full flex justify-center items-center p-4 gap-x-2 ;  
+.flexBlockNoGap {
+  @apply flex flex-col items-start gap-y-0;
 }
