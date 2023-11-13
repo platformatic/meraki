@@ -8,17 +8,17 @@ import Plugin from '../shaped-buttons/Plugin'
 import styles from './TemplateAndPluginHandler.module.css'
 import { DEFAULT_HEIGHT_TEMPLATE, HEIGHT_PLUGIN_1, HEIGHT_PLUGIN_2, HEIGHT_PLUGIN_3 } from '~/ui-constants'
 
-const TemplateAndPluginHandler = React.forwardRef(({ onClickTemplate }, ref) => {
+const TemplateAndPluginHandler = React.forwardRef(({ onClickTemplate, serviceId }, ref) => {
   const globalState = useStackablesStore()
   const [showTemplates, setShowTemplates] = useState(false)
   const [heightTemplate, setHeightTemplate] = useState(DEFAULT_HEIGHT_TEMPLATE)
   const [heightPlugin, setHeightPlugin] = useState(0)
-  const { formDataWizard, addFormDataWizard } = globalState
+  const { services, removePlugin } = globalState
 
   useEffect(() => {
-    if (formDataWizard?.plugins?.length > 0) {
+    if (services[serviceId].plugins.length > 0) {
       setShowTemplates(true)
-      switch (formDataWizard.plugins.length) {
+      switch (services[serviceId].plugins.length) {
         case 1:
           setHeightPlugin(HEIGHT_PLUGIN_1)
           setHeightTemplate(DEFAULT_HEIGHT_TEMPLATE - HEIGHT_PLUGIN_1)
@@ -36,28 +36,22 @@ const TemplateAndPluginHandler = React.forwardRef(({ onClickTemplate }, ref) => 
       setShowTemplates(false)
       setHeightTemplate(DEFAULT_HEIGHT_TEMPLATE)
     }
-  }, [formDataWizard?.plugins?.length])
-
-  function updatePlugins (id) {
-    addFormDataWizard({
-      plugins: [...formDataWizard.plugins.filter(plugin => plugin.id !== id)]
-    })
-  }
+  }, [services[serviceId].plugins.length])
 
   return (
     <div className={styles.container} ref={ref}>
-      {showTemplates && (formDataWizard.plugins.map((plugin, index) =>
+      {showTemplates && (services[serviceId].plugins.map((plugin, index) =>
         <Plugin
           key={plugin.id}
           index={index}
           {...plugin}
           height={heightPlugin}
-          sortable={formDataWizard.plugins.length !== 1}
-          onClickRemove={() => updatePlugins(plugin.id)}
+          sortable={services[serviceId].plugins.length !== 1}
+          onClickRemove={() => removePlugin(serviceId, plugin.id)}
         />
       ))}
       <ChangeTemplate
-        name={formDataWizard.template.name}
+        name={services[serviceId].template.name}
         onClick={() => onClickTemplate()}
         height={heightTemplate}
       />
@@ -69,7 +63,11 @@ TemplateAndPluginHandler.propTypes = {
   /**
    * onClickTemplate
     */
-  onClickTemplate: PropTypes.func
+  onClickTemplate: PropTypes.func,
+  /**
+   * serviceId
+    */
+  serviceId: PropTypes.number.isRequired
 }
 
 TemplateAndPluginHandler.defaultProps = {

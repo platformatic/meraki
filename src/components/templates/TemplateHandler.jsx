@@ -6,17 +6,17 @@ import { CSSTransition } from 'react-transition-group'
 import AddTemplate from '~/components/shaped-buttons/AddTemplate'
 import TemplateAndPluginHandler from '~/components/template-and-plugins/TemplateAndPluginHandler'
 
-function TemplateHandler ({ onClick }) {
+function TemplateHandler ({ onClick, serviceId }) {
   const [templateAdded, setTemplateAdded] = useState(false)
   const globalState = useStackablesStore()
-  const { formDataWizard } = globalState
+  const { services } = globalState
   const nodeRef = useRef(null)
 
   useEffect(() => {
-    if (formDataWizard?.template?.id) {
+    if (services[serviceId]?.template?.id) {
       setTemplateAdded(true)
     }
-  }, [formDataWizard?.template?.id])
+  }, [services[serviceId]?.template?.id])
 
   return (
     <CSSTransition
@@ -31,6 +31,7 @@ function TemplateHandler ({ onClick }) {
         : <TemplateAndPluginHandler
             ref={nodeRef}
             onClickTemplate={() => onClick()}
+            serviceId={serviceId}
           />}
     </CSSTransition>
   )
@@ -40,7 +41,11 @@ TemplateHandler.propTypes = {
   /**
    * onClick
     */
-  onClick: PropTypes.func
+  onClick: PropTypes.func,
+  /**
+   * serviceId
+    */
+  serviceId: PropTypes.number.isRequired
 }
 
 TemplateHandler.defaultProps = {

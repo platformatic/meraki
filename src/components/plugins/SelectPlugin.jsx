@@ -10,7 +10,7 @@ import Title from '~/components/ui/Title'
 import useStackablesStore from '~/useStackablesStore'
 import Plugin from './Plugin'
 
-function SelectPlugin ({ onClick }) {
+function SelectPlugin ({ onClick, serviceId }) {
   const [pages] = useState([1])
   const [plugins] = useState([{
     id: '0', name: 'Plugin number 1', platformaticService: true
@@ -27,12 +27,10 @@ function SelectPlugin ({ onClick }) {
   }])
   const [pluginsSelected, setPluginsSelected] = useState([])
   const globalState = useStackablesStore()
-  const { addFormDataWizard } = globalState
+  const { setPlugins } = globalState
 
   function handleUsePluginsSelected () {
-    addFormDataWizard({
-      plugins: [...pluginsSelected]
-    })
+    setPlugins(serviceId, pluginsSelected)
     onClick()
   }
 
@@ -93,7 +91,11 @@ SelectPlugin.propTypes = {
   /**
    * onClick
     */
-  onClick: PropTypes.func
+  onClick: PropTypes.func,
+  /**
+   * serviceId
+    */
+  serviceId: PropTypes.number.isRequired
 }
 
 SelectPlugin.defaultProps = {

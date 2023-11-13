@@ -11,7 +11,7 @@ import Title from '../ui/Title'
 
 const ConfigureServices = React.forwardRef(({ onNext }, ref) => {
   const globalState = useStackablesStore()
-  const { formDataWizard } = globalState
+  const { formData } = globalState
 
   function onClick () {
     onNext()
@@ -20,7 +20,7 @@ const ConfigureServices = React.forwardRef(({ onNext }, ref) => {
     <div className={styles.container} ref={ref}>
       <div className={`${commonStyles.largeFlexBlock} ${commonStyles.halfWidth}`}>
         <div className={commonStyles.mediumFlexBlock}>
-          <Title title={formDataWizard.createApplication.application} iconName='AppIcon' />
+          <Title title={formData.createApplication.application} iconName='AppIcon' />
           <p className={`${typographyStyles.desktopBodyLarge} ${typographyStyles.textWhite} ${typographyStyles.opacity70}`}>Start by entering the name of your Application and the name of your service.</p>
         </div>
       </div>

@@ -4,3 +4,6 @@
 .svg {
   @apply absolute top-0 left-0 w-full h-full z-[-1]
 }
+.svg > path{
+  @apply fill-rich-black stroke-white
+}

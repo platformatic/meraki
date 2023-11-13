@@ -13,17 +13,17 @@ import Routes from '~/components/routes/Routes'
 import AddPlugin from '~/components/shaped-buttons/AddPlugin'
 import './plugin.animation.css'
 
-function PluginHandler ({ disabled, onClick }) {
+function PluginHandler ({ disabled, onClick, serviceId }) {
   const [templateAdded, setTemplateAdded] = useState(false)
   const globalState = useStackablesStore()
-  const { formDataWizard } = globalState
+  const { services } = globalState
   const nodeRef = useRef(null)
 
   useEffect(() => {
-    if (formDataWizard?.template?.id) {
+    if (services[serviceId]?.template?.id) {
       setTemplateAdded(true)
     }
-  }, [formDataWizard?.template?.id])
+  }, [services[serviceId]?.template?.id])
 
   return (
     <CSSTransition
@@ -66,15 +66,14 @@ PluginHandler.propTypes = {
     */
   onClick: PropTypes.func,
   /**
-   * usePuzzle
+   * serviceId
     */
-  usePuzzle: PropTypes.bool
+  serviceId: PropTypes.number.isRequired
 }
 
 PluginHandler.defaultProps = {
   disabled: true,
-  onClick: () => {},
-  usePuzzle: true
+  onClick: () => {}
 }
 
 export default PluginHandler

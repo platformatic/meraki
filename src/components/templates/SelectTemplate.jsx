@@ -10,7 +10,7 @@ import Template from './Template'
 import Title from '~/components/ui/Title'
 import useStackablesStore from '~/useStackablesStore'
 
-function SelectTemplate ({ onClick }) {
+function SelectTemplate ({ onClick, serviceId }) {
   const [pages] = useState([1])
   const [templates] = useState([{
     id: '0', name: 'Platformatic service', platformaticService: true
@@ -27,12 +27,10 @@ function SelectTemplate ({ onClick }) {
   }])
   const [templateSelected, setTemplateSelected] = useState(templates[0])
   const globalState = useStackablesStore()
-  const { addFormDataWizard } = globalState
+  const { setTemplate } = globalState
 
   function handleUsePlatformaticService () {
-    addFormDataWizard({
-      template: { ...templateSelected }
-    })
+    setTemplate(serviceId, templateSelected)
     onClick()
   }
 
@@ -78,7 +76,11 @@ SelectTemplate.propTypes = {
   /**
    * onClick
     */
-  onClick: PropTypes.func
+  onClick: PropTypes.func,
+  /**
+   * serviceId
+    */
+  serviceId: PropTypes.number.isRequired
 }
 
 SelectTemplate.defaultProps = {
