@@ -69,7 +69,7 @@ const ComposeApplication = React.forwardRef(({ onNext }, ref) => {
                   </div>
                 ))}
                 <div className={`${commonStyles.mediumFlexBlock} ${commonStyles.fullWidth} ${styles.containerPuzzle}`}>
-                  <AddService onClick={() => addService()} />
+                  <AddService onClick={() => addService()} enabled={services.find(service => Object.keys(service.template).length === 0) === undefined} />
                 </div>
               </div>
               <BorderedBox

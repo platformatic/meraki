@@ -3,5 +3,9 @@
 }
 .svg {
   @apply absolute left-0 min-h-[24px] max-h-[24px] h-full z-[-1];
-  width: calc(100% - 1px);
+  width: calc(100% - 2px);
+}
+
+.iconContainer {
+  @apply p-1 rounded-full bg-rich-black;
 }

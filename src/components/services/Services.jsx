@@ -34,11 +34,11 @@ function Services ({ onClick }) {
     >
       {templateAdded
         ? (
-          <div className={`${commonStyles.mediumFlexRow} ${commonStyles.itemsCenter}`}>
+          <div className={`${commonStyles.mediumFlexRow} ${commonStyles.itemsCenter}`} ref={nodeRef}>
             <ArrowConnector />
             <div className={`${commonStyles.mediumFlexBlock} ${styles.serviceContainer}`}>
               <h5 className={`${typographyStyles.desktopHeadline5} ${typographyStyles.textWhite}`}>{formData.createApplication.service}</h5>
-              <BorderedBox color={WHITE} borderColorOpacity={30} backgroundColor={TRANSPARENT} ref={nodeRef}>
+              <BorderedBox color={WHITE} borderColorOpacity={30} backgroundColor={TRANSPARENT}>
                 <div className={`${commonStyles.smallFlexBlock} ${commonStyles.fullWidth}`}>
                   <div className={`${commonStyles.smallFlexRow} ${commonStyles.justifyCenter}`}>
                     <Icons.FoldersIcon color={WHITE} size={MEDIUM} />
