@@ -1,6 +1,6 @@
 'use strict'
 import PropTypes from 'prop-types'
-import { MAIN_GREEN, MEDIUM, WHITE } from '@platformatic/ui-components/src/components/constants'
+import { MEDIUM, TERTIARY_BLUE, WHITE } from '@platformatic/ui-components/src/components/constants'
 import Icons from '@platformatic/ui-components/src/components/icons'
 import typographyStyles from '~/styles/Typography.module.css'
 import commonStyles from '~/styles/CommonStyles.module.css'
@@ -15,7 +15,7 @@ function Plugin ({ id, name, onClick, isSelected }) {
   return (
     <div className={className} onClick={() => onClick()}>
       <div className={`${commonStyles.mediumFlexBlock} ${commonStyles.fullWidth} ${styles.overflowHidden}`}>
-        <Icons.StackablesPluginIcon color={MAIN_GREEN} size={MEDIUM} />
+        <Icons.StackablesPluginIcon color={TERTIARY_BLUE} size={MEDIUM} />
         <p
           className={`${typographyStyles.desktopHeadline5} ${typographyStyles.textWhite} ${styles.ellipsis}`}
           title={name}
