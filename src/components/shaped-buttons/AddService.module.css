@@ -1,0 +1,10 @@
+.container {
+  @apply flex flex-col justify-center h-full w-full cursor-pointer border-0 relative;
+}
+.svg {
+  @apply absolute top-0 left-0 w-full h-full z-[-1]
+}
+.svg > rect {
+  @apply stroke-white;
+  height: calc(100% - 1px);
+}

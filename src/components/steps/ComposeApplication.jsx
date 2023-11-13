@@ -10,7 +10,7 @@ import { BorderedBox, Button, ModalDirectional } from '@platformatic/ui-componen
 import useStackablesStore from '~/useStackablesStore'
 import PluginHandler from '~/components/plugins/PluginHandler'
 import TemplateHandler from '~/components/templates/TemplateHandler'
-import AddService from '~/components/services/AddService'
+import AddService from '~/components/shaped-buttons/AddService'
 import SelectTemplate from '~/components/templates/SelectTemplate'
 import Title from '~/components/ui/Title'
 import SelectPlugin from '~/components/plugins/SelectPlugin'
@@ -18,12 +18,33 @@ import Services from '~/components/services/Services'
 
 const ComposeApplication = React.forwardRef(({ onNext }, ref) => {
   const globalState = useStackablesStore()
-  const { formData } = globalState
+  const { formData, addService, services } = globalState
   const [showModalTemplate, setShowModalTemplate] = useState(false)
   const [showModalPlugin, setShowModalPlugin] = useState(false)
+  const [serviceSelected, setServiceSelected] = useState(null)
 
   function onClick () {
     onNext()
+  }
+
+  function handleOpenModalPlugin (serviceId) {
+    setServiceSelected(serviceId)
+    setShowModalPlugin(true)
+  }
+
+  function handleCloseModalPlugin () {
+    setServiceSelected(null)
+    setShowModalPlugin(false)
+  }
+
+  function handleOpenModalTemplate (serviceId) {
+    setServiceSelected(serviceId)
+    setShowModalTemplate(true)
+  }
+
+  function handleCloseModalTemplate () {
+    setServiceSelected(null)
+    setShowModalTemplate(false)
   }
 
   return (
@@ -41,12 +62,14 @@ const ComposeApplication = React.forwardRef(({ onNext }, ref) => {
                 <h5 className={`${typographyStyles.desktopHeadline5} ${typographyStyles.textWhite}`}>{formData.createApplication.service}</h5>
               </div>
               <div className={`${commonStyles.mediumFlexRow} ${commonStyles.itemsStretch}`}>
-                <div className={`${commonStyles.smallFlexBlock} ${commonStyles.fullWidth} ${styles.containerPuzzle}`}>
-                  <PluginHandler onClick={() => { setShowModalPlugin(true) }} serviceId={0} />
-                  <TemplateHandler onClick={() => { setShowModalTemplate(true) }} serviceId={0} />
-                </div>
+                {services.map(service => (
+                  <div className={`${commonStyles.smallFlexBlock} ${commonStyles.fullWidth} ${styles.containerPuzzle}`} key={service.id}>
+                    <PluginHandler onClick={() => { handleOpenModalPlugin(service.id) }} serviceId={service.id} />
+                    <TemplateHandler onClick={() => { handleOpenModalTemplate(service.id) }} serviceId={service.id} />
+                  </div>
+                ))}
                 <div className={`${commonStyles.mediumFlexBlock} ${commonStyles.fullWidth} ${styles.containerPuzzle}`}>
-                  <AddService />
+                  <AddService onClick={() => addService()} />
                 </div>
               </div>
               <BorderedBox
@@ -76,21 +99,21 @@ const ComposeApplication = React.forwardRef(({ onNext }, ref) => {
       {showModalTemplate && (
         <ModalDirectional
           key='modalTemplate'
-          setIsOpen={() => setShowModalTemplate(false)}
+          setIsOpen={() => handleCloseModalTemplate()}
           title='Back to Application view'
           titleClassName={`${typographyStyles.desktopBody} ${typographyStyles.textWhite} ${typographyStyles.opacity70}`}
         >
-          <SelectTemplate onClick={() => setShowModalTemplate(false)} serviceId={0} />
+          <SelectTemplate onClick={() => handleCloseModalTemplate()} serviceId={serviceSelected} />
         </ModalDirectional>
       )}
       {showModalPlugin && (
         <ModalDirectional
           key='modalPlugin'
-          setIsOpen={() => setShowModalPlugin(false)}
+          setIsOpen={() => handleCloseModalPlugin()}
           title='Back to Application view'
           titleClassName={`${typographyStyles.desktopBody} ${typographyStyles.textWhite} ${typographyStyles.opacity70}`}
         >
-          <SelectPlugin onClick={() => setShowModalPlugin(false)} serviceId={0} />
+          <SelectPlugin onClick={() => handleCloseModalPlugin()} serviceId={serviceSelected} />
         </ModalDirectional>
       )}
     </div>

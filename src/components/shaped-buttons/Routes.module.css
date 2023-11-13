@@ -1,5 +1,5 @@
 .container {
-  @apply flex flex-col justify-center max-h-[74px] min-h-[74px] w-full border-0 relative;
+  @apply flex flex-col justify-center max-h-[58px] min-h-[58px] w-full border-0 relative;
 }
 .svg {
   @apply absolute top-0 left-0 w-full h-full z-[-1]

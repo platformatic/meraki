@@ -1,5 +1,0 @@
-.container {
-  @apply flex flex-col justify-center min-h-[435px] w-full cursor-pointer h-full;
-  background: url('~/assets/serviceBackgroundDisabled.svg') no-repeat;
-  background-size: contain;
-}

@@ -42,7 +42,7 @@ function Services ({ onClick }) {
                   <Icons.FoldersIcon color={WHITE} size={MEDIUM} />
                   <h5 className={`${typographyStyles.desktopHeadline5} ${typographyStyles.textWhite}`}>Services</h5>
                 </div>
-                <div className={`${commonStyles.smallFlexRow} ${styles.foldersContainer}`}>
+                <div className={`${commonStyles.smallFlexBlock} ${styles.foldersContainer}`}>
                   {services.length > 0 && services.map((service, index) => (
                     <SmallTitle
                       key={index}

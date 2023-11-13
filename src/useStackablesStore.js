@@ -21,7 +21,7 @@ const useStackablesStore = create((set, get) => ({
     return {
       ...state,
       services: [...currentServices, {
-        id: '',
+        id: currentServices.length,
         name: `${serviceName}-${currentServices.length + 1}`,
         template: {},
         plugins: []
