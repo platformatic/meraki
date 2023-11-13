@@ -10,12 +10,9 @@ function AddService ({ onClick, enabled }) {
   const [height, setHeight] = useState(0)
   const ref = useRef(null)
 
-  console.log('enabled', enabled)
-
   let classNameContainer = `${styles.container} `
   let titleClassName = `${typographyStyles.desktopBodyLarge} ${typographyStyles.textWhite} `
   if (enabled) {
-    console.log('enabled')
     classNameContainer += styles.containerEnabled
   } else {
     titleClassName += `${typographyStyles.opacity70}`
