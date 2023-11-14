@@ -18,12 +18,14 @@ import Services from '~/components/services/Services'
 import { CSSTransition, TransitionGroup } from 'react-transition-group'
 import '~/components/component.animation.css'
 import PlatformaticRuntimeButton from '../shaped-components/PlatformaticRuntimeButton'
+import ViewAll from '~/components/plugins/ViewAll'
 
 const ComposeApplication = React.forwardRef(({ onNext }, ref) => {
   const globalState = useStackablesStore()
   const { formData, addService, services } = globalState
   const [showModalTemplate, setShowModalTemplate] = useState(false)
   const [showModalPlugin, setShowModalPlugin] = useState(false)
+  const [showModalViewAll, setShowModalViewAll] = useState(false)
   const [serviceSelected, setServiceSelected] = useState(null)
 
   function onClick () {
@@ -50,6 +52,16 @@ const ComposeApplication = React.forwardRef(({ onNext }, ref) => {
     setShowModalTemplate(false)
   }
 
+  function handleOpenModalViewAll (serviceId) {
+    setServiceSelected(serviceId)
+    setShowModalViewAll(true)
+  }
+
+  function handleCloseModalViewAll () {
+    setServiceSelected(null)
+    setShowModalViewAll(false)
+  }
+
   return (
     <div className={styles.container} ref={ref}>
       <div className={`${commonStyles.largeFlexBlock}`}>
@@ -58,7 +70,7 @@ const ComposeApplication = React.forwardRef(({ onNext }, ref) => {
           <p className={`${typographyStyles.desktopBodyLarge} ${typographyStyles.textWhite} ${typographyStyles.opacity70}`}>Select a template and plugins for your service from our Stackables Marketplace. Once you have chosen a template you can add another Service.</p>
         </div>
         <div className={`${commonStyles.mediumFlexRow} ${commonStyles.fullWidth} ${commonStyles.justifyBetween} ${commonStyles.itemsCenter}`}>
-          <div className={`${styles.flexBlockNoGap}`}>
+          <div className={`${commonStyles.flexBlockNoGap}`}>
             <div className={`${commonStyles.largeFlexBlock}`}>
               <div className={commonStyles.mediumFlexRow}>
                 <Icons.GearIcon color={WHITE} size={MEDIUM} />
@@ -74,7 +86,11 @@ const ComposeApplication = React.forwardRef(({ onNext }, ref) => {
                     >
                       <div className={`${commonStyles.smallFlexBlock} ${commonStyles.fullWidth} ${styles.containerPuzzle}`} key={service.id}>
                         <PluginHandler onClick={() => { handleOpenModalPlugin(service.id) }} serviceId={service.id} />
-                        <TemplateHandler onClick={() => { handleOpenModalTemplate(service.id) }} serviceId={service.id} />
+                        <TemplateHandler
+                          onClickTemplate={() => { handleOpenModalTemplate(service.id) }}
+                          onClickViewAll={() => { handleOpenModalViewAll(service.id) }}
+                          serviceId={service.id}
+                        />
                       </div>
                     </CSSTransition>
                   ))}
@@ -116,6 +132,17 @@ const ComposeApplication = React.forwardRef(({ onNext }, ref) => {
           titleClassName={`${typographyStyles.desktopBody} ${typographyStyles.textWhite} ${typographyStyles.opacity70}`}
         >
           <SelectPlugin onClick={() => handleCloseModalPlugin()} serviceId={serviceSelected} />
+        </ModalDirectional>
+      )}
+      {showModalViewAll && (
+        <ModalDirectional
+          key='modalViewAll'
+          setIsOpen={() => handleCloseModalViewAll()}
+          title='Back to Application view'
+          titleClassName={`${typographyStyles.desktopBody} ${typographyStyles.textWhite} ${typographyStyles.opacity70}`}
+          smallLayout
+        >
+          <ViewAll onClick={() => handleCloseModalViewAll()} serviceId={serviceSelected} />
         </ModalDirectional>
       )}
     </div>

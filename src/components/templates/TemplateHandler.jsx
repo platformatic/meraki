@@ -7,14 +7,14 @@ import AddTemplate from '~/components/shaped-components/AddTemplate'
 import TemplateAndPluginHandler from '~/components/template-and-plugins/TemplateAndPluginHandler'
 import '~/components/component.animation.css'
 
-function TemplateHandler ({ onClick, serviceId }) {
+function TemplateHandler ({ onClickTemplate, serviceId, onClickViewAll }) {
   const globalState = useStackablesStore()
   const { services } = globalState
   const addTemplateRef = useRef(null)
   const templateAndPluginRef = useRef(null)
   const [templateAdded, setTemplateAdded] = useState(false)
   const [currentComponent, setCurrentComponent] = useState(
-    <AddTemplate onClick={() => onClick()} ref={addTemplateRef} />
+    <AddTemplate onClickAddTemplate={() => onClickTemplate()} ref={addTemplateRef} />
   )
 
   useEffect(() => {
@@ -23,8 +23,9 @@ function TemplateHandler ({ onClick, serviceId }) {
       setCurrentComponent(
         <TemplateAndPluginHandler
           ref={templateAndPluginRef}
-          onClickTemplate={() => onClick()}
+          onClickTemplate={() => onClickTemplate()}
           serviceId={serviceId}
+          onClickViewAll={() => onClickViewAll()}
         />
       )
     }
@@ -45,9 +46,13 @@ function TemplateHandler ({ onClick, serviceId }) {
 
 TemplateHandler.propTypes = {
   /**
-   * onClick
+   * onClickTemplate
     */
-  onClick: PropTypes.func,
+  onClickTemplate: PropTypes.func,
+  /**
+   * onClickViewAll
+    */
+  onClickViewAll: PropTypes.func,
   /**
    * serviceId
     */
@@ -55,7 +60,8 @@ TemplateHandler.propTypes = {
 }
 
 TemplateHandler.defaultProps = {
-  onClick: () => {}
+  onClickTemplate: () => {},
+  onClickViewAll: () => {}
 }
 
 export default TemplateHandler
