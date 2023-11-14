@@ -7,75 +7,32 @@ function BrickPath ({
   width,
   bricksNumber
 }) {
-  const xA = width - 0.5
-  const yA = 12
-  const xB = xA - 1
-  const yB = height - 1
-  const xC = xB - 1
-  const yC = yB - 1
-  const yD = height - 6
-  const dxB = 4
-  const xE = 0.5
-  const yE = 12 - 1.5
-  const xF = xE + 1.5
-  const yF = yE - 1.5
+  const radius = 4
+  const topRadius = 3
+  const startX = radius + 0.5
+  const startY = 10.0
 
-  function drawBricksOnTop (xStart, yStart, xEnd, yEnd) {
-    const innerWidth = Math.floor((xEnd - xStart) / bricksNumber)
-    let str = ' '
-    let currentX = xStart
-    const currentY = yStart
+  const innerWidth = Math.floor((width - (radius * 2)) / bricksNumber)
+
+  const singleLength = innerWidth - (4 * 2) - /* dash start and end */
+    (3 * 2 * 2) // arch from low dash to vertical lines
+
+  function drawBricksOnTop () {
+    /* return `h${width - (radius * 2) - 1 } ` */
+    let str = ''
     Array.from(new Array(bricksNumber).keys()).forEach(() => {
-      console.log('currentX', currentX, yStart)
-      const dA = currentX + 5
-      const bX = yStart + 2.5
-      const cX = bX + 2.5
-      const dY = dA + 1
-      const eY = 4.5
-      const fY = eY - 0.5
-      const gY = 0.5
-      const gY2 = 0.5
-      const hY = 1
-      const iX = cX + 2.5
-      const lX = iX + 2.5
-      const residualWidth = innerWidth - (
-        // 2 * A
-        (5 * 2) +
-        // 2 * cX
-        (2 * 2.5) +
-        // 2 * lX
-        (2 * 1)
-      )
-      const mX = lX + residualWidth
-      const nX = mX + 2.5
-      const oX = nX + 2.5
-      const pX = oX + 2.5
-      const qX = pX + 5
-      str += `H${dA} `
-      str += `C${bX} ${dA} ${cX} ${dY} ${cX} ${eY} `
-      str += `V${fY} `
-      str += `C${cX} ${hY} ${iX} ${gY2} ${lX} ${gY} `
-      str += `H${residualWidth} `
-      str += `C${mX} ${hY} ${nX} ${gY} ${nX} ${fY} `
-      str += `V${eY} `
-      str += `C${nX} ${dY} ${oX} ${yEnd} ${pX} ${yEnd} `
-      str += `H${qX} `
-      currentX += innerWidth
+      str += `h4 ${addArch(topRadius, topRadius, 0, topRadius, -topRadius)} v-1 ${addArch(topRadius, topRadius, 1, topRadius, -topRadius)} h${singleLength - 0.3} ${addArch(topRadius, topRadius, 1, topRadius, topRadius)} v1 ${addArch(topRadius, topRadius, 0, topRadius, topRadius)} h4 `
     })
     return str
   }
 
+  function addArch (radiusA, radiusB, clockWise, radiusC, radiusD) {
+    return `a${radiusA},${radiusB} 0 0 ${clockWise} ${radiusC},${radiusD} `
+  }
+
   return (
     <path
-      d={`M${xA} ${yA}
-              V${yD}
-              C${xA} ${yC} ${xB} ${yB} ${xC} ${yB}
-              H${dxB}
-              C${xF} ${yB} ${xE} ${yC} ${xE} ${yD}
-              V${yA}
-              C${xE} ${yE} ${xF} ${yF} ${dxB} ${yF}
-              /* ${drawBricksOnTop(dxB, yF, xC, yA)} */
-              C${xB} ${yF} ${xA} ${yF} ${xA} ${yA}Z`}
+      d={`M${startX},${startY} ${drawBricksOnTop()} ${addArch(radius, radius, 1, radius, radius)} v${height - startY - (radius * 2) - 1} ${addArch(radius, radius, 1, -radius, radius)} h-${width - (radius * 2) - 1} ${addArch(radius, radius, 1, -radius, -radius)} v-${height - startY - (radius * 2) - 1} ${addArch(radius, radius, 1, radius, -radius)} Z`}
       fill='none' fillOpacity={0.15} stroke='none'
     />
   )
@@ -91,8 +48,8 @@ BrickPath.propTypes = {
       */
   width: PropTypes.number.isRequired,
   /**
-     * bricksNumber
-      */
+   * bricksNumber
+    */
   bricksNumber: PropTypes.number
 }
 

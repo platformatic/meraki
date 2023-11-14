@@ -12,14 +12,12 @@ import '~/components/component.animation.css'
 
 const TemplateAndPluginHandler = React.forwardRef(({ serviceId, onClickTemplate, onClickViewAll }, ref) => {
   const globalState = useStackablesStore()
-  const [showTemplates, setShowTemplates] = useState(false)
   const [heightTemplate, setHeightTemplate] = useState(DEFAULT_HEIGHT_TEMPLATE)
   const [heightPlugin, setHeightPlugin] = useState(0)
   const { services, removePlugin } = globalState
 
   useEffect(() => {
     if (services[serviceId].plugins.length > 0) {
-      setShowTemplates(true)
       switch (services[serviceId].plugins.length) {
         case 2:
           setHeightPlugin(HEIGHT_PLUGIN_2)
@@ -35,35 +33,16 @@ const TemplateAndPluginHandler = React.forwardRef(({ serviceId, onClickTemplate,
           break
       }
     } else {
-      setShowTemplates(false)
       setHeightTemplate(DEFAULT_HEIGHT_TEMPLATE)
     }
   }, [services[serviceId].plugins.length])
 
-  function renderPlugins () {
-    if (services[serviceId].plugins.length > 3) {
-      return (
-        <CSSTransition
-          key={`changePlugin-${services[serviceId].plugins.length}`}
-          timeout={300}
-          classNames='fade-vertical'
-        >
-          <PluginButton
-            sortable={false}
-            totalPlugins={services[serviceId].plugins.length}
-            viewAll
-            height={heightPlugin}
-            width={ref.current.clientWidth}
-            onClickViewAll={() => onClickViewAll()}
-          />
-        </CSSTransition>
-      )
-    }
-    return (
-      <>
-        {services[serviceId].plugins.map((plugin, index) =>
+  return (
+    <div className={styles.container} ref={ref}>
+      <TransitionGroup component={null}>
+        {services[serviceId].plugins.length > 0 && services[serviceId].plugins.length <= 3 && services[serviceId].plugins.map((plugin, index) =>
           <CSSTransition
-            key={`changePlugin-${plugin.id}-${services[serviceId].plugins.length}`}
+            key={`templatePlugin-${plugin.id}-${services[serviceId].plugins.length}`}
             timeout={300}
             classNames='fade-vertical'
           >
@@ -77,14 +56,21 @@ const TemplateAndPluginHandler = React.forwardRef(({ serviceId, onClickTemplate,
             />
           </CSSTransition>
         )}
-      </>
-    )
-  }
-
-  return (
-    <div className={styles.container} ref={ref}>
-      <TransitionGroup component={null}>
-        {showTemplates && renderPlugins()}
+        {services[serviceId].plugins.length > 3 && (
+          <CSSTransition
+            key={`changePlugin-${services[serviceId].plugins.length}`}
+            timeout={300}
+            classNames='fade-vertical'
+          >
+            <PluginButton
+              sortable={false}
+              totalPlugins={services[serviceId].plugins.length}
+              viewAll
+              height={heightPlugin}
+              onClickViewAll={() => onClickViewAll()}
+            />
+          </CSSTransition>
+        )}
         <CSSTransition
           key={`changeTemplate${services[serviceId].plugins.length}`}
           timeout={300}

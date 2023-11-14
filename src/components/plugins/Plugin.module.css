@@ -4,8 +4,11 @@
 .ellipsis {
   @apply truncate w-full;
 }
+.unSelected {
+  @apply border-white/30 
+}
 .selected {
-  @apply bg-white/20
+  @apply bg-white/20 border-white
 }
 .overflowHidden {
   @apply overflow-hidden ;

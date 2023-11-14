@@ -9,9 +9,8 @@ import { Button } from '@platformatic/ui-components'
 
 function Plugin ({ id, name, onClick, isSelected }) {
   let className = `${commonStyles.smallFlexBlock} ${styles.container} `
-  if (isSelected) {
-    className += styles.selected
-  }
+  className += isSelected ? styles.selected : styles.unSelected
+
   return (
     <div className={className} onClick={() => onClick()}>
       <div className={`${commonStyles.mediumFlexBlock} ${commonStyles.fullWidth} ${styles.overflowHidden}`}>

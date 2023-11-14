@@ -57,9 +57,9 @@ function ViewAll ({ onClickTemplate, serviceId }) {
 
 ViewAll.propTypes = {
   /**
-   * onClick
+   * onClickTemplate
     */
-  onClick: PropTypes.func,
+  onClickTemplate: PropTypes.func,
   /**
    * serviceId
     */
@@ -67,7 +67,7 @@ ViewAll.propTypes = {
 }
 
 ViewAll.defaultProps = {
-  onClick: () => {}
+  onClickTemplate: () => {}
 }
 
 export default ViewAll

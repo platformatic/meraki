@@ -131,7 +131,10 @@ const ComposeApplication = React.forwardRef(({ onNext }, ref) => {
           title='Back to Application view'
           titleClassName={`${typographyStyles.desktopBody} ${typographyStyles.textWhite} ${typographyStyles.opacity70}`}
         >
-          <SelectPlugin onClick={() => handleCloseModalPlugin()} serviceId={serviceSelected} />
+          <SelectPlugin
+            onClick={() => handleCloseModalPlugin()}
+            serviceId={serviceSelected}
+          />
         </ModalDirectional>
       )}
       {showModalViewAll && (

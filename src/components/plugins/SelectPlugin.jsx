@@ -1,6 +1,6 @@
 'use strict'
 import PropTypes from 'prop-types'
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import { RICH_BLACK, WHITE } from '@platformatic/ui-components/src/components/constants'
 import typographyStyles from '~/styles/Typography.module.css'
 import commonStyles from '~/styles/CommonStyles.module.css'
@@ -12,7 +12,7 @@ import Plugin from './Plugin'
 
 function SelectPlugin ({ onClick, serviceId }) {
   const [pages] = useState([1])
-  const [plugins] = useState([{
+  const [pluginsAvailable] = useState([{
     id: '0', name: 'Plugin number 1', platformaticService: true
   }, {
     id: '1', name: 'Plugin number 2: long really longreally long name'
@@ -27,7 +27,13 @@ function SelectPlugin ({ onClick, serviceId }) {
   }])
   const [pluginsSelected, setPluginsSelected] = useState([])
   const globalState = useStackablesStore()
-  const { setPlugins } = globalState
+  const { services, setPlugins } = globalState
+
+  useEffect(() => {
+    if (services[serviceId].plugins.length > 0) {
+      setPluginsSelected([...services[serviceId].plugins])
+    }
+  }, [services[serviceId].plugins])
 
   function handleUsePluginsSelected () {
     setPlugins(serviceId, pluginsSelected)
@@ -58,7 +64,7 @@ function SelectPlugin ({ onClick, serviceId }) {
         <SearchBarV2 placeholder='Search for a Plugin' />
         <div className={styles.gridContainer}>
           <div className={styles.gridContent}>
-            {plugins.map(plugin =>
+            {pluginsAvailable.map(plugin =>
               <Plugin
                 key={plugin.id}
                 isSelected={pluginsSelected.find(pluginSelected => pluginSelected.id === plugin.id) !== undefined}

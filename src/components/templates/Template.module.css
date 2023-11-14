@@ -1,11 +1,14 @@
 .container {
-  @apply border border-solid border-white rounded-md p-4 cursor-pointer;
+  @apply border border-solid rounded-md p-4 cursor-pointer;
 }
 .ellipsis {
   @apply truncate w-full;
 }
+.unSelected {
+  @apply border-white/30 
+}
 .selected {
-  @apply bg-white/20
+  @apply bg-white/20 border-white
 }
 .overflowHidden {
   @apply overflow-hidden ;
