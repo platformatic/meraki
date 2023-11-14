@@ -53,6 +53,7 @@ const TemplateAndPluginHandler = React.forwardRef(({ serviceId, onClickTemplate,
             totalPlugins={services[serviceId].plugins.length}
             viewAll
             height={heightPlugin}
+            width={ref.current.clientWidth}
             onClickViewAll={() => onClickViewAll()}
           />
         </CSSTransition>
