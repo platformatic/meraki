@@ -31,6 +31,9 @@
 .justifyCenter{
   @apply justify-center;
 }
+.justifyEnd{
+  @apply justify-end;
+}
 .itemsStart {
   @apply items-start;
 }
@@ -40,9 +43,15 @@
 .itemsStretch {
   @apply items-stretch;
 }
+.itemsEnd {
+  @apply items-end;
+}
 .buttonPadding {
   @apply px-4 py-2 !important
 }
-.buttonNoPadding {
+.noPadding {
   @apply p-0 !important
+}
+.noVerticalPadding {
+  @apply py-0 !important
 }

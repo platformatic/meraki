@@ -1,0 +1,10 @@
+
+.container::after,
+.container::before {
+  display: block;
+  content: '';
+  height: 1px;
+  width: 100%;
+  overflow: hidden;
+  visibility: hidden;
+}

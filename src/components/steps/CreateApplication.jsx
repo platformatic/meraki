@@ -16,7 +16,7 @@ const CreateApplication = React.forwardRef(({ onNext }, ref) => {
   const [validForm, setValidForm] = useState(false)
   const [inputOnServiceField, setInputOnServiceField] = useState(false)
   const globalState = useStackablesStore()
-  const { addFormData } = globalState
+  const { addFormData, addService } = globalState
 
   function handleSubmit (event) {
     event.preventDefault()
@@ -26,6 +26,7 @@ const CreateApplication = React.forwardRef(({ onNext }, ref) => {
         service: form.service
       }
     })
+    addService()
     onNext()
   }
 

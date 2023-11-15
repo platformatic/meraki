@@ -6,13 +6,7 @@ const useStackablesStore = create((set, get) => ({
   addFormData: (newValue) => set((state) => {
     return {
       ...state,
-      formData: { ...get().formData, ...newValue },
-      services: [{
-        id: 0,
-        name: `${newValue.createApplication.service}-1`,
-        template: {},
-        plugins: []
-      }]
+      formData: { ...get().formData, ...newValue }
     }
   }),
   addService: () => set((state) => {
@@ -26,6 +20,22 @@ const useStackablesStore = create((set, get) => ({
         template: {},
         plugins: []
       }]
+    }
+  }),
+  renameService: (serviceId, newName) => set((state) => {
+    return {
+      ...state,
+      services: [...get().services.map(service => {
+        if (service.id === serviceId) {
+          const { name, ...rest } = service
+          return {
+            name: newName,
+            ...rest
+          }
+        } else {
+          return service
+        }
+      })]
     }
   }),
   removeService: (serviceId) => set((state) => {
@@ -80,7 +90,6 @@ const useStackablesStore = create((set, get) => ({
       })]
     }
   })
-
 }))
 
 export default useStackablesStore

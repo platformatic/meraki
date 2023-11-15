@@ -27,7 +27,7 @@ function Template ({ id, platformaticService, name, onClick, isSelected }) {
         label='View Details'
         platformaticIconAfter={{ iconName: 'ArrowLongRightIcon', color: WHITE }}
         bordered={false}
-        classes={commonStyles.buttonNoPadding}
+        classes={commonStyles.noPadding}
       />
     </div>
   )
