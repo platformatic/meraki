@@ -1,0 +1,3 @@
+.gridClassName {
+  @apply grid grid-cols-2 gap-2 w-full min-w-[824px] max-w-[824px] h-full overflow-scroll;
+}

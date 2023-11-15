@@ -1,5 +1,5 @@
 'use strict'
-import React, { useState } from 'react'
+import React, { useEffect, useRef, useState } from 'react'
 import PropTypes from 'prop-types'
 import styles from './ComposeApplication.module.css'
 import commonStyles from '~/styles/CommonStyles.module.css'
@@ -7,20 +7,21 @@ import typographyStyles from '~/styles/Typography.module.css'
 import { WHITE, RICH_BLACK, MODAL_POPUP_V2 } from '@platformatic/ui-components/src/components/constants'
 import { Button, Modal, ModalDirectional } from '@platformatic/ui-components'
 import useStackablesStore from '~/useStackablesStore'
-import PluginHandler from '~/components/plugins/PluginHandler'
+/* import PluginHandler from '~/components/plugins/PluginHandler'
 import TemplateHandler from '~/components/templates/TemplateHandler'
-import AddService from '~/components/shaped-components/AddService'
+ */import AddService from '~/components/shaped-components/AddService'
 import SelectTemplate from '~/components/templates/SelectTemplate'
 import EditableTitle from '~/components/ui/EditableTitle'
 import SelectPlugin from '~/components/plugins/SelectPlugin'
 import Services from '~/components/services/Services'
-import { CSSTransition, TransitionGroup } from 'react-transition-group'
 import PlatformaticRuntimeButton from '~/components/shaped-components/PlatformaticRuntimeButton'
 import ViewAll from '~/components/plugins/ViewAll'
-import NameService from '~/components/services/NameService'
 import EditService from '~/components/services/EditService'
 import RemoveService from '~/components/services/RemoveService'
 import '~/components/component.animation.css'
+import NormalView from './compose-application/NormalView'
+// import { CSSTransition, SwitchTransition } from 'react-transition-group'
+import GridView from './compose-application/GridView'
 
 const ComposeApplication = React.forwardRef(({ onNext }, ref) => {
   const globalState = useStackablesStore()
@@ -31,8 +32,42 @@ const ComposeApplication = React.forwardRef(({ onNext }, ref) => {
   const [serviceSelected, setServiceSelected] = useState(null)
   const [showModalEditService, setShowModalEditService] = useState(false)
   const [showModalRemoveService, setShowModalRemoveService] = useState(false)
+  const normalViewRef = useRef(null)
+  const gridViewRef = useRef(null)
+  const [view, setView] = useState('normal')
+  const [currentComponent, setCurrentComponent] = useState(
+    <NormalView
+      onClickEditNameService={(service) => handleOpenModalEditService(service)}
+      onClickRemoveService={(service) => handleOpenModalRemoveService(service)}
+      onClickPluginHandler={(service) => handleOpenModalPlugin(service)}
+      onClickTemplate={(service) => handleOpenModalTemplate(service)}
+      onClickViewAll={(service) => { handleOpenModalViewAll(service) }}
+      ref={normalViewRef}
+    />
+  )
 
-  function onClick () {
+  useEffect(() => {
+    setView(services.length > 3 ? 'grid' : 'normal')
+    setCurrentComponent(
+      services.length > 3
+        ? <GridView
+            ref={gridViewRef}
+            onClickEditNameService={(service) => handleOpenModalEditService(service)}
+            onClickRemoveService={(service) => handleOpenModalRemoveService(service)}
+            onClickViewAll={(service) => { handleOpenModalViewAll(service) }}
+          />
+        : <NormalView
+            onClickEditNameService={(service) => handleOpenModalEditService(service)}
+            onClickRemoveService={(service) => handleOpenModalRemoveService(service)}
+            onClickPluginHandler={(service) => handleOpenModalPlugin(service)}
+            onClickTemplate={(service) => handleOpenModalTemplate(service)}
+            onClickViewAll={(service) => { handleOpenModalViewAll(service) }}
+            ref={normalViewRef}
+          />
+    )
+  }, [services.length])
+
+  function onClickConfigureServices () {
     onNext()
   }
 
@@ -120,36 +155,25 @@ const ComposeApplication = React.forwardRef(({ onNext }, ref) => {
           <div className={`${commonStyles.flexBlockNoGap}`}>
             <div className={`${commonStyles.largeFlexBlock}`}>
               <div className={`${commonStyles.mediumFlexRow} ${commonStyles.itemsStretch}`}>
-                {services.map(service => (
-                  <div className={commonStyles.mediumFlexBlock} key={service.id}>
-                    <NameService
-                      name={service.name}
-                      onClickEdit={() => handleOpenModalEditService(service)}
-                      onClickRemove={() => handleOpenModalRemoveService(service)}
-                      removeDisabled={services.length < 2}
-                    />
-                    <TransitionGroup component={null}>
-                      <CSSTransition
-                        key={`handling-service-${service.id}`}
-                        timeout={300}
-                        classNames='template'
-                      >
-                        <div className={`${commonStyles.smallFlexBlock} ${commonStyles.fullWidth} ${styles.containerPuzzle}`} key={service.id}>
-                          <PluginHandler onClick={() => { handleOpenModalPlugin(service) }} serviceId={service.id} />
-                          <TemplateHandler
-                            onClickTemplate={() => { handleOpenModalTemplate(service) }}
-                            onClickViewAll={() => { handleOpenModalViewAll(service) }}
-                            serviceId={service.id}
-                          />
-                        </div>
-                      </CSSTransition>
-                    </TransitionGroup>
-                  </div>
-                ))}
+                {/* <SwitchTransition>
+                  <CSSTransition
+                    key={currentComponent.name}
+                    nodeRef={currentComponent.ref}
+                    addEndListener={(done) => {
+                      ref.current.addEventListener('transitionend', done, false)
+                    }}
+                    classNames='fade-vertical'
+                  >
+                 */}    {currentComponent}
+                {/*   </CSSTransition>
+                </SwitchTransition>
+ */}
                 <div className={`${commonStyles.mediumFlexBlock} ${commonStyles.fullWidth} ${styles.containerPuzzle}`}>
-                  <div className={commonStyles.mediumFlexRow}>
-                    <h5 className={`${typographyStyles.desktopHeadline5} ${typographyStyles.textWhite}`}>&nbsp;</h5>
-                  </div>
+                  {view === 'normal' && (
+                    <div className={commonStyles.mediumFlexRow}>
+                      <h5 className={`${typographyStyles.desktopHeadline5} ${typographyStyles.textWhite}`}>&nbsp;</h5>
+                    </div>
+                  )}
                   <AddService onClick={() => addService()} enabled={services.find(service => Object.keys(service.template).length === 0) === undefined} />
                 </div>
               </div>
@@ -162,7 +186,7 @@ const ComposeApplication = React.forwardRef(({ onNext }, ref) => {
       <div className={`${styles.buttonContainer} ${commonStyles.fullWidth}`}>
         <Button
           label='Next - Configure Services'
-          onClick={() => onClick()}
+          onClick={() => onClickConfigureServices()}
           color={RICH_BLACK}
           bordered={false}
           backgroundColor={WHITE}

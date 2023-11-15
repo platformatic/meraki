@@ -1,5 +1,5 @@
 .container {
-  @apply flex flex-col justify-center h-full w-full border-0 relative;
+  @apply flex flex-col justify-center h-full w-full border-0 relative min-h-[440px] max-h-[440px];
 }
 .containerEnabled {
   @apply cursor-pointer; 

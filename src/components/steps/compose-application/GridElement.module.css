@@ -1,0 +1,9 @@
+.container {
+  @apply border border-solid border-white/30 rounded-md p-4 w-auto h-fit;
+}
+.box {
+  @apply px-4 py-2 w-fit
+}
+.boxGrow {
+  @apply px-4 py-2 w-fit grow
+}

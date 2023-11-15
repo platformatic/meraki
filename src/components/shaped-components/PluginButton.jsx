@@ -31,15 +31,16 @@ function PluginButton ({
     if (ref.current) {
       setWidth(ref.current.clientWidth)
     }
-  }, [
-    ref.current
-  ])
+  }, [ref.current])
+
+  console.log()
 
   return (
     <div className={styles.container} style={style} ref={ref}>
-      <svg width={width} height={height} viewBox={`0 0 ${width} ${height}`} preserveAspectRatio='none' fill='none' xmlns='http://www.w3.org/2000/svg' className={styles.svg}>
-        {index === 0
-          ? <BrickPath width={width} height={height} />
+      {width > 0 && (
+        <svg width={width} height={height} viewBox={`0 0 ${width} ${height}`} preserveAspectRatio='none' fill='none' xmlns='http://www.w3.org/2000/svg' className={styles.svg}>
+          {index === 0
+            ? <BrickPath width={width} height={height} />
           /* <path
             d='M261.5 12.6544
             V101.114
@@ -88,13 +89,14 @@ function PluginButton ({
             C259.933 9.15438 261.5 10.7214 261.5 12.6544Z'
             fill='none' fillOpacity={0.15} stroke='none'
           /> */
-          : (
-            <>
-              <rect x={0.5} y={0.61377} width={width - 1} height={height - 2} rx={3.5} fill='none' className={styles.rectFilled} />
-              <rect x={0.5} y={0.61377} width={width - 1} height={height - 2} rx={3.5} stroke='none' className={styles.rectBordered} />
-            </>
-            )}
-      </svg>
+            : (
+              <>
+                <rect x={0.5} y={0.61377} width={width - 1} height={height - 2} rx={3.5} fill='none' className={styles.rectFilled} />
+                <rect x={0.5} y={0.61377} width={width - 1} height={height - 2} rx={3.5} stroke='none' className={styles.rectBordered} />
+              </>
+              )}
+        </svg>
+      )}
 
       {viewAll
         ? (

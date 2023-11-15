@@ -1,0 +1,3 @@
+.containerPuzzle {
+  @apply min-w-[264px] max-w-[264px] w-[264px];
+}
