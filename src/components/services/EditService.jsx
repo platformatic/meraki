@@ -37,7 +37,6 @@ function EditService ({ name, onClickCancel, onClickConfirm }) {
   }
 
   function handleSubmit (event) {
-    console.log('handleSubmit', form.service)
     event.preventDefault()
     onClickConfirm(form.service)
   }
