@@ -10,6 +10,9 @@
 .desktopHeadline2 {
   @apply font-inter font-semibold text-[2.5rem] leading-[3.375rem];
 }
+.desktopHeadline4 {
+  @apply font-inter font-medium text-[1.5rem] leading-[2rem];
+}
 .desktopHeadline5 {
   @apply font-inter font-medium text-[1.25rem] leading-[1.688rem];
 }

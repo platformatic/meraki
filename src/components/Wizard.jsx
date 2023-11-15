@@ -1,11 +1,17 @@
 'use strict'
 import { useRef, useState, useEffect } from 'react'
 import PropTypes from 'prop-types'
-import { CSSTransition, SwitchTransition } from 'react-transition-group'
+import {
+  STEP_ADD_TEMPLATE_AND_PLUGINS,
+  STEP_CONFIGURE_SERVICES,
+  STEP_CREATE_APPLICATION,
+  STEP_CONFIGURE_APPLICATION
+} from '~/ui-constants'
 import CreateApplication from '~/components/steps/CreateApplication'
-import ComposeApplication from '~/components/steps/ComposeApplication'
-import ConfigureServices from '~/components/steps/ConfigureServices'
-import { STEP_ADD_TEMPLATE_AND_PLUGINS, STEP_CONFIGURE_SERVICES, STEP_CREATE_APPLICATION } from '~/ui-constants'
+import ComposeApplication from '~/components/steps/compose-application/ComposeApplication'
+import ConfigureServices from '~/components/steps/configure-services/ConfigureServices'
+import ConfigureApplication from '~/components/steps/ConfigureApplication'
+import { CSSTransition, SwitchTransition } from 'react-transition-group'
 import '~/components/component.animation.css'
 
 function Wizard () {
@@ -24,6 +30,11 @@ function Wizard () {
     <ConfigureServices
       ref={useRef(null)}
       key={STEP_CONFIGURE_SERVICES}
+      onNext={() => nextStep(STEP_CONFIGURE_APPLICATION)}
+    />,
+    <ConfigureApplication
+      ref={useRef(null)}
+      key={STEP_CONFIGURE_APPLICATION}
       onNext={() => nextStep(STEP_CREATE_APPLICATION)}
     />
   ])

@@ -19,9 +19,9 @@ import ViewAll from '~/components/plugins/ViewAll'
 import EditService from '~/components/services/EditService'
 import RemoveService from '~/components/services/RemoveService'
 import '~/components/component.animation.css'
-import NormalView from './compose-application/NormalView'
+import NormalView from './NormalView'
 // import { CSSTransition, SwitchTransition } from 'react-transition-group'
-import GridView from './compose-application/GridView'
+import GridView from './GridView'
 
 const ComposeApplication = React.forwardRef(({ onNext }, ref) => {
   const globalState = useStackablesStore()
@@ -190,6 +190,7 @@ const ComposeApplication = React.forwardRef(({ onNext }, ref) => {
           color={RICH_BLACK}
           bordered={false}
           backgroundColor={WHITE}
+          classes={commonStyles.buttonPadding}
         />
       </div>
       {showModalTemplate && (
