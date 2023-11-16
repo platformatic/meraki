@@ -95,7 +95,12 @@ const CreateApplication = React.forwardRef(({ onNext }, ref) => {
       <div className={styles.imageContainer} />
       <div className={`${commonStyles.largeFlexBlock} ${commonStyles.halfWidth}`}>
         <div className={commonStyles.mediumFlexBlock}>
-          <Title title='Create Application' iconName='AppIcon' />
+          <Title
+            title='Create Application'
+            iconName='AppIcon'
+            dataAttrName='cy'
+            dataAttrValue='step-title'
+          />
           <p className={`${typographyStyles.desktopBodyLarge} ${typographyStyles.textWhite} ${typographyStyles.opacity70}`}>Start by entering the name of your Application and the name of your service.</p>
         </div>
         <div className={`${commonStyles.largeFlexBlock} ${commonStyles.fullWidth}`}>
@@ -126,12 +131,12 @@ const CreateApplication = React.forwardRef(({ onNext }, ref) => {
       <div className={`${styles.buttonContainer} ${commonStyles.fullWidth}`}>
         <Button
           disabled={!validForm}
-          classes={commonStyles.buttonPadding}
           label='Next'
           onClick={() => handleSubmit}
           color={RICH_BLACK}
           bordered={false}
           backgroundColor={WHITE}
+          classes={`${commonStyles.buttonPadding} cy-action-next`}
         />
       </div>
     </form>

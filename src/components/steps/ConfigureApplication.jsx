@@ -44,7 +44,7 @@ const ConfigureApplication = React.forwardRef(({ onNext }, ref) => {
     const formErrors = { ...validations.formErrors }
     switch (fieldName) {
       case 'port':
-        portValid = fieldValue.length > 0 && !isNaN(fieldValue) && Number(fieldValue) >= 0 && Number(fieldValue) <= 65536
+        portValid = fieldValue.length > 0 && !isNaN(fieldValue) && Number(fieldValue) >= 0 && Number(fieldValue) <= 65536 && /^\S+$/g.test(fieldValue)
         formErrors.port = fieldValue.length > 0 ? (portValid ? '' : 'The field is not valid, make sure you are putting a value between 0 and 65536') : ''
         break
       default:
@@ -60,7 +60,7 @@ const ConfigureApplication = React.forwardRef(({ onNext }, ref) => {
   }
 
   function validateForm (validations, callback = () => {}) {
-    setValidForm(validations.portValid && validations.logLevelValid)
+    setValidForm(validations.portValid)
     return callback
   }
 
@@ -72,11 +72,19 @@ const ConfigureApplication = React.forwardRef(({ onNext }, ref) => {
             title={formData.createApplication.application}
             iconName='AppIcon'
             onClickSubmit={(name) => handleEditApplicationName(name)}
+            dataAttrName='cy'
+            dataAttrValue='step-title'
           />
           <p className={`${typographyStyles.desktopBodyLarge} ${typographyStyles.textWhite} ${typographyStyles.opacity70}`}>Select a template and plugins for your service from our Stackables Marketplace. Once you have chosen a template you can add another Service.</p>
         </div>
-        <div className={`${commonStyles.mediumFlexBlock} ${commonStyles.fullWidth}`}>
-          <Forms.Field title='EntryPoint' helper='Select a service as entrypoint of your Application' titleColor={WHITE} required>
+        <div className={`${styles.customFlexBlock} ${commonStyles.fullWidth}`}>
+          <Forms.Field
+            title='EntryPoint'
+            helper='Select a service as entrypoint of your Application'
+            required
+            titleClassName={`${typographyStyles.desktopBodySemibold} ${typographyStyles.textWhite} `}
+            helperClassName={`${typographyStyles.desktopBodySmall} ${typographyStyles.textWhite} ${typographyStyles.opacity70}`}
+          >
             <div className={commonStyles.smallFlexRow}>
               {services.map(service => (
                 <Button
@@ -87,12 +95,17 @@ const ConfigureApplication = React.forwardRef(({ onNext }, ref) => {
                   color={WHITE}
                   backgroundColor={TRANSPARENT}
                   classes={commonStyles.buttonPadding}
+                  selected={service.name === form.entryPoint}
                 />
               ))}
             </div>
           </Forms.Field>
 
-          <Forms.Field title='Port Number' titleColor={WHITE} required>
+          <Forms.Field
+            title='Port Number'
+            titleClassName={`${typographyStyles.desktopBodySemibold} ${typographyStyles.textWhite} `}
+            required
+          >
             <Forms.Input
               placeholder='Enter port number'
               name='port'
@@ -106,7 +119,13 @@ const ConfigureApplication = React.forwardRef(({ onNext }, ref) => {
             />
           </Forms.Field>
 
-          <Forms.Field title='Log Level' helper='Select a service as entrypoint of your Application' titleColor={WHITE} required>
+          <Forms.Field
+            title='Log Level'
+            helper='Select a service as entrypoint of your Application'
+            titleClassName={`${typographyStyles.desktopBodySemibold} ${typographyStyles.textWhite} `}
+            helperClassName={`${typographyStyles.desktopBodySmall} ${typographyStyles.textWhite} ${typographyStyles.opacity70}`}
+            required
+          >
             <div className={commonStyles.smallFlexRow}>
               {logLevels.map(logLevel => (
                 <Button
@@ -123,23 +142,36 @@ const ConfigureApplication = React.forwardRef(({ onNext }, ref) => {
             </div>
           </Forms.Field>
 
-          <Forms.Field title='Create Git Repository' helper='Create a Git Repository for you Application' titleColor={WHITE}>
+          <Forms.Field
+            title='Create Git Repository'
+            helper='Create a Git Repository for you Application'
+            titleClassName={`${typographyStyles.desktopBodySemibold} ${typographyStyles.textWhite} `}
+            helperClassName={`${typographyStyles.desktopBodySmall} ${typographyStyles.textWhite} ${typographyStyles.opacity70}`}
+          >
             <Forms.ToggleSwitch
               label='Toggle on will create a GitHub repository'
+              labelClassName={`${typographyStyles.desktopBodySmall} ${typographyStyles.textWhite} ${typographyStyles.opacity70}`}
               name='createGitHubRepository'
               onChange={handleChange}
               checked={form.createGitHubRepository}
             />
           </Forms.Field>
 
-          <Forms.Field title='Install GitHub Actions' helper='Install GitHub Actions to your Application' titleColor={WHITE}>
+          <Forms.Field
+            title='Install GitHub Actions'
+            helper='Install GitHub Actions to your Application'
+            titleClassName={`${typographyStyles.desktopBodySemibold} ${typographyStyles.textWhite} `}
+            helperClassName={`${typographyStyles.desktopBodySmall} ${typographyStyles.textWhite} ${typographyStyles.opacity70}`}
+          >
             <Forms.ToggleSwitch
               label='Toggle on will install the the GitHub actions'
+              labelClassName={`${typographyStyles.desktopBodySmall} ${typographyStyles.textWhite} ${typographyStyles.opacity70}`}
               name='installGitHubActions'
               onChange={handleChange}
               checked={form.installGitHubActions}
             />
           </Forms.Field>
+
         </div>
       </div>
       <div className={`${styles.buttonContainer} ${commonStyles.fullWidth}`}>
@@ -150,6 +182,7 @@ const ConfigureApplication = React.forwardRef(({ onNext }, ref) => {
           color={RICH_BLACK}
           bordered={false}
           backgroundColor={WHITE}
+          classes={`${commonStyles.buttonPadding} cy-action-next`}
         />
       </div>
     </div>

@@ -57,7 +57,12 @@ function SelectPlugin ({ onClick, serviceId }) {
   return (
     <div className={`${commonStyles.largeFlexBlock} ${commonStyles.fullWidth}`}>
       <div className={commonStyles.mediumFlexBlock}>
-        <Title title='Select a Plugin' iconName='StackablesPluginIcon' />
+        <Title
+          title='Select a Plugin'
+          iconName='StackablesPluginIcon'
+          dataAttrName='cy'
+          dataAttrValue='modal-title'
+        />
         <p className={`${typographyStyles.desktopBodyLarge} ${typographyStyles.textWhite} ${typographyStyles.opacity70}`}>Select one or more Plugins from our Stackables Marketplace to be added to your new serviceAdding a plugin to your service is optional.</p>
       </div>
       <div className={`${commonStyles.mediumFlexBlock} ${commonStyles.fullWidth}`}>

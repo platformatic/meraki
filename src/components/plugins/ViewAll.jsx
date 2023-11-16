@@ -16,7 +16,12 @@ function ViewAll ({ onClickTemplate, serviceId }) {
   return (
     <div className={`${commonStyles.largeFlexBlock} ${commonStyles.fullWidth}`}>
       <div className={commonStyles.mediumFlexBlock}>
-        <Title title={services[serviceId].name} iconName='StackablesPluginIcon' />
+        <Title
+          title={services[serviceId].name}
+          iconName='StackablesPluginIcon'
+          dataAttrName='cy'
+          dataAttrValue='modal-title'
+        />
         <p className={`${typographyStyles.desktopBodyLarge} ${typographyStyles.textWhite} ${typographyStyles.opacity70}`}>Plugins selected for this service: ({services[serviceId].plugins.length})</p>
       </div>
 

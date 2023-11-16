@@ -92,4 +92,8 @@ const useStackablesStore = create((set, get) => ({
   })
 }))
 
+if (window.Cypress) {
+  window.__store___ = useStackablesStore
+}
+
 export default useStackablesStore

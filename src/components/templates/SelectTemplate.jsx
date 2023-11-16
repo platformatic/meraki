@@ -37,7 +37,12 @@ function SelectTemplate ({ onClick, serviceId }) {
   return (
     <div className={`${commonStyles.largeFlexBlock} ${commonStyles.fullWidth}`}>
       <div className={commonStyles.mediumFlexBlock}>
-        <Title title='Select a Template' iconName='StackablesTemplateIcon' />
+        <Title
+          title='Select a Template'
+          iconName='StackablesTemplateIcon'
+          dataAttrName='cy'
+          dataAttrValue='modal-title'
+        />
         <p className={`${typographyStyles.desktopBodyLarge} ${typographyStyles.textWhite} ${typographyStyles.opacity70}`}>Select a template from our Stackables Marketplace to be uses as a base for your new Service.If you don’t want to select any Template your new service will be built on top of Platformatic Service.</p>
       </div>
       <div className={`${commonStyles.mediumFlexBlock} ${commonStyles.fullWidth}`}>
@@ -59,8 +64,8 @@ function SelectTemplate ({ onClick, serviceId }) {
         </div>
       </div>
       <Button
-        classes={commonStyles.buttonPadding}
-        label='Use Platformatic Service'
+        classes={`${commonStyles.buttonPadding} cy-action-use-template`}
+        label={`Use ${templateSelected.name}`}
         backgroundColor={WHITE}
         color={RICH_BLACK}
         fullWidth

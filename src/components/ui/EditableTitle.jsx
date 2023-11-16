@@ -8,7 +8,7 @@ import { Button, Icons, PlatformaticIcon } from '@platformatic/ui-components'
 import Forms from '@platformatic/ui-components/src/components/forms'
 import styles from './EditableTitle.module.css'
 
-function EditableTitle ({ title, iconName, onClickSubmit }) {
+function EditableTitle ({ title, iconName, onClickSubmit, dataAttrName, dataAttrValue }) {
   const [editable, setEditable] = useState(false)
   const icon = React.createElement(Icons[`${iconName}`], {
     color: WHITE,
@@ -19,6 +19,11 @@ function EditableTitle ({ title, iconName, onClickSubmit }) {
   const [validForm, setValidForm] = useState(true)
   const h2ClassName = `${typographyStyles.desktopHeadline2} ${typographyStyles.textWhite}`
   const [containerClassName, setContainerClassName] = useState(`${styles.container}`)
+
+  const dataProps = {}
+  if (dataAttrName && dataAttrValue) {
+    dataProps[`data-${dataAttrName}`] = dataAttrValue
+  }
 
   function handleChange (event) {
     const value = event.target.value
@@ -100,7 +105,7 @@ function EditableTitle ({ title, iconName, onClickSubmit }) {
             )
           : (
             <>
-              <h2 className={h2ClassName}>{title}</h2>
+              <h2 className={h2ClassName} {...dataProps}>{title}</h2>
               <PlatformaticIcon iconName='EditIcon' color={WHITE} size={MEDIUM} onClick={() => handleEditable(true)} />
             </>
             )}
@@ -121,11 +126,21 @@ EditableTitle.propTypes = {
   /**
      * onClickSubmit
      */
-  onClickSubmit: PropTypes.func
+  onClickSubmit: PropTypes.func,
+  /**
+   * dataAttrName
+  */
+  dataAttrName: PropTypes.string,
+  /**
+   * dataAttrValue
+  */
+  dataAttrValue: PropTypes.string
 }
 
 EditableTitle.defaultProps = {
-  onClickSubmit: () => {}
+  onClickSubmit: () => {},
+  dataAttrName: '',
+  dataAttrValue: ''
 }
 
 export default EditableTitle

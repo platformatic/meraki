@@ -38,7 +38,7 @@ function PluginHandler ({ disabled, onClick, serviceId }) {
             color={WHITE}
             backgroundColor={TRANSPARENT}
             borderColorOpacity={disabled ? 20 : 100}
-            classes={styles.pluginDisabled}
+            classes={`${styles.pluginDisabled} cy-add-plugin-disabled`}
           >
             <Icons.CircleAddIcon color={WHITE} size={SMALL} />
             <span className={`${typographyStyles.desktopBodyLarge} ${typographyStyles.textWhite} ${typographyStyles.opacity70}`}>Add Plugin</span>

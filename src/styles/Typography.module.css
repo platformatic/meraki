@@ -28,4 +28,8 @@
 .desktopBodyLargeSemibold {
   @apply font-inter font-semibold text-[1.125rem] leading-[1.688rem];
 }
+.desktopBodySemibold {
+  @apply font-inter font-semibold text-[1rem] leading-[1.5rem];
+}
+
 

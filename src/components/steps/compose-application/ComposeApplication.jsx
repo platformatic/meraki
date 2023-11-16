@@ -148,6 +148,8 @@ const ComposeApplication = React.forwardRef(({ onNext }, ref) => {
             title={formData.createApplication.application}
             iconName='AppIcon'
             onClickSubmit={(name) => handleEditApplicationName(name)}
+            dataAttrName='cy'
+            dataAttrValue='step-title'
           />
           <p className={`${typographyStyles.desktopBodyLarge} ${typographyStyles.textWhite} ${typographyStyles.opacity70}`}>Select a template and plugins for your service from our Stackables Marketplace. Once you have chosen a template you can add another Service.</p>
         </div>
@@ -185,12 +187,13 @@ const ComposeApplication = React.forwardRef(({ onNext }, ref) => {
       </div>
       <div className={`${styles.buttonContainer} ${commonStyles.fullWidth}`}>
         <Button
+          disabled={!(services[0]?.template?.id)}
           label='Next - Configure Services'
           onClick={() => onClickConfigureServices()}
           color={RICH_BLACK}
           bordered={false}
           backgroundColor={WHITE}
-          classes={commonStyles.buttonPadding}
+          classes={`${commonStyles.buttonPadding} cy-action-next`}
         />
       </div>
       {showModalTemplate && (
@@ -198,7 +201,7 @@ const ComposeApplication = React.forwardRef(({ onNext }, ref) => {
           key='modalTemplate'
           setIsOpen={() => handleCloseModalTemplate()}
           title='Back to Application view'
-          titleClassName={`${typographyStyles.desktopBody} ${typographyStyles.textWhite} ${typographyStyles.opacity70}`}
+          titleClassName={`${typographyStyles.desktopBody} ${typographyStyles.textWhite} ${typographyStyles.opacity70} cy-modal-template`}
         >
           <SelectTemplate onClick={() => handleCloseModalTemplate()} serviceId={serviceSelected.id} />
         </ModalDirectional>

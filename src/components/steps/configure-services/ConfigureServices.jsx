@@ -39,6 +39,8 @@ const ConfigureServices = React.forwardRef(({ onNext }, ref) => {
             title={formData.createApplication.application}
             iconName='AppIcon'
             onClickSubmit={(name) => handleEditApplicationName(name)}
+            dataAttrName='cy'
+            dataAttrValue='step-title'
           />
           <p className={`${typographyStyles.desktopBodyLarge} ${typographyStyles.textWhite} ${typographyStyles.opacity70}`}>Select a template and plugins for your service from our Stackables Marketplace. Once you have chosen a template you can add another Service.</p>
         </div>
@@ -53,6 +55,7 @@ const ConfigureServices = React.forwardRef(({ onNext }, ref) => {
           color={RICH_BLACK}
           bordered={false}
           backgroundColor={WHITE}
+          classes={`${commonStyles.buttonPadding} cy-action-next`}
         />
       </div>
     </div>

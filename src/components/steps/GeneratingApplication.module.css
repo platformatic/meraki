@@ -1,0 +1,16 @@
+.clockWiseRotation {
+  animation: rotationClockwise 2s infinite linear;
+}
+
+.apply-opacity-20 {
+  @apply opacity-20;
+}
+
+@keyframes rotationClockwise {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(359deg);
+  }
+}
