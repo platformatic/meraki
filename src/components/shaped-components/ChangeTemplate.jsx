@@ -8,22 +8,36 @@ import styles from './ChangeTemplate.module.css'
 import commonStyles from '~/styles/CommonStyles.module.css'
 import { DEFAULT_HEIGHT_TEMPLATE } from '~/ui-constants'
 
-function ChangeTemplate ({ onClick, name, height }) {
+function ChangeTemplate ({
+  showIcon,
+  onClick,
+  name,
+  height,
+  useRefForWidth,
+  preciseWidth,
+  clickable
+}) {
   const style = {
     maxHeight: height,
     minHeight: height
   }
   const ref = useRef(null)
   const [width, setWidth] = useState(0)
+  let className = `${styles.container}`
+  if (clickable) className += ` ${styles.containerClickable}`
 
   useEffect(() => {
-    if (ref.current) {
-      setWidth(ref.current.clientWidth)
+    if (ref?.current) {
+      if (useRefForWidth) {
+        setWidth(ref.current.clientWidth)
+      } else {
+        setWidth(preciseWidth)
+      }
     }
   }, [ref?.current])
 
   return (
-    <div className={styles.container} style={style} onClick={() => onClick()} ref={ref}>
+    <div className={className} style={style} onClick={() => clickable ? onClick() : {}} ref={ref}>
       <svg width={width} height={height} viewBox={`0 0 ${width} ${height}`} fill='none' xmlns='http://www.w3.org/2000/svg' className={styles.svg}>
         {height === DEFAULT_HEIGHT_TEMPLATE
           ? (
@@ -37,15 +51,19 @@ function ChangeTemplate ({ onClick, name, height }) {
             )}
       </svg>
       <div className={`${commonStyles.smallFlexBlock} ${commonStyles.itemsCenter}`}>
-        {!(height < DEFAULT_HEIGHT_TEMPLATE) && <Icons.StackablesTemplateIcon color={MAIN_GREEN} size={LARGE} />}
+        {showIcon && <Icons.StackablesTemplateIcon color={MAIN_GREEN} size={LARGE} />}
         <p className={`${typographyStyles.desktopBodyLarge} ${typographyStyles.textWhite} ${typographyStyles.textCenter}`}>{name}</p>
-        <p className={`${typographyStyles.desktopBodySmall} ${typographyStyles.textWhite} ${typographyStyles.textCenter} ${typographyStyles.opacity70}`}>Change Template</p>
+        {clickable && <p className={`${typographyStyles.desktopBodySmall} ${typographyStyles.textWhite} ${typographyStyles.textCenter} ${typographyStyles.opacity70}`}>Change Template</p>}
       </div>
     </div>
   )
 }
 
 ChangeTemplate.propTypes = {
+  /**
+   * showIcon
+    */
+  showIcon: PropTypes.bool,
   /**
    * onClick
     */
@@ -57,13 +75,30 @@ ChangeTemplate.propTypes = {
   /**
    * height
     */
-  height: PropTypes.number
+  height: PropTypes.number,
+  /**
+   * useRefForWidth
+    */
+  useRefForWidth: PropTypes.bool,
+  /**
+   * preciseWidth
+    */
+  preciseWidth: PropTypes.number,
+  /**
+   * clickable
+    */
+  clickable: PropTypes.bool
+
 }
 
 ChangeTemplate.defaultProps = {
+  showIcon: true,
   onClick: () => {},
   name: '',
-  height: DEFAULT_HEIGHT_TEMPLATE
+  height: DEFAULT_HEIGHT_TEMPLATE,
+  useRefForWidth: true,
+  preciseWidth: 0,
+  clickable: true
 }
 
 export default ChangeTemplate

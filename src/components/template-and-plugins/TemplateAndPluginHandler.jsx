@@ -77,6 +77,7 @@ const TemplateAndPluginHandler = React.forwardRef(({ serviceId, onClickTemplate,
           classNames='fade-vertical'
         >
           <ChangeTemplate
+            showIcon={services[serviceId].plugins.length < 2}
             name={services[serviceId].template.name}
             onClick={() => onClickTemplate()}
             height={heightTemplate}

@@ -18,7 +18,7 @@ function TemplateHandler ({ onClickTemplate, serviceId, onClickViewAll }) {
   )
 
   useEffect(() => {
-    if (services[serviceId]?.template?.id) {
+    if (Object.keys(services[serviceId].template).length > 0 && Object.hasOwn(services[serviceId].template, 'id')) {
       setTemplateAdded(true)
       setCurrentComponent(
         <TemplateAndPluginHandler
@@ -29,7 +29,7 @@ function TemplateHandler ({ onClickTemplate, serviceId, onClickViewAll }) {
         />
       )
     }
-  }, [services[serviceId]?.template?.id])
+  }, [Object.keys(services[serviceId].template).length])
 
   return (
     <CSSTransition

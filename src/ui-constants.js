@@ -7,3 +7,7 @@ export const DEFAULT_HEIGHT_TEMPLATE = 288
 export const HEIGHT_PLUGIN_1 = 106
 export const HEIGHT_PLUGIN_2 = 81
 export const HEIGHT_PLUGIN_3 = 56
+
+export const WIDTH_PLUGIN_1 = 392
+export const WIDTH_TEMPLATE_1 = 392
+export const HEIGHT_TEMPLATE_1 = 175

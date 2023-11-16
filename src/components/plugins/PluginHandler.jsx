@@ -20,10 +20,10 @@ function PluginHandler ({ disabled, onClick, serviceId }) {
   const nodeRef = useRef(null)
 
   useEffect(() => {
-    if (services[serviceId]?.template?.id) {
+    if (Object.keys(services[serviceId].template).length > 0 && Object.hasOwn(services[serviceId].template, 'id')) {
       setTemplateAdded(true)
     }
-  }, [services[serviceId]?.template?.id])
+  }, [Object.keys(services[serviceId].template).length])
 
   return (
     <CSSTransition

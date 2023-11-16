@@ -1,7 +1,7 @@
 'use strict'
 import PropTypes from 'prop-types'
 import { useEffect, useState } from 'react'
-import { RICH_BLACK, WHITE } from '@platformatic/ui-components/src/components/constants'
+import { RICH_BLACK, TRANSPARENT, WHITE } from '@platformatic/ui-components/src/components/constants'
 import typographyStyles from '~/styles/Typography.module.css'
 import commonStyles from '~/styles/CommonStyles.module.css'
 import styles from './SelectPlugin.module.css'
@@ -58,7 +58,7 @@ function SelectPlugin ({ onClick, serviceId }) {
         />
         <p className={`${typographyStyles.desktopBodyLarge} ${typographyStyles.textWhite} ${typographyStyles.opacity70}`}>Select one or more Plugins from our Stackables Marketplace to be added to your new serviceAdding a plugin to your service is optional.</p>
       </div>
-      <div className={`${commonStyles.mediumFlexBlock} ${commonStyles.fullWidth}`}>
+      <div className={`${commonStyles.mediumFlexBlock24} ${commonStyles.fullWidth}`}>
         <SearchBarV2 placeholder='Search for a Plugin' />
         <div className={styles.gridContainer}>
           <div className={styles.gridContent}>
@@ -73,7 +73,18 @@ function SelectPlugin ({ onClick, serviceId }) {
           </div>
         </div>
         <div className={`${commonStyles.mediumFlexRow} ${commonStyles.fullWidth} ${commonStyles.justifyCenter}`}>
-          {pages.map(page => <div className={styles.page} key={page}>{page}</div>)}
+          {pages.map(page =>
+            <Button
+              key={page}
+              classes={`${commonStyles.buttonPadding}`}
+              label={`${page}`}
+              onClick={() => { }}
+              color={WHITE}
+              selected={page === 1}
+              backgroundColor={TRANSPARENT}
+              bordered={false}
+            />
+          )}
         </div>
       </div>
       <Button

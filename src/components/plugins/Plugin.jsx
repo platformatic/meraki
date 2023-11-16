@@ -37,7 +37,10 @@ Plugin.propTypes = {
   /**
    * id
     */
-  id: PropTypes.string.isRequired,
+  id: PropTypes.oneOfType([
+    PropTypes.number,
+    PropTypes.string
+  ]).isRequired,
   /**
    * name
     */

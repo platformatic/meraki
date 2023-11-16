@@ -1,8 +1,8 @@
 .gridContainer {
-  @apply w-full lg:min-h-[24.688rem] lg:max-h-[24.688rem] overflow-y-scroll items-start;
+  @apply w-full items-start;
 }
 .gridContent {
-  @apply grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4;
+  @apply grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 lg:min-h-[25rem] lg:max-h-[25rem];
 }
 .page {
   @apply p-4 bg-white/30 text-white rounded-md;

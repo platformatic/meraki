@@ -16,6 +16,9 @@
 .mediumFlexBlock {
   @apply flex flex-col items-start gap-y-4;
 }
+.mediumFlexBlock24 {
+  @apply flex flex-col items-start gap-y-6;
+}
 .largeFlexBlock {
   @apply flex flex-col items-start gap-y-10;
 }

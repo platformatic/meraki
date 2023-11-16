@@ -17,7 +17,9 @@ function PluginButton ({
   height,
   sortable,
   viewAll,
-  totalPlugins
+  totalPlugins,
+  useRefForWidth,
+  preciseWidth
 }) {
   const style = {
     maxHeight: height,
@@ -29,11 +31,13 @@ function PluginButton ({
 
   useEffect(() => {
     if (ref.current) {
-      setWidth(ref.current.clientWidth)
+      if (useRefForWidth) {
+        setWidth(ref.current.clientWidth)
+      } else {
+        setWidth(preciseWidth)
+      }
     }
   }, [ref.current])
-
-  console.log()
 
   return (
     <div className={styles.container} style={style} ref={ref}>
@@ -153,7 +157,15 @@ PluginButton.propTypes = {
   /**
    * totalPlugins
     */
-  totalPlugins: PropTypes.number
+  totalPlugins: PropTypes.number,
+  /**
+   * useRefForWidth
+    */
+  useRefForWidth: PropTypes.bool,
+  /**
+   * preciseWidth
+    */
+  preciseWidth: PropTypes.number
 }
 
 PluginButton.defaultProps = {
@@ -164,6 +176,8 @@ PluginButton.defaultProps = {
   index: 0,
   sortable: true,
   viewAll: false,
+  useRefForWidth: true,
+  preciseWidth: 0,
   totalPlugins: 0
 }
 

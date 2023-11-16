@@ -18,16 +18,17 @@ const PlatformaticRuntimeButton = React.forwardRef(() => {
   useEffect(() => {
     if (services.length > 0) {
       switch (services.length) {
+        case 0:
+        case 1:
+          setCurrentBackgrounComponent(<RuntimeSmallCard classNameSvg={styles.svg} />)
+          break
+
         case 2:
           setCurrentBackgrounComponent(<RuntimeMediumCard classNameSvg={styles.svg} />)
           break
 
-        case 3:
-          setCurrentBackgrounComponent(<RuntimeLargeCard classNameSvg={styles.svg} />)
-          break
-
         default:
-          setCurrentBackgrounComponent(<RuntimeSmallCard classNameSvg={styles.svg} />)
+          setCurrentBackgrounComponent(<RuntimeLargeCard classNameSvg={styles.svg} />)
           break
       }
     }

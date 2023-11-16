@@ -34,7 +34,7 @@ const ComposeApplication = React.forwardRef(({ onNext }, ref) => {
   const [showModalRemoveService, setShowModalRemoveService] = useState(false)
   const normalViewRef = useRef(null)
   const gridViewRef = useRef(null)
-  const [view, setView] = useState('normal')
+  const [currentComponentClassName, setCurrentComponentClassName] = useState(`${commonStyles.mediumFlexRow} ${commonStyles.itemsStretch}`)
   const [currentComponent, setCurrentComponent] = useState(
     <NormalView
       onClickEditNameService={(service) => handleOpenModalEditService(service)}
@@ -47,7 +47,7 @@ const ComposeApplication = React.forwardRef(({ onNext }, ref) => {
   )
 
   useEffect(() => {
-    setView(services.length > 3 ? 'grid' : 'normal')
+    setCurrentComponentClassName(services.length > 3 ? `${commonStyles.mediumFlexRow} ${commonStyles.itemsEnd}` : `${commonStyles.mediumFlexRow} ${commonStyles.itemsStretch}`)
     setCurrentComponent(
       services.length > 3
         ? <GridView
@@ -156,7 +156,7 @@ const ComposeApplication = React.forwardRef(({ onNext }, ref) => {
         <div className={`${commonStyles.mediumFlexRow} ${commonStyles.fullWidth} ${commonStyles.justifyBetween} ${commonStyles.itemsCenter}`}>
           <div className={`${commonStyles.flexBlockNoGap}`}>
             <div className={`${commonStyles.largeFlexBlock}`}>
-              <div className={`${commonStyles.mediumFlexRow} ${commonStyles.itemsStretch}`}>
+              <div className={currentComponentClassName}>
                 {/* <SwitchTransition>
                   <CSSTransition
                     key={currentComponent.name}
@@ -171,11 +171,9 @@ const ComposeApplication = React.forwardRef(({ onNext }, ref) => {
                 </SwitchTransition>
  */}
                 <div className={`${commonStyles.mediumFlexBlock} ${commonStyles.fullWidth} ${styles.containerPuzzle}`}>
-                  {view === 'normal' && (
-                    <div className={commonStyles.mediumFlexRow}>
-                      <h5 className={`${typographyStyles.desktopHeadline5} ${typographyStyles.textWhite}`}>&nbsp;</h5>
-                    </div>
-                  )}
+                  <div className={commonStyles.mediumFlexRow}>
+                    <h5 className={`${typographyStyles.desktopHeadline5} ${typographyStyles.textWhite}`}>&nbsp;</h5>
+                  </div>
                   <AddService onClick={() => addService()} enabled={services.find(service => Object.keys(service.template).length === 0) === undefined} />
                 </div>
               </div>
@@ -187,7 +185,7 @@ const ComposeApplication = React.forwardRef(({ onNext }, ref) => {
       </div>
       <div className={`${styles.buttonContainer} ${commonStyles.fullWidth}`}>
         <Button
-          disabled={!(services[0]?.template?.id)}
+          disabled={!(Object.hasOwn(services[0]?.template, 'id'))}
           label='Next - Configure Services'
           onClick={() => onClickConfigureServices()}
           color={RICH_BLACK}
