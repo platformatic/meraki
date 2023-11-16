@@ -12,7 +12,7 @@ function Template ({ id, platformaticService, name, onClick, isSelected }) {
   className += isSelected ? styles.selected : styles.unSelected
 
   return (
-    <div className={className} onClick={() => onClick()}>
+    <div className={className} onClick={() => onClick()} {...{ 'data-cy': 'template' }}>
       <div className={`${commonStyles.mediumFlexBlock} ${commonStyles.fullWidth} ${styles.overflowHidden}`}>
         {platformaticService ? (<Logo width={30.32} height={24} />) : (<Icons.StackablesTemplateIcon color={MAIN_GREEN} size={MEDIUM} />)}
         <p

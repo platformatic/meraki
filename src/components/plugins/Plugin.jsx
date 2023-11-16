@@ -12,7 +12,7 @@ function Plugin ({ id, name, onClick, isSelected }) {
   className += isSelected ? styles.selected : styles.unSelected
 
   return (
-    <div className={className} onClick={() => onClick()}>
+    <div className={className} onClick={() => onClick()} {...{ 'data-cy': 'template' }}>
       <div className={`${commonStyles.mediumFlexBlock} ${commonStyles.fullWidth} ${styles.overflowHidden}`}>
         <Icons.StackablesPluginIcon color={TERTIARY_BLUE} size={MEDIUM} />
         <p
