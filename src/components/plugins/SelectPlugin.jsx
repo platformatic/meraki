@@ -9,25 +9,18 @@ import { Button, SearchBarV2 } from '@platformatic/ui-components'
 import Title from '~/components/ui/Title'
 import useStackablesStore from '~/useStackablesStore'
 import Plugin from './Plugin'
+import { getPlugins } from '../../api'
 
 function SelectPlugin ({ onClick, serviceId }) {
   const [pages] = useState([1])
-  const [pluginsAvailable] = useState([{
-    id: '0', name: 'Plugin number 1', platformaticService: true
-  }, {
-    id: '1', name: 'Plugin number 2: long really longreally long name'
-  }, {
-    id: '2', name: 'Plugin name#3'
-  }, {
-    id: '3', name: 'Plugin name#4'
-  }, {
-    id: '4', name: 'Plugin name#5'
-  }, {
-    id: '5', name: 'Plugin Random'
-  }])
+  const [pluginsAvailable, setPluginsAvailable] = useState([])
   const [pluginsSelected, setPluginsSelected] = useState([])
   const globalState = useStackablesStore()
   const { services, setPlugins } = globalState
+
+  useEffect(() => {
+    setPluginsAvailable(getPlugins(10))
+  }, [])
 
   useEffect(() => {
     if (services[serviceId].plugins.length > 0) {

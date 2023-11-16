@@ -1,6 +1,6 @@
 'use strict'
 import PropTypes from 'prop-types'
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import { RICH_BLACK, WHITE } from '@platformatic/ui-components/src/components/constants'
 import typographyStyles from '~/styles/Typography.module.css'
 import commonStyles from '~/styles/CommonStyles.module.css'
@@ -9,23 +9,12 @@ import { Button, SearchBarV2 } from '@platformatic/ui-components'
 import Template from './Template'
 import Title from '~/components/ui/Title'
 import useStackablesStore from '~/useStackablesStore'
+import { getTemplates } from '../../api'
 
 function SelectTemplate ({ onClick, serviceId }) {
   const [pages] = useState([1])
-  const [templates] = useState([{
-    id: '0', name: 'Platformatic service', platformaticService: true
-  }, {
-    id: '1', name: 'Template really long really longreally long name'
-  }, {
-    id: '2', name: 'Template name#1'
-  }, {
-    id: '3', name: 'Short'
-  }, {
-    id: '4', name: 'Template name#2'
-  }, {
-    id: '5', name: 'Casual Template'
-  }])
-  const [templateSelected, setTemplateSelected] = useState(templates[0])
+  const [templates, setTemplates] = useState([])
+  const [templateSelected, setTemplateSelected] = useState({})
   const globalState = useStackablesStore()
   const { setTemplate } = globalState
 
@@ -34,7 +23,17 @@ function SelectTemplate ({ onClick, serviceId }) {
     onClick()
   }
 
-  return (
+  useEffect(() => {
+    setTemplates(getTemplates(12))
+  }, [])
+
+  useEffect(() => {
+    if (templates.length > 0) {
+      setTemplateSelected(templates[0])
+    }
+  }, [templates.length])
+
+  return templateSelected && (
     <div className={`${commonStyles.largeFlexBlock} ${commonStyles.fullWidth}`}>
       <div className={commonStyles.mediumFlexBlock}>
         <Title
@@ -72,7 +71,6 @@ function SelectTemplate ({ onClick, serviceId }) {
         bordered={false}
         onClick={() => handleUsePlatformaticService()}
       />
-
     </div>
   )
 }
