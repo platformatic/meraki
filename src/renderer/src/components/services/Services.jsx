@@ -20,10 +20,10 @@ function Services () {
   const nodeRef = useRef(null)
 
   useEffect(() => {
-    if (services[0]?.template?.id) {
+    if (Object.keys(services[0].template).length > 0 && Object.hasOwn(services[0].template, 'id')) {
       setTemplateAdded(true)
     }
-  }, [services[0]?.template?.id])
+  }, [Object.keys(services[0].template).length])
 
   return (
     <CSSTransition
