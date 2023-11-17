@@ -1,6 +1,14 @@
-# Stackables Wizard
+# Stackables-wizard app
 
-## Development
+## Project Setup
+
+### Install
+
+```bash
+$ npm install
+```
+
+### Development
 
 ### UI Components Live
 
@@ -15,10 +23,29 @@ $ cd ../dashformatic
 $ npm link ../ui-components
 $ rm -rf node_modules/.vite
 ```
-An Relaunch the dashformatic server 
+An Relaunch the dashformatic server
 
 ### Commands
 
 * `npm run dev` to start the dev server
 
-* `npm run build` to build the app in `dist`
+```bash
+$ npm run dev
+```
+
+### Build
+
+```bash
+# For windows
+$ npm run build:win
+
+# For macOS
+$ npm run build:mac
+
+# For Linux
+$ npm run build:linux
+```
+
+
+
+
