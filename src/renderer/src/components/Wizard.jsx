@@ -5,12 +5,14 @@ import {
   STEP_ADD_TEMPLATE_AND_PLUGINS,
   STEP_CONFIGURE_SERVICES,
   STEP_CREATE_APPLICATION,
-  STEP_CONFIGURE_APPLICATION
+  STEP_CONFIGURE_APPLICATION,
+  STEP_GENERATING_APPLICATION
 } from '~/ui-constants'
 import CreateApplication from '~/components/steps/CreateApplication'
 import ComposeApplication from '~/components/steps/compose-application/ComposeApplication'
 import ConfigureServices from '~/components/steps/configure-services/ConfigureServices'
 import ConfigureApplication from '~/components/steps/ConfigureApplication'
+import GeneratingApplication from '~/components/steps/GeneratingApplication'
 import { CSSTransition, SwitchTransition } from 'react-transition-group'
 import '~/components/component.animation.css'
 
@@ -35,7 +37,12 @@ function Wizard () {
     <ConfigureApplication
       ref={useRef(null)}
       key={STEP_CONFIGURE_APPLICATION}
-      onNext={() => nextStep(STEP_CREATE_APPLICATION)}
+      onNext={() => nextStep(STEP_GENERATING_APPLICATION)}
+    />,
+    <GeneratingApplication
+      ref={useRef(null)}
+      key={STEP_GENERATING_APPLICATION}
+      onNext={() => {}}
     />
   ])
   const [currentComponent, setCurrentComponent] = useState(components.find(component => component.key === STEP_CREATE_APPLICATION))

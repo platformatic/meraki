@@ -4,11 +4,6 @@
 .buttonContainer {
   @apply flex justify-end;
 }
-.imageContainer{
-  @apply absolute bottom-[-3rem] right-[-4rem] w-1/2 h-screen z-[-1];
-  background: url('~/assets/Illustration_Stackables.svg') no-repeat bottom right;
-  background-size: 100%;
-}
 .customFlexBlock {
   @apply flex flex-col gap-y-8
 }

@@ -11,33 +11,22 @@ function ConfigureService ({ service }) {
   const [validations, setValidations] = useState({ })
   // eslint-disable-next-line no-unused-vars
   const [validForm, setValidForm] = useState(false)
-  const fakeConfigurationList = [
-    'DATABASE_URL',
-    'PLT_PORT',
-    'LOGGER_LEVEL',
-    'NODE_ENV',
-    'API_KEY',
-    'API_URL',
-    'STANDALONE'
-  ]
 
   useEffect(() => {
-    if (service) {
-      const randomNumber = Math.floor(Math.random() * fakeConfigurationList.length)
+    if (service.template.env.length > 0) {
       const tmp = {}
       const validations = {}
       const formErrors = {}
-      Array.from(new Array(randomNumber).keys()).forEach(e => {
-        const rnd = Math.floor(Math.random() * fakeConfigurationList.length)
-        const label = fakeConfigurationList[rnd]
-        tmp[label] = ''
-        validations[`${label}Valid`] = false
-        formErrors[label] = ''
+
+      service.template.env.forEach(envName => {
+        tmp[envName] = ''
+        validations[`${envName}Valid`] = false
+        formErrors[envName] = ''
       })
       setForm({ ...tmp })
       setValidations({ ...validations, formErrors })
     }
-  }, [service])
+  }, [service.template.env])
 
   function handleChange (event) {
     const value = event.target.value
@@ -71,7 +60,11 @@ function ConfigureService ({ service }) {
 
   function renderForm () {
     return Object.keys(form).map((element) => (
-      <Forms.Field title={`Configure ${element}`} titleColor={WHITE} key={element}>
+      <Forms.Field
+        title={`Configure ${element}`}
+        titleColor={WHITE}
+        key={element}
+      >
         <Forms.Input
           placeholder='Env variable example'
           name={element}
@@ -82,6 +75,8 @@ function ConfigureService ({ service }) {
           backgroundTransparent
           inputTextClassName={`${typographyStyles.desktopBody} ${typographyStyles.textWhite}`}
           verticalPaddingClassName={commonStyles.noVerticalPadding}
+          dataAttrName='cy'
+          dataAttrValue='config-service'
         />
       </Forms.Field>
     ))

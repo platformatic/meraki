@@ -8,7 +8,6 @@ import React, { useRef } from 'react'
 
 function AddService ({ onClick, enabled }) {
   const ref = useRef(null)
-
   let classNameContainer = `${styles.container} `
   let titleClassName = `${typographyStyles.desktopBodyLarge} ${typographyStyles.textWhite} `
   if (enabled) {
