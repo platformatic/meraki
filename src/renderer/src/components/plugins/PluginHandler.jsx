@@ -13,17 +13,17 @@ import Routes from '~/components/shaped-components/Routes'
 import AddPlugin from '~/components/shaped-components/AddPlugin'
 import './plugin.animation.css'
 
-function PluginHandler ({ disabled, onClick, serviceId }) {
+function PluginHandler ({ disabled, onClick, serviceName }) {
   const [templateAdded, setTemplateAdded] = useState(false)
   const globalState = useStackablesStore()
-  const { services } = globalState
+  const { getService } = globalState
   const nodeRef = useRef(null)
 
   useEffect(() => {
-    if (Object.keys(services[serviceId].template).length > 0 && Object.hasOwn(services[serviceId].template, 'id')) {
+    if (serviceName && Object.keys(getService(serviceName)?.template).length > 0) {
       setTemplateAdded(true)
     }
-  }, [Object.keys(services[serviceId].template).length])
+  }, [serviceName, Object.keys(getService(serviceName)?.template).length])
 
   return (
     <CSSTransition
@@ -66,14 +66,15 @@ PluginHandler.propTypes = {
     */
   onClick: PropTypes.func,
   /**
-   * serviceId
+   * serviceName
     */
-  serviceId: PropTypes.number.isRequired
+  serviceName: PropTypes.string
 }
 
 PluginHandler.defaultProps = {
   disabled: true,
-  onClick: () => {}
+  onClick: () => {},
+  serviceName: ''
 }
 
 export default PluginHandler

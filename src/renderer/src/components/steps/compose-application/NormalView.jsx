@@ -32,19 +32,19 @@ const NormalView = React.forwardRef(({
           />
           <TransitionGroup component={null}>
             <CSSTransition
-              key={`handling-service-${service.id}`}
+              key={`handling-service-${service.name}`}
               timeout={300}
               classNames='template'
             >
               <div
                 className={`${commonStyles.smallFlexBlock} ${commonStyles.fullWidth} ${styles.containerPuzzle}`}
-                key={service.id}
+                key={service.name}
               >
-                <PluginHandler onClick={() => { onClickPluginHandler(service) }} serviceId={service.id} />
+                <PluginHandler onClick={() => { onClickPluginHandler(service) }} serviceName={service.name} />
                 <TemplateHandler
                   onClickTemplate={() => { onClickTemplate(service) }}
                   onClickViewAll={() => { onClickViewAll(service) }}
-                  serviceId={service.id}
+                  serviceName={service.name}
                 />
               </div>
             </CSSTransition>

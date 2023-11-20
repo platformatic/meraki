@@ -7,7 +7,7 @@ import commonStyles from '~/styles/CommonStyles.module.css'
 import styles from './Template.module.css'
 import { Button, Logo } from '@platformatic/ui-components'
 
-function Template ({ id, platformaticService, name, onClick, isSelected }) {
+function Template ({ platformaticService, name, onClick, isSelected }) {
   let className = `${commonStyles.smallFlexBlock} ${styles.container} `
   className += isSelected ? styles.selected : styles.unSelected
 
@@ -35,13 +35,6 @@ function Template ({ id, platformaticService, name, onClick, isSelected }) {
 
 Template.propTypes = {
   /**
-   * id
-    */
-  id: PropTypes.oneOfType([
-    PropTypes.number,
-    PropTypes.string
-  ]).isRequired,
-  /**
    * name
     */
   name: PropTypes.string,
@@ -52,13 +45,18 @@ Template.propTypes = {
   /**
    * isSelected
     */
-  isSelected: PropTypes.bool
+  isSelected: PropTypes.bool,
+  /**
+   * onClick
+    */
+  onClick: PropTypes.func
 }
 
 Template.defaultProps = {
   name: '',
   platformaticService: false,
-  isSelected: false
+  isSelected: false,
+  onClick: () => {}
 }
 
 export default Template

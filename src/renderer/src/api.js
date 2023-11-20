@@ -27,18 +27,36 @@ const envList = [
   'PERPETRATE'
 ]
 
-export const getTemplates = (howMany) =>
-  Array.from(new Array(howMany).keys()).map((element) => ({
-    id: element,
-    name: element === 0 ? 'Platformatic service' : nameList[Math.floor(Math.random() * nameList.length)],
-    platformaticService: element === 0,
-    env: Array.from(new Array(Math.floor(Math.random() * envList.length)).keys()).map(() => envList[Math.floor(Math.random() * envList.length)])
-  })
-  )
+export const getTemplates = (howMany) => {
+  const nameArray = ['Platformatic service']
+  let name
+  while (nameArray.length < howMany) {
+    name = nameList[Math.floor(Math.random() * nameList.length)]
+    if (!nameArray.includes(name)) {
+      nameArray.push(name)
+    }
+  }
 
-export const getPlugins = (howMany) =>
-  Array.from(new Array(howMany).keys()).map((element) => ({
-    id: element,
-    name: nameList[Math.floor(Math.random() * nameList.length)]
-  })
-  )
+  return nameArray.map((name, index) => ({
+    id: index + 1,
+    name,
+    platformaticService: index === 0,
+    env: Array.from(new Array(Math.floor(Math.random() * envList.length)).keys()).map(() => envList[Math.floor(Math.random() * envList.length)])
+  }))
+}
+
+export const getPlugins = (howMany) => {
+  const nameArray = []
+  let name
+  while (nameArray.length < howMany) {
+    name = nameList[Math.floor(Math.random() * nameList.length)]
+    if (!nameArray.includes(name)) {
+      nameArray.push(name)
+    }
+  }
+
+  return nameArray.map((name, index) => ({
+    id: index + 1,
+    name
+  }))
+}

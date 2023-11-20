@@ -24,7 +24,7 @@ const GridView = React.forwardRef(({
       <div className={styles.gridClassName} ref={ref}>
         {services.map(service => (
           <GridElement
-            key={service.id}
+            key={service.name}
             service={{ ...service }}
             onClickEditNameService={() => onClickEditNameService(service)}
             onClickRemoveService={() => onClickRemoveService(service)}

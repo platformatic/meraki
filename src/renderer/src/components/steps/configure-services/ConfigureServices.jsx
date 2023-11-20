@@ -45,7 +45,7 @@ const ConfigureServices = React.forwardRef(({ onNext }, ref) => {
           <p className={`${typographyStyles.desktopBodyLarge} ${typographyStyles.textWhite} ${typographyStyles.opacity70}`}>Select a template and plugins for your service from our Stackables Marketplace. Once you have chosen a template you can add another Service.</p>
         </div>
         {services.map(service => (
-          <ConfigureService key={service.id} service={{ ...service }} />
+          <ConfigureService key={service.name} service={{ ...service }} />
         ))}
       </div>
       <div className={`${styles.buttonContainer} ${commonStyles.fullWidth}`}>

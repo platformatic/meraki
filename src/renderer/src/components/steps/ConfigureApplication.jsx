@@ -88,7 +88,7 @@ const ConfigureApplication = React.forwardRef(({ onNext }, ref) => {
             <div className={commonStyles.smallFlexRow}>
               {services.map(service => (
                 <Button
-                  key={service.id}
+                  key={service.name}
                   type='button'
                   label={service.name}
                   onClick={() => setForm(form => ({ ...form, entryPoint: service.name }))}

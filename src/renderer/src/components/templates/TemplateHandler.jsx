@@ -7,9 +7,9 @@ import AddTemplate from '~/components/shaped-components/AddTemplate'
 import TemplateAndPluginHandler from '~/components/template-and-plugins/TemplateAndPluginHandler'
 import '~/components/component.animation.css'
 
-function TemplateHandler ({ onClickTemplate, serviceId, onClickViewAll }) {
+function TemplateHandler ({ onClickTemplate, serviceName, onClickViewAll }) {
   const globalState = useStackablesStore()
-  const { services } = globalState
+  const { getService } = globalState
   const addTemplateRef = useRef(null)
   const templateAndPluginRef = useRef(null)
   const [templateAdded, setTemplateAdded] = useState(false)
@@ -18,18 +18,18 @@ function TemplateHandler ({ onClickTemplate, serviceId, onClickViewAll }) {
   )
 
   useEffect(() => {
-    if (Object.keys(services[serviceId].template).length > 0 && Object.hasOwn(services[serviceId].template, 'id')) {
+    if (serviceName && Object.keys(getService(serviceName)?.template).length > 0) {
       setTemplateAdded(true)
       setCurrentComponent(
         <TemplateAndPluginHandler
           ref={templateAndPluginRef}
           onClickTemplate={() => onClickTemplate()}
-          serviceId={serviceId}
+          serviceName={serviceName}
           onClickViewAll={() => onClickViewAll()}
         />
       )
     }
-  }, [Object.keys(services[serviceId].template).length])
+  }, [serviceName, Object.keys(getService(serviceName)?.template).length])
 
   return (
     <CSSTransition
@@ -54,14 +54,15 @@ TemplateHandler.propTypes = {
     */
   onClickViewAll: PropTypes.func,
   /**
-   * serviceId
+   * serviceName
     */
-  serviceId: PropTypes.number.isRequired
+  serviceName: PropTypes.string
 }
 
 TemplateHandler.defaultProps = {
   onClickTemplate: () => {},
-  onClickViewAll: () => {}
+  onClickViewAll: () => {},
+  serviceName: ''
 }
 
 export default TemplateHandler

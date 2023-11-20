@@ -11,7 +11,7 @@ import Title from '~/components/ui/Title'
 import useStackablesStore from '~/useStackablesStore'
 import { getTemplates } from '../../api'
 
-function SelectTemplate ({ onClick, serviceId }) {
+function SelectTemplate ({ onClick, serviceName }) {
   const [pages] = useState([1])
   const [templates, setTemplates] = useState([])
   const [templateSelected, setTemplateSelected] = useState(null)
@@ -19,7 +19,7 @@ function SelectTemplate ({ onClick, serviceId }) {
   const { setTemplate } = globalState
 
   function handleUsePlatformaticService () {
-    setTemplate(serviceId, templateSelected)
+    setTemplate(serviceName, templateSelected)
     onClick()
   }
 
@@ -48,13 +48,12 @@ function SelectTemplate ({ onClick, serviceId }) {
         <SearchBarV2 placeholder='Search for a Template' />
         <div className={styles.gridContainer}>
           <div className={styles.gridContent}>
-            {templates.map(template =>
-              <Template
-                key={template.id}
-                isSelected={templateSelected.id === template.id}
-                onClick={() => setTemplateSelected(template)}
-                {...template}
-              />
+            {templates.map(template => <Template
+              key={template.name}
+              isSelected={templateSelected.name === template.name}
+              onClick={() => setTemplateSelected(template)}
+              {...template}
+                                       />
             )}
           </div>
         </div>
@@ -92,13 +91,14 @@ SelectTemplate.propTypes = {
     */
   onClick: PropTypes.func,
   /**
-   * serviceId
+   * serviceName
     */
-  serviceId: PropTypes.number.isRequired
+  serviceName: PropTypes.string
 }
 
 SelectTemplate.defaultProps = {
-  onClick: () => {}
+  onClick: () => {},
+  serviceName: ''
 }
 
 export default SelectTemplate

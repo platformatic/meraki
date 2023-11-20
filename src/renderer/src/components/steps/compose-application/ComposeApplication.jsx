@@ -134,12 +134,12 @@ const ComposeApplication = React.forwardRef(({ onNext }, ref) => {
   }
 
   function handleConfirmRemoveService () {
-    removeService(serviceSelected.id)
+    removeService(serviceSelected.name)
     handleCloseModalRemoveService()
   }
 
   function handleConfirmEditService (name) {
-    renameService(serviceSelected.id, name)
+    renameService(serviceSelected.name, name)
     handleCloseModalEditService()
   }
 
@@ -204,7 +204,7 @@ const ComposeApplication = React.forwardRef(({ onNext }, ref) => {
           title='Back to Application view'
           titleClassName={`${typographyStyles.desktopBody} ${typographyStyles.textWhite} ${typographyStyles.opacity70} cy-modal-template`}
         >
-          <SelectTemplate onClick={() => handleCloseModalTemplate()} serviceId={serviceSelected.id} />
+          <SelectTemplate onClick={() => handleCloseModalTemplate()} serviceName={serviceSelected.name} />
         </ModalDirectional>
       )}
       {showModalPlugin && (
@@ -216,7 +216,7 @@ const ComposeApplication = React.forwardRef(({ onNext }, ref) => {
         >
           <SelectPlugin
             onClick={() => handleCloseModalPlugin()}
-            serviceId={serviceSelected.id}
+            serviceName={serviceSelected.name}
           />
         </ModalDirectional>
       )}
@@ -228,7 +228,7 @@ const ComposeApplication = React.forwardRef(({ onNext }, ref) => {
           titleClassName={`${typographyStyles.desktopBody} ${typographyStyles.textWhite} ${typographyStyles.opacity70}`}
           smallLayout
         >
-          <ViewAll onClick={() => handleCloseModalViewAll()} serviceId={serviceSelected.id} />
+          <ViewAll onClick={() => handleCloseModalViewAll()} serviceName={serviceSelected.name} />
         </ModalDirectional>
       )}
       {showModalEditService && (

@@ -7,7 +7,7 @@ import commonStyles from '~/styles/CommonStyles.module.css'
 import styles from './Plugin.module.css'
 import { Button } from '@platformatic/ui-components'
 
-function Plugin ({ id, name, onClick, isSelected }) {
+function Plugin ({ name, onClick, isSelected }) {
   let className = `${commonStyles.smallFlexBlock} ${styles.container} `
   className += isSelected ? styles.selected : styles.unSelected
 
@@ -34,13 +34,6 @@ function Plugin ({ id, name, onClick, isSelected }) {
 }
 
 Plugin.propTypes = {
-  /**
-   * id
-    */
-  id: PropTypes.oneOfType([
-    PropTypes.number,
-    PropTypes.string
-  ]).isRequired,
   /**
    * name
     */

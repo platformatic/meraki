@@ -10,38 +10,38 @@ import PluginButton from '~/components/shaped-components/PluginButton'
 import ChangeTemplate from '~/components/shaped-components/ChangeTemplate'
 import styles from './ViewAll.module.css'
 
-function ViewAll ({ serviceId }) {
+function ViewAll ({ serviceName }) {
   const globalState = useStackablesStore()
-  const { services, removePlugin } = globalState
+  const { removePlugin, getService } = globalState
 
   return (
     <div className={`${commonStyles.largeFlexBlock} ${commonStyles.fullWidth}`}>
       <div className={commonStyles.mediumFlexBlock}>
         <Title
-          title={services[serviceId].name}
+          title={serviceName}
           iconName='StackablesPluginIcon'
           dataAttrName='cy'
           dataAttrValue='modal-title'
         />
-        <p className={`${typographyStyles.desktopBodyLarge} ${typographyStyles.textWhite} ${typographyStyles.opacity70}`}>Plugins selected for this service: ({services[serviceId].plugins.length})</p>
+        <p className={`${typographyStyles.desktopBodyLarge} ${typographyStyles.textWhite} ${typographyStyles.opacity70}`}>Plugins selected for this service: ({getService(serviceName).plugins.length})</p>
       </div>
 
       <div className={`${commonStyles.flexBlockNoGap} ${commonStyles.fullWidth}`}>
         <div className={styles.pluginContainer}>
           <TransitionGroup component={null}>
-            {services[serviceId].plugins.map((plugin, index) =>
+            {getService(serviceName).plugins.map((plugin, index) =>
               <CSSTransition
-                key={`changePlugin-${plugin.id}-${services[serviceId].plugins.length}`}
+                key={`changePlugin-${plugin.name}-${getService(serviceName).plugins.length}`}
                 timeout={300}
                 classNames='fade-vertical'
               >
                 <PluginButton
-                  key={plugin.id}
+                  key={plugin.name}
                   index={index}
                   {...plugin}
                   height={HEIGHT_PLUGIN_3}
                   sortable
-                  onClickRemove={() => removePlugin(serviceId, plugin.id)}
+                  onClickRemove={() => removePlugin(serviceName, plugin.name)}
                   useRefForWidth={false}
                   preciseWidth={WIDTH_PLUGIN_1}
                 />
@@ -51,13 +51,13 @@ function ViewAll ({ serviceId }) {
         </div>
 
         <CSSTransition
-          key={`changeTemplate${services[serviceId].plugins.length}`}
+          key={`changeTemplate${getService(serviceName).plugins.length}`}
           timeout={300}
           classNames='fade-vertical'
         >
           <ChangeTemplate
             showIcon
-            name={services[serviceId].template.name}
+            name={serviceName}
             height={HEIGHT_TEMPLATE_1}
             useRefForWidth={false}
             preciseWidth={WIDTH_TEMPLATE_1}
@@ -71,9 +71,9 @@ function ViewAll ({ serviceId }) {
 
 ViewAll.propTypes = {
   /**
-   * serviceId
+   * serviceName
     */
-  serviceId: PropTypes.number.isRequired
+  serviceName: PropTypes.string.isRequired
 }
 
 ViewAll.defaultProps = {}

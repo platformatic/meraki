@@ -11,25 +11,25 @@ import useStackablesStore from '~/useStackablesStore'
 import Plugin from './Plugin'
 import { getPlugins } from '../../api'
 
-function SelectPlugin ({ onClick, serviceId }) {
+function SelectPlugin ({ onClick, serviceName }) {
   const [pages] = useState([1])
   const [pluginsAvailable, setPluginsAvailable] = useState([])
   const [pluginsSelected, setPluginsSelected] = useState([])
   const globalState = useStackablesStore()
-  const { services, setPlugins } = globalState
+  const { setPlugins, getService } = globalState
 
   useEffect(() => {
     setPluginsAvailable(getPlugins(10))
   }, [])
 
   useEffect(() => {
-    if (services[serviceId].plugins.length > 0) {
-      setPluginsSelected([...services[serviceId].plugins])
+    if (serviceName && Object.keys(getService(serviceName)?.plugins).length > 0) {
+      setPluginsSelected([...getService(serviceName).plugins])
     }
-  }, [services[serviceId].plugins])
+  }, [serviceName, Object.keys(getService(serviceName)?.plugins).length])
 
   function handleUsePluginsSelected () {
-    setPlugins(serviceId, pluginsSelected)
+    setPlugins(serviceName, pluginsSelected)
     onClick()
   }
 
@@ -108,13 +108,14 @@ SelectPlugin.propTypes = {
     */
   onClick: PropTypes.func,
   /**
-   * serviceId
+   * serviceName
     */
-  serviceId: PropTypes.number.isRequired
+  serviceName: PropTypes.string
 }
 
 SelectPlugin.defaultProps = {
-  onClick: () => {}
+  onClick: () => {},
+  serviceName: ''
 }
 
 export default SelectPlugin

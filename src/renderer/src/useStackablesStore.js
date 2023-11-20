@@ -15,18 +15,18 @@ const useStackablesStore = create((set, get) => ({
     return {
       ...state,
       services: [...currentServices, {
-        id: currentServices.length,
         name: `${serviceName}-${currentServices.length + 1}`,
         template: {},
         plugins: []
       }]
     }
   }),
-  renameService: (serviceId, newName) => set((state) => {
+  getService: (serviceName) => ({ ...get().services.find(service => service.name === serviceName) || {} }),
+  renameService: (serviceName, newName) => set((state) => {
     return {
       ...state,
       services: [...get().services.map(service => {
-        if (service.id === serviceId) {
+        if (service.name === serviceName) {
           const { name, ...rest } = service
           return {
             name: newName,
@@ -38,14 +38,14 @@ const useStackablesStore = create((set, get) => ({
       })]
     }
   }),
-  removeService: (serviceId) => set((state) => {
-    return { ...state, services: [...get().services.filter(service => service.id !== serviceId)] }
+  removeService: (serviceName) => set((state) => {
+    return { ...state, services: [...get().services.filter(service => service.name !== serviceName)] }
   }),
-  setTemplate: (serviceId, template) => set((state) => {
+  setTemplate: (serviceName, template) => set((state) => {
     return {
       ...state,
       services: [...get().services.map(service => {
-        if (service.id === serviceId) {
+        if (service.name === serviceName) {
           let { template: templateReplaced, ...rest } = service
           templateReplaced = template
           return {
@@ -58,11 +58,11 @@ const useStackablesStore = create((set, get) => ({
       })]
     }
   }),
-  setPlugins: (serviceId, plugins) => set((state) => {
+  setPlugins: (serviceName, plugins) => set((state) => {
     return {
       ...state,
       services: [...get().services.map(service => {
-        if (service.id === serviceId) {
+        if (service.name === serviceName) {
           const { plugins: oldPlugins, ...rest } = service
           return {
             plugins: plugins.map(plugin => ({ ...plugin })),
@@ -74,14 +74,14 @@ const useStackablesStore = create((set, get) => ({
       })]
     }
   }),
-  removePlugin: (serviceId, pluginId) => set((state) => {
+  removePlugin: (serviceName, pluginName) => set((state) => {
     return {
       ...state,
       services: [...get().services.map(service => {
-        if (service.id === serviceId) {
+        if (service.name === serviceName) {
           const { plugins, ...rest } = service
           return {
-            plugins: plugins.filter(plugin => plugin.id !== pluginId),
+            plugins: plugins.filter(plugin => plugin.name !== pluginName),
             ...rest
           }
         } else {
