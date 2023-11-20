@@ -4,7 +4,7 @@ export const STEP_CONFIGURE_SERVICES = 'STEP_CONFIGURE_SERVICES'
 export const STEP_CONFIGURE_APPLICATION = 'STEP_CONFIGURE_APPLICATION'
 export const STEP_GENERATING_APPLICATION = 'STEP_GENERATING_APPLICATION'
 
-export const DEFAULT_HEIGHT_TEMPLATE = 288
+export const DEFAULT_HEIGHT_TEMPLATE = 292
 export const HEIGHT_PLUGIN_1 = 106
 export const HEIGHT_PLUGIN_2 = 81
 export const HEIGHT_PLUGIN_3 = 56
@@ -12,3 +12,6 @@ export const HEIGHT_PLUGIN_3 = 56
 export const WIDTH_PLUGIN_1 = 392
 export const WIDTH_TEMPLATE_1 = 392
 export const HEIGHT_TEMPLATE_1 = 175
+
+export const NORMAL_VIEW = 'normal'
+export const GRID_VIEW = 'grid'

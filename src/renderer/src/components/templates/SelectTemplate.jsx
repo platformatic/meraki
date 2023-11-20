@@ -19,7 +19,6 @@ function SelectTemplate ({ onClick, serviceId }) {
   const { setTemplate } = globalState
 
   function handleUsePlatformaticService () {
-    console.log('handleUsePlatformaticService', serviceId, templateSelected)
     setTemplate(serviceId, templateSelected)
     onClick()
   }

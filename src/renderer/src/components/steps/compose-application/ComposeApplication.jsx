@@ -22,6 +22,7 @@ import '~/components/component.animation.css'
 import NormalView from './NormalView'
 // import { CSSTransition, SwitchTransition } from 'react-transition-group'
 import GridView from './GridView'
+import { NORMAL_VIEW, GRID_VIEW } from '~/ui-constants'
 
 const ComposeApplication = React.forwardRef(({ onNext }, ref) => {
   const globalState = useStackablesStore()
@@ -34,6 +35,7 @@ const ComposeApplication = React.forwardRef(({ onNext }, ref) => {
   const [showModalRemoveService, setShowModalRemoveService] = useState(false)
   const normalViewRef = useRef(null)
   const gridViewRef = useRef(null)
+  const [currentView, setCurrentView] = useState(NORMAL_VIEW)
   const [currentComponentClassName, setCurrentComponentClassName] = useState(`${commonStyles.mediumFlexRow} ${commonStyles.itemsStretch}`)
   const [currentComponent, setCurrentComponent] = useState(
     <NormalView
@@ -65,6 +67,7 @@ const ComposeApplication = React.forwardRef(({ onNext }, ref) => {
             ref={normalViewRef}
           />
     )
+    setCurrentView(services.length > 3 ? GRID_VIEW : NORMAL_VIEW)
   }, [services.length])
 
   function onClickConfigureServices () {
@@ -178,7 +181,7 @@ const ComposeApplication = React.forwardRef(({ onNext }, ref) => {
                 </div>
               </div>
             </div>
-            <PlatformaticRuntimeButton />
+            <PlatformaticRuntimeButton view={currentView} />
           </div>
           <Services />
         </div>

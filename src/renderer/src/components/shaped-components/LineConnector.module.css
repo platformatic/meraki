@@ -1,0 +1,24 @@
+.clef {
+  stroke-width: 2;
+}
+.clef-white {
+  @apply fill-white stroke-white;    
+}
+.clef-white-dashed {
+  @apply stroke-white/30;
+  stroke-dasharray: 4;
+}
+.lineClass {
+  @apply absolute top-0
+}
+.pathMask {
+  fill: none;
+  stroke: white;
+  stroke-width: 4;
+}
+.circleFillOpaque {
+  @apply fill-white/30
+}
+.circleFill {
+  @apply fill-white
+}

@@ -23,7 +23,7 @@ const NormalView = React.forwardRef(({
   return (
     <div className={`${commonStyles.mediumFlexRow} ${commonStyles.itemsStretch}`} ref={ref}>
       {services.map(service => (
-        <div className={commonStyles.mediumFlexBlock} key={service.id}>
+        <div className={commonStyles.mediumFlexBlock} key={service.name}>
           <NameService
             name={service.name}
             onClickEdit={() => onClickEditNameService(service)}
