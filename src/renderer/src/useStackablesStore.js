@@ -3,6 +3,7 @@ import { create } from 'zustand'
 const useStackablesStore = create((set, get) => ({
   formData: {},
   services: [],
+  servicesAddedOnHistory: 0,
   addFormData: (newValue) => set((state) => {
     return {
       ...state,
@@ -12,10 +13,12 @@ const useStackablesStore = create((set, get) => ({
   addService: () => set((state) => {
     const currentServices = get().services
     const serviceName = get().formData.createApplication.service
+    const servicesAddedOnHistory = get().servicesAddedOnHistory + 1
     return {
       ...state,
+      servicesAddedOnHistory,
       services: [...currentServices, {
-        name: `${serviceName}-${currentServices.length + 1}`,
+        name: `${serviceName}-${servicesAddedOnHistory}`,
         template: {},
         plugins: []
       }]
