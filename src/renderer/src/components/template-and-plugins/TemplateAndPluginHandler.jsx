@@ -18,22 +18,16 @@ const TemplateAndPluginHandler = React.forwardRef(({ serviceName, onClickTemplat
 
   useEffect(() => {
     if (serviceName && Object.keys(getService(serviceName)?.plugins).length > 0) {
-      console.log('Object.keys(getService(serviceName).plugins', Object.keys(getService(serviceName).plugins).length)
       switch (Object.keys(getService(serviceName).plugins).length) {
         case 2:
-          console.log('case 2')
           setHeightPlugin(HEIGHT_PLUGIN_2)
           setHeightTemplate(DEFAULT_HEIGHT_TEMPLATE - 2 * HEIGHT_PLUGIN_2)
           break
         case 3:
-          console.log('case 3')
-
           setHeightPlugin(HEIGHT_PLUGIN_3)
           setHeightTemplate(DEFAULT_HEIGHT_TEMPLATE - 3 * HEIGHT_PLUGIN_3)
           break
         default:
-          console.log('defaukt2')
-
           setHeightPlugin(HEIGHT_PLUGIN_1)
           setHeightTemplate(DEFAULT_HEIGHT_TEMPLATE - HEIGHT_PLUGIN_1)
           break
