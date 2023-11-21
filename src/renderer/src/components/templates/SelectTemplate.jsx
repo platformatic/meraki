@@ -13,10 +13,11 @@ import { getTemplates } from '../../api'
 import { MAX_MUMBER_SELECT } from '~/ui-constants'
 
 function SelectTemplate ({ onClick, serviceName }) {
+  const [templates, setTemplates] = useState([])
+  const [filteredTemplates, setFilteredTemplates] = useState([])
+  const [groupedTemplates, setGroupedTemplates] = useState([])
   const [currentPage, setCurrentPage] = useState(1)
   const [pages, setPages] = useState([1])
-  const [groupedTemplates, setGroupedTemplates] = useState([])
-  const [templates, setTemplates] = useState([])
   const [templateSelected, setTemplateSelected] = useState(null)
   const globalState = useStackablesStore()
   const { setTemplate } = globalState
@@ -28,17 +29,15 @@ function SelectTemplate ({ onClick, serviceName }) {
     onClick()
   }
 
-  /* useEffect(() => {
-    function handleScroll(evt) {
-      console.log(evt);
-    }
+  function handleClearTemplates () {
+    setFilteredTemplates([...templates])
+  }
 
-    scrollRef.current.addEventListener('scroll', handleScroll)
-
-    return function cleanup() {
-      scrollRef.current.removeEventListener('scroll', handleScroll)
-    }
-  }) */
+  function handleFilterTemplates (value) {
+    setCurrentPage(1)
+    const founds = templates.filter(template => template.name.toLowerCase().includes(value.toLowerCase()))
+    setFilteredTemplates(founds)
+  }
 
   const scroll = (page) => {
     let sign = 0; let howManyPages = 0
@@ -60,20 +59,22 @@ function SelectTemplate ({ onClick, serviceName }) {
   }
 
   useEffect(() => {
-    setTemplates(getTemplates())
+    const templates = getTemplates()
+    setTemplates(templates)
+    setFilteredTemplates([...templates])
   }, [])
 
   useEffect(() => {
-    if (templates.length > 0) {
-      setTemplateSelected(templates[0])
+    if (filteredTemplates.length > 0) {
+      setTemplateSelected(filteredTemplates[0])
       const groupedTemplates = []
-      for (let i = 0; i < templates.length; i += MAX_MUMBER_SELECT) {
-        groupedTemplates.push(templates.slice(i, i + MAX_MUMBER_SELECT))
+      for (let i = 0; i < filteredTemplates.length; i += MAX_MUMBER_SELECT) {
+        groupedTemplates.push(filteredTemplates.slice(i, i + MAX_MUMBER_SELECT))
       }
       setGroupedTemplates(groupedTemplates)
       setPages(Array.from(new Array(groupedTemplates.length).keys()).map(x => x + 1))
     }
-  }, [templates.length])
+  }, [filteredTemplates.length])
 
   function renderContent () {
     return groupedTemplates.map((templates, index) => (
@@ -104,7 +105,7 @@ function SelectTemplate ({ onClick, serviceName }) {
         <p className={`${typographyStyles.desktopBodyLarge} ${typographyStyles.textWhite} ${typographyStyles.opacity70}`}>Select a template from our Stackables Marketplace to be uses as a base for your new Service.If you don’t want to select any Template your new service will be built on top of Platformatic Service.</p>
       </div>
       <div className={`${commonStyles.mediumFlexBlock24} ${commonStyles.fullWidth}`}>
-        <SearchBarV2 placeholder='Search for a Template' />
+        <SearchBarV2 placeholder='Search for a Template' onClear={handleClearTemplates} onChange={handleFilterTemplates} />
         <div className={styles.templatesContainer} ref={containerScrollRef}>
           <div className={styles.templatesContent} ref={scrollRef}>
             {renderContent()}

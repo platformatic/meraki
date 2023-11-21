@@ -13,18 +13,21 @@ import { getPlugins } from '../../api'
 import { MAX_MUMBER_SELECT } from '~/ui-constants'
 
 function SelectPlugin ({ onClick, serviceName }) {
-  const [currentPage, setCurrentPage] = useState(1)
-  const [pages, setPages] = useState([1])
   const [groupedPlugins, setGroupedPlugins] = useState([])
   const [pluginsAvailable, setPluginsAvailable] = useState([])
   const [pluginsSelected, setPluginsSelected] = useState([])
+  const [filteredPlugins, setFilteredPlugins] = useState([])
+  const [currentPage, setCurrentPage] = useState(1)
+  const [pages, setPages] = useState([1])
   const globalState = useStackablesStore()
   const { setPlugins, getService } = globalState
   const scrollRef = useRef(null)
   const containerScrollRef = useRef(null)
 
   useEffect(() => {
-    setPluginsAvailable(getPlugins())
+    const plugins = getPlugins()
+    setPluginsAvailable(plugins)
+    setFilteredPlugins([...plugins])
   }, [])
 
   useEffect(() => {
@@ -34,19 +37,29 @@ function SelectPlugin ({ onClick, serviceName }) {
   }, [serviceName, Object.keys(getService(serviceName)?.plugins).length])
 
   useEffect(() => {
-    if (pluginsAvailable.length > 0) {
+    if (filteredPlugins.length > 0) {
       const groupedPlugins = []
-      for (let i = 0; i < pluginsAvailable.length; i += MAX_MUMBER_SELECT) {
-        groupedPlugins.push(pluginsAvailable.slice(i, i + MAX_MUMBER_SELECT))
+      for (let i = 0; i < filteredPlugins.length; i += MAX_MUMBER_SELECT) {
+        groupedPlugins.push(filteredPlugins.slice(i, i + MAX_MUMBER_SELECT))
       }
       setGroupedPlugins(groupedPlugins)
       setPages(Array.from(new Array(groupedPlugins.length).keys()).map(x => x + 1))
     }
-  }, [pluginsAvailable.length])
+  }, [filteredPlugins.length])
 
   function handleUsePluginsSelected () {
     setPlugins(serviceName, pluginsSelected)
     onClick()
+  }
+
+  function handleClearPlugins () {
+    setFilteredPlugins([...pluginsAvailable])
+  }
+
+  function handleFilterPlugins (value) {
+    setCurrentPage(1)
+    const founds = pluginsAvailable.filter(template => template.name.toLowerCase().includes(value.toLowerCase()))
+    setFilteredPlugins(founds)
   }
 
   const scroll = (page) => {
@@ -111,7 +124,7 @@ function SelectPlugin ({ onClick, serviceName }) {
         <p className={`${typographyStyles.desktopBodyLarge} ${typographyStyles.textWhite} ${typographyStyles.opacity70}`}>Select one or more Plugins from our Stackables Marketplace to be added to your new serviceAdding a plugin to your service is optional.</p>
       </div>
       <div className={`${commonStyles.mediumFlexBlock24} ${commonStyles.fullWidth}`}>
-        <SearchBarV2 placeholder='Search for a Plugin' />
+        <SearchBarV2 placeholder='Search for a Plugin' onClear={handleClearPlugins} onChange={handleFilterPlugins} />
         <div className={styles.pluginsContainer} ref={containerScrollRef}>
           <div className={styles.pluginsContent} ref={scrollRef}>
             {renderContent()}
