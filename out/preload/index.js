@@ -6,6 +6,9 @@ if (process.contextIsolated) {
   try {
     electron.contextBridge.exposeInMainWorld("electron", preload.electronAPI);
     electron.contextBridge.exposeInMainWorld("api", api);
+    electron.contextBridge.exposeInMainWorld("dialog", {
+      showDialog: () => electron.ipcRenderer.invoke("select-folder")
+    });
   } catch (error) {
     console.error(error);
   }
