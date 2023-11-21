@@ -23,10 +23,6 @@ function Header () {
             label='Chat on Discord'
             platformaticIcon={{ iconName: 'SocialDiscordIcon', color: WHITE }}
             color={WHITE}
-            onClick={async () => {
-              const dir = await window.dialog.showDialog()
-              alert(dir)
-            }}
           />
         </div>
       </div>

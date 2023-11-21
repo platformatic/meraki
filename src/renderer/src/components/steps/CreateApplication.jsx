@@ -5,14 +5,14 @@ import Forms from '@platformatic/ui-components/src/components/forms'
 import styles from './CreateApplication.module.css'
 import commonStyles from '~/styles/CommonStyles.module.css'
 import typographyStyles from '~/styles/Typography.module.css'
-import { WHITE, RICH_BLACK } from '@platformatic/ui-components/src/components/constants'
+import { WHITE, RICH_BLACK, TRANSPARENT } from '@platformatic/ui-components/src/components/constants'
 import { Button } from '@platformatic/ui-components'
 import useStackablesStore from '~/useStackablesStore'
 import Title from '~/components/ui/Title'
 
 const CreateApplication = React.forwardRef(({ onNext }, ref) => {
-  const [form, setForm] = useState({ application: '', service: '' })
-  const [validations, setValidations] = useState({ applicationValid: false, serviceValid: false, formErrors: { application: '', service: '' } })
+  const [form, setForm] = useState({ application: '', service: '', folder: '' })
+  const [validations, setValidations] = useState({ applicationValid: false, serviceValid: false, folderValid: false, formErrors: { application: '', service: '', folder: '' } })
   const [validForm, setValidForm] = useState(false)
   const [inputOnServiceField, setInputOnServiceField] = useState(false)
   const globalState = useStackablesStore()
@@ -74,7 +74,7 @@ const CreateApplication = React.forwardRef(({ onNext }, ref) => {
   function validateField (fieldName, fieldValue, callback = () => {}) {
     let tmpValid = validations[`${fieldName}Valid`]
     const formErrors = { ...validations.formErrors }
-    tmpValid = fieldValue.length > 0 && /^[\w-]+$/g.test(fieldValue)
+    tmpValid = fieldName === 'folder' ? fieldValue.length > 0 && /^\S+$/g.test(fieldValue) : fieldValue.length > 0 && /^[\w-]+$/g.test(fieldValue)
     formErrors[fieldName] = fieldValue.length > 0 ? (tmpValid ? '' : 'The field is not valid, make sure you are using regular characters') : ''
     const nextValidation = { ...validations, formErrors }
     nextValidation[`${fieldName}Valid`] = tmpValid
@@ -88,6 +88,13 @@ const CreateApplication = React.forwardRef(({ onNext }, ref) => {
     const valid = Object.keys(restValidations).findIndex(element => restValidations[element] === false) === -1
     setValidForm(valid)
     return callback
+  }
+
+  async function handleOpenFolder () {
+    const dir = await window.dialog.showDialog()
+    if (dir !== null) {
+      validateField('folder', dir, setForm(form => ({ ...form, folder: dir })))
+    }
   }
 
   return (
@@ -104,7 +111,7 @@ const CreateApplication = React.forwardRef(({ onNext }, ref) => {
           <p className={`${typographyStyles.desktopBodyLarge} ${typographyStyles.textWhite} ${typographyStyles.opacity70}`}>Start by entering the name of your Application and the name of your service.</p>
         </div>
         <div className={`${commonStyles.largeFlexBlock} ${commonStyles.fullWidth}`}>
-          <Forms.Field title='Application name*' titleColor={WHITE}>
+          <Forms.Field title='Application name' titleColor={WHITE} required>
             <Forms.Input
               placeholder='Enter the name of your application'
               name='application'
@@ -115,7 +122,7 @@ const CreateApplication = React.forwardRef(({ onNext }, ref) => {
               backgroundTransparent
             />
           </Forms.Field>
-          <Forms.Field title='Service name*' titleColor={WHITE}>
+          <Forms.Field title='Service name' titleColor={WHITE} required>
             <Forms.Input
               placeholder='Enter the name of your service'
               name='service'
@@ -123,6 +130,25 @@ const CreateApplication = React.forwardRef(({ onNext }, ref) => {
               value={form.service}
               onChange={handleChangeService}
               errorMessage={validations.formErrors.service}
+              backgroundTransparent
+            />
+          </Forms.Field>
+          <Forms.Field title='Select destination folder' titleColor={WHITE} required>
+            <Button
+              type='button'
+              platformaticIcon={{ iconName: 'FolderIcon', color: WHITE }}
+              label='Select folder'
+              onClick={async () => handleOpenFolder()}
+              color={WHITE}
+              backgroundColor={TRANSPARENT}
+              classes={`${commonStyles.buttonPadding} cy-action-next`}
+            />
+            <Forms.Input
+              placeholder='Select the destination folder of your application using the Button'
+              name='folder'
+              borderColor={WHITE}
+              value={form.folder}
+              errorMessage={validations.formErrors.folder}
               backgroundTransparent
             />
           </Forms.Field>
