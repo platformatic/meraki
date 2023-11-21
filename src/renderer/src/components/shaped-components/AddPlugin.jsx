@@ -3,7 +3,7 @@ import PropTypes from 'prop-types'
 import typographyStyles from '~/styles/Typography.module.css'
 import styles from './AddPlugin.module.css'
 import commonStyles from '~/styles/CommonStyles.module.css'
-import SmallTitle from '../ui/SmallTitle'
+import SmallTitle from '~/components/ui/SmallTitle'
 import React from 'react'
 
 const AddPlugin = React.forwardRef(({ onClick }, ref) => {

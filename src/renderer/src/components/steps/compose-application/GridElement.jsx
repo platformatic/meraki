@@ -43,12 +43,15 @@ function GridElement ({
             </div>
           </BorderedBox>
         )}
-        <BorderedBox color={MAIN_GREEN} backgroundColor={MAIN_GREEN} backgroundColorOpacity={OPACITY_20} classes={styles.boxGrow}>
-          <div className={`${commonStyles.smallFlexRow} ${commonStyles.itemsCenter}`}>
-            <Icons.StackablesTemplateIcon color={MAIN_GREEN} size={SMALL} />
-            <span className={`${typographyStyles.desktopBodySmall} ${typographyStyles.textWhite} ${typographyStyles.opacity70} `}>1</span>
-          </div>
-        </BorderedBox>
+        {Object.keys(service.template).length > 0 &&
+        (
+          <BorderedBox color={MAIN_GREEN} backgroundColor={MAIN_GREEN} backgroundColorOpacity={OPACITY_20} classes={styles.boxGrow}>
+            <div className={`${commonStyles.smallFlexRow} ${commonStyles.itemsCenter}`}>
+              <Icons.StackablesTemplateIcon color={MAIN_GREEN} size={SMALL} />
+              <span className={`${typographyStyles.desktopBodySmall} ${typographyStyles.textWhite} ${typographyStyles.opacity70} `}>1</span>
+            </div>
+          </BorderedBox>
+        )}
       </div>
     </div>
 
