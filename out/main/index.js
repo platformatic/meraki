@@ -78,8 +78,8 @@ const setupMenu = () => {
 process.platform === "darwin";
 function createWindow() {
   const mainWindow = new electron.BrowserWindow({
-    width: 1024,
-    height: 768,
+    minWidth: 1024,
+    minHeight: 768,
     show: false,
     autoHideMenuBar: false,
     ...process.platform === "linux" ? { icon } : {},
@@ -89,6 +89,7 @@ function createWindow() {
     }
   });
   mainWindow.on("ready-to-show", () => {
+    mainWindow.maximize();
     mainWindow.show();
   });
   mainWindow.webContents.setWindowOpenHandler((details) => {

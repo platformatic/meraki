@@ -10,8 +10,8 @@ const isMac = process.platform === 'darwin'
 
 function createWindow () {
   const mainWindow = new BrowserWindow({
-    width: 1024,
-    height: 768,
+    minWidth: 1024,
+    minHeight: 768,
     show: false,
     autoHideMenuBar: false,
     ...(process.platform === 'linux' ? { icon } : {}),
@@ -22,6 +22,7 @@ function createWindow () {
   })
 
   mainWindow.on('ready-to-show', () => {
+    mainWindow.maximize()
     mainWindow.show()
   })
 
