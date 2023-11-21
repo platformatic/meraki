@@ -1,6 +1,6 @@
 'use strict'
 import PropTypes from 'prop-types'
-import { useEffect, useState } from 'react'
+import { useEffect, useRef, useState } from 'react'
 import { RICH_BLACK, TRANSPARENT, WHITE } from '@platformatic/ui-components/src/components/constants'
 import typographyStyles from '~/styles/Typography.module.css'
 import commonStyles from '~/styles/CommonStyles.module.css'
@@ -10,16 +10,21 @@ import Title from '~/components/ui/Title'
 import useStackablesStore from '~/useStackablesStore'
 import Plugin from './Plugin'
 import { getPlugins } from '../../api'
+import { MAX_MUMBER_SELECT } from '~/ui-constants'
 
 function SelectPlugin ({ onClick, serviceName }) {
-  const [pages] = useState([1])
+  const [currentPage, setCurrentPage] = useState(1)
+  const [pages, setPages] = useState([1])
+  const [groupedPlugins, setGroupedPlugins] = useState([])
   const [pluginsAvailable, setPluginsAvailable] = useState([])
   const [pluginsSelected, setPluginsSelected] = useState([])
   const globalState = useStackablesStore()
   const { setPlugins, getService } = globalState
+  const scrollRef = useRef(null)
+  const containerScrollRef = useRef(null)
 
   useEffect(() => {
-    setPluginsAvailable(getPlugins(10))
+    setPluginsAvailable(getPlugins())
   }, [])
 
   useEffect(() => {
@@ -28,9 +33,39 @@ function SelectPlugin ({ onClick, serviceName }) {
     }
   }, [serviceName, Object.keys(getService(serviceName)?.plugins).length])
 
+  useEffect(() => {
+    if (pluginsAvailable.length > 0) {
+      const groupedPlugins = []
+      for (let i = 0; i < pluginsAvailable.length; i += MAX_MUMBER_SELECT) {
+        groupedPlugins.push(pluginsAvailable.slice(i, i + MAX_MUMBER_SELECT))
+      }
+      setGroupedPlugins(groupedPlugins)
+      setPages(Array.from(new Array(groupedPlugins.length).keys()).map(x => x + 1))
+    }
+  }, [pluginsAvailable.length])
+
   function handleUsePluginsSelected () {
     setPlugins(serviceName, pluginsSelected)
     onClick()
+  }
+
+  const scroll = (page) => {
+    let sign = 0; let howManyPages = 0
+    if (page > currentPage) {
+      sign = 1
+      howManyPages = page - currentPage
+    } else {
+      sign = -1
+      howManyPages = currentPage - page
+    }
+
+    setCurrentPage(page)
+
+    scrollRef.current.scrollBy({
+      top: 0,
+      left: sign * (containerScrollRef.current.clientWidth + 8) * howManyPages,
+      behavior: 'smooth'
+    })
   }
 
   function handleClickPlugin (plugin) {
@@ -47,6 +82,23 @@ function SelectPlugin ({ onClick, serviceName }) {
     }
   }
 
+  function renderContent () {
+    return groupedPlugins.map((groupedPlugin, index) => (
+      <div className={styles.gridContainer} key={index}>
+        <div className={styles.gridContent}>
+          {groupedPlugin.map(plugin =>
+            <Plugin
+              key={plugin.id}
+              isSelected={pluginsSelected.find(pluginSelected => pluginSelected.id === plugin.id) !== undefined}
+              onClick={() => handleClickPlugin(plugin)}
+              {...plugin}
+            />
+          )}
+        </div>
+      </div>
+    ))
+  }
+
   return (
     <div className={`${commonStyles.largeFlexBlock} ${commonStyles.fullWidth}`}>
       <div className={commonStyles.mediumFlexBlock}>
@@ -60,16 +112,9 @@ function SelectPlugin ({ onClick, serviceName }) {
       </div>
       <div className={`${commonStyles.mediumFlexBlock24} ${commonStyles.fullWidth}`}>
         <SearchBarV2 placeholder='Search for a Plugin' />
-        <div className={styles.gridContainer}>
-          <div className={styles.gridContent}>
-            {pluginsAvailable.map(plugin =>
-              <Plugin
-                key={plugin.id}
-                isSelected={pluginsSelected.find(pluginSelected => pluginSelected.id === plugin.id) !== undefined}
-                onClick={() => handleClickPlugin(plugin)}
-                {...plugin}
-              />
-            )}
+        <div className={styles.pluginsContainer} ref={containerScrollRef}>
+          <div className={styles.pluginsContent} ref={scrollRef}>
+            {renderContent()}
           </div>
         </div>
         <div className={`${commonStyles.mediumFlexRow} ${commonStyles.fullWidth} ${commonStyles.justifyCenter}`}>
@@ -78,9 +123,9 @@ function SelectPlugin ({ onClick, serviceName }) {
               key={page}
               classes={`${commonStyles.buttonPadding}`}
               label={`${page}`}
-              onClick={() => { }}
+              onClick={() => scroll(page)}
               color={WHITE}
-              selected={page === 1}
+              selected={page === currentPage}
               backgroundColor={TRANSPARENT}
               bordered={false}
             />

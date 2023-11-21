@@ -2,13 +2,20 @@ const nameList = [
   'Time - Past - Future - Dev',
   'Fly - Flying - Soar - Soaring',
   'Power - Falling',
-  'Legacy', 'Sharp - Dead - Mew - Chuckle - Bubba',
+  'Sharp - Dead - Mew - Chuckle - Bubba',
+  'Time', 'Past', 'Future', 'Dev',
+  'Fly', 'Flying', 'Soar', 'Soaring',
+  'Power', 'Falling',
+  'Legacy', 'Sharp', 'Dead', 'Mew', 'Chuckle', 'Bubba',
   'Bubble',
   'Sandwich',
   'Smasher - Extreme - Multi',
+  'Smasher', 'Extreme', 'Multi',
   'Universe',
   'Ultimate',
-  'Death', 'Ready - Monkey',
+  'Death',
+  'Ready - Monkey',
+  'Ready', 'Monkey',
   'Paradox'
 ]
 
@@ -27,7 +34,9 @@ const envList = [
   'PERPETRATE'
 ]
 
-export const getTemplates = (howMany) => {
+export const getTemplates = () => {
+  const howMany = Math.floor(Math.random() * (nameList.length - 10))
+  // const howMany = 26
   const nameArray = ['Platformatic service']
   let name
   while (nameArray.length < howMany) {
@@ -45,7 +54,8 @@ export const getTemplates = (howMany) => {
   }))
 }
 
-export const getPlugins = (howMany) => {
+export const getPlugins = () => {
+  const howMany = Math.floor(Math.random() * (nameList.length - 10))
   const nameArray = []
   let name
   while (nameArray.length < howMany) {

@@ -15,3 +15,5 @@ export const HEIGHT_TEMPLATE_1 = 175
 
 export const NORMAL_VIEW = 'normal'
 export const GRID_VIEW = 'grid'
+
+export const MAX_MUMBER_SELECT = 12

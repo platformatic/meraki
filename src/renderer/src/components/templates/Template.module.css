@@ -1,5 +1,5 @@
 .container {
-  @apply border border-solid rounded-md p-4 cursor-pointer;
+  @apply border border-solid rounded-md p-4 cursor-pointer h-fit;
 }
 .ellipsis {
   @apply truncate w-full;
