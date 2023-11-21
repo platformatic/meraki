@@ -21,7 +21,7 @@ function GridElement ({
 
   return (
     <div className={`${commonStyles.mediumFlexRow} ${styles.container} ${commonStyles.justifyBetween}`}>
-      <div className={commonStyles.smallFlexBlock}>
+      <div className={commonStyles.flexBlockNoGap}>
         <NameService
           name={service.name}
           onClickEdit={() => onClickEditNameService(service)}

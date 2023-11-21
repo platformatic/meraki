@@ -177,7 +177,10 @@ const ComposeApplication = React.forwardRef(({ onNext }, ref) => {
                   <div className={commonStyles.mediumFlexRow}>
                     <h5 className={`${typographyStyles.desktopHeadline5} ${typographyStyles.textWhite}`}>&nbsp;</h5>
                   </div>
-                  <AddService onClick={() => addService()} enabled={services.find(service => Object.keys(service.template).length === 0) === undefined} />
+                  <AddService
+                    onClick={() => addService()}
+                    enabled={services.find(service => Object.keys(service.template).length === 0) === undefined || currentView === GRID_VIEW}
+                  />
                 </div>
               </div>
             </div>

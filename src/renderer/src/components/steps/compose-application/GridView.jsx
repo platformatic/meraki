@@ -1,5 +1,5 @@
 'use strict'
-import React from 'react'
+import React, { useEffect, useState } from 'react'
 import PropTypes from 'prop-types'
 import useStackablesStore from '~/useStackablesStore'
 import commonStyles from '~/styles/CommonStyles.module.css'
@@ -14,15 +14,29 @@ const GridView = React.forwardRef(({
 }, ref) => {
   const globalState = useStackablesStore()
   const { services } = globalState
+  const [gridClassName, setGridClassName] = useState(styles.gridClassName)
+  const [contentClassName, setContentClassName] = useState(styles.container)
+  const MAX_NUMBER = 5
 
-  return (
-    <div className={`${commonStyles.mediumFlexBlock}`}>
-      <div className={commonStyles.mediumFlexRow}>
-        <h5 className={`${typographyStyles.desktopHeadline5} ${typographyStyles.textWhite}`}>&nbsp;</h5>
-      </div>
+  useEffect(() => {
+    if (services.length > MAX_NUMBER) {
+      setGridClassName(`${styles.gridClassName} ${styles.halfWidth}`)
+      setContentClassName(`${styles.container}`)
+    } else {
+      setGridClassName(styles.gridClassName)
+      setContentClassName(styles.container)
+    }
+  }, [services?.length])
 
-      <div className={styles.gridClassName} ref={ref}>
-        {services.map(service => (
+  function renderContent () {
+    const groupedServices = []
+    for (let i = 0; i < services.length; i += MAX_NUMBER) {
+      groupedServices.push(services.slice(i, i + MAX_NUMBER))
+    }
+
+    return groupedServices.map((group, index) => (
+      <div className={gridClassName} key={index}>
+        {group.map(service => (
           <GridElement
             key={service.name}
             service={{ ...service }}
@@ -32,8 +46,19 @@ const GridView = React.forwardRef(({
           />
         ))}
       </div>
-    </div>
+    ))
+  }
 
+  return (
+    <div className={`${commonStyles.mediumFlexBlock}`}>
+      <div className={commonStyles.mediumFlexRow}>
+        <h5 className={`${typographyStyles.desktopHeadline5} ${typographyStyles.textWhite}`}>&nbsp;</h5>
+      </div>
+
+      <div className={contentClassName} ref={ref}>
+        {renderContent()}
+      </div>
+    </div>
   )
 })
 
