@@ -20,3 +20,6 @@ export const LIST_PLUGINS_VIEW = 'list_plugins'
 export const NO_RESULTS_VIEW = 'no_results'
 
 export const MAX_MUMBER_SELECT = 12
+
+export const TYPESCRIPT = 'typescript'
+export const JAVASCRIPT = 'javascript'

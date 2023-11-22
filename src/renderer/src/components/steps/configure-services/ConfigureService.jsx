@@ -37,8 +37,6 @@ function ConfigureService ({ service }) {
     let tmpValid = validations[`${fieldName}Valid`]
     const formErrors = { ...validations.formErrors }
     switch (fieldName) {
-      case 'sameConfigurationPRMain':
-        break
       default:
         tmpValid = fieldValue.length > 0 && /^\S+$/g.test(fieldValue)
         formErrors[fieldName] = fieldValue.length > 0 ? (tmpValid ? '' : 'The field is not valid, make sure you are using regular characters') : ''

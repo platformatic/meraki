@@ -19,6 +19,9 @@
 .mediumFlexBlock24 {
   @apply flex flex-col items-start gap-y-6;
 }
+.largeFlexRow {
+  @apply flex flex-row items-center gap-x-10 w-full;
+}
 .largeFlexBlock {
   @apply flex flex-col items-start gap-y-10;
 }

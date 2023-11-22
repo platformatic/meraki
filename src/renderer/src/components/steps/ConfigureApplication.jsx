@@ -5,17 +5,25 @@ import styles from './ConfigureApplication.module.css'
 import commonStyles from '~/styles/CommonStyles.module.css'
 import typographyStyles from '~/styles/Typography.module.css'
 import { WHITE, RICH_BLACK, TRANSPARENT } from '@platformatic/ui-components/src/components/constants'
-import { Button } from '@platformatic/ui-components'
+import { BorderedBox, Button, VerticalSeparator } from '@platformatic/ui-components'
 import useStackablesStore from '~/useStackablesStore'
 import EditableTitle from '~/components/ui/EditableTitle'
 import '~/components/component.animation.css'
 import Forms from '@platformatic/ui-components/src/components/forms'
+import { TYPESCRIPT, JAVASCRIPT } from '~/ui-constants'
 
 const ConfigureApplication = React.forwardRef(({ onNext }, ref) => {
   const globalState = useStackablesStore()
   const { formData, services, addFormData } = globalState
   const logLevels = ['trace', 'info', 'debug', 'warn', 'error']
-  const [form, setForm] = useState({ entryPoint: services[0].name, port: '', logLevel: 'trace', createGitHubRepository: true, installGitHubActions: true })
+  const [form, setForm] = useState({
+    entryPoint: services[0].name,
+    port: '',
+    logLevel: 'trace',
+    language: TYPESCRIPT,
+    createGitHubRepository: true,
+    installGitHubActions: true
+  })
   const [validations, setValidations] = useState({ portValid: false, formErrors: { port: '' } })
   // eslint-disable-next-line no-unused-vars
   const [validForm, setValidForm] = useState(false)
@@ -77,7 +85,7 @@ const ConfigureApplication = React.forwardRef(({ onNext }, ref) => {
           />
           <p className={`${typographyStyles.desktopBodyLarge} ${typographyStyles.textWhite} ${typographyStyles.opacity70}`}>Select a template and plugins for your service from our Stackables Marketplace. Once you have chosen a template you can add another Service.</p>
         </div>
-        <div className={`${styles.customFlexBlock} ${commonStyles.fullWidth}`}>
+        <div className={`${styles.customFlexBlock} ${commonStyles.halfWidth}`}>
           <Forms.Field
             title='EntryPoint'
             helper='Select a service as entrypoint of your Application'
@@ -143,35 +151,62 @@ const ConfigureApplication = React.forwardRef(({ onNext }, ref) => {
           </Forms.Field>
 
           <Forms.Field
-            title='Create Git Repository'
-            helper='Create a Git Repository for you Application'
+            title='Language'
+            helper='Select a language for your Application'
             titleClassName={`${typographyStyles.desktopBodySemibold} ${typographyStyles.textWhite} `}
             helperClassName={`${typographyStyles.desktopBodySmall} ${typographyStyles.textWhite} ${typographyStyles.opacity70}`}
+            required
           >
-            <Forms.ToggleSwitch
-              label='Toggle on will create a GitHub repository'
-              labelClassName={`${typographyStyles.desktopBodySmall} ${typographyStyles.textWhite} ${typographyStyles.opacity70}`}
-              name='createGitHubRepository'
-              onChange={handleChange}
-              checked={form.createGitHubRepository}
-            />
+            <div className={commonStyles.smallFlexRow}>
+              {[TYPESCRIPT, JAVASCRIPT].map(language => (
+                <Button
+                  key={language}
+                  type='button'
+                  label={language.charAt(0).toUpperCase() + language.slice(1)}
+                  onClick={() => setForm(form => ({ ...form, language }))}
+                  color={WHITE}
+                  backgroundColor={TRANSPARENT}
+                  selected={language === form.language}
+                  classes={commonStyles.buttonPadding}
+                />
+              ))}
+            </div>
           </Forms.Field>
 
-          <Forms.Field
-            title='Install GitHub Actions'
-            helper='Install GitHub Actions to your Application'
-            titleClassName={`${typographyStyles.desktopBodySemibold} ${typographyStyles.textWhite} `}
-            helperClassName={`${typographyStyles.desktopBodySmall} ${typographyStyles.textWhite} ${typographyStyles.opacity70}`}
-          >
-            <Forms.ToggleSwitch
-              label='Toggle on will install the the GitHub actions'
-              labelClassName={`${typographyStyles.desktopBodySmall} ${typographyStyles.textWhite} ${typographyStyles.opacity70}`}
-              name='installGitHubActions'
-              onChange={handleChange}
-              checked={form.installGitHubActions}
-            />
-          </Forms.Field>
+          <BorderedBox color={WHITE} borderColorOpacity={30} backgroundColor={TRANSPARENT} classes={`${commonStyles.largeFlexRow}`}>
 
+            <Forms.Field
+              title='Create Git Repository'
+              helper='Create a Git Repository for you Application'
+              titleClassName={`${typographyStyles.desktopBodySemibold} ${typographyStyles.textWhite} `}
+              helperClassName={`${typographyStyles.desktopBodySmall} ${typographyStyles.textWhite} ${typographyStyles.opacity70}`}
+            >
+              <Forms.ToggleSwitch
+                label='Toggle on will create a GitHub repository'
+                labelClassName={`${typographyStyles.desktopBodySmall} ${typographyStyles.textWhite} ${typographyStyles.opacity70}`}
+                name='createGitHubRepository'
+                onChange={handleChange}
+                checked={form.createGitHubRepository}
+              />
+            </Forms.Field>
+
+            <VerticalSeparator />
+
+            <Forms.Field
+              title='Install GitHub Actions'
+              helper='Install GitHub Actions to your Application'
+              titleClassName={`${typographyStyles.desktopBodySemibold} ${typographyStyles.textWhite} `}
+              helperClassName={`${typographyStyles.desktopBodySmall} ${typographyStyles.textWhite} ${typographyStyles.opacity70}`}
+            >
+              <Forms.ToggleSwitch
+                label='Toggle on will install the the GitHub actions'
+                labelClassName={`${typographyStyles.desktopBodySmall} ${typographyStyles.textWhite} ${typographyStyles.opacity70}`}
+                name='installGitHubActions'
+                onChange={handleChange}
+                checked={form.installGitHubActions}
+              />
+            </Forms.Field>
+          </BorderedBox>
         </div>
       </div>
       <div className={`${styles.buttonContainer} ${commonStyles.fullWidth}`}>
