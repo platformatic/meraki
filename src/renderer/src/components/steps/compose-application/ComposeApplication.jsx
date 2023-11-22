@@ -13,7 +13,7 @@ import TemplateHandler from '~/components/templates/TemplateHandler'
 import SelectTemplate from '~/components/templates/SelectTemplate'
 import EditableTitle from '~/components/ui/EditableTitle'
 import SelectPlugin from '~/components/plugins/SelectPlugin'
-import Services from '~/components/services/Services'
+import ConnectorAndServices from '~/components/services/ConnectorAndServices'
 import PlatformaticRuntimeButton from '~/components/shaped-components/PlatformaticRuntimeButton'
 import ViewAll from '~/components/plugins/ViewAll'
 import EditService from '~/components/services/EditService'
@@ -186,7 +186,7 @@ const ComposeApplication = React.forwardRef(({ onNext }, ref) => {
             </div>
             <PlatformaticRuntimeButton view={currentView} />
           </div>
-          <Services />
+          <ConnectorAndServices />
         </div>
       </div>
       <div className={`${styles.buttonContainer} ${commonStyles.fullWidth}`}>
