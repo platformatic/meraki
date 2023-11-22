@@ -1,11 +1,11 @@
-// eslint-disable-next-line no-unused-vars
 import { app, shell, BrowserWindow, dialog, ipcMain, Menu } from 'electron'
 import { join } from 'path'
 import { electronApp, optimizer, is } from '@electron-toolkit/utils'
 import icon from '../../resources/icon.png?asset'
 import setupMenu from './menu.js'
+import { getTemplates, getPlugins } from './client.js'
+import { prepareFolder, createApp } from './generate.js'
 
-// eslint-disable-next-line no-unused-vars
 const isMac = process.platform === 'darwin'
 
 function createWindow () {
@@ -42,9 +42,6 @@ function createWindow () {
   setupMenu()
 }
 
-// This method will be called when Electron has finished
-// initialization and is ready to create browser windows.
-// Some APIs can only be used after this event occurs.
 app.whenReady().then(() => {
   // Set app user model id for windows
   electronApp.setAppUserModelId('com.electron')
@@ -71,6 +68,22 @@ app.whenReady().then(() => {
     } else {
       return result.filePaths[0]
     }
+  })
+
+  ipcMain.handle('get-templates', async () => {
+    return getTemplates()
+  })
+
+  ipcMain.handle('get-plugins', async () => {
+    return getPlugins()
+  })
+
+  ipcMain.handle('prepare-folder', async (_, path) => {
+    return prepareFolder(path)
+  })
+
+  ipcMain.handle('create-app', async (_, path) => {
+    return createApp(path)
   })
 })
 
