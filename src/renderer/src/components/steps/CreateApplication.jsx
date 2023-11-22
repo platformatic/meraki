@@ -141,7 +141,7 @@ const CreateApplication = React.forwardRef(({ onNext }, ref) => {
               onClick={async () => handleOpenFolder()}
               color={WHITE}
               backgroundColor={TRANSPARENT}
-              classes={`${commonStyles.buttonPadding} cy-action-next`}
+              classes={`${commonStyles.buttonPadding} cy-action-open-folder`}
             />
             <Forms.Input
               placeholder='Select the destination folder of your application using the Button'
