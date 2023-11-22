@@ -18,7 +18,7 @@ const AddPlugin = React.forwardRef(({ onClick }, ref) => {
           iconName='CircleAddIcon'
           title='Add Plugin'
           titleClassName={`${typographyStyles.desktopBodyLarge} ${typographyStyles.textWhite} ${typographyStyles.opacity70}`}
-          containerClassName={`${commonStyles.smallFlexRow} ${commonStyles.textCenter}`}
+          containerClassName={`${commonStyles.smallFlexRow} ${typographyStyles.textCenter}`}
         />
       </div>
     </div>

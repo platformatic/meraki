@@ -18,7 +18,7 @@ const Routes = React.forwardRef(({ _object }, ref) => {
           iconName='FoldersIcon'
           title='routes'
           titleClassName={`${typographyStyles.desktopBodyLarge} ${typographyStyles.textWhite} ${typographyStyles.opacity70}`}
-          containerClassName={`${commonStyles.smallFlexRow} ${commonStyles.textCenter}`}
+          containerClassName={`${commonStyles.smallFlexRow} ${typographyStyles.textCenter}`}
         />
       </div>
     </div>

@@ -10,17 +10,21 @@ import Title from '~/components/ui/Title'
 import useStackablesStore from '~/useStackablesStore'
 import Plugin from './Plugin'
 import { getPlugins } from '../../api'
-import { MAX_MUMBER_SELECT } from '~/ui-constants'
+import { MAX_MUMBER_SELECT, NO_RESULTS_VIEW, LIST_PLUGINS_VIEW } from '~/ui-constants'
+import NoResults from '~/components/ui/NoResults'
 
 function SelectPlugin ({ onClick, serviceName }) {
+  const globalState = useStackablesStore()
+  const { setPlugins, getService } = globalState
   const [groupedPlugins, setGroupedPlugins] = useState([])
   const [pluginsAvailable, setPluginsAvailable] = useState([])
   const [pluginsSelected, setPluginsSelected] = useState([])
   const [filteredPlugins, setFilteredPlugins] = useState([])
+  const [filterPluginsByValue, setFilterPluginsByValue] = useState('')
+  const [currentView, setCurrentView] = useState(LIST_PLUGINS_VIEW)
+
   const [currentPage, setCurrentPage] = useState(1)
   const [pages, setPages] = useState([1])
-  const globalState = useStackablesStore()
-  const { setPlugins, getService } = globalState
   const scrollRef = useRef(null)
   const containerScrollRef = useRef(null)
 
@@ -38,6 +42,9 @@ function SelectPlugin ({ onClick, serviceName }) {
 
   useEffect(() => {
     if (filteredPlugins.length > 0) {
+      if (currentView === NO_RESULTS_VIEW) {
+        setCurrentView(LIST_PLUGINS_VIEW)
+      }
       const groupedPlugins = []
       for (let i = 0; i < filteredPlugins.length; i += MAX_MUMBER_SELECT) {
         groupedPlugins.push(filteredPlugins.slice(i, i + MAX_MUMBER_SELECT))
@@ -45,7 +52,12 @@ function SelectPlugin ({ onClick, serviceName }) {
       setGroupedPlugins(groupedPlugins)
       setPages(Array.from(new Array(groupedPlugins.length).keys()).map(x => x + 1))
     }
-  }, [filteredPlugins.length])
+    if (filteredPlugins.length === 0 && filterPluginsByValue) {
+      if (currentView === LIST_PLUGINS_VIEW) {
+        setCurrentView(NO_RESULTS_VIEW)
+      }
+    }
+  }, [filteredPlugins.length, filterPluginsByValue])
 
   function handleUsePluginsSelected () {
     setPlugins(serviceName, pluginsSelected)
@@ -53,10 +65,12 @@ function SelectPlugin ({ onClick, serviceName }) {
   }
 
   function handleClearPlugins () {
+    setFilterPluginsByValue('')
     setFilteredPlugins([...pluginsAvailable])
   }
 
   function handleFilterPlugins (value) {
+    setFilterPluginsByValue(value)
     setCurrentPage(1)
     const founds = pluginsAvailable.filter(template => template.name.toLowerCase().includes(value.toLowerCase()))
     setFilteredPlugins(founds)
@@ -95,7 +109,7 @@ function SelectPlugin ({ onClick, serviceName }) {
     }
   }
 
-  function renderContent () {
+  function renderListPlugins () {
     return groupedPlugins.map((groupedPlugin, index) => (
       <div className={styles.gridContainer} key={index}>
         <div className={styles.gridContent}>
@@ -112,6 +126,41 @@ function SelectPlugin ({ onClick, serviceName }) {
     ))
   }
 
+  function renderCurrentView () {
+    if (currentView === LIST_PLUGINS_VIEW) {
+      return (
+        <>
+          <div className={styles.pluginsContainer} ref={containerScrollRef}>
+            <div className={styles.pluginsContent} ref={scrollRef}>
+              {renderListPlugins()}
+            </div>
+          </div>
+          <div className={`${commonStyles.mediumFlexRow} ${commonStyles.fullWidth} ${commonStyles.justifyCenter}`}>
+            {pages.map(page =>
+              <Button
+                key={page}
+                classes={`${commonStyles.buttonPadding}`}
+                label={`${page}`}
+                onClick={() => scroll(page)}
+                color={WHITE}
+                selected={page === currentPage}
+                backgroundColor={TRANSPARENT}
+                bordered={false}
+              />
+            )}
+          </div>
+        </>
+      )
+    }
+    return (
+      <NoResults
+        searchedValue={filterPluginsByValue}
+        dataAttrName='cy'
+        dataAttrValue='template-no-results'
+      />
+    )
+  }
+
   return (
     <div className={`${commonStyles.largeFlexBlock} ${commonStyles.fullWidth}`}>
       <div className={commonStyles.mediumFlexBlock}>
@@ -125,24 +174,8 @@ function SelectPlugin ({ onClick, serviceName }) {
       </div>
       <div className={`${commonStyles.mediumFlexBlock24} ${commonStyles.fullWidth}`}>
         <SearchBarV2 placeholder='Search for a Plugin' onClear={handleClearPlugins} onChange={handleFilterPlugins} />
-        <div className={styles.pluginsContainer} ref={containerScrollRef}>
-          <div className={styles.pluginsContent} ref={scrollRef}>
-            {renderContent()}
-          </div>
-        </div>
-        <div className={`${commonStyles.mediumFlexRow} ${commonStyles.fullWidth} ${commonStyles.justifyCenter}`}>
-          {pages.map(page =>
-            <Button
-              key={page}
-              classes={`${commonStyles.buttonPadding}`}
-              label={`${page}`}
-              onClick={() => scroll(page)}
-              color={WHITE}
-              selected={page === currentPage}
-              backgroundColor={TRANSPARENT}
-              bordered={false}
-            />
-          )}
+        <div className={`${commonStyles.mediumFlexBlock24} ${commonStyles.fullWidth} ${commonStyles.justifyCenter} ${styles.containerView}`}>
+          {renderCurrentView()}
         </div>
       </div>
       <Button

@@ -1,5 +1,5 @@
 .templatesContainer {
-  @apply lg:min-h-[25rem] lg:max-h-[25rem] h-full w-full relative;
+  @apply lg:min-h-[25.5rem] lg:max-h-[25.5rem] h-full w-full relative;
 }
 .templatesContent{
   @apply absolute top-0 left-0 flex flex-row gap-x-2 overflow-x-scroll w-full
@@ -12,4 +12,7 @@
 }
 .page {
   @apply p-4 bg-white/30 text-white rounded-md;
+}
+.containerView {
+  @apply lg:min-h-[29.9rem] lg:max-h-[29.5rem] h-full w-full
 }

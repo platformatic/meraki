@@ -57,7 +57,7 @@ function Services () {
                               iconName='FoldersIcon'
                               title={service.name}
                               titleClassName={`${typographyStyles.desktopBodyLarge} ${typographyStyles.textWhite} ${typographyStyles.opacity70}`}
-                              containerClassName={`${commonStyles.smallFlexRow} ${commonStyles.textCenter}`}
+                              containerClassName={`${commonStyles.smallFlexRow} ${typographyStyles.textCenter}`}
                             />
                           </div>
 

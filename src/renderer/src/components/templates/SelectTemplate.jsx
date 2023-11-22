@@ -8,21 +8,59 @@ import styles from './SelectTemplate.module.css'
 import { Button, SearchBarV2 } from '@platformatic/ui-components'
 import Template from './Template'
 import Title from '~/components/ui/Title'
+import NoResults from '~/components/ui/NoResults'
 import useStackablesStore from '~/useStackablesStore'
 import { getTemplates } from '../../api'
-import { MAX_MUMBER_SELECT } from '~/ui-constants'
+import { MAX_MUMBER_SELECT, NO_RESULTS_VIEW, LIST_TEMPLATES_VIEW } from '~/ui-constants'
 
 function SelectTemplate ({ onClick, serviceName }) {
+  const globalState = useStackablesStore()
+  const { getService, setTemplate } = globalState
+
   const [templates, setTemplates] = useState([])
   const [filteredTemplates, setFilteredTemplates] = useState([])
   const [groupedTemplates, setGroupedTemplates] = useState([])
   const [currentPage, setCurrentPage] = useState(1)
+  const [filterTemplatesByValue, setFilterTemplatesByValue] = useState('')
+  const [currentView, setCurrentView] = useState(LIST_TEMPLATES_VIEW)
   const [pages, setPages] = useState([1])
   const [templateSelected, setTemplateSelected] = useState(null)
-  const globalState = useStackablesStore()
-  const { setTemplate } = globalState
   const scrollRef = useRef(null)
   const containerScrollRef = useRef(null)
+
+  useEffect(() => {
+    const templates = getTemplates()
+    setTemplates(templates)
+    setFilteredTemplates([...templates])
+    setTemplateSelected(templates[0])
+  }, [])
+
+  useEffect(() => {
+    if (templates.length > 0 && serviceName && Object.keys(getService(serviceName)?.template).length > 0) {
+      setTemplateSelected(getService(serviceName).template)
+    } else {
+      setTemplateSelected(templates[0])
+    }
+  }, [templates, serviceName, Object.keys(getService(serviceName).template).length])
+
+  useEffect(() => {
+    if (filteredTemplates.length > 0) {
+      if (currentView === NO_RESULTS_VIEW) {
+        setCurrentView(LIST_TEMPLATES_VIEW)
+      }
+      const groupedTemplates = []
+      for (let i = 0; i < filteredTemplates.length; i += MAX_MUMBER_SELECT) {
+        groupedTemplates.push(filteredTemplates.slice(i, i + MAX_MUMBER_SELECT))
+      }
+      setGroupedTemplates(groupedTemplates)
+      setPages(Array.from(new Array(groupedTemplates.length).keys()).map(x => x + 1))
+    }
+    if (filteredTemplates.length === 0 && filterTemplatesByValue) {
+      if (currentView === LIST_TEMPLATES_VIEW) {
+        setCurrentView(NO_RESULTS_VIEW)
+      }
+    }
+  }, [filteredTemplates.length, filterTemplatesByValue])
 
   function handleUsePlatformaticService () {
     setTemplate(serviceName, templateSelected)
@@ -30,10 +68,12 @@ function SelectTemplate ({ onClick, serviceName }) {
   }
 
   function handleClearTemplates () {
+    setFilterTemplatesByValue('')
     setFilteredTemplates([...templates])
   }
 
   function handleFilterTemplates (value) {
+    setFilterTemplatesByValue(value)
     setCurrentPage(1)
     const founds = templates.filter(template => template.name.toLowerCase().includes(value.toLowerCase()))
     setFilteredTemplates(founds)
@@ -58,25 +98,7 @@ function SelectTemplate ({ onClick, serviceName }) {
     })
   }
 
-  useEffect(() => {
-    const templates = getTemplates()
-    setTemplates(templates)
-    setFilteredTemplates([...templates])
-  }, [])
-
-  useEffect(() => {
-    if (filteredTemplates.length > 0) {
-      setTemplateSelected(filteredTemplates[0])
-      const groupedTemplates = []
-      for (let i = 0; i < filteredTemplates.length; i += MAX_MUMBER_SELECT) {
-        groupedTemplates.push(filteredTemplates.slice(i, i + MAX_MUMBER_SELECT))
-      }
-      setGroupedTemplates(groupedTemplates)
-      setPages(Array.from(new Array(groupedTemplates.length).keys()).map(x => x + 1))
-    }
-  }, [filteredTemplates.length])
-
-  function renderContent () {
+  function renderListTemplates () {
     return groupedTemplates.map((templates, index) => (
       <div className={styles.gridContainer} key={index}>
         <div className={styles.gridContent}>
@@ -93,6 +115,41 @@ function SelectTemplate ({ onClick, serviceName }) {
     ))
   }
 
+  function renderCurrentView () {
+    if (currentView === LIST_TEMPLATES_VIEW) {
+      return (
+        <>
+          <div className={styles.templatesContainer} ref={containerScrollRef}>
+            <div className={styles.templatesContent} ref={scrollRef}>
+              {renderListTemplates()}
+            </div>
+          </div>
+          <div className={`${commonStyles.mediumFlexRow} ${commonStyles.fullWidth} ${commonStyles.justifyCenter}`}>
+            {pages.map(page =>
+              <Button
+                key={page}
+                classes={`${commonStyles.buttonPadding}`}
+                label={`${page}`}
+                onClick={() => scroll(page)}
+                color={WHITE}
+                selected={page === currentPage}
+                backgroundColor={TRANSPARENT}
+                bordered={false}
+              />
+            )}
+          </div>
+        </>
+      )
+    }
+    return (
+      <NoResults
+        searchedValue={filterTemplatesByValue}
+        dataAttrName='cy'
+        dataAttrValue='template-no-results'
+      />
+    )
+  }
+
   return templateSelected && (
     <div className={`${commonStyles.largeFlexBlock} ${commonStyles.fullWidth}`}>
       <div className={commonStyles.mediumFlexBlock}>
@@ -106,24 +163,8 @@ function SelectTemplate ({ onClick, serviceName }) {
       </div>
       <div className={`${commonStyles.mediumFlexBlock24} ${commonStyles.fullWidth}`}>
         <SearchBarV2 placeholder='Search for a Template' onClear={handleClearTemplates} onChange={handleFilterTemplates} />
-        <div className={styles.templatesContainer} ref={containerScrollRef}>
-          <div className={styles.templatesContent} ref={scrollRef}>
-            {renderContent()}
-          </div>
-        </div>
-        <div className={`${commonStyles.mediumFlexRow} ${commonStyles.fullWidth} ${commonStyles.justifyCenter}`}>
-          {pages.map(page =>
-            <Button
-              key={page}
-              classes={`${commonStyles.buttonPadding}`}
-              label={`${page}`}
-              onClick={() => scroll(page)}
-              color={WHITE}
-              selected={page === currentPage}
-              backgroundColor={TRANSPARENT}
-              bordered={false}
-            />
-          )}
+        <div className={`${commonStyles.mediumFlexBlock24} ${commonStyles.fullWidth} ${commonStyles.justifyCenter} ${styles.containerView}`}>
+          {renderCurrentView()}
         </div>
       </div>
       <Button
