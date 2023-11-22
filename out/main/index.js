@@ -75,6 +75,104 @@ const setupMenu = () => {
   const menu = electron.Menu.buildFromTemplate(template);
   electron.Menu.setApplicationMenu(menu);
 };
+const nameList = [
+  "Time - Past - Future - Dev",
+  "Fly - Flying - Soar - Soaring",
+  "Power - Falling",
+  "Sharp - Dead - Mew - Chuckle - Bubba",
+  "Time",
+  "Past",
+  "Future",
+  "Dev",
+  "Fly",
+  "Flying",
+  "Soar",
+  "Soaring",
+  "Power",
+  "Falling",
+  "Legacy",
+  "Sharp",
+  "Dead",
+  "Mew",
+  "Chuckle",
+  "Bubba",
+  "Bubble",
+  "Sandwich",
+  "Smasher - Extreme - Multi",
+  "Smasher",
+  "Extreme",
+  "Multi",
+  "Universe",
+  "Ultimate",
+  "Death",
+  "Ready - Monkey",
+  "Ready",
+  "Monkey",
+  "Paradox"
+];
+const envList = [
+  "MENDACITY",
+  "PEDANTIC",
+  "MELLIFLUOUS",
+  "TREPIDATION",
+  "EXTENUATE",
+  "IMPERTURBABLE",
+  "HIRSUTE",
+  "PERISH",
+  "RECITALS",
+  "SUPERCILIOUS",
+  "AIL",
+  "PERPETRATE"
+];
+const getTemplates = async () => {
+  const howMany = Math.floor(Math.random() * (nameList.length - 10));
+  const nameArray = ["Platformatic service"];
+  let name;
+  while (nameArray.length < howMany) {
+    name = nameList[Math.floor(Math.random() * nameList.length)];
+    if (!nameArray.includes(name)) {
+      nameArray.push(name);
+    }
+  }
+  return nameArray.map((name2, index) => ({
+    id: index + 1,
+    name: name2,
+    platformaticService: index === 0,
+    env: Array.from(new Array(Math.floor(Math.random() * envList.length)).keys()).map(() => envList[Math.floor(Math.random() * envList.length)])
+  }));
+};
+const getPlugins = async () => {
+  const howMany = Math.floor(Math.random() * (nameList.length - 10));
+  const nameArray = [];
+  let name;
+  while (nameArray.length < howMany) {
+    name = nameList[Math.floor(Math.random() * nameList.length)];
+    if (!nameArray.includes(name)) {
+      nameArray.push(name);
+    }
+  }
+  return nameArray.map((name2, index) => ({
+    id: index + 1,
+    name: name2
+  }));
+};
+const {
+  setTimeout
+} = require("node:timers/promises");
+const prepareFolder = async (path2, logger) => {
+  logger.info("Preparing folder");
+  await setTimeout(3e3);
+  logger.info("Folder prepared");
+};
+const createApp = async (path2, logger) => {
+  logger.info("Creating app");
+  await setTimeout(1e3);
+  logger.info("first step");
+  await setTimeout(1e3);
+  logger.info("second step");
+  await setTimeout(1e3);
+  logger.info("App created!");
+};
 process.platform === "darwin";
 function createWindow() {
   const mainWindow = new electron.BrowserWindow({
@@ -120,6 +218,18 @@ electron.app.whenReady().then(() => {
     } else {
       return result.filePaths[0];
     }
+  });
+  electron.ipcMain.handle("get-templates", async () => {
+    return getTemplates();
+  });
+  electron.ipcMain.handle("get-plugins", async () => {
+    return getPlugins();
+  });
+  electron.ipcMain.handle("prepare-folder", async (_, path2) => {
+    return prepareFolder();
+  });
+  electron.ipcMain.handle("create-app", async (_, path2) => {
+    return createApp();
   });
 });
 electron.app.on("window-all-closed", () => {

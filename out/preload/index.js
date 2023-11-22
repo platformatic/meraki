@@ -5,9 +5,12 @@ const api = {};
 if (process.contextIsolated) {
   try {
     electron.contextBridge.exposeInMainWorld("electron", preload.electronAPI);
-    electron.contextBridge.exposeInMainWorld("api", api);
     electron.contextBridge.exposeInMainWorld("dialog", {
       showDialog: () => electron.ipcRenderer.invoke("select-folder")
+    });
+    electron.contextBridge.exposeInMainWorld("api", {
+      getTemplates: () => electron.ipcRenderer.invoke("get-templates"),
+      getPlugins: () => electron.ipcRenderer.invoke("get-plugins")
     });
   } catch (error) {
     console.error(error);
