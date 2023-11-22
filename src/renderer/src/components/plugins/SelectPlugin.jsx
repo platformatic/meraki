@@ -9,7 +9,8 @@ import { Button, SearchBarV2 } from '@platformatic/ui-components'
 import Title from '~/components/ui/Title'
 import useStackablesStore from '~/useStackablesStore'
 import Plugin from './Plugin'
-import { getPlugins } from '../../api'
+import { getApiPlugins } from '~/api'
+
 import { MAX_MUMBER_SELECT, NO_RESULTS_VIEW, LIST_PLUGINS_VIEW } from '~/ui-constants'
 import NoResults from '~/components/ui/NoResults'
 
@@ -29,9 +30,12 @@ function SelectPlugin ({ onClick, serviceName }) {
   const containerScrollRef = useRef(null)
 
   useEffect(() => {
-    const plugins = getPlugins()
-    setPluginsAvailable(plugins)
-    setFilteredPlugins([...plugins])
+    async function getPlugins () {
+      const plugins = await getApiPlugins()
+      setPluginsAvailable(plugins)
+      setFilteredPlugins([...plugins])
+    }
+    getPlugins()
   }, [])
 
   useEffect(() => {

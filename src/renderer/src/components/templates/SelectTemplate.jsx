@@ -10,7 +10,7 @@ import Template from './Template'
 import Title from '~/components/ui/Title'
 import NoResults from '~/components/ui/NoResults'
 import useStackablesStore from '~/useStackablesStore'
-import { getTemplates } from '../../api'
+import { getApiTemplates } from '~/api'
 import { MAX_MUMBER_SELECT, NO_RESULTS_VIEW, LIST_TEMPLATES_VIEW } from '~/ui-constants'
 
 function SelectTemplate ({ onClick, serviceName }) {
@@ -29,10 +29,13 @@ function SelectTemplate ({ onClick, serviceName }) {
   const containerScrollRef = useRef(null)
 
   useEffect(() => {
-    const templates = getTemplates()
-    setTemplates(templates)
-    setFilteredTemplates([...templates])
-    setTemplateSelected(templates[0])
+    async function getTemplates () {
+      const templates = await getApiTemplates()
+      setTemplates(templates)
+      setFilteredTemplates([...templates])
+      setTemplateSelected(templates[0])
+    }
+    getTemplates()
   }, [])
 
   useEffect(() => {

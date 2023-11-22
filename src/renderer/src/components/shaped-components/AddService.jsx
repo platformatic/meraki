@@ -27,7 +27,7 @@ function AddService ({ onClick, enabled }) {
           iconName='CircleAddIcon'
           title='Add Service'
           titleClassName={titleClassName}
-          containerClassName={`${commonStyles.smallFlexRow} ${commonStyles.textCenter}`}
+          containerClassName={`${commonStyles.smallFlexRow} ${typographyStyles.textCenter}`}
         />
       </div>
     </div>

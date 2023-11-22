@@ -11,8 +11,8 @@ import useStackablesStore from '~/useStackablesStore'
 import Title from '~/components/ui/Title'
 
 const CreateApplication = React.forwardRef(({ onNext }, ref) => {
-  const [form, setForm] = useState({ application: '', service: '', folder: '' })
-  const [validations, setValidations] = useState({ applicationValid: false, serviceValid: false, folderValid: false, formErrors: { application: '', service: '', folder: '' } })
+  const [form, setForm] = useState({ application: '', service: '', folder: '/tmp' })
+  const [validations, setValidations] = useState({ applicationValid: false, serviceValid: false, folderValid: true, formErrors: { application: '', service: '', folder: '' } })
   const [validForm, setValidForm] = useState(false)
   const [inputOnServiceField, setInputOnServiceField] = useState(false)
   const globalState = useStackablesStore()
