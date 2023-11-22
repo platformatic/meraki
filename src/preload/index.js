@@ -10,9 +10,13 @@ const api = {}
 if (process.contextIsolated) {
   try {
     contextBridge.exposeInMainWorld('electron', electronAPI)
-    contextBridge.exposeInMainWorld('api', api)
     contextBridge.exposeInMainWorld('dialog', {
       showDialog: () => (ipcRenderer.invoke('select-folder'))
+    })
+
+    contextBridge.exposeInMainWorld('api', {
+      getTemplates: () => (ipcRenderer.invoke('get-templates')),
+      getPlugins: () => (ipcRenderer.invoke('get-plugins'))
     })
   } catch (error) {
     console.error(error)
