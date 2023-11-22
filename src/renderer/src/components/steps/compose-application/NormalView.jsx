@@ -38,7 +38,7 @@ const NormalView = React.forwardRef(({
                 onClickAddPlugin={() => { onClickPluginHandler(service) }}
                 onClickTemplate={() => { onClickTemplate(service) }}
                 onClickViewAll={() => { onClickViewAll(service) }}
-                serviceName={service.name}
+                service={service}
               />
             </CSSTransition>
           </TransitionGroup>

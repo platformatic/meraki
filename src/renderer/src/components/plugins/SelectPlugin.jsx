@@ -100,10 +100,10 @@ function SelectPlugin ({ onClick, serviceName }) {
   }
 
   function handleClickPlugin (plugin) {
-    const index = pluginsSelected.findIndex(pluginSelected => pluginSelected.id === plugin.id)
+    const index = pluginsSelected.findIndex(pluginSelected => pluginSelected.name === plugin.name)
     if (index > -1) {
       setPluginsSelected(
-        pluginsSelected.filter(pluginSelected => pluginSelected.id !== plugin.id)
+        pluginsSelected.filter(pluginSelected => pluginSelected.name !== plugin.name)
       )
     } else {
       setPluginsSelected([
@@ -119,8 +119,8 @@ function SelectPlugin ({ onClick, serviceName }) {
         <div className={styles.gridContent}>
           {groupedPlugin.map(plugin =>
             <Plugin
-              key={plugin.id}
-              isSelected={pluginsSelected.find(pluginSelected => pluginSelected.id === plugin.id) !== undefined}
+              key={plugin.name}
+              isSelected={pluginsSelected.find(pluginSelected => pluginSelected.name === plugin.name) !== undefined}
               onClick={() => handleClickPlugin(plugin)}
               {...plugin}
             />
