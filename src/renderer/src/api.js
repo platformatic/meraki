@@ -1,4 +1,17 @@
+import { getTemplates, getPlugins } from '~/../../../__mocks__/api'
 
-export const getApiTemplates = async () => await window.api.getTemplates()
+const mockUse = import.meta.env.RENDERER_VITE_USE_MOCKS === 'true'
 
-export const getApiPlugins = async () => await window.api.getPlugins()
+export const getApiTemplates = async () => {
+  if (mockUse) {
+    return await getTemplates()
+  }
+  return await window.api.getTemplates()
+}
+
+export const getApiPlugins = async () => {
+  if (mockUse) {
+    return await getPlugins()
+  }
+  return await window.api.getPlugins()
+}

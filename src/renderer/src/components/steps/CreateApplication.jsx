@@ -17,6 +17,7 @@ const CreateApplication = React.forwardRef(({ onNext }, ref) => {
   const [inputOnServiceField, setInputOnServiceField] = useState(false)
   const globalState = useStackablesStore()
   const { addFormData, addService } = globalState
+  const mockUse = import.meta.env.RENDERER_VITE_USE_MOCKS === 'true'
 
   function handleSubmit (event) {
     event.preventDefault()
@@ -148,8 +149,10 @@ const CreateApplication = React.forwardRef(({ onNext }, ref) => {
               name='folder'
               borderColor={WHITE}
               value={form.folder}
+              onChange={mockUse ? handleChange : () => {}}
               errorMessage={validations.formErrors.folder}
               backgroundTransparent
+              readOnly={!mockUse}
             />
           </Forms.Field>
         </div>
