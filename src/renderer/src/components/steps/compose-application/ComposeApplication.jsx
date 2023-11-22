@@ -26,7 +26,7 @@ import { NORMAL_VIEW, GRID_VIEW } from '~/ui-constants'
 
 const ComposeApplication = React.forwardRef(({ onNext }, ref) => {
   const globalState = useStackablesStore()
-  const { formData, addService, services, addFormData, renameService, removeService, getService } = globalState
+  const { formData, addService, services, addFormData, renameService, removeService } = globalState
   const [showModalTemplate, setShowModalTemplate] = useState(false)
   const [showModalPlugin, setShowModalPlugin] = useState(false)
   const [showModalViewAll, setShowModalViewAll] = useState(false)
