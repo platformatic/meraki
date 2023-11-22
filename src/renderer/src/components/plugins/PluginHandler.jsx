@@ -11,7 +11,7 @@ import { CSSTransition } from 'react-transition-group'
 import PluginAndRoutes from '~/components/plugins/PluginAndRoutes'
 import './plugin.animation.css'
 
-function PluginHandler ({ disabled, onClick, serviceName }) {
+function PluginHandler ({ disabled, onClickAddPlugin, serviceName }) {
   const [templateAdded, setTemplateAdded] = useState(false)
   const globalState = useStackablesStore()
   const { getService } = globalState
@@ -32,7 +32,7 @@ function PluginHandler ({ disabled, onClick, serviceName }) {
     if (serviceName && Object.keys(getService(serviceName)?.template).length > 0) {
       setTemplateAdded(true)
       setCurrentComponent(
-        <PluginAndRoutes onClickAddPlugin={onClick} ref={nodeRef} />
+        <PluginAndRoutes onClickAddPlugin={onClickAddPlugin} ref={nodeRef} />
       )
     }
   }, [serviceName, Object.keys(getService(serviceName)?.template).length])
@@ -56,9 +56,9 @@ PluginHandler.propTypes = {
     */
   disabled: PropTypes.bool,
   /**
-   * onClick
+   * onClickAddPlugin
     */
-  onClick: PropTypes.func,
+  onClickAddPlugin: PropTypes.func,
   /**
    * serviceName
     */
@@ -67,7 +67,7 @@ PluginHandler.propTypes = {
 
 PluginHandler.defaultProps = {
   disabled: true,
-  onClick: () => {},
+  onClickAddPlugin: () => {},
   serviceName: ''
 }
 

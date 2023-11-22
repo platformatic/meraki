@@ -48,7 +48,6 @@ export const getTemplates = async () => {
   }
 
   return nameArray.map((name, index) => ({
-    id: index + 1,
     name,
     platformaticService: index === 0,
     env: Array.from(new Array(Math.floor(Math.random() * envList.length)).keys()).map(() => envList[Math.floor(Math.random() * envList.length)])
@@ -68,7 +67,6 @@ export const getPlugins = async () => {
   }
 
   return nameArray.map((name, index) => ({
-    id: index + 1,
     name
   }))
 }

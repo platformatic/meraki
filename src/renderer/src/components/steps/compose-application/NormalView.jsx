@@ -3,12 +3,10 @@ import React from 'react'
 import PropTypes from 'prop-types'
 import useStackablesStore from '~/useStackablesStore'
 import NameService from '~/components/services/NameService'
-import PluginHandler from '~/components/plugins/PluginHandler'
-import TemplateHandler from '~/components/templates/TemplateHandler'
 import { CSSTransition, TransitionGroup } from 'react-transition-group'
 import commonStyles from '~/styles/CommonStyles.module.css'
 import '~/components/component.animation.css'
-import styles from './NormalView.module.css'
+import Service from '../../services/Service'
 
 const NormalView = React.forwardRef(({
   onClickEditNameService,
@@ -36,17 +34,12 @@ const NormalView = React.forwardRef(({
               timeout={300}
               classNames='template'
             >
-              <div
-                className={`${commonStyles.smallFlexBlock} ${commonStyles.fullWidth} ${styles.containerPuzzle}`}
-                key={service.name}
-              >
-                <PluginHandler onClick={() => { onClickPluginHandler(service) }} serviceName={service.name} />
-                <TemplateHandler
-                  onClickTemplate={() => { onClickTemplate(service) }}
-                  onClickViewAll={() => { onClickViewAll(service) }}
-                  serviceName={service.name}
-                />
-              </div>
+              <Service
+                onClickAddPlugin={() => { onClickPluginHandler(service) }}
+                onClickTemplate={() => { onClickTemplate(service) }}
+                onClickViewAll={() => { onClickViewAll(service) }}
+                serviceName={service.name}
+              />
             </CSSTransition>
           </TransitionGroup>
         </div>
