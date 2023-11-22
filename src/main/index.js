@@ -1,3 +1,4 @@
+// eslint-disable-next-line no-unused-vars
 import { app, shell, BrowserWindow, dialog, ipcMain, Menu } from 'electron'
 import { join } from 'path'
 import { electronApp, optimizer, is } from '@electron-toolkit/utils'
@@ -6,6 +7,7 @@ import setupMenu from './menu.js'
 import { getTemplates, getPlugins } from './client.js'
 import { prepareFolder, createApp } from './generate.js'
 
+// eslint-disable-next-line no-unused-vars
 const isMac = process.platform === 'darwin'
 
 function createWindow () {
