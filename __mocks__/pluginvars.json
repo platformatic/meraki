@@ -1,17 +1,21 @@
 [
   {
+    "name": "PLT_COOKIE_SECRET",  
     "path": "secret",
     "type": "string"
   }, 
   {
+    "name": "PLT_COOKIE_HOOK",
     "path": "hook",
     "type": "string"
   }, 
   {
+    "name": "PLT_COOKIE_PARSEOPTIONS_DOMAIN",
     "path": "parseOptions.domain",
     "type": "string"
   }, 
   {
+    "name": "PLT_COOKIE_PASEOPTIONS_MAXAGE",
     "path": "parseOptions.maxAge",
     "type": "number"
   }

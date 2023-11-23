@@ -3,14 +3,14 @@ import React from 'react'
 import PropTypes from 'prop-types'
 import commonStyles from '~/styles/CommonStyles.module.css'
 import '~/components/component.animation.css'
-import ConfigureEnvVarsTemplate from './ConfigureEnvVarsTemplate'
-import ConfigureEnvVarsPlugins from './ConfigureEnvVarsPlugins'
+import ConfigureEnvVarsTemplate from '~/components/templates/ConfigureEnvVarsTemplate'
+import PluginEnvVarsForms from '~/components/plugins/PluginEnvVarsForms'
 
 const ConfigureEnvVarsTemplateAndPlugins = React.forwardRef(({ service }, ref) => {
   return (
-    <div className={`${commonStyles.mediumFlexRow} ${commonStyles.fullWidth}`} ref={ref}>
+    <div className={`${commonStyles.mediumFlexRow} ${commonStyles.fullWidth} ${commonStyles.itemsStart}`} ref={ref}>
       <ConfigureEnvVarsTemplate service={{ ...service }} />
-      <ConfigureEnvVarsPlugins service={{ ...service }} />
+      <PluginEnvVarsForms service={{ ...service }} />
     </div>
   )
 })

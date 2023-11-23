@@ -6,30 +6,29 @@ import commonStyles from '~/styles/CommonStyles.module.css'
 import typographyStyles from '~/styles/Typography.module.css'
 import { WHITE } from '@platformatic/ui-components/src/components/constants'
 
-function ConfigureEnvVarsTemplate ({ service }) {
+function PluginEnvVarsForm ({ plugin }) {
   const [form, setForm] = useState(null)
   const [validations, setValidations] = useState({ })
   // eslint-disable-next-line no-unused-vars
   const [validForm, setValidForm] = useState(false)
 
   useEffect(() => {
-    if (service.template.envVars.length > 0) {
+    if (plugin) {
       const tmp = {}
       const validations = {}
       const formErrors = {}
 
-      let envName, envDefault
-      service.template.envVars.forEach(envVar => {
+      let envName
+      plugin.envVars.forEach(envVar => {
         envName = envVar.name
-        envDefault = envVar?.default || ''
-        tmp[envName] = `${envDefault}`
-        validations[`${envName}Valid`] = envVar?.default !== ''
+        tmp[envName] = ''
+        validations[`${envName}Valid`] = false
         formErrors[envName] = ''
       })
       setForm({ ...tmp })
       setValidations({ ...validations, formErrors })
     }
-  }, [service.template.envVars])
+  }, [plugin])
 
   function handleChange (event) {
     const value = event.target.value
@@ -62,7 +61,7 @@ function ConfigureEnvVarsTemplate ({ service }) {
   function renderForm () {
     return Object.keys(form).map((element) => (
       <Forms.Field
-        title={service.template.envVars.find(env => env.name === element)?.label}
+        title={plugin.envVars.find(env => env.name === element)?.path}
         titleColor={WHITE}
         key={element}
       >
@@ -84,8 +83,10 @@ function ConfigureEnvVarsTemplate ({ service }) {
   }
 
   return (
-    <div className={`${commonStyles.largeFlexBlock} ${commonStyles.fullWidth}`}>
-      <p className={`${typographyStyles.desktopBody} ${typographyStyles.textWhite}`}>Template Environment</p>
+    <div
+      className={`${commonStyles.mediumFlexBlock} ${commonStyles.fullWidth}`}
+    >
+      <p className={`${typographyStyles.desktopBody} ${typographyStyles.textWhite} ${commonStyles.fullWidth}`}>{plugin.name}</p>
       <div className={`${commonStyles.mediumFlexBlock} ${commonStyles.fullWidth}`}>
         {form && renderForm()}
       </div>
@@ -93,13 +94,13 @@ function ConfigureEnvVarsTemplate ({ service }) {
   )
 }
 
-ConfigureEnvVarsTemplate.propTypes = {
+PluginEnvVarsForm.propTypes = {
   /**
-   * service
+   * plugin
    */
-  service: PropTypes.object.isRequired
+  plugin: PropTypes.object.isRequired
 }
 
-// ConfigureEnvVarsTemplate.defaultProps = {}
+// ConfigureEnvVarsPlugins.defaultProps = {}
 
-export default ConfigureEnvVarsTemplate
+export default PluginEnvVarsForm

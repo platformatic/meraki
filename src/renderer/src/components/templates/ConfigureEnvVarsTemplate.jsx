@@ -1,12 +1,12 @@
 'use strict'
 import React, { useState, useEffect } from 'react'
 import PropTypes from 'prop-types'
-import { Forms } from '@platformatic/ui-components'
+import { BorderedBox, Forms } from '@platformatic/ui-components'
 import commonStyles from '~/styles/CommonStyles.module.css'
 import typographyStyles from '~/styles/Typography.module.css'
-import { WHITE } from '@platformatic/ui-components/src/components/constants'
+import { OPACITY_30, TRANSPARENT, WHITE } from '@platformatic/ui-components/src/components/constants'
 
-function ConfigureEnvVarsPlugins ({ service }) {
+function ConfigureEnvVarsTemplate ({ service }) {
   const [form, setForm] = useState(null)
   const [validations, setValidations] = useState({ })
   // eslint-disable-next-line no-unused-vars
@@ -84,23 +84,27 @@ function ConfigureEnvVarsPlugins ({ service }) {
   }
 
   return (
-    <div className={`${commonStyles.largeFlexBlock} ${commonStyles.fullWidth}`}>
-      <p className={`${typographyStyles.desktopBody} ${typographyStyles.textWhite}`}>Plugin Environment</p>
-
+    <BorderedBox
+      color={WHITE}
+      borderColorOpacity={OPACITY_30}
+      backgroundColor={TRANSPARENT}
+      classes={`${commonStyles.mediumFlexBlock} ${commonStyles.fullWidth}`}
+    >
+      <p className={`${typographyStyles.desktopBody} ${typographyStyles.textWhite}`}>Environment Variables</p>
       <div className={`${commonStyles.mediumFlexBlock} ${commonStyles.fullWidth}`}>
         {form && renderForm()}
       </div>
-    </div>
+    </BorderedBox>
   )
 }
 
-ConfigureEnvVarsPlugins.propTypes = {
+ConfigureEnvVarsTemplate.propTypes = {
   /**
    * service
    */
   service: PropTypes.object.isRequired
 }
 
-// ConfigureEnvVarsPlugins.defaultProps = {}
+// ConfigureEnvVarsTemplate.defaultProps = {}
 
-export default ConfigureEnvVarsPlugins
+export default ConfigureEnvVarsTemplate

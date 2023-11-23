@@ -6,7 +6,8 @@
     "description": "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nam mollis fermentum velit et interdum. Nulla eget iaculis mauris. Fusce non eleifend elit. Proin metus turpis, vestibulum quis tempus ac, tincidunt vitae mi. Vestibulum ante ipsum primis in faucibus orci luctus et ultrices posuere cubilia curae; Pellentesque tristique tristique finibus. Maecenas ut ultricies nisi. Quisque laoreet a enim at molestie. Integer vel mi quam. Aenean vulputate arcu egestas, feugiat risus vel, elementum justo. Maecenas tincidunt nisi augue, et mattis dui tincidunt ac.",
     "author": "Platformatic",
     "homepage": "https://example.com",
-    "public": true
+    "public": true,
+    "platformaticService": true
   },
   {
     "orgId": "platformatic",

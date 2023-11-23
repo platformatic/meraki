@@ -15,6 +15,6 @@ export const getTemplates = async () => {
 export const getPlugins = async () => {
   return mockedPlugins.map(plugin => ({
     ...plugin,
-    vars: [...mockedVars]
+    envVars: [...mockedVars]
   }))
 }
