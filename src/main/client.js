@@ -1,28 +1,14 @@
 import mockedPlugins from '../../__mocks__/plugins.json'
 import mockedTemplates from '../../__mocks__/templates.json'
-
-const envList = [
-  'MENDACITY',
-  'PEDANTIC',
-  'MELLIFLUOUS',
-  'TREPIDATION',
-  'EXTENUATE',
-  'IMPERTURBABLE',
-  'HIRSUTE',
-  'PERISH',
-  'RECITALS',
-  'SUPERCILIOUS',
-  'AIL',
-  'PERPETRATE'
-]
+import mockedEnvList from '../../__mocks__/envlist.json'
 
 // TODO: replace with the actual calls
-export const getTemplates = async () => mockedTemplates
-
-// TODO: replace with the actual calls
-export const getPlugins = async () => {
-  return mockedPlugins.map(mockedPlugin => ({
-    ...mockedPlugin,
-    envVars: Array.from(new Array(Math.floor(Math.random() * envList.length)).keys()).map(() => envList[Math.floor(Math.random() * envList.length)])
+export const getTemplates = async () => {
+  return mockedTemplates.map(template => ({
+    ...template,
+    envVars: Array.from(new Array(Math.floor(Math.random() * mockedEnvList.length)).keys()).map(() => mockedEnvList[Math.floor(Math.random() * mockedEnvList.length)])
   }))
 }
+
+// TODO: replace with the actual calls
+export const getPlugins = async () => mockedPlugins

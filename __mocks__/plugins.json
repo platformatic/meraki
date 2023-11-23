@@ -1,464 +1,398 @@
 [
-    {
-        "name": "@fastify/accepts",
-        "description": "To have accepts in your request object.",
-        "author": "mock author",
-        "homepage": "https://example.com",
-        "envVars": []
-    },
-    {
-        "name": "@fastify/accepts-serializer",
-        "description": "To serialize to output according to the Accept header.",
-        "author": "mock author",
-        "homepage": "https://example.com",
-        "envVars": []
-    },
-    {
-        "name": "@fastify/any-schema",
-        "description": "Save multiple schemas and decide which one to use to serialize the payload",
-        "author": "mock author",
-        "homepage": "https://example.com",
-        "envVars": []
-    },
-    {
-        "name": "@fastify/auth",
-        "description": "Run multiple auth functions in Fastify.",
-        "author": "mock author",
-        "homepage": "https://example.com",
-        "envVars": []
-    },
-    {
-        "name": "@fastify/autoload",
-        "description": "Require all plugins in a directory.",
-        "author": "mock author",
-        "homepage": "https://example.com",
-        "envVars": []
-    },
-    {
-        "name": "@fastify/awilix",
-        "description": "Dependency injection support for Fastify, based on awilix.",
-        "author": "mock author",
-        "homepage": "https://example.com",
-        "envVars": []
-    },
-    {
-        "name": "@fastify/aws-lambda",
-        "description": "Allows you to easily build serverless web applications/services and RESTful APIs using Fastify on top of AWS Lambda and Amazon API Gateway.",
-        "author": "mock author",
-        "homepage": "https://example.com",
-        "envVars": []
-    },
-    {
-        "name": "@fastify/basic-auth",
-        "description": "Basic auth plugin for Fastify.",
-        "author": "mock author",
-        "homepage": "https://example.com",
-        "envVars": []
-    },
-    {
-        "name": "@fastify/bearer-auth",
-        "description": "Bearer auth plugin for Fastify.",
-        "author": "mock author",
-        "homepage": "https://example.com",
-        "envVars": []
-    },
-    {
-        "name": "@fastify/caching",
-        "description": "General server-side cache and ETag support.",
-        "author": "mock author",
-        "homepage": "https://example.com",
-        "envVars": []
-    },
-    {
-        "name": "@fastify/circuit-breaker",
-        "description": "A low overhead circuit breaker for your routes.",
-        "author": "mock author",
-        "homepage": "https://example.com",
-        "envVars": []
-    },
-    {
-        "name": "@fastify/compress",
-        "description": "Fastify compression utils.",
-        "author": "mock author",
-        "homepage": "https://example.com",
-        "envVars": []
-    },
-    {
-        "name": "@fastify/cookie",
-        "description": "Parse and set cookie headers.",
-        "author": "mock author",
-        "homepage": "https://example.com",
-        "envVars": []
-    },
-    {
-        "name": "@fastify/cors",
-        "description": "Enables the use of CORS in a Fastify application.",
-        "author": "mock author",
-        "homepage": "https://example.com",
-        "envVars": []
-    },
-    {
-        "name": "@fastify/csrf-protection",
-        "description": "A plugin for adding CSRF protection to Fastify.",
-        "author": "mock author",
-        "homepage": "https://example.com",
-        "envVars": []
-    },
-    {
-        "name": "@fastify/diagnostics-channel",
-        "description": "Plugin to deal with diagnostics_channel on Fastify",
-        "author": "mock author",
-        "homepage": "https://example.com",
-        "envVars": []
-    },
-    {
-        "name": "@fastify/early-hints",
-        "description": "Plugin to add HTTP 103 feature based on RFC 8297.",
-        "author": "mock author",
-        "homepage": "https://example.com",
-        "envVars": []
-    },
-    {
-        "name": "@fastify/elasticsearch",
-        "description": "Plugin to share the same ES client.",
-        "author": "mock author",
-        "homepage": "https://example.com",
-        "envVars": []
-    },
-    {
-        "name": "@fastify/env",
-        "description": "Load and check configuration.",
-        "author": "mock author",
-        "homepage": "https://example.com",
-        "envVars": []
-    },
-    {
-        "name": "@fastify/etag",
-        "description": "Automatically generate ETags for HTTP responses.",
-        "author": "mock author",
-        "homepage": "https://example.com",
-        "envVars": []
-    },
-    {
-        "name": "@fastify/flash",
-        "description": "Set and get flash messages using the session.",
-        "author": "mock author",
-        "homepage": "https://example.com",
-        "envVars": []
-    },
-    {
-        "name": "@fastify/formbody",
-        "description": "Plugin to parse x-www-form-urlencoded bodies.",
-        "author": "mock author",
-        "homepage": "https://example.com",
-        "envVars": []
-    },
-    {
-        "name": "@fastify/funky",
-        "description": "Makes functional programming in Fastify more convenient. Adds support for Fastify routes returning functional structures, such as Either, Task or plain parameterless function.",
-        "author": "mock author",
-        "homepage": "https://example.com",
-        "envVars": []
-    },
-    {
-        "name": "@fastify/helmet",
-        "description": "Important security headers for Fastify.",
-        "author": "mock author",
-        "homepage": "https://example.com",
-        "envVars": []
-    },
-    {
-        "name": "@fastify/hotwire",
-        "description": "Use the Hotwire pattern with Fastify.",
-        "author": "mock author",
-        "homepage": "https://example.com",
-        "envVars": []
-    },
-    {
-        "name": "@fastify/http-proxy",
-        "description": "Proxy your HTTP requests to another server, with hooks.",
-        "author": "mock author",
-        "homepage": "https://example.com",
-        "envVars": []
-    },
-    {
-        "name": "@applicazza/fastify-nextjs",
-        "description": "Alternate Fastify and Next.js integration.",
-        "author": "mock author",
-        "homepage": "https://example.com",
-        "envVars": []
-    },
-    {
-        "name": "@clerk/fastify",
-        "description": "Add authentication and user management to your Fastify application with Clerk.",
-        "author": "mock author",
-        "homepage": "https://example.com",
-        "envVars": []
-    },
-    {
-        "name": "@coobaha/typed-fastify",
-        "description": "Strongly typed routes with a runtime validation using JSON schema generated from types.",
-        "author": "mock author",
-        "homepage": "https://example.com",
-        "envVars": []
-    },
-    {
-        "name": "@dnlup/fastify-doc",
-        "description": "A plugin for sampling process metrics.",
-        "author": "mock author",
-        "homepage": "https://example.com",
-        "envVars": []
-    },
-    {
-        "name": "@dnlup/fastify-traps",
-        "description": "A plugin to close the server gracefully on SIGINT and SIGTERM signals.",
-        "author": "mock author",
-        "homepage": "https://example.com",
-        "envVars": []
-    },
-    {
-        "name": "@eropple/fastify-openapi3",
-        "description": "Provides easy, developer-friendly OpenAPI 3.1 specs + doc explorer based on your routes.",
-        "author": "mock author",
-        "homepage": "https://example.com",
-        "envVars": []
-    },
-    {
-        "name": "@ethicdevs/fastify-custom-session",
-        "description": "A plugin lets you use session and decide only where to load/save from/to. Has great TypeScript support + built-in adapters for common ORMs/databases (Firebase, Prisma Client, Postgres (wip), InMemory) and you can easily make your own adapter!",
-        "author": "mock author",
-        "homepage": "https://example.com",
-        "envVars": []
-    },
-    {
-        "name": "@ethicdevs/fastify-git-server",
-        "description": "A plugin to easily create git server and make one/many Git repositories available for clone/fetch/push through the standard git (over http) commands.",
-        "author": "mock author",
-        "homepage": "https://example.com",
-        "envVars": []
-    },
-    {
-        "name": "@fastify-userland/request-id",
-        "description": "Fastify Request ID Plugin",
-        "author": "mock author",
-        "homepage": "https://example.com",
-        "envVars": []
-    },
-    {
-        "name": "@fastify-userland/typeorm-query-runner",
-        "description": "Fastify typeorm QueryRunner plugin",
-        "author": "mock author",
-        "homepage": "https://example.com",
-        "envVars": []
-    },
-    {
-        "name": "@gquittet/graceful-server",
-        "description": "Tiny (~5k), Fast, KISS, and dependency-free Node.JS library to make your Fastify API graceful.",
-        "author": "mock author",
-        "homepage": "https://example.com",
-        "envVars": []
-    },
-    {
-        "name": "@h4ad/serverless-adapter",
-        "description": "Run REST APIs and other web applications using your existing Node.js application framework (Express, Koa, Hapi and Fastify), on top of AWS Lambda, Huawei and many other clouds.",
-        "author": "mock author",
-        "homepage": "https://example.com",
-        "envVars": []
-    },
-    {
-        "name": "@immobiliarelabs/fastify-metrics",
-        "description": "Minimalistic and opinionated plugin that collects usage/process metrics and dispatches to statsd.",
-        "author": "mock author",
-        "homepage": "https://example.com",
-        "envVars": []
-    },
-    {
-        "name": "@immobiliarelabs/fastify-sentry",
-        "description": "Sentry errors handler that just works! Install, add your DSN and you're good to go! A plugin to implement Lyra search engine on Fastify",
-        "author": "mock author",
-        "homepage": "https://example.com",
-        "envVars": []
-    },
-    {
-        "name": "@joggr/fastify-prisma",
-        "description": "A plugin for accessing an instantiated PrismaClient on your server.",
-        "author": "mock author",
-        "homepage": "https://example.com",
-        "envVars": []
-    },
-    {
-        "name": "@mgcrea/fastify-graceful-exit",
-        "description": "A plugin to close the server gracefully",
-        "author": "mock author",
-        "homepage": "https://example.com",
-        "envVars": []
-    },
-    {
-        "name": "@mgcrea/fastify-request-logger",
-        "description": "A plugin to enable compact request logging for Fastify",
-        "author": "mock author",
-        "homepage": "https://example.com",
-        "envVars": []
-    },
-    {
-        "name": "@mgcrea/fastify-session",
-        "description": "Session plugin for Fastify that supports both stateless and stateful sessions",
-        "author": "mock author",
-        "homepage": "https://example.com",
-        "envVars": []
-    },
-    {
-        "name": "@mgcrea/fastify-session-redis-store",
-        "description": "Redis store for @mgcrea/fastify-session using ioredis",
-        "author": "mock author",
-        "homepage": "https://example.com",
-        "envVars": []
-    },
-    {
-        "name": "@mgcrea/fastify-session-sodium-crypto",
-        "description": "Fast sodium-based crypto for @mgcrea/fastify-session",
-        "author": "mock author",
-        "homepage": "https://example.com",
-        "envVars": []
-    },
-    {
-        "name": "@mgcrea/pino-pretty-compact",
-        "description": "A custom compact pino-base prettifier",
-        "author": "mock author",
-        "homepage": "https://example.com",
-        "envVars": []
-    },
-    {
-        "name": "@trubavuong/fastify-seaweedfs",
-        "description": "SeaweedFS for Fastify",
-        "author": "mock author",
-        "homepage": "https://example.com",
-        "envVars": []
-    },
-    {
-        "name": "apollo-server-fastify",
-        "description": "Run an Apollo Server to serve GraphQL with Fastify.",
-        "author": "mock author",
-        "homepage": "https://example.com",
-        "envVars": []
-    },
-    {
-        "name": "arecibo",
-        "description": "Fastify ping responder for Kubernetes Liveness and Readiness Probes.",
-        "author": "mock author",
-        "homepage": "https://example.com",
-        "envVars": []
-    },
-    {
-        "name": "cls-rtracer",
-        "description": "Fastify middleware for CLS-based request ID generation. An out-of-the-box solution for adding request IDs into your logs.",
-        "author": "mock author",
-        "homepage": "https://example.com",
-        "envVars": []
-    },
-    {
-        "name": "electron-server",
-        "description": "A plugin for using Fastify without the need of consuming a port on Electron apps.",
-        "author": "mock author",
-        "homepage": "https://example.com",
-        "envVars": []
-    },
-    {
-        "name": "fast-water",
-        "description": "A Fastify plugin for waterline. Decorates Fastify with waterline models.",
-        "author": "mock author",
-        "homepage": "https://example.com",
-        "envVars": []
-    },
-    {
-        "name": "fastify-204",
-        "description": "Fastify plugin that return 204 status on empty response.",
-        "author": "mock author",
-        "homepage": "https://example.com",
-        "envVars": []
-    },
-    {
-        "name": "fastify-405",
-        "description": "Fastify plugin that adds 405 HTTP status to your routes",
-        "author": "mock author",
-        "homepage": "https://example.com",
-        "envVars": []
-    },
-    {
-        "name": "fastify-allow",
-        "description": "Fastify plugin that automatically adds an Allow header to responses with routes. Also sends 405 responses for routes that have a handler but not for the request's method.",
-        "author": "mock author",
-        "homepage": "https://example.com",
-        "envVars": []
-    },
-    {
-        "name": "fastify-amqp",
-        "description": "Fastify AMQP connection plugin, to use with RabbitMQ or another connector. Just a wrapper to amqplib.",
-        "author": "mock author",
-        "homepage": "https://example.com",
-        "envVars": []
-    },
-    {
-        "name": "fastify-amqp-async",
-        "description": "Fastify AMQP plugin with a Promise-based API provided by amqplib-as-promised.",
-        "author": "mock author",
-        "homepage": "https://example.com",
-        "envVars": []
-    },
-    {
-        "name": "fastify-angular-universal",
-        "description": "Angular server-side rendering support using @angular/platform-server for Fastify",
-        "author": "mock author",
-        "homepage": "https://example.com",
-        "envVars": []
-    },
-    {
-        "name": "fastify-api-key",
-        "description": "Fastify plugin to authenticate HTTP requests based on api key and signature",
-        "author": "mock author",
-        "homepage": "https://example.com",
-        "envVars": []
-    },
-    {
-        "name": "fastify-appwrite",
-        "description": "Fastify Plugin for interacting with Appwrite server.",
-        "author": "mock author",
-        "homepage": "https://example.com",
-        "envVars": []
-    },
-    {
-        "name": "fastify-at-mysql",
-        "description": "Fastify MySQL plugin with auto SQL injection attack prevention.",
-        "author": "mock author",
-        "homepage": "https://example.com",
-        "envVars": []
-    },
-    {
-        "name": "fastify-at-postgres",
-        "description": "Fastify Postgres plugin with auto SQL injection attack prevention.",
-        "author": "mock author",
-        "homepage": "https://example.com",
-        "envVars": []
-    },
-    {
-        "name": "fastify-auth0-verify",
-        "description": ": Auth0 verification plugin for Fastify, internally uses fastify-jwt and jsonwebtoken.",
-        "author": "mock author",
-        "homepage": "https://example.com",
-        "envVars": []
-    },
-    {
-        "name": "fastify-autocrud",
-        "description": "Plugin to auto-generate CRUD routes as fast as possible.",
-        "author": "mock author",
-        "homepage": "https://example.com",
-        "envVars": []
-    },
-    {
-        "name": "fastify-autoroutes",
-        "description": "Plugin to scan and load routes based on filesystem path from a custom directory.",
-        "author": "mock author",
-        "homepage": "https://example.com",
-        "envVars": []
-    }
+  {
+    "name": "@fastify/accepts",
+    "description": "To have accepts in your request object.",
+    "author": "mock author",
+    "homepage": "https://example.com"
+  },
+  {
+    "name": "@fastify/accepts-serializer",
+    "description": "To serialize to output according to the Accept header.",
+    "author": "mock author",
+    "homepage": "https://example.com"
+  },
+  {
+    "name": "@fastify/any-schema",
+    "description": "Save multiple schemas and decide which one to use to serialize the payload",
+    "author": "mock author",
+    "homepage": "https://example.com"
+  },
+  {
+    "name": "@fastify/auth",
+    "description": "Run multiple auth functions in Fastify.",
+    "author": "mock author",
+    "homepage": "https://example.com"
+  },
+  {
+    "name": "@fastify/autoload",
+    "description": "Require all plugins in a directory.",
+    "author": "mock author",
+    "homepage": "https://example.com"
+  },
+  {
+    "name": "@fastify/awilix",
+    "description": "Dependency injection support for Fastify, based on awilix.",
+    "author": "mock author",
+    "homepage": "https://example.com"
+  },
+  {
+    "name": "@fastify/aws-lambda",
+    "description": "Allows you to easily build serverless web applications/services and RESTful APIs using Fastify on top of AWS Lambda and Amazon API Gateway.",
+    "author": "mock author",
+    "homepage": "https://example.com"
+  },
+  {
+    "name": "@fastify/basic-auth",
+    "description": "Basic auth plugin for Fastify.",
+    "author": "mock author",
+    "homepage": "https://example.com"
+  },
+  {
+    "name": "@fastify/bearer-auth",
+    "description": "Bearer auth plugin for Fastify.",
+    "author": "mock author",
+    "homepage": "https://example.com"
+  },
+  {
+    "name": "@fastify/caching",
+    "description": "General server-side cache and ETag support.",
+    "author": "mock author",
+    "homepage": "https://example.com"
+  },
+  {
+    "name": "@fastify/circuit-breaker",
+    "description": "A low overhead circuit breaker for your routes.",
+    "author": "mock author",
+    "homepage": "https://example.com"
+  },
+  {
+    "name": "@fastify/compress",
+    "description": "Fastify compression utils.",
+    "author": "mock author",
+    "homepage": "https://example.com"
+  },
+  {
+    "name": "@fastify/cookie",
+    "description": "Parse and set cookie headers.",
+    "author": "mock author",
+    "homepage": "https://example.com"
+  },
+  {
+    "name": "@fastify/cors",
+    "description": "Enables the use of CORS in a Fastify application.",
+    "author": "mock author",
+    "homepage": "https://example.com"
+  },
+  {
+    "name": "@fastify/csrf-protection",
+    "description": "A plugin for adding CSRF protection to Fastify.",
+    "author": "mock author",
+    "homepage": "https://example.com"
+  },
+  {
+    "name": "@fastify/diagnostics-channel",
+    "description": "Plugin to deal with diagnostics_channel on Fastify",
+    "author": "mock author",
+    "homepage": "https://example.com"
+  },
+  {
+    "name": "@fastify/early-hints",
+    "description": "Plugin to add HTTP 103 feature based on RFC 8297.",
+    "author": "mock author",
+    "homepage": "https://example.com"
+  },
+  {
+    "name": "@fastify/elasticsearch",
+    "description": "Plugin to share the same ES client.",
+    "author": "mock author",
+    "homepage": "https://example.com"
+  },
+  {
+    "name": "@fastify/env",
+    "description": "Load and check configuration.",
+    "author": "mock author",
+    "homepage": "https://example.com"
+  },
+  {
+    "name": "@fastify/etag",
+    "description": "Automatically generate ETags for HTTP responses.",
+    "author": "mock author",
+    "homepage": "https://example.com"
+  },
+  {
+    "name": "@fastify/flash",
+    "description": "Set and get flash messages using the session.",
+    "author": "mock author",
+    "homepage": "https://example.com"
+  },
+  {
+    "name": "@fastify/formbody",
+    "description": "Plugin to parse x-www-form-urlencoded bodies.",
+    "author": "mock author",
+    "homepage": "https://example.com"
+  },
+  {
+    "name": "@fastify/funky",
+    "description": "Makes functional programming in Fastify more convenient. Adds support for Fastify routes returning functional structures, such as Either, Task or plain parameterless function.",
+    "author": "mock author",
+    "homepage": "https://example.com"
+  },
+  {
+    "name": "@fastify/helmet",
+    "description": "Important security headers for Fastify.",
+    "author": "mock author",
+    "homepage": "https://example.com"
+  },
+  {
+    "name": "@fastify/hotwire",
+    "description": "Use the Hotwire pattern with Fastify.",
+    "author": "mock author",
+    "homepage": "https://example.com"
+  },
+  {
+    "name": "@fastify/http-proxy",
+    "description": "Proxy your HTTP requests to another server, with hooks.",
+    "author": "mock author",
+    "homepage": "https://example.com"
+  },
+  {
+    "name": "@applicazza/fastify-nextjs",
+    "description": "Alternate Fastify and Next.js integration.",
+    "author": "mock author",
+    "homepage": "https://example.com"
+  },
+  {
+    "name": "@clerk/fastify",
+    "description": "Add authentication and user management to your Fastify application with Clerk.",
+    "author": "mock author",
+    "homepage": "https://example.com"
+  },
+  {
+    "name": "@coobaha/typed-fastify",
+    "description": "Strongly typed routes with a runtime validation using JSON schema generated from types.",
+    "author": "mock author",
+    "homepage": "https://example.com"
+  },
+  {
+    "name": "@dnlup/fastify-doc",
+    "description": "A plugin for sampling process metrics.",
+    "author": "mock author",
+    "homepage": "https://example.com"
+  },
+  {
+    "name": "@dnlup/fastify-traps",
+    "description": "A plugin to close the server gracefully on SIGINT and SIGTERM signals.",
+    "author": "mock author",
+    "homepage": "https://example.com"
+  },
+  {
+    "name": "@eropple/fastify-openapi3",
+    "description": "Provides easy, developer-friendly OpenAPI 3.1 specs + doc explorer based on your routes.",
+    "author": "mock author",
+    "homepage": "https://example.com"
+  },
+  {
+    "name": "@ethicdevs/fastify-custom-session",
+    "description": "A plugin lets you use session and decide only where to load/save from/to. Has great TypeScript support + built-in adapters for common ORMs/databases (Firebase, Prisma Client, Postgres (wip), InMemory) and you can easily make your own adapter!",
+    "author": "mock author",
+    "homepage": "https://example.com"
+  },
+  {
+    "name": "@ethicdevs/fastify-git-server",
+    "description": "A plugin to easily create git server and make one/many Git repositories available for clone/fetch/push through the standard git (over http) commands.",
+    "author": "mock author",
+    "homepage": "https://example.com"
+  },
+  {
+    "name": "@fastify-userland/request-id",
+    "description": "Fastify Request ID Plugin",
+    "author": "mock author",
+    "homepage": "https://example.com"
+  },
+  {
+    "name": "@fastify-userland/typeorm-query-runner",
+    "description": "Fastify typeorm QueryRunner plugin",
+    "author": "mock author",
+    "homepage": "https://example.com"
+  },
+  {
+    "name": "@gquittet/graceful-server",
+    "description": "Tiny (~5k), Fast, KISS, and dependency-free Node.JS library to make your Fastify API graceful.",
+    "author": "mock author",
+    "homepage": "https://example.com"
+  },
+  {
+    "name": "@h4ad/serverless-adapter",
+    "description": "Run REST APIs and other web applications using your existing Node.js application framework (Express, Koa, Hapi and Fastify), on top of AWS Lambda, Huawei and many other clouds.",
+    "author": "mock author",
+    "homepage": "https://example.com"
+  },
+  {
+    "name": "@immobiliarelabs/fastify-metrics",
+    "description": "Minimalistic and opinionated plugin that collects usage/process metrics and dispatches to statsd.",
+    "author": "mock author",
+    "homepage": "https://example.com"
+  },
+  {
+    "name": "@immobiliarelabs/fastify-sentry",
+    "description": "Sentry errors handler that just works! Install, add your DSN and you're good to go! A plugin to implement Lyra search engine on Fastify",
+    "author": "mock author",
+    "homepage": "https://example.com"
+  },
+  {
+    "name": "@joggr/fastify-prisma",
+    "description": "A plugin for accessing an instantiated PrismaClient on your server.",
+    "author": "mock author",
+    "homepage": "https://example.com"
+  },
+  {
+    "name": "@mgcrea/fastify-graceful-exit",
+    "description": "A plugin to close the server gracefully",
+    "author": "mock author",
+    "homepage": "https://example.com"
+  },
+  {
+    "name": "@mgcrea/fastify-request-logger",
+    "description": "A plugin to enable compact request logging for Fastify",
+    "author": "mock author",
+    "homepage": "https://example.com"
+  },
+  {
+    "name": "@mgcrea/fastify-session",
+    "description": "Session plugin for Fastify that supports both stateless and stateful sessions",
+    "author": "mock author",
+    "homepage": "https://example.com"
+  },
+  {
+    "name": "@mgcrea/fastify-session-redis-store",
+    "description": "Redis store for @mgcrea/fastify-session using ioredis",
+    "author": "mock author",
+    "homepage": "https://example.com"
+  },
+  {
+    "name": "@mgcrea/fastify-session-sodium-crypto",
+    "description": "Fast sodium-based crypto for @mgcrea/fastify-session",
+    "author": "mock author",
+    "homepage": "https://example.com"
+  },
+  {
+    "name": "@mgcrea/pino-pretty-compact",
+    "description": "A custom compact pino-base prettifier",
+    "author": "mock author",
+    "homepage": "https://example.com"
+  },
+  {
+    "name": "@trubavuong/fastify-seaweedfs",
+    "description": "SeaweedFS for Fastify",
+    "author": "mock author",
+    "homepage": "https://example.com"
+  },
+  {
+    "name": "apollo-server-fastify",
+    "description": "Run an Apollo Server to serve GraphQL with Fastify.",
+    "author": "mock author",
+    "homepage": "https://example.com"
+  },
+  {
+    "name": "arecibo",
+    "description": "Fastify ping responder for Kubernetes Liveness and Readiness Probes.",
+    "author": "mock author",
+    "homepage": "https://example.com"
+  },
+  {
+    "name": "cls-rtracer",
+    "description": "Fastify middleware for CLS-based request ID generation. An out-of-the-box solution for adding request IDs into your logs.",
+    "author": "mock author",
+    "homepage": "https://example.com"
+  },
+  {
+    "name": "electron-server",
+    "description": "A plugin for using Fastify without the need of consuming a port on Electron apps.",
+    "author": "mock author",
+    "homepage": "https://example.com"
+  },
+  {
+    "name": "fast-water",
+    "description": "A Fastify plugin for waterline. Decorates Fastify with waterline models.",
+    "author": "mock author",
+    "homepage": "https://example.com"
+  },
+  {
+    "name": "fastify-204",
+    "description": "Fastify plugin that return 204 status on empty response.",
+    "author": "mock author",
+    "homepage": "https://example.com"
+  },
+  {
+    "name": "fastify-405",
+    "description": "Fastify plugin that adds 405 HTTP status to your routes",
+    "author": "mock author",
+    "homepage": "https://example.com"
+  },
+  {
+    "name": "fastify-allow",
+    "description": "Fastify plugin that automatically adds an Allow header to responses with routes. Also sends 405 responses for routes that have a handler but not for the request's method.",
+    "author": "mock author",
+    "homepage": "https://example.com"
+  },
+  {
+    "name": "fastify-amqp",
+    "description": "Fastify AMQP connection plugin, to use with RabbitMQ or another connector. Just a wrapper to amqplib.",
+    "author": "mock author",
+    "homepage": "https://example.com"
+  },
+  {
+    "name": "fastify-amqp-async",
+    "description": "Fastify AMQP plugin with a Promise-based API provided by amqplib-as-promised.",
+    "author": "mock author",
+    "homepage": "https://example.com"
+  },
+  {
+    "name": "fastify-angular-universal",
+    "description": "Angular server-side rendering support using @angular/platform-server for Fastify",
+    "author": "mock author",
+    "homepage": "https://example.com"
+  },
+  {
+    "name": "fastify-api-key",
+    "description": "Fastify plugin to authenticate HTTP requests based on api key and signature",
+    "author": "mock author",
+    "homepage": "https://example.com"
+  },
+  {
+    "name": "fastify-appwrite",
+    "description": "Fastify Plugin for interacting with Appwrite server.",
+    "author": "mock author",
+    "homepage": "https://example.com"
+  },
+  {
+    "name": "fastify-at-mysql",
+    "description": "Fastify MySQL plugin with auto SQL injection attack prevention.",
+    "author": "mock author",
+    "homepage": "https://example.com"
+  },
+  {
+    "name": "fastify-at-postgres",
+    "description": "Fastify Postgres plugin with auto SQL injection attack prevention.",
+    "author": "mock author",
+    "homepage": "https://example.com"
+  },
+  {
+    "name": "fastify-auth0-verify",
+    "description": ": Auth0 verification plugin for Fastify, internally uses fastify-jwt and jsonwebtoken.",
+    "author": "mock author",
+    "homepage": "https://example.com"
+  },
+  {
+    "name": "fastify-autocrud",
+    "description": "Plugin to auto-generate CRUD routes as fast as possible.",
+    "author": "mock author",
+    "homepage": "https://example.com"
+  },
+  {
+    "name": "fastify-autoroutes",
+    "description": "Plugin to scan and load routes based on filesystem path from a custom directory.",
+    "author": "mock author",
+    "homepage": "https://example.com"
+  }
 ]

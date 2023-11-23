@@ -1,62 +1,71 @@
-[{
+[
+  {
     "orgId": "platformatic",
     "orgName": "Platformatic",
-    "name": "Platformatic Service", 
+    "name": "Platformatic Service",
     "description": "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nam mollis fermentum velit et interdum. Nulla eget iaculis mauris. Fusce non eleifend elit. Proin metus turpis, vestibulum quis tempus ac, tincidunt vitae mi. Vestibulum ante ipsum primis in faucibus orci luctus et ultrices posuere cubilia curae; Pellentesque tristique tristique finibus. Maecenas ut ultricies nisi. Quisque laoreet a enim at molestie. Integer vel mi quam. Aenean vulputate arcu egestas, feugiat risus vel, elementum justo. Maecenas tincidunt nisi augue, et mattis dui tincidunt ac.",
     "author": "Platformatic",
     "homepage": "https://example.com",
     "public": true
-},{
+  },
+  {
     "orgId": "platformatic",
     "orgName": "Platformatic",
-    "name": "Platformatic DB", 
+    "name": "Platformatic DB",
     "description": "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nam mollis fermentum velit et interdum. Nulla eget iaculis mauris. Fusce non eleifend elit. Proin metus turpis, vestibulum quis tempus ac, tincidunt vitae mi. Vestibulum ante ipsum primis in faucibus orci luctus et ultrices posuere cubilia curae; Pellentesque tristique tristique finibus. Maecenas ut ultricies nisi. Quisque laoreet a enim at molestie. Integer vel mi quam. Aenean vulputate arcu egestas, feugiat risus vel, elementum justo. Maecenas tincidunt nisi augue, et mattis dui tincidunt ac.",
     "author": "Platformatic",
     "homepage": "https://example.com",
     "public": true
-},{
+  },
+  {
     "orgId": "platformatic",
     "orgName": "Platformatic",
-    "name": "Platformatic Composer", 
+    "name": "Platformatic Composer",
     "description": "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nam mollis fermentum velit et interdum. Nulla eget iaculis mauris. Fusce non eleifend elit. Proin metus turpis, vestibulum quis tempus ac, tincidunt vitae mi. Vestibulum ante ipsum primis in faucibus orci luctus et ultrices posuere cubilia curae; Pellentesque tristique tristique finibus. Maecenas ut ultricies nisi. Quisque laoreet a enim at molestie. Integer vel mi quam. Aenean vulputate arcu egestas, feugiat risus vel, elementum justo. Maecenas tincidunt nisi augue, et mattis dui tincidunt ac.",
     "author": "Platformatic",
     "homepage": "https://example.com",
     "public": true
-},{
+  },
+  {
     "orgId": "queue",
     "orgName": "Queue",
-    "name": "Queue", 
+    "name": "Queue",
     "description": "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nam mollis fermentum velit et interdum. Nulla eget iaculis mauris. Fusce non eleifend elit. Proin metus turpis, vestibulum quis tempus ac, tincidunt vitae mi. Vestibulum ante ipsum primis in faucibus orci luctus et ultrices posuere cubilia curae; Pellentesque tristique tristique finibus. Maecenas ut ultricies nisi. Quisque laoreet a enim at molestie. Integer vel mi quam. Aenean vulputate arcu egestas, feugiat risus vel, elementum justo. Maecenas tincidunt nisi augue, et mattis dui tincidunt ac.",
     "author": "queue",
     "homepage": "https://example.com"
-},{
+  },
+  {
     "orgId": "authentication",
     "orgName": "Authentication",
-    "name": "Authentication Service", 
+    "name": "Authentication Service",
     "description": "Sed at eleifend nulla. Morbi id elit ut mi finibus hendrerit nec vel lectus. Maecenas consequat lacus sit amet libero imperdiet egestas. Duis ut augue in risus sollicitudin scelerisque. Vestibulum ante ipsum primis in faucibus orci luctus et ultrices posuere cubilia curae; Vestibulum dictum elit id nulla dictum volutpat. Aenean commodo lectus dolor, rutrum malesuada ante malesuada eu. Morbi pharetra, nibh id vehicula pellentesque, felis sem efficitur ligula, in posuere orci metus ac lacus. Proin sollicitudin justo augue, mollis interdum odio aliquet quis. Nullam aliquet dui quam, id pulvinar ante dignissim a. Vestibulum ante ipsum primis in faucibus orci luctus et ultrices posuere cubilia curae; Nulla laoreet dapibus augue, id aliquet magna mattis sit amet. Phasellus non sagittis orci. Duis vel velit non nibh molestie faucibus. Quisque maximus lectus at euismod lacinia. Nunc nec sem neque.",
     "author": "authentication",
     "homepage": "https://example.com",
     "public": true
-},{
+  },
+  {
     "orgId": "universe",
     "orgName": "Universe",
-    "name": "Universe", 
+    "name": "Universe",
     "description": "Sed at eleifend nulla. Morbi id elit ut mi finibus hendrerit nec vel lectus. Maecenas consequat lacus sit amet libero imperdiet egestas. Duis ut augue in risus sollicitudin scelerisque. Vestibulum ante ipsum primis in faucibus orci luctus et ultrices posuere cubilia curae; Vestibulum dictum elit id nulla dictum volutpat. Aenean commodo lectus dolor, rutrum malesuada ante malesuada eu. Morbi pharetra, nibh id vehicula pellentesque, felis sem efficitur ligula, in posuere orci metus ac lacus. Proin sollicitudin justo augue, mollis interdum odio aliquet quis. Nullam aliquet dui quam, id pulvinar ante dignissim a. Vestibulum ante ipsum primis in faucibus orci luctus et ultrices posuere cubilia curae; Nulla laoreet dapibus augue, id aliquet magna mattis sit amet. Phasellus non sagittis orci. Duis vel velit non nibh molestie faucibus. Quisque maximus lectus at euismod lacinia. Nunc nec sem neque.",
     "author": "Universe",
     "homepage": "https://example.com"
-},{
+  },
+  {
     "orgId": "inventory",
     "orgName": "Inventory",
-    "name": "Inventory", 
+    "name": "Inventory",
     "description": "Morbi vel accumsan lorem, varius dictum enim. Donec dignissim enim vel congue tincidunt. In tristique dui sed arcu mattis, eget fringilla mi tempus. Aliquam sit amet lobortis leo. Nunc orci arcu, ullamcorper vel aliquet in, suscipit et erat. Aliquam in hendrerit massa. Aliquam blandit nunc nec urna luctus rhoncus. Morbi cursus elit arcu, id dapibus augue varius et. Donec viverra lorem quis euismod vulputate. Pellentesque vitae suscipit neque, vitae rutrum orci. Proin sollicitudin accumsan diam nec consectetur. Ut dictum ligula ligula, ut tincidunt nunc molestie ac. Praesent neque tortor, maximus id nisl in, eleifend aliquet felis. Praesent laoreet dui malesuada, gravida libero id, sollicitudin neque. Orci varius natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus",
     "author": "inventory",
     "homepage": "https://example.com",
     "public": true
-},{
+  },
+  {
     "orgId": "cart",
     "orgName": "Cart",
-    "name": "Cart", 
+    "name": "Cart",
     "description": "Morbi vel accumsan lorem, varius dictum enim. Donec dignissim enim vel congue tincidunt. In tristique dui sed arcu mattis, eget fringilla mi tempus. Aliquam sit amet lobortis leo. Nunc orci arcu, ullamcorper vel aliquet in, suscipit et erat. Aliquam in hendrerit massa. Aliquam blandit nunc nec urna luctus rhoncus. Morbi cursus elit arcu, id dapibus augue varius et. Donec viverra lorem quis euismod vulputate. Pellentesque vitae suscipit neque, vitae rutrum orci. Proin sollicitudin accumsan diam nec consectetur. Ut dictum ligula ligula, ut tincidunt nunc molestie ac. Praesent neque tortor, maximus id nisl in, eleifend aliquet felis. Praesent laoreet dui malesuada, gravida libero id, sollicitudin neque. Orci varius natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus",
     "author": "cart",
     "homepage": "https://example.com"
-}]
+  }
+]
