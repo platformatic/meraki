@@ -57,6 +57,8 @@ const ComposeApplication = React.forwardRef(({ onNext }, ref) => {
             onClickEditNameService={(service) => handleOpenModalEditService(service)}
             onClickRemoveService={(service) => handleOpenModalRemoveService(service)}
             onClickViewAll={(service) => { handleOpenModalViewAll(service) }}
+            onClickChangeTemplate={(service) => handleOpenModalTemplate(service)}
+            onClickPluginHandler={(service) => handleOpenModalPlugin(service)}
           />
         : <NormalView
             onClickEditNameService={(service) => handleOpenModalEditService(service)}

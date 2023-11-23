@@ -10,7 +10,9 @@ import GridElement from './GridElement'
 const GridView = React.forwardRef(({
   onClickEditNameService,
   onClickRemoveService,
-  onClickViewAll
+  onClickViewAll,
+  onClickChangeTemplate,
+  onClickPluginHandler
 }, ref) => {
   const globalState = useStackablesStore()
   const { services } = globalState
@@ -43,6 +45,8 @@ const GridView = React.forwardRef(({
             onClickEditNameService={() => onClickEditNameService(service)}
             onClickRemoveService={() => onClickRemoveService(service)}
             onClickViewAll={() => onClickViewAll(service)}
+            onClickChangeTemplate={() => onClickChangeTemplate(service)}
+            onClickPluginHandler={() => onClickPluginHandler(service)}
           />
         ))}
       </div>
@@ -65,13 +69,17 @@ const GridView = React.forwardRef(({
 GridView.propTypes = {
   onClickEditNameService: PropTypes.func,
   onClickRemoveService: PropTypes.func,
-  onClickViewAll: PropTypes.func
+  onClickViewAll: PropTypes.func,
+  onClickChangeTemplate: PropTypes.func,
+  onClickPluginHandler: PropTypes.func
 }
 
 GridView.defaultProps = {
   onClickEditNameService: () => {},
   onClickRemoveService: () => {},
-  onClickViewAll: () => {}
+  onClickViewAll: () => {},
+  onClickChangeTemplate: () => {},
+  onClickPluginHandler: () => {}
 }
 
 export default GridView

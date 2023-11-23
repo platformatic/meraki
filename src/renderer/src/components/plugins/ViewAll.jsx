@@ -57,7 +57,7 @@ function ViewAll ({ serviceName }) {
         >
           <ChangeTemplate
             showIcon
-            name={serviceName}
+            name={getService(serviceName).template.name}
             height={HEIGHT_TEMPLATE_1}
             useRefForWidth={false}
             preciseWidth={WIDTH_TEMPLATE_1}
