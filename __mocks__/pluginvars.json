@@ -1,0 +1,18 @@
+[
+  {
+    "path": "secret",
+    "type": "string"
+  }, 
+  {
+    "path": "hook",
+    "type": "string"
+  }, 
+  {
+    "path": "parseOptions.domain",
+    "type": "string"
+  }, 
+  {
+    "path": "parseOptions.maxAge",
+    "type": "number"
+  }
+]

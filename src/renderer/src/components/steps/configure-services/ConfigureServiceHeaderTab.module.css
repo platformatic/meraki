@@ -1,0 +1,9 @@
+.cursorPointer {
+  @apply cursor-pointer
+}
+.container {
+  @apply px-10
+}
+.firstContainer {
+  @apply pr-10
+}

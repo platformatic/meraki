@@ -1,22 +1,38 @@
 'use strict'
-import React from 'react'
+import React, { useEffect, useState } from 'react'
 import PropTypes from 'prop-types'
 import styles from './ConfigureServices.module.css'
 import commonStyles from '~/styles/CommonStyles.module.css'
 import typographyStyles from '~/styles/Typography.module.css'
-import { WHITE, RICH_BLACK } from '@platformatic/ui-components/src/components/constants'
-import { Button } from '@platformatic/ui-components'
+import { WHITE, RICH_BLACK, TRANSPARENT } from '@platformatic/ui-components/src/components/constants'
+import { Button, TabbedWindowV2 } from '@platformatic/ui-components'
 import useStackablesStore from '~/useStackablesStore'
-/* import PluginHandler from '~/components/plugins/PluginHandler'
-import TemplateHandler from '~/components/templates/TemplateHandler'
- */
 import EditableTitle from '~/components/ui/EditableTitle'
 import '~/components/component.animation.css'
-import ConfigureService from './ConfigureService'
+import ConfigureServiceHeaderTab from './ConfigureServiceHeaderTab'
+import ConfigureEnvVarsTemplateAndPlugins from './ConfigureEnvVarsTemplateAndPlugins'
 
 const ConfigureServices = React.forwardRef(({ onNext }, ref) => {
   const globalState = useStackablesStore()
   const { formData, services, addFormData } = globalState
+  const [serviceTabs, setServiceTabs] = useState([])
+  const [keyTabSelected, setKeyTabSelected] = useState(null)
+
+  useEffect(() => {
+    if (services.length > 0) {
+      setKeyTabSelected(services[0].name)
+    }
+  }, [services])
+
+  useEffect(() => {
+    if (keyTabSelected) {
+      setServiceTabs(services.map((service, index) => ({
+        key: service.name,
+        headerComponent: () => (<ConfigureServiceHeaderTab key={service.name} serviceName={service.name} serviceNameSelected={keyTabSelected} position={index} onClick={() => setKeyTabSelected(service.name)} />),
+        component: () => (<ConfigureEnvVarsTemplateAndPlugins key={service.name} service={{ ...service }} />)
+      })))
+    }
+  }, [keyTabSelected])
 
   function onClickConfigureApplication () {
     onNext()
@@ -44,9 +60,14 @@ const ConfigureServices = React.forwardRef(({ onNext }, ref) => {
           />
           <p className={`${typographyStyles.desktopBodyLarge} ${typographyStyles.textWhite} ${typographyStyles.opacity70}`}>Select a template and plugins for your service from our Stackables Marketplace. Once you have chosen a template you can add another Service.</p>
         </div>
-        {services.map(service => (
-          <ConfigureService key={service.name} service={{ ...service }} />
-        ))}
+        <div className={`${commonStyles.mediumFlexBlock} ${commonStyles.fullWidth}`}>
+          {serviceTabs.length > 0 && (
+            <TabbedWindowV2
+              tabs={serviceTabs}
+              keySelected={keyTabSelected}
+              backgroundColor={TRANSPARENT}
+            />)}
+        </div>
       </div>
       <div className={`${styles.buttonContainer} ${commonStyles.fullWidth}`}>
         <Button

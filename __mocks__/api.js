@@ -1,6 +1,7 @@
 import mockedPlugins from './plugins.json'
 import mockedTemplates from './templates.json'
 import mockedEnvList from './envlist.json'
+import mockedVars from './pluginvars.json'
 
 export const getTemplates = async () => {
   return mockedTemplates.map(template => ({
@@ -9,4 +10,9 @@ export const getTemplates = async () => {
   }))
 }
 
-export const getPlugins = async () => mockedPlugins
+export const getPlugins = async () => {
+  return mockedPlugins.map(plugin => ({
+    ...plugin,
+    vars: [...mockedVars]
+  }))
+}

@@ -1,6 +1,9 @@
 .textWhite {
   @apply text-white;
 }
+.textMainGreen {
+  @apply text-main-green;
+}
 .textCenter {
   @apply text-center;
 }
@@ -24,6 +27,9 @@
 }
 .desktopBodySmall {
   @apply font-inter font-normal text-[0.875rem] leading-[1.313rem];
+}
+.desktopBodySmallest {
+  @apply font-inter font-light text-[0.75] leading-[1.125rem];
 }
 .desktopBodyLargeSemibold {
   @apply font-inter font-semibold text-[1.125rem] leading-[1.688rem];
