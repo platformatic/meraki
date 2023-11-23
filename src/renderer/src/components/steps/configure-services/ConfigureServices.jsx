@@ -5,7 +5,7 @@ import styles from './ConfigureServices.module.css'
 import commonStyles from '~/styles/CommonStyles.module.css'
 import typographyStyles from '~/styles/Typography.module.css'
 import { WHITE, RICH_BLACK, TRANSPARENT } from '@platformatic/ui-components/src/components/constants'
-import { Button, TabbedWindowV2 } from '@platformatic/ui-components'
+import { Button, LoadingSpinnerV2, TabbedWindowV2 } from '@platformatic/ui-components'
 import useStackablesStore from '~/useStackablesStore'
 import EditableTitle from '~/components/ui/EditableTitle'
 import '~/components/component.animation.css'
@@ -17,12 +17,21 @@ const ConfigureServices = React.forwardRef(({ onNext }, ref) => {
   const { formData, services, addFormData } = globalState
   const [serviceTabs, setServiceTabs] = useState([])
   const [keyTabSelected, setKeyTabSelected] = useState(null)
+  const [prepareFolder, setPrepareFolder] = useState(true)
 
   useEffect(() => {
-    if (services.length > 0) {
+    if (!prepareFolder && services.length > 0) {
       setKeyTabSelected(services[0].name)
     }
-  }, [services])
+  }, [prepareFolder, services])
+
+  useEffect(() => {
+    if (prepareFolder) {
+      setTimeout(() => {
+        setPrepareFolder(false)
+      }, 5000)
+    }
+  }, [prepareFolder])
 
   useEffect(() => {
     if (keyTabSelected) {
@@ -61,6 +70,19 @@ const ConfigureServices = React.forwardRef(({ onNext }, ref) => {
           <p className={`${typographyStyles.desktopBodyLarge} ${typographyStyles.textWhite} ${typographyStyles.opacity70}`}>Select a template and plugins for your service from our Stackables Marketplace. Once you have chosen a template you can add another Service.</p>
         </div>
         <div className={`${commonStyles.mediumFlexBlock} ${commonStyles.fullWidth}`}>
+          <LoadingSpinnerV2
+            loading={prepareFolder}
+            applySentences={{
+              containerClassName: `${commonStyles.mediumFlexBlock} ${commonStyles.itemsCenter}`,
+              sentences: [{
+                style: `${typographyStyles.desktopBodyLarge} ${typographyStyles.textWhite}`,
+                text: 'We are installing your dependencies'
+              }, {
+                style: `${typographyStyles.desktopBodyLarge} ${typographyStyles.textWhite} ${typographyStyles.opacity70}`,
+                text: 'This process will just take a few seconds.'
+              }]
+            }}
+          />
           {serviceTabs.length > 0 && (
             <TabbedWindowV2
               tabs={serviceTabs}
@@ -71,6 +93,7 @@ const ConfigureServices = React.forwardRef(({ onNext }, ref) => {
       </div>
       <div className={`${styles.buttonContainer} ${commonStyles.fullWidth}`}>
         <Button
+          disabled={serviceTabs.length === 0 || prepareFolder}
           label='Next - Configure Application'
           onClick={() => onClickConfigureApplication()}
           color={RICH_BLACK}

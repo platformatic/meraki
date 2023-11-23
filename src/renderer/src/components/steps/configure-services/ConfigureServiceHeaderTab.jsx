@@ -13,6 +13,8 @@ function ConfigureServiceHeaderTab ({
   onClick
 }) {
   const [titleClassName, setTitleClassName] = useState(`${typographyStyles.desktopHeadline5} ${typographyStyles.textWhite} `)
+  const titleClassNormal = `${typographyStyles.desktopHeadline5} ${typographyStyles.textWhite} ${styles.minHeightTab} ${styles.ellipsis}`
+  const titleClassSelected = `${titleClassNormal} ${typographyStyles.opacity70}`
 
   let containerClassName = `${commonStyles.smallFlexRow} ${commonStyles.itemsCenter} ${styles.cursorPointer}`
   if (position === 0) containerClassName += ` ${styles.firstContainer}`
@@ -20,9 +22,9 @@ function ConfigureServiceHeaderTab ({
 
   useEffect(() => {
     if (serviceNameSelected !== serviceName) {
-      setTitleClassName(`${typographyStyles.desktopHeadline5} ${typographyStyles.textWhite} ${typographyStyles.opacity70}`)
+      setTitleClassName(titleClassNormal)
     } else {
-      setTitleClassName(`${typographyStyles.desktopHeadline5} ${typographyStyles.textWhite} `)
+      setTitleClassName(titleClassSelected)
     }
   }, [serviceNameSelected])
 

@@ -7,3 +7,9 @@
 .firstContainer {
   @apply pr-10
 }
+.minHeightTab {
+  @apply min-w-[262px] overflow-hidden 
+}
+.ellipsis {
+  @apply truncate w-full;
+}
