@@ -4,7 +4,7 @@ import PropTypes from 'prop-types'
 import styles from './ConfigureApplication.module.css'
 import commonStyles from '~/styles/CommonStyles.module.css'
 import typographyStyles from '~/styles/Typography.module.css'
-import { WHITE, RICH_BLACK, TRANSPARENT } from '@platformatic/ui-components/src/components/constants'
+import { WHITE, RICH_BLACK, TRANSPARENT, OPACITY_30 } from '@platformatic/ui-components/src/components/constants'
 import { BorderedBox, Button, VerticalSeparator } from '@platformatic/ui-components'
 import useStackablesStore from '~/useStackablesStore'
 import EditableTitle from '~/components/ui/EditableTitle'
@@ -190,7 +190,7 @@ const ConfigureApplication = React.forwardRef(({ onNext }, ref) => {
               />
             </Forms.Field>
 
-            <VerticalSeparator />
+            <VerticalSeparator color={WHITE} backgroundColorOpacity={OPACITY_30} />
 
             <Forms.Field
               title='Install GitHub Actions'
