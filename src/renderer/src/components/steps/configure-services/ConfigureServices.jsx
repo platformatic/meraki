@@ -4,24 +4,22 @@ import PropTypes from 'prop-types'
 import styles from './ConfigureServices.module.css'
 import commonStyles from '~/styles/CommonStyles.module.css'
 import typographyStyles from '~/styles/Typography.module.css'
-import { WHITE, RICH_BLACK, TRANSPARENT } from '@platformatic/ui-components/src/components/constants'
-import { Button, LoadingSpinnerV2, TabbedWindowV2 } from '@platformatic/ui-components'
+import { WHITE, RICH_BLACK } from '@platformatic/ui-components/src/components/constants'
+import { Button, LoadingSpinnerV2 } from '@platformatic/ui-components'
 import useStackablesStore from '~/useStackablesStore'
 import EditableTitle from '~/components/ui/EditableTitle'
 import '~/components/component.animation.css'
-import ConfigureServiceHeaderTab from './ConfigureServiceHeaderTab'
-import ConfigureEnvVarsTemplateAndPlugins from './ConfigureEnvVarsTemplateAndPlugins'
+import TemplateAndPluginTreeSelector from '~/components/template-and-plugins/TemplateAndPluginTreeSelector'
 
 const ConfigureServices = React.forwardRef(({ onNext }, ref) => {
   const globalState = useStackablesStore()
   const { formData, services, addFormData } = globalState
-  const [serviceTabs, setServiceTabs] = useState([])
-  const [keyTabSelected, setKeyTabSelected] = useState(null)
+  const [serviceSelected, setServiceSelected] = useState(null)
   const [prepareFolder, setPrepareFolder] = useState(true)
 
   useEffect(() => {
     if (!prepareFolder && services.length > 0) {
-      setKeyTabSelected(services[0].name)
+      setServiceSelected(services[0].name)
     }
   }, [prepareFolder, services])
 
@@ -29,19 +27,9 @@ const ConfigureServices = React.forwardRef(({ onNext }, ref) => {
     if (prepareFolder) {
       setTimeout(() => {
         setPrepareFolder(false)
-      }, 5000)
+      }, 3000)
     }
   }, [prepareFolder])
-
-  useEffect(() => {
-    if (keyTabSelected) {
-      setServiceTabs(services.map((service, index) => ({
-        key: service.name,
-        headerComponent: () => (<ConfigureServiceHeaderTab key={service.name} serviceName={service.name} serviceNameSelected={keyTabSelected} position={index} onClick={() => setKeyTabSelected(service.name)} />),
-        component: () => (<ConfigureEnvVarsTemplateAndPlugins key={service.name} service={{ ...service }} />)
-      })))
-    }
-  }, [keyTabSelected])
 
   function onClickConfigureApplication () {
     onNext()
@@ -83,17 +71,17 @@ const ConfigureServices = React.forwardRef(({ onNext }, ref) => {
               }]
             }}
           />
-          {serviceTabs.length > 0 && (
-            <TabbedWindowV2
-              tabs={serviceTabs}
-              keySelected={keyTabSelected}
-              backgroundColor={TRANSPARENT}
-            />)}
+          {!prepareFolder && (
+            <div className={commonStyles.mediumFlexRow}>
+              <TemplateAndPluginTreeSelector serviceSelected={serviceSelected} />
+              <p className={`${typographyStyles.desktopBodyLarge} ${typographyStyles.textWhite} ${typographyStyles.opacity70}`}>select me</p>
+            </div>
+          )}
         </div>
       </div>
       <div className={`${styles.buttonContainer} ${commonStyles.fullWidth}`}>
         <Button
-          disabled={serviceTabs.length === 0 || prepareFolder}
+          disabled={prepareFolder}
           label='Next - Configure Application'
           onClick={() => onClickConfigureApplication()}
           color={RICH_BLACK}

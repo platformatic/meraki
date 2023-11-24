@@ -1,0 +1,21 @@
+.container {
+  @apply max-w-[17rem] min-w-[17rem]
+}
+.cursorPointer {
+  @apply cursor-pointer
+}
+.pluginContainer { 
+  @apply px-6;
+  width: calc(100% - 3rem)
+}
+.ellipsisTemplate {
+  @apply truncate;
+  width: calc(100% - 1rem)
+}
+.ellipsisPlugin {
+  @apply truncate;
+  width: calc(100% - 3rem)
+}
+.overflowHidden {
+  @apply overflow-hidden ;
+}

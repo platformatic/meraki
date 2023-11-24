@@ -2,10 +2,10 @@
 import React, { useEffect, useRef, useState } from 'react'
 import { CSSTransition } from 'react-transition-group'
 import useStackablesStore from '~/useStackablesStore'
-import ServicesTree from '~/components/services/ServicesTree'
+import BundleFolderTree from '~/components/services/BundleFolderTree'
 import './service.animation.css'
 
-function ConnectorAndServicesTree () {
+function ConnectorAndBundleFolderTree () {
   const [templateAdded, setTemplateAdded] = useState(false)
   const globalState = useStackablesStore()
   const { services } = globalState
@@ -13,9 +13,9 @@ function ConnectorAndServicesTree () {
   const [currentComponent, setCurrentComponent] = useState(<></>)
 
   useEffect(() => {
-    if (Object.keys(services[0].template).length > 0 && Object.hasOwn(services[0].template, 'id')) {
+    if (Object.keys(services[0].template).length > 0 && Object.hasOwn(services[0].template, 'name')) {
       setTemplateAdded(true)
-      setCurrentComponent(<ServicesTree ref={nodeRef} />)
+      setCurrentComponent(<BundleFolderTree ref={nodeRef} />)
     }
   }, [Object.keys(services[0].template).length])
 
@@ -31,4 +31,4 @@ function ConnectorAndServicesTree () {
   )
 }
 
-export default ConnectorAndServicesTree
+export default ConnectorAndBundleFolderTree

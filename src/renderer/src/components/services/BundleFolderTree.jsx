@@ -3,7 +3,7 @@ import React from 'react'
 import { MEDIUM, TRANSPARENT, WHITE } from '@platformatic/ui-components/src/components/constants'
 import Icons from '@platformatic/ui-components/src/components/icons'
 import typographyStyles from '~/styles/Typography.module.css'
-import styles from './ServicesTree.module.css'
+import styles from './BundleFolderTree.module.css'
 import commonStyles from '~/styles/CommonStyles.module.css'
 import { BorderedBox } from '@platformatic/ui-components'
 import useStackablesStore from '~/useStackablesStore'
@@ -11,7 +11,7 @@ import SmallTitle from '~/components/ui/SmallTitle'
 import ArrowConnector from '~/components/shaped-components/ArrowConnector'
 import FoldersLineIcon from '~/components/services/FoldersLineIcon'
 
-const ServicesTree = React.forwardRef(({ _ }, ref) => {
+const BundleFolderTree = React.forwardRef(({ _ }, ref) => {
   const globalState = useStackablesStore()
   const { formData, services } = globalState
 
@@ -54,4 +54,4 @@ const ServicesTree = React.forwardRef(({ _ }, ref) => {
   )
 })
 
-export default ServicesTree
+export default BundleFolderTree
