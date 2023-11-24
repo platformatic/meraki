@@ -3,9 +3,9 @@ import { app, shell, BrowserWindow, dialog, ipcMain, Menu } from 'electron'
 import { join } from 'path'
 import { electronApp, optimizer, is } from '@electron-toolkit/utils'
 import icon from '../../resources/icon.png?asset'
-import setupMenu from './menu.js'
-import { getTemplates, getPlugins } from './client.js'
-import { prepareFolder, createApp } from './generate.js'
+import setupMenu from './menu.mjs'
+import { getTemplates, getPlugins } from './client.mjs'
+import { prepareFolder, createApp } from './generate.mjs'
 
 // eslint-disable-next-line no-unused-vars
 const isMac = process.platform === 'darwin'
@@ -32,9 +32,6 @@ function createWindow () {
     shell.openExternal(details.url)
     return { action: 'deny' }
   })
-
-  // DEBUG
-  // mainWindow.webContents.openDevTools()
 
   // HMR for renderer base on electron-vite cli.
   // Load the remote URL for development or the local html file for production.
