@@ -25,3 +25,4 @@ out/**/*
 *.njsproj
 *.sln
 *.sw?
+coverage
