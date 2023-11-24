@@ -22,11 +22,13 @@ function SelectTemplate ({ onClick, serviceName }) {
   const [optionsOrganizationsTemplates, setOptionsOrganizationsTemplates] = useState([])
   const [groupedTemplates, setGroupedTemplates] = useState([])
   const [currentPage, setCurrentPage] = useState(1)
-  const [filterTemplatesByValue, setFilterTemplatesByValue] = useState('')
   const [currentView, setCurrentView] = useState(LIST_TEMPLATES_VIEW)
   const [pages, setPages] = useState([1])
   const [templateSelected, setTemplateSelected] = useState(null)
   const scrollRef = useRef(null)
+  const [filterTemplatesByName, setFilterTemplatesByName] = useState('')
+  const [filterTemplatesByOrgName, setFilterTemplatesByOrgName] = useState('')
+
   const containerScrollRef = useRef(null)
 
   useEffect(() => {
@@ -50,6 +52,19 @@ function SelectTemplate ({ onClick, serviceName }) {
   }, [templates, serviceName, Object.keys(getService(serviceName).template).length])
 
   useEffect(() => {
+    if (filterTemplatesByOrgName || filterTemplatesByName) {
+      let founds = [...templates]
+      if (filterTemplatesByOrgName) {
+        founds = templates.filter(template => template.orgName === filterTemplatesByOrgName)
+      }
+      founds = founds.filter(template => template.name.toLowerCase().includes(filterTemplatesByName.toLowerCase()))
+      setFilteredTemplates(founds)
+    } else {
+      setFilteredTemplates([...templates])
+    }
+  }, [filterTemplatesByOrgName, filterTemplatesByName])
+
+  useEffect(() => {
     if (filteredTemplates.length > 0) {
       if (currentView === NO_RESULTS_VIEW) {
         setCurrentView(LIST_TEMPLATES_VIEW)
@@ -61,12 +76,12 @@ function SelectTemplate ({ onClick, serviceName }) {
       setGroupedTemplates(groupedTemplates)
       setPages(Array.from(new Array(groupedTemplates.length).keys()).map(x => x + 1))
     }
-    if (filteredTemplates.length === 0 && filterTemplatesByValue) {
+    if (filteredTemplates.length === 0 && filterTemplatesByName) {
       if (currentView === LIST_TEMPLATES_VIEW) {
         setCurrentView(NO_RESULTS_VIEW)
       }
     }
-  }, [filteredTemplates.length, filterTemplatesByValue])
+  }, [filteredTemplates.length, filterTemplatesByName])
 
   function handleUsePlatformaticService () {
     setTemplate(serviceName, templateSelected)
@@ -78,15 +93,11 @@ function SelectTemplate ({ onClick, serviceName }) {
   }
 
   function handleClearTemplates () {
-    setFilterTemplatesByValue('')
-    setFilteredTemplates([...templates])
+    setFilterTemplatesByName('')
   }
 
   function handleFilterTemplates (value) {
-    setFilterTemplatesByValue(value)
-    setCurrentPage(1)
-    const founds = templates.filter(template => template.name.toLowerCase().includes(value.toLowerCase()))
-    setFilteredTemplates(founds)
+    setFilterTemplatesByName(value)
   }
 
   const scroll = (page) => {
@@ -109,16 +120,16 @@ function SelectTemplate ({ onClick, serviceName }) {
   }
 
   // Functions Related to Form.Select
-  function handleChangeOrganization () {
-
+  function handleChangeOrganization (event) {
+    setFilterTemplatesByOrgName(event.target.value)
   }
 
-  function handleSelectOrganization () {
-
+  function handleSelectOrganization (event) {
+    setFilterTemplatesByOrgName(event.detail.value)
   }
 
   function handleClearOrganization () {
-
+    setFilterTemplatesByOrgName('')
   }
   // End Functions Related to Form.Select
 
@@ -167,7 +178,7 @@ function SelectTemplate ({ onClick, serviceName }) {
     }
     return (
       <NoResults
-        searchedValue={filterTemplatesByValue}
+        searchedValue={filterTemplatesByName}
         dataAttrName='cy'
         dataAttrValue='template-no-results'
       />
@@ -200,6 +211,7 @@ function SelectTemplate ({ onClick, serviceName }) {
             optionsBorderedBottom={false}
             mainColor={WHITE}
             borderListColor={WHITE}
+            value={filterTemplatesByOrgName}
           />
           <SearchBarV2
             placeholder='Search for a Template'
