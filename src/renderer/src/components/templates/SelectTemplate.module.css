@@ -16,3 +16,9 @@
 .containerView {
   @apply lg:min-h-[29.9rem] lg:max-h-[29.5rem] h-full w-full
 }
+.select {
+  @apply basis-1/3
+}
+.selectUl {
+  @apply min-w-[150%]
+}

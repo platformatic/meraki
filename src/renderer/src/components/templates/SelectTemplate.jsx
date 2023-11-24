@@ -12,13 +12,14 @@ import NoResults from '~/components/ui/NoResults'
 import useStackablesStore from '~/useStackablesStore'
 import { getApiTemplates } from '~/api'
 import { MAX_MUMBER_SELECT, NO_RESULTS_VIEW, LIST_TEMPLATES_VIEW } from '~/ui-constants'
+import Forms from '@platformatic/ui-components/src/components/forms'
 
 function SelectTemplate ({ onClick, serviceName }) {
   const globalState = useStackablesStore()
   const { getService, setTemplate } = globalState
-
   const [templates, setTemplates] = useState([])
   const [filteredTemplates, setFilteredTemplates] = useState([])
+  const [optionsOrganizationsTemplates, setOptionsOrganizationsTemplates] = useState([])
   const [groupedTemplates, setGroupedTemplates] = useState([])
   const [currentPage, setCurrentPage] = useState(1)
   const [filterTemplatesByValue, setFilterTemplatesByValue] = useState('')
@@ -31,6 +32,8 @@ function SelectTemplate ({ onClick, serviceName }) {
   useEffect(() => {
     async function getTemplates () {
       const templates = await getApiTemplates()
+      const tmpOptions = templates.map(e => e.orgName).filter(onlyUnique).sort().map(ele => ({ label: ele, value: ele, iconName: 'OrganizationIcon' }))
+      setOptionsOrganizationsTemplates([...tmpOptions])
       setTemplates(templates)
       setFilteredTemplates([...templates])
       setTemplateSelected(templates[0])
@@ -70,6 +73,10 @@ function SelectTemplate ({ onClick, serviceName }) {
     onClick()
   }
 
+  function onlyUnique (value, index, array) {
+    return array.indexOf(value) === index
+  }
+
   function handleClearTemplates () {
     setFilterTemplatesByValue('')
     setFilteredTemplates([...templates])
@@ -100,6 +107,20 @@ function SelectTemplate ({ onClick, serviceName }) {
       behavior: 'smooth'
     })
   }
+
+  // Functions Related to Form.Select
+  function handleChangeOrganization () {
+
+  }
+
+  function handleSelectOrganization () {
+
+  }
+
+  function handleClearOrganization () {
+
+  }
+  // End Functions Related to Form.Select
 
   function renderListTemplates () {
     return groupedTemplates.map((templates, index) => (
@@ -165,7 +186,27 @@ function SelectTemplate ({ onClick, serviceName }) {
         <p className={`${typographyStyles.desktopBodyLarge} ${typographyStyles.textWhite} ${typographyStyles.opacity70}`}>Select a template from our Stackables Marketplace to be uses as a base for your new Service.If you don’t want to select any Template your new service will be built on top of Platformatic Service.</p>
       </div>
       <div className={`${commonStyles.mediumFlexBlock24} ${commonStyles.fullWidth}`}>
-        <SearchBarV2 placeholder='Search for a Template' onClear={handleClearTemplates} onChange={handleFilterTemplates} />
+        <div className={`${commonStyles.smallFlexRow} ${commonStyles.fullWidth}`}>
+          <Forms.Select
+            defaultContainerClassName={styles.select}
+            backgroundColor={RICH_BLACK}
+            placeholder='Select Organization'
+            borderColor={WHITE}
+            options={optionsOrganizationsTemplates}
+            defaultOptionsClassName={styles.selectUl}
+            onChange={handleChangeOrganization}
+            onSelect={handleSelectOrganization}
+            onClear={handleClearOrganization}
+            optionsBorderedBottom={false}
+            mainColor={WHITE}
+            borderListColor={WHITE}
+          />
+          <SearchBarV2
+            placeholder='Search for a Template'
+            onClear={handleClearTemplates}
+            onChange={handleFilterTemplates}
+          />
+        </div>
         <div className={`${commonStyles.mediumFlexBlock24} ${commonStyles.fullWidth} ${commonStyles.justifyCenter} ${styles.containerView}`}>
           {renderCurrentView()}
         </div>
