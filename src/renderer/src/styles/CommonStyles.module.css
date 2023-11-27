@@ -61,3 +61,6 @@
 .noVerticalPadding {
   @apply py-0 !important
 }
+.overflowHidden {
+  @apply overflow-hidden ;
+}

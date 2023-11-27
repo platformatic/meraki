@@ -10,6 +10,9 @@
 .opacity70 {
   @apply opacity-70;
 }
+.ellipsis {
+  @apply truncate w-full;
+}
 .desktopHeadline2 {
   @apply font-inter font-semibold text-[2.5rem] leading-[3.375rem];
 }

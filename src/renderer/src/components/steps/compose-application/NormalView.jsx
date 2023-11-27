@@ -5,8 +5,9 @@ import useStackablesStore from '~/useStackablesStore'
 import NameService from '~/components/services/NameService'
 import { CSSTransition, TransitionGroup } from 'react-transition-group'
 import commonStyles from '~/styles/CommonStyles.module.css'
+import styles from './NormalView.module.css'
 import '~/components/component.animation.css'
-import Service from '../../services/Service'
+import Service from '~/components/services/Service'
 
 const NormalView = React.forwardRef(({
   onClickEditNameService,
@@ -21,7 +22,7 @@ const NormalView = React.forwardRef(({
   return (
     <div className={`${commonStyles.mediumFlexRow} ${commonStyles.itemsStretch}`} ref={ref}>
       {services.map(service => (
-        <div className={commonStyles.mediumFlexBlock} key={service.name}>
+        <div className={`${commonStyles.mediumFlexBlock} ${styles.container}`} key={service.name}>
           <NameService
             name={service.name}
             onClickEdit={() => onClickEditNameService(service)}

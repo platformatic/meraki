@@ -194,30 +194,37 @@ function SelectTemplate ({ onClick, serviceName }) {
           dataAttrName='cy'
           dataAttrValue='modal-title'
         />
-        <p className={`${typographyStyles.desktopBodyLarge} ${typographyStyles.textWhite} ${typographyStyles.opacity70}`}>Select a template from our Stackables Marketplace to be uses as a base for your new Service.If you don’t want to select any Template your new service will be built on top of Platformatic Service.</p>
+        <p className={`${typographyStyles.desktopBodyLarge} ${typographyStyles.textWhite} ${typographyStyles.opacity70}`}>
+          Select a template from our Stackables Marketplace to be uses as a base for your new Service.If you don’t want to select any Template your new service will be built on top of Platformatic Service.
+        </p>
       </div>
       <div className={`${commonStyles.mediumFlexBlock24} ${commonStyles.fullWidth}`}>
-        <div className={`${commonStyles.smallFlexRow} ${commonStyles.fullWidth}`}>
-          <Forms.Select
-            defaultContainerClassName={styles.select}
-            backgroundColor={RICH_BLACK}
-            placeholder='Select Organization'
-            borderColor={WHITE}
-            options={optionsOrganizationsTemplates}
-            defaultOptionsClassName={styles.selectUl}
-            onChange={handleChangeOrganization}
-            onSelect={handleSelectOrganization}
-            onClear={handleClearOrganization}
-            optionsBorderedBottom={false}
-            mainColor={WHITE}
-            borderListColor={WHITE}
-            value={filterTemplatesByOrgName}
-          />
-          <SearchBarV2
-            placeholder='Search for a Template'
-            onClear={handleClearTemplates}
-            onChange={handleFilterTemplates}
-          />
+        <div className={`${commonStyles.smallFlexBlock} ${commonStyles.fullWidth}`}>
+          <p className={`${typographyStyles.desktopBodySmall} ${typographyStyles.textWhite} ${typographyStyles.opacity70}`}>
+            If you want to view stackables in one of your organizations, remember to log in using <a href='https://docs.platformatic.dev/docs/reference/cli/#login' target='_blank' className={styles.link} rel='noreferrer'>platformatic login</a>.
+          </p>
+          <div className={`${commonStyles.smallFlexRow} ${commonStyles.fullWidth}`}>
+            <Forms.Select
+              defaultContainerClassName={styles.select}
+              backgroundColor={RICH_BLACK}
+              placeholder='Select Organization'
+              borderColor={WHITE}
+              options={optionsOrganizationsTemplates}
+              defaultOptionsClassName={styles.selectUl}
+              onChange={handleChangeOrganization}
+              onSelect={handleSelectOrganization}
+              onClear={handleClearOrganization}
+              optionsBorderedBottom={false}
+              mainColor={WHITE}
+              borderListColor={WHITE}
+              value={filterTemplatesByOrgName}
+            />
+            <SearchBarV2
+              placeholder='Search for a Template'
+              onClear={handleClearTemplates}
+              onChange={handleFilterTemplates}
+            />
+          </div>
         </div>
         <div className={`${commonStyles.mediumFlexBlock24} ${commonStyles.fullWidth} ${commonStyles.justifyCenter} ${styles.containerView}`}>
           {renderCurrentView()}

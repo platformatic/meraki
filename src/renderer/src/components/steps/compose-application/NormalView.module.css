@@ -1,0 +1,3 @@
+.container {
+  @apply max-w-[264px] min-w-[264px];
+}

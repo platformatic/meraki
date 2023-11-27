@@ -18,8 +18,8 @@ const BundleFolderTree = React.forwardRef(({ _ }, ref) => {
   return (
     <div className={`${commonStyles.mediumFlexRow} ${commonStyles.itemsCenter}`} ref={ref}>
       <ArrowConnector />
-      <div className={`${commonStyles.mediumFlexBlock} ${styles.serviceContainer}`}>
-        <h5 className={`${typographyStyles.desktopHeadline5} ${typographyStyles.textWhite}`}>{formData.createApplication.service}</h5>
+      <div className={`${commonStyles.mediumFlexBlock} ${styles.serviceContainer} ${commonStyles.overflowHidden}`}>
+        <h5 className={`${typographyStyles.desktopHeadline5} ${typographyStyles.textWhite} ${typographyStyles.ellipsis}`} title={formData.createApplication.service}>{formData.createApplication.service}</h5>
         <BorderedBox color={WHITE} borderColorOpacity={30} backgroundColor={TRANSPARENT} classes={commonStyles.fullWidth}>
           <div className={`${commonStyles.smallFlexBlock} ${commonStyles.fullWidth}`}>
             <div className={`${commonStyles.smallFlexRow} ${commonStyles.justifyCenter}`}>
@@ -38,8 +38,8 @@ const BundleFolderTree = React.forwardRef(({ _ }, ref) => {
                       <SmallTitle
                         iconName='FoldersIcon'
                         title={service.name}
-                        titleClassName={`${typographyStyles.desktopBodyLarge} ${typographyStyles.textWhite} ${typographyStyles.opacity70}`}
-                        containerClassName={`${commonStyles.smallFlexRow} ${typographyStyles.textCenter}`}
+                        titleClassName={`${typographyStyles.desktopBodyLarge} ${typographyStyles.textWhite} ${typographyStyles.opacity70} ${styles.ellipsis}`}
+                        containerClassName={`${commonStyles.smallFlexRow} ${typographyStyles.textCenter} ${commonStyles.overflowHidden}`}
                       />
                     </div>
 

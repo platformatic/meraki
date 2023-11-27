@@ -4,3 +4,6 @@
 .flexGrow {
   @apply grow
 }
+.ellipsis {
+  @apply truncate;
+}

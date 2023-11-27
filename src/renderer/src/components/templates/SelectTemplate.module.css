@@ -22,3 +22,7 @@
 .selectUl {
   @apply min-w-[150%]
 }
+
+.link {
+  @apply text-tertiary-blue
+}

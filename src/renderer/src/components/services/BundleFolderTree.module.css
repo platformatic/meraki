@@ -1,8 +1,8 @@
 .serviceContainer {
-  @apply min-w-[264px]
+  @apply min-w-[264px] max-w-[264px]
 }
 .foldersContainer {
-  @apply relative
+  @apply relative max-w-[160px] min-w-[160px]
 }
 .horizontalDivided {
   @apply absolute top-[20%] left-[-1rem] w-[1rem] border-b-0 border-l-0 border-r-0 border-t border-white/30
@@ -11,6 +11,8 @@
   @apply relative h-auto w-[32px]
 }
 .flexContainerServices {
-  @apply flex flex-row items-stretch gap-x-0 w-full;
-
+  @apply flex flex-row items-stretch gap-x-0;
+}
+.ellipsis {
+  @apply truncate
 }

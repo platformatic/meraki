@@ -9,11 +9,15 @@ import commonStyles from '~/styles/CommonStyles.module.css'
 import { BorderedBox, PlatformaticIcon } from '@platformatic/ui-components'
 import useStackablesStore from '~/useStackablesStore'
 
-function TemplateSelector ({ onTemplateSelected, service }) {
+function TemplateSelector ({ onTemplateSelected, service, serviceSelected }) {
+  let className = `${typographyStyles.desktopHeadline5} ${typographyStyles.textWhite} ${styles.ellipsisTemplate}`
+  if (serviceSelected?.template?.name !== service.template.name) {
+    className += ` ${typographyStyles.opacity70}`
+  }
   return (
     <div className={`${commonStyles.smallFlexRow} ${styles.cursorPointer} ${styles.overflowHidden}`} onClick={() => onTemplateSelected(service)}>
       <Icons.ServiceIcon color={WHITE} size={MEDIUM} />
-      <h5 className={`${typographyStyles.desktopHeadline5} ${typographyStyles.textWhite} ${styles.ellipsisTemplate}`}>{service.name}</h5>
+      <h5 className={className}>{service.name}</h5>
     </div>
   )
 }
@@ -56,7 +60,7 @@ function PluginSelector ({ onPluginSelected, service, plugin }) {
   )
 }
 
-function TemplateAndPluginTreeSelector ({ onTemplateSelected, onPluginSelected }) {
+function TemplateAndPluginTreeSelector ({ onTemplateSelected, onPluginSelected, serviceSelected, pluginSelected }) {
   const globalState = useStackablesStore()
   const { services } = globalState
 
@@ -69,8 +73,8 @@ function TemplateAndPluginTreeSelector ({ onTemplateSelected, onPluginSelected }
       <div className={`${commonStyles.mediumFlexBlock} ${commonStyles.fullWidth}`}>
         {services.map(service => (
           <div className={`${commonStyles.smallFlexBlock} ${commonStyles.fullWidth}`} key={service.name}>
-            <TemplateSelector onTemplateSelected={onTemplateSelected} service={{ ...service }} />
-            {service.plugins.length > 0 && <PluginsContainer service={service} onPluginSelected={handlePluginSelected} />}
+            <TemplateSelector onTemplateSelected={onTemplateSelected} service={{ ...service }} serviceSelected={serviceSelected} />
+            {service.plugins.length > 0 && <PluginsContainer service={service} onPluginSelected={handlePluginSelected} pluginSelected={pluginSelected} />}
           </div>
         ))}
       </div>
@@ -86,13 +90,22 @@ TemplateAndPluginTreeSelector.propTypes = {
   /**
    * onPluginSelected
     */
-  onPluginSelected: PropTypes.func
-
+  onPluginSelected: PropTypes.func,
+  /**
+   * onPluginSelected
+    */
+  pluginSelected: PropTypes.object,
+  /**
+   * onPluginSelected
+    */
+  serviceSelected: PropTypes.object
 }
 
 TemplateAndPluginTreeSelector.defaultProps = {
   setSelectedTemplate: () => {},
-  onPluginSelected: () => {}
+  onPluginSelected: () => {},
+  pluginSelected: {},
+  serviceSelected: {}
 }
 
 export default TemplateAndPluginTreeSelector

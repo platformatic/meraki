@@ -15,7 +15,7 @@ function SmallTitle ({ containerClassName, iconName, title, titleClassName }) {
   return (
     <div className={containerClassName}>
       {icon}
-      <span className={titleClassName}>{title}</span>
+      <span className={titleClassName} title={title}>{title}</span>
     </div>
   )
 }
