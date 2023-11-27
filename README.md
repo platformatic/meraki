@@ -15,6 +15,7 @@ $ npm install
 
 ### UI Components Live
 
+This is necessary only if you want to change ui-components and see the changes live in meraki
 Once that you have download the ui-components
 
 ```
