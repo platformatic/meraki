@@ -1,13 +1,51 @@
-const {
-  setTimeout
-} = require('node:timers/promises')
+import { stat } from 'node:fs/promises'
+import { setTimeout } from 'node:timers/promises'
+import { execa } from 'execa'
+import split from 'split2'
 
-export const prepareFolder = async (path, logger) => {
-  // TODO: this check that the folder exists (it should)  and `npm install` what is necessary
-  // for the creation
-  logger.info('Preparing folder')
-  await setTimeout(3000)
-  logger.info('Folder prepared')
+const installNpm = async (name, path, logger) => {
+  logger.info({ name, path }, 'Installing ')
+  await execa('npm', ['install', name], { cwd: path })
+    .pipeStdout(split()).on('data', (line) => {
+      logger.info(line)
+    })
+    .pipeStderr(split()).on('data', (line) => {
+      logger.error(line)
+    })
+
+  logger.info({ name, path }, 'Installed')
+}
+
+// install all the names and return the list of the configurations, for the
+// templates in a map <name> -> [configurations]
+export const prepareFolder = async (path, templates, plugins, logger) => {
+  const templateVariables = []
+  const s = await stat(path)
+  if (!s.isDirectory()) {
+    logger.error({ path }, `Path ${path} is not a directory`)
+    throw new Error(`Path ${path} is not a directory`)
+  }
+
+  try {
+    for (const template of templates) {
+      await installNpm(template, path, logger)
+    }
+  } catch (err) {
+    logger.error(err)
+    throw err
+  }
+
+  try {
+    for (const plugin of plugins) {
+      await installNpm(plugin, path, logger)
+    }
+  } catch (err) {
+    logger.error(err)
+    throw err
+  }
+
+  // TODO: get the template variables and return them here:
+  return templateVariables
 }
 
 export const createApp = async (path, logger) => {
