@@ -1,4 +1,7 @@
-# Stackables-wizard app
+# Platformatic Meraki
+
+## Name meaning
+[TODO]
 
 ## Project Setup
 
@@ -33,7 +36,7 @@ An Relaunch the dashformatic server
 $ npm run dev
 ```
 
-### Build
+### Application Build
 
 ```bash
 # For windows

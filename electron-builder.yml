@@ -1,5 +1,5 @@
-appId: com.electron.app
-productName: platformatic-app
+appId: dev.platformatic
+productName: meraki
 directories:
   buildResources: build
 files:
@@ -11,9 +11,10 @@ files:
 asarUnpack:
   - resources/**
 win:
-  executableName: platformatic-stackables
+  executableName: meraki
+  sign: ./sign-win/sign-win.js
 nsis:
-  artifactName: ${name}-${version}-setup.${ext}
+  artifactName: ${productName}-${version}-setup.${ext}
   shortcutName: ${productName}
   uninstallDisplayName: ${productName}
   createDesktopShortcut: always
@@ -22,17 +23,17 @@ mac:
   extendInfo:
   notarize: false
 dmg:
-  artifactName: ${name}-${version}.${ext}
+  artifactName: ${productName}-${version}.${ext}
 linux:
   target:
     - AppImage
-    - snap
     - deb
-  maintainer: electronjs.org
+  maintainer: platformatic.dev
   category: Utility
 appImage:
-  artifactName: ${name}-${version}.${ext}
+  artifactName: ${productName}-${version}.${ext}
 npmRebuild: false
 publish:
-  provider: generic
-  url: https://example.com/auto-updates
+  provider: github
+  private: true
+    
