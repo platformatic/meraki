@@ -3,7 +3,8 @@ import { afterEach } from 'vitest'
 
 function setUpEnvironment (env = {}) {
   const defaultEnv = {
-    DEPLOY_SERVICE_HOST: 'http://localhost:13042'
+    MAIN_VITE_DEPLOY_SERVICE_HOST: 'http://localhost:13042',
+    MAIN_VITE_USE_MOCKS: false
   }
 
   Object.assign(process.env, defaultEnv, env)

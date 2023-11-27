@@ -1,9 +1,9 @@
 import { stat } from 'node:fs/promises'
 import { setTimeout } from 'node:timers/promises'
-import { execa } from 'execa'
 import split from 'split2'
 
 const installNpm = async (name, path, logger) => {
+  const { execa } = await import('execa')
   logger.info({ name, path }, 'Installing ')
   await execa('npm', ['install', name], { cwd: path })
     .pipeStdout(split()).on('data', (line) => {

@@ -104,5 +104,6 @@ test('should invoke deploy service for stackables', async () => {
     }
   })
   const plugins = await getPlugins(deployServiceHost)
+  // console.log(plugins)
   expect(plugins).toEqual(plugs)
 })

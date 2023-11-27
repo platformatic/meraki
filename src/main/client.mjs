@@ -98,7 +98,7 @@ export const getTemplates = async () => {
 }
 
 export const getPlugins = async () => {
-  if (process.env.MAIN_VITE_USE_MOCKS) {
+  if (useMocks) {
     return mockedPlugins.map(plugin => ({
       ...plugin,
       envVars: [...mockedVars]
