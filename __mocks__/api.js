@@ -3,10 +3,16 @@ import mockedTemplates from './templates.json'
 import mockedEnvList from './envlist.json'
 import mockedVars from './pluginvars.json'
 
+function getRandomInt (min, max) {
+  min = Math.ceil(min)
+  max = Math.floor(max)
+  return Math.floor(Math.random() * (max - min + 1)) + min
+}
+
 export const getTemplates = async () => {
   return mockedTemplates.map(template => ({
     ...template,
-    envVars: Array.from(new Array(Math.floor(Math.random() * mockedEnvList.length)).keys()).map(() => mockedEnvList[Math.floor(Math.random() * mockedEnvList.length)])
+    envVars: Array.from(new Array(getRandomInt(1, mockedEnvList.length)).keys()).map(() => mockedEnvList[Math.floor(Math.random() * mockedEnvList.length)])
   }))
 }
 

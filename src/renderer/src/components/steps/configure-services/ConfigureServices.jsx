@@ -9,19 +9,12 @@ import { Button, LoadingSpinnerV2 } from '@platformatic/ui-components'
 import useStackablesStore from '~/useStackablesStore'
 import EditableTitle from '~/components/ui/EditableTitle'
 import '~/components/component.animation.css'
-import TemplateAndPluginTreeSelector from '~/components/template-and-plugins/TemplateAndPluginTreeSelector'
+import ConfigureEnvVarsTemplateAndPlugins from './ConfigureEnvVarsTemplateAndPlugins'
 
 const ConfigureServices = React.forwardRef(({ onNext }, ref) => {
   const globalState = useStackablesStore()
-  const { formData, services, addFormData } = globalState
-  const [serviceSelected, setServiceSelected] = useState(null)
+  const { formData, addFormData } = globalState
   const [prepareFolder, setPrepareFolder] = useState(true)
-
-  useEffect(() => {
-    if (!prepareFolder && services.length > 0) {
-      setServiceSelected(services[0].name)
-    }
-  }, [prepareFolder, services])
 
   useEffect(() => {
     if (prepareFolder) {
@@ -57,7 +50,7 @@ const ConfigureServices = React.forwardRef(({ onNext }, ref) => {
           />
           <p className={`${typographyStyles.desktopBodyLarge} ${typographyStyles.textWhite} ${typographyStyles.opacity70}`}>Select a template and plugins for your service from our Stackables Marketplace. Once you have chosen a template you can add another Service.</p>
         </div>
-        <div className={`${commonStyles.mediumFlexBlock} ${commonStyles.fullWidth}`}>
+        <div className={`${commonStyles.mediumFlexBlock} ${commonStyles.fullWidth} ${styles.content}`}>
           <LoadingSpinnerV2
             loading={prepareFolder}
             applySentences={{
@@ -71,12 +64,7 @@ const ConfigureServices = React.forwardRef(({ onNext }, ref) => {
               }]
             }}
           />
-          {!prepareFolder && (
-            <div className={commonStyles.mediumFlexRow}>
-              <TemplateAndPluginTreeSelector serviceSelected={serviceSelected} />
-              <p className={`${typographyStyles.desktopBodyLarge} ${typographyStyles.textWhite} ${typographyStyles.opacity70}`}>select me</p>
-            </div>
-          )}
+          {!prepareFolder && (<ConfigureEnvVarsTemplateAndPlugins />)}
         </div>
       </div>
       <div className={`${styles.buttonContainer} ${commonStyles.fullWidth}`}>

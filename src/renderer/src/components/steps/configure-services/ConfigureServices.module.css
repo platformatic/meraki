@@ -4,7 +4,8 @@
 .buttonContainer {
   @apply flex justify-end;
 }
+
 .content {
-  min-height: 56.8vH;
-  @apply h-full;
+  min-height: calc(100vH - 27rem);
+  max-height: calc(100vH - 27rem);
 }

@@ -6,7 +6,7 @@ import commonStyles from '~/styles/CommonStyles.module.css'
 import typographyStyles from '~/styles/Typography.module.css'
 import { OPACITY_30, TRANSPARENT, WHITE } from '@platformatic/ui-components/src/components/constants'
 
-function ConfigureEnvVarsTemplate ({ service }) {
+function TemplateEnvVarsForm ({ service }) {
   const [form, setForm] = useState(null)
   const [validations, setValidations] = useState({ })
   // eslint-disable-next-line no-unused-vars
@@ -29,7 +29,7 @@ function ConfigureEnvVarsTemplate ({ service }) {
       setForm({ ...tmp })
       setValidations({ ...validations, formErrors })
     }
-  }, [service.template.envVars])
+  }, [service.template?.envVars])
 
   function handleChange (event) {
     const value = event.target.value
@@ -90,7 +90,7 @@ function ConfigureEnvVarsTemplate ({ service }) {
       backgroundColor={TRANSPARENT}
       classes={`${commonStyles.mediumFlexBlock} ${commonStyles.fullWidth}`}
     >
-      <p className={`${typographyStyles.desktopBody} ${typographyStyles.textWhite}`}>Environment Variables</p>
+      <p className={`${typographyStyles.desktopBody} ${typographyStyles.textWhite}`}>{service.template.name} Variables</p>
       <div className={`${commonStyles.mediumFlexBlock} ${commonStyles.fullWidth}`}>
         {form && renderForm()}
       </div>
@@ -98,13 +98,13 @@ function ConfigureEnvVarsTemplate ({ service }) {
   )
 }
 
-ConfigureEnvVarsTemplate.propTypes = {
+TemplateEnvVarsForm.propTypes = {
   /**
    * service
    */
   service: PropTypes.object.isRequired
 }
 
-// ConfigureEnvVarsTemplate.defaultProps = {}
+// TemplateEnvVarsForm.defaultProps = {}
 
-export default ConfigureEnvVarsTemplate
+export default TemplateEnvVarsForm
