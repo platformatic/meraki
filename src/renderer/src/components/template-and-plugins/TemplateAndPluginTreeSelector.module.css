@@ -5,12 +5,12 @@
   @apply cursor-pointer
 }
 .pluginContainer { 
-  @apply px-6;
+  @apply pr-6 pl-8; 
   width: calc(100% - 3rem)
 }
 .ellipsisTemplate {
   @apply truncate;
-  width: calc(100% - 1rem)
+  width: 12rem;
 }
 .ellipsisPlugin {
   @apply truncate;
