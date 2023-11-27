@@ -32,14 +32,14 @@ function PluginsContainer ({ service, isTemplateSelected, pluginSelected, onPlug
   return (
     <div className={`${commonStyles.smallFlexBlock} ${styles.pluginContainer}`}>
       {service?.plugins.length === 1
-        ? (<PluginSelector key={service.plugins[0].name} plugin={{ ...service.plugins[0] }} service={{ ...service }} onPluginSelected={onPluginSelected} />)
+        ? (<PluginSelector key={service.plugins[0].name} plugin={{ ...service.plugins[0] }} service={{ ...service }} onPluginSelected={onPluginSelected} pluginSelected={pluginSelected} />)
         : (
           <>
-            <div className={`${commonStyles.smallFlexRow} ${commonStyles.fullWidth}`}>
+            <div className={`${commonStyles.smallFlexRow} ${commonStyles.fullWidth} ${styles.cursorPointer}`} onClick={() => togglePlugins()}>
               <span className={`${typographyStyles.desktopBodyLarge} ${typographyStyles.textWhite} ${typographyStyles.opacity70}`}>
                 {hidePlugins ? 'Show' : 'Hide'} Plugins ({service.plugins.length})
               </span>
-              <PlatformaticIcon iconName={hidePlugins ? 'ArrowDownIcon' : 'ArrowUpIcon'} color={WHITE} size={SMALL} onClick={() => togglePlugins()} />
+              <PlatformaticIcon iconName={hidePlugins ? 'ArrowDownIcon' : 'ArrowUpIcon'} color={WHITE} size={SMALL} onClick={() => {}} />
             </div>
             {!hidePlugins && service.plugins.map(plugin => (<PluginSelector key={plugin.name} plugin={{ ...plugin }} onPluginSelected={onPluginSelected} service={service} pluginSelected={pluginSelected} />))}
           </>
