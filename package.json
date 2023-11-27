@@ -15,9 +15,9 @@
     "test:main": "standard | snazzy && vitest ./test/main",
     "test": "npm run test:main",
     "clean": "rm -Rf ./out && rm -Rf ./dist && rm -Rf ./coverage",
-    "release:win": "electron-builder -w",
-    "release:linux": "electron-builder -l",
-    "release:mac": "electron-builder -m"
+    "release:win": "electron-builder -p always --win --config",
+    "release:linux": "electron-builder -p always --linux --config",
+    "release:mac": "electron-builder -p always --mac --config"
   },
   "dependencies": {
     "@electron-toolkit/preload": "^2.0.0",
