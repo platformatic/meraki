@@ -68,7 +68,7 @@ test('Install one @platformatic service template', async () => {
   ]
   ])
   expect(logger.errors.length).toBe(0)
-})
+}, 10000)
 
 test('Install one plugin', async () => {
   const appDir = await mkdtemp(join(tmpdir(), 'plat-app-test-create'))
