@@ -20,7 +20,7 @@
     "@electron-toolkit/preload": "^2.0.0",
     "@electron-toolkit/utils": "^2.0.0",
     "@fastify/error": "^3.4.1",
-    "@platformatic/ui-components": "^0.1.123",
+    "@platformatic/ui-components": "^0.1.125",
     "autoprefixer": "^10.4.16",
     "electron-updater": "^6.1.1",
     "execa": "^8.0.1",
