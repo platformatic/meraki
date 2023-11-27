@@ -12,7 +12,8 @@ const mockedTemplates = require('../../__mocks__/templates.json')
 const mockedEnvList = require('../../__mocks__/envlist.json')
 const mockedVars = require('../../__mocks__/pluginvars.json')
 
-const DEPLOY_SERVICE_HOST = process.env.DEPLOY_SERVICE_HOST || 'https://deploy.platformatic.cloud'
+const deployServiceHost = import.meta.env.MAIN_VITE_DEPLOY_SERVICE_HOST || 'https://deploy.platformatic.cloud'
+const useMocks = import.meta.env.MAIN_VITE_USE_MOCKS === 'true'
 
 const getCurrentApiKey = async () => {
   const platformaticHome = process.env.HOME
@@ -53,11 +54,12 @@ async function getStackablesAPI (deployServiceHost, userApiKey = null) {
     headers
   })
 
+  const stackables = await body.json()
+
   if (statusCode !== 200) {
     throw new errors.CannotGetStackablesError()
   }
 
-  const stackables = await body.json()
   return stackables
 }
 
@@ -80,14 +82,14 @@ async function getPluginsAPI (deployServiceHost) {
 }
 
 export const getTemplates = async () => {
-  if (process.env.RENDERER_VITE_USE_MOCKS) {
+  if (useMocks) {
     return mockedTemplates.map(template => ({
       ...template,
       envVars: Array.from(new Array(Math.floor(Math.random() * mockedEnvList.length)).keys()).map(() => mockedEnvList[Math.floor(Math.random() * mockedEnvList.length)])
     }))
   }
   const apiKey = await getCurrentApiKey()
-  const stackables = await getStackablesAPI(DEPLOY_SERVICE_HOST, apiKey)
+  const stackables = await getStackablesAPI(deployServiceHost, apiKey)
   const templates = [
     ...ossTemplates,
     ...stackables
@@ -96,12 +98,12 @@ export const getTemplates = async () => {
 }
 
 export const getPlugins = async () => {
-  if (process.env.RENDERER_VITE_USE_MOCKS) {
+  if (process.env.MAIN_VITE_USE_MOCKS) {
     return mockedPlugins.map(plugin => ({
       ...plugin,
       envVars: [...mockedVars]
     }))
   }
-  const plugins = await getPluginsAPI(DEPLOY_SERVICE_HOST)
+  const plugins = await getPluginsAPI(deployServiceHost)
   return plugins
 }
