@@ -1,5 +1,6 @@
 appId: dev.platformatic
 productName: meraki
+icon: 512x512.png
 directories:
   buildResources: build
 files:
@@ -25,6 +26,7 @@ mac:
 dmg:
   artifactName: ${productName}-${version}.${ext}
 linux:
+  icon: 512x512.png
   target:
     - AppImage
     - deb
