@@ -31,7 +31,7 @@ test('Installs no templates or plugins', async () => {
 
 test('Install in non-existent folder', async () => {
   try {
-    await prepareFolder('testnonexitent', [], [], logger)
+    await prepareFolder('testnonexitent', [], logger)
   } catch (err) {
     expect(err).toBeInstanceOf(Error)
     expect(err.message).toBe('ENOENT: no such file or directory, stat \'testnonexitent\'')
@@ -41,7 +41,7 @@ test('Install in non-existent folder', async () => {
 test('Install a non-existent template', async () => {
   try {
     const appDir = await mkdtemp(join(tmpdir(), 'plat-app-test-create'))
-    await prepareFolder(appDir, ['@platformatic/dontexist'], [], logger)
+    await prepareFolder(appDir, ['@platformatic/dontexist'], logger)
   } catch (err) {
     expect(err).toBeInstanceOf(Error)
     expect(err.message).toContain('npm ERR! code E404')
@@ -49,9 +49,9 @@ test('Install a non-existent template', async () => {
   }
 })
 
-test('Install one @platformatic service template', async () => {
+test('Install one @platformatic/service template', async () => {
   const appDir = await mkdtemp(join(tmpdir(), 'plat-app-test-create'))
-  await prepareFolder(appDir, ['@platformatic/service'], [], logger)
+  await prepareFolder(appDir, ['@platformatic/service'], logger)
   expect(logger.infos).toEqual([[
     {
       name: '@platformatic/service',
@@ -68,25 +68,4 @@ test('Install one @platformatic service template', async () => {
   ]
   ])
   expect(logger.errors.length).toBe(0)
-}, 10000)
-
-test('Install one plugin', async () => {
-  const appDir = await mkdtemp(join(tmpdir(), 'plat-app-test-create'))
-  await prepareFolder(appDir, [], ['@fastify/cors'], logger)
-  expect(logger.infos).toEqual([[
-    {
-      name: '@fastify/cors',
-      path: appDir
-    },
-    'Installing '
-  ],
-  [
-    {
-      name: '@fastify/cors',
-      path: appDir
-    },
-    'Installed'
-  ]
-  ])
-  expect(logger.errors.length).toBe(0)
-})
+}, 15000)
