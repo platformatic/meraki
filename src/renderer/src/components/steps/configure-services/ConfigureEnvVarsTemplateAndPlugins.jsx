@@ -1,6 +1,5 @@
 'use strict'
 import React, { useEffect, useState } from 'react'
-import PropTypes from 'prop-types'
 import styles from './ConfigureEnvVarsTemplateAndPlugins.module.css'
 import commonStyles from '~/styles/CommonStyles.module.css'
 import TemplateAndPluginTreeSelector from '~/components/template-and-plugins/TemplateAndPluginTreeSelector'
@@ -10,7 +9,7 @@ import PluginEnvVarsForm from '~/components/plugins/PluginEnvVarsForm'
 import useStackablesStore from '~/useStackablesStore'
 import '~/components/component.animation.css'
 
-function ConfigureEnvVarsTemplateAndPlugins ({ service }) {
+function ConfigureEnvVarsTemplateAndPlugins () {
   const globalState = useStackablesStore()
   const { services } = globalState
 
@@ -23,7 +22,7 @@ function ConfigureEnvVarsTemplateAndPlugins ({ service }) {
       if (pluginSelected) {
         setCurrentComponent(<PluginEnvVarsForm service={{ ...serviceSelected }} plugin={{ ...pluginSelected }} key={pluginSelected.name} />)
       } else {
-        setCurrentComponent(<TemplateEnvVarsForm key={service.name} service={{ ...serviceSelected }} />)
+        setCurrentComponent(<TemplateEnvVarsForm key={serviceSelected.name} service={{ ...serviceSelected }} />)
       }
     }
   }, [serviceSelected, pluginSelected])
@@ -57,17 +56,6 @@ function ConfigureEnvVarsTemplateAndPlugins ({ service }) {
       </div>
     </div>
   )
-}
-
-ConfigureEnvVarsTemplateAndPlugins.propTypes = {
-  /**
-   * service
-   */
-  service: PropTypes.object
-}
-
-ConfigureEnvVarsTemplateAndPlugins.defaultProps = {
-  service: {}
 }
 
 export default ConfigureEnvVarsTemplateAndPlugins

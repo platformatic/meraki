@@ -1,11 +1,11 @@
 'use strict'
-import React, { useEffect, useState } from 'react'
+import React from 'react'
 import PropTypes from 'prop-types'
 import styles from './ConfigureServices.module.css'
 import commonStyles from '~/styles/CommonStyles.module.css'
 import typographyStyles from '~/styles/Typography.module.css'
 import { WHITE, RICH_BLACK } from '@platformatic/ui-components/src/components/constants'
-import { Button, LoadingSpinnerV2 } from '@platformatic/ui-components'
+import { Button } from '@platformatic/ui-components'
 import useStackablesStore from '~/useStackablesStore'
 import EditableTitle from '~/components/ui/EditableTitle'
 import '~/components/component.animation.css'
@@ -14,15 +14,6 @@ import ConfigureEnvVarsTemplateAndPlugins from './ConfigureEnvVarsTemplateAndPlu
 const ConfigureServices = React.forwardRef(({ onNext }, ref) => {
   const globalState = useStackablesStore()
   const { formData, addFormData } = globalState
-  const [prepareFolder, setPrepareFolder] = useState(true)
-
-  useEffect(() => {
-    if (prepareFolder) {
-      setTimeout(() => {
-        setPrepareFolder(false)
-      }, 3000)
-    }
-  }, [prepareFolder])
 
   function onClickConfigureApplication () {
     onNext()
@@ -52,25 +43,12 @@ const ConfigureServices = React.forwardRef(({ onNext }, ref) => {
           <p className={`${typographyStyles.desktopBodyLarge} ${typographyStyles.textWhite} ${typographyStyles.opacity70}`}>Select a template and plugins for your service from our Stackables Marketplace. Once you have chosen a template you can add another Service.</p>
         </div>
         <div className={`${commonStyles.mediumFlexBlock} ${commonStyles.fullWidth} ${styles.content}`}>
-          <LoadingSpinnerV2
-            loading={prepareFolder}
-            applySentences={{
-              containerClassName: `${commonStyles.mediumFlexBlock} ${commonStyles.itemsCenter}`,
-              sentences: [{
-                style: `${typographyStyles.desktopBodyLarge} ${typographyStyles.textWhite}`,
-                text: 'We are installing your dependencies'
-              }, {
-                style: `${typographyStyles.desktopBodyLarge} ${typographyStyles.textWhite} ${typographyStyles.opacity70}`,
-                text: 'This process will just take a few seconds.'
-              }]
-            }}
-          />
-          {!prepareFolder && (<ConfigureEnvVarsTemplateAndPlugins />)}
+          <ConfigureEnvVarsTemplateAndPlugins />
         </div>
       </div>
       <div className={`${styles.buttonContainer} ${commonStyles.fullWidth}`}>
         <Button
-          disabled={prepareFolder}
+          /* disabled={prepareFolder} */
           label='Next - Configure Application'
           onClick={() => onClickConfigureApplication()}
           color={RICH_BLACK}
