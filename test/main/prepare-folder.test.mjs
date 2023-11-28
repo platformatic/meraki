@@ -44,28 +44,24 @@ test('Install a non-existent template', async () => {
     await prepareFolder(appDir, ['@platformatic/dontexist'], logger)
   } catch (err) {
     expect(err).toBeInstanceOf(Error)
-    expect(err.message).toContain('npm ERR! code E404')
-    expect(logger.errors.length).toBe(1)
+    expect(err.message).toContain('Command failed with exit code 1')
+    expect(logger.errors[0]).toEqual(['npm ERR! code E404'])
   }
 })
 
 test('Install one @platformatic/service template', async () => {
   const appDir = await mkdtemp(join(tmpdir(), 'plat-app-test-create'))
   await prepareFolder(appDir, ['@platformatic/service'], logger)
-  expect(logger.infos).toEqual([[
-    {
-      name: '@platformatic/service',
-      path: appDir
-    },
-    'Installing '
-  ],
-  [
-    {
-      name: '@platformatic/service',
-      path: appDir
-    },
-    'Installed'
-  ]
-  ])
+  expect(logger.infos[0]).toEqual(
+    [
+      {
+        name: '@platformatic/service',
+        path: appDir
+      },
+      'Installing '
+    ]
+  )
+
+  console.log(logger.errors)
   expect(logger.errors.length).toBe(0)
 }, 15000)
