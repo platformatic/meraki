@@ -24,7 +24,8 @@ const CreateApplication = React.forwardRef(({ onNext }, ref) => {
     addFormData({
       createApplication: {
         application: form.application,
-        service: form.service
+        service: form.service,
+        path: form.folder
       }
     })
     addService()

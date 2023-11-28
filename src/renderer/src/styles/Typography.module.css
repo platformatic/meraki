@@ -4,6 +4,9 @@
 .textMainGreen {
   @apply text-main-green;
 }
+.textErrorRed {
+  @apply text-error-red;
+}
 .textCenter {
   @apply text-center;
 }

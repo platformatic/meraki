@@ -1,30 +1,44 @@
 'use strict'
 import React, { useEffect, useState } from 'react'
 import PropTypes from 'prop-types'
-import styles from './ConfigureServices.module.css'
+import styles from './PrepareFolder.module.css'
 import commonStyles from '~/styles/CommonStyles.module.css'
 import typographyStyles from '~/styles/Typography.module.css'
 import { WHITE, RICH_BLACK } from '@platformatic/ui-components/src/components/constants'
-import { Button, LoadingSpinnerV2 } from '@platformatic/ui-components'
+import { Button } from '@platformatic/ui-components'
 import useStackablesStore from '~/useStackablesStore'
 import EditableTitle from '~/components/ui/EditableTitle'
 import '~/components/component.animation.css'
-import ConfigureEnvVarsTemplateAndPlugins from './ConfigureEnvVarsTemplateAndPlugins'
+import { callPrepareFolder, logInfo } from '~/api'
 
-const ConfigureServices = React.forwardRef(({ onNext }, ref) => {
+const PrepareFolder = React.forwardRef(({ onNext }, ref) => {
   const globalState = useStackablesStore()
-  const { formData, addFormData } = globalState
-  const [prepareFolder, setPrepareFolder] = useState(true)
+  const { formData, addFormData, services } = globalState
+  const [folderPrepared, setFolderPrepared] = useState(false)
+  const [npmLogs, setNpmLogs] = useState([])
+  const [logValue, setLogValue] = useState(null)
 
   useEffect(() => {
-    if (prepareFolder) {
-      setTimeout(() => {
-        setPrepareFolder(false)
-      }, 3000)
+    const templateNames = services.map((service) => service.template.name)
+    logInfo((_, value) => setLogValue(value))
+    async function prepareFolder () {
+      await callPrepareFolder(formData.createApplication.path, templateNames)
+      // setFolderPrepared(true)
     }
-  }, [prepareFolder])
+    prepareFolder()
+  }, [])
 
-  function onClickConfigureApplication () {
+  useEffect(() => {
+    if (logValue) {
+      setNpmLogs([...npmLogs, { ...logValue }])
+    }
+  }, [logValue])
+
+  useEffect(() => {
+    // call your increment function here
+  }, [])
+
+  function onClickConfigureServices () {
     onNext()
   }
 
@@ -36,6 +50,14 @@ const ConfigureServices = React.forwardRef(({ onNext }, ref) => {
         path: formData.createApplication.path
       }
     })
+  }
+
+  function renderLog (log, index) {
+    let className = `${typographyStyles.desktopBodySmall} `
+    let str = [log.level.toUpperCase()]
+    className += log.level === 'info' ? `${typographyStyles.textWhite}` : `${typographyStyles.textErrorRed}`
+    str = str.concat(Object.keys(log.message).map(k => log.message[k]))
+    return <p key={index} className={className}>{str.join(' ')}</p>
   }
 
   return (
@@ -52,27 +74,14 @@ const ConfigureServices = React.forwardRef(({ onNext }, ref) => {
           <p className={`${typographyStyles.desktopBodyLarge} ${typographyStyles.textWhite} ${typographyStyles.opacity70}`}>Select a template and plugins for your service from our Stackables Marketplace. Once you have chosen a template you can add another Service.</p>
         </div>
         <div className={`${commonStyles.mediumFlexBlock} ${commonStyles.fullWidth} ${styles.content}`}>
-          <LoadingSpinnerV2
-            loading={prepareFolder}
-            applySentences={{
-              containerClassName: `${commonStyles.mediumFlexBlock} ${commonStyles.itemsCenter}`,
-              sentences: [{
-                style: `${typographyStyles.desktopBodyLarge} ${typographyStyles.textWhite}`,
-                text: 'We are installing your dependencies'
-              }, {
-                style: `${typographyStyles.desktopBodyLarge} ${typographyStyles.textWhite} ${typographyStyles.opacity70}`,
-                text: 'This process will just take a few seconds.'
-              }]
-            }}
-          />
-          {!prepareFolder && (<ConfigureEnvVarsTemplateAndPlugins />)}
+          {npmLogs.map((log, index) => renderLog(log, index))}
         </div>
       </div>
       <div className={`${styles.buttonContainer} ${commonStyles.fullWidth}`}>
         <Button
-          disabled={prepareFolder}
-          label='Next - Configure Application'
-          onClick={() => onClickConfigureApplication()}
+          disabled={folderPrepared}
+          label='Next - Configure Services'
+          onClick={() => onClickConfigureServices()}
           color={RICH_BLACK}
           bordered={false}
           backgroundColor={WHITE}
@@ -83,15 +92,15 @@ const ConfigureServices = React.forwardRef(({ onNext }, ref) => {
   )
 })
 
-ConfigureServices.propTypes = {
+PrepareFolder.propTypes = {
   /**
      * onNext
      */
   onNext: PropTypes.func
 }
 
-ConfigureServices.defaultProps = {
+PrepareFolder.defaultProps = {
   onNext: () => {}
 }
 
-export default ConfigureServices
+export default PrepareFolder

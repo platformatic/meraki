@@ -1,0 +1,11 @@
+.container {
+  @apply flex flex-col min-h-[80vH] overflow-y-scroll justify-between
+}
+.buttonContainer {
+  @apply flex justify-end;
+}
+
+.content {
+  min-height: calc(100vH - 27rem);
+  max-height: calc(100vH - 27rem);
+}
