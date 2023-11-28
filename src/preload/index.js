@@ -16,7 +16,8 @@ if (process.contextIsolated) {
 
     contextBridge.exposeInMainWorld('api', {
       getTemplates: () => (ipcRenderer.invoke('get-templates')),
-      getPlugins: () => (ipcRenderer.invoke('get-plugins'))
+      getPlugins: () => (ipcRenderer.invoke('get-plugins')),
+      prepareFolder: (folder, templates, logger) => (ipcRenderer.invoke('prepare-folder', folder, templates, logger))
     })
   } catch (error) {
     console.error(error)

@@ -18,7 +18,7 @@ const installNpm = async (name, path, logger) => {
 
 // install all the names and return the list of the configurations, for the
 // templates in a map <name> -> [configurations]
-export const prepareFolder = async (path, templates, plugins, logger) => {
+export const prepareFolder = async (path, templates, logger) => {
   const templateVariables = []
   const s = await stat(path)
   if (!s.isDirectory()) {
@@ -29,15 +29,6 @@ export const prepareFolder = async (path, templates, plugins, logger) => {
   try {
     for (const template of templates) {
       await installNpm(template, path, logger)
-    }
-  } catch (err) {
-    logger.error(err)
-    throw err
-  }
-
-  try {
-    for (const plugin of plugins) {
-      await installNpm(plugin, path, logger)
     }
   } catch (err) {
     logger.error(err)
