@@ -95,6 +95,8 @@ export const createApp = async (projectDir, { projectName, services, entrypoint,
       tests: true
     })
 
+    stackableGenerator.setConfigFields(service.fields)
+
     // TODO: plugins + config plugins
 
     generator.addService(stackableGenerator, serviceName)
