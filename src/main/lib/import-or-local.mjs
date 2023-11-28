@@ -17,7 +17,7 @@ async function importOrLocal ({ pkgManager, projectDir, pkg, logger }) {
       return await import(pathToFileURL(fileToImport))
     } catch (err) {}
 
-    logger.info({ name: pkg, path: projectDir }, 'Installing ')
+    logger.info({ name: pkg, path: projectDir }, `Installing ${pkg} on ${projectDir}...`)
     const child = execa(pkgManager, ['install', pkg], { cwd: projectDir })
 
     child.stdout.pipe(split()).on('data', (line) => {
@@ -29,7 +29,7 @@ async function importOrLocal ({ pkgManager, projectDir, pkg, logger }) {
     })
     await child
 
-    logger.info({ name: pkg, path: projectDir }, 'Installed')
+    logger.info({ name: pkg, path: projectDir }, 'Installed!')
     const fileToImport = _require.resolve(pkg)
     return await import(pathToFileURL(fileToImport))
   }

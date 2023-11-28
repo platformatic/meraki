@@ -9,6 +9,24 @@ import { prepareFolder, createApp } from './generate.mjs'
 
 // eslint-disable-next-line no-unused-vars
 const isMac = process.platform === 'darwin'
+
+const elaborateLine = (...args) => {
+  let line = ''
+  let obj = {}
+  switch (args.length) {
+    case 1:
+      line = args[0]
+      break
+    default:
+      obj = args[0]
+      line = args[1]
+      break
+  }
+  Object.keys(obj).forEach(k => {
+    line = line.replace('${' + k + '}', obj[k])
+  })
+  return line
+}
 const logger = {}
 function createWindow () {
   const mainWindow = new BrowserWindow({
@@ -41,11 +59,11 @@ function createWindow () {
     mainWindow.loadFile(join(__dirname, '../renderer/index.html'))
   }
 
-  logger.error = function (line) {
-    mainWindow.webContents.send('log', { level: 'error', message: line })
+  logger.error = function (args) {
+    mainWindow.webContents.send('log', { level: 'error', message: elaborateLine(args) })
   }
-  logger.info = function (line) {
-    mainWindow.webContents.send('log', { level: 'info', message: line })
+  logger.info = function (...args) {
+    mainWindow.webContents.send('log', { level: 'info', message: elaborateLine(...args) })
   }
 
   setupMenu()
