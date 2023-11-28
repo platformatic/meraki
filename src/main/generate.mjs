@@ -1,7 +1,6 @@
 import { stat } from 'node:fs/promises'
 import { getPkgManager } from './lib/get-package-manager.mjs'
 import { importOrLocal } from './lib/import-or-local.mjs'
-import { createGitignore, createGitRepository } from 'create-platformatic'
 
 export const prepareFolder = async (path, tempNames, logger) => {
   const s = await stat(path)
@@ -50,6 +49,8 @@ export const prepareFolder = async (path, tempNames, logger) => {
 // ]
 export const createApp = async (projectDir, { projectName, services, entrypoint, runtimeEnv }, logger) => {
   const { execa } = await import('execa')
+  const { createGitignore, createGitRepository } = await import('create-platformatic')
+
   const pkgManager = await getPkgManager()
   const runtime = await importOrLocal({
     pkgManager,
@@ -84,8 +85,8 @@ export const createApp = async (projectDir, { projectName, services, entrypoint,
       pkg: stackableName
     })
 
-    const stackableGenerator = new stackable.Generator({
-    })
+    // Why do we need to pass an empty object?
+    const stackableGenerator = new stackable.Generator({})
 
     stackableGenerator.setConfig({
       ...stackableGenerator.config,
@@ -93,6 +94,8 @@ export const createApp = async (projectDir, { projectName, services, entrypoint,
       plugin: true,
       tests: true
     })
+
+    // TODO: plugins + config plugins
 
     generator.addService(stackableGenerator, serviceName)
   }
