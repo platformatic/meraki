@@ -5,7 +5,7 @@ import { RICH_BLACK, TRANSPARENT, WHITE } from '@platformatic/ui-components/src/
 import typographyStyles from '~/styles/Typography.module.css'
 import commonStyles from '~/styles/CommonStyles.module.css'
 import styles from './SelectPlugin.module.css'
-import { Button, SearchBarV2 } from '@platformatic/ui-components'
+import { Button, LoadingSpinnerV2, SearchBarV2 } from '@platformatic/ui-components'
 import Title from '~/components/ui/Title'
 import useStackablesStore from '~/useStackablesStore'
 import Plugin from './Plugin'
@@ -22,6 +22,7 @@ function SelectPlugin ({ onClick, serviceName }) {
   const [pluginsSelected, setPluginsSelected] = useState([])
   const [filteredPlugins, setFilteredPlugins] = useState([])
   const [filterPluginsByValue, setFilterPluginsByValue] = useState('')
+  const [innerLoading, setInnerLoading] = useState(true)
   const [currentView, setCurrentView] = useState(LIST_PLUGINS_VIEW)
 
   const [currentPage, setCurrentPage] = useState(1)
@@ -34,6 +35,7 @@ function SelectPlugin ({ onClick, serviceName }) {
       const plugins = await getApiPlugins()
       setPluginsAvailable(plugins)
       setFilteredPlugins([...plugins])
+      setInnerLoading(false)
     }
     getPlugins()
   }, [])
@@ -179,7 +181,22 @@ function SelectPlugin ({ onClick, serviceName }) {
       <div className={`${commonStyles.mediumFlexBlock24} ${commonStyles.fullWidth}`}>
         <SearchBarV2 placeholder='Search for a Plugin' onClear={handleClearPlugins} onChange={handleFilterPlugins} />
         <div className={`${commonStyles.mediumFlexBlock24} ${commonStyles.fullWidth} ${commonStyles.justifyCenter} ${styles.containerView}`}>
-          {renderCurrentView()}
+          {innerLoading
+            ? <LoadingSpinnerV2
+                loading={innerLoading}
+                applySentences={{
+                  containerClassName: `${commonStyles.mediumFlexBlock} ${commonStyles.itemsCenter}`,
+                  sentences: [{
+                    style: `${typographyStyles.desktopBodyLarge} ${typographyStyles.textWhite}`,
+                    text: 'Loading plugins....'
+                  }, {
+                    style: `${typographyStyles.desktopBodyLarge} ${typographyStyles.textWhite} ${typographyStyles.opacity70}`,
+                    text: 'This process will just take a few seconds.'
+                  }]
+                }}
+                containerClassName={styles.loadingSpinner}
+              />
+            : renderCurrentView()}
         </div>
       </div>
       <Button

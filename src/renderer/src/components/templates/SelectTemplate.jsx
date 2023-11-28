@@ -5,7 +5,7 @@ import { RICH_BLACK, TRANSPARENT, WHITE } from '@platformatic/ui-components/src/
 import typographyStyles from '~/styles/Typography.module.css'
 import commonStyles from '~/styles/CommonStyles.module.css'
 import styles from './SelectTemplate.module.css'
-import { Button, SearchBarV2 } from '@platformatic/ui-components'
+import { Button, LoadingSpinnerV2, SearchBarV2 } from '@platformatic/ui-components'
 import Template from './Template'
 import Title from '~/components/ui/Title'
 import NoResults from '~/components/ui/NoResults'
@@ -18,6 +18,7 @@ function SelectTemplate ({ onClick, serviceName }) {
   const globalState = useStackablesStore()
   const { getService, setTemplate } = globalState
   const [templates, setTemplates] = useState([])
+  const [innerLoading, setInnerLoading] = useState(true)
   const [filteredTemplates, setFilteredTemplates] = useState([])
   const [optionsOrganizationsTemplates, setOptionsOrganizationsTemplates] = useState([])
   const [groupedTemplates, setGroupedTemplates] = useState([])
@@ -39,6 +40,7 @@ function SelectTemplate ({ onClick, serviceName }) {
       setTemplates(templates)
       setFilteredTemplates([...templates])
       setTemplateSelected(templates[0])
+      setInnerLoading(false)
     }
     getTemplates()
   }, [])
@@ -185,7 +187,7 @@ function SelectTemplate ({ onClick, serviceName }) {
     )
   }
 
-  return templateSelected && (
+  return (
     <div className={`${commonStyles.largeFlexBlock} ${commonStyles.fullWidth}`}>
       <div className={commonStyles.mediumFlexBlock}>
         <Title
@@ -227,12 +229,28 @@ function SelectTemplate ({ onClick, serviceName }) {
           </div>
         </div>
         <div className={`${commonStyles.mediumFlexBlock24} ${commonStyles.fullWidth} ${commonStyles.justifyCenter} ${styles.containerView}`}>
-          {renderCurrentView()}
+          {innerLoading
+            ? <LoadingSpinnerV2
+                loading={innerLoading}
+                applySentences={{
+                  containerClassName: `${commonStyles.mediumFlexBlock} ${commonStyles.itemsCenter}`,
+                  sentences: [{
+                    style: `${typographyStyles.desktopBodyLarge} ${typographyStyles.textWhite}`,
+                    text: 'Loading templates....'
+                  }, {
+                    style: `${typographyStyles.desktopBodyLarge} ${typographyStyles.textWhite} ${typographyStyles.opacity70}`,
+                    text: 'This process will just take a few seconds.'
+                  }]
+                }}
+                containerClassName={styles.loadingSpinner}
+              />
+            : renderCurrentView()}
         </div>
       </div>
       <Button
+        disabled={!templateSelected}
         classes={`${commonStyles.buttonPadding} cy-action-use-template`}
-        label={`Use ${templateSelected.name}`}
+        label={`Use ${templateSelected?.name ?? '...'}`}
         backgroundColor={WHITE}
         color={RICH_BLACK}
         fullWidth
