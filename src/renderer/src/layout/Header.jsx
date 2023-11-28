@@ -14,15 +14,15 @@ function Header () {
           <span className={`${typographyStyles.textWhite} ${typographyStyles.desktopBodyLargeSemibold}`}>Platformatic</span>
         </div>
         <div className={commonStyles.smallFlexRow}>
-          <Button
-            label='Need help?'
-            color={WHITE}
-            bordered={false}
-          />
+          <span className={`${typographyStyles.desktopBodySmall} ${typographyStyles.textWhite} `}>Need Help?</span>
           <Button
             label='Chat on Discord'
             platformaticIcon={{ iconName: 'SocialDiscordIcon', color: WHITE }}
             color={WHITE}
+            onClick={() => window.open(
+              'https://discord.gg/platformatic',
+              '_blank'
+            )}
           />
         </div>
       </div>
