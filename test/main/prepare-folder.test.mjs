@@ -54,4 +54,4 @@ test('Install one @platformatic/service template', async () => {
   await prepareFolder(appDir, ['@platformatic/service'], logger)
   expect(logger.infos[0][0].name).toEqual('@platformatic/service')
   expect(logger.errors.length).toBe(0)
-}, 15000)
+}, 20000)

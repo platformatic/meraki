@@ -1,7 +1,7 @@
 import { stat } from 'node:fs/promises'
 import { getPkgManager } from './lib/get-package-manager.mjs'
 import { importOrLocal } from './lib/import-or-local.mjs'
-// import { createGitignore, createGitRepository } from 'create-platformatic'
+import { createGitignore, createGitRepository } from 'create-platformatic'
 
 export const prepareFolder = async (path, tempNames, logger) => {
   const s = await stat(path)
@@ -33,16 +33,78 @@ export const prepareFolder = async (path, tempNames, logger) => {
   return templateVariables
 }
 
-export const createApp = async (path, services, logger) => {
+// services is an array:
+// [
+//  {
+//  name: 'service-name',
+//  template: '@platformatic/service',
+//  fields: {
+//     // The env
+//  },
+//  plugins: [
+//     {
+//     name: 'plugin-name',
+//     config
+//     }
+//   ]
+// ]
+export const createApp = async (projectDir, { projectName, services, entrypoint, runtimeEnv }, logger) => {
+  const { execa } = await import('execa')
   const pkgManager = await getPkgManager()
   const runtime = await importOrLocal({
     pkgManager,
-    projectDir: path,
+    projectDir,
     pkg: '@platformatic/runtime',
     logger
   })
-  console.log(runtime)
-  // TODO: actual app creation. We need to (re)write something like this one:
-  // https://github.com/platformatic/platformatic/pull/1847/files#diff-102ae7288ada2a8971e9a6f525caed5eb384528b0783c3b901326593e2486f19R36-R118
+
+  if (!runtime || !runtime.Generator) {
+    logger.error('Could not load runtime or the runtime Generator')
+    return
+  }
+
+  const generator = new runtime.Generator({
+    projectName,
+    services,
+    entrypoint,
+    runtimeEnv
+  })
+
+  generator.setConfig({
+    ...generator.config,
+    targetDir: projectDir
+  })
+
+  for (const service of services) {
+    const stackableName = service.stackable
+    const serviceName = service.name
+    const stackable = await importOrLocal({
+      pkgManager,
+      projectDir,
+      pkg: stackableName
+    })
+
+    const stackableGenerator = new stackable.Generator({
+    })
+
+    stackableGenerator.setConfig({
+      ...stackableGenerator.config,
+      serviceName,
+      plugin: true,
+      tests: true
+    })
+
+    generator.addService(stackableGenerator, serviceName)
+  }
+
+  generator.setEntryPoint(entrypoint)
+  await generator.prepare()
+  await generator.writeFiles()
+
+  await createGitignore(logger, projectDir)
+  await createGitRepository(logger, projectDir)
+
+  await execa(pkgManager, ['install'], { cwd: projectDir })
+
   logger.info('App created!')
 }

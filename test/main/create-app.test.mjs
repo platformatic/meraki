@@ -25,6 +25,11 @@ beforeEach(() => {
 
 test('Create app with no services', async () => {
   const appDir = await mkdtemp(join(tmpdir(), 'plat-app-test-create'))
-  await createApp(appDir, [], logger)
+
+  const project = {
+    projectName: 'testapp',
+    services: []
+  }
+  await createApp(appDir, project, logger)
   // TODO: assert that the app has been created
-}, 15000)
+}, 20000)
