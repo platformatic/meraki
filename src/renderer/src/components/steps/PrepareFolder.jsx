@@ -23,7 +23,7 @@ const PrepareFolder = React.forwardRef(({ onNext }, ref) => {
     logInfo((_, value) => setLogValue(value))
     async function prepareFolder () {
       await callPrepareFolder(formData.createApplication.path, templateNames)
-      // setFolderPrepared(true)
+      setFolderPrepared(true)
     }
     prepareFolder()
   }, [])
@@ -53,11 +53,10 @@ const PrepareFolder = React.forwardRef(({ onNext }, ref) => {
   }
 
   function renderLog (log, index) {
-    let className = `${typographyStyles.desktopBodySmall} `
-    let str = [log.level.toUpperCase()]
+    let className = `${typographyStyles.desktopOtherCliTerminalSmall} `
+    const str = [new Date().toISOString(), log.level.toUpperCase(), log.message]
     className += log.level === 'info' ? `${typographyStyles.textWhite}` : `${typographyStyles.textErrorRed}`
-    str = str.concat(Object.keys(log.message).map(k => log.message[k]))
-    return <p key={index} className={className}>{str.join(' ')}</p>
+    return <p key={index} className={className}>{str.join(' - ')}</p>
   }
 
   return (
@@ -73,13 +72,13 @@ const PrepareFolder = React.forwardRef(({ onNext }, ref) => {
           />
           <p className={`${typographyStyles.desktopBodyLarge} ${typographyStyles.textWhite} ${typographyStyles.opacity70}`}>Select a template and plugins for your service from our Stackables Marketplace. Once you have chosen a template you can add another Service.</p>
         </div>
-        <div className={`${commonStyles.mediumFlexBlock} ${commonStyles.fullWidth} ${styles.content}`}>
+        <div className={`${commonStyles.flexBlockNoGap} ${commonStyles.fullWidth} ${styles.content}`}>
           {npmLogs.map((log, index) => renderLog(log, index))}
         </div>
       </div>
       <div className={`${styles.buttonContainer} ${commonStyles.fullWidth}`}>
         <Button
-          disabled={folderPrepared}
+          disabled={!folderPrepared}
           label='Next - Configure Services'
           onClick={() => onClickConfigureServices()}
           color={RICH_BLACK}
