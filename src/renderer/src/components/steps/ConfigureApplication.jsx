@@ -36,7 +36,8 @@ const ConfigureApplication = React.forwardRef(({ onNext }, ref) => {
     addFormData({
       createApplication: {
         application: newName,
-        service: formData.createApplication.service
+        service: formData.createApplication.service,
+        path: formData.createApplication.path
       }
     })
   }

@@ -72,7 +72,7 @@ const ComposeApplication = React.forwardRef(({ onNext }, ref) => {
     setCurrentView(services.length > 3 ? GRID_VIEW : NORMAL_VIEW)
   }, [services.length])
 
-  function onClickConfigureServices () {
+  function onClickPrepareFolder () {
     onNext()
   }
 
@@ -110,7 +110,8 @@ const ComposeApplication = React.forwardRef(({ onNext }, ref) => {
     addFormData({
       createApplication: {
         application: newName,
-        service: formData.createApplication.service
+        service: formData.createApplication.service,
+        path: formData.createApplication.path
       }
     })
   }
@@ -194,8 +195,8 @@ const ComposeApplication = React.forwardRef(({ onNext }, ref) => {
       <div className={`${styles.buttonContainer} ${commonStyles.fullWidth}`}>
         <Button
           disabled={!(Object.hasOwn(services[0]?.template, 'name'))}
-          label='Next - Configure Services'
-          onClick={() => onClickConfigureServices()}
+          label='Next - Prepare Folder'
+          onClick={() => onClickPrepareFolder()}
           color={RICH_BLACK}
           bordered={false}
           backgroundColor={WHITE}

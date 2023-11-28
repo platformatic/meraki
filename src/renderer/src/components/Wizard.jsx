@@ -3,6 +3,7 @@ import { useRef, useState, useEffect } from 'react'
 import PropTypes from 'prop-types'
 import {
   STEP_ADD_TEMPLATE_AND_PLUGINS,
+  STEP_PREPARE_FOLDER,
   STEP_CONFIGURE_SERVICES,
   STEP_CREATE_APPLICATION,
   STEP_CONFIGURE_APPLICATION,
@@ -13,6 +14,7 @@ import ComposeApplication from '~/components/steps/compose-application/ComposeAp
 import ConfigureServices from '~/components/steps/configure-services/ConfigureServices'
 import ConfigureApplication from '~/components/steps/ConfigureApplication'
 import GeneratingApplication from '~/components/steps/GeneratingApplication'
+import PrepareFolder from '~/components/steps/PrepareFolder'
 import { CSSTransition, SwitchTransition } from 'react-transition-group'
 import '~/components/component.animation.css'
 
@@ -27,6 +29,11 @@ function Wizard () {
     <ComposeApplication
       ref={useRef(null)}
       key={STEP_ADD_TEMPLATE_AND_PLUGINS}
+      onNext={() => nextStep(STEP_PREPARE_FOLDER)}
+    />,
+    <PrepareFolder
+      ref={useRef(null)}
+      key={STEP_PREPARE_FOLDER}
       onNext={() => nextStep(STEP_CONFIGURE_SERVICES)}
     />,
     <ConfigureServices

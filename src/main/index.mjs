@@ -9,7 +9,7 @@ import { prepareFolder, createApp } from './generate.mjs'
 
 // eslint-disable-next-line no-unused-vars
 const isMac = process.platform === 'darwin'
-
+const logger = {}
 function createWindow () {
   const mainWindow = new BrowserWindow({
     minWidth: 1024,
@@ -39,6 +39,13 @@ function createWindow () {
     mainWindow.loadURL(process.env.ELECTRON_RENDERER_URL)
   } else {
     mainWindow.loadFile(join(__dirname, '../renderer/index.html'))
+  }
+
+  logger.error = function (line) {
+    mainWindow.webContents.send('log', { level: 'error', message: line })
+  }
+  logger.info = function (line) {
+    mainWindow.webContents.send('log', { level: 'info', message: line })
   }
 
   setupMenu()
@@ -80,8 +87,8 @@ app.whenReady().then(() => {
     return getPlugins()
   })
 
-  ipcMain.handle('prepare-folder', async (_, path) => {
-    return prepareFolder(path)
+  ipcMain.handle('prepare-folder', async (_, path, templates) => {
+    return prepareFolder(path, templates, logger)
   })
 
   ipcMain.handle('create-app', async (_, path) => {
