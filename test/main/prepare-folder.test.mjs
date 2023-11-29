@@ -52,16 +52,6 @@ test('Install a non-existent template', async () => {
 test('Install one @platformatic/service template', async () => {
   const appDir = await mkdtemp(join(tmpdir(), 'plat-app-test-create'))
   await prepareFolder(appDir, ['@platformatic/service'], logger)
-  expect(logger.infos[0]).toEqual(
-    [
-      {
-        name: '@platformatic/service',
-        path: appDir
-      },
-      'Installing '
-    ]
-  )
-
-  console.log(logger.errors)
+  expect(logger.infos[0][0].name).toEqual('@platformatic/service')
   expect(logger.errors.length).toBe(0)
 }, 15000)

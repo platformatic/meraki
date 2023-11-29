@@ -12,7 +12,7 @@
     "build:win": "npm run build && electron-builder --win --config",
     "build:mac": "npm run build && electron-builder --mac --config",
     "build:linux": "npm run build && electron-builder --linux --config",
-    "test:main": "standard | snazzy && vitest ./test/main",
+    "test:main": "standard | snazzy && vitest ./test/main --no-threads",
     "test": "npm run test:main",
     "clean": "rm -Rf ./out && rm -Rf ./dist && rm -Rf ./coverage",
     "release:win": "electron-builder -p always --win --config",
