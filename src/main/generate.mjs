@@ -47,7 +47,7 @@ export const prepareFolder = async (path, tempNames, logger) => {
 //     }
 //   ]
 // ]
-export const createApp = async (projectDir, { projectName, services, entrypoint, runtimeEnv }, logger) => {
+export const createApp = async (projectDir, { projectName, services, entrypoint, port, logLevel, typescript }, logger) => {
   const { execa } = await import('execa')
   const { createGitignore, createGitRepository } = await import('create-platformatic')
 
@@ -64,6 +64,7 @@ export const createApp = async (projectDir, { projectName, services, entrypoint,
     return
   }
 
+  // Verificare????
   const generator = new runtime.Generator({
     projectName,
     services,
@@ -73,7 +74,10 @@ export const createApp = async (projectDir, { projectName, services, entrypoint,
 
   generator.setConfig({
     ...generator.config,
-    targetDir: projectDir
+    targetDir: projectDir,
+    port,
+    logLevel,
+    typescript // boolean
   })
 
   for (const service of services) {
