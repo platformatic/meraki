@@ -91,8 +91,7 @@ async function getPluginsAPI (deployServiceHost) {
 export const getTemplates = async () => {
   if (useMocks) {
     const stackables = mockedTemplates.map(template => ({
-      ...template,
-      envVars: Array.from(new Array(Math.floor(Math.random() * mockedEnvList.length)).keys()).map(() => mockedEnvList[Math.floor(Math.random() * mockedEnvList.length)])
+      ...template
     }))
     return [
       ...ossTemplates,

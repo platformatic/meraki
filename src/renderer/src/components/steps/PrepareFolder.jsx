@@ -13,7 +13,7 @@ import { callPrepareFolder, logInfo } from '~/api'
 
 const PrepareFolder = React.forwardRef(({ onNext }, ref) => {
   const globalState = useStackablesStore()
-  const { formData, addFormData, services } = globalState
+  const { formData, addFormData, services, setTemplate } = globalState
   const [folderPrepared, setFolderPrepared] = useState(false)
   const [npmLogs, setNpmLogs] = useState([])
   const [logValue, setLogValue] = useState(null)
@@ -22,8 +22,19 @@ const PrepareFolder = React.forwardRef(({ onNext }, ref) => {
     const templateNames = services.map((service) => service.template.name)
     logInfo((_, value) => setLogValue(value))
     async function prepareFolder () {
-      await callPrepareFolder(formData.createApplication.path, templateNames)
-      setFolderPrepared(true)
+      try {
+        const response = await callPrepareFolder(formData.createApplication.path, templateNames)
+        let tmpTemplate
+        let envVars
+        services.forEach(service => {
+          tmpTemplate = { ...service.template }
+          envVars = response[tmpTemplate.name] || []
+          setTemplate(service.name, { ...tmpTemplate, envVars })
+        })
+        setFolderPrepared(true)
+      } catch (error) {
+        console.log(`Error on prepareFolder ${error}`)
+      }
     }
     prepareFolder()
   }, [])

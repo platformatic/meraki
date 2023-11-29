@@ -1,72 +1,86 @@
 [
   {
     "label": "What is the connection string?",
-    "name": "DATABASE_URL",
-    "default": "sqlite://./db.sqlite"
+    "var": "DATABASE_URL",
+    "default": "sqlite://./db.sqlite",
+    "type": "string"
   },
   {
     "label": "Number of port?",
-    "name": "PORT",
-    "default": "1234"
+    "var": "PORT",
+    "default": "1234",
+    "type": "number"
   },
   {
     "label": "Phasellus at fermentum lacus, vitae ultricies orci",
-    "name": "MENDACITY",
-    "default": "MENDACITY"
+    "var": "MENDACITY",
+    "default": "MENDACITY",
+    "type": "string"
   },
   {
     "label": "Lorem ipsum dolor sit amet, consectetur adipiscing elit.",
-    "name": "PEDANTIC",
-    "default": "PEDANTIC"
+    "var": "PEDANTIC",
+    "default": "PEDANTIC",
+    "type": "string"
   },
   {
     "label": "Maecenas id lacus ut nibh condimentum ornare",
-    "name": "MELLIFLUOUS",
-    "default": "MELLIFLUOUS"
+    "var": "MELLIFLUOUS",
+    "default": "MELLIFLUOUS",
+    "type": "string"
   },
   {
     "label": "Nulla facilisis sapien sed felis condimentum, nec rutrum ligula mollis",
-    "name": "TREPIDATION",
-    "default": "TREPIDATION"
+    "var": "TREPIDATION",
+    "default": "TREPIDATION",
+    "type": "string"
   },
   {
     "label": "Nunc sodales mattis arcu sodales congue.",
-    "name": "EXTENUATE",
-    "default": "EXTENUATE"
+    "var": "EXTENUATE",
+    "default": "EXTENUATE",
+    "type": "string"
   },
   {
     "label": "Lorem ipsum dolor sit amet, consectetur adipiscing elit",
-    "name": "IMPERTURBABLE",
-    "default": "IMPERTURBABLE"
+    "var": "IMPERTURBABLE",
+    "default": "IMPERTURBABLE",
+    "type": "string"
   },
   {
     "label": "Vivamus malesuada elementum purus, et commodo libero luctus vitae",
-    "name": "HIRSUTE",
-    "default": "HIRSUTE"
+    "var": "HIRSUTE",
+    "default": "HIRSUTE",
+    "type": "string"
   },
   {
     "label": "Phasellus quis nisl nunc.",
-    "name": "PERISH",
-    "default": "PERISH"
+    "var": "PERISH",
+    "default": "PERISH",
+    "type": "string"
   },
   {
     "label": "Nam a posuere urna. Aenean at porttitor nisi. ",
-    "name": "RECITALS",
-    "default": "RECITALS"
+    "var": "RECITALS",
+    "default": "RECITALS",
+    "type": "string"
   },
   {
     "label": "Curabitur purus est, interdum eu dapibus sed, mollis vitae tortor",
-    "name": "SUPERCILIOUS",
-    "default": "SUPERCILIOUS"
+    "var": "SUPERCILIOUS",
+    "default": "SUPERCILIOUS",
+    "type": "string"
   },
   {
     "label": "Etiam non mattis nulla",
-    "name": "HAIL_TO_THE_KING",
-    "default": "HAIL_TO_THE_KING"
+    "var": "HAIL_TO_THE_KING",
+    "default": "HAIL_TO_THE_KING",
+    "type": "string"
   },
   {
     "label": "Aliquam a lorem euismod",
-    "name": "PERPETRATE",
-    "default": "PERPETRATE"
+    "var": "PERPETRATE",
+    "default": "PERPETRATE",
+    "type": "string"
   }
 ]
