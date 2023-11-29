@@ -43,13 +43,13 @@ export const prepareFolder = async (path, tempNames, logger) => {
 //  plugins: [
 //     {
 //     name: 'plugin-name',
-//     config
+//     options
 //     }
 //   ]
 // ]
 export const createApp = async (projectDir, { projectName, services, entrypoint, port, logLevel, typescript }, logger) => {
   const { execa } = await import('execa')
-  const { createGitignore, createGitRepository } = await import('create-platformatic')
+  const { createGitRepository } = await import('create-platformatic')
 
   const pkgManager = await getPkgManager()
   const runtime = await importOrLocal({
@@ -64,53 +64,50 @@ export const createApp = async (projectDir, { projectName, services, entrypoint,
     return
   }
 
-  // Verificare????
   const generator = new runtime.Generator({
-    projectName,
-    services,
-    entrypoint,
-    runtimeEnv
+    projectName
   })
 
   generator.setConfig({
-    ...generator.config,
-    targetDir: projectDir,
+    targetDirectory: projectDir,
     port,
     logLevel,
     typescript // boolean
   })
 
   for (const service of services) {
-    const stackableName = service.stackable
+    const templateName = service.template
     const serviceName = service.name
-    const stackable = await importOrLocal({
+    const template = await importOrLocal({
       pkgManager,
       projectDir,
-      pkg: stackableName
+      pkg: templateName
     })
 
-    // Why do we need to pass an empty object?
-    const stackableGenerator = new stackable.Generator({})
+    const templateGenerator = new template.Generator()
 
-    stackableGenerator.setConfig({
-      ...stackableGenerator.config,
+    templateGenerator.setConfig({
+      ...templateGenerator.config,
       serviceName,
       plugin: true,
-      tests: true
+      tests: true,
+      isRuntimeContext: true
     })
 
-    stackableGenerator.setConfigFields(service.fields)
+    templateGenerator.setConfigFields(service.fields)
 
-    // TODO: plugins + config plugins
+    // plugins
+    for (const plugin of service.plugins) {
+      templateGenerator.addPackage(plugin)
+    }
 
-    generator.addService(stackableGenerator, serviceName)
+    generator.addService(templateGenerator, serviceName)
   }
 
   generator.setEntryPoint(entrypoint)
   await generator.prepare()
   await generator.writeFiles()
 
-  await createGitignore(logger, projectDir)
   await createGitRepository(logger, projectDir)
 
   await execa(pkgManager, ['install'], { cwd: projectDir })
