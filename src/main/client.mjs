@@ -9,7 +9,6 @@ const require = createRequire(import.meta.url)
 
 const mockedPlugins = require('../../__mocks__/plugins.json')
 const mockedTemplates = require('../../__mocks__/templates.json')
-const mockedEnvList = require('../../__mocks__/envlist.json')
 const mockedVars = require('../../__mocks__/pluginvars.json')
 
 const deployServiceHost = import.meta.env.MAIN_VITE_DEPLOY_SERVICE_HOST || 'https://deploy.platformatic.cloud'
