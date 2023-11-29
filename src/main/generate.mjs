@@ -47,7 +47,7 @@ export const prepareFolder = async (path, tempNames, logger) => {
 //     }
 //   ]
 // ]
-export const createApp = async (projectDir, { projectName, services, entrypoint, port, logLevel, typescript }, logger) => {
+export const createApp = async (projectDir, { projectName, services, entrypoint, port, logLevel, typescript, createGitHubRepository, installGitHubAction }, logger) => {
   const { execa } = await import('execa')
   const { createGitRepository } = await import('create-platformatic')
 
@@ -72,7 +72,8 @@ export const createApp = async (projectDir, { projectName, services, entrypoint,
     targetDirectory: projectDir,
     port,
     logLevel,
-    typescript // boolean
+    typescript, // boolean,
+    installGitHubAction
   })
 
   for (const service of services) {
@@ -108,7 +109,9 @@ export const createApp = async (projectDir, { projectName, services, entrypoint,
   await generator.prepare()
   await generator.writeFiles()
 
-  await createGitRepository(logger, projectDir)
+  if (createGitHubRepository) {
+    await createGitRepository(logger, projectDir)
+  }
 
   await execa(pkgManager, ['install'], { cwd: projectDir })
 
