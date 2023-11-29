@@ -29,6 +29,16 @@ const ConfigureApplication = React.forwardRef(({ onNext }, ref) => {
   const [validForm, setValidForm] = useState(false)
 
   function onClickGenerateApp () {
+    addFormData({
+      configureApplication: {
+        entrypoint: form.entryPoint,
+        port: form.port,
+        logLevel: form.logLevel,
+        typescript: form.language === TYPESCRIPT,
+        createGitHubRepository: form.createGitHubRepository,
+        installGitHubActions: form.installGitHubActions
+      }
+    })
     onNext()
   }
 
@@ -212,6 +222,7 @@ const ConfigureApplication = React.forwardRef(({ onNext }, ref) => {
       </div>
       <div className={`${styles.buttonContainer} ${commonStyles.fullWidth}`}>
         <Button
+          type='button'
           disabled={!validForm}
           label='Generate App'
           onClick={() => onClickGenerateApp()}
