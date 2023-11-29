@@ -18,7 +18,8 @@ if (process.contextIsolated) {
       getTemplates: () => (ipcRenderer.invoke('get-templates')),
       getPlugins: () => (ipcRenderer.invoke('get-plugins')),
       prepareFolder: (folder, templates) => (ipcRenderer.invoke('prepare-folder', folder, templates)),
-      onLog: callback => ipcRenderer.on('log', callback)
+      onLog: callback => ipcRenderer.on('log', callback),
+      createApp: (folder, project) => (ipcRenderer.invoke('create-app', folder, project))
     })
   } catch (error) {
     console.error(error)

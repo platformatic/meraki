@@ -32,6 +32,7 @@ test('Installs no templates or plugins', async () => {
 test('Install in non-existent folder', async () => {
   try {
     await prepareFolder('testnonexitent', [], logger)
+    throw new Error('Should have thrown an error')
   } catch (err) {
     expect(err).toBeInstanceOf(Error)
     expect(err.message).toBe('ENOENT: no such file or directory, stat \'testnonexitent\'')
@@ -42,6 +43,7 @@ test('Install a non-existent template', async () => {
   try {
     const appDir = await mkdtemp(join(tmpdir(), 'plat-app-test-create'))
     await prepareFolder(appDir, ['@platformatic/dontexist'], logger)
+    throw new Error('Should have thrown an error')
   } catch (err) {
     expect(err).toBeInstanceOf(Error)
     expect(err.message).toContain('Command failed with exit code 1')
@@ -54,4 +56,4 @@ test('Install one @platformatic/service template', async () => {
   await prepareFolder(appDir, ['@platformatic/service'], logger)
   expect(logger.infos[0][0].name).toEqual('@platformatic/service')
   expect(logger.errors.length).toBe(0)
-}, 15000)
+}, 30000)

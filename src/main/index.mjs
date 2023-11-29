@@ -109,8 +109,8 @@ app.whenReady().then(() => {
     return prepareFolder(path, templates, logger)
   })
 
-  ipcMain.handle('create-app', async (_, path) => {
-    return createApp(path)
+  ipcMain.handle('create-app', async (_, path, project) => {
+    return createApp(path, project, logger)
   })
 })
 
