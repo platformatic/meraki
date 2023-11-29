@@ -75,7 +75,7 @@ test('should invoke deploy service for stackables, passing user key', async () =
   expect(stackables).toEqual([...ossTemplates, ...stacks])
 })
 
-test.only('should invoke deploy service for stackables, passing user key but not authorized', async () => {
+test('should invoke deploy service for stackables, passing user key but not authorized', async () => {
   const platformaticDir = await mkdtemp(join(tmpdir(), 'plat-app-test-home'))
   process.env.HOME = platformaticDir
   await mkdirp(join(platformaticDir, '.platformatic'))
