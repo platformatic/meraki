@@ -1,5 +1,5 @@
 'use strict'
-import React from 'react'
+import React, { useEffect } from 'react'
 import PropTypes from 'prop-types'
 import { BorderedBox, Button, Icons } from '@platformatic/ui-components'
 import commonStyles from '~/styles/CommonStyles.module.css'
@@ -130,7 +130,21 @@ function StepCreation ({ step, index, concludedStep, /* startTime = 0, endTime =
 
 const GeneratingApplication = React.forwardRef(({ onClickComplete }, ref) => {
   const globalState = useStackablesStore()
-  const { formData } = globalState
+  const { formData, services } = globalState
+
+  useEffect(() => {
+    async function generateApplication () {
+      try {
+        console.log('let\'scall createApp')
+        const obj = { projectName: formData.createApplication.application, services, ...formData.configureApplication }
+        console.log(`prjectDir: ${formData.createApplication.path}`)
+        console.log(obj)
+      } catch (error) {
+        console.log(`Error on prepareFolder ${error}`)
+      }
+    }
+    generateApplication()
+  }, [])
 
   return (
     <div className={`${commonStyles.largeFlexBlock} ${commonStyles.halfWidth}`} ref={ref}>
