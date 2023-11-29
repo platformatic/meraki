@@ -75,6 +75,48 @@ test('should invoke deploy service for stackables, passing user key', async () =
   expect(stackables).toEqual([...ossTemplates, ...stacks])
 })
 
+test.only('should invoke deploy service for stackables, passing user key but not authorized', async () => {
+  const platformaticDir = await mkdtemp(join(tmpdir(), 'plat-app-test-home'))
+  process.env.HOME = platformaticDir
+  await mkdirp(join(platformaticDir, '.platformatic'))
+  const configPath = join(platformaticDir, '.platformatic', 'config.json')
+  const userApiKey = '123456787654321'
+  const config = {
+    $schema: 'https://platformatic.dev/schemas/v1.12.1/login',
+    userApiKey
+  }
+  await writeFile(configPath, JSON.stringify(config), 'utf8')
+
+  const stacks = [
+    {
+      orgName: 'org1',
+      name: 'stackable1',
+      description: 'stackable1 description',
+      public: true
+    },
+    {
+      orgName: 'org2',
+      name: 'stackable2',
+      description: 'stackable2 description',
+      public: true
+    }
+  ]
+  const deployServiceHost = await startDeployService({
+    getStackablesCallback: (request, reply) => {
+      const headers = request.headers
+      if (headers['x-platformatic-user-api-key']) {
+        reply.code(401).send({
+          message: 'Unauthorized'
+        })
+      } else {
+        reply.code(200).send(stacks)
+      }
+    }
+  })
+  const stackables = await getTemplates(deployServiceHost)
+  expect(stackables).toEqual([...ossTemplates, ...stacks])
+})
+
 test('should invoke deploy service for stackables', async () => {
   const envVars1 = [{
     name: 'TEST',

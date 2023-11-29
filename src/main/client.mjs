@@ -49,17 +49,24 @@ async function getStackablesAPI (deployServiceHost, userApiKey = null) {
   if (userApiKey) {
     headers['x-platformatic-user-api-key'] = userApiKey
   }
+
   const { statusCode, body } = await request(url, {
     method: 'GET',
     headers
   })
 
-  const stackables = await body.json()
-
-  if (statusCode !== 200) {
-    throw new errors.CannotGetStackablesError()
+  if (statusCode === 401) {
+    // If the user is not authorized, we return only the public stackables
+    // TODO: we should show the "login" status in the UI in some way, missing design.
+    return getStackablesAPI(deployServiceHost)
   }
 
+  if (statusCode !== 200) {
+    const error = await body.json()
+    console.log('Cannot get stackables', error)
+    throw new errors.CannotGetStackablesError(error.message)
+  }
+  const stackables = await body.json()
   return stackables
 }
 
