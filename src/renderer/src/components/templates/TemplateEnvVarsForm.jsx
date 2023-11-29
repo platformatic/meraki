@@ -20,7 +20,7 @@ function TemplateEnvVarsForm ({ service }) {
 
       let envName, envDefault
       service.template.envVars.forEach(envVar => {
-        envName = envVar.name
+        envName = envVar.var
         envDefault = envVar?.default || ''
         tmp[envName] = `${envDefault}`
         validations[`${envName}Valid`] = envVar?.default !== ''
@@ -62,7 +62,7 @@ function TemplateEnvVarsForm ({ service }) {
   function renderForm () {
     return Object.keys(form).map((element) => (
       <Forms.Field
-        title={service.template.envVars.find(env => env.name === element)?.label}
+        title={service.template.envVars.find(env => env.var === element)?.label}
         titleColor={WHITE}
         key={element}
       >
