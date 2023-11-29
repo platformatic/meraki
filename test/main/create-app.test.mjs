@@ -1,4 +1,4 @@
-import { test, beforeEach } from 'vitest'
+import { test, beforeEach, expect } from 'vitest'
 import { tmpdir } from 'node:os'
 import { join } from 'node:path'
 import { createApp } from '../../src/main/generate.mjs'
@@ -23,13 +23,39 @@ beforeEach(() => {
   logger.reset()
 })
 
-test('Create app with no services', async () => {
+test('Create app with no services should fail', async () => {
   const appDir = await mkdtemp(join(tmpdir(), 'plat-app-test-create'))
 
+  // This is wrong, because we have no services but an entrypoint
   const project = {
     projectName: 'testapp',
-    services: []
+    services: [],
+    entrypoint: 'main'
   }
-  await createApp(appDir, project, logger)
-  // TODO: assert that the app has been created
+
+  try {
+    await createApp(appDir, project, logger)
+    test.fails('Should have thrown an error')
+  } catch (err) {
+    expect(err).toBeInstanceOf(Error)
+    expect(err.message).toContain('No services to create')
+  }
+}, 20000)
+
+test('Create app with no entrypoint should fail', async () => {
+  const appDir = await mkdtemp(join(tmpdir(), 'plat-app-test-create'))
+
+  // This is wrong, because we have no services but an entrypoint
+  const project = {
+    projectName: 'testapp',
+    services: ['test']
+  }
+
+  try {
+    await createApp(appDir, project, logger)
+    test.fails('Should have thrown an error')
+  } catch (err) {
+    expect(err).toBeInstanceOf(Error)
+    expect(err.message).toContain('No entrypoint')
+  }
 }, 20000)

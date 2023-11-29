@@ -1,6 +1,7 @@
 import { stat } from 'node:fs/promises'
 import { getPkgManager } from './lib/get-package-manager.mjs'
 import { importOrLocal } from './lib/import-or-local.mjs'
+import errors from './errors.mjs'
 
 export const prepareFolder = async (path, tempNames, logger) => {
   const s = await stat(path)
@@ -51,6 +52,16 @@ export const createApp = async (projectDir, { projectName, services, entrypoint,
   const { execa } = await import('execa')
   const { createGitRepository } = await import('create-platformatic')
 
+  if (!services || services.length === 0) {
+    logger.error('No services to create')
+    throw new errors.NoServicesError()
+  }
+
+  if (!entrypoint) {
+    logger.error('No entrypoint')
+    throw new errors.NoEntrypointError()
+  }
+
   const pkgManager = await getPkgManager()
   const runtime = await importOrLocal({
     pkgManager,
@@ -68,6 +79,11 @@ export const createApp = async (projectDir, { projectName, services, entrypoint,
     projectName
   })
 
+  if (!generator) {
+    logger.error('Could not create runtime generator')
+    throw new Error('Could not create runtime generator')
+  }
+
   generator.setConfig({
     targetDirectory: projectDir,
     port,
@@ -84,6 +100,16 @@ export const createApp = async (projectDir, { projectName, services, entrypoint,
       projectDir,
       pkg: templateName
     })
+
+    if (!template) {
+      logger.error(`Could not load template ${templateName}`)
+      throw new Error(`Could not load template ${templateName}`)
+    }
+
+    if (!template.Generator) {
+      logger.error(`Template ${templateName} does not have a Generator`)
+      throw new Error(`Template ${templateName} does not have a Generator`)
+    }
 
     const templateGenerator = new template.Generator()
 
