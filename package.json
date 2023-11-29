@@ -25,7 +25,7 @@
     "@fastify/error": "^3.4.1",
     "@platformatic/ui-components": "^0.1.126",
     "autoprefixer": "^10.4.16",
-    "create-platformatic": "^1.12.1",
+    "create-platformatic": "^1.13.0",
     "electron-updater": "^6.1.1",
     "execa": "^8.0.1",
     "react": "^18.2.0",
