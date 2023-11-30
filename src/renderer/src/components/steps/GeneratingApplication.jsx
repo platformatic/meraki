@@ -1,14 +1,14 @@
 'use strict'
-import React, { useEffect } from 'react'
+import React, { useEffect, useState } from 'react'
 import PropTypes from 'prop-types'
 import { BorderedBox, Button, Icons } from '@platformatic/ui-components'
 import commonStyles from '~/styles/CommonStyles.module.css'
 import typographyStyles from '~/styles/Typography.module.css'
 import styles from './GeneratingApplication.module.css'
-import { MAIN_DARK_BLUE, WHITE, SMALL, MAIN_GREEN, TRANSPARENT, ERROR_RED, RICH_BLACK } from '@platformatic/ui-components/src/components/constants'
+import { WHITE, TRANSPARENT, RICH_BLACK, OPACITY_30, OPACITY_100, SMALL } from '@platformatic/ui-components/src/components/constants'
 import useStackablesStore from '~/useStackablesStore'
 import Title from '~/components/ui/Title'
-import { callCreateApp } from '~/api'
+import { callCreateApp, logInfo } from '~/api'
 
 /* function dateDifferences(millisStartDate, millisEndDate) {
   const s = new Date(millisStartDate);
@@ -20,120 +20,52 @@ import { callCreateApp } from '~/api'
 } */
 
 // eslint-disable-next-line no-unused-vars
-function StepCreation ({ step, index, concludedStep, /* startTime = 0, endTime = 0,  */ indexError, externalUrl = '' }) {
-  let status = 'NOT_STARTED'
-  if (concludedStep >= 0) {
-    if (concludedStep >= index) {
-      status = 'COMPLETED'
+function Step ({ label, index, currentStep }) {
+  const [active, setActive] = useState(false)
+  const [classNameLabel, setClassNameLabel] = useState(`${typographyStyles.desktopBody} ${typographyStyles.textWhite} ${typographyStyles.opacity70}`)
+  useEffect(() => {
+    if (currentStep === index) {
+      setActive(true)
+      setClassNameLabel(`${typographyStyles.desktopBody} ${typographyStyles.textWhite}`)
     }
-  }
+  }, [currentStep])
 
-  if (concludedStep + 1 === index) {
-    status = 'LOADING'
-  }
-
-  let classes = `${commonStyles.mediumFlexRow} ${commonStyles.justifyBetween} ${commonStyles.smallPadding} `
-  classes += concludedStep + 1 < index ? styles['apply-opacity-20'] : ''
-
-  let cmp
-
-  if (indexError === index) {
-    return (
-      <BorderedBox
-        color={ERROR_RED}
-        backgroundColor={TRANSPARENT}
-        classes={`${commonStyles.mediumFlexRow} ${commonStyles.justifyBetween} ${commonStyles.smallPadding}`}
-        key={index}
-      >
-        <div className={`${commonStyles.smallFlexRow} ${commonStyles.itemsCenter}`}>
-          <Icons.AlertIcon size={SMALL} color={ERROR_RED} />
-          <span className={commonStyles.typographyBody}>{step}</span>
-          {externalUrl && <a href={externalUrl} target='_blank' rel='noreferrer' data-testid='api-detail-repository-link'>Check progress</a>}
-        </div>
-        <div className={`${commonStyles.smallFlexRow} ${commonStyles.itemsCenter}`}>
-          <span className={commonStyles.typographyBodySmall}>Failed</span>
-        </div>
-      </BorderedBox>
-    )
-  }
-
-  switch (status) {
-    case 'LOADING':
-      cmp = (
-        <BorderedBox
-          color={MAIN_DARK_BLUE}
-          backgroundColor={MAIN_DARK_BLUE}
-          backgroundColorOpacity={20}
-          classes={classes}
-          key={index}
-        >
-          <div className={`${commonStyles.smallFlexRow} ${commonStyles.itemsCenter}`}>
-            <div className={styles.clockWiseRotation}><Icons.RunningIcon size={SMALL} /></div>
-            <span className={commonStyles.typographyBody}>{step}</span>
-            {externalUrl && <a href={externalUrl} target='_blank' rel='noreferrer' data-testid='api-detail-repository-link'>Check progress</a>}
-          </div>
-          <div className={`${commonStyles.smallFlexRow} ${commonStyles.itemsCenter}`}>
-            <span className={commonStyles.typographyBodySmall}>
-              Loading
-            </span>
-          </div>
-        </BorderedBox>
-      )
-      break
-
-    case 'COMPLETED':
-      cmp = (
-        <BorderedBox
-          color={MAIN_DARK_BLUE}
-          backgroundColor={TRANSPARENT}
-          backgroundColorOpacity={100}
-          classes={classes}
-          key={index}
-        >
-          <div className={`${commonStyles.smallFlexRow} ${commonStyles.itemsCenter}`}>
-            <Icons.CircleCheckMarkIcon size={SMALL} color={MAIN_GREEN} />
-            <span className={commonStyles.typographyBody}>{step}</span>
-          </div>
-          <div className={`${commonStyles.smallFlexRow} ${commonStyles.itemsCenter}`}>
-            <span className={commonStyles.typographyBodySmall}>
-              Completed
-            </span>
-          </div>
-        </BorderedBox>
-      )
-      break
-
-    default:
-      cmp = (
-        <BorderedBox
-          color={MAIN_DARK_BLUE}
-          backgroundColor={TRANSPARENT}
-          backgroundColorOpacity={100}
-          classes={classes}
-          key={index}
-        >
-          <div className={`${commonStyles.smallFlexRow} ${commonStyles.itemsCenter}`}>
-            <Icons.CircleCheckMarkIcon checked={false} size={SMALL} color={MAIN_DARK_BLUE} />
-            <span className={commonStyles.typographyBody}>{step}</span>
-          </div>
-          <div className={`${commonStyles.smallFlexRow} ${commonStyles.itemsCenter}`}>
-            <span className={commonStyles.typographyBodySmall}>
-              Not started
-            </span>
-          </div>
-        </BorderedBox>
-      )
-      break
-  }
-
-  return cmp
+  return (
+    <BorderedBox
+      color={WHITE}
+      backgroundColor={TRANSPARENT}
+      borderColorOpacity={active ? OPACITY_100 : OPACITY_30}
+      classes={`${commonStyles.mediumFlexRow} ${commonStyles.justifyBetween} ${styles.paddingStep}`}
+      key={index}
+    >
+      <span className={classNameLabel}>{label}</span>
+      {active ? <Icons.RunningIcon color={WHITE} size={SMALL} /> : <Icons.CircleCheckMarkIcon checked={false} color={WHITE} size={SMALL} disabled />}
+    </BorderedBox>
+  )
 }
 
 const GeneratingApplication = React.forwardRef(({ onClickComplete }, ref) => {
   const globalState = useStackablesStore()
   const { formData } = globalState
+  const [steps, setSteps] = useState([])
+  const [currentStep, setCurrentStep] = useState()
 
   useEffect(() => {
+    if (formData.configuredServices.services) {
+      const tmpStep = []
+      formData.configuredServices.services.forEach(service => {
+        tmpStep.push({
+          label: `Generating ${service.name}`,
+          index: `${service.name}-${service.template}`
+        })
+      })
+      tmpStep.push({ label: 'App Created!', index: 'app-created' })
+      setSteps([...tmpStep])
+    }
+  }, [formData.configuredServices.services])
+
+  useEffect(() => {
+    logInfo((_, value) => setCurrentStep(value))
     async function generateApplication () {
       try {
         const obj = { projectName: formData.createApplication.application, services: formData.configuredServices.services, ...formData.configureApplication }
@@ -144,10 +76,9 @@ const GeneratingApplication = React.forwardRef(({ onClickComplete }, ref) => {
       }
     }
     generateApplication()
-  }, [])
-
+  }, [steps.length > 0])
   return (
-    <div className={`${commonStyles.largeFlexBlock} ${commonStyles.halfWidth}`} ref={ref}>
+    <div className={`${commonStyles.largeFlexBlock} ${commonStyles.fullWidth}`} ref={ref}>
       <div className={commonStyles.mediumFlexBlock}>
         <Title
           title={`Generating ${formData.createApplication.application}`}
@@ -158,6 +89,11 @@ const GeneratingApplication = React.forwardRef(({ onClickComplete }, ref) => {
         <p className={`${typographyStyles.desktopBodyLarge} ${typographyStyles.textWhite} ${typographyStyles.opacity70}`}>
           We are generating your app. Once all the steps are done you will be able to complete and use your new application.
         </p>
+      </div>
+      <div className={`${styles.content} ${commonStyles.halfWidth}`}>
+        <div className={`${commonStyles.smallFlexBlock} ${commonStyles.fullWidth}`}>
+          {steps.map(step => <Step {...step} key={step.index} currentStep={currentStep} />)}
+        </div>
       </div>
       <div className={`${styles.buttonContainer} ${commonStyles.fullWidth}`}>
         <Button
