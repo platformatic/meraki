@@ -8,6 +8,7 @@ import styles from './GeneratingApplication.module.css'
 import { MAIN_DARK_BLUE, WHITE, SMALL, MAIN_GREEN, TRANSPARENT, ERROR_RED, RICH_BLACK } from '@platformatic/ui-components/src/components/constants'
 import useStackablesStore from '~/useStackablesStore'
 import Title from '~/components/ui/Title'
+import { callCreateApp } from '~/api'
 
 /* function dateDifferences(millisStartDate, millisEndDate) {
   const s = new Date(millisStartDate);
@@ -136,9 +137,10 @@ const GeneratingApplication = React.forwardRef(({ onClickComplete }, ref) => {
     async function generateApplication () {
       try {
         const obj = { projectName: formData.createApplication.application, services: formData.configuredServices.services, ...formData.configureApplication }
-        console.log(obj)
+        const response = await callCreateApp(formData.createApplication.path, obj)
+        console.log('response', response)
       } catch (error) {
-        console.log(`Error on prepareFolder ${error}`)
+        console.error(`Error on generateApplication ${error}`)
       }
     }
     generateApplication()
