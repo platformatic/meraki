@@ -19,7 +19,8 @@ if (process.contextIsolated) {
       getPlugins: () => (ipcRenderer.invoke('get-plugins')),
       prepareFolder: (folder, templates) => (ipcRenderer.invoke('prepare-folder', folder, templates)),
       onLog: callback => ipcRenderer.on('log', callback),
-      createApp: (folder, project) => (ipcRenderer.invoke('create-app', folder, project))
+      createApp: (folder, project) => (ipcRenderer.invoke('create-app', folder, project)),
+      quitApp: () => (ipcRenderer.invoke('quit-app'))
     })
   } catch (error) {
     console.error(error)

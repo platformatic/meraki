@@ -14,3 +14,5 @@ export const callCreateApp = async (path, project) => {
 }
 
 export const logInfo = callback => window.api.onLog(callback)
+
+export const quitApp = () => window.api.quitApp()

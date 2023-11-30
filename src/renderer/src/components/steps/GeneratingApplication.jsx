@@ -8,7 +8,7 @@ import styles from './GeneratingApplication.module.css'
 import { WHITE, TRANSPARENT, RICH_BLACK, OPACITY_30, OPACITY_100, SMALL } from '@platformatic/ui-components/src/components/constants'
 import useStackablesStore from '~/useStackablesStore'
 import Title from '~/components/ui/Title'
-import { callCreateApp, logInfo } from '~/api'
+import { callCreateApp, logInfo, quitApp } from '~/api'
 
 /* function dateDifferences(millisStartDate, millisEndDate) {
   const s = new Date(millisStartDate);
@@ -117,7 +117,9 @@ GeneratingApplication.propTypes = {
 }
 
 GeneratingApplication.defaultProps = {
-  onClickComplete: () => {}
+  onClickComplete: () => {
+    quitApp()
+  }
 }
 
 export default GeneratingApplication
