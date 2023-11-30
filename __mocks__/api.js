@@ -11,8 +11,8 @@ function getRandomInt (min, max) {
 
 export const getTemplates = async () => {
   return mockedTemplates.map(template => ({
-    ...template,
-    envVars: Array.from(new Array(getRandomInt(1, mockedEnvList.length)).keys()).map(() => mockedEnvList[Math.floor(Math.random() * mockedEnvList.length)])
+    ...template
+    // venvVars: Array.from(new Array(getRandomInt(1, mockedEnvList.length)).keys()).map(() => mockedEnvList[Math.floor(Math.random() * mockedEnvList.length)])
   }))
 }
 
@@ -21,4 +21,17 @@ export const getPlugins = async () => {
     ...plugin,
     envVars: [...mockedVars]
   }))
+}
+
+export const prepareFolder = async (_path, templates) => {
+  const pro = new Promise((resolve) => {
+    setTimeout(() => {
+      const ret = {}
+      templates.forEach(template => {
+        ret[`${template}`] = Array.from(new Array(getRandomInt(1, mockedEnvList.length)).keys()).map(() => mockedEnvList[Math.floor(Math.random() * mockedEnvList.length)])
+      })
+      return resolve(ret)
+    }, 2000)
+  })
+  return pro
 }
