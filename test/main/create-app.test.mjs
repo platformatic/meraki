@@ -3,7 +3,7 @@ import { tmpdir } from 'node:os'
 import { join } from 'node:path'
 import { createApp } from '../../src/main/generate.mjs'
 import { mkdtemp } from 'node:fs/promises'
-
+import { isFileAccessible } from './helper.mjs'
 const logger = {
   infos: [],
   errors: [],
@@ -22,7 +22,6 @@ const logger = {
 beforeEach(() => {
   logger.reset()
 })
-
 test('Create app with no services should fail', async () => {
   const appDir = await mkdtemp(join(tmpdir(), 'plat-app-test-create'))
 
@@ -59,3 +58,59 @@ test('Create app with no entrypoint should fail', async () => {
     expect(err.message).toContain('No entrypoint')
   }
 }, 20000)
+
+test.only('Create app', async (t) => {
+  const appDir = await mkdtemp(join(tmpdir(), 'plat-app-test-create'))
+  console.log(appDir)
+
+  const project = {
+    projectName: 'electron-testing',
+    services: [
+      {
+        name: 'electron-testing-1',
+        template: '@platformatic/service',
+        fields: [
+          {
+            var: 'PLT_SERVER_HOSTNAME',
+            value: '125.500.500.0',
+            configValue: 'hostname',
+            type: 'string'
+          },
+          {
+            var: 'PLT_SERVER_LOGGER_LEVEL',
+            value: 'boh',
+            configValue: '',
+            type: 'string'
+          },
+          {
+            var: 'PORT',
+            value: '111111',
+            configValue: 'port'
+          }
+        ],
+        plugins: []
+      }
+    ],
+
+    entrypoint: 'electron-testing-1',
+    port: '12312',
+    logLevel: 'trace',
+    typescript: true,
+    createGitHubRepository: true,
+    installGitHubAction: true
+  }
+  try {
+    await createApp(appDir, project, logger)
+    const expectedFiles = [
+      'tsconfig.json',
+      'package.json',
+      'platformatic.json',
+      join('services', 'electron-testing-1', 'platformatic.service.json')
+    ]
+    for (const file of expectedFiles) {
+      expect(await isFileAccessible(join(appDir, file)))
+    }
+  } catch (err) {
+    test.fails('Should have not thrown an error')
+  }
+}, 50000)

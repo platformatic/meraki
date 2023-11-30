@@ -1,6 +1,6 @@
 import fastify from 'fastify'
 import { afterEach } from 'vitest'
-
+import { access } from 'node:fs/promises'
 function setUpEnvironment (env = {}) {
   const defaultEnv = {
     MAIN_VITE_DEPLOY_SERVICE_HOST: 'http://localhost:13042',
@@ -29,8 +29,17 @@ async function startDeployService (options = {}) {
 
   return deployService.listen({ port: 13042 })
 }
+async function isFileAccessible (filename) {
+  try {
+    await access(filename)
+    return true
+  } catch (err) {
+    return false
+  }
+}
 
 export {
+  isFileAccessible,
   startDeployService,
   setUpEnvironment
 }
