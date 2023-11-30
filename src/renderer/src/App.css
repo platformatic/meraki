@@ -21,6 +21,12 @@ body {
 	font-weight: 100 200 300 400 500 600 700 800 900;
 }
 
+@font-face {
+	font-family: 'Roboto_Mono';
+  src: url('/fonts/Roboto_Mono/RobotoMono-VariableFont_wght.ttf') format('truetype');
+	font-weight: 100 200 300 400 500 600 700 800 900;
+}
+
 /* http://meyerweb.com/eric/tools/css/reset/ 
    v2.0 | 20110126
    License: none (public domain)
