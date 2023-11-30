@@ -11,7 +11,7 @@ import useStackablesStore from '~/useStackablesStore'
 
 function TemplateSelector ({ onTemplateSelected, service, serviceSelected }) {
   let className = `${typographyStyles.desktopHeadline5} ${typographyStyles.textWhite} ${styles.ellipsisTemplate}`
-  if (serviceSelected?.template?.name !== service.template.name) {
+  if (serviceSelected?.template !== service.template.name) {
     className += ` ${typographyStyles.opacity70}`
   }
   return (
