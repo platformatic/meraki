@@ -45,7 +45,8 @@
 }
 
 .desktopOtherCliTerminalSmall {
-  @apply font-inter font-normal text-[0.875rem] leading-[1.313rem];
+  @apply font-normal text-[0.875rem] leading-[1.313rem];
+  font-family: 'Roboto_Mono';
 }
 
 

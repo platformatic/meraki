@@ -10,7 +10,7 @@
 }
 .ellipsisTemplate {
   @apply truncate;
-  width: 12rem;
+  max-width: 10rem;
 }
 .ellipsisPlugin {
   @apply truncate;

@@ -1,23 +1,27 @@
 'use strict'
 import React, { useState } from 'react'
 import PropTypes from 'prop-types'
-import { MEDIUM, SMALL, TRANSPARENT, WHITE } from '@platformatic/ui-components/src/components/constants'
+import { ERROR_RED, MAIN_GREEN, MEDIUM, SMALL, TRANSPARENT, WHITE } from '@platformatic/ui-components/src/components/constants'
 import Icons from '@platformatic/ui-components/src/components/icons'
 import typographyStyles from '~/styles/Typography.module.css'
 import styles from './TemplateAndPluginTreeSelector.module.css'
 import commonStyles from '~/styles/CommonStyles.module.css'
 import { BorderedBox, PlatformaticIcon } from '@platformatic/ui-components'
-import useStackablesStore from '~/useStackablesStore'
 
 function TemplateSelector ({ onTemplateSelected, service, serviceSelected }) {
   let className = `${typographyStyles.desktopHeadline5} ${typographyStyles.textWhite} ${styles.ellipsisTemplate}`
-  if (serviceSelected?.template !== service.template.name) {
+  if (serviceSelected?.template !== service.template) {
     className += ` ${typographyStyles.opacity70}`
   }
   return (
-    <div className={`${commonStyles.smallFlexRow} ${styles.cursorPointer} ${styles.overflowHidden}`} onClick={() => onTemplateSelected(service)}>
+    <div
+      className={`${commonStyles.smallFlexRow} ${styles.cursorPointer} ${styles.overflowHidden}`}
+      onClick={() => onTemplateSelected(service)}
+      data-cy='template-selector'
+    >
       <Icons.ServiceIcon color={WHITE} size={MEDIUM} />
       <h5 className={className}>{service.name}</h5>
+      {service.validForm ? <Icons.CircleCheckMarkIcon color={MAIN_GREEN} size={SMALL} /> : <Icons.AlertIcon color={ERROR_RED} size={SMALL} />}
     </div>
   )
 }
@@ -58,17 +62,17 @@ function PluginSelector ({ onPluginSelected, service, plugin, pluginSelected }) 
     <div
       className={`${commonStyles.smallFlexRow} ${commonStyles.fullWidth} ${styles.cursorPointer} ${styles.overflowHidden}`}
       onClick={() => onPluginSelected(service, plugin)}
+      data-cy='plugin-selector'
     >
       <Icons.StackablesPluginIcon color={WHITE} size={SMALL} />
       <span className={className} title={plugin.name}>{plugin.name}</span>
+      {plugin.validForm ? <Icons.CircleCheckMarkIcon color={MAIN_GREEN} size={SMALL} /> : <Icons.AlertIcon color={ERROR_RED} size={SMALL} />}
+
     </div>
   )
 }
 
-function TemplateAndPluginTreeSelector ({ onTemplateSelected, onPluginSelected, serviceSelected, pluginSelected }) {
-  const globalState = useStackablesStore()
-  const { services } = globalState
-
+function TemplateAndPluginTreeSelector ({ configuredServices, onTemplateSelected, onPluginSelected, serviceSelected, pluginSelected }) {
   function handlePluginSelected (service, plugin) {
     onPluginSelected(service, plugin)
   }
@@ -76,10 +80,10 @@ function TemplateAndPluginTreeSelector ({ onTemplateSelected, onPluginSelected, 
   return (
     <BorderedBox color={WHITE} borderColorOpacity={30} backgroundColor={TRANSPARENT} classes={`${commonStyles.fullWidth} ${styles.container}`}>
       <div className={`${commonStyles.mediumFlexBlock} ${commonStyles.fullWidth}`}>
-        {services.map(service => (
-          <div className={`${commonStyles.smallFlexBlock} ${commonStyles.fullWidth} ${commonStyles.overflowHidden}`} key={service.name}>
-            <TemplateSelector onTemplateSelected={onTemplateSelected} service={{ ...service }} serviceSelected={serviceSelected} />
-            {service.plugins.length > 0 && <PluginsContainer service={service} onPluginSelected={handlePluginSelected} pluginSelected={pluginSelected} />}
+        {configuredServices.map(configuredService => (
+          <div className={`${commonStyles.smallFlexBlock} ${commonStyles.fullWidth} ${commonStyles.overflowHidden}`} key={configuredService.name}>
+            <TemplateSelector onTemplateSelected={onTemplateSelected} service={{ ...configuredService }} serviceSelected={serviceSelected} />
+            {configuredService.plugins.length > 0 && <PluginsContainer service={configuredService} onPluginSelected={handlePluginSelected} pluginSelected={pluginSelected} />}
           </div>
         ))}
       </div>
@@ -88,6 +92,11 @@ function TemplateAndPluginTreeSelector ({ onTemplateSelected, onPluginSelected, 
 }
 
 TemplateAndPluginTreeSelector.propTypes = {
+  /**
+   * configuredServices
+    */
+  configuredServices: PropTypes.array.isRequired,
+  /**
   /**
    * onTemplateSelected
     */
