@@ -112,6 +112,10 @@ app.whenReady().then(() => {
   ipcMain.handle('create-app', async (_, path, project) => {
     return createApp(path, project, logger)
   })
+
+  ipcMain.handle('quit-app', () => {
+    app.quit()
+  })
 })
 
 // Quit when all windows are closed, except on macOS. There, it's common
