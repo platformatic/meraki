@@ -2,7 +2,7 @@
   @apply flex flex-col min-h-[80vH] overflow-y-scroll justify-between
 }
 .buttonContainer {
-  @apply flex justify-end;
+  @apply flex justify-between;
 }
 
 .content {
