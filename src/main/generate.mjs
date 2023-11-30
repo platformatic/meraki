@@ -50,7 +50,6 @@ export const prepareFolder = async (path, tempNames, logger) => {
 // ]
 export const createApp = async (projectDir, { projectName, services, entrypoint, port, logLevel, typescript, createGitHubRepository, installGitHubAction }, logger) => {
   const { execa } = await import('execa')
-  const { createGitRepository } = await import('create-platformatic')
 
   if (!services || services.length === 0) {
     logger.error('No services to create')
@@ -125,20 +124,17 @@ export const createApp = async (projectDir, { projectName, services, entrypoint,
     templateGenerator.setConfigFields(service.fields)
 
     // plugins
-    for (const plugin of service.plugins) {
-      templateGenerator.addPackage(plugin)
+    if (service.plugins) {
+      for (const plugin of service.plugins) {
+        templateGenerator.addPackage(plugin)
+      }
     }
-
     generator.addService(templateGenerator, serviceName)
   }
 
   generator.setEntryPoint(entrypoint)
   await generator.prepare()
   await generator.writeFiles()
-
-  if (createGitHubRepository) {
-    await createGitRepository(logger, projectDir)
-  }
 
   await execa(pkgManager, ['install'], { cwd: projectDir })
 
