@@ -59,6 +59,7 @@ const ConfigureServices = React.forwardRef(({ onNext }, ref) => {
         tmpObj.validations = { ...tmpTemplateValidations }
         tmpObj.validForm = tmpTemplateValidForm
         tmpObj.updatedAt = new Date().toISOString()
+        tmpObj.plugins = []
       })
       setConfiguredServices([...configuredServices, tmpObj])
     }

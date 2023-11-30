@@ -57,6 +57,7 @@ function ConfigureEnvVarsTemplateAndPlugins ({
   return (
     <div className={`${commonStyles.mediumFlexRow} ${commonStyles.itemsStart} ${styles.scrollableSection}`}>
       <TemplateAndPluginTreeSelector
+        configuredServices={configuredServices}
         pluginSelected={pluginSelected}
         serviceSelected={serviceSelected}
         onTemplateSelected={onServiceSelected}
