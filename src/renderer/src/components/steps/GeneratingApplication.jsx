@@ -8,7 +8,9 @@ import styles from './GeneratingApplication.module.css'
 import { WHITE, TRANSPARENT, RICH_BLACK, OPACITY_30 } from '@platformatic/ui-components/src/components/constants'
 import useStackablesStore from '~/useStackablesStore'
 import Title from '~/components/ui/Title'
+import CountDown from '~/components/ui/CountDown'
 import { callCreateApp, logInfo, quitApp } from '~/api'
+import { NONE, RUNNING, SUCCESS, ERROR } from '~/ui-constants'
 
 const GeneratingApplication = React.forwardRef(({ onClickComplete }, ref) => {
   const globalState = useStackablesStore()
@@ -18,18 +20,22 @@ const GeneratingApplication = React.forwardRef(({ onClickComplete }, ref) => {
   // const [appGeneratedSuccess, setAppGeneratedSuccess] = useState(false)
   const [npmLogs, setNpmLogs] = useState([])
   const [logValue, setLogValue] = useState(null)
+  const [countDownStatus, setCountDownStatus] = useState(NONE)
 
   useEffect(() => {
     logInfo((_, value) => setLogValue(value))
     async function generateApplication () {
       try {
+        setCountDownStatus(RUNNING)
         const obj = { projectName: formData.createApplication.application, services: formData.configuredServices.services, ...formData.configureApplication }
         const response = await callCreateApp(formData.createApplication.path, obj)
         console.log('response', response)
         // setAppGeneratedSuccess(true)
+        setCountDownStatus(SUCCESS)
       } catch (error) {
         console.error(`Error on generateApplication ${error}`)
         setAppGeneratedError(true)
+        setCountDownStatus(ERROR)
       } finally {
         setAppGenerated(true)
       }
@@ -74,6 +80,9 @@ const GeneratingApplication = React.forwardRef(({ onClickComplete }, ref) => {
           {npmLogs.map((log, index) => renderLog(log, index))}
         </div>
       </BorderedBox>
+      <div className={`${commonStyles.mediumFlexBlock} ${commonStyles.halfWidth}`}>
+        <CountDown status={countDownStatus} />
+      </div>
       <div className={`${styles.buttonContainer} ${commonStyles.fullWidth}`}>
         <Button
           disabled={!appGenerated}

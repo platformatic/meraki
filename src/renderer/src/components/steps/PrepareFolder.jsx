@@ -8,12 +8,15 @@ import { WHITE, RICH_BLACK, TRANSPARENT, OPACITY_30 } from '@platformatic/ui-com
 import { BorderedBox, Button } from '@platformatic/ui-components'
 import useStackablesStore from '~/useStackablesStore'
 import EditableTitle from '~/components/ui/EditableTitle'
+import CountDown from '~/components/ui/CountDown'
 import '~/components/component.animation.css'
 import { callPrepareFolder, logInfo, quitApp } from '~/api'
+import { NONE, RUNNING, SUCCESS, ERROR } from '~/ui-constants'
 
 const PrepareFolder = React.forwardRef(({ onNext }, ref) => {
   const globalState = useStackablesStore()
   const { formData, addFormData, services, setTemplate } = globalState
+  const [countDownStatus, setCountDownStatus] = useState(NONE)
   const [folderPrepared, setFolderPrepared] = useState(false)
   const [folderPreparedError, setFolderPreparedError] = useState(false)
   const [folderPreparedSuccess, setFolderPreparedSuccess] = useState(false)
@@ -25,6 +28,7 @@ const PrepareFolder = React.forwardRef(({ onNext }, ref) => {
     logInfo((_, value) => setLogValue(value))
     async function prepareFolder () {
       try {
+        setCountDownStatus(RUNNING)
         const response = await callPrepareFolder(formData.createApplication.path, templateNames)
         let tmpTemplate
         let envVars
@@ -34,9 +38,11 @@ const PrepareFolder = React.forwardRef(({ onNext }, ref) => {
           setTemplate(service.name, { ...tmpTemplate, envVars })
         })
         setFolderPreparedSuccess(true)
+        setCountDownStatus(SUCCESS)
       } catch (error) {
         console.error(`Error on prepareFolder ${error}`)
         setFolderPreparedError(true)
+        setCountDownStatus(ERROR)
       } finally {
         setFolderPrepared(true)
       }
@@ -99,6 +105,10 @@ const PrepareFolder = React.forwardRef(({ onNext }, ref) => {
             {npmLogs.map((log, index) => renderLog(log, index))}
           </div>
         </BorderedBox>
+        <div className={`${commonStyles.mediumFlexBlock} ${commonStyles.halfWidth}`}>
+          <CountDown status={countDownStatus} />
+        </div>
+
       </div>
       <div className={`${styles.buttonContainer} ${commonStyles.fullWidth}`}>
         <Button
