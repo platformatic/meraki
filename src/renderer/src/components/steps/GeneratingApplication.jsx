@@ -130,14 +130,12 @@ function StepCreation ({ step, index, concludedStep, /* startTime = 0, endTime =
 
 const GeneratingApplication = React.forwardRef(({ onClickComplete }, ref) => {
   const globalState = useStackablesStore()
-  const { formData, services } = globalState
+  const { formData } = globalState
 
   useEffect(() => {
     async function generateApplication () {
       try {
-        console.log('let\'scall createApp')
-        const obj = { projectName: formData.createApplication.application, services, ...formData.configureApplication }
-        console.log(`prjectDir: ${formData.createApplication.path}`)
+        const obj = { projectName: formData.createApplication.application, services: formData.configuredServices.services, ...formData.configureApplication }
         console.log(obj)
       } catch (error) {
         console.log(`Error on prepareFolder ${error}`)

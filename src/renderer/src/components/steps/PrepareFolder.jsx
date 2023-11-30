@@ -33,7 +33,7 @@ const PrepareFolder = React.forwardRef(({ onNext }, ref) => {
         })
         setFolderPrepared(true)
       } catch (error) {
-        console.log(`Error on prepareFolder ${error}`)
+        console.error(`Error on prepareFolder ${error}`)
       }
     }
     prepareFolder()

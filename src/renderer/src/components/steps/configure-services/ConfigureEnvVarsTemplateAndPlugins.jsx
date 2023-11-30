@@ -1,28 +1,45 @@
 'use strict'
 import React, { useEffect, useState } from 'react'
+import PropTypes from 'prop-types'
 import styles from './ConfigureEnvVarsTemplateAndPlugins.module.css'
 import commonStyles from '~/styles/CommonStyles.module.css'
 import TemplateAndPluginTreeSelector from '~/components/template-and-plugins/TemplateAndPluginTreeSelector'
 import { CSSTransition } from 'react-transition-group'
 import TemplateEnvVarsForm from '~/components/templates/TemplateEnvVarsForm'
 import PluginEnvVarsForm from '~/components/plugins/PluginEnvVarsForm'
-import useStackablesStore from '~/useStackablesStore'
 import '~/components/component.animation.css'
 
-function ConfigureEnvVarsTemplateAndPlugins () {
-  const globalState = useStackablesStore()
-  const { services } = globalState
-
-  const [serviceSelected, setServiceSelected] = useState(services[0])
+function ConfigureEnvVarsTemplateAndPlugins ({
+  configuredServices,
+  handleChangeTemplateForm
+}) {
+  const [serviceSelected, setServiceSelected] = useState(null)
   const [pluginSelected, setPluginSelected] = useState(null)
   const [currentComponent, setCurrentComponent] = useState(<></>)
+
+  useEffect(() => {
+    if (configuredServices !== null) {
+      setServiceSelected(configuredServices[0])
+    }
+  }, [configuredServices])
+
+  function handleChangeTemplateEnvVars (event) {
+    return handleChangeTemplateForm(event, serviceSelected.template, serviceSelected.name)
+  }
 
   useEffect(() => {
     if (serviceSelected) {
       if (pluginSelected) {
         setCurrentComponent(<PluginEnvVarsForm service={{ ...serviceSelected }} plugin={{ ...pluginSelected }} key={pluginSelected.name} />)
       } else {
-        setCurrentComponent(<TemplateEnvVarsForm key={serviceSelected.name} service={{ ...serviceSelected }} />)
+        setCurrentComponent(
+          <TemplateEnvVarsForm
+            key={`${serviceSelected.name}-${serviceSelected.template}-${serviceSelected.updatedAt}`}
+            configuredServices={configuredServices}
+            serviceName={serviceSelected.name}
+            templateName={serviceSelected.template}
+            onChange={handleChangeTemplateEnvVars}
+          />)
       }
     }
   }, [serviceSelected, pluginSelected])
@@ -56,6 +73,23 @@ function ConfigureEnvVarsTemplateAndPlugins () {
       </div>
     </div>
   )
+}
+
+ConfigureEnvVarsTemplateAndPlugins.propTypes = {
+  /**
+     * configuredServices
+     */
+  configuredServices: PropTypes.array,
+  /**
+   * handleChangeTemplateForm
+  */
+  handleChangeTemplateForm: PropTypes.func
+
+}
+
+ConfigureEnvVarsTemplateAndPlugins.defaultProps = {
+  configuredServices: [],
+  handleChangeTemplateForm: () => {}
 }
 
 export default ConfigureEnvVarsTemplateAndPlugins
