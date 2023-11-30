@@ -18,10 +18,10 @@ function ConfigureEnvVarsTemplateAndPlugins ({
   const [currentComponent, setCurrentComponent] = useState(<></>)
 
   useEffect(() => {
-    if (configuredServices !== null) {
+    if (configuredServices !== null && !serviceSelected) {
       setServiceSelected(configuredServices[0])
     }
-  }, [configuredServices])
+  }, [configuredServices, !serviceSelected])
 
   function handleChangeTemplateEnvVars (event) {
     return handleChangeTemplateForm(event, serviceSelected.template, serviceSelected.name)

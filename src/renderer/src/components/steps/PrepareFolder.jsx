@@ -108,7 +108,7 @@ const PrepareFolder = React.forwardRef(({ onNext }, ref) => {
           onClick={() => onClickCopyLogs()}
           color={WHITE}
           backgroundColor={RICH_BLACK}
-          classes={`${commonStyles.buttonPadding} cy-action-next`}
+          classes={`${commonStyles.buttonPadding} cy-action-donwload-logs`}
         />
         {folderPreparedError
           ? <Button

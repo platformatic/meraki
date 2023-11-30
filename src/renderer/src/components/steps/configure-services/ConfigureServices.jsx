@@ -19,6 +19,7 @@ const ConfigureServices = React.forwardRef(({ onNext }, ref) => {
 
   useEffect(() => {
     if (services.length > 0) {
+      const tmpServices = []
       let tmpTemplateForms = {}
       let tmpTemplateValidations = {}
       let tmpTemplateValidForm = {}
@@ -60,8 +61,9 @@ const ConfigureServices = React.forwardRef(({ onNext }, ref) => {
         tmpObj.validForm = tmpTemplateValidForm
         tmpObj.updatedAt = new Date().toISOString()
         tmpObj.plugins = []
+        tmpServices.push(tmpObj)
       })
-      setConfiguredServices([...configuredServices, tmpObj])
+      setConfiguredServices(tmpServices)
     }
   }, [services])
 
