@@ -9,5 +9,8 @@ export const getApiPlugins = async () => {
 export const callPrepareFolder = async (path, templates) => {
   return await window.api.prepareFolder(path, templates)
 }
+export const callCreateApp = async (path, project) => {
+  return await window.api.createApp(path, project)
+}
 
 export const logInfo = callback => window.api.onLog(callback)

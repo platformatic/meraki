@@ -59,7 +59,7 @@ test('Create app with no entrypoint should fail', async () => {
   }
 }, 20000)
 
-test.only('Create app', async (t) => {
+test('Create app', async (t) => {
   const appDir = await mkdtemp(join(tmpdir(), 'plat-app-test-create'))
   console.log(appDir)
 
