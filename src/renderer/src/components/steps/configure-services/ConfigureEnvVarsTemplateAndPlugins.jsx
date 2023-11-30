@@ -54,7 +54,6 @@ function ConfigureEnvVarsTemplateAndPlugins ({
     setPluginSelected(plugin)
   }
 
-
   return (
     <div className={`${commonStyles.mediumFlexRow} ${commonStyles.itemsStart} ${styles.scrollableSection}`}>
       <TemplateAndPluginTreeSelector
