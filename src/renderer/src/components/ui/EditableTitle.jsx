@@ -85,7 +85,7 @@ function EditableTitle ({ title, iconName, onClickSubmit, dataAttrName, dataAttr
                   disabled={!validForm}
                   type='submit'
                   classes={commonStyles.buttonPadding}
-                  label='Salve'
+                  label='Save'
                   onClick={() => handleSubmit}
                   color={RICH_BLACK}
                   bordered={false}
