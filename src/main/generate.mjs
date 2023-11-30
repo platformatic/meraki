@@ -98,7 +98,8 @@ export const createApp = async (projectDir, { projectName, services, entrypoint,
     const template = await importOrLocal({
       pkgManager,
       projectDir,
-      pkg: templateName
+      pkg: templateName,
+      logger
     })
 
     if (!template) {
