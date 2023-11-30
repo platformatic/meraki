@@ -12,7 +12,6 @@ function TemplateEnvVarsForm ({
   templateName,
   serviceName
 }) {
-  console.log('TemplateEnvVarsForm configuredServices', configuredServices)
   const configuredServiceFound = configuredServices.find(configuredService => configuredService.template === templateName && configuredService.name === serviceName)
 
   function renderForm () {
