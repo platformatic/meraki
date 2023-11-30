@@ -1,82 +1,61 @@
 'use strict'
 import React, { useEffect, useState } from 'react'
 import PropTypes from 'prop-types'
-import { BorderedBox, Button, Icons } from '@platformatic/ui-components'
+import { BorderedBox, Button } from '@platformatic/ui-components'
 import commonStyles from '~/styles/CommonStyles.module.css'
 import typographyStyles from '~/styles/Typography.module.css'
 import styles from './GeneratingApplication.module.css'
-import { WHITE, TRANSPARENT, RICH_BLACK, OPACITY_30, OPACITY_100, SMALL } from '@platformatic/ui-components/src/components/constants'
+import { WHITE, TRANSPARENT, RICH_BLACK, OPACITY_30 } from '@platformatic/ui-components/src/components/constants'
 import useStackablesStore from '~/useStackablesStore'
 import Title from '~/components/ui/Title'
 import { callCreateApp, logInfo, quitApp } from '~/api'
 
-/* function dateDifferences(millisStartDate, millisEndDate) {
-  const s = new Date(millisStartDate);
-  const e = new Date(millisEndDate);
-  const diffTime = Math.abs(e - s);
-  const diffSeconds = String(Math.ceil(diffTime / 1000 )).padStart(2, '0')
-
-  return `${diffSeconds}s`
-} */
-
-// eslint-disable-next-line no-unused-vars
-function Step ({ label, index, currentStep }) {
-  const [active, setActive] = useState(false)
-  const [classNameLabel, setClassNameLabel] = useState(`${typographyStyles.desktopBody} ${typographyStyles.textWhite} ${typographyStyles.opacity70}`)
-  useEffect(() => {
-    if (currentStep === index) {
-      setActive(true)
-      setClassNameLabel(`${typographyStyles.desktopBody} ${typographyStyles.textWhite}`)
-    }
-  }, [currentStep])
-
-  return (
-    <BorderedBox
-      color={WHITE}
-      backgroundColor={TRANSPARENT}
-      borderColorOpacity={active ? OPACITY_100 : OPACITY_30}
-      classes={`${commonStyles.mediumFlexRow} ${commonStyles.justifyBetween} ${styles.paddingStep}`}
-      key={index}
-    >
-      <span className={classNameLabel}>{label}</span>
-      {active ? <Icons.RunningIcon color={WHITE} size={SMALL} /> : <Icons.CircleCheckMarkIcon checked={false} color={WHITE} size={SMALL} disabled />}
-    </BorderedBox>
-  )
-}
-
 const GeneratingApplication = React.forwardRef(({ onClickComplete }, ref) => {
   const globalState = useStackablesStore()
   const { formData } = globalState
-  const [steps, setSteps] = useState([])
-  const [currentStep, setCurrentStep] = useState()
+  const [appGenerated, setAppGenerated] = useState(false)
+  const [appGeneratedError, setAppGeneratedError] = useState(false)
+  // const [appGeneratedSuccess, setAppGeneratedSuccess] = useState(false)
+  const [npmLogs, setNpmLogs] = useState([])
+  const [logValue, setLogValue] = useState(null)
 
   useEffect(() => {
-    if (formData.configuredServices.services) {
-      const tmpStep = []
-      formData.configuredServices.services.forEach(service => {
-        tmpStep.push({
-          label: `Generating ${service.name}`,
-          index: `${service.name}-${service.template}`
-        })
-      })
-      tmpStep.push({ label: 'App Created!', index: 'app-created' })
-      setSteps([...tmpStep])
-    }
-  }, [formData.configuredServices.services])
-
-  useEffect(() => {
-    logInfo((_, value) => setCurrentStep(value))
+    logInfo((_, value) => setLogValue(value))
     async function generateApplication () {
       try {
         const obj = { projectName: formData.createApplication.application, services: formData.configuredServices.services, ...formData.configureApplication }
         const response = await callCreateApp(formData.createApplication.path, obj)
         console.log('response', response)
+        // setAppGeneratedSuccess(true)
       } catch (error) {
         console.error(`Error on generateApplication ${error}`)
+        setAppGeneratedError(true)
+      } finally {
+        setAppGenerated(true)
       }
     }
     generateApplication()
-  }, [steps.length > 0])
+  }, [])
+
+  useEffect(() => {
+    if (logValue) {
+      const str = [new Date().toISOString(), logValue.level.toUpperCase(), logValue.message]
+      setNpmLogs([...npmLogs, { level: logValue.level, message: str.join(' - ') }])
+    }
+  }, [logValue])
+
+  function renderLog (log, index) {
+    let className = `${typographyStyles.desktopOtherCliTerminalSmall} `
+    className += log.level === 'info' ? `${typographyStyles.textWhite}` : `${typographyStyles.textErrorRed}`
+    return <p key={index} className={className}>{log.message}</p>
+  }
+
+  function onClickCopyLogs () {
+    let str = ''
+    npmLogs.forEach(log => (str += `${log.message}\r\n`))
+    navigator.clipboard.writeText(str)
+  }
+
   return (
     <div className={`${commonStyles.largeFlexBlock} ${commonStyles.fullWidth}`} ref={ref}>
       <div className={commonStyles.mediumFlexBlock}>
@@ -90,14 +69,24 @@ const GeneratingApplication = React.forwardRef(({ onClickComplete }, ref) => {
           We are generating your app. Once all the steps are done you will be able to complete and use your new application.
         </p>
       </div>
-      <div className={`${styles.content} ${commonStyles.halfWidth}`}>
-        <div className={`${commonStyles.smallFlexBlock} ${commonStyles.fullWidth}`}>
-          {steps.map(step => <Step {...step} key={step.index} currentStep={currentStep} />)}
+      <BorderedBox classes={`${commonStyles.fullWidth} ${styles.content}`} backgroundColor={TRANSPARENT} borderColorOpacity={OPACITY_30} color={WHITE}>
+        <div className={`${commonStyles.flexBlockNoGap} `}>
+          {npmLogs.map((log, index) => renderLog(log, index))}
         </div>
-      </div>
+      </BorderedBox>
       <div className={`${styles.buttonContainer} ${commonStyles.fullWidth}`}>
         <Button
-          label='Complete'
+          disabled={!appGenerated}
+          label='Copy Logs'
+          onClick={() => onClickCopyLogs()}
+          color={WHITE}
+          backgroundColor={RICH_BLACK}
+          classes={`${commonStyles.buttonPadding} cy-action-donwload-logs`}
+        />
+
+        <Button
+          disabled={!appGenerated}
+          label={appGeneratedError ? 'Close' : 'Complete'}
           onClick={() => onClickComplete()}
           color={RICH_BLACK}
           bordered={false}

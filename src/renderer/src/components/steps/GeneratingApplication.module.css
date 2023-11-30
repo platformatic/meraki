@@ -3,8 +3,9 @@
   max-height: calc(100vH - 27rem);
 }
 .buttonContainer {
-  @apply flex justify-end;
+  @apply flex justify-between;
 }
+
 .paddingStep {
   @apply p-4
 }

@@ -9,7 +9,7 @@ import { BorderedBox, Button } from '@platformatic/ui-components'
 import useStackablesStore from '~/useStackablesStore'
 import EditableTitle from '~/components/ui/EditableTitle'
 import '~/components/component.animation.css'
-import { callPrepareFolder, logInfo } from '~/api'
+import { callPrepareFolder, logInfo, quitApp } from '~/api'
 
 const PrepareFolder = React.forwardRef(({ onNext }, ref) => {
   const globalState = useStackablesStore()
@@ -72,8 +72,7 @@ const PrepareFolder = React.forwardRef(({ onNext }, ref) => {
   }
 
   function onClickCloseApp () {
-    // TODO: implement it
-    console.log('onClickCloseApp')
+    quitApp()
   }
 
   function onClickCopyLogs () {
