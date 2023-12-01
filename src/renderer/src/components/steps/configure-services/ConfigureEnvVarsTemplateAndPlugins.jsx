@@ -11,7 +11,8 @@ import '~/components/component.animation.css'
 
 function ConfigureEnvVarsTemplateAndPlugins ({
   configuredServices,
-  handleChangeTemplateForm
+  handleChangeTemplateForm,
+  handleChangePluginForm
 }) {
   const [serviceSelected, setServiceSelected] = useState(null)
   const [pluginSelected, setPluginSelected] = useState(null)
@@ -27,10 +28,22 @@ function ConfigureEnvVarsTemplateAndPlugins ({
     return handleChangeTemplateForm(event, serviceSelected.template, serviceSelected.name)
   }
 
+  function handleChangePluginEnvVars (event) {
+    return handleChangePluginForm(event, serviceSelected.template, serviceSelected.name, pluginSelected.name)
+  }
+
   useEffect(() => {
     if (serviceSelected) {
       if (pluginSelected) {
-        setCurrentComponent(<PluginEnvVarsForm service={{ ...serviceSelected }} plugin={{ ...pluginSelected }} key={pluginSelected.name} />)
+        setCurrentComponent(
+          <PluginEnvVarsForm
+            key={`${serviceSelected.name}-${serviceSelected.template}-${serviceSelected.updatedAt}-${pluginSelected.name}`}
+            service={{ ...serviceSelected }}
+            plugin={{ ...pluginSelected }}
+            serviceName={serviceSelected.name}
+            templateName={serviceSelected.template}
+            onChange={handleChangePluginEnvVars}
+          />)
       } else {
         setCurrentComponent(
           <TemplateEnvVarsForm
@@ -84,13 +97,18 @@ ConfigureEnvVarsTemplateAndPlugins.propTypes = {
   /**
    * handleChangeTemplateForm
   */
-  handleChangeTemplateForm: PropTypes.func
+  handleChangeTemplateForm: PropTypes.func,
+  /**
+   * handleChangeTemplateForm
+  */
+  handleChangePluginForm: PropTypes.func
 
 }
 
 ConfigureEnvVarsTemplateAndPlugins.defaultProps = {
   configuredServices: [],
-  handleChangeTemplateForm: () => {}
+  handleChangeTemplateForm: () => {},
+  handleChangePluginForm: () => {}
 }
 
 export default ConfigureEnvVarsTemplateAndPlugins

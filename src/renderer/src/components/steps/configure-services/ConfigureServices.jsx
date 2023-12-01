@@ -10,6 +10,7 @@ import useStackablesStore from '~/useStackablesStore'
 import Title from '~/components/ui/Title'
 import '~/components/component.animation.css'
 import ConfigureEnvVarsTemplateAndPlugins from './ConfigureEnvVarsTemplateAndPlugins'
+import { generateForm } from '../../../utils'
 
 const ConfigureServices = React.forwardRef(({ onNext, onBack }, ref) => {
   const globalState = useStackablesStore()
@@ -19,51 +20,7 @@ const ConfigureServices = React.forwardRef(({ onNext, onBack }, ref) => {
 
   useEffect(() => {
     if (services.length > 0) {
-      const tmpServices = []
-      let tmpTemplateForms = {}
-      let tmpTemplateValidations = {}
-      let tmpTemplateValidForm = {}
-      let tmpObj = {}
-      services.forEach(service => {
-        tmpTemplateForms = {}
-        tmpTemplateValidations = {}
-        tmpTemplateValidForm = {}
-        tmpObj = {}
-
-        tmpObj.name = service.name
-        tmpObj.template = service.template.name
-        let form
-        let validations
-        let formErrors
-
-        if (service.template.envVars.length > 0) {
-          form = {}
-          validations = {}
-          formErrors = {}
-          service.template.envVars.forEach(envVar => {
-            const { var: envName, configValue, type, default: envDefault, label } = envVar
-            form[envName] = {
-              label,
-              var: envName,
-              value: envDefault || '',
-              configValue,
-              type
-            }
-            validations[`${envName}Valid`] = envDefault !== ''
-            formErrors[envName] = ''
-          })
-          tmpTemplateForms = { ...form }
-          tmpTemplateValidations = { ...validations, formErrors }
-          tmpTemplateValidForm = Object.keys(validations).findIndex(element => validations[element] === false) === -1
-        }
-        tmpObj.form = { ...tmpTemplateForms }
-        tmpObj.validations = { ...tmpTemplateValidations }
-        tmpObj.validForm = tmpTemplateValidForm
-        tmpObj.updatedAt = new Date().toISOString()
-        tmpObj.plugins = []
-        tmpServices.push(tmpObj)
-      })
-      setConfiguredServices(tmpServices)
+      setConfiguredServices(generateForm(services))
     }
   }, [services])
 
