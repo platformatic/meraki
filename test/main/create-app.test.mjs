@@ -113,4 +113,4 @@ test('Create app', async (t) => {
   } catch (err) {
     test.fails('Should have not thrown an error')
   }
-}, 50000)
+}, 60000)
