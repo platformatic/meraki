@@ -2,6 +2,7 @@ import { stat } from 'node:fs/promises'
 import { getPkgManager } from './lib/get-package-manager.mjs'
 import { importOrLocal } from './lib/import-or-local.mjs'
 import errors from './errors.mjs'
+import split from 'split2'
 
 export const prepareFolder = async (path, tempNames, logger) => {
   const s = await stat(path)
@@ -136,7 +137,16 @@ export const createApp = async (projectDir, { projectName, services, entrypoint,
   await generator.prepare()
   await generator.writeFiles()
 
-  await execa(pkgManager, ['install'], { cwd: projectDir })
+  const child = execa(pkgManager, ['install'], { cwd: projectDir })
+
+  child.stdout.pipe(split()).on('data', (line) => {
+    logger.info(line)
+  })
+
+  child.stderr.pipe(split()).on('data', (line) => {
+    logger.error(line)
+  })
+  await child
 
   logger.info('App created!')
 }
