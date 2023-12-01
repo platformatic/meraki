@@ -64,7 +64,7 @@ test('return service on form without plugin', async () => {
       PORT: {
         configValue: 'port',
         label: 'Which port do you want to use?',
-        value: 3042,
+        value: '3042',
         var: 'PORT'
       }
     },
@@ -177,7 +177,7 @@ test('return service on form with a single plugin', async () => {
       PORT: {
         configValue: 'port',
         label: 'Which port do you want to use?',
-        value: 3042,
+        value: '3042',
         var: 'PORT'
       }
     },

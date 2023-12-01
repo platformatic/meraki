@@ -23,14 +23,15 @@ export const generateForm = (services, addUpdatedAt = true) => {
       formErrors = {}
       service.template.envVars.forEach(envVar => {
         const { var: envName, configValue, type, default: envDefault, label } = envVar
+        const value = envDefault || ''
         form[envName] = {
           label,
           var: envName,
-          value: envDefault || '',
+          value: String(value),
           configValue,
           type
         }
-        validations[`${envName}Valid`] = envDefault !== ''
+        validations[`${envName}Valid`] = value !== ''
         formErrors[envName] = ''
       })
       tmpTemplateForms = { ...form }
@@ -48,8 +49,10 @@ export const generateForm = (services, addUpdatedAt = true) => {
     let pluginForm
     let pluginValidations
     let pluginFormErrors
+    let tmpPluginObj
 
     (service?.plugins || []).forEach(plugin => {
+      tmpPluginObj = {}
       pluginForm = {}
       pluginValidations = {}
       pluginFormErrors = {}
@@ -67,12 +70,16 @@ export const generateForm = (services, addUpdatedAt = true) => {
           pluginFormErrors[envName] = ''
         })
       }
-      tmpObj.plugins.push({
+      tmpPluginObj = {
         name: plugin.name,
         form: { ...pluginForm },
         validations: { ...pluginValidations, formErrors: { ...pluginFormErrors } },
         validForm: Object.keys(pluginValidations).findIndex(element => pluginValidations[element] === false) === -1
-      })
+      }
+      if (addUpdatedAt) {
+        tmpPluginObj.updatedAt = new Date().toISOString()
+      }
+      tmpObj.plugins.push(tmpPluginObj)
     })
     tmpServices.push(tmpObj)
   })

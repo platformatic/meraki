@@ -37,7 +37,7 @@ function ConfigureEnvVarsTemplateAndPlugins ({
       if (pluginSelected) {
         setCurrentComponent(
           <PluginEnvVarsForm
-            key={`${serviceSelected.name}-${serviceSelected.template}-${serviceSelected.updatedAt}-${pluginSelected.name}`}
+            key={`${serviceSelected.name}-${serviceSelected.template}-${serviceSelected.updatedAt}-${pluginSelected.name}-${pluginSelected.updatedAt}`}
             configuredServices={configuredServices}
             serviceName={serviceSelected.name}
             templateName={serviceSelected.template}

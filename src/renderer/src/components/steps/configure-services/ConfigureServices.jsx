@@ -49,32 +49,68 @@ const ConfigureServices = React.forwardRef(({ onNext, onBack }, ref) => {
     const fieldName = event.target.name
     const fieldValue = event.target.value
     const { form: newForm, validations: newValidations } = configuredServices.find(configuredService => configuredService.name === serviceName && configuredService.template === templateName)
-
+    let tmpValid
     newForm[fieldName].value = fieldValue
-
-    let tmpValid = newValidations[`${fieldName}Valid`]
-    const formErrors = { ...newValidations.formErrors }
     switch (fieldName) {
       default:
         tmpValid = fieldValue.length > 0 && /^\S+$/g.test(fieldValue)
-        formErrors[fieldName] = fieldValue.length > 0 ? (tmpValid ? '' : 'The field is not valid, make sure you are using regular characters') : ''
+        newValidations[`${fieldName}Valid`] = tmpValid
+        newValidations.formErrors[fieldName] = tmpValid ? '' : 'The field is not valid, make sure you are using regular characters'
         break
     }
-    const nextValidation = { ...newValidations, formErrors }
-    nextValidation[`${fieldName}Valid`] = tmpValid
-
-    const newFormValid = Object.keys(nextValidation).findIndex(element => nextValidation[element] === false) === -1
-
     setConfiguredServices(configuredServices => {
       return [...configuredServices.map(configuredService => {
         if (configuredService.name === serviceName && configuredService.template === templateName) {
           const { form, validations, validForm, ...rest } = configuredService
           const newObject = {
+            ...rest,
             form: newForm,
             updatedAt: new Date().toISOString(),
-            validations: nextValidation,
-            validForm: newFormValid,
-            ...rest
+            validations: newValidations,
+            validForm: Object.keys(newValidations).findIndex(element => newValidations[element] === false) === -1
+          }
+          return newObject
+        } else {
+          return configuredService
+        }
+      })]
+    })
+  }
+
+  function handleChangePluginForm (event, templateName, serviceName, pluginName) {
+    const fieldName = event.target.name
+    const fieldValue = event.target.value
+    const configuredServiceFound = configuredServices.find(configuredService => configuredService.name === serviceName && configuredService.template === templateName)
+    const { form: newForm, validations: newValidations } = configuredServiceFound.plugins.find(plugin => plugin.name === pluginName)
+
+    newForm[fieldName].value = fieldValue
+
+    const tmpValid = fieldValue.length > 0 && /^\S+$/g.test(fieldValue)
+    newValidations[`${fieldName}Valid`] = tmpValid
+    newValidations.formErrors[fieldName] = tmpValid ? '' : 'The field is not valid, make sure you are using regular characters'
+
+    const newFormValid = Object.keys(newValidations).findIndex(element => newValidations[element] === false) === -1
+
+    setConfiguredServices(configuredServices => {
+      return [...configuredServices.map(configuredService => {
+        if (configuredService.name === serviceName && configuredService.template === templateName) {
+          const { plugins, ...rest } = configuredService
+          const newPlugins = plugins.map(plugin => {
+            if (plugin.name === pluginName) {
+              return {
+                name: pluginName,
+                form: newForm,
+                updatedAt: new Date().toISOString(),
+                validations: newValidations,
+                validForm: newFormValid
+              }
+            } else {
+              return plugin
+            }
+          })
+          const newObject = {
+            ...rest,
+            plugins: newPlugins
           }
           return newObject
         } else {
@@ -100,6 +136,7 @@ const ConfigureServices = React.forwardRef(({ onNext, onBack }, ref) => {
           <ConfigureEnvVarsTemplateAndPlugins
             configuredServices={configuredServices}
             handleChangeTemplateForm={handleChangeTemplateForm}
+            handleChangePluginForm={handleChangePluginForm}
           />
         </div>
       </div>
