@@ -1,10 +1,11 @@
 .content {
-  min-height: calc(100vH - 27rem);
-  max-height: calc(100vH - 27rem);
+  min-height: calc(100vH - 35rem);
+  max-height: calc(100vH - 35rem);
 }
 .buttonContainer {
-  @apply flex justify-end;
+  @apply flex justify-between;
 }
+
 .paddingStep {
   @apply p-4
 }

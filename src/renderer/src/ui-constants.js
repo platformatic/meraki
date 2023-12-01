@@ -24,3 +24,8 @@ export const MAX_MUMBER_SELECT = 12
 
 export const TYPESCRIPT = 'typescript'
 export const JAVASCRIPT = 'javascript'
+
+export const RUNNING = 'RUNNING'
+export const NONE = 'NONE'
+export const SUCCESS = 'SUCCESS'
+export const ERROR = 'ERROR'
