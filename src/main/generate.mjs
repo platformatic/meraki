@@ -1,15 +1,18 @@
-import { stat } from 'node:fs/promises'
+import { stat, mkdir } from 'node:fs/promises'
+import { join, resolve } from 'node:path'
 import { getPkgManager } from './lib/get-package-manager.mjs'
 import { importOrLocal } from './lib/import-or-local.mjs'
 import errors from './errors.mjs'
 import split from 'split2'
 
-export const prepareFolder = async (path, tempNames, logger) => {
+export const prepareFolder = async (path, tempNames, logger, appName = 'appName') => {
   const s = await stat(path)
   if (!s.isDirectory()) {
     logger.error({ path }, `Path ${path} is not a directory`)
     throw new Error(`Path ${path} is not a directory`)
   }
+  const newFolder = join(resolve(path), appName)
+  await mkdir(newFolder)
 
   const pkgManager = await getPkgManager()
   const templateVariables = {}
@@ -17,7 +20,7 @@ export const prepareFolder = async (path, tempNames, logger) => {
     for (const name of tempNames) {
       const template = await importOrLocal({
         pkgManager,
-        projectDir: path,
+        projectDir: newFolder,
         pkg: name,
         logger
       })
@@ -49,8 +52,9 @@ export const prepareFolder = async (path, tempNames, logger) => {
 //     }
 //   ]
 // ]
-export const createApp = async (projectDir, { projectName, services, entrypoint, port, logLevel, typescript, createGitHubRepository, installGitHubAction }, logger) => {
+export const createApp = async (dir, { projectName, services, entrypoint, port, logLevel, typescript, createGitHubRepository, installGitHubAction }, logger) => {
   const { execa } = await import('execa')
+  const projectDir = join(dir, projectName)
 
   if (!services || services.length === 0) {
     logger.error('No services to create')

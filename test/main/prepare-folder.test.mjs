@@ -25,13 +25,13 @@ beforeEach(() => {
 
 test('Installs no templates or plugins', async () => {
   const appDir = await mkdtemp(join(tmpdir(), 'plat-app-test-create'))
-  await prepareFolder(appDir, [], [], logger)
+  await prepareFolder(appDir, [], logger, 'test-app')
   expect(logger.errors.length).toBe(0)
 })
 
 test('Install in non-existent folder', async () => {
   try {
-    await prepareFolder('testnonexitent', [], logger)
+    await prepareFolder('testnonexitent', [], logger, 'test-app')
     throw new Error('Should have thrown an error')
   } catch (err) {
     expect(err).toBeInstanceOf(Error)
@@ -53,7 +53,7 @@ test('Install a non-existent template', async () => {
 
 test('Install one @platformatic/service template', async () => {
   const appDir = await mkdtemp(join(tmpdir(), 'plat-app-test-create'))
-  await prepareFolder(appDir, ['@platformatic/service'], logger)
+  await prepareFolder(appDir, ['@platformatic/service'], logger, 'test-app')
   expect(logger.infos[0][0].name).toEqual('@platformatic/service')
   expect(logger.errors.length).toBe(0)
 }, 30000)
