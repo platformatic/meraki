@@ -194,6 +194,7 @@ const ComposeApplication = React.forwardRef(({ onNext, onBack }, ref) => {
       </div>
       <div className={`${styles.buttonContainer} ${commonStyles.fullWidth}`}>
         <Button
+          type='button'
           label='Back'
           onClick={() => onBack()}
           color={WHITE}

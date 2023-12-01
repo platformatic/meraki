@@ -7,15 +7,15 @@ import typographyStyles from '~/styles/Typography.module.css'
 import { WHITE, RICH_BLACK, TRANSPARENT, OPACITY_30 } from '@platformatic/ui-components/src/components/constants'
 import { BorderedBox, Button } from '@platformatic/ui-components'
 import useStackablesStore from '~/useStackablesStore'
-import EditableTitle from '~/components/ui/EditableTitle'
 import CountDown from '~/components/ui/CountDown'
 import '~/components/component.animation.css'
 import { callPrepareFolder, logInfo, quitApp } from '~/api'
 import { NONE, RUNNING, SUCCESS, ERROR } from '~/ui-constants'
+import Title from '~/components/ui/Title'
 
 const PrepareFolder = React.forwardRef(({ onNext, onBack }, ref) => {
   const globalState = useStackablesStore()
-  const { formData, addFormData, services, setTemplate } = globalState
+  const { formData, services, setTemplate } = globalState
   const [countDownStatus, setCountDownStatus] = useState(NONE)
   const [folderPrepared, setFolderPrepared] = useState(false)
   const [folderPreparedError, setFolderPreparedError] = useState(false)
@@ -24,10 +24,9 @@ const PrepareFolder = React.forwardRef(({ onNext, onBack }, ref) => {
   const [logValue, setLogValue] = useState(null)
 
   useEffect(() => {
-    const templateNames = services.map((service) => service.template.name)
-    logInfo((_, value) => setLogValue(value))
     async function prepareFolder () {
       try {
+        const templateNames = services.map((service) => service.template.name)
         setCountDownStatus(RUNNING)
         const response = await callPrepareFolder(formData.createApplication.path, templateNames, formData.createApplication.application)
         let tmpTemplate
@@ -47,6 +46,7 @@ const PrepareFolder = React.forwardRef(({ onNext, onBack }, ref) => {
         setFolderPrepared(true)
       }
     }
+    logInfo((_, value) => setLogValue(value))
     prepareFolder()
   }, [])
 
@@ -59,16 +59,6 @@ const PrepareFolder = React.forwardRef(({ onNext, onBack }, ref) => {
 
   function onClickConfigureServices () {
     onNext()
-  }
-
-  function handleEditApplicationName (newName) {
-    addFormData({
-      createApplication: {
-        application: newName,
-        service: formData.createApplication.service,
-        path: formData.createApplication.path
-      }
-    })
   }
 
   function renderLog (log, index) {
@@ -91,10 +81,9 @@ const PrepareFolder = React.forwardRef(({ onNext, onBack }, ref) => {
     <div className={styles.container} ref={ref}>
       <div className={commonStyles.largeFlexBlock}>
         <div className={`${commonStyles.mediumFlexBlock} ${commonStyles.halfWidth}`}>
-          <EditableTitle
+          <Title
             title={formData.createApplication.application}
             iconName='AppIcon'
-            onClickSubmit={(name) => handleEditApplicationName(name)}
             dataAttrName='cy'
             dataAttrValue='step-title'
           />

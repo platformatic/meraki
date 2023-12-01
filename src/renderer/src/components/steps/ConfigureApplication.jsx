@@ -4,15 +4,15 @@ import PropTypes from 'prop-types'
 import styles from './ConfigureApplication.module.css'
 import commonStyles from '~/styles/CommonStyles.module.css'
 import typographyStyles from '~/styles/Typography.module.css'
-import { WHITE, RICH_BLACK, TRANSPARENT, OPACITY_30 } from '@platformatic/ui-components/src/components/constants'
-import { BorderedBox, Button, VerticalSeparator } from '@platformatic/ui-components'
+import { WHITE, RICH_BLACK, TRANSPARENT/* , OPACITY_30 */ } from '@platformatic/ui-components/src/components/constants'
+import { Button/* , BorderedBox, VerticalSeparator */ } from '@platformatic/ui-components'
 import useStackablesStore from '~/useStackablesStore'
-import EditableTitle from '~/components/ui/EditableTitle'
+import Title from '~/components/ui/Title'
 import '~/components/component.animation.css'
 import Forms from '@platformatic/ui-components/src/components/forms'
 import { TYPESCRIPT, JAVASCRIPT } from '~/ui-constants'
 
-const ConfigureApplication = React.forwardRef(({ onNext }, ref) => {
+const ConfigureApplication = React.forwardRef(({ onNext, onBack }, ref) => {
   const globalState = useStackablesStore()
   const { formData, services, addFormData } = globalState
   const logLevels = ['trace', 'info', 'debug', 'warn', 'error']
@@ -40,16 +40,6 @@ const ConfigureApplication = React.forwardRef(({ onNext }, ref) => {
       }
     })
     onNext()
-  }
-
-  function handleEditApplicationName (newName) {
-    addFormData({
-      createApplication: {
-        application: newName,
-        service: formData.createApplication.service,
-        path: formData.createApplication.path
-      }
-    })
   }
 
   function handleChange (event) {
@@ -85,12 +75,11 @@ const ConfigureApplication = React.forwardRef(({ onNext }, ref) => {
 
   return (
     <div className={styles.container} ref={ref}>
-      <div className={commonStyles.largeFlexBlock}>
+      <div className={`${commonStyles.largeFlexBlock} ${commonStyles.fullWidth}`}>
         <div className={`${commonStyles.mediumFlexBlock} ${commonStyles.halfWidth}`}>
-          <EditableTitle
+          <Title
             title={formData.createApplication.application}
             iconName='AppIcon'
-            onClickSubmit={(name) => handleEditApplicationName(name)}
             dataAttrName='cy'
             dataAttrValue='step-title'
           />
@@ -184,7 +173,22 @@ const ConfigureApplication = React.forwardRef(({ onNext }, ref) => {
             </div>
           </Forms.Field>
 
-          <BorderedBox color={WHITE} borderColorOpacity={30} backgroundColor={TRANSPARENT} classes={`${commonStyles.largeFlexRow}`}>
+          <Forms.Field
+            title='Create Git Repository'
+            helper='Create a Git Repository for you Application'
+            titleClassName={`${typographyStyles.desktopBodySemibold} ${typographyStyles.textWhite} `}
+            helperClassName={`${typographyStyles.desktopBodySmall} ${typographyStyles.textWhite} ${typographyStyles.opacity70}`}
+          >
+            <Forms.ToggleSwitch
+              label='Toggle on will create a GitHub repository'
+              labelClassName={`${typographyStyles.desktopBodySmall} ${typographyStyles.textWhite} ${typographyStyles.opacity70}`}
+              name='createGitHubRepository'
+              onChange={handleChange}
+              checked={form.createGitHubRepository}
+            />
+          </Forms.Field>
+
+          {/* <BorderedBox color={WHITE} borderColorOpacity={30} backgroundColor={TRANSPARENT} classes={`${commonStyles.largeFlexRow}`}>
 
             <Forms.Field
               title='Create Git Repository'
@@ -217,10 +221,18 @@ const ConfigureApplication = React.forwardRef(({ onNext }, ref) => {
                 checked={form.installGitHubActions}
               />
             </Forms.Field>
-          </BorderedBox>
+          </BorderedBox> */}
         </div>
       </div>
       <div className={`${styles.buttonContainer} ${commonStyles.fullWidth}`}>
+        <Button
+          type='button'
+          label='Back'
+          onClick={() => onBack()}
+          color={WHITE}
+          backgroundColor={TRANSPARENT}
+          classes={`${commonStyles.buttonPadding} cy-action-back`}
+        />
         <Button
           type='button'
           disabled={!validForm}
@@ -240,11 +252,16 @@ ConfigureApplication.propTypes = {
   /**
      * onNext
      */
-  onNext: PropTypes.func
+  onNext: PropTypes.func,
+  /**
+     * onBack
+     */
+  onBack: PropTypes.func
 }
 
 ConfigureApplication.defaultProps = {
-  onNext: () => {}
+  onNext: () => {},
+  onBack: () => {}
 }
 
 export default ConfigureApplication

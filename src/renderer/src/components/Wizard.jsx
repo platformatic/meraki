@@ -43,7 +43,7 @@ function Wizard () {
     <ConfigureServices
       ref={useRef(null)}
       key={STEP_CONFIGURE_SERVICES}
-      onBack={() => previousStep(STEP_PREPARE_FOLDER)}
+      onBack={() => previousStep(STEP_ADD_TEMPLATE_AND_PLUGINS)}
       onNext={() => nextStep(STEP_CONFIGURE_APPLICATION)}
     />,
     <ConfigureApplication
