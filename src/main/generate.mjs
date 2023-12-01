@@ -28,6 +28,9 @@ export const prepareFolder = async (path, tempNames, logger, appName = 'appName'
       // Get the template variables and return them here, if the template has a generator
       if (template.Generator && typeof template.Generator === 'function') {
         const gen = new template.Generator()
+        gen.setConfig({
+          isRuntimeContext: true
+        })
         templateVariables[name] = gen.getConfigFieldsDefinitions()
       }
     }
