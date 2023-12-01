@@ -85,3 +85,20 @@ export const generateForm = (services, addUpdatedAt = true) => {
   })
   return tmpServices
 }
+
+export const preapareFormForCreateApplication = configuredServices =>
+  configuredServices.map(({ name, template, form, plugins }) => ({
+    name,
+    template,
+    fields: Object.keys(form).map(k => {
+      const { label, ...rest } = form[k]
+      return { ...rest }
+    }),
+    plugins: plugins.map(plugin => ({
+      name: plugin.name,
+      options: Object.keys(plugin.form).map(k => {
+        const { type, path, value } = plugin.form[k]
+        return { type, path, value }
+      })
+    }))
+  }))

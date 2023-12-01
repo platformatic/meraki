@@ -1,6 +1,120 @@
 import { test, expect } from 'vitest'
-import { generateForm } from '../../src/renderer/src/utils'
+import { generateForm, preapareFormForCreateApplication } from '../../src/renderer/src/utils'
 
+const expectedA = [{
+  name: 'test-1',
+  template: '@platformatic/service',
+  form: {
+    PLT_SERVER_HOSTNAME: {
+      configValue: 'hostname',
+      label: 'What is the hostname?',
+      type: 'string',
+      value: '0.0.0.0',
+      var: 'PLT_SERVER_HOSTNAME'
+    },
+    PLT_SERVER_LOGGER_LEVEL: {
+      configValue: '',
+      label: 'What is the logger level?',
+      type: 'string',
+      value: 'info',
+      var: 'PLT_SERVER_LOGGER_LEVEL'
+    },
+    PORT: {
+      configValue: 'port',
+      label: 'Which port do you want to use?',
+      value: '3042',
+      var: 'PORT'
+    }
+  },
+  validForm: true,
+  validations: {
+    PLT_SERVER_HOSTNAMEValid: true,
+    PLT_SERVER_LOGGER_LEVELValid: true,
+    PORTValid: true,
+    formErrors: {
+      PLT_SERVER_HOSTNAME: '',
+      PLT_SERVER_LOGGER_LEVEL: '',
+      PORT: ''
+    }
+  },
+  plugins: []
+}]
+
+const expectedB = [{
+  name: 'lunasa-1',
+  template: '@platformatic/service',
+  form: {
+    PLT_SERVER_HOSTNAME: {
+      configValue: 'hostname',
+      label: 'What is the hostname?',
+      type: 'string',
+      value: '0.0.0.0',
+      var: 'PLT_SERVER_HOSTNAME'
+    },
+    PLT_SERVER_LOGGER_LEVEL: {
+      configValue: '',
+      label: 'What is the logger level?',
+      type: 'string',
+      value: 'info',
+      var: 'PLT_SERVER_LOGGER_LEVEL'
+    },
+    PORT: {
+      configValue: 'port',
+      label: 'Which port do you want to use?',
+      value: '3042',
+      var: 'PORT'
+    }
+  },
+  validForm: true,
+  validations: {
+    PLT_SERVER_HOSTNAMEValid: true,
+    PLT_SERVER_LOGGER_LEVELValid: true,
+    PORTValid: true,
+    formErrors: {
+      PLT_SERVER_HOSTNAME: '',
+      PLT_SERVER_LOGGER_LEVEL: '',
+      PORT: ''
+    }
+  },
+  plugins: [{
+    name: '@fastify/accepts',
+    form: {
+      PLT_COOKIE_SECRET: {
+        value: '',
+        path: 'secret',
+        type: 'string'
+      },
+      PLT_COOKIE_HOOK: {
+        value: '',
+        path: 'hook',
+        type: 'string'
+      },
+      PLT_COOKIE_PARSEOPTIONS_DOMAIN: {
+        value: '',
+        path: 'parseOptions.domain',
+        type: 'string'
+      },
+      PLT_COOKIE_PASEOPTIONS_MAXAGE: {
+        value: '',
+        path: 'parseOptions.maxAge',
+        type: 'number'
+      }
+    },
+    validForm: false,
+    validations: {
+      PLT_COOKIE_SECRETValid: false,
+      PLT_COOKIE_HOOKValid: false,
+      PLT_COOKIE_PARSEOPTIONS_DOMAINValid: false,
+      PLT_COOKIE_PASEOPTIONS_MAXAGEValid: false,
+      formErrors: {
+        PLT_COOKIE_SECRET: '',
+        PLT_COOKIE_HOOK: '',
+        PLT_COOKIE_PARSEOPTIONS_DOMAIN: '',
+        PLT_COOKIE_PASEOPTIONS_MAXAGE: ''
+      }
+    }
+  }]
+}]
 test('return service on form without plugin', async () => {
   const servicesReceived =
     [
@@ -43,46 +157,7 @@ test('return service on form without plugin', async () => {
       }
     ]
 
-  const expected = [{
-    name: 'test-1',
-    template: '@platformatic/service',
-    form: {
-      PLT_SERVER_HOSTNAME: {
-        configValue: 'hostname',
-        label: 'What is the hostname?',
-        type: 'string',
-        value: '0.0.0.0',
-        var: 'PLT_SERVER_HOSTNAME'
-      },
-      PLT_SERVER_LOGGER_LEVEL: {
-        configValue: '',
-        label: 'What is the logger level?',
-        type: 'string',
-        value: 'info',
-        var: 'PLT_SERVER_LOGGER_LEVEL'
-      },
-      PORT: {
-        configValue: 'port',
-        label: 'Which port do you want to use?',
-        value: '3042',
-        var: 'PORT'
-      }
-    },
-    validForm: true,
-    validations: {
-      PLT_SERVER_HOSTNAMEValid: true,
-      PLT_SERVER_LOGGER_LEVELValid: true,
-      PORTValid: true,
-      formErrors: {
-        PLT_SERVER_HOSTNAME: '',
-        PLT_SERVER_LOGGER_LEVEL: '',
-        PORT: ''
-      }
-    },
-    plugins: []
-  }]
-
-  expect(expected).toEqual(generateForm(servicesReceived, false))
+  expect(expectedA).toEqual(generateForm(servicesReceived, false))
 })
 
 test('return service on form with a single plugin', async () => {
@@ -156,81 +231,72 @@ test('return service on form with a single plugin', async () => {
         }
       ]
 
+  expect(expectedB).toEqual(generateForm(servicesReceived, false))
+})
+
+test('prepare services without plugins', async () => {
+  const expected = [{
+    name: 'test-1',
+    template: '@platformatic/service',
+    fields: [{
+      configValue: 'hostname',
+      type: 'string',
+      value: '0.0.0.0',
+      var: 'PLT_SERVER_HOSTNAME'
+    }, {
+      configValue: '',
+      type: 'string',
+      value: 'info',
+      var: 'PLT_SERVER_LOGGER_LEVEL'
+    }, {
+      configValue: 'port',
+      value: '3042',
+      var: 'PORT'
+    }],
+    plugins: []
+  }]
+  expect(expected).toEqual(preapareFormForCreateApplication(expectedA))
+})
+
+test('prepare services with a single plugins', async () => {
   const expected = [{
     name: 'lunasa-1',
     template: '@platformatic/service',
-    form: {
-      PLT_SERVER_HOSTNAME: {
-        configValue: 'hostname',
-        label: 'What is the hostname?',
-        type: 'string',
-        value: '0.0.0.0',
-        var: 'PLT_SERVER_HOSTNAME'
-      },
-      PLT_SERVER_LOGGER_LEVEL: {
-        configValue: '',
-        label: 'What is the logger level?',
-        type: 'string',
-        value: 'info',
-        var: 'PLT_SERVER_LOGGER_LEVEL'
-      },
-      PORT: {
-        configValue: 'port',
-        label: 'Which port do you want to use?',
-        value: '3042',
-        var: 'PORT'
-      }
-    },
-    validForm: true,
-    validations: {
-      PLT_SERVER_HOSTNAMEValid: true,
-      PLT_SERVER_LOGGER_LEVELValid: true,
-      PORTValid: true,
-      formErrors: {
-        PLT_SERVER_HOSTNAME: '',
-        PLT_SERVER_LOGGER_LEVEL: '',
-        PORT: ''
-      }
-    },
+    fields: [{
+      configValue: 'hostname',
+      type: 'string',
+      value: '0.0.0.0',
+      var: 'PLT_SERVER_HOSTNAME'
+    }, {
+      configValue: '',
+      type: 'string',
+      value: 'info',
+      var: 'PLT_SERVER_LOGGER_LEVEL'
+    }, {
+      configValue: 'port',
+      value: '3042',
+      var: 'PORT'
+    }],
     plugins: [{
       name: '@fastify/accepts',
-      form: {
-        PLT_COOKIE_SECRET: {
-          value: '',
-          path: 'secret',
-          type: 'string'
-        },
-        PLT_COOKIE_HOOK: {
-          value: '',
-          path: 'hook',
-          type: 'string'
-        },
-        PLT_COOKIE_PARSEOPTIONS_DOMAIN: {
-          value: '',
-          path: 'parseOptions.domain',
-          type: 'string'
-        },
-        PLT_COOKIE_PASEOPTIONS_MAXAGE: {
-          value: '',
-          path: 'parseOptions.maxAge',
-          type: 'number'
-        }
-      },
-      validForm: false,
-      validations: {
-        PLT_COOKIE_SECRETValid: false,
-        PLT_COOKIE_HOOKValid: false,
-        PLT_COOKIE_PARSEOPTIONS_DOMAINValid: false,
-        PLT_COOKIE_PASEOPTIONS_MAXAGEValid: false,
-        formErrors: {
-          PLT_COOKIE_SECRET: '',
-          PLT_COOKIE_HOOK: '',
-          PLT_COOKIE_PARSEOPTIONS_DOMAIN: '',
-          PLT_COOKIE_PASEOPTIONS_MAXAGE: ''
-        }
-      }
+      options: [{
+        path: 'secret',
+        type: 'string',
+        value: ''
+      }, {
+        path: 'hook',
+        type: 'string',
+        value: ''
+      }, {
+        path: 'parseOptions.domain',
+        type: 'string',
+        value: ''
+      }, {
+        path: 'parseOptions.maxAge',
+        type: 'number',
+        value: ''
+      }]
     }]
   }]
-
-  expect(expected).toEqual(generateForm(servicesReceived, false))
+  expect(expected).toEqual(preapareFormForCreateApplication(expectedB))
 })

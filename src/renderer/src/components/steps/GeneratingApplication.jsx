@@ -28,6 +28,9 @@ const GeneratingApplication = React.forwardRef(({ onClickComplete, onRestartProc
       try {
         setCountDownStatus(RUNNING)
         const obj = { projectName: formData.createApplication.application, services: formData.configuredServices.services, ...formData.configureApplication }
+
+        console.log('obj')
+        console.log(obj)
         await callCreateApp(formData.createApplication.path, obj)
         // setAppGeneratedSuccess(true)
         setCountDownStatus(SUCCESS)
