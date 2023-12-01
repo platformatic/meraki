@@ -38,11 +38,11 @@ function ConfigureEnvVarsTemplateAndPlugins ({
         setCurrentComponent(
           <PluginEnvVarsForm
             key={`${serviceSelected.name}-${serviceSelected.template}-${serviceSelected.updatedAt}-${pluginSelected.name}`}
-            service={{ ...serviceSelected }}
-            plugin={{ ...pluginSelected }}
+            configuredServices={configuredServices}
             serviceName={serviceSelected.name}
             templateName={serviceSelected.template}
             onChange={handleChangePluginEnvVars}
+            pluginName={pluginSelected.name}
           />)
       } else {
         setCurrentComponent(

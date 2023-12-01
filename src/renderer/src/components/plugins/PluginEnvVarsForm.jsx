@@ -1,67 +1,28 @@
 'use strict'
-import React, { useState, useEffect } from 'react'
+import React from 'react'
 import PropTypes from 'prop-types'
 import { BorderedBox, Forms } from '@platformatic/ui-components'
 import commonStyles from '~/styles/CommonStyles.module.css'
 import typographyStyles from '~/styles/Typography.module.css'
 import { OPACITY_30, TRANSPARENT, WHITE } from '@platformatic/ui-components/src/components/constants'
 
-function PluginEnvVarsForm ({ service, plugin }) {
-  const [form, setForm] = useState(null)
-  const [validations, setValidations] = useState({ })
-  // eslint-disable-next-line no-unused-vars
-  const [validForm, setValidForm] = useState(false)
-
-  useEffect(() => {
-    if (plugin) {
-      const tmp = {}
-      const validations = {}
-      const formErrors = {}
-
-      let envName
-      plugin.envVars.forEach(envVar => {
-        envName = envVar.name
-        tmp[envName] = ''
-        validations[`${envName}Valid`] = false
-        formErrors[envName] = ''
-      })
-      setForm({ ...tmp })
-      setValidations({ ...validations, formErrors })
-    }
-  }, [plugin])
-
-  function handleChange (event) {
-    const value = event.target.value
-    validateField(event.target.name, value, setForm(form => ({ ...form, [event.target.name]: value })))
-  }
-
-  function validateField (fieldName, fieldValue, callback = () => {}) {
-    let tmpValid = validations[`${fieldName}Valid`]
-    const formErrors = { ...validations.formErrors }
-    switch (fieldName) {
-      default:
-        tmpValid = fieldValue.length > 0 && /^\S+$/g.test(fieldValue)
-        formErrors[fieldName] = fieldValue.length > 0 ? (tmpValid ? '' : 'The field is not valid, make sure you are using regular characters') : ''
-        break
-    }
-    const nextValidation = { ...validations, formErrors }
-    nextValidation[`${fieldName}Valid`] = tmpValid
-    setValidations(nextValidation)
-    validateForm(nextValidation, callback())
-  }
-
-  function validateForm (validations, callback = () => {}) {
-    // eslint-disable-next-line no-unused-vars
-    const { _formErrors, ...restValidations } = validations
-    const valid = Object.keys(restValidations).findIndex(element => restValidations[element] === false) === -1
-    setValidForm(valid)
-    return callback
-  }
+function PluginEnvVarsForm ({
+  configuredServices,
+  onChange,
+  templateName,
+  serviceName,
+  pluginName
+}) {
+  const configuredServiceFound = configuredServices.find(configuredService => configuredService.template === templateName && configuredService.name === serviceName)
+  const pluginFound = configuredServiceFound.plugins.find(plugin => plugin.name === pluginName) || {}
 
   function renderForm () {
-    return Object.keys(form).map((element) => (
+    if (Object.keys(pluginFound.form).length === 0) {
+      return <></>
+    }
+    return Object.keys(pluginFound.form).map((element) => (
       <Forms.Field
-        title={plugin.envVars.find(env => env.name === element)?.path}
+        title={pluginFound.form[element].path}
         titleColor={WHITE}
         key={element}
       >
@@ -69,9 +30,9 @@ function PluginEnvVarsForm ({ service, plugin }) {
           placeholder='Env variable example'
           name={element}
           borderColor={WHITE}
-          value={form[element]}
-          onChange={handleChange}
-          errorMessage={validations.formErrors[element]}
+          value={pluginFound.form[element].value}
+          onChange={onChange}
+          errorMessage={pluginFound.validations.formErrors[element]}
           backgroundTransparent
           inputTextClassName={`${typographyStyles.desktopBody} ${typographyStyles.textWhite}`}
           verticalPaddingClassName={commonStyles.noVerticalPadding}
@@ -82,6 +43,13 @@ function PluginEnvVarsForm ({ service, plugin }) {
     ))
   }
 
+  function renderVariablesText () {
+    if (Object.keys(pluginFound.form).length === 0) {
+      return <span className={`${typographyStyles.desktopBody} ${typographyStyles.textWhite} ${typographyStyles.opacity70}`}>This plugin has no configurable variables. </span>
+    }
+    return <span>Variables</span>
+  }
+
   return (
     <BorderedBox
       color={WHITE}
@@ -89,9 +57,9 @@ function PluginEnvVarsForm ({ service, plugin }) {
       backgroundColor={TRANSPARENT}
       classes={`${commonStyles.mediumFlexBlock} ${commonStyles.fullWidth}`}
     >
-      <p className={`${typographyStyles.desktopBody} ${typographyStyles.textWhite} ${commonStyles.fullWidth}`}>{plugin.name} Variables</p>
+      <p className={`${typographyStyles.desktopBody} ${typographyStyles.textWhite} ${commonStyles.fullWidth}`}>{pluginName} {renderVariablesText()}</p>
       <div className={`${commonStyles.mediumFlexBlock} ${commonStyles.fullWidth}`}>
-        {form && renderForm()}
+        {pluginFound && renderForm()}
       </div>
     </BorderedBox>
   )
@@ -99,11 +67,33 @@ function PluginEnvVarsForm ({ service, plugin }) {
 
 PluginEnvVarsForm.propTypes = {
   /**
-   * plugin
+   * configuredServices
    */
-  plugin: PropTypes.object.isRequired
+  configuredServices: PropTypes.array.isRequired,
+  /**
+   * templateName
+   */
+  templateName: PropTypes.string,
+  /**
+   * serviceName
+   */
+  serviceName: PropTypes.string,
+  /**
+   * onChange
+   */
+  onChange: PropTypes.func,
+  /**
+   * pluginName
+   */
+  pluginName: PropTypes.string
+
 }
 
-// ConfigureEnvVarsPlugins.defaultProps = {}
+PluginEnvVarsForm.defaultProps = {
+  templateName: '',
+  serviceName: '',
+  onChange: () => {},
+  pluginName: ''
+}
 
 export default PluginEnvVarsForm
