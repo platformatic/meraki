@@ -13,7 +13,7 @@ import '~/components/component.animation.css'
 import { callPrepareFolder, logInfo, quitApp } from '~/api'
 import { NONE, RUNNING, SUCCESS, ERROR } from '~/ui-constants'
 
-const PrepareFolder = React.forwardRef(({ onNext }, ref) => {
+const PrepareFolder = React.forwardRef(({ onNext, onBack }, ref) => {
   const globalState = useStackablesStore()
   const { formData, addFormData, services, setTemplate } = globalState
   const [countDownStatus, setCountDownStatus] = useState(NONE)
@@ -111,14 +111,23 @@ const PrepareFolder = React.forwardRef(({ onNext }, ref) => {
 
       </div>
       <div className={`${styles.buttonContainer} ${commonStyles.fullWidth}`}>
-        <Button
-          disabled={!folderPrepared}
-          label='Copy Logs'
-          onClick={() => onClickCopyLogs()}
-          color={WHITE}
-          backgroundColor={RICH_BLACK}
-          classes={`${commonStyles.buttonPadding} cy-action-donwload-logs`}
-        />
+        <div className={`${commonStyles.smallFlexRow}`}>
+          <Button
+            label='Back'
+            onClick={() => onBack()}
+            color={WHITE}
+            backgroundColor={TRANSPARENT}
+            classes={`${commonStyles.buttonPadding} cy-action-back`}
+          />
+          <Button
+            disabled={!folderPrepared}
+            label='Copy Logs'
+            onClick={() => onClickCopyLogs()}
+            color={WHITE}
+            backgroundColor={RICH_BLACK}
+            classes={`${commonStyles.buttonPadding} cy-action-donwload-logs`}
+          />
+        </div>
         {folderPreparedError
           ? <Button
               label='Close'
@@ -146,11 +155,16 @@ PrepareFolder.propTypes = {
   /**
      * onNext
      */
-  onNext: PropTypes.func
+  onNext: PropTypes.func,
+  /**
+     * onBack
+     */
+  onBack: PropTypes.func
 }
 
 PrepareFolder.defaultProps = {
-  onNext: () => {}
+  onNext: () => {},
+  onBack: () => {}
 }
 
 export default PrepareFolder

@@ -17,6 +17,7 @@ const CreateApplication = React.forwardRef(({ onNext }, ref) => {
   const [form, setForm] = useState({ application: '', service: '', folder: '' })
   const [validations, setValidations] = useState({ applicationValid: false, serviceValid: false, folderValid: false, formErrors: { application: '', service: '', folder: '' } })
   const [validForm, setValidForm] = useState(false)
+  const [callAddService, setCallAddService] = useState(true)
   const mockUse = import.meta.env.RENDERER_VITE_USE_MOCKS === 'true'
 
   useEffect(() => {
@@ -25,6 +26,7 @@ const CreateApplication = React.forwardRef(({ onNext }, ref) => {
       validateField('service', formData.createApplication.service, setForm(form => ({ ...form, service: formData.createApplication.service })))
       validateField('folder', formData.createApplication.path, setForm(form => ({ ...form, folder: formData.createApplication.path })))
       setValidForm(true)
+      setCallAddService(false)
     }
   }, [formData])
 
@@ -37,7 +39,9 @@ const CreateApplication = React.forwardRef(({ onNext }, ref) => {
         path: form.folder
       }
     })
-    addService()
+    if (callAddService) {
+      addService()
+    }
     onNext()
   }
 

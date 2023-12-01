@@ -6,6 +6,7 @@
 }
 
 .content {
-  min-height: calc(100vH - 35rem);
-  max-height: calc(100vH - 35rem);
+  @apply overflow-y-scroll;
+  min-height: calc(100vH - 32rem);
+  max-height: calc(100vH - 32rem);
 }
