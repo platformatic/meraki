@@ -17,7 +17,7 @@ if (process.contextIsolated) {
     contextBridge.exposeInMainWorld('api', {
       getTemplates: () => (ipcRenderer.invoke('get-templates')),
       getPlugins: () => (ipcRenderer.invoke('get-plugins')),
-      prepareFolder: (folder, templates) => (ipcRenderer.invoke('prepare-folder', folder, templates)),
+      prepareFolder: (folder, templates, appName) => (ipcRenderer.invoke('prepare-folder', folder, templates, appName)),
       onLog: callback => ipcRenderer.on('log', callback),
       createApp: (folder, project) => (ipcRenderer.invoke('create-app', folder, project)),
       quitApp: () => (ipcRenderer.invoke('quit-app'))

@@ -29,7 +29,7 @@ const PrepareFolder = React.forwardRef(({ onNext }, ref) => {
     async function prepareFolder () {
       try {
         setCountDownStatus(RUNNING)
-        const response = await callPrepareFolder(formData.createApplication.path, templateNames)
+        const response = await callPrepareFolder(formData.createApplication.path, templateNames, formData.createApplication.application)
         let tmpTemplate
         let envVars
         services.forEach(service => {
