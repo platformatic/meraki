@@ -6,8 +6,8 @@ export const getApiPlugins = async () => {
   return await window.api.getPlugins()
 }
 
-export const callPrepareFolder = async (path, templates) => {
-  return await window.api.prepareFolder(path, templates)
+export const callPrepareFolder = async (path, templates, application) => {
+  return await window.api.prepareFolder(path, templates, application)
 }
 export const callCreateApp = async (path, project) => {
   return await window.api.createApp(path, project)
