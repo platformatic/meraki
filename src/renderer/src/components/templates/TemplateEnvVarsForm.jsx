@@ -15,6 +15,9 @@ function TemplateEnvVarsForm ({
   const configuredServiceFound = configuredServices.find(configuredService => configuredService.template === templateName && configuredService.name === serviceName)
 
   function renderForm () {
+    if (Object.keys(configuredServiceFound.form).length === 0) {
+      return <p className={`${typographyStyles.desktopBodyLarge} ${typographyStyles.textWhite} ${typographyStyles.opacity70}`}>No variables for the template selected!</p>
+    }
     return Object.keys(configuredServiceFound.form).map((element) => (
       <Forms.Field
         title={configuredServiceFound.form[element].label}
