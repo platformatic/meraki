@@ -1,9 +1,10 @@
-import { stat, mkdir } from 'node:fs/promises'
+import { stat } from 'node:fs/promises'
 import { join, resolve } from 'node:path'
 import { getPkgManager } from './lib/get-package-manager.mjs'
 import { importOrLocal } from './lib/import-or-local.mjs'
 import errors from './errors.mjs'
 import split from 'split2'
+import { mkdirp } from 'mkdirp'
 
 export const prepareFolder = async (path, tempNames, logger, appName = 'appName') => {
   const s = await stat(path)
@@ -12,7 +13,7 @@ export const prepareFolder = async (path, tempNames, logger, appName = 'appName'
     throw new Error(`Path ${path} is not a directory`)
   }
   const newFolder = join(resolve(path), appName)
-  await mkdir(newFolder)
+  await mkdirp(newFolder)
 
   const pkgManager = await getPkgManager()
   const templateVariables = {}

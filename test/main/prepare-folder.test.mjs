@@ -57,3 +57,13 @@ test('Install one @platformatic/service template', async () => {
   expect(logger.infos[0][0].name).toEqual('@platformatic/service')
   expect(logger.errors.length).toBe(0)
 }, 30000)
+
+test('Install one @platformatic/service template twice', async () => {
+  const appDir = await mkdtemp(join(tmpdir(), 'plat-app-test-create'))
+  await prepareFolder(appDir, ['@platformatic/service'], logger, 'test-app')
+  expect(logger.infos[0][0].name).toEqual('@platformatic/service')
+  expect(logger.errors.length).toBe(0)
+
+  await prepareFolder(appDir, ['@platformatic/service'], logger, 'test-app')
+  expect(logger.errors.length).toBe(0)
+}, 30000)
