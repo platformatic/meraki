@@ -113,6 +113,7 @@ const PrepareFolder = React.forwardRef(({ onNext, onBack }, ref) => {
       <div className={`${styles.buttonContainer} ${commonStyles.fullWidth}`}>
         <div className={`${commonStyles.smallFlexRow}`}>
           <Button
+            disabled={!folderPrepared}
             label='Back'
             onClick={() => onBack()}
             color={WHITE}
