@@ -1,11 +1,11 @@
-/* .back-enter {
-  opacity: 0;
-  transform: translateX(0);
-}
-.back-enter-active {
+.back-enter {
   opacity: 1;
   transform: translateX(-100%);
-  transition: opacity 250ms, transform 250ms;
+}
+.back-enter-active {
+  opacity: 0;
+  transform: translateX(0);
+  transition: opacity 300ms, transform 300ms;
 }
 .back-exit {
   opacity: 1;
@@ -13,9 +13,9 @@
 }
 .back-exit-active {
   opacity: 0;
-  transform: translateX(-100%);
-  transition: opacity 250ms, transform 250ms;
-} */
+  transform: translateX(100%);
+  transition: opacity 300ms, transform 300ms;
+}
 
 .next-enter {
   opacity: 0;

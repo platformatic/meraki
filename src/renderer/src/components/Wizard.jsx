@@ -61,16 +61,12 @@ function Wizard () {
   const [currentComponent, setCurrentComponent] = useState(components.find(component => component.key === STEP_CREATE_APPLICATION))
 
   function nextStep (step) {
-    if (cssClassNames === BACK) {
-      setCssClassNames(NEXT)
-    }
+    setCssClassNames(NEXT)
     setCurrentStep(step)
   }
 
   function previousStep (step) {
-    /* if (cssClassNames === NEXT) {
-      setCssClassNames(BACK)
-    } */
+    setCssClassNames(BACK)
     setCurrentStep(step)
   }
 
