@@ -105,8 +105,8 @@ app.whenReady().then(() => {
     return getPlugins()
   })
 
-  ipcMain.handle('prepare-folder', async (_, path, templates) => {
-    return prepareFolder(path, templates, logger)
+  ipcMain.handle('prepare-folder', async (_, path, templates, appName) => {
+    return prepareFolder(path, templates, logger, appName)
   })
 
   ipcMain.handle('create-app', async (_, path, project) => {
