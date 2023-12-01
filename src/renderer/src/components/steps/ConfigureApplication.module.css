@@ -2,7 +2,7 @@
   @apply flex flex-col justify-between h-[80vH] relative;
 }
 .buttonContainer {
-  @apply flex justify-end;
+  @apply flex justify-between;
 }
 .customFlexBlock {
   @apply flex flex-col gap-y-8

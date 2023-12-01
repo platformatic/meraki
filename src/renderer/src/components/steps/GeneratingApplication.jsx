@@ -12,7 +12,7 @@ import CountDown from '~/components/ui/CountDown'
 import { callCreateApp, logInfo, quitApp } from '~/api'
 import { NONE, RUNNING, SUCCESS, ERROR } from '~/ui-constants'
 
-const GeneratingApplication = React.forwardRef(({ onClickComplete }, ref) => {
+const GeneratingApplication = React.forwardRef(({ onClickComplete, onRestartProcess }, ref) => {
   const globalState = useStackablesStore()
   const { formData } = globalState
   const [appGenerated, setAppGenerated] = useState(false)
@@ -28,8 +28,7 @@ const GeneratingApplication = React.forwardRef(({ onClickComplete }, ref) => {
       try {
         setCountDownStatus(RUNNING)
         const obj = { projectName: formData.createApplication.application, services: formData.configuredServices.services, ...formData.configureApplication }
-        const response = await callCreateApp(formData.createApplication.path, obj)
-        console.log('response', response)
+        await callCreateApp(formData.createApplication.path, obj)
         // setAppGeneratedSuccess(true)
         setCountDownStatus(SUCCESS)
       } catch (error) {
@@ -60,6 +59,10 @@ const GeneratingApplication = React.forwardRef(({ onClickComplete }, ref) => {
     let str = ''
     npmLogs.forEach(log => (str += `${log.message}\r\n`))
     navigator.clipboard.writeText(str)
+  }
+
+  function onClickRestart () {
+    onRestartProcess()
   }
 
   return (
@@ -93,15 +96,25 @@ const GeneratingApplication = React.forwardRef(({ onClickComplete }, ref) => {
           classes={`${commonStyles.buttonPadding} cy-action-donwload-logs`}
         />
 
-        <Button
-          disabled={!appGenerated}
-          label={appGeneratedError ? 'Close' : 'Complete'}
-          onClick={() => onClickComplete()}
-          color={RICH_BLACK}
-          bordered={false}
-          backgroundColor={WHITE}
-          classes={`${commonStyles.buttonPadding} cy-action-next`}
-        />
+        <div className={`${commonStyles.smallFlexRow} `}>
+          <Button
+            disabled={!appGenerated}
+            label='Restart'
+            onClick={() => onClickRestart()}
+            color={WHITE}
+            backgroundColor={TRANSPARENT}
+            classes={`${commonStyles.buttonPadding} cy-action-next`}
+          />
+          <Button
+            disabled={!appGenerated}
+            label={appGeneratedError ? 'Close' : 'Complete'}
+            onClick={() => onClickComplete()}
+            color={RICH_BLACK}
+            bordered={false}
+            backgroundColor={WHITE}
+            classes={`${commonStyles.buttonPadding} cy-action-next`}
+          />
+        </div>
       </div>
     </div>
   )
@@ -111,13 +124,19 @@ GeneratingApplication.propTypes = {
   /**
    * onClickComplete
    */
-  onClickComplete: PropTypes.func
+  onClickComplete: PropTypes.func,
+  /**
+   * onRestartProcess
+   */
+  onRestartProcess: PropTypes.func
 }
 
 GeneratingApplication.defaultProps = {
   onClickComplete: () => {
     quitApp()
-  }
+  },
+  onRestartProcess: () => {}
+
 }
 
 export default GeneratingApplication

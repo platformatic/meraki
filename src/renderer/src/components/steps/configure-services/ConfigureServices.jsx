@@ -4,14 +4,14 @@ import PropTypes from 'prop-types'
 import styles from './ConfigureServices.module.css'
 import commonStyles from '~/styles/CommonStyles.module.css'
 import typographyStyles from '~/styles/Typography.module.css'
-import { WHITE, RICH_BLACK } from '@platformatic/ui-components/src/components/constants'
+import { WHITE, RICH_BLACK, TRANSPARENT } from '@platformatic/ui-components/src/components/constants'
 import { Button } from '@platformatic/ui-components'
 import useStackablesStore from '~/useStackablesStore'
-import EditableTitle from '~/components/ui/EditableTitle'
+import Title from '~/components/ui/Title'
 import '~/components/component.animation.css'
 import ConfigureEnvVarsTemplateAndPlugins from './ConfigureEnvVarsTemplateAndPlugins'
 
-const ConfigureServices = React.forwardRef(({ onNext }, ref) => {
+const ConfigureServices = React.forwardRef(({ onNext, onBack }, ref) => {
   const globalState = useStackablesStore()
   const { formData, addFormData, services } = globalState
   const [disabled, setDisabled] = useState(true)
@@ -88,16 +88,6 @@ const ConfigureServices = React.forwardRef(({ onNext }, ref) => {
     onNext()
   }
 
-  function handleEditApplicationName (newName) {
-    addFormData({
-      createApplication: {
-        application: newName,
-        service: formData.createApplication.service,
-        path: formData.createApplication.path
-      }
-    })
-  }
-
   function handleChangeTemplateForm (event, templateName, serviceName) {
     const fieldName = event.target.name
     const fieldValue = event.target.value
@@ -141,10 +131,9 @@ const ConfigureServices = React.forwardRef(({ onNext }, ref) => {
     <div className={styles.container} ref={ref}>
       <div className={commonStyles.largeFlexBlock}>
         <div className={`${commonStyles.mediumFlexBlock} ${commonStyles.halfWidth}`}>
-          <EditableTitle
+          <Title
             title={formData.createApplication.application}
             iconName='AppIcon'
-            onClickSubmit={(name) => handleEditApplicationName(name)}
             dataAttrName='cy'
             dataAttrValue='step-title'
           />
@@ -158,6 +147,14 @@ const ConfigureServices = React.forwardRef(({ onNext }, ref) => {
         </div>
       </div>
       <div className={`${styles.buttonContainer} ${commonStyles.fullWidth}`}>
+        <Button
+          type='button'
+          label='Back'
+          onClick={() => onBack()}
+          color={WHITE}
+          backgroundColor={TRANSPARENT}
+          classes={`${commonStyles.buttonPadding} cy-action-back`}
+        />
         <Button
           disabled={disabled}
           label='Next - Configure Application'
@@ -176,11 +173,16 @@ ConfigureServices.propTypes = {
   /**
      * onNext
      */
-  onNext: PropTypes.func
+  onNext: PropTypes.func,
+  /**
+     * onBack
+     */
+  onBack: PropTypes.func
 }
 
 ConfigureServices.defaultProps = {
-  onNext: () => {}
+  onNext: () => {},
+  onBack: () => {}
 }
 
 export default ConfigureServices

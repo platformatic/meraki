@@ -1,5 +1,5 @@
 'use strict'
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import PropTypes from 'prop-types'
 import Forms from '@platformatic/ui-components/src/components/forms'
 import styles from './CreateApplication.module.css'
@@ -11,13 +11,24 @@ import useStackablesStore from '~/useStackablesStore'
 import Title from '~/components/ui/Title'
 
 const CreateApplication = React.forwardRef(({ onNext }, ref) => {
+  const globalState = useStackablesStore()
+  const { addFormData, addService, formData } = globalState
+  const [inputOnServiceField, setInputOnServiceField] = useState(false)
   const [form, setForm] = useState({ application: '', service: '', folder: '' })
   const [validations, setValidations] = useState({ applicationValid: false, serviceValid: false, folderValid: false, formErrors: { application: '', service: '', folder: '' } })
   const [validForm, setValidForm] = useState(false)
-  const [inputOnServiceField, setInputOnServiceField] = useState(false)
-  const globalState = useStackablesStore()
-  const { addFormData, addService } = globalState
+  const [callAddService, setCallAddService] = useState(true)
   const mockUse = import.meta.env.RENDERER_VITE_USE_MOCKS === 'true'
+
+  useEffect(() => {
+    if (formData?.createApplication) {
+      validateField('application', formData.createApplication.application, setForm(form => ({ ...form, application: formData.createApplication.application })))
+      validateField('service', formData.createApplication.service, setForm(form => ({ ...form, service: formData.createApplication.service })))
+      validateField('folder', formData.createApplication.path, setForm(form => ({ ...form, folder: formData.createApplication.path })))
+      setValidForm(true)
+      setCallAddService(false)
+    }
+  }, [formData])
 
   function handleSubmit (event) {
     event.preventDefault()
@@ -28,7 +39,9 @@ const CreateApplication = React.forwardRef(({ onNext }, ref) => {
         path: form.folder
       }
     })
-    addService()
+    if (callAddService) {
+      addService()
+    }
     onNext()
   }
 

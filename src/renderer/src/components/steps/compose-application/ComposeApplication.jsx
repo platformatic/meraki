@@ -4,7 +4,7 @@ import PropTypes from 'prop-types'
 import styles from './ComposeApplication.module.css'
 import commonStyles from '~/styles/CommonStyles.module.css'
 import typographyStyles from '~/styles/Typography.module.css'
-import { WHITE, RICH_BLACK, MODAL_POPUP_V2 } from '@platformatic/ui-components/src/components/constants'
+import { WHITE, RICH_BLACK, MODAL_POPUP_V2, TRANSPARENT } from '@platformatic/ui-components/src/components/constants'
 import { Button, Modal, ModalDirectional } from '@platformatic/ui-components'
 import useStackablesStore from '~/useStackablesStore'
 /* import PluginHandler from '~/components/plugins/PluginHandler'
@@ -24,7 +24,7 @@ import NormalView from './NormalView'
 import GridView from './GridView'
 import { NORMAL_VIEW, GRID_VIEW } from '~/ui-constants'
 
-const ComposeApplication = React.forwardRef(({ onNext }, ref) => {
+const ComposeApplication = React.forwardRef(({ onNext, onBack }, ref) => {
   const globalState = useStackablesStore()
   const { formData, addService, services, addFormData, renameService, removeService } = globalState
   const [showModalTemplate, setShowModalTemplate] = useState(false)
@@ -194,6 +194,15 @@ const ComposeApplication = React.forwardRef(({ onNext }, ref) => {
       </div>
       <div className={`${styles.buttonContainer} ${commonStyles.fullWidth}`}>
         <Button
+          type='button'
+          label='Back'
+          onClick={() => onBack()}
+          color={WHITE}
+          backgroundColor={TRANSPARENT}
+          classes={`${commonStyles.buttonPadding} cy-action-back`}
+        />
+
+        <Button
           disabled={!(Object.hasOwn(services[0]?.template, 'name'))}
           label='Next - Prepare Folder'
           onClick={() => onClickPrepareFolder()}
@@ -273,13 +282,18 @@ const ComposeApplication = React.forwardRef(({ onNext }, ref) => {
 
 ComposeApplication.propTypes = {
   /**
-     * onNext
-     */
-  onNext: PropTypes.func
+    * onNext
+    */
+  onNext: PropTypes.func,
+  /**
+    * onNext
+    */
+  onBack: PropTypes.func
 }
 
 ComposeApplication.defaultProps = {
-  onNext: () => {}
+  onNext: () => {},
+  onBack: () => {}
 }
 
 export default ComposeApplication

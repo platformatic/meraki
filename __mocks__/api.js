@@ -35,3 +35,12 @@ export const prepareFolder = async (_path, templates) => {
   })
   return pro
 }
+
+export const createApp = async (path, project) => {
+  const pro = new Promise((resolve) => {
+    setTimeout(() => {
+      return resolve(path, project)
+    }, 2000)
+  })
+  return pro
+}
