@@ -19,6 +19,8 @@ import { CSSTransition, SwitchTransition } from 'react-transition-group'
 import '~/components/component.animation.css'
 
 function Wizard () {
+  const NEXT = 'next'; const BACK = 'back'
+  const [cssClassNames, setCssClassNames] = useState(NEXT)
   const [currentStep, setCurrentStep] = useState(STEP_CREATE_APPLICATION)
   const [components] = useState([
     <CreateApplication
@@ -29,32 +31,46 @@ function Wizard () {
     <ComposeApplication
       ref={useRef(null)}
       key={STEP_ADD_TEMPLATE_AND_PLUGINS}
+      onBack={() => previousStep(STEP_CREATE_APPLICATION)}
       onNext={() => nextStep(STEP_PREPARE_FOLDER)}
     />,
     <PrepareFolder
       ref={useRef(null)}
       key={STEP_PREPARE_FOLDER}
+      onBack={() => previousStep(STEP_ADD_TEMPLATE_AND_PLUGINS)}
       onNext={() => nextStep(STEP_CONFIGURE_SERVICES)}
     />,
     <ConfigureServices
       ref={useRef(null)}
       key={STEP_CONFIGURE_SERVICES}
+      onBack={() => previousStep(STEP_PREPARE_FOLDER)}
       onNext={() => nextStep(STEP_CONFIGURE_APPLICATION)}
     />,
     <ConfigureApplication
       ref={useRef(null)}
       key={STEP_CONFIGURE_APPLICATION}
+      onBack={() => nextStep(STEP_CONFIGURE_SERVICES)}
       onNext={() => nextStep(STEP_GENERATING_APPLICATION)}
     />,
     <GeneratingApplication
       ref={useRef(null)}
       key={STEP_GENERATING_APPLICATION}
-      onNext={() => {}}
+      onRestartProcess={() => nextStep(STEP_CREATE_APPLICATION)}
     />
   ])
   const [currentComponent, setCurrentComponent] = useState(components.find(component => component.key === STEP_CREATE_APPLICATION))
 
   function nextStep (step) {
+    if (cssClassNames === BACK) {
+      setCssClassNames(NEXT)
+    }
+    setCurrentStep(step)
+  }
+
+  function previousStep (step) {
+    /* if (cssClassNames === NEXT) {
+      setCssClassNames(BACK)
+    } */
     setCurrentStep(step)
   }
 
@@ -69,7 +85,7 @@ function Wizard () {
           key={currentComponent.key}
           nodeRef={currentComponent.ref}
           timeout={300}
-          classNames='component'
+          classNames={cssClassNames}
         >
           {currentComponent}
         </CSSTransition>

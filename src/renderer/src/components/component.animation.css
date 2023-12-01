@@ -1,21 +1,41 @@
-.component-enter {
+/* .back-enter {
+  opacity: 0;
+  transform: translateX(0);
+}
+.back-enter-active {
+  opacity: 1;
+  transform: translateX(-100%);
+  transition: opacity 250ms, transform 250ms;
+}
+.back-exit {
+  opacity: 1;
+  transform: translateX(0);
+}
+.back-exit-active {
+  opacity: 0;
+  transform: translateX(-100%);
+  transition: opacity 250ms, transform 250ms;
+} */
+
+.next-enter {
   opacity: 0;
   transform: translateX(100%);
 }
-.component-enter-active {
+.next-enter-active {
   opacity: 1;
   transform: translateX(0%);
   transition: opacity 300ms, transform 300ms;
 }
-.component-exit {
+.next-exit {
   opacity: 1;
   transform: translateX(0);
 }
-.component-exit-active {
+.next-exit-active {
   opacity: 0;
   transform: translateX(-100%);
   transition: opacity 300ms, transform 300ms;
 }
+
 .fade-vertical-enter {
   position: absolute;
   opacity: 0;
