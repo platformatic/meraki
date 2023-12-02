@@ -16,7 +16,7 @@ function TemplateEnvVarsForm ({
 
   function renderForm () {
     if (Object.keys(configuredServiceFound.form).length === 0) {
-      return <p className={`${typographyStyles.desktopBodyLarge} ${typographyStyles.textWhite} ${typographyStyles.opacity70}`}>No variables for the template selected!</p>
+      return <></>
     }
     return Object.keys(configuredServiceFound.form).map((element) => (
       <Forms.Field
@@ -41,6 +41,13 @@ function TemplateEnvVarsForm ({
     ))
   }
 
+  function renderVariablesText () {
+    if (Object.keys(configuredServiceFound.form).length === 0) {
+      return <span className={`${typographyStyles.desktopBody} ${typographyStyles.textWhite} ${typographyStyles.opacity70}`}> This template has no configurable variables. </span>
+    }
+    return <span>Variables</span>
+  }
+
   return (
     <BorderedBox
       color={WHITE}
@@ -48,7 +55,7 @@ function TemplateEnvVarsForm ({
       backgroundColor={TRANSPARENT}
       classes={`${commonStyles.mediumFlexBlock} ${commonStyles.fullWidth}`}
     >
-      <p className={`${typographyStyles.desktopBody} ${typographyStyles.textWhite}`}>{templateName} Variables</p>
+      <p className={`${typographyStyles.desktopBody} ${typographyStyles.textWhite}`}>{templateName} {renderVariablesText()}</p>
       <div className={`${commonStyles.mediumFlexBlock} ${commonStyles.fullWidth}`}>
         {configuredServiceFound && renderForm()}
       </div>
