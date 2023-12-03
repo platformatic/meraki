@@ -20,7 +20,7 @@ jobs:
       - run: npm ci
       - run: npm run build
       - run: npm run release:linux
-      - run: npm run release:windows
+      - run: npm run release:win
 
   release-mac:
     runs-on: macos-latest
