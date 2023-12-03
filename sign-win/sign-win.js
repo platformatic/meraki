@@ -10,7 +10,7 @@ exports.default = async function (configuration) {
   const { stdout, exitCode } = await execa('smctl', [
     'sign',
     '--fingerprint',
-    process.env.DIGICERT_FINGERPRINT 
+    process.env.DIGICERT_FINGERPRINT,
     '--input',
     execPath
   ])
