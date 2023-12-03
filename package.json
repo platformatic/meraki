@@ -3,6 +3,7 @@
   "private": true,
   "version": "0.0.1",
   "main": "./out/main/index.js",
+  "author": "Platformatic Inc.",
   "scripts": {
     "lint": "standard . | snazzy",
     "start": "electron-vite preview",
