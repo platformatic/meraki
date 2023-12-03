@@ -3,6 +3,7 @@ name: release
 on:
   workflow_dispatch:
   workflow_call:
+  push:
 
 jobs:
   release-linux:
