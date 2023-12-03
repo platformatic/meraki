@@ -5,7 +5,7 @@ on:
   workflow_call:
 
 jobs:
-  build:
+  release-linux:
     runs-on: ubuntu-latest
     timeout-minutes: 15
     steps:
@@ -15,7 +15,17 @@ jobs:
           node-version: 18
       - run: npm ci
 
-  build-mac:
+  release-win:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@b4ffde65f46336ab88eb53be808477a3936bae11 # v4
+      - uses: actions/setup-node@v3
+        with:
+          node-version: 18
+      - run: npm ci
+
+  release-mac:
     runs-on: macos-latest
     timeout-minutes: 15
     steps:
