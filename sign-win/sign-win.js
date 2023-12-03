@@ -1,3 +1,5 @@
+const exec = util.promisify(require('child_process').exec)
+
 // This is a callback that can be used to sign the executable on Windows.
 // See: https://www.electron.build/configuration/win
 // We are using this callback instead of the electron-builder built-in mechanism
@@ -6,10 +8,12 @@
 exports.default = async function (configuration) {
   console.log('@@ Signing for windows', configuration.path)
   const execPath = configuration.path
-  require('child_process').execSync(
+  const { stdout, stderr } = await exec(
     `smctl sign --fingerprint "${configuration.fingerprint}" --input "${execPath}"`,
     {
       stdio: 'inherit'
     }
   )
+  console.log('@@ stdout', stdout)
+  console.log('@@ stderr', stderr)
 }
