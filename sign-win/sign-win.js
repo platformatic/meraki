@@ -19,7 +19,7 @@ exports.default = async function (configuration) {
     console.log('@@ stdout', stdout)
     console.log('@@ stderr', stderr)
   } catch (error) {
-    console.error('@@ error', error)
-    process.exit(1)
+    console.error('@@ error catched', error)
+    throw error
   }
 }
