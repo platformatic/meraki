@@ -5,12 +5,12 @@
 // See also: https://docs.digicert.com/en/digicert-keylocker/sign-with-digicert-signing-tools/sign-with-smctl.html
 exports.default = async function (configuration) {
   const { execa } = await import('execa')
-  console.log('@@ Signing for windows', configuration.path)
+  console.log('Signing: ', configuration.path)
   const execPath = configuration.path
   const { stdout, exitCode } = await execa('smctl', [
     'sign',
     '--fingerprint',
-    'f5f3e92cc99cc0169228d81ef65ba16ea680fe0a',
+    process.env.DIGICERT_FINGERPRINT 
     '--input',
     execPath
   ])
