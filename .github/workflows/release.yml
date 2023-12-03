@@ -1,5 +1,4 @@
 name: release 
-description: Creates a npm draft release with the latest version of the app
 
 on:
   workflow_dispatch:
