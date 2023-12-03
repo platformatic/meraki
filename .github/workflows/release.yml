@@ -67,6 +67,11 @@ jobs:
           smctl healthcheck
         shell: cmd
 
+      - name: SMCTL keypair list
+        run: |
+          smctl keypair ls
+        shell: cmd
+
       # - uses: actions/setup-java@v4
       #   with:
       #     distribution: 'microsoft' 
@@ -74,12 +79,12 @@ jobs:
       # - uses: actions/checkout@b4ffde65f46336ab88eb53be808477a3936bae11 # v4
       # - run: java -jar ./sign-win/jsign-5.0.jar
         
-      # - uses: actions/setup-node@v3
-      #   with:
-      #     node-version: 18
-      # - run: npm ci
-      # - run: npm run build:win
-      # - run: npm run release:win
+      - uses: actions/setup-node@v3
+        with:
+          node-version: 18
+      - run: npm ci
+      - run: npm run build:win
+      - run: npm run release:win
 
   # release-mac:
   #   runs-on: macos-latest
