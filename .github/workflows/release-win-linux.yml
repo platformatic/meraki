@@ -1,0 +1,23 @@
+name: release 
+  
+on:
+  workflow_dispatch:
+  workflow_call:
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@b4ffde65f46336ab88eb53be808477a3936bae11 # v4
+      - uses: actions/setup-node@v3
+        with:
+          node-version: 18
+      - run: npm ci
+
+  build-mac:
+    runs-on: macos-latest
+    timeout-minutes: 15
+    steps:
+      - run: echo "macos build and sign not implemented yet"
+
