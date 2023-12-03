@@ -8,7 +8,7 @@ exports.default = async function (configuration) {
   try {
     console.log('@@ Signing for windows', configuration.path)
     const execPath = configuration.path
-    const { stdout, stderr } = await execa('smctl', [
+    const { stdout, stderr, exitCode } = await execa('smctl', [
       'sign',
       '--fingerprint',
       configuration.fingerprint,
@@ -17,6 +17,7 @@ exports.default = async function (configuration) {
     ])
     console.log('@@ stdout', stdout)
     console.log('@@ stderr', stderr)
+    console.log('@@ exitCode', exitCode)
   } catch (error) {
     console.error('@@ error catched', error)
     throw error
