@@ -18,7 +18,7 @@ exports.default = async function (configuration) {
   // So we need to check the output for errors.
   // See also: https://docs.digicert.com/en/digicert-keylocker/sign-with-digicert-signing-tools/sign-with-smctl.html
   if (stdout.includes('FAILED')) {
-    console.error('Signing failed:', all, exitCode)
+    console.error('Signing failed:', stdout, exitCode)
     throw new Error(stdout)
   }
 }
