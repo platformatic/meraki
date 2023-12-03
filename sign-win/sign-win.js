@@ -1,10 +1,15 @@
+// This is a callback that can be used to sign the executable on Windows.
+// See: https://www.electron.build/configuration/win
+// We are using this callback instead of the electron-builder built-in mechanism
+// because we want to use the DigiCert signing tool to sign the executable.
+// See also: https://docs.digicert.com/en/digicert-keylocker/sign-with-digicert-signing-tools/sign-with-smctl.html
 exports.default = async function (configuration) {
-  console.log('@@ CONFIGURATION @@', configuration)
-
-  // require('child_process').execSync(
-  //   `java -jar ./sign-win/jsign-5.0.jar --keystore hardwareToken.cfg --storepass "${TOKEN_PASSWORD}" --storetype PKCS11 --tsaurl http://timestamp.digicert.com --alias "${CERTIFICATE_NAME}" "${configuration.path}"`,
-  //   {
-  //     stdio: 'inherit'
-  //   }
-  // )
+  console.log('@@ Signing for windows', configuration.path)
+  const execPath = configuration.path
+  require('child_process').execSync(
+    `smctl sign --fingerprint "${configuration.fingerprint}" --input "${execPath}"`,
+    {
+      stdio: 'inherit'
+    }
+  )
 }
