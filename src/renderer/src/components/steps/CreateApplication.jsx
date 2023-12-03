@@ -135,6 +135,7 @@ const CreateApplication = React.forwardRef(({ onNext }, ref) => {
           bordered={false}
           backgroundColor={WHITE}
           classes={`${commonStyles.buttonPadding} cy-action-next`}
+          data-posthog='create_application_done'
         />
       </div>
     </form>
