@@ -1,5 +1,6 @@
 name: release 
-  
+description: Creates a npm draft release with the latest version of the app
+
 on:
   workflow_dispatch:
   workflow_call:
@@ -9,7 +10,7 @@ env:
   GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
 jobs:
-  release-linux:
+  release-linux-windows:
     runs-on: ubuntu-latest
     timeout-minutes: 15
     steps:
@@ -20,16 +21,17 @@ jobs:
       - run: npm ci
       - run: npm run build
       - run: npm run release:linux
-
-  release-win:
-    runs-on: ubuntu-latest
-    timeout-minutes: 15
-    steps:
-      - run: echo "win release not implemented yet"
+      - run: npm run release:windows
 
   release-mac:
     runs-on: macos-latest
     timeout-minutes: 15
     steps:
-      - run: echo "macos release not implemented yet"
+      - uses: actions/checkout@b4ffde65f46336ab88eb53be808477a3936bae11 # v4
+      - uses: actions/setup-node@v3
+        with:
+          node-version: 18
+      - run: npm ci
+      - run: npm run build
+      - run: npm run release:mac
 
