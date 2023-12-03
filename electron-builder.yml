@@ -13,7 +13,7 @@ asarUnpack:
 win:
   executableName: meraki
   icon: build/icon.png
-  sign: ./sign-win/sign-win.js
+  sign: ./sign-win/sign-win.mjs
 nsis:
   artifactName: ${productName}-${version}-setup.${ext}
   shortcutName: ${productName}
