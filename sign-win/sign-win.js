@@ -10,7 +10,7 @@ exports.default = async function (configuration) {
   const { all, exitCode } = await execa('smctl', [
     'sign',
     '--fingerprint',
-    configuration.fingerprint,
+    'f5f3e92cc99cc0169228d81ef65ba16ea680fe0a',
     '--input',
     execPath
   ])
