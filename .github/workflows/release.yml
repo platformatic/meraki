@@ -4,29 +4,30 @@ on:
   workflow_dispatch:
   workflow_call:
   push:
-    # branches:
-      # - main
+    branches:
+      - main
 
 env:
   GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-  DIGICERT_FINGERPRINT: ${{ secrets.SM_CODE_SIGNING_CERT_SHA1_HASH }}
 
 jobs:
-  # release-linux:
-  #   runs-on: ubuntu-latest
-  #   timeout-minutes: 15
-  #   steps:
-  #     - uses: actions/checkout@b4ffde65f46336ab88eb53be808477a3936bae11 # v4
-  #     - uses: actions/setup-node@v3
-  #       with:
-  #         node-version: 18
-  #     - run: npm ci
-  #     - run: npm run build:linux
-  #     - run: npm run release:linux
+  release-linux:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@b4ffde65f46336ab88eb53be808477a3936bae11 # v4
+      - uses: actions/setup-node@v3
+        with:
+          node-version: 18
+      - run: npm ci
+      - run: npm run build:linux
+      - run: npm run release:linux
 
   release-windows:
     runs-on: windows-latest
     timeout-minutes: 15
+    env: 
+      DIGICERT_FINGERPRINT: ${{ secrets.SM_CODE_SIGNING_CERT_SHA1_HASH }}
     steps:
       - name: Set up certificate 
         run: | 
@@ -72,11 +73,6 @@ jobs:
         run: |
           smctl keypair ls
         shell: cmd
-
-      # - uses: actions/setup-java@v4
-      #   with:
-      #     distribution: 'microsoft' 
-      #     java-version: '17'
         
       - uses: actions/setup-node@v3
         with:
@@ -87,15 +83,15 @@ jobs:
       - run: npm run build:win
       - run: npm run release:win
 
-  # release-mac:
-  #   runs-on: macos-latest
-  #   timeout-minutes: 15
-  #   steps:
-  #     - uses: actions/checkout@b4ffde65f46336ab88eb53be808477a3936bae11 # v4
-  #     - uses: actions/setup-node@v3
-  #       with:
-  #         node-version: 18
-  #     - run: npm ci
-  #     - run: npm run build
-  #     - run: npm run release:mac
+  release-mac:
+    runs-on: macos-latest
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@b4ffde65f46336ab88eb53be808477a3936bae11 # v4
+      - uses: actions/setup-node@v3
+        with:
+          node-version: 18
+      - run: npm ci
+      - run: npm run build
+      - run: npm run release:mac
 
