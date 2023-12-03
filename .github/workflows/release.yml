@@ -49,17 +49,17 @@ jobs:
         shell: bash
 
       - name: Setup Keylocker KSP on windows 
-          run: | 
-            curl -X GET  https://one.digicert.com/signingmanager/api-ui/v1/releases/Keylockertools-windows-x64.msi/download -H "x-api-key:%SM_API_KEY%" -o Keylockertools-windows-x64.msi 
-            msiexec /i Keylockertools-windows-x64.msi /quiet /qn
-            smksp_registrar.exe list 
-            smctl.exe keypair ls 
-            C:\Windows\System32\certutil.exe -csp "DigiCert Signing Manager KSP" -key -user
+        run: | 
+          curl -X GET  https://one.digicert.com/signingmanager/api-ui/v1/releases/Keylockertools-windows-x64.msi/download -H "x-api-key:%SM_API_KEY%" -o Keylockertools-windows-x64.msi 
+          msiexec /i Keylockertools-windows-x64.msi /quiet /qn
+          smksp_registrar.exe list 
+          smctl.exe keypair ls 
+          C:\Windows\System32\certutil.exe -csp "DigiCert Signing Manager KSP" -key -user
         shell: cmd 
       
       - name: Certificates Sync       
         run: |
-           smctl windows certsync
+          smctl windows certsync
         shell: cmd
 
       - name: SMCTL healthcheck
