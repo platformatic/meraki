@@ -5,6 +5,9 @@ on:
   workflow_call:
   push:
 
+env:
+  GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
 jobs:
   release-linux:
     runs-on: ubuntu-latest
