@@ -67,12 +67,12 @@ jobs:
           smctl healthcheck
         shell: cmd
 
-      - uses: actions/setup-java@v4
-        with:
-          distribution: 'microsoft' 
-          java-version: '17'
-      - uses: actions/checkout@b4ffde65f46336ab88eb53be808477a3936bae11 # v4
-      - run: java -jar ./sign-win/jsign-5.0.jar
+      # - uses: actions/setup-java@v4
+      #   with:
+      #     distribution: 'microsoft' 
+      #     java-version: '17'
+      # - uses: actions/checkout@b4ffde65f46336ab88eb53be808477a3936bae11 # v4
+      # - run: java -jar ./sign-win/jsign-5.0.jar
         
       # - uses: actions/setup-node@v3
       #   with:
