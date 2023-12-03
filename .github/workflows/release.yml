@@ -76,14 +76,13 @@ jobs:
       #   with:
       #     distribution: 'microsoft' 
       #     java-version: '17'
-      # - uses: actions/checkout@b4ffde65f46336ab88eb53be808477a3936bae11 # v4
-      # - run: java -jar ./sign-win/jsign-5.0.jar
         
       - uses: actions/setup-node@v3
         with:
           node-version: 18
-      # - run: npm ci 
-      - run: npm install
+
+      - uses: actions/checkout@b4ffde65f46336ab88eb53be808477a3936bae11 # v4
+      - run: npm ci 
       - run: npm run build:win
       - run: npm run release:win
 
