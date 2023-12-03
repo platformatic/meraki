@@ -1,5 +1,4 @@
 import { create } from 'zustand'
-import { generateName } from '../../main/client.mjs'
 
 const useStackablesStore = create((set, get) => ({
   formData: {},
@@ -10,12 +9,12 @@ const useStackablesStore = create((set, get) => ({
       formData: { ...get().formData, ...newValue }
     }
   }),
-  addService: () => set((state) => {
+  addService: (serviceName) => set((state) => {
     const currentServices = get().services
     return {
       ...state,
       services: [...currentServices, {
-        name: generateName({ words: 1 }),
+        name: serviceName,
         template: {},
         plugins: []
       }]

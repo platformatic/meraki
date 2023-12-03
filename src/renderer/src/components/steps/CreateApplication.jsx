@@ -28,7 +28,7 @@ const CreateApplication = React.forwardRef(({ onNext }, ref) => {
     }
   }, [formData])
 
-  function handleSubmit (event) {
+  async function handleSubmit (event) {
     event.preventDefault()
     addFormData({
       createApplication: {
@@ -37,7 +37,8 @@ const CreateApplication = React.forwardRef(({ onNext }, ref) => {
       }
     })
     if (callAddService) {
-      addService()
+      const serviceName = await window.api.getServiceName()
+      addService(serviceName)
     }
     onNext()
   }

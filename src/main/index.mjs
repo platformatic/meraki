@@ -6,6 +6,7 @@ import icon from '../../resources/icon.png?asset'
 import setupMenu from './menu.mjs'
 import { getTemplates, getPlugins } from './client.mjs'
 import { prepareFolder, createApp } from './generate.mjs'
+const generate = require('boring-name-generator')
 
 // eslint-disable-next-line no-unused-vars
 const isMac = process.platform === 'darwin'
@@ -115,6 +116,11 @@ app.whenReady().then(() => {
 
   ipcMain.handle('quit-app', () => {
     app.quit()
+  })
+
+  ipcMain.handle('generate-name', async () => {
+    const val = await generate({ words: 1 }).dashed
+    return val
   })
 })
 

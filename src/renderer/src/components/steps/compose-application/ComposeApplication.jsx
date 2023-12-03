@@ -106,6 +106,11 @@ const ComposeApplication = React.forwardRef(({ onNext, onBack }, ref) => {
     setShowModalViewAll(false)
   }
 
+  async function onClickAddService () {
+    const serviceName = await window.api.getServiceName()
+    addService(serviceName)
+  }
+
   function handleEditApplicationName (newName) {
     addFormData({
       createApplication: {
@@ -181,7 +186,7 @@ const ComposeApplication = React.forwardRef(({ onNext, onBack }, ref) => {
                     <h5 className={`${typographyStyles.desktopHeadline5} ${typographyStyles.textWhite}`}>&nbsp;</h5>
                   </div>
                   <AddService
-                    onClick={() => addService()}
+                    onClick={() => onClickAddService()}
                     enabled={services.find(service => Object.keys(service.template).length === 0) === undefined || currentView === GRID_VIEW}
                   />
                 </div>
