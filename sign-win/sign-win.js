@@ -5,21 +5,20 @@
 // See also: https://docs.digicert.com/en/digicert-keylocker/sign-with-digicert-signing-tools/sign-with-smctl.html
 exports.default = async function (configuration) {
   const { execa } = await import('execa')
-  try {
-    console.log('@@ Signing for windows', configuration.path)
-    const execPath = configuration.path
-    const { stdout, stderr, exitCode } = await execa('smctl', [
-      'sign',
-      '--fingerprint',
-      configuration.fingerprint,
-      '--input',
-      execPath
-    ])
-    console.log('@@ stdout', stdout)
-    console.log('@@ stderr', stderr)
-    console.log('@@ exitCode', exitCode)
-  } catch (error) {
-    console.error('@@ error catched', error)
-    throw error
+  console.log('@@ Signing for windows', configuration.path)
+  const execPath = configuration.path
+  const { all, exitCode } = await execa('smctl', [
+    'sign',
+    '--fingerprint',
+    configuration.fingerprint,
+    '--input',
+    execPath
+  ])
+  // `smctl` returns exit code 0 even if the signing fails :(. )
+  // So we need to check the output for errors.
+  // See also: https://docs.digicert.com/en/digicert-keylocker/sign-with-digicert-signing-tools/sign-with-smctl.html
+  if (all.includes('FAILED')) {
+    console.error('Signing failed:', all, exitCode)
+    throw new Error(stdout)
   }
 }
