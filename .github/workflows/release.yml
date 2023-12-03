@@ -21,7 +21,7 @@ jobs:
     runs-on: ubuntu-latest
     timeout-minutes: 15
     steps:
-      - run: echo "macos release not implemented yet"
+      - run: echo "win release not implemented yet"
 
   release-mac:
     runs-on: macos-latest
