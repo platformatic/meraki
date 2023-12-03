@@ -18,8 +18,9 @@ jobs:
         with:
           node-version: 18
       - run: npm ci
-      - run: npm run build
+      - run: npm run build:linux
       - run: npm run release:linux
+      - run: npm run build:win
       - run: npm run release:win
 
   release-mac:
