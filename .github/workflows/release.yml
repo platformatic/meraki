@@ -67,12 +67,7 @@ jobs:
       - name: SMCTL healthcheck
         run: |
           smctl healthcheck
-        shell: cmd
-
-      - name: SMCTL keypair list
-        run: |
-          smctl keypair ls
-        shell: cmd
+        shell: cmd 
         
       - uses: actions/setup-node@v3
         with:
