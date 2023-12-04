@@ -31,8 +31,8 @@ const elaborateLine = (...args) => {
 const logger = {}
 function createWindow () {
   const mainWindow = new BrowserWindow({
-    minWidth: 1024,
-    minHeight: 768,
+    minWidth: 1440,
+    minHeight: 980,
     show: false,
     autoHideMenuBar: false,
     ...(process.platform === 'linux' ? { icon } : {}),

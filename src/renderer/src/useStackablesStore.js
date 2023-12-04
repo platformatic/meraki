@@ -1,8 +1,12 @@
 import { create } from 'zustand'
 
-const useStackablesStore = create((set, get) => ({
+const initialState = {
   formData: {},
-  services: [],
+  services: []
+}
+
+const useStackablesStore = create((set, get) => ({
+  ...initialState,
   addFormData: (newValue) => set((state) => {
     return {
       ...state,
@@ -88,7 +92,9 @@ const useStackablesStore = create((set, get) => ({
         }
       })]
     }
-  })
+  }),
+  reset: () => { set(initialState) }
+
 }))
 
 if (window.Cypress) {
