@@ -87,7 +87,9 @@ const PrepareFolder = React.forwardRef(({ onNext, onBack }, ref) => {
             dataAttrName='cy'
             dataAttrValue='step-title'
           />
-          <p className={`${typographyStyles.desktopBodyLarge} ${typographyStyles.textWhite} ${typographyStyles.opacity70}`}>Select a template and plugins for your service from our Stackables Marketplace. Once you have chosen a template you can add another Service.</p>
+          <p className={`${typographyStyles.desktopBodyLarge} ${typographyStyles.textWhite} ${typographyStyles.opacity70}`}>
+            We are preparing your folder. Once all the steps are done you will be able to configure your services.
+          </p>
         </div>
         <BorderedBox classes={`${commonStyles.fullWidth} ${styles.content}`} backgroundColor={TRANSPARENT} borderColorOpacity={OPACITY_30} color={WHITE}>
           <div className={`${commonStyles.flexBlockNoGap} `}>

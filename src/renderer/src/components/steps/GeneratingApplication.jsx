@@ -14,13 +14,14 @@ import { NONE, RUNNING, SUCCESS, ERROR } from '~/ui-constants'
 
 const GeneratingApplication = React.forwardRef(({ onClickComplete, onRestartProcess }, ref) => {
   const globalState = useStackablesStore()
-  const { formData } = globalState
+  const { formData, reset } = globalState
   const [appGenerated, setAppGenerated] = useState(false)
   const [appGeneratedError, setAppGeneratedError] = useState(false)
   // const [appGeneratedSuccess, setAppGeneratedSuccess] = useState(false)
   const [npmLogs, setNpmLogs] = useState([])
   const [logValue, setLogValue] = useState(null)
   const [countDownStatus, setCountDownStatus] = useState(NONE)
+  const [restartInProgress, setRestartInProgress] = useState(false)
 
   useEffect(() => {
     logInfo((_, value) => setLogValue(value))
@@ -62,10 +63,12 @@ const GeneratingApplication = React.forwardRef(({ onClickComplete, onRestartProc
   }
 
   function onClickRestart () {
+    setRestartInProgress(true)
+    reset()
     onRestartProcess()
   }
 
-  return (
+  return !restartInProgress && (
     <div className={`${commonStyles.largeFlexBlock} ${commonStyles.fullWidth}`} ref={ref}>
       <div className={commonStyles.mediumFlexBlock}>
         <Title
