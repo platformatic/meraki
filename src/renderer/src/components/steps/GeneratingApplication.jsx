@@ -103,7 +103,8 @@ const GeneratingApplication = React.forwardRef(({ onClickComplete, onRestartProc
             onClick={() => onClickRestart()}
             color={WHITE}
             backgroundColor={TRANSPARENT}
-            classes={`${commonStyles.buttonPadding} cy-action-next`}
+            classes={`${commonStyles.buttonPadding} cy-action-restart`}
+            data-posthog='generating_restart'
           />
           <Button
             disabled={!appGenerated}
@@ -113,6 +114,7 @@ const GeneratingApplication = React.forwardRef(({ onClickComplete, onRestartProc
             bordered={false}
             backgroundColor={WHITE}
             classes={`${commonStyles.buttonPadding} cy-action-next`}
+            data-posthog='generating_complete'
           />
         </div>
       </div>

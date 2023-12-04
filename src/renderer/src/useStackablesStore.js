@@ -3,22 +3,18 @@ import { create } from 'zustand'
 const useStackablesStore = create((set, get) => ({
   formData: {},
   services: [],
-  servicesAddedOnHistory: 0,
   addFormData: (newValue) => set((state) => {
     return {
       ...state,
       formData: { ...get().formData, ...newValue }
     }
   }),
-  addService: () => set((state) => {
+  addService: (serviceName) => set((state) => {
     const currentServices = get().services
-    const serviceName = get().formData.createApplication.service
-    const servicesAddedOnHistory = get().servicesAddedOnHistory + 1
     return {
       ...state,
-      servicesAddedOnHistory,
       services: [...currentServices, {
-        name: `${serviceName}-${servicesAddedOnHistory}`,
+        name: serviceName,
         template: {},
         plugins: []
       }]

@@ -13,9 +13,8 @@ import Title from '~/components/ui/Title'
 const CreateApplication = React.forwardRef(({ onNext }, ref) => {
   const globalState = useStackablesStore()
   const { addFormData, addService, formData } = globalState
-  const [inputOnServiceField, setInputOnServiceField] = useState(false)
-  const [form, setForm] = useState({ application: '', service: '', folder: '' })
-  const [validations, setValidations] = useState({ applicationValid: false, serviceValid: false, folderValid: false, formErrors: { application: '', service: '', folder: '' } })
+  const [form, setForm] = useState({ application: '', folder: '' })
+  const [validations, setValidations] = useState({ applicationValid: false, folderValid: false, formErrors: { application: '', folder: '' } })
   const [validForm, setValidForm] = useState(false)
   const [callAddService, setCallAddService] = useState(true)
   const mockUse = import.meta.env.RENDERER_VITE_USE_MOCKS === 'true'
@@ -23,61 +22,28 @@ const CreateApplication = React.forwardRef(({ onNext }, ref) => {
   useEffect(() => {
     if (formData?.createApplication) {
       validateField('application', formData.createApplication.application, setForm(form => ({ ...form, application: formData.createApplication.application })))
-      validateField('service', formData.createApplication.service, setForm(form => ({ ...form, service: formData.createApplication.service })))
       validateField('folder', formData.createApplication.path, setForm(form => ({ ...form, folder: formData.createApplication.path })))
       setValidForm(true)
       setCallAddService(false)
     }
   }, [formData])
 
-  function handleSubmit (event) {
+  async function handleSubmit (event) {
     event.preventDefault()
     addFormData({
       createApplication: {
         application: form.application,
-        service: form.service,
         path: form.folder
       }
     })
     if (callAddService) {
-      addService()
+      const serviceName = await window.api.getServiceName()
+      addService(serviceName)
     }
     onNext()
   }
 
   function handleChangeApplication (event) {
-    if (inputOnServiceField) {
-      handleChange(event)
-    } else {
-      handleChangeBoth(event)
-    }
-  }
-
-  function handleChangeBoth (event) {
-    const value = event.target.value
-    validateBothField(value, setForm(form => ({ ...form, application: value, service: value })))
-  }
-
-  function validateBothField (fieldValue, callback = () => {}) {
-    let applicationValid = validations.applicationValid
-    const formErrors = { ...validations.formErrors }
-    applicationValid = fieldValue.length > 0 && /^[\w-]+$/g.test(fieldValue)
-    formErrors.application = fieldValue.length > 0 ? (applicationValid ? '' : 'The field is not valid, make sure you are using regular characters') : ''
-    formErrors.service = fieldValue.length > 0 ? (applicationValid ? '' : 'The field is not valid, make sure you are using regular characters') : ''
-    const nextValidation = { ...validations, formErrors }
-    nextValidation.applicationValid = applicationValid
-    nextValidation.serviceValid = applicationValid
-    setValidations(nextValidation)
-    validateForm(nextValidation, callback())
-  }
-
-  function handleChangeService (event) {
-    if (event.target.value !== '' && inputOnServiceField === false) {
-      setInputOnServiceField(true)
-    }
-    if (event.target.value === '' && inputOnServiceField === true) {
-      setInputOnServiceField(false)
-    }
     handleChange(event)
   }
 
@@ -137,17 +103,6 @@ const CreateApplication = React.forwardRef(({ onNext }, ref) => {
               backgroundTransparent
             />
           </Forms.Field>
-          <Forms.Field title='Service name' titleColor={WHITE} required>
-            <Forms.Input
-              placeholder='Enter the name of your service'
-              name='service'
-              borderColor={WHITE}
-              value={form.service}
-              onChange={handleChangeService}
-              errorMessage={validations.formErrors.service}
-              backgroundTransparent
-            />
-          </Forms.Field>
           <Forms.Field title='Select destination folder' titleColor={WHITE} required>
             <Button
               type='button'
@@ -180,6 +135,7 @@ const CreateApplication = React.forwardRef(({ onNext }, ref) => {
           bordered={false}
           backgroundColor={WHITE}
           classes={`${commonStyles.buttonPadding} cy-action-next`}
+          data-posthog='create_application_done'
         />
       </div>
     </form>

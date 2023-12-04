@@ -20,7 +20,8 @@ if (process.contextIsolated) {
       prepareFolder: (folder, templates, appName) => (ipcRenderer.invoke('prepare-folder', folder, templates, appName)),
       onLog: callback => ipcRenderer.on('log', callback),
       createApp: (folder, project) => (ipcRenderer.invoke('create-app', folder, project)),
-      quitApp: () => (ipcRenderer.invoke('quit-app'))
+      quitApp: () => (ipcRenderer.invoke('quit-app')),
+      getServiceName: () => (ipcRenderer.invoke('generate-name'))
     })
   } catch (error) {
     console.error(error)
