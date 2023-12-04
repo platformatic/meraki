@@ -1,10 +1,14 @@
 import { pathToFileURL } from 'node:url'
 import path from 'node:path'
-import split from 'split2'
 import { createRequire } from 'module'
-import execa from 'execa'
+import { fork } from 'node:child_process'
 
 async function importOrLocal ({ pkgManager, projectDir, pkg, logger }) {
+  const resourcesPath = process.resourcesPath
+  const npmPackagePath = path.join(
+    resourcesPath, '..', 'node_modules', 'npm', 'bin', 'npm-cli.js'
+  )
+
   try {
     return await import(pkg)
   } catch (err) {
@@ -18,20 +22,36 @@ async function importOrLocal ({ pkgManager, projectDir, pkg, logger }) {
     } catch (err) {}
 
     logger.info({ name: pkg, path: projectDir }, `Installing ${pkg} on ${projectDir}...`)
-    const child = execa(pkgManager, ['install', pkg], { cwd: projectDir })
 
-    child.stdout.pipe(split()).on('data', (line) => {
-      logger.info(line)
+    console.log(npmPackagePath)
+    const child = fork(npmPackagePath, ['i', pkg], {
+      cwd: projectDir
     })
 
-    child.stderr.pipe(split()).on('data', (line) => {
-      logger.error(line)
+    child.on('message', async (message) => {
+      logger.info(message)
+      console.log(message)
     })
-    await child
 
-    logger.info({ name: pkg, path: projectDir }, 'Installed!')
-    const fileToImport = _require.resolve(pkg)
-    return await import(pathToFileURL(fileToImport))
+    child.on('error', async (err) => {
+      logger.error(err)
+      console.log(err)
+    })
+
+    return new Promise((resolve, reject) => {
+      child.on('exit', async () => {
+        try {
+          logger.info({ name: pkg, path: projectDir }, 'Installed!')
+          const fileToImport = _require.resolve(pkg)
+          logger.info(fileToImport)
+          logger.info(pathToFileURL(fileToImport))
+          const pathToPkg = await import(pathToFileURL(fileToImport))
+          resolve(pathToPkg)
+        } catch (err) {
+          reject(err)
+        }
+      })
+    })
   }
 }
 

@@ -10,6 +10,8 @@ files:
   - '!{.env,.env.*,.npmrc,pnpm-lock.yaml}'
 asarUnpack:
   - resources/**
+extraFiles:
+  - node_modules/npm/**
 win:
   executableName: meraki
   icon: build/icon.png
@@ -38,4 +40,3 @@ npmRebuild: false
 publish:
   provider: github
   private: true
-    
