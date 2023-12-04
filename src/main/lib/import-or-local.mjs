@@ -2,9 +2,9 @@ import { pathToFileURL } from 'node:url'
 import path from 'node:path'
 import split from 'split2'
 import { createRequire } from 'module'
+import execa from 'execa'
 
 async function importOrLocal ({ pkgManager, projectDir, pkg, logger }) {
-  const { execa } = await import('execa')
   try {
     return await import(pkg)
   } catch (err) {

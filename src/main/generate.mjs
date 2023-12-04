@@ -5,6 +5,7 @@ import { importOrLocal } from './lib/import-or-local.mjs'
 import errors from './errors.mjs'
 import split from 'split2'
 import { mkdirp } from 'mkdirp'
+import execa from 'execa'
 
 export const prepareFolder = async (path, tempNames, logger, appName = 'appName') => {
   const s = await stat(path)
@@ -57,7 +58,6 @@ export const prepareFolder = async (path, tempNames, logger, appName = 'appName'
 //   ]
 // ]
 export const createApp = async (dir, { projectName, services, entrypoint, port, logLevel, typescript, createGitHubRepository, installGitHubAction }, logger) => {
-  const { execa } = await import('execa')
   const projectDir = join(dir, projectName)
 
   if (!services || services.length === 0) {
