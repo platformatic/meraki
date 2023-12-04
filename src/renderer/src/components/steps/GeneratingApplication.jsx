@@ -1,18 +1,18 @@
 'use strict'
 import React, { useEffect, useState } from 'react'
 import PropTypes from 'prop-types'
-import { BorderedBox, Button } from '@platformatic/ui-components'
+import { BorderedBox, Button, HorizontalSeparator, Modal } from '@platformatic/ui-components'
 import commonStyles from '~/styles/CommonStyles.module.css'
 import typographyStyles from '~/styles/Typography.module.css'
 import styles from './GeneratingApplication.module.css'
-import { WHITE, TRANSPARENT, RICH_BLACK, OPACITY_30 } from '@platformatic/ui-components/src/components/constants'
+import { WHITE, TRANSPARENT, RICH_BLACK, OPACITY_30, MODAL_POPUP_V2, MARGIN_0 } from '@platformatic/ui-components/src/components/constants'
 import useStackablesStore from '~/useStackablesStore'
 import Title from '~/components/ui/Title'
 import CountDown from '~/components/ui/CountDown'
 import { callCreateApp, logInfo, quitApp } from '~/api'
 import { NONE, RUNNING, SUCCESS, ERROR } from '~/ui-constants'
 
-const GeneratingApplication = React.forwardRef(({ onClickComplete, onRestartProcess }, ref) => {
+const GeneratingApplication = React.forwardRef(({ onRestartProcess }, ref) => {
   const globalState = useStackablesStore()
   const { formData, reset } = globalState
   const [appGenerated, setAppGenerated] = useState(false)
@@ -22,6 +22,7 @@ const GeneratingApplication = React.forwardRef(({ onClickComplete, onRestartProc
   const [logValue, setLogValue] = useState(null)
   const [countDownStatus, setCountDownStatus] = useState(NONE)
   const [restartInProgress, setRestartInProgress] = useState(false)
+  const [showModalContinue, setShowModalContinue] = useState(false)
 
   useEffect(() => {
     logInfo((_, value) => setLogValue(value))
@@ -62,7 +63,13 @@ const GeneratingApplication = React.forwardRef(({ onClickComplete, onRestartProc
     navigator.clipboard.writeText(str)
   }
 
+  function onClickComplete () {
+    setShowModalContinue(false)
+    quitApp()
+  }
+
   function onClickRestart () {
+    setShowModalContinue(false)
     setRestartInProgress(true)
     reset()
     onRestartProcess()
@@ -98,38 +105,74 @@ const GeneratingApplication = React.forwardRef(({ onClickComplete, onRestartProc
           backgroundColor={RICH_BLACK}
           classes={`${commonStyles.buttonPadding} cy-action-donwload-logs`}
         />
+        <Button
+          disabled={!appGenerated}
+          label='Continue'
+          onClick={() => setShowModalContinue(true)}
+          color={RICH_BLACK}
+          bordered={false}
+          backgroundColor={WHITE}
+          classes={`${commonStyles.buttonPadding}`}
+        />
 
-        <div className={`${commonStyles.smallFlexRow} `}>
-          <Button
-            disabled={!appGenerated}
-            label='Restart'
-            onClick={() => onClickRestart()}
-            color={WHITE}
-            backgroundColor={TRANSPARENT}
-            classes={`${commonStyles.buttonPadding} cy-action-restart`}
-            data-posthog='generating_restart'
-          />
-          <Button
-            disabled={!appGenerated}
-            label={appGeneratedError ? 'Close' : 'Complete'}
-            onClick={() => onClickComplete()}
-            color={RICH_BLACK}
-            bordered={false}
-            backgroundColor={WHITE}
-            classes={`${commonStyles.buttonPadding} cy-action-next`}
-            data-posthog='generating_complete'
-          />
-        </div>
       </div>
+      {showModalContinue && (
+        <Modal
+          key='editService'
+          setIsOpen={() => setShowModalContinue(false)}
+          title='Application Created!'
+          titleClassName={`${typographyStyles.desktopBody} ${typographyStyles.textWhite} ${typographyStyles.opacity70}`}
+          layout={MODAL_POPUP_V2}
+        >
+          <div className={`${commonStyles.mediumFlexBlock} ${commonStyles.fullWidth}`}>
+            <p className={`${typographyStyles.desktopBody} ${typographyStyles.textWhite} ${commonStyles.fullWidth}`}>
+              <span className={`${typographyStyles.opacity70}`}>Your application has been created successfull. <br />Click on "Restart" for create another application from scratch <br /> or click on "Complete" to close the application.</span>
+            </p>
+            <HorizontalSeparator marginBottom={MARGIN_0} marginTop={MARGIN_0} color={WHITE} opacity={OPACITY_30} />
+            <div className={`${commonStyles.mediumFlexRow} ${commonStyles.justifyBetween}`}>
+              <Button
+                type='button'
+                classes={commonStyles.buttonPadding}
+                label='Cancel'
+                onClick={() => setShowModalContinue(false)}
+                color={WHITE}
+                backgroundColor={TRANSPARENT}
+              />
+              <div className={`${commonStyles.smallFlexRow} `}>
+                <Button
+                  disabled={!appGenerated}
+                  label='Restart'
+                  onClick={() => onClickRestart()}
+                  color={WHITE}
+                  backgroundColor={TRANSPARENT}
+                  classes={`${commonStyles.buttonPadding} cy-action-restart`}
+                  data-posthog='generating_restart'
+                />
+                <Button
+                  disabled={!appGenerated}
+                  label={appGeneratedError ? 'Close' : 'Complete'}
+                  onClick={() => onClickComplete()}
+                  color={RICH_BLACK}
+                  bordered={false}
+                  backgroundColor={WHITE}
+                  classes={`${commonStyles.buttonPadding} cy-action-next`}
+                  data-posthog='generating_complete'
+                />
+              </div>
+            </div>
+          </div>
+
+        </Modal>
+      )}
     </div>
   )
 })
 
 GeneratingApplication.propTypes = {
   /**
-   * onClickComplete
+   * onComplete
    */
-  onClickComplete: PropTypes.func,
+  onComplete: PropTypes.func,
   /**
    * onRestartProcess
    */
@@ -137,9 +180,7 @@ GeneratingApplication.propTypes = {
 }
 
 GeneratingApplication.defaultProps = {
-  onClickComplete: () => {
-    quitApp()
-  },
+  onComplete: () => {},
   onRestartProcess: () => {}
 
 }
