@@ -5,7 +5,7 @@ import { importOrLocal } from './lib/import-or-local.mjs'
 import errors from './errors.mjs'
 import split from 'split2'
 import { mkdirp } from 'mkdirp'
-import execa from 'execa'
+import { runCommand } from './lib/run-command.mjs'
 
 export const prepareFolder = async (path, tempNames, logger, appName = 'appName') => {
   const s = await stat(path)
@@ -147,7 +147,7 @@ export const createApp = async (dir, { projectName, services, entrypoint, port, 
   await generator.prepare()
   await generator.writeFiles()
 
-  const child = execa(pkgManager, ['install'], { cwd: projectDir })
+  const child = runCommand(pkgManager, ['install'], { cwd: projectDir })
 
   child.stdout.pipe(split()).on('data', (line) => {
     logger.info(line)
