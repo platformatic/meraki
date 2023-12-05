@@ -1,7 +1,7 @@
 import { pathToFileURL } from 'node:url'
 import path from 'node:path'
 import { createRequire } from 'module'
-import { fork } from 'node:child_process'
+import { spawn } from 'node:child_process'
 
 async function importOrLocal ({ pkgManager, projectDir, pkg, logger }) {
   const resourcesPath = process.resourcesPath
@@ -23,12 +23,18 @@ async function importOrLocal ({ pkgManager, projectDir, pkg, logger }) {
 
     logger.info({ name: pkg, path: projectDir }, `Installing ${pkg} on ${projectDir}...`)
 
-    console.log(npmPackagePath)
-    const child = fork(npmPackagePath, ['i', pkg], {
+    const child = spawn(process.env.SHELL, ['-c', `. ~/.zshrc; npm i ${pkg}`], {
       cwd: projectDir
     })
 
-    child.on('message', async (message) => {
+    child.stdout.setEncoding('utf8')
+    child.stdout.on('data', (message) => {
+      logger.info(message)
+      console.log(message)
+    })
+
+    child.stderr.setEncoding('utf8')
+    child.stderr.on('data', (message) => {
       logger.info(message)
       console.log(message)
     })
