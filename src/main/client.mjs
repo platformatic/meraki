@@ -16,7 +16,13 @@ const deployServiceHost = import.meta.env.MAIN_VITE_DEPLOY_SERVICE_HOST || 'http
 const useMocks = import.meta.env.MAIN_VITE_USE_MOCKS === 'true'
 
 const getCurrentApiKey = async () => {
-  const platformaticHome = app.getPath('home')
+  let platformaticHome
+  if (app) {
+    platformaticHome = app.getPath('home')
+  } else {
+    // unit tests
+    platformaticHome = process.env.HOME
+  }
   const pltDirPath = join(platformaticHome, '.platformatic')
   const configPath = join(pltDirPath, 'config.json')
   let configFile
