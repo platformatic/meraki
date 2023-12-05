@@ -18,8 +18,8 @@ const ConfigureApplication = React.forwardRef(({ onNext, onBack }, ref) => {
   const logLevels = ['trace', 'info', 'debug', 'warn', 'error']
   const [form, setForm] = useState({
     entryPoint: services[0].name,
-    port: '',
-    logLevel: 'trace',
+    port: 3042,
+    logLevel: 'info',
     language: TYPESCRIPT,
     createGitHubRepository: true,
     installGitHubActions: true
