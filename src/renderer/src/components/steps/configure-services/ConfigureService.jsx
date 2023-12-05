@@ -64,7 +64,7 @@ function ConfigureService ({ service }) {
         key={element}
       >
         <Forms.Input
-          placeholder='Env variable example'
+          placeholder=''
           name={element}
           borderColor={WHITE}
           value={form[element]}

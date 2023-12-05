@@ -25,9 +25,10 @@ function PluginEnvVarsForm ({
         title={pluginFound.form[element].path}
         titleColor={WHITE}
         key={element}
+        helper={pluginFound.form[element].description || ''}
       >
         <Forms.Input
-          placeholder='Env variable example'
+          placeholder=''
           name={element}
           borderColor={WHITE}
           value={pluginFound.form[element].value}

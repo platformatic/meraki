@@ -59,12 +59,13 @@ export const generateForm = (services, addUpdatedAt = true) => {
 
       if (plugin.envVars.length > 0) {
         plugin.envVars.forEach(envVar => {
-          const { name: envName, type, default: envDefault, path } = envVar
+          const { name: envName, type, default: envDefault, path, description } = envVar
           const value = envDefault || ''
           pluginForm[envName] = {
             path,
             value,
-            type
+            type,
+            description
           }
           pluginValidations[`${envName}Valid`] = value !== ''
           pluginFormErrors[envName] = ''
