@@ -46,21 +46,22 @@ test('Install a non-existent template', async () => {
     throw new Error('Should have thrown an error')
   } catch (err) {
     expect(err).toBeInstanceOf(Error)
-    expect(err.message).toContain("Cannot find module '@platformatic/dontexist'")
+    expect(err.message).toContain('Command failed with exit code 1')
+    expect(logger.errors[0]).toEqual(['npm ERR! code E404'])
   }
 })
 
 test('Install one @platformatic/service template', async () => {
   const appDir = await mkdtemp(join(tmpdir(), 'plat-app-test-create'))
   await prepareFolder(appDir, ['@platformatic/service'], logger, 'test-app')
-  expect(logger.infos[0][0].startsWith('Installing @platformatic/service')).toBe(true)
+  expect(logger.infos[0][0].name).toEqual('@platformatic/service')
   expect(logger.errors.length).toBe(0)
 }, 30000)
 
 test('Install one @platformatic/service template twice', async () => {
   const appDir = await mkdtemp(join(tmpdir(), 'plat-app-test-create'))
   await prepareFolder(appDir, ['@platformatic/service'], logger, 'test-app')
-  expect(logger.infos[0][0].startsWith('Installing @platformatic/service')).toBe(true)
+  expect(logger.infos[0][0].name).toEqual('@platformatic/service')
   expect(logger.errors.length).toBe(0)
 
   await prepareFolder(appDir, ['@platformatic/service'], logger, 'test-app')
