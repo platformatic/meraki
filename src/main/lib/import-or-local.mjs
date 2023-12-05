@@ -43,7 +43,7 @@ async function importOrLocal ({ pkgManager, projectDir, pkg, logger }) {
         sourceFile = '~./bashrc'
       }
 
-      const child = spawn(process.env.SHELL, ['-c', `. ${sourceFile}; npm i ${pkg}`], {
+      const child = spawn(currentShell, ['-c', `. ${sourceFile}; npm i ${pkg}`], {
         cwd: projectDir
       })
 
