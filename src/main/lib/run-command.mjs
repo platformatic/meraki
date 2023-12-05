@@ -1,7 +1,8 @@
 import execa from 'execa'
+import { app } from 'electron'
 
 function runCommand (command, args, options) {
-  if (process.platform === 'win32') {
+  if (process.platform === 'win32' || !app) {
     return execa(command, args, options)
   }
 
