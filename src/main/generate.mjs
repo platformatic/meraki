@@ -60,7 +60,7 @@ export const prepareFolder = async (path, tempNames, logger, appName = 'appName'
 export const createApp = async (dir, { projectName, services, entrypoint, port, logLevel, typescript, createGitHubRepository, installGitHubAction }, logger) => {
   const projectDir = join(dir, projectName)
 
-  await mkdirp.sync(projectDir)
+  mkdirp.sync(projectDir)
 
   if (!services || services.length === 0) {
     logger.error('No services to create')
