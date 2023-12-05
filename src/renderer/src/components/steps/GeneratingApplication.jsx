@@ -37,6 +37,7 @@ const GeneratingApplication = React.forwardRef(({ onRestartProcess }, ref) => {
         console.error(`Error on generateApplication ${error}`)
         setAppGeneratedError(true)
         setCountDownStatus(ERROR)
+        setLogValue({ level: 'error', message: `Error on generateApplication ${error}` })
       } finally {
         setAppGenerated(true)
       }
