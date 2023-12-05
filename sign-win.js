@@ -6,7 +6,7 @@ const { spawnSync } = require('child_process')
 // because we want to use the DigiCert signing tool to sign the executable.
 // See also: https://docs.digicert.com/en/digicert-keylocker/sign-with-digicert-signing-tools/sign-with-smctl.html
 exports.default = async function (configuration) {
-  const { execa } = await import('execa')
+
   console.log('Signing: ', configuration.path)
   const execPath = configuration.path
 
