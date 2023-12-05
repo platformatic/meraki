@@ -36,13 +36,13 @@ async function importOrLocal ({ pkgManager, projectDir, pkg, logger }) {
       const fileToImport = _require.resolve(pkg)
       return await import(pathToFileURL(fileToImport))
     } else {
+      // OSx and linux
       const currentShell = process.env.SHELL || '/bin/zsh'
       let sourceFile = '~/.zshrc'
       if (currentShell === '/bin/bash') {
         sourceFile = '~./bashrc'
       }
 
-      // OSx and linux
       const child = spawn(process.env.SHELL, ['-c', `. ${sourceFile}; npm i ${pkg}`], {
         cwd: projectDir
       })
@@ -61,7 +61,6 @@ async function importOrLocal ({ pkgManager, projectDir, pkg, logger }) {
 
       child.on('error', async (err) => {
         logger.error(err)
-        console.log(err)
       })
 
       return new Promise((resolve, reject) => {
