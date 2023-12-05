@@ -6,7 +6,6 @@ const { spawnSync } = require('child_process')
 // because we want to use the DigiCert signing tool to sign the executable.
 // See also: https://docs.digicert.com/en/digicert-keylocker/sign-with-digicert-signing-tools/sign-with-smctl.html
 exports.default = async function (configuration) {
-
   console.log('Signing: ', configuration.path)
   const execPath = configuration.path
 
@@ -16,13 +15,13 @@ exports.default = async function (configuration) {
     process.env.DIGICERT_FINGERPRINT,
     '--input',
     execPath
-  ],  { encoding: 'utf-8' })
+  ], { encoding: 'utf-8' })
 
   if (child.error) {
     console.error('Signing failed:', child.error)
     throw new Error(child.error)
   }
-  
+
   console.log(child.stdout)
 
   // `smctl` returns exit code 0 even if the signing fails :(. )
