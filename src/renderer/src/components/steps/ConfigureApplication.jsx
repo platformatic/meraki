@@ -24,9 +24,9 @@ const ConfigureApplication = React.forwardRef(({ onNext, onBack }, ref) => {
     createGitHubRepository: true,
     installGitHubActions: true
   })
-  const [validations, setValidations] = useState({ portValid: false, formErrors: { port: '' } })
+  const [validations, setValidations] = useState({ portValid: true, formErrors: { port: '' } })
   // eslint-disable-next-line no-unused-vars
-  const [validForm, setValidForm] = useState(false)
+  const [validForm, setValidForm] = useState(true)
 
   function onClickGenerateApp () {
     addFormData({
