@@ -37,7 +37,8 @@ async function importOrLocal ({ pkgManager, projectDir, pkg, logger }) {
       return await import(pathToFileURL(fileToImport))
     } else {
       // OSx and linux
-      const currentShell = process.env.SHELL || '/bin/zsh'
+      const DEFAULT_SHELL = process.platform === 'darwin' ? '/bin/zsh' : '/bin/bash'
+      const currentShell = process.env.SHELL || DEFAULT_SHELL
       let sourceFile = '~/.zshrc'
       if (currentShell === '/bin/bash') {
         sourceFile = '~./bashrc'
