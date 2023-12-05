@@ -25,7 +25,7 @@ function TemplateEnvVarsForm ({
         key={element}
       >
         <Forms.Input
-          placeholder='Env variable example'
+          placeholder=''
           name={element}
           borderColor={WHITE}
           value={configuredServiceFound.form[element].value}
