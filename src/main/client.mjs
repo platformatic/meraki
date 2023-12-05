@@ -4,6 +4,7 @@ import ossTemplates from './oss_templates.mjs'
 import { join } from 'path'
 import { readFile } from 'node:fs/promises'
 import { createRequire } from 'module'
+import { app } from 'electron'
 
 const require = createRequire(import.meta.url)
 
@@ -15,7 +16,7 @@ const deployServiceHost = import.meta.env.MAIN_VITE_DEPLOY_SERVICE_HOST || 'http
 const useMocks = import.meta.env.MAIN_VITE_USE_MOCKS === 'true'
 
 const getCurrentApiKey = async () => {
-  const platformaticHome = process.env.HOME
+  const platformaticHome = app.getPath('home')
   const pltDirPath = join(platformaticHome, '.platformatic')
   const configPath = join(pltDirPath, 'config.json')
   let configFile
