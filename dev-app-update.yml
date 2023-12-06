@@ -1,3 +1,4 @@
-provider: generic
-url: https://example.com/auto-updates
+provider: github
+owner: platformatic
+repo: meraki
 updaterCacheDirName: platformatic-app-updater
