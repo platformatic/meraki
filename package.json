@@ -3,7 +3,12 @@
   "private": true,
   "version": "0.1.0",
   "main": "./out/main/index.js",
-  "author": "Platformatic Inc.",
+  "author": "Platformatic.dev",
+  "license": "Apache-2.0",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/platformatic/meraki.git"
+  },
   "scripts": {
     "lint": "standard . | snazzy",
     "start": "electron-vite preview",
