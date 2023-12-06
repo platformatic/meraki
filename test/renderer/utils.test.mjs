@@ -280,18 +280,22 @@ test('prepare services with a single plugins', async () => {
     plugins: [{
       name: '@fastify/accepts',
       options: [{
+        name: 'PLT_COOKIE_SECRET',
         path: 'secret',
         type: 'string',
         value: ''
       }, {
+        name: 'PLT_COOKIE_HOOK',
         path: 'hook',
         type: 'string',
         value: ''
       }, {
+        name: 'PLT_COOKIE_PARSEOPTIONS_DOMAIN',
         path: 'parseOptions.domain',
         type: 'string',
         value: ''
       }, {
+        name: 'PLT_COOKIE_PASEOPTIONS_MAXAGE',
         path: 'parseOptions.maxAge',
         type: 'number',
         value: ''

@@ -99,7 +99,7 @@ export const preapareFormForCreateApplication = configuredServices =>
       name: plugin.name,
       options: Object.keys(plugin.form).map(k => {
         const { type, path, value } = plugin.form[k]
-        return { type, path, value }
+        return { type, path, value, name: k }
       })
     }))
   }))
