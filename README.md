@@ -49,3 +49,20 @@ $ npm run build:mac
 $ npm run build:linux
 ```
 
+### Prepare a release tag
+
+Releases are created from tags, so you need to create a tag before you can create a release, e.g. if the current development version is `0.1.0`:
+
+```bash
+git pull # Make sure you have the latest changes
+git tag -a v0.1.0 -m "Release 0.1.0"
+git push origin v0.1.0
+```
+
+Then you have to do a version bump:
+```bash
+npm version --no-git-tag-version minor # or major, patch, etc.
+git add package.json 
+git commit -m "version bump"
+git push
+```
