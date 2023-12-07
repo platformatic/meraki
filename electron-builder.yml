@@ -21,9 +21,11 @@ nsis:
   createDesktopShortcut: always
 mac:
   icon: build/icon.icns
+  category: public.app-category.developer-tools
   entitlementsInherit: build/entitlements.mac.plist
   extendInfo:
-  notarize: true
+  notarize:
+    teamId: 8VKCB2AW8F
 dmg:
   artifactName: ${productName}-${version}.${ext}
 linux:
