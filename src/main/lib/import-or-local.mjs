@@ -8,7 +8,7 @@ async function importOrLocal ({ pkgManager, projectDir, pkg, logger }) {
   try {
     logger.info(`Installing ${pkg} on ${projectDir}...`)
     await import(pkg)
-    logger.info(`During installation we found that there are upper folders with node_modules installed or there is a global installation.`)
+    logger.info('During installation we found that there are upper folders with node_modules installed or there is a global installation.')
     return null
   } catch (err) {
     // This file does not need to exists, will be created automatically
