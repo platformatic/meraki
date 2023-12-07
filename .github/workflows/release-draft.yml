@@ -96,6 +96,5 @@ jobs:
           node-version: 18
       - run: npm ci
       - run: npm run build
-      # - run: npm run release:mac
-      - run: npm run release:mac:test
+      - run: npm run release:mac
 

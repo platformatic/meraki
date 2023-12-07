@@ -24,8 +24,7 @@
     "clean": "rm -Rf ./out && rm -Rf ./dist && rm -Rf ./coverage",
     "release:win": "electron-builder -p always --win --config",
     "release:linux": "electron-builder -p always --linux --config",
-    "release:mac": "electron-builder -p always --mac --config",
-    "release:mac:test": "electron-builder --mac --config"
+    "release:mac": "electron-builder -p always --mac --config"
   },
   "dependencies": {
     "@electron-toolkit/preload": "^2.0.0",
