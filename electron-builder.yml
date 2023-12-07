@@ -23,7 +23,7 @@ mac:
   icon: build/icon.icns
   entitlementsInherit: build/entitlements.mac.plist
   extendInfo:
-  notarize: true
+  notarize: false
 dmg:
   artifactName: ${productName}-${version}.${ext}
 linux:
