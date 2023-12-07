@@ -6,7 +6,10 @@ import { runCommand } from './run-command.mjs'
 
 async function importOrLocal ({ pkgManager, projectDir, pkg, logger }) {
   try {
-    return await import(pkg)
+    logger.info(`Installing ${pkg} on ${projectDir}...`)
+    await import(pkg)
+    logger.info(`During installation we found that there are upper folders with node_modules installed or there is a global installation.`)
+    return null
   } catch (err) {
     // This file does not need to exists, will be created automatically
     const pkgJsonPath = path.join(projectDir, 'package.json')
@@ -16,8 +19,6 @@ async function importOrLocal ({ pkgManager, projectDir, pkg, logger }) {
       const fileToImport = _require.resolve(pkg)
       return await import(pathToFileURL(fileToImport))
     } catch (err) {}
-
-    logger.info(`Installing ${pkg} on ${projectDir}...`)
 
     const child = runCommand(pkgManager, ['install', pkg], { cwd: projectDir })
 
