@@ -86,6 +86,7 @@ export const createApp = async (dir, { projectName, services, entrypoint, port, 
   }
 
   const generator = new runtime.Generator({
+    logger,
     projectName
   })
 
@@ -122,10 +123,12 @@ export const createApp = async (dir, { projectName, services, entrypoint, port, 
       throw new Error(`Template ${templateName} does not have a Generator`)
     }
 
-    const templateGenerator = new template.Generator()
+    const templateGenerator = new template.Generator({
+      logger
+    })
 
     templateGenerator.setConfig({
-      ...templateGenerator.config,
+      ...templateGenerator.getDefaultConfig(),
       serviceName,
       plugin: true,
       tests: true,
@@ -157,6 +160,8 @@ export const createApp = async (dir, { projectName, services, entrypoint, port, 
     logger.error(line)
   })
   await child
+
+  await generator.postInstallActions()
 
   logger.info('App created!')
 }
