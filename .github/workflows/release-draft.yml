@@ -14,78 +14,81 @@ jobs:
   run-test:
     uses: platformatic/meraki/.github/workflows/test.yml@main
 
-  release-linux:
-    needs: run-test 
-    runs-on: ubuntu-latest
-    timeout-minutes: 15
-    steps:
-      - uses: actions/checkout@b4ffde65f46336ab88eb53be808477a3936bae11 # v4
-      - uses: actions/setup-node@v3
-        with:
-          node-version: 18
-      - run: npm ci
-      - run: npm run build:linux
-      - run: npm run release:linux
+  # release-linux:
+  #   needs: run-test 
+  #   runs-on: ubuntu-latest
+  #   timeout-minutes: 15
+  #   steps:
+  #     - uses: actions/checkout@b4ffde65f46336ab88eb53be808477a3936bae11 # v4
+  #     - uses: actions/setup-node@v3
+  #       with:
+  #         node-version: 18
+  #     - run: npm ci
+  #     - run: npm run build:linux
+  #     - run: npm run release:linux
 
-  release-windows:
-    needs: run-test 
-    runs-on: windows-latest
-    timeout-minutes: 15
-    env: 
-      DIGICERT_FINGERPRINT: ${{ secrets.SM_CODE_SIGNING_CERT_SHA1_HASH }}
-      SM_HOST: ${{ secrets.SM_HOST }}
-      SM_API_KEY: ${{ secrets.SM_API_KEY }}
-      SM_CLIENT_CERT_FILE: D:\\Certificate_pkcs12.p12
-      SM_CLIENT_CERT_PASSWORD: ${{ secrets.SM_CLIENT_CERT_PASSWORD }}
-    steps:
-      - name: Set up certificate 
-        run: | 
-          echo "${{ secrets.SM_CLIENT_CERT_FILE_B64 }}" | base64 --decode > /d/Certificate_pkcs12.p12 
-        shell: bash
+  # release-windows:
+  #   needs: run-test 
+  #   runs-on: windows-latest
+  #   timeout-minutes: 15
+  #   env: 
+  #     DIGICERT_FINGERPRINT: ${{ secrets.SM_CODE_SIGNING_CERT_SHA1_HASH }}
+  #     SM_HOST: ${{ secrets.SM_HOST }}
+  #     SM_API_KEY: ${{ secrets.SM_API_KEY }}
+  #     SM_CLIENT_CERT_FILE: D:\\Certificate_pkcs12.p12
+  #     SM_CLIENT_CERT_PASSWORD: ${{ secrets.SM_CLIENT_CERT_PASSWORD }}
+  #   steps:
+  #     - name: Set up certificate 
+  #       run: | 
+  #         echo "${{ secrets.SM_CLIENT_CERT_FILE_B64 }}" | base64 --decode > /d/Certificate_pkcs12.p12 
+  #       shell: bash
 
-      - name: Set variables
-        id: variables
-        run: |
-          dir
-          echo "::set-output name=version::${GITHUB_REF#refs/tags/v}"
-          echo "::set-output name=CERTIFICATE_NAME::gt-certificate"
-          echo "C:\Program Files (x86)\Windows Kits\10\App Certification Kit" >> $GITHUB_PATH
-          echo "C:\Program Files (x86)\Microsoft SDKs\Windows\v10.0A\bin\NETFX 4.8 Tools" >> $GITHUB_PATH
-          echo "C:\Program Files\DigiCert\DigiCert Keylocker Tools" >> $GITHUB_PATH
-        shell: bash
+  #     - name: Set variables
+  #       id: variables
+  #       run: |
+  #         dir
+  #         echo "::set-output name=version::${GITHUB_REF#refs/tags/v}"
+  #         echo "::set-output name=CERTIFICATE_NAME::gt-certificate"
+  #         echo "C:\Program Files (x86)\Windows Kits\10\App Certification Kit" >> $GITHUB_PATH
+  #         echo "C:\Program Files (x86)\Microsoft SDKs\Windows\v10.0A\bin\NETFX 4.8 Tools" >> $GITHUB_PATH
+  #         echo "C:\Program Files\DigiCert\DigiCert Keylocker Tools" >> $GITHUB_PATH
+  #       shell: bash
 
-      - name: Setup Keylocker KSP on windows 
-        run: | 
-          curl -X GET  https://one.digicert.com/signingmanager/api-ui/v1/releases/Keylockertools-windows-x64.msi/download -H "x-api-key:%SM_API_KEY%" -o Keylockertools-windows-x64.msi 
-          msiexec /i Keylockertools-windows-x64.msi /quiet /qn
-          smksp_registrar.exe list 
-          smctl.exe keypair ls 
-          C:\Windows\System32\certutil.exe -csp "DigiCert Signing Manager KSP" -key -user
-        shell: cmd 
-      
-      - name: Certificates Sync       
-        run: |
-          smctl windows certsync
-        shell: cmd
+  #     - name: Setup Keylocker KSP on windows 
+  #       run: | 
+  #         curl -X GET  https://one.digicert.com/signingmanager/api-ui/v1/releases/Keylockertools-windows-x64.msi/download -H "x-api-key:%SM_API_KEY%" -o Keylockertools-windows-x64.msi 
+  #         msiexec /i Keylockertools-windows-x64.msi /quiet /qn
+  #         smksp_registrar.exe list 
+  #         smctl.exe keypair ls 
+  #         C:\Windows\System32\certutil.exe -csp "DigiCert Signing Manager KSP" -key -user
+  #       shell: cmd 
+  #     
+  #     - name: Certificates Sync       
+  #       run: |
+  #         smctl windows certsync
+  #       shell: cmd
 
-      - name: SMCTL healthcheck
-        run: |
-          smctl healthcheck
-        shell: cmd 
-        
-      - uses: actions/setup-node@v3
-        with:
-          node-version: 18
+  #     - name: SMCTL healthcheck
+  #       run: |
+  #         smctl healthcheck
+  #       shell: cmd 
+  #       
+  #     - uses: actions/setup-node@v3
+  #       with:
+  #         node-version: 18
 
-      - uses: actions/checkout@b4ffde65f46336ab88eb53be808477a3936bae11 # v4
-      - run: npm ci 
-      - run: npm run build:win
-      - run: npm run release:win
+  #     - uses: actions/checkout@b4ffde65f46336ab88eb53be808477a3936bae11 # v4
+  #     - run: npm ci 
+  #     - run: npm run build:win
+  #     - run: npm run release:win
 
   release-mac:
     needs: run-test 
     runs-on: macos-latest
     timeout-minutes: 15
+    env: 
+      CSC_LINK: ${{ secrets.CSC_LINK }}
+      CSC_LINK_PASSWORD: ${{ secrets.CSC_LINK_PASSWORD }}
     steps:
       - uses: actions/checkout@b4ffde65f46336ab88eb53be808477a3936bae11 # v4
       - uses: actions/setup-node@v3
