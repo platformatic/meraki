@@ -32,8 +32,11 @@ linux:
   target:
     - AppImage
     - deb
+  desktop: 
+    Type: Application
+    Name: Platformatic Meraki  
   maintainer: platformatic.dev
-  category: Utility
+  category: Development
 appImage:
   artifactName: ${productName}-${version}.${ext}
 npmRebuild: false
