@@ -86,7 +86,7 @@ const GeneratingApplication = React.forwardRef(({ onRestartProcess }, ref) => {
           dataAttrValue='step-title'
         />
         <p className={`${typographyStyles.desktopBodyLarge} ${typographyStyles.textWhite} ${typographyStyles.opacity70}`}>
-          We are generating your app. Once all the steps are done you will be able to complete and use your new application.
+          We are generating your app. <br />Once all the steps are done you will be able to complete and use your new application.
         </p>
       </div>
       <BorderedBox classes={`${commonStyles.fullWidth} ${styles.content}`} backgroundColor={TRANSPARENT} borderColorOpacity={OPACITY_30} color={WHITE}>

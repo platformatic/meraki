@@ -76,14 +76,14 @@ const ConfigureApplication = React.forwardRef(({ onNext, onBack }, ref) => {
   return (
     <div className={styles.container} ref={ref}>
       <div className={`${commonStyles.largeFlexBlock} ${commonStyles.fullWidth}`}>
-        <div className={`${commonStyles.mediumFlexBlock} ${commonStyles.halfWidth}`}>
+        <div className={`${commonStyles.mediumFlexBlock} ${commonStyles.fullWidth}`}>
           <Title
             title={formData.createApplication.application}
             iconName='AppIcon'
             dataAttrName='cy'
             dataAttrValue='step-title'
           />
-          <p className={`${typographyStyles.desktopBodyLarge} ${typographyStyles.textWhite} ${typographyStyles.opacity70}`}>Select a template and plugins for your service from our Stackables Marketplace. Once you have chosen a template you can add another Service.</p>
+          <p className={`${typographyStyles.desktopBodyLarge} ${typographyStyles.textWhite} ${typographyStyles.opacity70}`}>Select a template and plugins for your service from our Stackables Marketplace.<br />Once you have chosen a template you can add another Service.</p>
         </div>
         <div className={`${styles.customFlexBlock} ${commonStyles.halfWidth}`}>
           <Forms.Field

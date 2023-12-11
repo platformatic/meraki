@@ -80,7 +80,7 @@ const PrepareFolder = React.forwardRef(({ onNext, onBack }, ref) => {
   return (
     <div className={styles.container} ref={ref}>
       <div className={commonStyles.largeFlexBlock}>
-        <div className={`${commonStyles.mediumFlexBlock} ${commonStyles.halfWidth}`}>
+        <div className={`${commonStyles.mediumFlexBlock} ${commonStyles.fullWidth}`}>
           <Title
             title={formData.createApplication.application}
             iconName='AppIcon'
@@ -88,7 +88,7 @@ const PrepareFolder = React.forwardRef(({ onNext, onBack }, ref) => {
             dataAttrValue='step-title'
           />
           <p className={`${typographyStyles.desktopBodyLarge} ${typographyStyles.textWhite} ${typographyStyles.opacity70}`}>
-            We are preparing your folder. Once all the steps are done you will be able to configure your services.
+            We are preparing your folder.<br /> Once all the steps are done you will be able to configure your services.
           </p>
         </div>
         <BorderedBox classes={`${commonStyles.fullWidth} ${styles.content}`} backgroundColor={TRANSPARENT} borderColorOpacity={OPACITY_30} color={WHITE}>
