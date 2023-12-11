@@ -33,6 +33,7 @@
     "@platformatic/ui-components": "^0.1.126",
     "autoprefixer": "^10.4.16",
     "boring-name-generator": "^1.0.3",
+    "electron-log": "^5.0.1",
     "electron-updater": "^6.1.7",
     "execa": "^5.1.1",
     "mkdirp": "^3.0.1",

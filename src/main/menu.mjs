@@ -1,4 +1,5 @@
 import { app, Menu } from 'electron'
+import { checkForUpdates } from './updater.mjs'
 
 const isMac = process.platform === 'darwin'
 
@@ -63,6 +64,10 @@ const template = [
   {
     role: 'help',
     submenu: [
+      {
+        label: 'Check for Updates',
+        click: checkForUpdates
+      },
       {
         label: 'Learn More',
         click: async () => {
