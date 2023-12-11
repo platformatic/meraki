@@ -35,8 +35,7 @@ function SelectTemplate ({ onClick, serviceName }) {
   useEffect(() => {
     async function getTemplates () {
       const templates = await getApiTemplates()
-      const tmpOptions = templates.map(e => e.orgName).filter(onlyUnique).sort().map(ele => ({ label: ele, value: ele, iconName: 'OrganizationIcon' }))
-      setOptionsOrganizationsTemplates([...tmpOptions])
+      setOptionsOrganizationsTemplates([...getOrganizationGrouped(templates)])
       setTemplates(templates)
       setFilteredTemplates([...templates])
       setTemplateSelected(templates[0])
@@ -90,8 +89,34 @@ function SelectTemplate ({ onClick, serviceName }) {
     onClick()
   }
 
-  function onlyUnique (value, index, array) {
-    return array.indexOf(value) === index
+  function getOrganizationGrouped (templates) {
+    return templates.map(e => e.orgName).reduce((acc, currentValue) => {
+      const found = acc.find(a => a.label === currentValue)
+      if (found) {
+        found.count += 1
+      } else {
+        acc.push({
+          label: currentValue,
+          count: 1
+        })
+      }
+      return acc
+    }, []).sort((a, b) => {
+      const labelA = a.label.toUpperCase()
+      const labelB = b.label.toUpperCase()
+      if (labelA < labelB) {
+        return -1
+      }
+      if (labelA > labelB) {
+        return 1
+      }
+      return 0
+    }).map(ele => ({
+      label: ele.label,
+      value: ele.label,
+      iconName: 'OrganizationIcon',
+      descriptionValue: `( ${ele.count} ${ele.count > 1 ? 'Templates' : 'Template'} )`
+    }))
   }
 
   function handleClearTemplates () {
