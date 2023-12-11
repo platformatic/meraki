@@ -12,12 +12,20 @@ function TemplateEnvVarsForm ({
   templateName,
   serviceName
 }) {
-  const configuredServiceFound = configuredServices.find(configuredService => configuredService.template === templateName && configuredService.name === serviceName)
+  const configuredServiceFound = configuredServices.find(configuredService => configuredService.template === templateName && configuredService.name === serviceName) || {}
 
-  function renderForm () {
+  function renderFormContainer () {
     if (Object.keys(configuredServiceFound.form).length === 0) {
       return <></>
     }
+    return (
+      <div className={`${commonStyles.mediumFlexBlock} ${commonStyles.fullWidth}`}>
+        {renderForm()}
+      </div>
+    )
+  }
+
+  function renderForm () {
     return Object.keys(configuredServiceFound.form).map((element) => (
       <Forms.Field
         title={configuredServiceFound.form[element].label}
@@ -56,9 +64,7 @@ function TemplateEnvVarsForm ({
       classes={`${commonStyles.mediumFlexBlock} ${commonStyles.fullWidth}`}
     >
       <p className={`${typographyStyles.desktopBody} ${typographyStyles.textWhite}`}>{templateName} {renderVariablesText()}</p>
-      <div className={`${commonStyles.mediumFlexBlock} ${commonStyles.fullWidth}`}>
-        {configuredServiceFound && renderForm()}
-      </div>
+      {configuredServiceFound && renderFormContainer()}
     </BorderedBox>
   )
 }
