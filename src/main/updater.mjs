@@ -50,6 +50,6 @@ export function checkForUpdates (menuItem, focusedWindow, event) {
   updater = menuItem
   updater.enabled = false
   log.info('Checking for updates...')
-  const ret = autoUpdater.checkForUpdates()
-  log.info('Checking for updates...done', ret)
+  autoUpdater.checkForUpdates()
+  log.info('Checking for updates...done')
 }
