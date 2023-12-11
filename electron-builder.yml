@@ -38,5 +38,4 @@ appImage:
   artifactName: ${productName}-${version}.${ext}
 npmRebuild: false
 publish:
-  provider: github
-    
+  provider: github 

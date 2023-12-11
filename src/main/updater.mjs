@@ -14,13 +14,14 @@ autoUpdater.on('error', (error) => {
 
 autoUpdater.on('update-available', async () => {
   log.info('Update available')
-  const buttonIndex = await dialog.showMessageBox({
+  const { response } = await dialog.showMessageBox({
     type: 'info',
     title: 'Found Meraki Update',
     message: 'Found update, do you want update now?',
     buttons: ['Sure', 'No']
   })
-  if (buttonIndex === 0) {
+  if (response === 0) {
+    log.info('Downloading now...')
     autoUpdater.downloadUpdate()
   } else {
     updater.enabled = true
@@ -42,7 +43,7 @@ autoUpdater.on('update-downloaded', async () => {
   log.info('Update downloaded')
   await dialog.showMessageBox({
     title: 'Install Updates',
-    message: 'Updates downloaded, application will be quit for update...'
+    message: 'Updates downloaded, application will quit to apply the update'
   })
   autoUpdater.quitAndInstall()
 })
