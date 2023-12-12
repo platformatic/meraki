@@ -10,6 +10,7 @@ import log from 'electron-log'
 
 log.transports.file.level = 'info'
 log.info('App starting...')
+const version = app.getVersion()
 
 const generate = require('boring-name-generator')
 
@@ -40,6 +41,7 @@ function createWindow () {
     minWidth: 1440,
     minHeight: 980,
     show: false,
+    title: `Platformatic Meraki v${version}`,
     autoHideMenuBar: false,
     ...(process.platform === 'linux' ? { icon } : {}),
     webPreferences: {
