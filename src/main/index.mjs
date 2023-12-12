@@ -6,6 +6,11 @@ import icon from '../../resources/icon.png?asset'
 import setupMenu from './menu.mjs'
 import { getTemplates, getPlugins } from './client.mjs'
 import { prepareFolder, createApp } from './generate.mjs'
+import log from 'electron-log'
+
+log.transports.file.level = 'info'
+log.info('App starting...')
+
 const generate = require('boring-name-generator')
 
 // eslint-disable-next-line no-unused-vars
@@ -28,7 +33,8 @@ const elaborateLine = (...args) => {
   })
   return line
 }
-const logger = {}
+
+const uiLogger = {}
 function createWindow () {
   const mainWindow = new BrowserWindow({
     minWidth: 1440,
@@ -60,10 +66,10 @@ function createWindow () {
     mainWindow.loadFile(join(__dirname, '../renderer/index.html'))
   }
 
-  logger.error = function (args) {
+  uiLogger.error = function (args) {
     mainWindow.webContents.send('log', { level: 'error', message: elaborateLine(args) })
   }
-  logger.info = function (...args) {
+  uiLogger.info = function (...args) {
     mainWindow.webContents.send('log', { level: 'info', message: elaborateLine(...args) })
   }
 
@@ -107,11 +113,11 @@ app.whenReady().then(() => {
   })
 
   ipcMain.handle('prepare-folder', async (_, path, templates, appName) => {
-    return prepareFolder(path, templates, logger, appName)
+    return prepareFolder(path, templates, uiLogger, appName)
   })
 
   ipcMain.handle('create-app', async (_, path, project) => {
-    return createApp(path, project, logger)
+    return createApp(path, project, uiLogger)
   })
 
   ipcMain.handle('quit-app', () => {
