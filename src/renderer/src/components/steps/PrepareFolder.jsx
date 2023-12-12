@@ -137,7 +137,6 @@ const PrepareFolder = React.forwardRef(({ onNext, onBack }, ref) => {
               bordered={false}
               backgroundColor={WHITE}
               classes={`${commonStyles.buttonPadding} cy-action-next`}
-              data-posthog='prepare_folder_done'
             />}
       </div>
     </div>

@@ -215,7 +215,6 @@ const ComposeApplication = React.forwardRef(({ onNext, onBack }, ref) => {
           bordered={false}
           backgroundColor={WHITE}
           classes={`${commonStyles.buttonPadding} cy-action-next`}
-          data-posthog='compose_application_done'
         />
       </div>
       {showModalTemplate && (

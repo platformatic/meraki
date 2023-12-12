@@ -149,7 +149,6 @@ const ConfigureServices = React.forwardRef(({ onNext, onBack }, ref) => {
           bordered={false}
           backgroundColor={WHITE}
           classes={`${commonStyles.buttonPadding} cy-action-next`}
-          data-posthog='configure_services_done'
         />
       </div>
     </div>
