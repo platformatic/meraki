@@ -147,7 +147,6 @@ const GeneratingApplication = React.forwardRef(({ onRestartProcess }, ref) => {
                   color={WHITE}
                   backgroundColor={TRANSPARENT}
                   classes={`${commonStyles.buttonPadding} cy-action-restart`}
-                  data-posthog='generating_restart'
                 />
                 <Button
                   disabled={!appGenerated}
@@ -157,7 +156,6 @@ const GeneratingApplication = React.forwardRef(({ onRestartProcess }, ref) => {
                   bordered={false}
                   backgroundColor={WHITE}
                   classes={`${commonStyles.buttonPadding} cy-action-next`}
-                  data-posthog='generating_complete'
                 />
               </div>
             </div>
