@@ -42,7 +42,6 @@ jobs:
 
   create-draft:
     needs: prepare-release
-    # TODO: restore `main` for the branch
     name: Create Draft Release
     uses: platformatic/meraki/.github/workflows/release-draft.yml@main
     with:
