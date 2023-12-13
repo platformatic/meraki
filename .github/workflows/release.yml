@@ -31,8 +31,8 @@ jobs:
       with:
         version-type:  ${{ github.event.inputs.versionType }}
         tag-prefix:  'v'
-    - name: 'Draft release'
-      uses: platformatic/meraki/.github/workflows/release-draft.yml@main
+    # - name: 'Draft release'
+    #   uses: platformatic/meraki/.github/workflows/release-draft.yml@main
     - name: Get last Draft
       id: last_release
       uses: InsonusK/get-latest-release@v1.0.1 # https://github.com/InsonusK/get-latest-release
