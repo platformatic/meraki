@@ -13,12 +13,11 @@ on:
           - 'patch'
 
 jobs:
-  run-test:
-    uses: platformatic/meraki/.github/workflows/test.yml@main
-
-  version-bump:
+  release:
     runs-on: ubuntu-latest
-    steps:
+    steps: 
+    - name: Run tests
+      uses: platformatic/meraki/.github/workflows/test.yml@main
     - name: Checkout
       uses: actions/checkout@v4
     - name:  'Automated Version Bump'
@@ -28,13 +27,8 @@ jobs:
       with:
         version-type:  ${{ github.event.inputs.versionType }}
         tag-prefix:  'v'
- 
-  create-draft:
-    uses: platformatic/meraki/.github/workflows/release-draft.yml@main
-
-  release:
-    runs-on: ubuntu-latest
-    steps:
+    - name: 'Draft release'
+      uses: platformatic/meraki/.github/workflows/release-draft.yml@main
     - name: Get last Draft
       id: last_release
       uses: InsonusK/get-latest-release@v1.0.1 # https://github.com/InsonusK/get-latest-release
