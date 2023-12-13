@@ -3,6 +3,9 @@ name: release-draft
 on:
   workflow_dispatch:
   workflow_call:
+    inputs:
+      tag_name:
+        type: string
   push:
     branches:
       - main
@@ -19,7 +22,11 @@ jobs:
     runs-on: ubuntu-latest
     timeout-minutes: 15
     steps:
-      - uses: actions/checkout@b4ffde65f46336ab88eb53be808477a3936bae11 # v4
+      - run: echo "Creating Linux draft release for tag ${{ inputs.tag_name }}"
+      - uses: actions/checkout@v4.1.1
+        with:
+          ref: ${{ inputs.tag_name }}
+          fetch-depth: 0 # https://github.com/actions/checkout/issues/1471
       - uses: actions/setup-node@v4
         with:
           node-version: 18
@@ -38,6 +45,7 @@ jobs:
       SM_CLIENT_CERT_FILE: D:\\Certificate_pkcs12.p12
       SM_CLIENT_CERT_PASSWORD: ${{ secrets.SM_CLIENT_CERT_PASSWORD }}
     steps:
+      - run: echo "Creating Windows release for tag ${{ inputs.tag_name }}"
       - name: Set up certificate 
         run: | 
           echo "${{ secrets.SM_CLIENT_CERT_FILE_B64 }}" | base64 --decode > /d/Certificate_pkcs12.p12 
@@ -77,7 +85,10 @@ jobs:
         with:
           node-version: 18
 
-      - uses: actions/checkout@b4ffde65f46336ab88eb53be808477a3936bae11 # v4
+      - uses: actions/checkout@v4.1.1
+        with:
+          ref: ${{ inputs.tag_name }}
+          fetch-depth: 0 # https://github.com/actions/checkout/issues/1471
       - run: npm ci 
       - run: npm run build:win
       - run: npm run release:win
@@ -92,7 +103,11 @@ jobs:
       APPLE_ID: ${{ secrets.APPLE_ID }}
       APPLE_APP_SPECIFIC_PASSWORD: ${{ secrets.APPLE_APP_SPECIFIC_PASSWORD }}
     steps:
-      - uses: actions/checkout@b4ffde65f46336ab88eb53be808477a3936bae11 # v4
+      - run: echo "Creating Mac release for tag ${{ inputs.tag_name }}"
+      - uses: actions/checkout@v4.1.1
+        with:
+          ref: ${{ inputs.tag_name }}
+          fetch-depth: 0 # https://github.com/actions/checkout/issues/1471
       - uses: actions/setup-node@v4
         with:
           node-version: 18
