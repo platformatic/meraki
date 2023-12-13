@@ -2,10 +2,37 @@ name: release
 
 on:
   workflow_dispatch:
+    inputs:
+      versionType:
+        type: choice
+        description: 'The type of release to create'
+        required: true
+        options:
+          - 'major'
+          - 'minor'
+          - 'patch'
 
 jobs:
-  # create-draft:
-  #   uses: platformatic/meraki/.github/workflows/release-draft.yml@main
+  run-test:
+    uses: platformatic/meraki/.github/workflows/test.yml@main
+
+  version-bump:
+    description: 'Automatically bumps the version number and creates a tag'
+    runs-on: ubuntu-latest
+    steps:
+    - name: Checkout
+      uses: actions/checkout@v4
+    - name:  'Automated Version Bump'
+      uses:  'phips28/gh-action-bump-version@master'
+      env:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      with:
+        version-type:  ${{ github.event.inputs.versionType }}
+        tag-prefix:  'v'
+ 
+  create-draft:
+    uses: platformatic/meraki/.github/workflows/release-draft.yml@main
+
   release:
     runs-on: ubuntu-latest
     steps:
@@ -14,13 +41,20 @@ jobs:
       uses: InsonusK/get-latest-release@v1.0.1 # https://github.com/InsonusK/get-latest-release
       with:
         myToken: ${{ secrets.GITHUB_TOKEN }}
-        exclude_types: "release"
+        exclude_types: "release|prerelease"
         view_top: 1
-    - name: "Print result"
+
+    - name: "Print draft info"
       run: |
+          echo "Releasing:"
           echo "id: ${{ steps.last_release.outputs.id }}"
           echo "name: ${{ steps.last_release.outputs.name }}"
           echo "tag_name: ${{ steps.last_release.outputs.tag_name }}"
           echo "created_at: ${{ steps.last_release.outputs.created_atd }}"
-          echo "draft: ${{ steps.last_release.outputs.draft }}"
-          echo "prerelease: ${{ steps.last_release.outputs.prerelease }}"
+
+    - name: "Publish Release"
+      uses: eregon/publish-release@v1
+      env:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      with:
+        release_id: ${{ steps.create_release.outputs.id }}
