@@ -79,7 +79,7 @@ jobs:
     - name: Edit Release
       uses: irongut/EditRelease@v1.2.0
       with:
-      token: ${{ secrets.GITHUB_TOKEN }}
-      id: ${{ steps.last_release.outputs.id }}
-      name: "Platformatic Meraki ${{ steps.last_release.outputs.TAG }}"
+        token: ${{ secrets.GITHUB_TOKEN }}
+        id: ${{ steps.last_release.outputs.id }}
+        name: "Platformatic Meraki ${{ steps.last_release.outputs.TAG }}"
 
