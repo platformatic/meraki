@@ -17,8 +17,8 @@ jobs:
     name: Run Tests
     uses: platformatic/meraki/.github/workflows/test.yml@main
 
-  release:
-    name: Release 
+  prepare-release:
+    name: Prepare release tag 
     needs: run-test
     runs-on: ubuntu-latest
     steps: 
@@ -31,8 +31,18 @@ jobs:
       with:
         version-type:  ${{ github.event.inputs.versionType }}
         tag-prefix:  'v'
-    # - name: 'Draft release'
-    #   uses: platformatic/meraki/.github/workflows/release-draft.yml@main
+
+  create-draft:
+    needs: prepare-release
+    # TODO: pass the tag name to the draft release
+    name: Create Draft Release
+    uses: platformatic/meraki/.github/workflows/release-draft.yml@main
+
+  release:
+    name: Release 
+    needs: create-draft
+    runs-on: ubuntu-latest
+    steps:  
     - name: Get last Draft
       id: last_release
       uses: InsonusK/get-latest-release@v1.0.1 # https://github.com/InsonusK/get-latest-release
