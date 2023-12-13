@@ -42,9 +42,9 @@ jobs:
 
   create-draft:
     needs: prepare-release
-    # TODO: pass the tag name to the draft release
+    # TODO: restore `main` for the branch
     name: Create Draft Release
-    uses: platformatic/meraki/.github/workflows/release-draft.yml@main
+    uses: platformatic/meraki/.github/workflows/release-draft.yml@release-gh
     with:
       tag_name: ${{ needs.prepare-release.outputs.TAG }}
 
