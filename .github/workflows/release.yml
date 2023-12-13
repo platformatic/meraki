@@ -44,7 +44,7 @@ jobs:
     needs: prepare-release
     # TODO: restore `main` for the branch
     name: Create Draft Release
-    uses: platformatic/meraki/.github/workflows/release-draft.yml@release-gh
+    uses: platformatic/meraki/.github/workflows/release-draft.yml@main
     with:
       tag_name: ${{ needs.prepare-release.outputs.TAG }}
     secrets: inherit
