@@ -21,22 +21,32 @@ jobs:
     name: Prepare release tag 
     needs: run-test
     runs-on: ubuntu-latest
+    outputs:
+      TAG: ${{ steps.tag-name.outputs.TAG }}
     steps: 
     - name: Checkout
       uses: actions/checkout@v4
-    - name:  'Automated Version Bump'
+    - id: version-bump 
+      name:  'Automated Version Bump'
       uses:  'phips28/gh-action-bump-version@master'
       env:
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
       with:
         version-type:  ${{ github.event.inputs.versionType }}
         tag-prefix:  'v'
+    - name: Export TAG Parameter
+      id: tag-name
+      run: |
+        echo ::set-output name=TAG::`cat package.json | jq -r .version`
+      shell: bash
 
   create-draft:
     needs: prepare-release
     # TODO: pass the tag name to the draft release
     name: Create Draft Release
     uses: platformatic/meraki/.github/workflows/release-draft.yml@main
+    with:
+      tag_name: ${{ needs.prepare-release.outputs.TAG }}
 
   release:
     name: Release 
