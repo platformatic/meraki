@@ -22,7 +22,7 @@ jobs:
     needs: run-test
     runs-on: ubuntu-latest
     outputs:
-      TAG: ${{ steps.tag-name.outputs.TAG }}
+      TAG: v${{ steps.tag-name.outputs.TAG }}
     steps: 
     - name: Checkout
       uses: actions/checkout@v4
