@@ -17,7 +17,6 @@ jobs:
     uses: platformatic/meraki/.github/workflows/test.yml@main
 
   version-bump:
-    description: 'Automatically bumps the version number and creates a tag'
     runs-on: ubuntu-latest
     steps:
     - name: Checkout
