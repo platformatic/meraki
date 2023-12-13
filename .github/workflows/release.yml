@@ -47,6 +47,7 @@ jobs:
     uses: platformatic/meraki/.github/workflows/release-draft.yml@release-gh
     with:
       tag_name: ${{ needs.prepare-release.outputs.TAG }}
+    secrets: inherit
 
   release:
     name: Release 
