@@ -53,7 +53,7 @@ $ npm run build:linux
 
 Launch the `release` action manually, selecting the release type (`patch`, `minor`, `major`). 
 
-[Release Action](../docs/release-action.png)
+[Release Action](./docs/release-action.png?raw=true "Release Action")
 
 
 
