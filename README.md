@@ -49,3 +49,12 @@ $ npm run build:mac
 $ npm run build:linux
 ```
 
+### Release
+
+Launch the `release` action manually, selecting the release type (`patch`, `minor`, `major`). 
+
+[Release Action](../docs/release-action.png)
+
+
+
+
