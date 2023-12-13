@@ -1,0 +1,26 @@
+name: release
+
+on:
+  workflow_dispatch:
+
+jobs:
+  # create-draft:
+  #   uses: platformatic/meraki/.github/workflows/release-draft.yml@main
+  release:
+    runs-on: ubuntu-latest
+    steps:
+    - name: Get last Draft
+      id: last_release
+      uses: InsonusK/get-latest-release@v1.0.1 # https://github.com/InsonusK/get-latest-release
+      with:
+        myToken: ${{ github.token }} # TODO check if set
+        exclude_types: "release"
+        view_top: 1
+    - name: "Print result"
+        run: |
+          echo "id: ${{ steps.last_release.outputs.id }}"
+          echo "name: ${{ steps.last_release.outputs.name }}"
+          echo "tag_name: ${{ steps.last_release.outputs.tag_name }}"
+          echo "created_at: ${{ steps.last_release.outputs.created_atd }}"
+          echo "draft: ${{ steps.last_release.outputs.draft }}"
+          echo "prerelease: ${{ steps.last_release.outputs.prerelease }}"
