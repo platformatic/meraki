@@ -13,11 +13,15 @@ on:
           - 'patch'
 
 jobs:
+  run-test:
+    name: Run Tests
+    uses: platformatic/meraki/.github/workflows/test.yml@main
+
   release:
+    name: Release 
+    needs: run-test
     runs-on: ubuntu-latest
     steps: 
-    - name: Run tests
-      uses: platformatic/meraki/.github/workflows/test.yml@main
     - name: Checkout
       uses: actions/checkout@v4
     - name:  'Automated Version Bump'
