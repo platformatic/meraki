@@ -11,7 +11,7 @@ jobs:
     steps:
     - name: Get last Draft
       id: last_release
-      uses: InsonusK/get-latest-release@v1.0.1 # https://github.com/InsonusK/get-latest-release
+      uses: InsonusK/get-latest-release@v1.1.0 # https://github.com/InsonusK/get-latest-release
       with:
         myToken: ${{ github.token }} # TODO check if set
         exclude_types: "release"
