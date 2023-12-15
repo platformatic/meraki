@@ -2,7 +2,7 @@
   @apply flex flex-col gap-2 w-full h-full
 }
 .container {
-  @apply flex flex-row gap-x-2 w-full min-w-[824px] max-w-[824px] overflow-x-scroll
+  @apply flex flex-row gap-x-2 w-full min-w-[824px] max-w-[824px] overflow-x-auto
 }
 .halfWidth {
   max-width: calc(50% - 0.5rem);

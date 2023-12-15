@@ -11,19 +11,19 @@
   @apply flex flex-col items-start gap-y-2;
 }
 .mediumFlexRow {
-  @apply flex flex-row items-center gap-x-4 w-full;
+  @apply flex flex-row items-center gap-x-2 lg:gap-x-4 w-full;
 }
 .mediumFlexBlock {
-  @apply flex flex-col items-start gap-y-4;
+  @apply flex flex-col items-start gap-y-2 lg:gap-y-4;
 }
 .mediumFlexBlock24 {
-  @apply flex flex-col items-start gap-y-6;
+  @apply flex flex-col items-start gap-y-2 lg:gap-y-6;
 }
 .largeFlexRow {
-  @apply flex flex-row items-center gap-x-10 w-full;
+  @apply flex flex-row items-center gap-x-3 lg:gap-x-10 w-full;
 }
 .largeFlexBlock {
-  @apply flex flex-col items-start gap-y-10;
+  @apply flex flex-col items-start gap-y-3 lg:gap-y-10;
 }
 .fullWidth {
   @apply w-full;

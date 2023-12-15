@@ -1,5 +1,5 @@
 .scrollableSection {
   min-height: calc(100vH - 27rem);
   max-height: calc(100vH - 27rem);
-  @apply h-full overflow-y-scroll;
+  @apply h-full overflow-x-hidden overflow-y-scroll;
 }

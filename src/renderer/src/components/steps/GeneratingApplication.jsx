@@ -122,7 +122,7 @@ const GeneratingApplication = React.forwardRef(({ onRestartProcess }, ref) => {
           key='editService'
           setIsOpen={() => setShowModalContinue(false)}
           title='Application Created!'
-          titleClassName={`${typographyStyles.desktopHeadline5} ${typographyStyles.textWhite}`}
+          titleClassName={`${typographyStyles.desktopHeadline4} ${typographyStyles.textWhite}`}
           layout={MODAL_POPUP_V2}
         >
           <div className={`${commonStyles.mediumFlexBlock} ${commonStyles.fullWidth}`}>

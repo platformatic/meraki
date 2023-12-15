@@ -16,7 +16,7 @@ function Plugin ({ name, onClick, isSelected }) {
       <div className={`${commonStyles.mediumFlexBlock} ${commonStyles.fullWidth} ${styles.overflowHidden}`}>
         <Icons.StackablesPluginIcon color={TERTIARY_BLUE} size={MEDIUM} />
         <p
-          className={`${typographyStyles.desktopHeadline5} ${typographyStyles.textWhite} ${styles.ellipsis}`}
+          className={`${typographyStyles.desktopHeadline4} ${typographyStyles.textWhite} ${styles.ellipsis}`}
           title={name}
         >
           {name}

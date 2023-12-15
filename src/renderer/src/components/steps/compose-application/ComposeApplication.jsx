@@ -183,7 +183,7 @@ const ComposeApplication = React.forwardRef(({ onNext, onBack }, ref) => {
  */}
                 <div className={`${commonStyles.mediumFlexBlock} ${commonStyles.fullWidth} ${styles.containerPuzzle}`}>
                   <div className={commonStyles.mediumFlexRow}>
-                    <h5 className={`${typographyStyles.desktopHeadline5} ${typographyStyles.textWhite}`}>&nbsp;</h5>
+                    <h5 className={`${typographyStyles.desktopHeadline4} ${typographyStyles.textWhite}`}>&nbsp;</h5>
                   </div>
                   <AddService
                     onClick={() => onClickAddService()}
@@ -271,7 +271,7 @@ const ComposeApplication = React.forwardRef(({ onNext, onBack }, ref) => {
           key='removeService'
           setIsOpen={() => handleCloseModalRemoveService()}
           title='Delete Service'
-          titleClassName={`${typographyStyles.desktopHeadline5} ${typographyStyles.textWhite}`}
+          titleClassName={`${typographyStyles.desktopHeadline4} ${typographyStyles.textWhite}`}
           layout={MODAL_POPUP_V2}
         >
           <RemoveService

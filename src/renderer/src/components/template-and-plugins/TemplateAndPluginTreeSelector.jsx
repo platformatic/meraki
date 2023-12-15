@@ -9,7 +9,7 @@ import commonStyles from '~/styles/CommonStyles.module.css'
 import { BorderedBox, PlatformaticIcon } from '@platformatic/ui-components'
 
 function TemplateSelector ({ onTemplateSelected, service, serviceSelected }) {
-  let className = `${typographyStyles.desktopHeadline5} ${typographyStyles.textWhite} ${styles.ellipsisTemplate}`
+  let className = `${typographyStyles.desktopHeadline4} ${typographyStyles.textWhite} ${styles.ellipsisTemplate}`
   if (serviceSelected?.template !== service.template) {
     className += ` ${typographyStyles.opacity70}`
   }
