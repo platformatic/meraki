@@ -2,16 +2,16 @@
 import styles from './Header.module.css'
 import commonStyles from '~/styles/CommonStyles.module.css'
 import typographyStyles from '~/styles/Typography.module.css'
-import { Button, HorizontalSeparator, Logo } from '@platformatic/ui-components'
+import { Button, HorizontalSeparator } from '@platformatic/ui-components'
 import { WHITE, MARGIN_8 } from '@platformatic/ui-components/src/components/constants'
+import MerakiLogo from '~/components/ui/MerakiLogo'
 
 function Header () {
   return (
     <>
       <div className={styles.header}>
         <div className={commonStyles.smallFlexRow}>
-          <Logo width={70.74} height={56} />
-          <span className={`${typographyStyles.textWhite} ${typographyStyles.desktopBodyLargeSemibold}`}>Platformatic</span>
+          <MerakiLogo />
         </div>
         <div className={commonStyles.smallFlexRow}>
           <span className={`${typographyStyles.desktopBodySmall} ${typographyStyles.textWhite} `}>Need Help?</span>
