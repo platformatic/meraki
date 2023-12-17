@@ -85,47 +85,49 @@ const ConfigureApplication = React.forwardRef(({ onNext, onBack }, ref) => {
           />
           <p className={`${typographyStyles.desktopBodyLarge} ${typographyStyles.textWhite} ${typographyStyles.opacity70}`}>Select a template and plugins for your service from our Stackables Marketplace.<br />Once you have chosen a template you can add another Service.</p>
         </div>
-        <div className={`${styles.customFlexBlock} ${commonStyles.halfWidth}`}>
-          <Forms.Field
-            title='EntryPoint'
-            helper='Select a service as entrypoint of your Application'
-            required
-            titleClassName={`${typographyStyles.desktopBodySemibold} ${typographyStyles.textWhite} `}
-            helperClassName={`${typographyStyles.desktopBodySmall} ${typographyStyles.textWhite} ${typographyStyles.opacity70}`}
-          >
-            <div className={commonStyles.smallFlexRow}>
-              {services.map(service => (
-                <Button
-                  key={service.name}
-                  type='button'
-                  label={service.name}
-                  onClick={() => setForm(form => ({ ...form, entryPoint: service.name }))}
-                  color={WHITE}
-                  backgroundColor={TRANSPARENT}
-                  classes={commonStyles.buttonPadding}
-                  selected={service.name === form.entryPoint}
-                />
-              ))}
-            </div>
-          </Forms.Field>
+        <div className={styles.customFlexBlock}>
+          <div className={styles.customFlexBlockResponsive}>
+            <Forms.Field
+              title='EntryPoint'
+              helper='Select a service as entrypoint of your Application'
+              required
+              titleClassName={`${typographyStyles.desktopBodySemibold} ${typographyStyles.textWhite} `}
+              helperClassName={`${typographyStyles.desktopBodySmall} ${typographyStyles.textWhite} ${typographyStyles.opacity70}`}
+            >
+              <div className={commonStyles.smallFlexRow}>
+                {services.map(service => (
+                  <Button
+                    key={service.name}
+                    type='button'
+                    label={service.name}
+                    onClick={() => setForm(form => ({ ...form, entryPoint: service.name }))}
+                    color={WHITE}
+                    backgroundColor={TRANSPARENT}
+                    classes={commonStyles.buttonPadding}
+                    selected={service.name === form.entryPoint}
+                  />
+                ))}
+              </div>
+            </Forms.Field>
 
-          <Forms.Field
-            title='Port Number'
-            titleClassName={`${typographyStyles.desktopBodySemibold} ${typographyStyles.textWhite} `}
-            required
-          >
-            <Forms.Input
-              placeholder='Enter port number'
-              name='port'
-              borderColor={WHITE}
-              value={form.port}
-              onChange={handleChange}
-              errorMessage={validations.formErrors.port}
-              backgroundTransparent
-              inputTextClassName={`${typographyStyles.desktopBody} ${typographyStyles.textWhite}`}
-              verticalPaddingClassName={commonStyles.noVerticalPadding}
-            />
-          </Forms.Field>
+            <Forms.Field
+              title='Port Number'
+              titleClassName={`${typographyStyles.desktopBodySemibold} ${typographyStyles.textWhite} `}
+              required
+            >
+              <Forms.Input
+                placeholder='Enter port number'
+                name='port'
+                borderColor={WHITE}
+                value={form.port}
+                onChange={handleChange}
+                errorMessage={validations.formErrors.port}
+                backgroundTransparent
+                inputTextClassName={`${typographyStyles.desktopBody} ${typographyStyles.textWhite}`}
+                verticalPaddingClassName={commonStyles.noVerticalPadding}
+              />
+            </Forms.Field>
+          </div>
 
           <Forms.Field
             title='Log Level'
