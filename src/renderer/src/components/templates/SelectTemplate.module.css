@@ -1,8 +1,11 @@
+.container {
+  @apply h-[calc(100%-33px)] lg:h-auto justify-between;
+}
 .templatesContainer {
   @apply lg:min-h-[25.5rem] lg:max-h-[25.5rem] h-full w-full relative;
 }
 .templatesContent{
-  @apply absolute top-0 left-0 flex flex-row gap-x-2 overflow-x-hidden overflow-x-scroll w-full
+  @apply absolute top-0 left-0 flex flex-row gap-x-2 overflow-x-auto w-full
 }
 .gridContainer {
   @apply max-w-[100%] min-w-[100%];

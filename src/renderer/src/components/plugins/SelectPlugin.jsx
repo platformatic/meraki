@@ -10,8 +10,8 @@ import Title from '~/components/ui/Title'
 import useStackablesStore from '~/useStackablesStore'
 import Plugin from './Plugin'
 import { getApiPlugins } from '~/api'
-
-import { MAX_MUMBER_SELECT, NO_RESULTS_VIEW, LIST_PLUGINS_VIEW } from '~/ui-constants'
+import useWindowDimensions from '~/hooks/useWindowDimensions'
+import { MAX_WIDTH_LG, MAX_MUMBER_SELECT, MAX_MUMBER_SELECT_LG, NO_RESULTS_VIEW, LIST_PLUGINS_VIEW } from '~/ui-constants'
 import NoResults from '~/components/ui/NoResults'
 
 function SelectPlugin ({ onClick, serviceName }) {
@@ -24,11 +24,12 @@ function SelectPlugin ({ onClick, serviceName }) {
   const [filterPluginsByValue, setFilterPluginsByValue] = useState('')
   const [innerLoading, setInnerLoading] = useState(true)
   const [currentView, setCurrentView] = useState(LIST_PLUGINS_VIEW)
-
+  const { width: innerWindow } = useWindowDimensions()
   const [currentPage, setCurrentPage] = useState(1)
   const [pages, setPages] = useState([1])
   const scrollRef = useRef(null)
   const containerScrollRef = useRef(null)
+  const [maxPluginDispay, setMaxPluginDisplay] = useState(innerWindow < MAX_WIDTH_LG ? MAX_MUMBER_SELECT : MAX_MUMBER_SELECT_LG)
 
   useEffect(() => {
     async function getPlugins () {
@@ -39,6 +40,15 @@ function SelectPlugin ({ onClick, serviceName }) {
     }
     getPlugins()
   }, [])
+
+  useEffect(() => {
+    if (innerWindow < MAX_WIDTH_LG && maxPluginDispay === MAX_MUMBER_SELECT_LG) {
+      setMaxPluginDisplay(MAX_MUMBER_SELECT)
+    }
+    if (innerWindow >= MAX_WIDTH_LG && maxPluginDispay === MAX_MUMBER_SELECT) {
+      setMaxPluginDisplay(MAX_MUMBER_SELECT_LG)
+    }
+  }, [innerWindow])
 
   useEffect(() => {
     if (serviceName && Object.keys(getService(serviceName)?.plugins).length > 0) {
@@ -52,8 +62,8 @@ function SelectPlugin ({ onClick, serviceName }) {
         setCurrentView(LIST_PLUGINS_VIEW)
       }
       const groupedPlugins = []
-      for (let i = 0; i < filteredPlugins.length; i += MAX_MUMBER_SELECT) {
-        groupedPlugins.push(filteredPlugins.slice(i, i + MAX_MUMBER_SELECT))
+      for (let i = 0; i < filteredPlugins.length; i += maxPluginDispay) {
+        groupedPlugins.push(filteredPlugins.slice(i, i + maxPluginDispay))
       }
       setGroupedPlugins(groupedPlugins)
       setPages(Array.from(new Array(groupedPlugins.length).keys()).map(x => x + 1))
@@ -63,7 +73,7 @@ function SelectPlugin ({ onClick, serviceName }) {
         setCurrentView(NO_RESULTS_VIEW)
       }
     }
-  }, [filteredPlugins.length, filterPluginsByValue])
+  }, [filteredPlugins.length, filterPluginsByValue, maxPluginDispay])
 
   function handleUsePluginsSelected () {
     setPlugins(serviceName, pluginsSelected)
@@ -168,35 +178,37 @@ function SelectPlugin ({ onClick, serviceName }) {
   }
 
   return (
-    <div className={`${commonStyles.largeFlexBlock} ${commonStyles.fullWidth}`}>
-      <div className={commonStyles.mediumFlexBlock}>
-        <Title
-          title='Select a Plugin'
-          iconName='StackablesPluginIcon'
-          dataAttrName='cy'
-          dataAttrValue='modal-title'
-        />
-        <p className={`${typographyStyles.desktopBodyLarge} ${typographyStyles.textWhite} ${typographyStyles.opacity70}`}>Select one or more Plugins from our Stackables Marketplace to be added to your new serviceAdding a plugin to your service is optional.</p>
-      </div>
-      <div className={`${commonStyles.mediumFlexBlock24} ${commonStyles.fullWidth}`}>
-        <SearchBarV2 placeholder='Search for a Plugin' onClear={handleClearPlugins} onChange={handleFilterPlugins} />
-        <div className={`${commonStyles.mediumFlexBlock24} ${commonStyles.fullWidth} ${commonStyles.justifyCenter} ${styles.containerView}`}>
-          {innerLoading
-            ? <LoadingSpinnerV2
-                loading={innerLoading}
-                applySentences={{
-                  containerClassName: `${commonStyles.mediumFlexBlock} ${commonStyles.itemsCenter}`,
-                  sentences: [{
-                    style: `${typographyStyles.desktopBodyLarge} ${typographyStyles.textWhite}`,
-                    text: 'Loading plugins....'
-                  }, {
-                    style: `${typographyStyles.desktopBodyLarge} ${typographyStyles.textWhite} ${typographyStyles.opacity70}`,
-                    text: 'This process will just take a few seconds.'
-                  }]
-                }}
-                containerClassName={styles.loadingSpinner}
-              />
-            : renderCurrentView()}
+    <div className={`${commonStyles.largeFlexBlock} ${commonStyles.fullWidth} ${styles.container}`}>
+      <div className={`${commonStyles.largeFlexBlock} ${commonStyles.fullWidth}`}>
+        <div className={commonStyles.mediumFlexBlock}>
+          <Title
+            title='Select a Plugin'
+            iconName='StackablesPluginIcon'
+            dataAttrName='cy'
+            dataAttrValue='modal-title'
+          />
+          <p className={`${typographyStyles.desktopBodyLarge} ${typographyStyles.textWhite} ${typographyStyles.opacity70}`}>Select one or more Plugins from our Stackables Marketplace to be added to your new serviceAdding a plugin to your service is optional.</p>
+        </div>
+        <div className={`${commonStyles.mediumFlexBlock24} ${commonStyles.fullWidth}`}>
+          <SearchBarV2 placeholder='Search for a Plugin' onClear={handleClearPlugins} onChange={handleFilterPlugins} />
+          <div className={`${commonStyles.mediumFlexBlock24} ${commonStyles.fullWidth} ${commonStyles.justifyCenter} ${styles.containerView}`}>
+            {innerLoading
+              ? <LoadingSpinnerV2
+                  loading={innerLoading}
+                  applySentences={{
+                    containerClassName: `${commonStyles.mediumFlexBlock} ${commonStyles.itemsCenter}`,
+                    sentences: [{
+                      style: `${typographyStyles.desktopBodyLarge} ${typographyStyles.textWhite}`,
+                      text: 'Loading plugins....'
+                    }, {
+                      style: `${typographyStyles.desktopBodyLarge} ${typographyStyles.textWhite} ${typographyStyles.opacity70}`,
+                      text: 'This process will just take a few seconds.'
+                    }]
+                  }}
+                  containerClassName={styles.loadingSpinner}
+                />
+              : renderCurrentView()}
+          </div>
         </div>
       </div>
       <Button
@@ -209,7 +221,6 @@ function SelectPlugin ({ onClick, serviceName }) {
         bordered={false}
         onClick={() => handleUsePluginsSelected()}
       />
-
     </div>
   )
 }
