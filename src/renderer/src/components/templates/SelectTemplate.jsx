@@ -11,8 +11,9 @@ import Title from '~/components/ui/Title'
 import NoResults from '~/components/ui/NoResults'
 import useStackablesStore from '~/useStackablesStore'
 import { getApiTemplates } from '~/api'
-import { MAX_MUMBER_SELECT, NO_RESULTS_VIEW, LIST_TEMPLATES_VIEW } from '~/ui-constants'
+import { MAX_MUMBER_SELECT, MAX_MUMBER_SELECT_LG, MAX_WIDTH_LG, NO_RESULTS_VIEW, LIST_TEMPLATES_VIEW } from '~/ui-constants'
 import Forms from '@platformatic/ui-components/src/components/forms'
+import useWindowDimensions from '~/hooks/useWindowDimensions'
 
 function SelectTemplate ({ onClick, serviceName }) {
   const globalState = useStackablesStore()
@@ -29,6 +30,8 @@ function SelectTemplate ({ onClick, serviceName }) {
   const scrollRef = useRef(null)
   const [filterTemplatesByName, setFilterTemplatesByName] = useState('')
   const [filterTemplatesByOrgName, setFilterTemplatesByOrgName] = useState('')
+  const { width: innerWindow } = useWindowDimensions()
+  const [maxStackableDispay, setMaxStackableDispay] = useState(innerWindow < MAX_WIDTH_LG ? MAX_MUMBER_SELECT : MAX_MUMBER_SELECT_LG)
 
   const containerScrollRef = useRef(null)
 
@@ -43,6 +46,15 @@ function SelectTemplate ({ onClick, serviceName }) {
     }
     getTemplates()
   }, [])
+
+  useEffect(() => {
+    if (innerWindow < MAX_WIDTH_LG && maxStackableDispay === MAX_MUMBER_SELECT_LG) {
+      setMaxStackableDispay(MAX_MUMBER_SELECT)
+    }
+    if (innerWindow >= MAX_WIDTH_LG && maxStackableDispay === MAX_MUMBER_SELECT) {
+      setMaxStackableDispay(MAX_MUMBER_SELECT_LG)
+    }
+  }, [innerWindow])
 
   useEffect(() => {
     if (templates.length > 0 && serviceName && Object.keys(getService(serviceName)?.template).length > 0) {
@@ -71,8 +83,8 @@ function SelectTemplate ({ onClick, serviceName }) {
         setCurrentView(LIST_TEMPLATES_VIEW)
       }
       const groupedTemplates = []
-      for (let i = 0; i < filteredTemplates.length; i += MAX_MUMBER_SELECT) {
-        groupedTemplates.push(filteredTemplates.slice(i, i + MAX_MUMBER_SELECT))
+      for (let i = 0; i < filteredTemplates.length; i += maxStackableDispay) {
+        groupedTemplates.push(filteredTemplates.slice(i, i + maxStackableDispay))
       }
       setGroupedTemplates(groupedTemplates)
       setPages(Array.from(new Array(groupedTemplates.length).keys()).map(x => x + 1))
@@ -82,7 +94,7 @@ function SelectTemplate ({ onClick, serviceName }) {
         setCurrentView(NO_RESULTS_VIEW)
       }
     }
-  }, [filteredTemplates.length, filterTemplatesByName])
+  }, [filteredTemplates.length, filterTemplatesByName, maxStackableDispay])
 
   function handleUsePlatformaticService () {
     setTemplate(serviceName, templateSelected)
@@ -213,65 +225,68 @@ function SelectTemplate ({ onClick, serviceName }) {
   }
 
   return (
-    <div className={`${commonStyles.largeFlexBlock} ${commonStyles.fullWidth}`}>
-      <div className={commonStyles.mediumFlexBlock}>
-        <Title
-          title='Select a Template'
-          iconName='StackablesTemplateIcon'
-          dataAttrName='cy'
-          dataAttrValue='modal-title'
-        />
-        <p className={`${typographyStyles.desktopBodyLarge} ${typographyStyles.textWhite} ${typographyStyles.opacity70}`}>
-          Select a template from our Stackables Marketplace to be uses as a base for your new Service.If you don’t want to select any Template your new service will be built on top of Platformatic Service.
-        </p>
-      </div>
-      <div className={`${commonStyles.mediumFlexBlock24} ${commonStyles.fullWidth}`}>
-        <div className={`${commonStyles.smallFlexBlock} ${commonStyles.fullWidth}`}>
-          <p className={`${typographyStyles.desktopBodySmall} ${typographyStyles.textWhite} ${typographyStyles.opacity70}`}>
-            If you want to view stackables in one of your organizations, remember to log in using <a href='https://docs.platformatic.dev/docs/reference/cli/#login' target='_blank' className={styles.link} rel='noreferrer'>platformatic login</a>.
+    <div className={`${commonStyles.largeFlexBlock} ${commonStyles.fullWidth} ${styles.container}`}>
+      <div className={`${commonStyles.mediumFlexBlock} ${commonStyles.fullWidth}`}>
+        <div className={commonStyles.mediumFlexBlock}>
+          <Title
+            title='Select a Template'
+            iconName='StackablesTemplateIcon'
+            dataAttrName='cy'
+            dataAttrValue='modal-title'
+          />
+          <p className={`${typographyStyles.desktopBodyLarge} ${typographyStyles.textWhite} ${typographyStyles.opacity70}`}>
+            Select a template from our Stackables Marketplace to be uses as a base for your new Service.If you don’t want to select any Template your new service will be built on top of Platformatic Service.
           </p>
-          <div className={`${commonStyles.smallFlexRow} ${commonStyles.fullWidth}`}>
-            <Forms.Select
-              defaultContainerClassName={styles.select}
-              backgroundColor={RICH_BLACK}
-              placeholder='Select Organization'
-              borderColor={WHITE}
-              options={optionsOrganizationsTemplates}
-              defaultOptionsClassName={styles.selectUl}
-              onChange={handleChangeOrganization}
-              onSelect={handleSelectOrganization}
-              onClear={handleClearOrganization}
-              optionsBorderedBottom={false}
-              mainColor={WHITE}
-              borderListColor={WHITE}
-              value={filterTemplatesByOrgName}
-            />
-            <SearchBarV2
-              placeholder='Search for a Template'
-              onClear={handleClearTemplates}
-              onChange={handleFilterTemplates}
-            />
+        </div>
+        <div className={`${commonStyles.mediumFlexBlock24} ${commonStyles.fullWidth}`}>
+          <div className={`${commonStyles.smallFlexBlock} ${commonStyles.fullWidth}`}>
+            <p className={`${typographyStyles.desktopBodySmall} ${typographyStyles.textWhite} ${typographyStyles.opacity70}`}>
+              If you want to view stackables in one of your organizations, remember to log in using <a href='https://docs.platformatic.dev/docs/reference/cli/#login' target='_blank' className={styles.link} rel='noreferrer'>platformatic login</a>.
+            </p>
+            <div className={`${commonStyles.smallFlexRow} ${commonStyles.fullWidth}`}>
+              <Forms.Select
+                defaultContainerClassName={styles.select}
+                backgroundColor={RICH_BLACK}
+                placeholder='Select Organization'
+                borderColor={WHITE}
+                options={optionsOrganizationsTemplates}
+                defaultOptionsClassName={styles.selectUl}
+                onChange={handleChangeOrganization}
+                onSelect={handleSelectOrganization}
+                onClear={handleClearOrganization}
+                optionsBorderedBottom={false}
+                mainColor={WHITE}
+                borderListColor={WHITE}
+                value={filterTemplatesByOrgName}
+              />
+              <SearchBarV2
+                placeholder='Search for a Template'
+                onClear={handleClearTemplates}
+                onChange={handleFilterTemplates}
+              />
+            </div>
+          </div>
+          <div className={`${commonStyles.mediumFlexBlock24} ${commonStyles.fullWidth} ${commonStyles.justifyCenter} ${styles.containerView}`}>
+            {innerLoading
+              ? <LoadingSpinnerV2
+                  loading={innerLoading}
+                  applySentences={{
+                    containerClassName: `${commonStyles.mediumFlexBlock} ${commonStyles.itemsCenter}`,
+                    sentences: [{
+                      style: `${typographyStyles.desktopBodyLarge} ${typographyStyles.textWhite}`,
+                      text: 'Loading templates....'
+                    }, {
+                      style: `${typographyStyles.desktopBodyLarge} ${typographyStyles.textWhite} ${typographyStyles.opacity70}`,
+                      text: 'This process will just take a few seconds.'
+                    }]
+                  }}
+                  containerClassName={styles.loadingSpinner}
+                />
+              : renderCurrentView()}
           </div>
         </div>
-        <div className={`${commonStyles.mediumFlexBlock24} ${commonStyles.fullWidth} ${commonStyles.justifyCenter} ${styles.containerView}`}>
-          {innerLoading
-            ? <LoadingSpinnerV2
-                loading={innerLoading}
-                applySentences={{
-                  containerClassName: `${commonStyles.mediumFlexBlock} ${commonStyles.itemsCenter}`,
-                  sentences: [{
-                    style: `${typographyStyles.desktopBodyLarge} ${typographyStyles.textWhite}`,
-                    text: 'Loading templates....'
-                  }, {
-                    style: `${typographyStyles.desktopBodyLarge} ${typographyStyles.textWhite} ${typographyStyles.opacity70}`,
-                    text: 'This process will just take a few seconds.'
-                  }]
-                }}
-                containerClassName={styles.loadingSpinner}
-              />
-            : renderCurrentView()}
-        </div>
       </div>
+
       <Button
         disabled={!templateSelected}
         classes={`${commonStyles.buttonPadding} cy-action-use-template`}

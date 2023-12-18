@@ -1,7 +1,5 @@
 .content {
-  @apply overflow-y-scroll;
-  min-height: calc(100vH - 32rem);
-  max-height: calc(100vH - 32rem);
+  @apply overflow-x-hidden overflow-y-auto max-h-[calc(100vH-22rem)] min-h-[calc(100vH-22rem)] lg:max-h-[calc(100vH-32rem)] lg:min-h-[calc(100vH-32rem)];
 }
 .buttonContainer {
   @apply flex justify-between;

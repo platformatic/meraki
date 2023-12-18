@@ -11,7 +11,7 @@ function NameService ({ name, onClickEdit, onClickRemove, removeDisabled }) {
   return (
     <div className={`${commonStyles.mediumFlexRow} ${commonStyles.justifyBetween} ${commonStyles.itemsCenter} ${commonStyles.fullWidth}`}>
       <div className={`${commonStyles.overflowHidden} ${styles.flexGrow}`}>
-        <h5 className={`${typographyStyles.desktopHeadline5} ${typographyStyles.textWhite} ${styles.ellipsis} `} title={name}>
+        <h5 className={`${typographyStyles.desktopHeadline4} ${typographyStyles.textWhite} ${styles.ellipsis} `} title={name}>
           {name}
         </h5>
       </div>

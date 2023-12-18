@@ -1,12 +1,27 @@
 'use strict'
+import { useEffect, useState } from 'react'
 import styles from './Header.module.css'
 import commonStyles from '~/styles/CommonStyles.module.css'
 import typographyStyles from '~/styles/Typography.module.css'
 import { Button, HorizontalSeparator } from '@platformatic/ui-components'
-import { WHITE, MARGIN_8 } from '@platformatic/ui-components/src/components/constants'
+import { WHITE, MARGIN_8, MARGIN_0 } from '@platformatic/ui-components/src/components/constants'
 import MerakiLogo from '~/components/ui/MerakiLogo'
+import useWindowDimensions from '~/hooks/useWindowDimensions'
+import { MAX_WIDTH_LG } from '~/ui-constants'
 
 function Header () {
+  const { width: innerWindow } = useWindowDimensions()
+  const [margins, setMargins] = useState(innerWindow < MAX_WIDTH_LG ? MARGIN_0 : MARGIN_8)
+
+  useEffect(() => {
+    if (innerWindow < MAX_WIDTH_LG && margins === MARGIN_8) {
+      setMargins(MARGIN_0)
+    }
+    if (innerWindow >= MAX_WIDTH_LG && margins === MARGIN_0) {
+      setMargins(MARGIN_8)
+    }
+  }, [innerWindow])
+
   return (
     <>
       <div className={styles.header}>
@@ -26,7 +41,7 @@ function Header () {
           />
         </div>
       </div>
-      <HorizontalSeparator marginBottom={MARGIN_8} marginTop={MARGIN_8} />
+      <HorizontalSeparator marginBottom={margins} marginTop={margins} />
     </>
   )
 }

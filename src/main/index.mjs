@@ -38,8 +38,8 @@ const elaborateLine = (...args) => {
 const uiLogger = {}
 function createWindow () {
   const mainWindow = new BrowserWindow({
-    minWidth: 1440,
-    minHeight: 980,
+    minWidth: 1024,
+    minHeight: 786,
     show: false,
     title: `Platformatic Meraki v${version}`,
     autoHideMenuBar: false,

@@ -5,5 +5,8 @@
   @apply flex justify-between;
 }
 .customFlexBlock {
-  @apply flex flex-col gap-y-8
+  @apply flex flex-col gap-y-8 w-full lg:w-1/2
+}
+.customFlexBlockResponsive {
+  @apply flex flex-row lg:flex-col gap-8 w-full lg:w-1/2
 }

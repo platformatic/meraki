@@ -1,5 +1,5 @@
 .container {
-  @apply flex flex-col min-h-[80vH] overflow-y-scroll justify-between
+  @apply flex flex-col min-h-[80vH] overflow-x-hidden overflow-y-auto justify-between
 }
 .buttonContainer {
   @apply flex justify-between;
