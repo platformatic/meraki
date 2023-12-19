@@ -208,7 +208,7 @@ const ComposeApplication = React.forwardRef(({ onNext, onBack }, ref) => {
         />
 
         <Button
-          disabled={!(Object.hasOwn(services[0]?.template, 'name'))}
+          disabled={services.find(service => (service.template?.name ?? '') === '')}
           label='Next - Prepare Folder'
           onClick={() => onClickPrepareFolder()}
           color={RICH_BLACK}
