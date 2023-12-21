@@ -11,7 +11,7 @@ import { MAX_WIDTH_LG } from '~/ui-constants'
 
 function Header () {
   const { width: innerWindow } = useWindowDimensions()
-  const [margins, setMargins] = useState(innerWindow < MAX_WIDTH_LG ? MARGIN_0 : MARGIN_8)
+  const [margins, setMargins] = useState(MARGIN_8)
 
   useEffect(() => {
     if (innerWindow < MAX_WIDTH_LG && margins === MARGIN_8) {

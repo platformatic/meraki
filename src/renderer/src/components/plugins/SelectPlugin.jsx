@@ -133,7 +133,7 @@ function SelectPlugin ({ onClick, serviceName }) {
             <Plugin
               key={plugin.name}
               isSelected={pluginsSelected.find(pluginSelected => pluginSelected.name === plugin.name) !== undefined}
-              onClick={() => handleClickPlugin(plugin)}
+              onClickCardPlugin={() => handleClickPlugin(plugin)}
               {...plugin}
             />
           )}
