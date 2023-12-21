@@ -4,7 +4,7 @@ import PropTypes from 'prop-types'
 import { BorderedBox, Forms } from '@platformatic/ui-components'
 import commonStyles from '~/styles/CommonStyles.module.css'
 import typographyStyles from '~/styles/Typography.module.css'
-import { OPACITY_30, TRANSPARENT, WHITE } from '@platformatic/ui-components/src/components/constants'
+import { OPACITY_30, RICH_BLACK, TRANSPARENT, WHITE } from '@platformatic/ui-components/src/components/constants'
 
 function TemplateEnvVarsForm ({
   configuredServices,
@@ -39,7 +39,7 @@ function TemplateEnvVarsForm ({
           value={configuredServiceFound.form[element].value}
           onChange={onChange}
           errorMessage={configuredServiceFound.validations.formErrors[element]}
-          backgroundTransparent
+          backgroundColor={RICH_BLACK}
           inputTextClassName={`${typographyStyles.desktopBody} ${typographyStyles.textWhite}`}
           verticalPaddingClassName={commonStyles.noVerticalPadding}
           dataAttrName='cy'

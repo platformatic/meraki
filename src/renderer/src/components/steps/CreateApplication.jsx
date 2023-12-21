@@ -100,7 +100,7 @@ const CreateApplication = React.forwardRef(({ onNext }, ref) => {
               value={form.application}
               onChange={handleChangeApplication}
               errorMessage={validations.formErrors.application}
-              backgroundTransparent
+              backgroundColor={RICH_BLACK}
             />
           </Forms.Field>
           <Forms.Field title='Select destination folder' titleColor={WHITE} required>
@@ -120,7 +120,7 @@ const CreateApplication = React.forwardRef(({ onNext }, ref) => {
               value={form.folder}
               onChange={mockUse ? handleChange : () => {}}
               errorMessage={validations.formErrors.folder}
-              backgroundTransparent
+              backgroundColor={RICH_BLACK}
               readOnly={!mockUse}
             />
           </Forms.Field>

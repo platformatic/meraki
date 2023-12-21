@@ -122,7 +122,7 @@ const ConfigureApplication = React.forwardRef(({ onNext, onBack }, ref) => {
                 value={form.port}
                 onChange={handleChange}
                 errorMessage={validations.formErrors.port}
-                backgroundTransparent
+                backgroundColor={RICH_BLACK}
                 inputTextClassName={`${typographyStyles.desktopBody} ${typographyStyles.textWhite}`}
                 verticalPaddingClassName={commonStyles.noVerticalPadding}
               />

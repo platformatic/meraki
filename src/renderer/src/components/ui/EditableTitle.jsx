@@ -76,7 +76,7 @@ function EditableTitle ({ title, iconName, onClickSubmit, dataAttrName, dataAttr
                 value={form.application}
                 onChange={handleChange}
                 errorMessage={validations.formErrors.application}
-                backgroundTransparent
+                backgroundColor={RICH_BLACK}
                 inputTextClassName={h2ClassName}
                 verticalPaddingClassName={commonStyles.noVerticalPadding}
               />

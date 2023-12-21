@@ -4,7 +4,7 @@ import PropTypes from 'prop-types'
 import { Forms, Icons } from '@platformatic/ui-components'
 import commonStyles from '~/styles/CommonStyles.module.css'
 import typographyStyles from '~/styles/Typography.module.css'
-import { WHITE, LARGE } from '@platformatic/ui-components/src/components/constants'
+import { WHITE, LARGE, RICH_BLACK } from '@platformatic/ui-components/src/components/constants'
 
 function ConfigureService ({ service }) {
   const [form, setForm] = useState(null)
@@ -70,7 +70,7 @@ function ConfigureService ({ service }) {
           value={form[element]}
           onChange={handleChange}
           errorMessage={validations.formErrors[element]}
-          backgroundTransparent
+          backgroundColor={RICH_BLACK}
           inputTextClassName={`${typographyStyles.desktopBody} ${typographyStyles.textWhite}`}
           verticalPaddingClassName={commonStyles.noVerticalPadding}
           dataAttrName='cy'
