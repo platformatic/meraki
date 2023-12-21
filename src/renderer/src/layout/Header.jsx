@@ -14,11 +14,13 @@ function Header () {
   const [margins, setMargins] = useState(MARGIN_8)
 
   useEffect(() => {
-    if (innerWindow < MAX_WIDTH_LG && margins === MARGIN_8) {
-      setMargins(MARGIN_0)
-    }
-    if (innerWindow >= MAX_WIDTH_LG && margins === MARGIN_0) {
-      setMargins(MARGIN_8)
+    if (innerWindow > 0) {
+      if (innerWindow < MAX_WIDTH_LG && margins === MARGIN_8) {
+        setMargins(MARGIN_0)
+      }
+      if (innerWindow >= MAX_WIDTH_LG && margins === MARGIN_0) {
+        setMargins(MARGIN_8)
+      }
     }
   }, [innerWindow])
 
@@ -41,7 +43,7 @@ function Header () {
           />
         </div>
       </div>
-      <HorizontalSeparator marginBottom={margins} marginTop={margins} />
+      <HorizontalSeparator marginBottom={margins || MARGIN_8} marginTop={margins || MARGIN_8} />
     </>
   )
 }

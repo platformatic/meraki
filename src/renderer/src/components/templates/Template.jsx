@@ -65,7 +65,7 @@ function Template ({
             description={description}
             tags={tags}
             author={author}
-            onClickSelectPlugin={() => handleClickSelectTemplateDetail()}
+            onClickSelectTemplate={() => handleClickSelectTemplateDetail()}
           />
         </ModalDirectional>
       )}
