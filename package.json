@@ -27,7 +27,7 @@
     "release:mac": "electron-builder -p always --mac --config"
   },
   "dependencies": {
-    "@electron-toolkit/preload": "^2.0.0",
+    "@electron-toolkit/preload": "^3.0.0",
     "@electron-toolkit/utils": "^2.0.1",
     "@fastify/error": "^3.4.1",
     "@platformatic/ui-components": "^0.1.130",
