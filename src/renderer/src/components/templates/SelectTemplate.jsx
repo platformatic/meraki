@@ -180,7 +180,7 @@ function SelectTemplate ({ onClick, serviceName }) {
             <Template
               key={template.name}
               isSelected={templateSelected.name === template.name}
-              onClick={() => setTemplateSelected(template)}
+              onClickCardTemplate={() => setTemplateSelected(template)}
               {...template}
             />
           )}
