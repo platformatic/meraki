@@ -29,18 +29,20 @@ function PluginDetail ({ name, description, tags, author, onClickSelectPlugin })
 
         <HorizontalSeparator marginBottom={MARGIN_0} marginTop={MARGIN_0} color={WHITE} opacity={OPACITY_30} />
         {tags.length > 0 && (
-          <div className={`${commonStyles.smallFlexBlock} ${commonStyles.fullWidth}`}>
+          <div className={`${commonStyles.mediumFlexBlock} ${commonStyles.fullWidth}`}>
             <h4 className={`${typographyStyles.desktopHeadline4} ${typographyStyles.textWhite}`}>Tags</h4>
-            {tags.map(tag =>
-              <Tag
-                key={tag}
-                text={tag.toUpperCase()}
-                textClassName={`${typographyStyles.desktopOtherOverlineNormal} ${typographyStyles.textWhite}`}
-                backgroundColor={WHITE}
-                bordered={false}
-                opaque={OPACITY_30}
-                fullRounded
-              />)}
+            <div className={`${commonStyles.smallFlexRow} ${commonStyles.fullWidth}`}>
+              {tags.map(tag =>
+                <Tag
+                  key={tag}
+                  text={tag.toUpperCase()}
+                  textClassName={`${typographyStyles.desktopOtherOverlineNormal} ${typographyStyles.textWhite}`}
+                  backgroundColor={WHITE}
+                  bordered={false}
+                  opaque={OPACITY_30}
+                  fullRounded
+                />)}
+            </div>
 
           </div>
         )}

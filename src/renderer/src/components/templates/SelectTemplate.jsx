@@ -102,7 +102,7 @@ function SelectTemplate ({ onClick, serviceName }) {
   }
 
   function getOrganizationGrouped (templates) {
-    return templates.map(e => e.orgName).reduce((acc, currentValue) => {
+    return templates.map(e => e?.orgName || 'No Name').reduce((acc, currentValue) => {
       const found = acc.find(a => a.label === currentValue)
       if (found) {
         found.count += 1
