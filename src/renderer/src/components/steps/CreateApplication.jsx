@@ -100,7 +100,7 @@ const CreateApplication = React.forwardRef(({ onNext }, ref) => {
               value={form.application}
               onChange={handleChangeApplication}
               errorMessage={validations.formErrors.application}
-              backgroundTransparent
+              backgroundColor={RICH_BLACK}
             />
           </Forms.Field>
           <Forms.Field title='Select destination folder' titleColor={WHITE} required>
@@ -111,7 +111,7 @@ const CreateApplication = React.forwardRef(({ onNext }, ref) => {
               onClick={async () => handleOpenFolder()}
               color={WHITE}
               backgroundColor={TRANSPARENT}
-              classes={`${commonStyles.buttonPadding} cy-action-open-folder`}
+              classes={`${commonStyles.buttonPaddingBordered} ${typographyStyles.desktopBody} ${typographyStyles.textWhite} cy-action-open-folder`}
             />
             <Forms.Input
               placeholder='Select the destination folder of your application using the Button'
@@ -120,7 +120,7 @@ const CreateApplication = React.forwardRef(({ onNext }, ref) => {
               value={form.folder}
               onChange={mockUse ? handleChange : () => {}}
               errorMessage={validations.formErrors.folder}
-              backgroundTransparent
+              backgroundColor={RICH_BLACK}
               readOnly={!mockUse}
             />
           </Forms.Field>

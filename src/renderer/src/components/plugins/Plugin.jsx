@@ -5,31 +5,64 @@ import Icons from '@platformatic/ui-components/src/components/icons'
 import typographyStyles from '~/styles/Typography.module.css'
 import commonStyles from '~/styles/CommonStyles.module.css'
 import styles from './Plugin.module.css'
-import { Button } from '@platformatic/ui-components'
+import { Button, ModalDirectional } from '@platformatic/ui-components'
+import { useState } from 'react'
+import PluginDetail from './PluginDetail'
 
-function Plugin ({ name, onClick, isSelected }) {
+function Plugin ({ name, onClickCardPlugin, isSelected, description, tags, author }) {
+  const [showModalDetail, setShowModalDetail] = useState(false)
   let className = `${commonStyles.smallFlexBlock} ${styles.container} `
   className += isSelected ? styles.selected : styles.unSelected
 
+  function handleShowModal (event) {
+    event.stopPropagation()
+    setShowModalDetail(true)
+  }
+
+  function handleClickSelectPluginDetail () {
+    setShowModalDetail(false)
+    onClickCardPlugin()
+  }
+
   return (
-    <div className={className} onClick={() => onClick()} {...{ 'data-cy': 'template' }}>
-      <div className={`${commonStyles.mediumFlexBlock} ${commonStyles.fullWidth} ${styles.overflowHidden}`}>
-        <Icons.StackablesPluginIcon color={TERTIARY_BLUE} size={MEDIUM} />
-        <p
-          className={`${typographyStyles.desktopHeadline4} ${typographyStyles.textWhite} ${styles.ellipsis}`}
-          title={name}
-        >
-          {name}
-        </p>
+    <>
+      <div className={className} onClick={() => onClickCardPlugin()} {...{ 'data-cy': 'template' }}>
+        <div className={`${commonStyles.mediumFlexBlock} ${commonStyles.fullWidth} ${styles.overflowHidden}`}>
+          <Icons.StackablesPluginIcon color={TERTIARY_BLUE} size={MEDIUM} />
+          <p
+            className={`${typographyStyles.desktopHeadline4} ${typographyStyles.textWhite} ${styles.ellipsis}`}
+            title={name}
+          >
+            {name}
+          </p>
+        </div>
+        <Button
+          type='button'
+          color={WHITE}
+          label='View Details'
+          platformaticIconAfter={{ iconName: 'ArrowLongRightIcon', color: WHITE }}
+          bordered={false}
+          classes={commonStyles.noPadding}
+          onClick={(event) => handleShowModal(event)}
+        />
       </div>
-      <Button
-        color={WHITE}
-        label='View Details'
-        platformaticIconAfter={{ iconName: 'ArrowLongRightIcon', color: WHITE }}
-        bordered={false}
-        classes={commonStyles.noPadding}
-      />
-    </div>
+      {showModalDetail && (
+        <ModalDirectional
+          key={name}
+          setIsOpen={() => setShowModalDetail(false)}
+          title='Back to Plugin'
+          titleClassName={`${typographyStyles.desktopBody} ${typographyStyles.textWhite} ${typographyStyles.opacity70}`}
+        >
+          <PluginDetail
+            name={name}
+            description={description}
+            tags={tags}
+            author={author}
+            onClickSelectPlugin={() => handleClickSelectPluginDetail()}
+          />
+        </ModalDirectional>
+      )}
+    </>
   )
 }
 
@@ -41,12 +74,28 @@ Plugin.propTypes = {
   /**
    * isSelected
     */
-  isSelected: PropTypes.bool
+  isSelected: PropTypes.bool,
+  /**
+   * description
+    */
+  description: PropTypes.string,
+  /**
+   * tags
+    */
+  tags: PropTypes.arrayOf(PropTypes.string),
+  /**
+   * author
+    */
+  author: PropTypes.string
+
 }
 
 Plugin.defaultProps = {
   name: '',
-  isSelected: false
+  isSelected: false,
+  description: '',
+  tags: [],
+  author: ''
 }
 
 export default Plugin

@@ -77,7 +77,7 @@ const GeneratingApplication = React.forwardRef(({ onRestartProcess }, ref) => {
   }
 
   return !restartInProgress && (
-    <div className={`${commonStyles.largeFlexBlock} ${commonStyles.fullWidth}`} ref={ref}>
+    <div className={`${commonStyles.mediumFlexBlock} ${commonStyles.fullWidth}`} ref={ref}>
       <div className={commonStyles.mediumFlexBlock}>
         <Title
           title={`Generating ${formData.createApplication.application}`}
@@ -89,6 +89,16 @@ const GeneratingApplication = React.forwardRef(({ onRestartProcess }, ref) => {
           We are generating your app. <br />Once all the steps are done you will be able to complete and use your new application.
         </p>
       </div>
+      <div className={`${commonStyles.smallFlexRow} ${commonStyles.fullWidth} ${commonStyles.justifyEnd}`}>
+        <Button
+          disabled={!appGenerated}
+          label='Copy Logs'
+          onClick={() => onClickCopyLogs()}
+          color={WHITE}
+          backgroundColor={RICH_BLACK}
+          classes={`${commonStyles.buttonPadding} cy-action-donwload-logs`}
+        />
+      </div>
       <BorderedBox classes={`${commonStyles.fullWidth} ${styles.content}`} backgroundColor={TRANSPARENT} borderColorOpacity={OPACITY_30} color={WHITE}>
         <div className={`${commonStyles.flexBlockNoGap} `}>
           {npmLogs.map((log, index) => renderLog(log, index))}
@@ -98,14 +108,6 @@ const GeneratingApplication = React.forwardRef(({ onRestartProcess }, ref) => {
         <CountDown status={countDownStatus} />
       </div>
       <div className={`${styles.buttonContainer} ${commonStyles.fullWidth}`}>
-        <Button
-          disabled={!appGenerated}
-          label='Copy Logs'
-          onClick={() => onClickCopyLogs()}
-          color={WHITE}
-          backgroundColor={RICH_BLACK}
-          classes={`${commonStyles.buttonPadding} cy-action-donwload-logs`}
-        />
         <Button
           disabled={!appGenerated}
           label='Continue'
