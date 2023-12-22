@@ -52,6 +52,9 @@
 .itemsEnd {
   @apply items-end;
 }
+.buttonPaddingBordered {
+  @apply px-4 py-[7px] !important
+}
 .buttonPadding {
   @apply px-4 py-2 !important
 }

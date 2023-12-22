@@ -79,7 +79,7 @@ const PrepareFolder = React.forwardRef(({ onNext, onBack }, ref) => {
 
   return (
     <div className={styles.container} ref={ref}>
-      <div className={commonStyles.largeFlexBlock}>
+      <div className={commonStyles.mediumFlexBlock}>
         <div className={`${commonStyles.mediumFlexBlock} ${commonStyles.fullWidth}`}>
           <Title
             title={formData.createApplication.application}
@@ -90,6 +90,16 @@ const PrepareFolder = React.forwardRef(({ onNext, onBack }, ref) => {
           <p className={`${typographyStyles.desktopBodyLarge} ${typographyStyles.textWhite} ${typographyStyles.opacity70}`}>
             We are preparing your folder.<br /> Once all the steps are done you will be able to configure your services.
           </p>
+        </div>
+        <div className={`${commonStyles.smallFlexRow} ${commonStyles.fullWidth} ${commonStyles.justifyEnd}`}>
+          <Button
+            disabled={!folderPrepared}
+            label='Copy Logs'
+            onClick={() => onClickCopyLogs()}
+            color={WHITE}
+            backgroundColor={RICH_BLACK}
+            classes={`${commonStyles.buttonPadding} cy-action-donwload-logs`}
+          />
         </div>
         <BorderedBox classes={`${commonStyles.fullWidth} ${styles.content}`} backgroundColor={TRANSPARENT} borderColorOpacity={OPACITY_30} color={WHITE}>
           <div className={`${commonStyles.flexBlockNoGap} `}>
@@ -110,14 +120,6 @@ const PrepareFolder = React.forwardRef(({ onNext, onBack }, ref) => {
             color={WHITE}
             backgroundColor={TRANSPARENT}
             classes={`${commonStyles.buttonPadding} cy-action-back`}
-          />
-          <Button
-            disabled={!folderPrepared}
-            label='Copy Logs'
-            onClick={() => onClickCopyLogs()}
-            color={WHITE}
-            backgroundColor={RICH_BLACK}
-            classes={`${commonStyles.buttonPadding} cy-action-donwload-logs`}
           />
         </div>
         {folderPreparedError
