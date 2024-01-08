@@ -1,3 +1,6 @@
 .container {
   @apply flex flex-col justify-between h-full w-full
 }
+.link {
+  @apply no-underline
+}

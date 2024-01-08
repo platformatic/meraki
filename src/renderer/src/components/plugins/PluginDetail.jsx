@@ -4,10 +4,10 @@ import typographyStyles from '~/styles/Typography.module.css'
 import commonStyles from '~/styles/CommonStyles.module.css'
 import styles from './PluginDetail.module.css'
 import Title from '~/components/ui/Title'
-import { Button, HorizontalSeparator, Icons, Tag } from '@platformatic/ui-components'
-import { MARGIN_0, OPACITY_30, RICH_BLACK, SMALL, WHITE } from '@platformatic/ui-components/src/components/constants'
+import { Button, HorizontalSeparator, Icons, Tag, VerticalSeparator } from '@platformatic/ui-components'
+import { MARGIN_0, OPACITY_30, RICH_BLACK, SMALL, TERTIARY_BLUE, WHITE } from '@platformatic/ui-components/src/components/constants'
 
-function PluginDetail ({ name, description, tags, author, onClickSelectPlugin }) {
+function PluginDetail ({ name, description, tags, author, homepage, onClickSelectPlugin }) {
   return (
     <div className={styles.container}>
       <div className={`${commonStyles.largeFlexBlock} ${commonStyles.fullWidth}`}>
@@ -24,6 +24,16 @@ function PluginDetail ({ name, description, tags, author, onClickSelectPlugin })
               <Icons.UserComputerIcon color={WHITE} size={SMALL} />
               <span className={`${typographyStyles.desktopBodyLarge} ${typographyStyles.textWhite} ${typographyStyles.opacity70}`}>{author}</span>
             </div>
+
+            {homepage && (
+              <>
+                <VerticalSeparator color={WHITE} backgroundColorOpacity={OPACITY_30} />
+                <a className={`${commonStyles.smallFlexRow} ${commonStyles.itemsCenter} ${styles.link}`} href={homepage} target='_blank' rel='noreferrer'>
+                  <span className={`${typographyStyles.desktopBodyLarge} ${typographyStyles.textTertiaryBlue}`}>README File</span>
+                  <Icons.ExpandIcon color={TERTIARY_BLUE} size={SMALL} />
+                </a>
+              </>
+            )}
           </div>
         </div>
 
@@ -79,6 +89,10 @@ PluginDetail.propTypes = {
     */
   author: PropTypes.string,
   /**
+   * homepage
+    */
+  homepage: PropTypes.string,
+  /**
    * onClickSelectPlugin
     */
   onClickSelectPlugin: PropTypes.func
@@ -88,6 +102,7 @@ PluginDetail.defaultProps = {
   description: '',
   tags: [],
   author: '',
+  homepage: '',
   onClickSelectPlugin: () => {}
 }
 

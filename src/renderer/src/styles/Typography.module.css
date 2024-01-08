@@ -7,6 +7,9 @@
 .textErrorRed {
   @apply text-error-red;
 }
+.textTertiaryBlue {
+  @apply text-tertiary-blue;
+}
 .textCenter {
   @apply text-center;
 }
