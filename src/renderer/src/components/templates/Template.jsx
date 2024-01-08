@@ -12,11 +12,12 @@ import { Button, Logo, ModalDirectional } from '@platformatic/ui-components'
 function Template ({
   platformaticService,
   name,
-  onClickCardTemplate,
   isSelected,
   description,
   tags,
-  author
+  author,
+  homepage,
+  onClickCardTemplate
 }) {
   const [showModalDetail, setShowModalDetail] = useState(false)
   let className = `${commonStyles.smallFlexBlock} ${styles.container} `
@@ -65,6 +66,7 @@ function Template ({
             description={description}
             tags={tags}
             author={author}
+            homepage={homepage}
             onClickSelectTemplate={() => handleClickSelectTemplateDetail()}
           />
         </ModalDirectional>
@@ -102,7 +104,11 @@ Template.propTypes = {
   /**
    * author
     */
-  author: PropTypes.string
+  author: PropTypes.string,
+  /**
+   * homepage
+    */
+  homepage: PropTypes.string
 }
 
 Template.defaultProps = {
@@ -112,6 +118,7 @@ Template.defaultProps = {
   onClickCardTemplate: () => {},
   description: '',
   author: '',
+  homepage: '',
   tags: []
 }
 

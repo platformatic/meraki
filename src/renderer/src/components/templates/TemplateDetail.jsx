@@ -4,10 +4,10 @@ import typographyStyles from '~/styles/Typography.module.css'
 import commonStyles from '~/styles/CommonStyles.module.css'
 import styles from './TemplateDetail.module.css'
 import Title from '~/components/ui/Title'
-import { Button, HorizontalSeparator, Icons, Tag } from '@platformatic/ui-components'
-import { MARGIN_0, OPACITY_30, RICH_BLACK, SMALL, WHITE } from '@platformatic/ui-components/src/components/constants'
+import { Button, HorizontalSeparator, Icons, Tag, VerticalSeparator } from '@platformatic/ui-components'
+import { MARGIN_0, OPACITY_30, RICH_BLACK, SMALL, TERTIARY_BLUE, WHITE } from '@platformatic/ui-components/src/components/constants'
 
-function TemplateDetail ({ name, description, tags, author, onClickSelectTemplate }) {
+function TemplateDetail ({ name, description, tags, author, homepage, onClickSelectTemplate }) {
   return (
     <div className={styles.container}>
       <div className={`${commonStyles.largeFlexBlock} ${commonStyles.fullWidth}`}>
@@ -24,6 +24,16 @@ function TemplateDetail ({ name, description, tags, author, onClickSelectTemplat
               <Icons.UserComputerIcon color={WHITE} size={SMALL} />
               <span className={`${typographyStyles.desktopBodyLarge} ${typographyStyles.textWhite} ${typographyStyles.opacity70}`}>{author}</span>
             </div>
+
+            {homepage && (
+              <>
+                <VerticalSeparator color={WHITE} backgroundColorOpacity={OPACITY_30} />
+                <a className={`${commonStyles.smallFlexRow} ${commonStyles.itemsCenter} ${styles.link}`} href={homepage} target='_blank' rel='noreferrer'>
+                  <span className={`${typographyStyles.desktopBodyLarge} ${typographyStyles.textTertiaryBlue}`}>README File</span>
+                  <Icons.ExpandIcon color={TERTIARY_BLUE} size={SMALL} />
+                </a>
+              </>
+            )}
           </div>
         </div>
 
@@ -80,13 +90,18 @@ TemplateDetail.propTypes = {
   /**
    * onClickSelectTemplate
     */
-  onClickSelectTemplate: PropTypes.func
+  onClickSelectTemplate: PropTypes.func,
+  /**
+   * homepage
+    */
+  homepage: PropTypes.string
 }
 
 TemplateDetail.defaultProps = {
   description: '',
   tags: [],
   author: '',
+  homepage: '',
   onClickSelectTemplate: () => {}
 }
 
