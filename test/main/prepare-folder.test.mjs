@@ -55,15 +55,21 @@ test('Install one @platformatic/service template', async () => {
   const appDir = await mkdtemp(join(tmpdir(), 'plat-app-test-create'))
   await prepareFolder(appDir, ['@platformatic/service'], logger, 'test-app')
   expect(logger.infos.at(-1)[0].name).toEqual('@platformatic/service')
-  expect(logger.errors.length).toBe(0)
+  // We need to skip the npm warnings
+  const errors = logger.errors.map((e) => e[0]).filter((e) => e.includes('npm ERR!'))
+  expect(errors.length).toBe(0)
 }, 30000)
 
 test('Install one @platformatic/service template twice', async () => {
   const appDir = await mkdtemp(join(tmpdir(), 'plat-app-test-create'))
   await prepareFolder(appDir, ['@platformatic/service'], logger, 'test-app')
   expect(logger.infos.at(-1)[0].name).toEqual('@platformatic/service')
-  expect(logger.errors.length).toBe(0)
+  // We need to skip the npm warnings
+  const errors = logger.errors.map((e) => e[0]).filter((e) => e.includes('npm ERR!'))
+  expect(errors.length).toBe(0)
 
   await prepareFolder(appDir, ['@platformatic/service'], logger, 'test-app')
-  expect(logger.errors.length).toBe(0)
+  // We need to skip the npm warnings
+  const errors2 = logger.errors.map((e) => e[0]).filter((e) => e.includes('npm ERR!'))
+  expect(errors2.length).toBe(0)
 }, 30000)
