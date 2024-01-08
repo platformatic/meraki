@@ -7,7 +7,7 @@ import Title from '~/components/ui/Title'
 import { Button, HorizontalSeparator, Icons, Tag, VerticalSeparator } from '@platformatic/ui-components'
 import { MARGIN_0, OPACITY_30, RICH_BLACK, SMALL, TERTIARY_BLUE, WHITE } from '@platformatic/ui-components/src/components/constants'
 
-function PluginDetail ({ name, description, tags, author, homepage, onClickSelectPlugin }) {
+function PluginDetail ({ name, description, tags, author, homepage, downloads, onClickSelectPlugin }) {
   return (
     <div className={styles.container}>
       <div className={`${commonStyles.largeFlexBlock} ${commonStyles.fullWidth}`}>
@@ -21,8 +21,21 @@ function PluginDetail ({ name, description, tags, author, homepage, onClickSelec
           <p className={`${typographyStyles.desktopBodyLarge} ${typographyStyles.textWhite} ${typographyStyles.opacity70}`}>{description}</p>
           <div className={`${commonStyles.mediumFlexRow} ${commonStyles.fullWidth} ${commonStyles.itemsCenter} `}>
             <div className={`${commonStyles.smallFlexRow} ${commonStyles.itemsCenter}`}>
+              <Icons.ComputerIcon color={WHITE} size={SMALL} />
+              <span className={`${typographyStyles.desktopBodyLarge} ${typographyStyles.textWhite} ${typographyStyles.opacity70}`}>{downloads}</span>
+            </div>
+
+            <VerticalSeparator color={WHITE} backgroundColorOpacity={OPACITY_30} />
+
+            <div className={`${commonStyles.smallFlexRow} ${commonStyles.itemsCenter}`}>
               <Icons.UserComputerIcon color={WHITE} size={SMALL} />
               <span className={`${typographyStyles.desktopBodyLarge} ${typographyStyles.textWhite} ${typographyStyles.opacity70}`}>{author}</span>
+            </div>
+
+            <VerticalSeparator color={WHITE} backgroundColorOpacity={OPACITY_30} />
+
+            <div className={`${commonStyles.smallFlexRow} ${commonStyles.itemsCenter}`}>
+              <span className={`${typographyStyles.desktopBodyLarge} ${typographyStyles.textWhite} ${typographyStyles.opacity70}`}>Supported by: {author}</span>
             </div>
 
             {homepage && (
@@ -93,6 +106,13 @@ PluginDetail.propTypes = {
     */
   homepage: PropTypes.string,
   /**
+   * downloads
+    */
+  downloads: PropTypes.oneOfType([
+    PropTypes.string,
+    PropTypes.number
+  ]),
+  /**
    * onClickSelectPlugin
     */
   onClickSelectPlugin: PropTypes.func
@@ -103,6 +123,7 @@ PluginDetail.defaultProps = {
   tags: [],
   author: '',
   homepage: '',
+  downloads: 0,
   onClickSelectPlugin: () => {}
 }
 

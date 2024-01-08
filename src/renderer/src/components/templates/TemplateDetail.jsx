@@ -7,7 +7,7 @@ import Title from '~/components/ui/Title'
 import { Button, HorizontalSeparator, Icons, Tag, VerticalSeparator } from '@platformatic/ui-components'
 import { MARGIN_0, OPACITY_30, RICH_BLACK, SMALL, TERTIARY_BLUE, WHITE } from '@platformatic/ui-components/src/components/constants'
 
-function TemplateDetail ({ name, description, tags, author, homepage, onClickSelectTemplate }) {
+function TemplateDetail ({ name, description, tags, author, homepage, downloads, onClickSelectTemplate }) {
   return (
     <div className={styles.container}>
       <div className={`${commonStyles.largeFlexBlock} ${commonStyles.fullWidth}`}>
@@ -21,8 +21,21 @@ function TemplateDetail ({ name, description, tags, author, homepage, onClickSel
           <p className={`${typographyStyles.desktopBodyLarge} ${typographyStyles.textWhite} ${typographyStyles.opacity70}`}>{description}</p>
           <div className={`${commonStyles.mediumFlexRow} ${commonStyles.fullWidth} ${commonStyles.itemsCenter} `}>
             <div className={`${commonStyles.smallFlexRow} ${commonStyles.itemsCenter}`}>
+              <Icons.ComputerIcon color={WHITE} size={SMALL} />
+              <span className={`${typographyStyles.desktopBodyLarge} ${typographyStyles.textWhite} ${typographyStyles.opacity70}`}>{downloads}</span>
+            </div>
+
+            <VerticalSeparator color={WHITE} backgroundColorOpacity={OPACITY_30} />
+
+            <div className={`${commonStyles.smallFlexRow} ${commonStyles.itemsCenter}`}>
               <Icons.UserComputerIcon color={WHITE} size={SMALL} />
               <span className={`${typographyStyles.desktopBodyLarge} ${typographyStyles.textWhite} ${typographyStyles.opacity70}`}>{author}</span>
+            </div>
+
+            <VerticalSeparator color={WHITE} backgroundColorOpacity={OPACITY_30} />
+
+            <div className={`${commonStyles.smallFlexRow} ${commonStyles.itemsCenter}`}>
+              <span className={`${typographyStyles.desktopBodyLarge} ${typographyStyles.textWhite} ${typographyStyles.opacity70}`}>Supported by: {author}</span>
             </div>
 
             {homepage && (
@@ -88,6 +101,13 @@ TemplateDetail.propTypes = {
     */
   author: PropTypes.string,
   /**
+   * downloads
+    */
+  downloads: PropTypes.oneOfType([
+    PropTypes.string,
+    PropTypes.number
+  ]),
+  /**
    * onClickSelectTemplate
     */
   onClickSelectTemplate: PropTypes.func,
@@ -101,6 +121,7 @@ TemplateDetail.defaultProps = {
   description: '',
   tags: [],
   author: '',
+  downloads: 0,
   homepage: '',
   onClickSelectTemplate: () => {}
 }

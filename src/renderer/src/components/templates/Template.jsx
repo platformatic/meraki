@@ -17,6 +17,7 @@ function Template ({
   tags,
   author,
   homepage,
+  downloads,
   onClickCardTemplate
 }) {
   const [showModalDetail, setShowModalDetail] = useState(false)
@@ -66,6 +67,7 @@ function Template ({
             description={description}
             tags={tags}
             author={author}
+            downloads={downloads}
             homepage={homepage}
             onClickSelectTemplate={() => handleClickSelectTemplateDetail()}
           />
@@ -106,6 +108,13 @@ Template.propTypes = {
     */
   author: PropTypes.string,
   /**
+   * downloads
+    */
+  downloads: PropTypes.oneOfType([
+    PropTypes.string,
+    PropTypes.number
+  ]),
+  /**
    * homepage
     */
   homepage: PropTypes.string
@@ -118,6 +127,7 @@ Template.defaultProps = {
   onClickCardTemplate: () => {},
   description: '',
   author: '',
+  downloads: 0,
   homepage: '',
   tags: []
 }
