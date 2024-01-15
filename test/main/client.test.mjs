@@ -1,6 +1,5 @@
 import { test, expect } from 'vitest'
 import { startDeployService, setUpEnvironment } from './helper.mjs'
-import ossTemplates from '../../src/main/oss_templates.mjs'
 import { mkdtemp, writeFile } from 'node:fs/promises'
 import { tmpdir } from 'node:os'
 import { join } from 'node:path'
@@ -35,7 +34,7 @@ test('should invoke deploy service for stackables, no user key', async () => {
     }
   })
   const stackables = await getTemplates(deployServiceHost)
-  expect(stackables).toEqual([...ossTemplates, ...stacks])
+  expect(stackables).toEqual(stacks)
 })
 
 test('should invoke deploy service for stackables, passing user key', async () => {
@@ -72,7 +71,7 @@ test('should invoke deploy service for stackables, passing user key', async () =
     }
   })
   const stackables = await getTemplates(deployServiceHost)
-  expect(stackables).toEqual([...ossTemplates, ...stacks])
+  expect(stackables).toEqual(stacks)
 })
 
 test('should invoke deploy service for stackables, passing user key but not authorized', async () => {
@@ -114,7 +113,7 @@ test('should invoke deploy service for stackables, passing user key but not auth
     }
   })
   const stackables = await getTemplates(deployServiceHost)
-  expect(stackables).toEqual([...ossTemplates, ...stacks])
+  expect(stackables).toEqual(stacks)
 })
 
 test('should invoke deploy service for stackables', async () => {
