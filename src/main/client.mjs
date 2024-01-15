@@ -1,6 +1,5 @@
 import { request } from 'undici'
 import errors from './errors.mjs'
-import ossTemplates from './oss_templates.mjs'
 import { join } from 'path'
 import { readFile } from 'node:fs/promises'
 import { createRequire } from 'module'
@@ -99,18 +98,11 @@ export const getTemplates = async () => {
     const stackables = mockedTemplates.map(template => ({
       ...template
     }))
-    return [
-      ...ossTemplates,
-      ...stackables
-    ]
+    return stackables
   }
   const apiKey = await getCurrentApiKey()
   const stackables = await getStackablesAPI(deployServiceHost, apiKey)
-  const templates = [
-    ...ossTemplates,
-    ...stackables
-  ]
-  return templates
+  return stackables
 }
 
 export const getPlugins = async () => {
