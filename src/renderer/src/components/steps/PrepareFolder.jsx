@@ -4,7 +4,7 @@ import PropTypes from 'prop-types'
 import styles from './PrepareFolder.module.css'
 import commonStyles from '~/styles/CommonStyles.module.css'
 import typographyStyles from '~/styles/Typography.module.css'
-import { WHITE, RICH_BLACK, TRANSPARENT, OPACITY_30 } from '@platformatic/ui-components/src/components/constants'
+import { WHITE, RICH_BLACK, TRANSPARENT, OPACITY_30, BOX_SHADOW } from '@platformatic/ui-components/src/components/constants'
 import { BorderedBox, Button } from '@platformatic/ui-components'
 import useStackablesStore from '~/useStackablesStore'
 import CountDown from '~/components/ui/CountDown'
@@ -98,7 +98,7 @@ const PrepareFolder = React.forwardRef(({ onNext, onBack }, ref) => {
             onClick={() => onClickCopyLogs()}
             color={WHITE}
             backgroundColor={RICH_BLACK}
-            classes={`${commonStyles.buttonPadding} cy-action-donwload-logs`}
+            paddingClass={`${commonStyles.buttonPadding} cy-action-donwload-logs`}
           />
         </div>
         <BorderedBox classes={`${commonStyles.fullWidth} ${styles.content}`} backgroundColor={TRANSPARENT} borderColorOpacity={OPACITY_30} color={WHITE}>
@@ -119,7 +119,7 @@ const PrepareFolder = React.forwardRef(({ onNext, onBack }, ref) => {
             onClick={() => onBack()}
             color={WHITE}
             backgroundColor={TRANSPARENT}
-            classes={`${commonStyles.buttonPadding} cy-action-back`}
+            paddingClass={`${commonStyles.buttonPadding} cy-action-back`}
           />
         </div>
         {folderPreparedError
@@ -129,7 +129,8 @@ const PrepareFolder = React.forwardRef(({ onNext, onBack }, ref) => {
               color={RICH_BLACK}
               bordered={false}
               backgroundColor={WHITE}
-              classes={`${commonStyles.buttonPadding} cy-action-close`}
+              hoverEffect={BOX_SHADOW}
+              paddingClass={`${commonStyles.buttonPadding} cy-action-close`}
             />
           : <Button
               disabled={!folderPreparedSuccess}
@@ -138,7 +139,8 @@ const PrepareFolder = React.forwardRef(({ onNext, onBack }, ref) => {
               color={RICH_BLACK}
               bordered={false}
               backgroundColor={WHITE}
-              classes={`${commonStyles.buttonPadding} cy-action-next`}
+              hoverEffect={BOX_SHADOW}
+              paddingClass={`${commonStyles.buttonPadding} cy-action-next`}
             />}
       </div>
     </div>

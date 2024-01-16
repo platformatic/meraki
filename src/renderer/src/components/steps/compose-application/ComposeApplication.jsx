@@ -4,7 +4,7 @@ import PropTypes from 'prop-types'
 import styles from './ComposeApplication.module.css'
 import commonStyles from '~/styles/CommonStyles.module.css'
 import typographyStyles from '~/styles/Typography.module.css'
-import { WHITE, RICH_BLACK, MODAL_POPUP_V2, TRANSPARENT } from '@platformatic/ui-components/src/components/constants'
+import { WHITE, RICH_BLACK, MODAL_POPUP_V2, TRANSPARENT, BOX_SHADOW } from '@platformatic/ui-components/src/components/constants'
 import { Button, Modal, ModalDirectional } from '@platformatic/ui-components'
 import useStackablesStore from '~/useStackablesStore'
 /* import PluginHandler from '~/components/plugins/PluginHandler'
@@ -204,7 +204,7 @@ const ComposeApplication = React.forwardRef(({ onNext, onBack }, ref) => {
           onClick={() => onBack()}
           color={WHITE}
           backgroundColor={TRANSPARENT}
-          classes={`${commonStyles.buttonPadding} cy-action-back`}
+          paddingClass={`${commonStyles.buttonPadding} cy-action-back`}
         />
 
         <Button
@@ -214,7 +214,8 @@ const ComposeApplication = React.forwardRef(({ onNext, onBack }, ref) => {
           color={RICH_BLACK}
           bordered={false}
           backgroundColor={WHITE}
-          classes={`${commonStyles.buttonPadding} cy-action-next`}
+          hoverEffect={BOX_SHADOW}
+          paddingClass={`${commonStyles.buttonPadding} cy-action-next`}
         />
       </div>
       {showModalTemplate && (

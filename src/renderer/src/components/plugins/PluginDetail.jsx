@@ -5,7 +5,7 @@ import commonStyles from '~/styles/CommonStyles.module.css'
 import styles from './PluginDetail.module.css'
 import Title from '~/components/ui/Title'
 import { Button, HorizontalSeparator, Icons, Tag, VerticalSeparator } from '@platformatic/ui-components'
-import { MARGIN_0, OPACITY_30, RICH_BLACK, SMALL, TERTIARY_BLUE, WHITE } from '@platformatic/ui-components/src/components/constants'
+import { BOX_SHADOW, MARGIN_0, OPACITY_30, RICH_BLACK, SMALL, TERTIARY_BLUE, WHITE } from '@platformatic/ui-components/src/components/constants'
 
 function PluginDetail ({ name, description, tags, author, homepage, downloads, onClickSelectPlugin }) {
   return (
@@ -72,12 +72,13 @@ function PluginDetail ({ name, description, tags, author, homepage, downloads, o
       </div>
 
       <Button
-        classes={commonStyles.buttonPadding}
+        paddingClass={commonStyles.buttonPadding}
         label={`Select ${name}`}
         backgroundColor={WHITE}
         color={RICH_BLACK}
         fullWidth
         bordered={false}
+        hoverEffect={BOX_SHADOW}
         onClick={() => onClickSelectPlugin()}
       />
     </div>

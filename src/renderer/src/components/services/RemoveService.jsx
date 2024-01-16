@@ -16,7 +16,7 @@ function RemoveService ({ name, onClickCancel, onClickConfirm }) {
       <div className={`${commonStyles.mediumFlexRow} ${commonStyles.justifyBetween}`}>
         <Button
           type='button'
-          classes={commonStyles.buttonPadding}
+          paddingClass={commonStyles.buttonPadding}
           label='Cancel'
           onClick={() => onClickCancel()}
           color={WHITE}
@@ -24,7 +24,7 @@ function RemoveService ({ name, onClickCancel, onClickConfirm }) {
         />
         <Button
           type='button'
-          classes={commonStyles.buttonPadding}
+          paddingClass={commonStyles.buttonPadding}
           label='Delete Service'
           onClick={() => onClickConfirm()}
           color={ERROR_RED}
