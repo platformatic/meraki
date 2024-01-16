@@ -5,7 +5,7 @@ import commonStyles from '~/styles/CommonStyles.module.css'
 import styles from './TemplateDetail.module.css'
 import Title from '~/components/ui/Title'
 import { Button, HorizontalSeparator, Icons, Tag, VerticalSeparator } from '@platformatic/ui-components'
-import { MARGIN_0, OPACITY_30, RICH_BLACK, SMALL, TERTIARY_BLUE, WHITE } from '@platformatic/ui-components/src/components/constants'
+import { BOX_SHADOW, MARGIN_0, OPACITY_30, RICH_BLACK, SMALL, TERTIARY_BLUE, WHITE } from '@platformatic/ui-components/src/components/constants'
 
 function TemplateDetail ({ name, description, tags, author, homepage, downloads, onClickSelectTemplate }) {
   return (
@@ -71,9 +71,10 @@ function TemplateDetail ({ name, description, tags, author, homepage, downloads,
       </div>
 
       <Button
-        classes={commonStyles.buttonPadding}
+        paddingClass={commonStyles.buttonPadding}
         label={`Select ${name}`}
         backgroundColor={WHITE}
+        hoverEffect={BOX_SHADOW}
         color={RICH_BLACK}
         fullWidth
         bordered={false}

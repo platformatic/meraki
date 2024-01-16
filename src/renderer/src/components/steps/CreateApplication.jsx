@@ -5,7 +5,7 @@ import Forms from '@platformatic/ui-components/src/components/forms'
 import styles from './CreateApplication.module.css'
 import commonStyles from '~/styles/CommonStyles.module.css'
 import typographyStyles from '~/styles/Typography.module.css'
-import { WHITE, RICH_BLACK, TRANSPARENT } from '@platformatic/ui-components/src/components/constants'
+import { WHITE, RICH_BLACK, TRANSPARENT, BOX_SHADOW } from '@platformatic/ui-components/src/components/constants'
 import { Button } from '@platformatic/ui-components'
 import useStackablesStore from '~/useStackablesStore'
 import Title from '~/components/ui/Title'
@@ -111,7 +111,8 @@ const CreateApplication = React.forwardRef(({ onNext }, ref) => {
               onClick={async () => handleOpenFolder()}
               color={WHITE}
               backgroundColor={TRANSPARENT}
-              classes={`${commonStyles.buttonPaddingBordered} ${typographyStyles.desktopBody} ${typographyStyles.textWhite} cy-action-open-folder`}
+              paddingClass={`${commonStyles.buttonPaddingBordered} cy-action-open-folder`}
+              textClass={`${typographyStyles.desktopBody} ${typographyStyles.textWhite}`}
             />
             <Forms.Input
               placeholder='Select the destination folder of your application using the Button'
@@ -134,7 +135,8 @@ const CreateApplication = React.forwardRef(({ onNext }, ref) => {
           color={RICH_BLACK}
           bordered={false}
           backgroundColor={WHITE}
-          classes={`${commonStyles.buttonPadding} cy-action-next`}
+          hoverEffect={BOX_SHADOW}
+          paddingClass={`${commonStyles.buttonPadding} cy-action-next`}
         />
       </div>
     </form>

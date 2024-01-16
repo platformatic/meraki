@@ -3,7 +3,7 @@ import React, { useState } from 'react'
 import PropTypes from 'prop-types'
 import typographyStyles from '~/styles/Typography.module.css'
 import commonStyles from '~/styles/CommonStyles.module.css'
-import { LARGE, MEDIUM, RICH_BLACK, TRANSPARENT, WHITE } from '@platformatic/ui-components/src/components/constants'
+import { BOX_SHADOW, LARGE, MEDIUM, RICH_BLACK, TRANSPARENT, WHITE } from '@platformatic/ui-components/src/components/constants'
 import { Button, Icons, PlatformaticIcon } from '@platformatic/ui-components'
 import Forms from '@platformatic/ui-components/src/components/forms'
 import styles from './EditableTitle.module.css'
@@ -84,16 +84,17 @@ function EditableTitle ({ title, iconName, onClickSubmit, dataAttrName, dataAttr
                 <Button
                   disabled={!validForm}
                   type='submit'
-                  classes={commonStyles.buttonPadding}
+                  paddingClass={commonStyles.buttonPadding}
                   label='Save'
                   onClick={() => handleSubmit}
                   color={RICH_BLACK}
                   bordered={false}
                   backgroundColor={WHITE}
+                  hoverEffect={BOX_SHADOW}
                 />
                 <Button
                   type='button'
-                  classes={commonStyles.buttonPadding}
+                  paddingClass={commonStyles.buttonPadding}
                   label='Cancel'
                   onClick={() => handleEditable(false)}
                   color={WHITE}

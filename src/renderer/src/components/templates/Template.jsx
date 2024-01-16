@@ -51,7 +51,7 @@ function Template ({
           label='View Details'
           platformaticIconAfter={{ iconName: 'ArrowLongRightIcon', color: WHITE }}
           bordered={false}
-          classes={commonStyles.noPadding}
+          paddingClass={commonStyles.buttonPadding}
           onClick={(event) => handleShowModal(event)}
         />
       </div>

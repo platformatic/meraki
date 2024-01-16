@@ -4,7 +4,10 @@ import PropTypes from 'prop-types'
 import styles from './ConfigureApplication.module.css'
 import commonStyles from '~/styles/CommonStyles.module.css'
 import typographyStyles from '~/styles/Typography.module.css'
-import { WHITE, RICH_BLACK, TRANSPARENT/* , OPACITY_30 */ } from '@platformatic/ui-components/src/components/constants'
+import {
+  WHITE, RICH_BLACK, TRANSPARENT, /* , OPACITY_30 */
+  BOX_SHADOW
+} from '@platformatic/ui-components/src/components/constants'
 import { Button/* , BorderedBox, VerticalSeparator */ } from '@platformatic/ui-components'
 import useStackablesStore from '~/useStackablesStore'
 import Title from '~/components/ui/Title'
@@ -103,7 +106,7 @@ const ConfigureApplication = React.forwardRef(({ onNext, onBack }, ref) => {
                     onClick={() => setForm(form => ({ ...form, entryPoint: service.name }))}
                     color={WHITE}
                     backgroundColor={TRANSPARENT}
-                    classes={commonStyles.buttonPadding}
+                    paddingClass={commonStyles.buttonPadding}
                     selected={service.name === form.entryPoint}
                   />
                 ))}
@@ -146,7 +149,7 @@ const ConfigureApplication = React.forwardRef(({ onNext, onBack }, ref) => {
                   color={WHITE}
                   backgroundColor={TRANSPARENT}
                   selected={logLevel === form.logLevel}
-                  classes={commonStyles.buttonPadding}
+                  paddingClass={commonStyles.buttonPadding}
                 />
               ))}
             </div>
@@ -169,7 +172,7 @@ const ConfigureApplication = React.forwardRef(({ onNext, onBack }, ref) => {
                   color={WHITE}
                   backgroundColor={TRANSPARENT}
                   selected={language === form.language}
-                  classes={commonStyles.buttonPadding}
+                  paddingClass={commonStyles.buttonPadding}
                 />
               ))}
             </div>
@@ -233,7 +236,7 @@ const ConfigureApplication = React.forwardRef(({ onNext, onBack }, ref) => {
           onClick={() => onBack()}
           color={WHITE}
           backgroundColor={TRANSPARENT}
-          classes={`${commonStyles.buttonPadding} cy-action-back`}
+          paddingClass={`${commonStyles.buttonPadding} cy-action-back`}
         />
         <Button
           type='button'
@@ -243,7 +246,8 @@ const ConfigureApplication = React.forwardRef(({ onNext, onBack }, ref) => {
           color={RICH_BLACK}
           bordered={false}
           backgroundColor={WHITE}
-          classes={`${commonStyles.buttonPadding} cy-action-next`}
+          hoverEffect={BOX_SHADOW}
+          paddingClass={`${commonStyles.buttonPadding} cy-action-next`}
         />
       </div>
     </div>

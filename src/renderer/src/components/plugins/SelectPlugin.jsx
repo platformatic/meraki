@@ -1,7 +1,7 @@
 'use strict'
 import PropTypes from 'prop-types'
 import { useEffect, useRef, useState } from 'react'
-import { RICH_BLACK, TRANSPARENT, WHITE } from '@platformatic/ui-components/src/components/constants'
+import { BOX_SHADOW, RICH_BLACK, TRANSPARENT, WHITE } from '@platformatic/ui-components/src/components/constants'
 import typographyStyles from '~/styles/Typography.module.css'
 import commonStyles from '~/styles/CommonStyles.module.css'
 import styles from './SelectPlugin.module.css'
@@ -155,7 +155,7 @@ function SelectPlugin ({ onClick, serviceName }) {
             {pages.map(page =>
               <Button
                 key={page}
-                classes={`${commonStyles.buttonPadding}`}
+                paddingClass={commonStyles.buttonPadding}
                 label={`${page}`}
                 onClick={() => scroll(page)}
                 color={WHITE}
@@ -213,10 +213,11 @@ function SelectPlugin ({ onClick, serviceName }) {
       </div>
       <Button
         disabled={pluginsSelected.length === 0}
-        classes={commonStyles.buttonPadding}
+        paddingClass={commonStyles.buttonPadding}
         label={pluginsSelected.length > 1 ? `Continue with these Plugins (${pluginsSelected.length})` : 'Continue with this plugin'}
         backgroundColor={WHITE}
         color={RICH_BLACK}
+        hoverEffect={BOX_SHADOW}
         fullWidth
         bordered={false}
         onClick={() => handleUsePluginsSelected()}

@@ -5,7 +5,7 @@ import { BorderedBox, Button, HorizontalSeparator, Modal } from '@platformatic/u
 import commonStyles from '~/styles/CommonStyles.module.css'
 import typographyStyles from '~/styles/Typography.module.css'
 import styles from './GeneratingApplication.module.css'
-import { WHITE, TRANSPARENT, RICH_BLACK, OPACITY_30, MODAL_POPUP_V2, MARGIN_0 } from '@platformatic/ui-components/src/components/constants'
+import { WHITE, TRANSPARENT, RICH_BLACK, OPACITY_30, MODAL_POPUP_V2, MARGIN_0, BOX_SHADOW } from '@platformatic/ui-components/src/components/constants'
 import useStackablesStore from '~/useStackablesStore'
 import Title from '~/components/ui/Title'
 import CountDown from '~/components/ui/CountDown'
@@ -96,7 +96,7 @@ const GeneratingApplication = React.forwardRef(({ onRestartProcess }, ref) => {
           onClick={() => onClickCopyLogs()}
           color={WHITE}
           backgroundColor={RICH_BLACK}
-          classes={`${commonStyles.buttonPadding} cy-action-donwload-logs`}
+          paddingClass={`${commonStyles.buttonPadding} cy-action-donwload-logs`}
         />
       </div>
       <BorderedBox classes={`${commonStyles.fullWidth} ${styles.content}`} backgroundColor={TRANSPARENT} borderColorOpacity={OPACITY_30} color={WHITE}>
@@ -115,7 +115,8 @@ const GeneratingApplication = React.forwardRef(({ onRestartProcess }, ref) => {
           color={RICH_BLACK}
           bordered={false}
           backgroundColor={WHITE}
-          classes={`${commonStyles.buttonPadding}`}
+          hoverEffect={BOX_SHADOW}
+          paddingClass={commonStyles.buttonPadding}
         />
 
       </div>
@@ -135,7 +136,7 @@ const GeneratingApplication = React.forwardRef(({ onRestartProcess }, ref) => {
             <div className={`${commonStyles.mediumFlexRow} ${commonStyles.justifyBetween}`}>
               <Button
                 type='button'
-                classes={commonStyles.buttonPadding}
+                paddingClass={commonStyles.buttonPadding}
                 label='Cancel'
                 onClick={() => setShowModalContinue(false)}
                 color={WHITE}
@@ -148,7 +149,7 @@ const GeneratingApplication = React.forwardRef(({ onRestartProcess }, ref) => {
                   onClick={() => onClickRestart()}
                   color={WHITE}
                   backgroundColor={TRANSPARENT}
-                  classes={`${commonStyles.buttonPadding} cy-action-restart`}
+                  paddingClass={`${commonStyles.buttonPadding} cy-action-restart`}
                 />
                 <Button
                   disabled={!appGenerated}
@@ -157,7 +158,8 @@ const GeneratingApplication = React.forwardRef(({ onRestartProcess }, ref) => {
                   color={RICH_BLACK}
                   bordered={false}
                   backgroundColor={WHITE}
-                  classes={`${commonStyles.buttonPadding} cy-action-next`}
+                  hoverEffect={BOX_SHADOW}
+                  paddingClass={`${commonStyles.buttonPadding} cy-action-next`}
                 />
               </div>
             </div>

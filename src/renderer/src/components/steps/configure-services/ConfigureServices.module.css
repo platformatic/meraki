@@ -6,6 +6,6 @@
 }
 
 .content {
-  min-height: calc(100vH - 27rem);
-  max-height: calc(100vH - 27rem);
+  min-height: calc(100vH - 22rem);
+  max-height: calc(100vH - 22rem);
 }

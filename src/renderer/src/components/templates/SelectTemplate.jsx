@@ -1,7 +1,7 @@
 'use strict'
 import PropTypes from 'prop-types'
 import { useEffect, useRef, useState } from 'react'
-import { RICH_BLACK, TRANSPARENT, WHITE } from '@platformatic/ui-components/src/components/constants'
+import { BOX_SHADOW, RICH_BLACK, TRANSPARENT, WHITE } from '@platformatic/ui-components/src/components/constants'
 import typographyStyles from '~/styles/Typography.module.css'
 import commonStyles from '~/styles/CommonStyles.module.css'
 import styles from './SelectTemplate.module.css'
@@ -202,7 +202,7 @@ function SelectTemplate ({ onClick, serviceName }) {
             {pages.map(page =>
               <Button
                 key={page}
-                classes={`${commonStyles.buttonPadding}`}
+                paddingClass={commonStyles.buttonPadding}
                 label={`${page}`}
                 onClick={() => scroll(page)}
                 color={WHITE}
@@ -289,10 +289,11 @@ function SelectTemplate ({ onClick, serviceName }) {
 
       <Button
         disabled={!templateSelected}
-        classes={`${commonStyles.buttonPadding} cy-action-use-template`}
+        paddingClass={`${commonStyles.buttonPadding} cy-action-use-template`}
         label={`Use ${templateSelected?.name ?? '...'}`}
-        backgroundColor={WHITE}
         color={RICH_BLACK}
+        backgroundColor={WHITE}
+        hoverEffect={BOX_SHADOW}
         fullWidth
         bordered={false}
         onClick={() => handleUsePlatformaticService()}

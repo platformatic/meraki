@@ -1,7 +1,7 @@
 'use strict'
 import React, { useState } from 'react'
 import PropTypes from 'prop-types'
-import { RICH_BLACK, WHITE, MARGIN_0, OPACITY_30, TRANSPARENT } from '@platformatic/ui-components/src/components/constants'
+import { RICH_BLACK, WHITE, MARGIN_0, OPACITY_30, TRANSPARENT, BOX_SHADOW } from '@platformatic/ui-components/src/components/constants'
 import typographyStyles from '~/styles/Typography.module.css'
 import commonStyles from '~/styles/CommonStyles.module.css'
 import { Button, HorizontalSeparator } from '@platformatic/ui-components'
@@ -59,7 +59,7 @@ function EditService ({ name, onClickCancel, onClickConfirm }) {
         <div className={`${commonStyles.mediumFlexRow} ${commonStyles.justifyBetween}`}>
           <Button
             type='button'
-            classes={commonStyles.buttonPadding}
+            paddingClass={commonStyles.buttonPadding}
             label='Cancel'
             onClick={() => onClickCancel()}
             color={WHITE}
@@ -67,12 +67,13 @@ function EditService ({ name, onClickCancel, onClickConfirm }) {
           />
           <Button
             disabled={!validForm}
-            type='butto'
-            classes={commonStyles.buttonPadding}
+            type='button'
+            paddingClass={commonStyles.buttonPadding}
             label='Save Service'
             onClick={() => handleSubmit}
             color={RICH_BLACK}
             backgroundColor={WHITE}
+            hoverEffect={BOX_SHADOW}
             bordered={false}
           />
         </div>
