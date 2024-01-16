@@ -51,6 +51,17 @@ function PluginEnvVarsForm ({
     return <span>Variables</span>
   }
 
+  function renderFormContainer () {
+    if (Object.keys(configuredServiceFound.form).length === 0) {
+      return <></>
+    }
+    return (
+      <div className={`${commonStyles.mediumFlexBlock} ${commonStyles.fullWidth}`}>
+        {renderForm()}
+      </div>
+    )
+  }
+
   return (
     <BorderedBox
       color={WHITE}
@@ -59,9 +70,7 @@ function PluginEnvVarsForm ({
       classes={`${commonStyles.mediumFlexBlock} ${commonStyles.fullWidth}`}
     >
       <p className={`${typographyStyles.desktopBody} ${typographyStyles.textWhite} ${commonStyles.fullWidth}`}>{pluginName} {renderVariablesText()}</p>
-      <div className={`${commonStyles.mediumFlexBlock} ${commonStyles.fullWidth}`}>
-        {pluginFound && renderForm()}
-      </div>
+      {pluginFound && renderFormContainer()}
     </BorderedBox>
   )
 }
