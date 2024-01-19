@@ -6,7 +6,7 @@ import styles from './TemplateDetail.module.css'
 import Title from '~/components/ui/Title'
 import { Button, HorizontalSeparator, Icons, Tag, VerticalSeparator } from '@platformatic/ui-components'
 import { BOX_SHADOW, MARGIN_0, OPACITY_30, RICH_BLACK, SMALL, TERTIARY_BLUE, WHITE } from '@platformatic/ui-components/src/components/constants'
-
+import { getLabelDownloads } from '~/utilityDetails'
 function TemplateDetail ({ name, description, tags, author, homepage, downloads, onClickSelectTemplate }) {
   return (
     <div className={styles.container}>
@@ -22,7 +22,7 @@ function TemplateDetail ({ name, description, tags, author, homepage, downloads,
           <div className={`${commonStyles.mediumFlexRow} ${commonStyles.fullWidth} ${commonStyles.itemsCenter} `}>
             <div className={`${commonStyles.smallFlexRow} ${commonStyles.itemsCenter}`}>
               <Icons.ComputerIcon color={WHITE} size={SMALL} />
-              <span className={`${typographyStyles.desktopBodyLarge} ${typographyStyles.textWhite} ${typographyStyles.opacity70}`}>{downloads}</span>
+              <span className={`${typographyStyles.desktopBodyLarge} ${typographyStyles.textWhite} ${typographyStyles.opacity70}`}>{getLabelDownloads(downloads)}</span>
             </div>
 
             <VerticalSeparator color={WHITE} backgroundColorOpacity={OPACITY_30} />
