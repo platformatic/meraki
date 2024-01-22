@@ -19,7 +19,7 @@ function runCommand (command, args, options) {
   // `/usr/local/bin/npm install`.
   // Questo pero' prevede che questa funzione SAPPIA che sta eseguendo `npm`, quindi
   // 
-  return execa(currentShell, [`"-c . ${sourceFile}; ${command} ${args.join(' ')}"`], options)
+  return execa(currentShell, ['-c', `". ${sourceFile}; ${command} ${args.join(' ')}"`], options)
 }
 
 export { runCommand }
