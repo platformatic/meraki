@@ -14,7 +14,7 @@ function runCommand (command, args, options) {
     sourceFile = '~./bashrc'
   }
 
-  return execa(currentShell, ['-c', `. ${sourceFile}; ${command} ${args.join(' ')}`], options)
+  return execa(currentShell, [`"-c . ${sourceFile}; ${command} ${args.join(' ')}"`], options)
 }
 
 export { runCommand }
