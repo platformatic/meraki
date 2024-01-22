@@ -140,7 +140,7 @@ export const createApp = async (dir, { projectName, services, entrypoint, port, 
     // plugins
     if (service.plugins) {
       for (const plugin of service.plugins) {
-        templateGenerator.addPackage(plugin)
+        await templateGenerator.addPackage(plugin)
       }
     }
     generator.addService(templateGenerator, serviceName)
