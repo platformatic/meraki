@@ -27,7 +27,12 @@ async function importOrLocal ({ pkgManager, projectDir, pkg, logger }) {
     })
 
     child.stderr.pipe(split()).on('data', (line) => {
-      logger.error(line)
+      // We don't want to show warnings as errors on ui.
+      if (line.includes('npm WARN')) {
+        logger.info(line)
+      } else {
+        logger.error(line)
+      }
     })
 
     await child
