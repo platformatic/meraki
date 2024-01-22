@@ -130,7 +130,7 @@ const GeneratingApplication = React.forwardRef(({ onRestartProcess }, ref) => {
         >
           <div className={`${commonStyles.mediumFlexBlock} ${commonStyles.fullWidth}`}>
             <p className={`${typographyStyles.desktopBody} ${typographyStyles.textWhite} ${commonStyles.fullWidth}`}>
-              <span className={`${typographyStyles.opacity70}`}>Your application has been created successfull. <br />Click on "Restart" for create another application from scratch <br /> or click on "Complete" to close the application.</span>
+              <span className={`${typographyStyles.opacity70}`}>Your application has been created successfull. <br />Click on "Restart" to create another application from scratch <br /> or click on "Complete" to close the application.</span>
             </p>
             <HorizontalSeparator marginBottom={MARGIN_0} marginTop={MARGIN_0} color={WHITE} opacity={OPACITY_30} />
             <div className={`${commonStyles.mediumFlexRow} ${commonStyles.justifyBetween}`}>
