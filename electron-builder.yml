@@ -35,7 +35,7 @@ linux:
   desktop: 
     Type: Application
     Name: Platformatic Meraki  
-      exec: meraki %u
+    exec: meraki %u
   maintainer: platformatic.dev
   category: Development
   mimeTypes: [x-scheme-handler/meraki]
