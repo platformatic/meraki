@@ -121,14 +121,6 @@ app.whenReady().then(() => {
 
   createWindow()
 
-  if (isMac) {
-    // deep link on mac
-    app.on('open-url', (event, url) => {
-    // TODO: parse the URL and get the template id
-      log.info('Meraki opened for url:' + url)
-    })
-  }
-
   app.on('activate', function () {
     // On macOS it's common to re-create a window in the app when the
     // dock icon is clicked and there are no other windows open.
@@ -169,6 +161,14 @@ app.whenReady().then(() => {
     return val
   })
 })
+
+if (isMac) {
+  // deep link on mac
+  app.on('open-url', (event, url) => {
+  // TODO: parse the URL and get the template id
+    log.info('Meraki opened for url:' + url)
+  })
+}
 
 // Quit when all windows are closed, except on macOS. There, it's common
 // for applications and their menu bar to stay active until the user quits
