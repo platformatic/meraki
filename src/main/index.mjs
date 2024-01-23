@@ -47,7 +47,7 @@ if (!gotTheLock) {
   app.quit()
 } else {
   if (!isMac) {
-    log.info("Running in windows or linux")
+    log.info('Running in windows or linux')
     app.on('second-instance', (event, commandLine, workingDirectory) => {
       // Someone tried to run a second instance, we should focus our window.
       if (mainWindow) {
@@ -127,7 +127,7 @@ app.whenReady().then(() => {
     // TODO: parse the URL and get the template id
       log.info('Meraki opened for url:' + url)
     })
-  } 
+  }
 
   app.on('activate', function () {
     // On macOS it's common to re-create a window in the app when the
