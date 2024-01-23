@@ -1,11 +1,12 @@
 'use strict'
 
-import { access, readFile } from 'node:fs/promises'
+import { access } from 'node:fs/promises'
 import execa from 'execa'
 import { app } from 'electron'
 import split from 'split2'
 import { homedir } from 'node:os'
 import { dirname } from 'node:path'
+import log from 'electron-log'
 
 async function isFileAccessible (filename) {
   try {
@@ -28,6 +29,7 @@ async function npmInstall (pkg = null, options, logger) {
 
   // OSx and linux
   const executable = await findNpmExec()
+  log.info(`Found npm in ${executable}`)
   if (executable === null) {
     throw new Error('Cannot find npm executable')
   }
@@ -59,6 +61,7 @@ async function npmInstall (pkg = null, options, logger) {
 
 async function findNpmExec () {
   const npmInNvm = await findNpmInNvm()
+  log.info(`Found npm in nvm ${npmInNvm}`)
   if (npmInNvm === null) {
     const paths = ['/usr/local/bin/npm']
     for (const location of paths) {
@@ -72,13 +75,29 @@ async function findNpmExec () {
 }
 
 async function findNpmInNvm () {
-  const nvmDefault = `${homedir()}/.nvm/alias/default`
-  if (await isFileAccessible(nvmDefault)) {
-    const nodeVersion = await readFile(nvmDefault, 'utf8')
-    const npmCandidate = `${homedir()}/.nvm/versions/node/v${nodeVersion.trim()}/bin/npm`
-    if (await isFileAccessible(npmCandidate)) {
-      return npmCandidate
+  try {
+    if (await isFileAccessible(`${homedir()}/.nvm/nvm.sh`)) {
+      const execPath = '/bin:/usr/local/bin:/sbin:/usr/sbin:/usr/bin'
+      const executable = `. ${homedir()}/.nvm/nvm.sh; nvm which current`
+      const options = {
+        env: {
+          PATH: execPath,
+          NVM_DIR: `${homedir()}/.nvm`
+        },
+        shell: true
+      }
+      const { stdout } = await execa(executable, [], options)
+      const binPath = stdout.trim()
+      const npmCandidate = binPath.replace('/bin/node', '/bin/npm')
+      if (await isFileAccessible(npmCandidate)) {
+        log.info(`Found npm in nvm ${npmCandidate}`)
+        return npmCandidate
+      }
+    } else {
+      log.info('Npm in nvm not found')
     }
+  } catch (err) {
+    log.error(err)
   }
   return null
 }
