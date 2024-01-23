@@ -1,5 +1,5 @@
 import { app, shell, BrowserWindow, dialog, ipcMain } from 'electron'
-import { join } from 'path'
+import path, { join } from 'path'
 import { electronApp, optimizer, is } from '@electron-toolkit/utils'
 import icon from '../../resources/icon.png?asset'
 import setupMenu from './menu.mjs'
@@ -42,12 +42,11 @@ if (process.defaultApp) {
     app.setAsDefaultProtocolClient('meraki', process.execPath, [path.resolve(process.argv[1])])
   }
 } else {
-  if (!app.isDefaultProtocolClient('meraki')) {    
+  if (!app.isDefaultProtocolClient('meraki')) {
     // Deep linking works on packaged versions of the application!
     app.setAsDefaultProtocolClient('meraki')
   }
 }
-
 
 const gotTheLock = app.requestSingleInstanceLock()
 if (!gotTheLock) {
