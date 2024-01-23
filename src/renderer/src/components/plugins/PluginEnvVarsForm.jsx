@@ -52,7 +52,7 @@ function PluginEnvVarsForm ({
   }
 
   function renderFormContainer () {
-    if (Object.keys(configuredServiceFound.form).length === 0) {
+    if (Object.keys(pluginFound.form).length === 0) {
       return <></>
     }
     return (
