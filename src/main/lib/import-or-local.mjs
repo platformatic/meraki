@@ -3,7 +3,7 @@ import path from 'node:path'
 import { createRequire } from 'module'
 import { npmInstall } from './run-npm.mjs'
 
-async function importOrLocal ({ pkgManager, projectDir, pkg, logger }) {
+async function importOrLocal ({ projectDir, pkg, logger }) {
   try {
     logger.info(`Installing ${pkg} on ${projectDir}...`)
     await import(pkg)
