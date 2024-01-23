@@ -3,7 +3,7 @@
 import { access } from 'node:fs/promises'
 import execa from 'execa'
 import { app } from 'electron'
-import split from 'split3'
+import split from 'split2'
 import { homedir } from 'node:os'
 import { dirname } from 'node:path'
 import log from 'electron-log'
