@@ -6,6 +6,7 @@ import errors from './errors.mjs'
 import split from 'split2'
 import { mkdirp } from 'mkdirp'
 import { runCommand } from './lib/run-command.mjs'
+import { npmInstall } from './lib/run-npm.mjs'
 
 export const prepareFolder = async (path, tempNames, logger, appName = 'appName') => {
   const s = await stat(path)
@@ -150,17 +151,7 @@ export const createApp = async (dir, { projectName, services, entrypoint, port, 
   await generator.prepare()
   await generator.writeFiles()
 
-  const child = runCommand(pkgManager, ['install'], { cwd: projectDir })
-
-  child.stdout.pipe(split()).on('data', (line) => {
-    logger.info(line)
-  })
-
-  child.stderr.pipe(split()).on('data', (line) => {
-    logger.error(line)
-  })
-  await child
-
+  await npmInstall(null, { cwd: projectDir }, logger)
   await generator.postInstallActions()
 
   logger.info('App created!')
