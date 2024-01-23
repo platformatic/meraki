@@ -1,8 +1,7 @@
 import { pathToFileURL } from 'node:url'
 import path from 'node:path'
-import split from 'split2'
 import { createRequire } from 'module'
-import { runCommand } from './run-command.mjs'
+import { npmInstall } from './run-npm.mjs'
 
 async function importOrLocal ({ pkgManager, projectDir, pkg, logger }) {
   try {
@@ -20,22 +19,7 @@ async function importOrLocal ({ pkgManager, projectDir, pkg, logger }) {
       return await import(pathToFileURL(fileToImport))
     } catch (err) {}
 
-    const child = runCommand(pkgManager, ['install', pkg], { cwd: projectDir })
-
-    child.stdout.pipe(split()).on('data', (line) => {
-      logger.info(line)
-    })
-
-    child.stderr.pipe(split()).on('data', (line) => {
-      // We don't want to show warnings as errors on ui.
-      if (line.includes('npm WARN')) {
-        logger.info(line)
-      } else {
-        logger.error(line)
-      }
-    })
-
-    await child
+    await npmInstall(pkg, { cwd: projectDir }, logger)
 
     logger.info({ name: pkg, path: projectDir }, 'Installed!')
     const fileToImport = _require.resolve(pkg)
