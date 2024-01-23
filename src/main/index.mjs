@@ -90,9 +90,9 @@ app.whenReady().then(() => {
     app.setAsDefaultProtocolClient('meraki')
   }
 
-  if (isMac()) {
+  if (isMac) {
     app.on('open-url', (event, url) => {
-    // TODO: parse the URL and get the template id
+      // TODO: parse the URL and get the template id
       log.info('Meraki opened for url:' + url)
     })
   } else {
