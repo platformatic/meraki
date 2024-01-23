@@ -1,8 +1,6 @@
 import { pathToFileURL } from 'node:url'
 import path from 'node:path'
-import split from 'split2'
 import { createRequire } from 'module'
-import { runCommand } from './run-command.mjs'
 import { npmInstall } from './run-npm.mjs'
 
 async function importOrLocal ({ pkgManager, projectDir, pkg, logger }) {

@@ -4,6 +4,8 @@ import { access, readFile } from 'node:fs/promises'
 import execa from 'execa'
 import { app } from 'electron'
 import split from 'split2'
+import { homedir } from 'node:os'
+import { dirname } from 'node:path'
 
 async function isFileAccessible (filename) {
   try {
@@ -28,6 +30,13 @@ async function npmInstall (pkg = null, options, logger) {
   const executable = await findNpmExec()
   if (executable === null) {
     throw new Error('Cannot find npm executable')
+  }
+
+  const execDir = dirname(executable)
+  const execPath = `/bin:/usr/local/bin:/sbin:/usr/sbin:${execDir}`
+  options.env = {
+    ...options.env,
+    PATH: execPath
   }
   child = execa(executable, installOptions, options)
   if (logger) {
@@ -63,10 +72,10 @@ async function findNpmExec () {
 }
 
 async function findNpmInNvm () {
-  const nvmDefault = '~/.nvm/alias/default'
+  const nvmDefault = `${homedir()}/.nvm/alias/default`
   if (await isFileAccessible(nvmDefault)) {
     const nodeVersion = await readFile(nvmDefault, 'utf8')
-    const npmCandidate = `~/.nvm/versions/node/v${nodeVersion}/bin/npm`
+    const npmCandidate = `${homedir()}/.nvm/versions/node/v${nodeVersion.trim()}/bin/npm`
     if (await isFileAccessible(npmCandidate)) {
       return npmCandidate
     }

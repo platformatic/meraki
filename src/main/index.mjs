@@ -7,8 +7,7 @@ import setupMenu from './menu.mjs'
 import { getTemplates, getPlugins } from './client.mjs'
 import { prepareFolder, createApp } from './generate.mjs'
 import log from 'electron-log'
-import { npmInstall } from './lib/run-npm.mjs'
-import split from 'split2'
+
 log.transports.file.level = 'info'
 log.info('App starting...')
 const version = app.getVersion()
