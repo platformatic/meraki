@@ -6,17 +6,17 @@ import icon from '../../resources/icon.png?asset'
 import setupMenu from './menu.mjs'
 import { getTemplates, getPlugins } from './client.mjs'
 import { prepareFolder, createApp } from './generate.mjs'
-import ProtocolUtils from './protocol_utils.mjs'
 import log from 'electron-log'
 
 log.transports.file.level = 'info'
-log.info('App starting...')
 const version = app.getVersion()
-
 const generate = require('boring-name-generator')
+
+log.info('App starting...')
 
 // eslint-disable-next-line no-unused-vars
 const isMac = process.platform === 'darwin'
+let mainWindow
 
 const elaborateLine = (...args) => {
   let line = ''
@@ -38,16 +38,8 @@ const elaborateLine = (...args) => {
 
 const uiLogger = {}
 
-// Protocol Handler
-ProtocolUtils.setDefaultProtocolClient()
-if (isMac) {
-    ProtocolUtils.setProtocolHandlerOSX()
-} else {
-  ProtocolUtils.setProtocolHandlerWindowsLinux()
-}
-
 function createWindow () {
-  const mainWindow = new BrowserWindow({
+  mainWindow = new BrowserWindow({
     minWidth: 1024,
     minHeight: 786,
     show: false,
@@ -91,6 +83,41 @@ function createWindow () {
 app.whenReady().then(() => {
   // Set app user model id for windows
   electronApp.setAppUserModelId('com.electron')
+
+  // Protocol handler. See: https://www.electronjs.org/docs/latest/tutorial/launch-app-from-url-in-another-app
+  if (!app.isDefaultProtocolClient('meraki')) {
+    // Deep linking works on packaged versions of the application!
+    app.setAsDefaultProtocolClient('meraki')
+  }
+
+  if (isMac()) {
+    app.on('open-url', (event, url) => {
+    // TODO: parse the URL and get the template id
+      log.info('Meraki opened for url:' + url)
+    })
+  } else {
+    const gotTheLock = app.requestSingleInstanceLock()
+    if (!gotTheLock) {
+      app.quit()
+    } else {
+      // Win and linux
+      app.on('second-instance', (event, commandLine, workingDirectory) => {
+        // Someone tried to run a second instance, we should focus our window.
+        if (mainWindow) {
+          if (mainWindow.isMinimized()) mainWindow.restore()
+          mainWindow.focus()
+        }
+        // the commandLine is array of strings in which last element is deep link url
+        // TODO: parse the URL and get the template id
+        log.info(`Meraki opened for: ${commandLine.pop()}`)
+      })
+
+      // Create mainWindow, load the rest of the app, etc...
+      app.whenReady().then(() => {
+        createWindow()
+      })
+    }
+  }
 
   // Default open or close DevTools by F12 in development
   // and ignore CommandOrControl + R in production.
