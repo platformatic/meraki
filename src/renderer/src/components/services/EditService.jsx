@@ -70,7 +70,7 @@ function EditService ({ name, onClickCancel, onClickConfirm }) {
             type='button'
             paddingClass={commonStyles.buttonPadding}
             label='Save Service'
-            onClick={() => handleSubmit}
+            onClick={(event) => handleSubmit(event)}
             color={RICH_BLACK}
             backgroundColor={WHITE}
             hoverEffect={BOX_SHADOW}
