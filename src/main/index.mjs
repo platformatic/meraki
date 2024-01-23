@@ -1,5 +1,4 @@
-// eslint-disable-next-line no-unused-vars
-import { app, shell, BrowserWindow, dialog, ipcMain, Menu } from 'electron'
+import { app, shell, BrowserWindow, dialog, ipcMain } from 'electron'
 import { join } from 'path'
 import { electronApp, optimizer, is } from '@electron-toolkit/utils'
 import icon from '../../resources/icon.png?asset'
@@ -14,9 +13,7 @@ const generate = require('boring-name-generator')
 
 log.info('App starting...')
 
-// eslint-disable-next-line no-unused-vars
 const isMac = process.platform === 'darwin'
-let mainWindow
 
 const elaborateLine = (...args) => {
   let line = ''
@@ -37,6 +34,31 @@ const elaborateLine = (...args) => {
 }
 
 const uiLogger = {}
+let mainWindow
+
+// Protocol handler. See: https://www.electronjs.org/docs/latest/tutorial/launch-app-from-url-in-another-app
+if (!app.isDefaultProtocolClient('meraki')) {
+  // Deep linking works on packaged versions of the application!
+  app.setAsDefaultProtocolClient('meraki')
+}
+
+const gotTheLock = app.requestSingleInstanceLock()
+if (!gotTheLock) {
+  app.quit()
+} else {
+  if (!isMac) {
+    log.info("Running in windows or linux")
+    app.on('second-instance', (event, commandLine, workingDirectory) => {
+      // Someone tried to run a second instance, we should focus our window.
+      if (mainWindow) {
+        if (mainWindow.isMinimized()) mainWindow.restore()
+        mainWindow.focus()
+      }
+      // TODO: parse the URL and get the template id
+      log.info(`Meraki opened for: ${commandLine.pop()}`)
+    })
+  }
+}
 
 function createWindow () {
   mainWindow = new BrowserWindow({
@@ -78,46 +100,17 @@ function createWindow () {
   }
 
   setupMenu()
-}
-
-app.whenReady().then(() => {
-  // Set app user model id for windows
-  electronApp.setAppUserModelId('com.electron')
 
   // Protocol handler. See: https://www.electronjs.org/docs/latest/tutorial/launch-app-from-url-in-another-app
   if (!app.isDefaultProtocolClient('meraki')) {
     // Deep linking works on packaged versions of the application!
     app.setAsDefaultProtocolClient('meraki')
   }
+}
 
-  if (isMac) {
-    app.on('open-url', (event, url) => {
-      // TODO: parse the URL and get the template id
-      log.info('Meraki opened for url:' + url)
-    })
-  } else {
-    const gotTheLock = app.requestSingleInstanceLock()
-    if (!gotTheLock) {
-      app.quit()
-    } else {
-      // Win and linux
-      app.on('second-instance', (event, commandLine, workingDirectory) => {
-        // Someone tried to run a second instance, we should focus our window.
-        if (mainWindow) {
-          if (mainWindow.isMinimized()) mainWindow.restore()
-          mainWindow.focus()
-        }
-        // the commandLine is array of strings in which last element is deep link url
-        // TODO: parse the URL and get the template id
-        log.info(`Meraki opened for: ${commandLine.pop()}`)
-      })
-
-      // Create mainWindow, load the rest of the app, etc...
-      app.whenReady().then(() => {
-        createWindow()
-      })
-    }
-  }
+app.whenReady().then(() => {
+  // Set app user model id for windows
+  electronApp.setAppUserModelId('com.electron')
 
   // Default open or close DevTools by F12 in development
   // and ignore CommandOrControl + R in production.
@@ -127,6 +120,14 @@ app.whenReady().then(() => {
   })
 
   createWindow()
+
+  if (isMac) {
+    // deep link on mac
+    app.on('open-url', (event, url) => {
+    // TODO: parse the URL and get the template id
+      log.info('Meraki opened for url:' + url)
+    })
+  } 
 
   app.on('activate', function () {
     // On macOS it's common to re-create a window in the app when the
