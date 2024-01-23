@@ -78,11 +78,13 @@ async function findNpmInNvm () {
   try {
     if (await isFileAccessible(`${homedir()}/.nvm/nvm.sh`)) {
       const execPath = '/bin:/usr/local/bin:/sbin:/usr/sbin'
-      const executable = 'sh ~/.nvm/nvm.sh; nvm which current'
+      const executable = `. ${homedir()}/.nvm/nvm.sh; nvm which current`
       const options = {
         env: {
-          PATH: execPath
-        }
+          PATH: execPath,
+          NVM_DIR: `${homedir()}/.nvm`
+        },
+        shell: true
       }
       const { stdout } = await execa(executable, [], options)
       const binPath = stdout.trim()
