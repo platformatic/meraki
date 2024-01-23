@@ -37,10 +37,17 @@ const uiLogger = {}
 let mainWindow
 
 // Protocol handler. See: https://www.electronjs.org/docs/latest/tutorial/launch-app-from-url-in-another-app
-if (!app.isDefaultProtocolClient('meraki')) {
-  // Deep linking works on packaged versions of the application!
-  app.setAsDefaultProtocolClient('meraki')
+if (process.defaultApp) {
+  if (process.argv.length >= 2) {
+    app.setAsDefaultProtocolClient('meraki', process.execPath, [path.resolve(process.argv[1])])
+  }
+} else {
+  if (!app.isDefaultProtocolClient('meraki')) {    
+    // Deep linking works on packaged versions of the application!
+    app.setAsDefaultProtocolClient('meraki')
+  }
 }
+
 
 const gotTheLock = app.requestSingleInstanceLock()
 if (!gotTheLock) {
