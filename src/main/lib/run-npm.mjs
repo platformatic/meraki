@@ -77,7 +77,7 @@ async function findNpmExec () {
 async function findNpmInNvm () {
   try {
     if (await isFileAccessible(`${homedir()}/.nvm/nvm.sh`)) {
-      const execPath = '/bin:/usr/local/bin:/sbin:/usr/sbin'
+      const execPath = '/bin:/usr/local/bin:/sbin:/usr/sbin:/usr/bin'
       const executable = `. ${homedir()}/.nvm/nvm.sh; nvm which current`
       const options = {
         env: {
