@@ -1,6 +1,5 @@
 import { stat } from 'node:fs/promises'
 import { join, resolve } from 'node:path'
-import { getPkgManager } from './lib/get-package-manager.mjs'
 import { importOrLocal } from './lib/import-or-local.mjs'
 import errors from './errors.mjs'
 import { mkdirp } from 'mkdirp'
@@ -15,12 +14,10 @@ export const prepareFolder = async (path, tempNames, logger, appName = 'appName'
   const newFolder = join(resolve(path), appName)
   await mkdirp(newFolder)
 
-  const pkgManager = await getPkgManager()
   const templateVariables = {}
   try {
     for (const name of tempNames) {
       const template = await importOrLocal({
-        pkgManager,
         projectDir: newFolder,
         pkg: name,
         logger
@@ -71,9 +68,7 @@ export const createApp = async (dir, { projectName, services, entrypoint, port, 
     throw new errors.NoEntrypointError()
   }
 
-  const pkgManager = await getPkgManager()
   const runtime = await importOrLocal({
-    pkgManager,
     projectDir,
     pkg: '@platformatic/runtime',
     logger
@@ -106,7 +101,6 @@ export const createApp = async (dir, { projectName, services, entrypoint, port, 
     const templateName = service.template
     const serviceName = service.name
     const template = await importOrLocal({
-      pkgManager,
       projectDir,
       pkg: templateName,
       logger
