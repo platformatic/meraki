@@ -6,6 +6,7 @@ import icon from '../../resources/icon.png?asset'
 import setupMenu from './menu.mjs'
 import { getTemplates, getPlugins } from './client.mjs'
 import { prepareFolder, createApp } from './generate.mjs'
+import ProtocolUtils from './protocol_utils.mjs'
 import log from 'electron-log'
 
 log.transports.file.level = 'info'
@@ -36,6 +37,15 @@ const elaborateLine = (...args) => {
 }
 
 const uiLogger = {}
+
+// Protocol Handler
+ProtocolUtils.setDefaultProtocolClient()
+if (isMac) {
+    ProtocolUtils.setProtocolHandlerOSX()
+} else {
+  ProtocolUtils.setProtocolHandlerWindowsLinux()
+}
+
 function createWindow () {
   const mainWindow = new BrowserWindow({
     minWidth: 1024,
