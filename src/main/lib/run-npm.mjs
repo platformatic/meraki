@@ -24,25 +24,27 @@ async function npmInstall (pkg = null, options, logger) {
   }
 
   if (process.platform === 'win32' || !app) {
+    log.info('Running in windows')
     child = execa('npm', installOptions, options)
-  }
+  } else {
+    // OSx and linux
+    log.info('Running in OSx or linux')
+    const executable = await findNpmExec()
+    log.info(`Found npm in ${executable}`)
+    if (executable === null) {
+      throw new Error('Cannot find npm executable')
+    }
+    log.info(`Found npm in ${executable}`)
 
-  // OSx and linux
-  const executable = await findNpmExec()
-  log.info(`Found npm in ${executable}`)
-  if (executable === null) {
-    throw new Error('Cannot find npm executable')
+    const execDir = dirname(executable)
+    const execPath = `/bin:/usr/local/bin:/sbin:/usr/sbin:${execDir}`
+    options.env = {
+      ...options.env,
+      PATH: execPath
+    }
+    child = execa(executable, installOptions, options)
   }
-
-  const execDir = dirname(executable)
-  const execPath = `/bin:/usr/local/bin:/sbin:/usr/sbin:${execDir}`
-  options.env = {
-    ...options.env,
-    PATH: execPath
-  }
-  child = execa(executable, installOptions, options)
   if (logger) {
-    logger.info(`Found npm in ${executable}`)
     child.stdout.pipe(split()).on('data', (line) => {
       logger.info(line)
     })
