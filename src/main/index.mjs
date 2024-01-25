@@ -15,6 +15,24 @@ log.info('App starting...')
 
 const isMac = process.platform === 'darwin'
 
+// HMR for renderer base on electron-vite cli.
+// Load the remote URL for development or the local html file for production.
+let currentUrl
+let loadFile = false
+if (is.dev && process.env.ELECTRON_RENDERER_URL) {
+  currentUrl = process.env.ELECTRON_RENDERER_URL
+} else {
+  currentUrl = join(__dirname, '../renderer/index.html')
+  loadFile = true
+}
+
+// Create a URL to load in the main window based on params passed in meraki:// protocol
+const getURLToLoad = url => {
+  const urlSplit = url.split('//')
+  const templateId = urlSplit[1]
+  return currentUrl + '?templateId=' + templateId
+}
+
 const elaborateLine = (...args) => {
   let line = ''
   let obj = {}
@@ -54,14 +72,18 @@ if (!gotTheLock) {
 } else {
   if (!isMac) {
     log.info('Running in windows or linux')
+    // See: https://www.electronjs.org/docs/latest/tutorial/launch-app-from-url-in-another-app
     app.on('second-instance', (event, commandLine, workingDirectory) => {
-      // Someone tried to run a second instance, we should focus our window.
       if (mainWindow) {
         if (mainWindow.isMinimized()) mainWindow.restore()
         mainWindow.focus()
       }
-      // TODO: parse the URL and get the template id
       log.info(`Meraki opened for: ${commandLine.pop()}`)
+      const url = getURLToLoad(commandLine.pop())
+      log.info('Loading URL: ' + url)
+      if (mainWindow) {
+        mainWindow.loadURL(url)
+      }
     })
   }
 }
@@ -90,12 +112,12 @@ function createWindow () {
     return { action: 'deny' }
   })
 
-  // HMR for renderer base on electron-vite cli.
-  // Load the remote URL for development or the local html file for production.
-  if (is.dev && process.env.ELECTRON_RENDERER_URL) {
-    mainWindow.loadURL(process.env.ELECTRON_RENDERER_URL)
+  console.log('Loading URL: ' + currentUrl)
+
+  if (!loadFile) {
+    mainWindow.loadURL(currentUrl)
   } else {
-    mainWindow.loadFile(join(__dirname, '../renderer/index.html'))
+    mainWindow.loadFile(currentUrl)
   }
 
   uiLogger.error = function (args) {
@@ -171,8 +193,10 @@ app.whenReady().then(() => {
 if (isMac) {
   // deep link on mac
   app.on('open-url', (event, url) => {
-  // TODO: parse the URL and get the template id
     log.info('Meraki opened for url:' + url)
+    if (mainWindow) {
+      mainWindow.loadURL(getURLToLoad(url))
+    }
   })
 }
 
