@@ -5,7 +5,7 @@ import Wizard from './components/Wizard'
 
 function App () {
   const searchParams = new URLSearchParams(document.location.search)
-  console.log('searchParams', searchParams)
+  console.log('searchParams templateId', searchParams.get('templateId'))
 
   return (
     <>
