@@ -24,28 +24,6 @@ const getTemplateId = url => {
   return templateId
 }
 
-const getCurrentURL = (templateId = null) => {
-  // Load the remote URL for development or the local html file for production.
-  let currentURL
-  const query = templateId ? { templateId } : null
-  if (is.dev && process.env.ELECTRON_RENDERER_URL) {
-    currentURL = url.format({
-      pathname: process.env.ELECTRON_RENDERER_URL,
-      protocol: 'http:',
-      query,
-      slashes: true
-    })
-  } else {
-    currentURL = url.format({
-      pathname: join(__dirname, '../renderer/index.html'),
-      protocol: 'file:',
-      query,
-      slashes: true
-    })
-  }
-  return currentURL
-}
-
 const elaborateLine = (...args) => {
   let line = ''
   let obj = {}
@@ -66,6 +44,30 @@ const elaborateLine = (...args) => {
 
 const uiLogger = {}
 let mainWindow
+let templateId = null
+
+const getCurrentURL = () => {
+  // Load the remote URL for development or the local html file for production.
+  // if the application was closed, we assume that templateId is already be initialized
+  const query = templateId ? { templateId } : null
+  let currentURL = null
+  if (is.dev && process.env.ELECTRON_RENDERER_URL) {
+    currentURL = url.format({
+      pathname: process.env.ELECTRON_RENDERER_URL,
+      protocol: 'http:',
+      query,
+      slashes: true
+    })
+  } else {
+    currentURL = url.format({
+      pathname: join(__dirname, '../renderer/index.html'),
+      protocol: 'file:',
+      query,
+      slashes: true
+    })
+  }
+  return currentURL
+}
 
 // Protocol handler. See: https://www.electronjs.org/docs/latest/tutorial/launch-app-from-url-in-another-app
 if (process.defaultApp) {
@@ -87,15 +89,15 @@ if (!gotTheLock) {
     log.info('Running in windows or linux')
     // See: https://www.electronjs.org/docs/latest/tutorial/launch-app-from-url-in-another-app
     app.on('second-instance', (event, commandLine, workingDirectory) => {
+      log.info(`Meraki opened for: ${commandLine.pop()}`)
+      templateId = getTemplateId(commandLine.pop())
+      const currentUrl = getCurrentURL()
+      log.info('Loading URL: ' + currentUrl)
       if (mainWindow) {
         if (mainWindow.isMinimized()) mainWindow.restore()
         mainWindow.focus()
+        mainWindow.loadURL(getCurrentURL())
       }
-      log.info(`Meraki opened for: ${commandLine.pop()}`)
-      const templateId = getTemplateId(commandLine.pop())
-      const currentUrl = getCurrentURL(templateId)
-      log.info('Loading URL: ' + currentUrl)
-      mainWindow.loadURL(getCurrentURL(templateId))
     })
   }
 }
@@ -202,11 +204,12 @@ if (isMac) {
   // deep link on mac
   app.on('open-url', (event, url) => {
     log.info('Meraki opened for url:' + url)
+    templateId = getTemplateId(url)
+    log.info('Loaded templateId:', templateId)
+
     if (mainWindow) {
-      const templateId = getTemplateId(url)
-      log.info('Loading:' + templateId, getCurrentURL(templateId))
-      log.info('Inside mainWindow:' + getCurrentURL(templateId))
-      mainWindow.loadURL(getCurrentURL(templateId))
+      log.info('Inside mainWindow:' + getCurrentURL())
+      mainWindow.loadURL(getCurrentURL())
     }
   })
 }
