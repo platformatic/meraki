@@ -204,7 +204,8 @@ if (isMac) {
     log.info('Meraki opened for url:' + url)
     if (mainWindow) {
       const templateId = getTemplateId(url)
-      log.info('Loading template id:' + templateId)
+      log.info('Loading:' + templateId, getCurrentURL(templateId))
+      log.info('Inside mainWindow:' + getCurrentURL(templateId))
       mainWindow.loadURL(getCurrentURL(templateId))
     }
   })
