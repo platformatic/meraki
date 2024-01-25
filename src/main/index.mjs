@@ -1,5 +1,6 @@
 import { app, shell, BrowserWindow, dialog, ipcMain } from 'electron'
 import path, { join } from 'path'
+import url from 'node:url'
 import { electronApp, optimizer, is } from '@electron-toolkit/utils'
 import icon from '../../resources/icon.png?asset'
 import setupMenu from './menu.mjs'
@@ -15,23 +16,34 @@ log.info('App starting...')
 
 const isMac = process.platform === 'darwin'
 
-// HMR for renderer base on electron-vite cli.
-// Load the remote URL for development or the local html file for production.
-let currentUrl
-let loadFile = false
-if (is.dev && process.env.ELECTRON_RENDERER_URL) {
-  currentUrl = process.env.ELECTRON_RENDERER_URL
-} else {
-  currentUrl = join(__dirname, '../renderer/index.html')
-  loadFile = true
-}
-
 // Create a URL to load in the main window based on params passed in meraki:// protocol
-const getURLToLoad = url => {
+const getTemplateId = url => {
   if (!url || url === '') return ''
   const urlSplit = url.split('//')
   const templateId = urlSplit[1]
-  return '?templateId=' + templateId
+  return templateId
+}
+
+const getCurrentURL = (templateId = null) => {
+  // Load the remote URL for development or the local html file for production.
+  let currentURL
+  const query = templateId ? { templateId } : null
+  if (is.dev && process.env.ELECTRON_RENDERER_URL) {
+    currentURL = url.format({
+      pathname: process.env.ELECTRON_RENDERER_URL,
+      protocol: 'http:',
+      query,
+      slashes: true
+    })
+  } else {
+    currentURL = url.format({
+      pathname: join(__dirname, '../renderer/index.html'),
+      protocol: 'file:',
+      query,
+      slashes: true
+    })
+  }
+  return currentURL
 }
 
 const elaborateLine = (...args) => {
@@ -80,8 +92,10 @@ if (!gotTheLock) {
         mainWindow.focus()
       }
       log.info(`Meraki opened for: ${commandLine.pop()}`)
-      currentUrl += getURLToLoad(commandLine.pop())
+      const templateId = getTemplateId(commandLine.pop())
+      const currentUrl = getCurrentURL(templateId)
       log.info('Loading URL: ' + currentUrl)
+      mainWindow.loadURL(getCurrentURL(templateId))
     })
   }
 }
@@ -110,13 +124,9 @@ function createWindow () {
     return { action: 'deny' }
   })
 
+  const currentUrl = getCurrentURL()
   log.info('Loading URL: ' + currentUrl)
-
-  if (!loadFile) {
-    mainWindow.loadURL(currentUrl)
-  } else {
-    mainWindow.loadFile(currentUrl)
-  }
+  mainWindow.loadURL(currentUrl)
 
   uiLogger.error = function (args) {
     mainWindow.webContents.send('log', { level: 'error', message: elaborateLine(args) })
@@ -191,7 +201,12 @@ app.whenReady().then(() => {
 if (isMac) {
   // deep link on mac
   app.on('open-url', (event, url) => {
-    currentUrl += getURLToLoad(url)
+    log.info('Meraki opened for url:' + url)
+    if (mainWindow) {
+      const templateId = getTemplateId(url)
+      log.info('Loading template id:' + templateId)
+      mainWindow.loadURL(getCurrentURL(templateId))
+    }
   })
 }
 
