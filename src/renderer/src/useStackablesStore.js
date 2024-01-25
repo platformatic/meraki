@@ -13,13 +13,13 @@ const useStackablesStore = create((set, get) => ({
       formData: { ...get().formData, ...newValue }
     }
   }),
-  addService: (serviceName) => set((state) => {
+  addService: (serviceName, template = {}) => set((state) => {
     const currentServices = get().services
     return {
       ...state,
       services: [...currentServices, {
         name: serviceName,
-        template: {},
+        template,
         plugins: []
       }]
     }
