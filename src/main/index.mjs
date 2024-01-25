@@ -28,9 +28,10 @@ if (is.dev && process.env.ELECTRON_RENDERER_URL) {
 
 // Create a URL to load in the main window based on params passed in meraki:// protocol
 const getURLToLoad = url => {
+  if (!url || url === '') return ''
   const urlSplit = url.split('//')
   const templateId = urlSplit[1]
-  return currentUrl + '?templateId=' + templateId
+  return '?templateId=' + templateId
 }
 
 const elaborateLine = (...args) => {
@@ -79,11 +80,8 @@ if (!gotTheLock) {
         mainWindow.focus()
       }
       log.info(`Meraki opened for: ${commandLine.pop()}`)
-      const url = getURLToLoad(commandLine.pop())
-      log.info('Loading URL: ' + url)
-      if (mainWindow) {
-        mainWindow.loadURL(url)
-      }
+      currentUrl += getURLToLoad(commandLine.pop())
+      log.info('Loading URL: ' + currentUrl)
     })
   }
 }
@@ -112,7 +110,7 @@ function createWindow () {
     return { action: 'deny' }
   })
 
-  console.log('Loading URL: ' + currentUrl)
+  log.info('Loading URL: ' + currentUrl)
 
   if (!loadFile) {
     mainWindow.loadURL(currentUrl)
@@ -193,10 +191,7 @@ app.whenReady().then(() => {
 if (isMac) {
   // deep link on mac
   app.on('open-url', (event, url) => {
-    log.info('Meraki opened for url:' + url)
-    if (mainWindow) {
-      mainWindow.loadURL(getURLToLoad(url))
-    }
+    currentUrl += getURLToLoad(url)
   })
 }
 
