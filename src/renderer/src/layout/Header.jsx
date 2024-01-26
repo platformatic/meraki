@@ -7,7 +7,6 @@ import { WHITE, MARGIN_0 } from '@platformatic/ui-components/src/components/cons
 import MerakiLogo from '~/components/ui/MerakiLogo'
 
 function Header () {
-
   return (
     <div className={styles.container}>
       <div className={styles.header}>
