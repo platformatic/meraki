@@ -52,9 +52,11 @@ const getCurrentURL = () => {
   const query = templateId ? { templateId } : null
   let currentURL = null
   if (is.dev && process.env.ELECTRON_RENDERER_URL) {
+    const parsedUrl = new URL(process.env.ELECTRON_RENDERER_URL)
     currentURL = url.format({
-      pathname: process.env.ELECTRON_RENDERER_URL,
-      protocol: 'http:',
+      pathname: parsedUrl.pathname,
+      host: parsedUrl.host,
+      protocol: parsedUrl.protocol,
       query,
       slashes: true
     })
