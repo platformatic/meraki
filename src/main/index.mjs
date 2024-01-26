@@ -1,6 +1,6 @@
-// eslint-disable-next-line no-unused-vars
-import { app, shell, BrowserWindow, dialog, ipcMain, Menu } from 'electron'
-import { join } from 'path'
+import { app, shell, BrowserWindow, dialog, ipcMain } from 'electron'
+import path, { join } from 'path'
+import url from 'node:url'
 import { electronApp, optimizer, is } from '@electron-toolkit/utils'
 import icon from '../../resources/icon.png?asset'
 import setupMenu from './menu.mjs'
@@ -9,13 +9,20 @@ import { prepareFolder, createApp } from './generate.mjs'
 import log from 'electron-log'
 
 log.transports.file.level = 'info'
-log.info('App starting...')
 const version = app.getVersion()
-
 const generate = require('boring-name-generator')
 
-// eslint-disable-next-line no-unused-vars
+log.info('App starting...')
+
 const isMac = process.platform === 'darwin'
+
+// Create a URL to load in the main window based on params passed in meraki:// protocol
+const getTemplateId = url => {
+  if (!url || url === '') return ''
+  const urlSplit = url.split('//')
+  const templateId = urlSplit[1]
+  return templateId
+}
 
 const elaborateLine = (...args) => {
   let line = ''
@@ -36,8 +43,67 @@ const elaborateLine = (...args) => {
 }
 
 const uiLogger = {}
+let mainWindow
+let templateId = null
+
+const getCurrentURL = () => {
+  // Load the remote URL for development or the local html file for production.
+  // if the application was closed, we assume that templateId is already be initialized
+  const query = templateId ? { templateId } : null
+  let currentURL = null
+  if (is.dev && process.env.ELECTRON_RENDERER_URL) {
+    currentURL = url.format({
+      pathname: process.env.ELECTRON_RENDERER_URL,
+      protocol: 'http:',
+      query,
+      slashes: true
+    })
+  } else {
+    currentURL = url.format({
+      pathname: join(__dirname, '../renderer/index.html'),
+      protocol: 'file:',
+      query,
+      slashes: true
+    })
+  }
+  return currentURL
+}
+
+// Protocol handler. See: https://www.electronjs.org/docs/latest/tutorial/launch-app-from-url-in-another-app
+if (process.defaultApp) {
+  if (process.argv.length >= 2) {
+    app.setAsDefaultProtocolClient('meraki', process.execPath, [path.resolve(process.argv[1])])
+  }
+} else {
+  if (!app.isDefaultProtocolClient('meraki')) {
+    // Deep linking works on packaged versions of the application!
+    app.setAsDefaultProtocolClient('meraki')
+  }
+}
+
+const gotTheLock = app.requestSingleInstanceLock()
+if (!gotTheLock) {
+  app.quit()
+} else {
+  if (!isMac) {
+    log.info('Running in windows or linux')
+    // See: https://www.electronjs.org/docs/latest/tutorial/launch-app-from-url-in-another-app
+    app.on('second-instance', (event, commandLine, workingDirectory) => {
+      log.info(`Meraki opened for: ${commandLine.pop()}`)
+      templateId = getTemplateId(commandLine.pop())
+      const currentUrl = getCurrentURL()
+      log.info('Loading URL: ' + currentUrl)
+      if (mainWindow) {
+        if (mainWindow.isMinimized()) mainWindow.restore()
+        mainWindow.focus()
+        mainWindow.loadURL(getCurrentURL())
+      }
+    })
+  }
+}
+
 function createWindow () {
-  const mainWindow = new BrowserWindow({
+  mainWindow = new BrowserWindow({
     minWidth: 1024,
     minHeight: 786,
     show: false,
@@ -60,13 +126,9 @@ function createWindow () {
     return { action: 'deny' }
   })
 
-  // HMR for renderer base on electron-vite cli.
-  // Load the remote URL for development or the local html file for production.
-  if (is.dev && process.env.ELECTRON_RENDERER_URL) {
-    mainWindow.loadURL(process.env.ELECTRON_RENDERER_URL)
-  } else {
-    mainWindow.loadFile(join(__dirname, '../renderer/index.html'))
-  }
+  const currentUrl = getCurrentURL()
+  log.info('Loading URL: ' + currentUrl)
+  mainWindow.loadURL(currentUrl)
 
   uiLogger.error = function (args) {
     mainWindow.webContents.send('log', { level: 'error', message: elaborateLine(args) })
@@ -76,6 +138,12 @@ function createWindow () {
   }
 
   setupMenu()
+
+  // Protocol handler. See: https://www.electronjs.org/docs/latest/tutorial/launch-app-from-url-in-another-app
+  if (!app.isDefaultProtocolClient('meraki')) {
+    // Deep linking works on packaged versions of the application!
+    app.setAsDefaultProtocolClient('meraki')
+  }
 }
 
 app.whenReady().then(() => {
@@ -131,6 +199,20 @@ app.whenReady().then(() => {
     return val
   })
 })
+
+if (isMac) {
+  // deep link on mac
+  app.on('open-url', (event, url) => {
+    log.info('Meraki opened for url:' + url)
+    templateId = getTemplateId(url)
+    log.info('Loaded templateId:', templateId)
+
+    if (mainWindow) {
+      log.info('Inside mainWindow:' + getCurrentURL())
+      mainWindow.loadURL(getCurrentURL())
+    }
+  })
+}
 
 // Quit when all windows are closed, except on macOS. There, it's common
 // for applications and their menu bar to stay active until the user quits

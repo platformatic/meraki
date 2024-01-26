@@ -35,8 +35,10 @@ linux:
   desktop: 
     Type: Application
     Name: Platformatic Meraki  
+    exec: meraki %u
   maintainer: platformatic.dev
   category: Development
+  mimeTypes: [x-scheme-handler/meraki]
 appImage:
   artifactName: ${productName}-${version}.${ext}
 npmRebuild: false

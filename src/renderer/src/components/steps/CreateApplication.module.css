@@ -10,3 +10,13 @@
   background: url('~/assets/Illustration_Stackables.svg') no-repeat bottom right;
   background-size: 100%;
 }
+.useTemplateIdContainer {
+  @apply relative min-h-[8rem];
+}
+.loadingSpinner {
+  @apply absolute left-1/2 top-1/2;
+  transform: translate(-50%, -50%);
+}
+.borderedBox {
+  @apply grow-0;
+}
