@@ -10,8 +10,7 @@ import Title from '~/components/ui/Title'
 import useStackablesStore from '~/useStackablesStore'
 import Plugin from './Plugin'
 import { getApiPlugins } from '~/api'
-import useWindowDimensions from '~/hooks/useWindowDimensions'
-import { MAX_WIDTH_LG, MAX_MUMBER_SELECT, MAX_MUMBER_SELECT_LG, NO_RESULTS_VIEW, LIST_PLUGINS_VIEW } from '~/ui-constants'
+import { MAX_MUMBER_SELECT, NO_RESULTS_VIEW, LIST_PLUGINS_VIEW } from '~/ui-constants'
 import NoResults from '~/components/ui/NoResults'
 
 function SelectPlugin ({ onClick, serviceName }) {
@@ -24,12 +23,11 @@ function SelectPlugin ({ onClick, serviceName }) {
   const [filterPluginsByValue, setFilterPluginsByValue] = useState('')
   const [innerLoading, setInnerLoading] = useState(true)
   const [currentView, setCurrentView] = useState(LIST_PLUGINS_VIEW)
-  const { width: innerWindow } = useWindowDimensions()
   const [currentPage, setCurrentPage] = useState(1)
   const [pages, setPages] = useState([1])
   const scrollRef = useRef(null)
   const containerScrollRef = useRef(null)
-  const [maxPluginDispay, setMaxPluginDisplay] = useState(innerWindow < MAX_WIDTH_LG ? MAX_MUMBER_SELECT : MAX_MUMBER_SELECT_LG)
+  const [maxPluginDispay] = useState(MAX_MUMBER_SELECT)
 
   useEffect(() => {
     async function getPlugins () {
@@ -40,15 +38,6 @@ function SelectPlugin ({ onClick, serviceName }) {
     }
     getPlugins()
   }, [])
-
-  useEffect(() => {
-    if (innerWindow < MAX_WIDTH_LG && maxPluginDispay === MAX_MUMBER_SELECT_LG) {
-      setMaxPluginDisplay(MAX_MUMBER_SELECT)
-    }
-    if (innerWindow >= MAX_WIDTH_LG && maxPluginDispay === MAX_MUMBER_SELECT) {
-      setMaxPluginDisplay(MAX_MUMBER_SELECT_LG)
-    }
-  }, [innerWindow])
 
   useEffect(() => {
     if (serviceName && Object.keys(getService(serviceName)?.plugins).length > 0) {

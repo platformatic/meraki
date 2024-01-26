@@ -11,9 +11,8 @@ import Title from '~/components/ui/Title'
 import NoResults from '~/components/ui/NoResults'
 import useStackablesStore from '~/useStackablesStore'
 import { getApiTemplates } from '~/api'
-import { MAX_MUMBER_SELECT, MAX_MUMBER_SELECT_LG, MAX_WIDTH_LG, NO_RESULTS_VIEW, LIST_TEMPLATES_VIEW } from '~/ui-constants'
+import { MAX_MUMBER_SELECT, NO_RESULTS_VIEW, LIST_TEMPLATES_VIEW } from '~/ui-constants'
 import Forms from '@platformatic/ui-components/src/components/forms'
-import useWindowDimensions from '~/hooks/useWindowDimensions'
 
 function SelectTemplate ({ onClick, serviceName }) {
   const globalState = useStackablesStore()
@@ -30,8 +29,7 @@ function SelectTemplate ({ onClick, serviceName }) {
   const scrollRef = useRef(null)
   const [filterTemplatesByName, setFilterTemplatesByName] = useState('')
   const [filterTemplatesByOrgName, setFilterTemplatesByOrgName] = useState('')
-  const { width: innerWindow } = useWindowDimensions()
-  const [maxStackableDispay, setMaxStackableDispay] = useState(innerWindow < MAX_WIDTH_LG ? MAX_MUMBER_SELECT : MAX_MUMBER_SELECT_LG)
+  const [maxStackableDispay] = useState(MAX_MUMBER_SELECT)
 
   const containerScrollRef = useRef(null)
 
@@ -46,15 +44,6 @@ function SelectTemplate ({ onClick, serviceName }) {
     }
     getTemplates()
   }, [])
-
-  useEffect(() => {
-    if (innerWindow < MAX_WIDTH_LG && maxStackableDispay === MAX_MUMBER_SELECT_LG) {
-      setMaxStackableDispay(MAX_MUMBER_SELECT)
-    }
-    if (innerWindow >= MAX_WIDTH_LG && maxStackableDispay === MAX_MUMBER_SELECT) {
-      setMaxStackableDispay(MAX_MUMBER_SELECT_LG)
-    }
-  }, [innerWindow])
 
   useEffect(() => {
     if (templates.length > 0 && serviceName && Object.keys(getService(serviceName)?.template).length > 0) {
