@@ -22,7 +22,6 @@ const CreateApplication = React.forwardRef(({ onNext }, ref) => {
   const mockUse = import.meta.env.RENDERER_VITE_USE_MOCKS === 'true'
   const searchParams = new URLSearchParams(document.location.search)
   const [useTemplateId] = useState(searchParams.get('templateId'))
-  // const [useTemplateId] = useState('8ba2537d-4d1d-40d3-acae-945458247b7f')
   const [useTemplate, setUseTemplate] = useState(undefined)
   const [statusLoadingTemplate, setStatusLoadingTemplate] = useState(RUNNING)
 
