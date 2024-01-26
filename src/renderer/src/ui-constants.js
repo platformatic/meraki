@@ -20,7 +20,6 @@ export const LIST_TEMPLATES_VIEW = 'list_templates'
 export const LIST_PLUGINS_VIEW = 'list_plugins'
 export const NO_RESULTS_VIEW = 'no_results'
 
-export const MAX_MUMBER_SELECT_LG = 12
 export const MAX_MUMBER_SELECT = 9
 export const MAX_WIDTH_LG = 1240
 
