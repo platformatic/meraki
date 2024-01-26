@@ -16,6 +16,7 @@ import ConfigureApplication from '~/components/steps/ConfigureApplication'
 import GeneratingApplication from '~/components/steps/GeneratingApplication'
 import PrepareFolder from '~/components/steps/PrepareFolder'
 import { CSSTransition, SwitchTransition } from 'react-transition-group'
+import styles from './Wizard.module.css'
 import '~/components/component.animation.css'
 
 function Wizard () {
@@ -75,7 +76,7 @@ function Wizard () {
   }, [currentStep])
 
   return (
-    <div>
+    <div className={styles.wizardContent}>
       <SwitchTransition>
         <CSSTransition
           key={currentComponent.key}

@@ -1,3 +1,6 @@
 .header {
   @apply flex justify-between items-center;
 }
+.container {
+  @apply flex flex-col w-full gap-y-4 xl:gap-y-8
+}

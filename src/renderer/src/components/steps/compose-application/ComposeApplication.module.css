@@ -1,5 +1,5 @@
 .container {
-  @apply flex flex-col justify-between min-h-[80vH]
+  @apply flex flex-col justify-between h-full
 }
 .buttonContainer {
   @apply flex justify-between;
