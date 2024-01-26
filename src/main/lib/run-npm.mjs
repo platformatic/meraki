@@ -4,8 +4,8 @@ import { access } from 'node:fs/promises'
 import execa from 'execa'
 import { app } from 'electron'
 import split from 'split2'
-import { homedir } from 'node:os'
 import { dirname } from 'node:path'
+import { homedir } from 'node:os'
 import log from 'electron-log'
 
 async function isFileAccessible (filename) {
@@ -16,6 +16,52 @@ async function isFileAccessible (filename) {
     return false
   }
 }
+
+async function findNpmInShellPath () {
+  const DEFAULT_SHELL = process.platform === 'darwin' ? '/bin/zsh' : '/bin/bash'
+  const currentShell = process.env.SHELL || DEFAULT_SHELL
+  const homeDir = homedir()
+  let sourceFile = `${homeDir}/.zshrc`
+  if (currentShell === '/bin/bash') {
+    sourceFile = `${homeDir}/bashrc`
+  }
+
+  // we need homebrew because in some `.zshrc` files, there are references to binaries installed by homebrew
+  // and we need to make sure that those binaries are in the PATH
+  const options = {
+    env: {
+      PATH: '/bin:/usr/local/bin:/sbin:/usr/sbin:/opt/homebrew/bin'
+    }
+  }
+  let binPath = null
+  try {
+    const { stdout } = await execa(currentShell, ['-c', `. ${sourceFile}; which npm`], options)
+    binPath = stdout?.trim()
+    log.info(`Found npm in PATH after sourcing ${sourceFile}: ${binPath}`)
+  } catch (err) {
+    log.warn(`Error finding npm in PATH after sourcing ${sourceFile}: ${err.message}`)
+  }
+  return binPath
+}
+
+async function findNpmExec () {
+  const npmInPath = await findNpmInShellPath()
+  if (npmInPath === null) {
+    const paths = [
+      '/usr/local/bin/npm',
+      '/usr/bin/npm',
+      '/bin/npm'
+    ]
+    for (const location of paths) {
+      if (await isFileAccessible(location)) {
+        return location
+      }
+    }
+    return null
+  }
+  return npmInPath
+}
+
 async function npmInstall (pkg = null, options, logger) {
   const installOptions = ['install']
   let child = null
@@ -24,17 +70,15 @@ async function npmInstall (pkg = null, options, logger) {
   }
 
   if (process.platform === 'win32' || !app) {
-    log.info('Running in windows')
+    log.info('Running in windows, using npm from PATH')
     child = execa('npm', installOptions, options)
   } else {
     // OSx and linux
-    log.info('Running in OSx or linux')
     const executable = await findNpmExec()
-    log.info(`Found npm in ${executable}`)
     if (executable === null) {
       throw new Error('Cannot find npm executable')
     }
-    log.info(`Found npm in ${executable}`)
+    log.info(`Running in OSx or Linux, Using npm in ${executable}`)
 
     const execDir = dirname(executable)
     const execPath = `/bin:/usr/local/bin:/sbin:/usr/sbin:${execDir}`
@@ -59,49 +103,6 @@ async function npmInstall (pkg = null, options, logger) {
     })
   }
   await child
-}
-
-async function findNpmExec () {
-  const npmInNvm = await findNpmInNvm()
-  log.info(`Found npm in nvm ${npmInNvm}`)
-  if (npmInNvm === null) {
-    const paths = ['/usr/local/bin/npm']
-    for (const location of paths) {
-      if (await isFileAccessible(location)) {
-        return location
-      }
-    }
-    return null
-  }
-  return npmInNvm
-}
-
-async function findNpmInNvm () {
-  try {
-    if (await isFileAccessible(`${homedir()}/.nvm/nvm.sh`)) {
-      const execPath = '/bin:/usr/local/bin:/sbin:/usr/sbin:/usr/bin'
-      const executable = `. ${homedir()}/.nvm/nvm.sh; nvm which current`
-      const options = {
-        env: {
-          PATH: execPath,
-          NVM_DIR: `${homedir()}/.nvm`
-        },
-        shell: true
-      }
-      const { stdout } = await execa(executable, [], options)
-      const binPath = stdout.trim()
-      const npmCandidate = binPath.replace('/bin/node', '/bin/npm')
-      if (await isFileAccessible(npmCandidate)) {
-        log.info(`Found npm in nvm ${npmCandidate}`)
-        return npmCandidate
-      }
-    } else {
-      log.info('Npm in nvm not found')
-    }
-  } catch (err) {
-    log.error(err)
-  }
-  return null
 }
 
 export { npmInstall }
