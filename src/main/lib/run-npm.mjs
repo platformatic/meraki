@@ -25,9 +25,22 @@ async function findNpmInShellPath () {
   if (currentShell === '/bin/bash') {
     sourceFile = `${homeDir}/bashrc`
   }
-  const { stdout } = await execa(currentShell, ['-c', `. ${sourceFile}; which npm`])
-  const binPath = stdout?.trim()
-  log.info(`Found npm in PATH after sourcing ${sourceFile}: ${binPath}`)
+
+  // we need homebrew because in some `.zshrc` files, there are references to binaries installed by homebrew
+  // and we need to make sure that those binaries are in the PATH
+  const options = {
+    env: {
+      PATH: '/bin:/usr/local/bin:/sbin:/usr/sbin:/opt/homebrew/bin'
+    }
+  }
+  let binPath = null
+  try {
+    const { stdout } = await execa(currentShell, ['-c', `. ${sourceFile}; which npm`], options)
+    binPath = stdout?.trim()
+    log.info(`Found npm in PATH after sourcing ${sourceFile}: ${binPath}`)
+  } catch (err) {
+    log.warn(`Error finding npm in PATH after sourcing ${sourceFile}: ${err.message}`)
+  }
   return binPath
 }
 
