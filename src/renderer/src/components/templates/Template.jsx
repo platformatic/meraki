@@ -40,7 +40,7 @@ function Template ({
         <div className={`${commonStyles.mediumFlexBlock} ${commonStyles.fullWidth} ${styles.overflowHidden}`}>
           {platformaticService ? (<Logo width={30.32} height={24} />) : (<Icons.StackablesTemplateIcon color={MAIN_GREEN} size={MEDIUM} />)}
           <p
-            className={`${typographyStyles.desktopHeadline4} ${typographyStyles.textWhite} ${styles.ellipsis}`}
+            className={`${typographyStyles.desktopBodyLarge} ${typographyStyles.textWhite} ${styles.ellipsis}`}
             title={name}
           >
             {name}

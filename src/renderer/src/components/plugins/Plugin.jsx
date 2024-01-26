@@ -30,7 +30,7 @@ function Plugin ({ name, onClickCardPlugin, isSelected, description, tags, autho
         <div className={`${commonStyles.mediumFlexBlock} ${commonStyles.fullWidth} ${styles.overflowHidden}`}>
           <Icons.StackablesPluginIcon color={TERTIARY_BLUE} size={MEDIUM} />
           <p
-            className={`${typographyStyles.desktopHeadline4} ${typographyStyles.textWhite} ${styles.ellipsis}`}
+            className={`${typographyStyles.desktopBodyLarge} ${typographyStyles.textWhite} ${styles.ellipsis}`}
             title={name}
           >
             {name}
