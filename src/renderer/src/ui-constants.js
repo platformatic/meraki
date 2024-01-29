@@ -21,7 +21,7 @@ export const LIST_PLUGINS_VIEW = 'list_plugins'
 export const NO_RESULTS_VIEW = 'no_results'
 
 export const MAX_MUMBER_SELECT = 9
-export const MAX_WIDTH_LG = 1240
+export const MAX_WIDTH_XL = 1440
 
 export const TYPESCRIPT = 'typescript'
 export const JAVASCRIPT = 'javascript'

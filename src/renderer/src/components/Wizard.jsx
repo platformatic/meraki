@@ -7,7 +7,8 @@ import {
   STEP_CONFIGURE_SERVICES,
   STEP_CREATE_APPLICATION,
   STEP_CONFIGURE_APPLICATION,
-  STEP_GENERATING_APPLICATION
+  STEP_GENERATING_APPLICATION,
+  MAX_WIDTH_XL
 } from '~/ui-constants'
 import CreateApplication from '~/components/steps/CreateApplication'
 import ComposeApplication from '~/components/steps/compose-application/ComposeApplication'
@@ -16,10 +17,29 @@ import ConfigureApplication from '~/components/steps/ConfigureApplication'
 import GeneratingApplication from '~/components/steps/GeneratingApplication'
 import PrepareFolder from '~/components/steps/PrepareFolder'
 import { CSSTransition, SwitchTransition } from 'react-transition-group'
+import useWindowDimensions from '~/hooks/useWindowDimensions'
 import styles from './Wizard.module.css'
+import useStackablesStore from '~/useStackablesStore'
 import '~/components/component.animation.css'
 
 function Wizard () {
+  const globalState = useStackablesStore()
+  const { composeApplicationComponentWidth, setComposeApplicationComponentWidth } = globalState
+  const { width: innerWindow  } = useWindowDimensions()
+  
+  useEffect(() => {
+    // padding on the root normal size
+    let calcWidth = Math.floor((innerWindow - 40) / 6) - 16
+    if (innerWindow > MAX_WIDTH_XL) {
+      // padding on the root xl size
+      calcWidth = Math.floor((innerWindow - 240) / 6) - 16
+    } 
+    if (calcWidth !== composeApplicationComponentWidth) {
+      setComposeApplicationComponentWidth(calcWidth)
+    }
+  }, [innerWindow])
+
+
   const NEXT = 'next'; const BACK = 'back'
   const [cssClassNames, setCssClassNames] = useState(NEXT)
   const [currentStep, setCurrentStep] = useState(STEP_CREATE_APPLICATION)
