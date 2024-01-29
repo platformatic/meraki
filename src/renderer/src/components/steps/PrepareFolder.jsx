@@ -78,38 +78,40 @@ const PrepareFolder = React.forwardRef(({ onNext, onBack }, ref) => {
   }
 
   return (
-    <div className={styles.container} ref={ref}>
-      <div className={commonStyles.mediumFlexBlock}>
-        <div className={`${commonStyles.mediumFlexBlock} ${commonStyles.fullWidth}`}>
-          <Title
-            title={formData.createApplication.application}
-            iconName='AppIcon'
-            dataAttrName='cy'
-            dataAttrValue='step-title'
-          />
-          <p className={`${typographyStyles.desktopBodyLarge} ${typographyStyles.textWhite} ${typographyStyles.opacity70}`}>
-            We are preparing your folder.<br /> Once all the steps are done you will be able to configure your services.
-          </p>
-        </div>
-        <div className={`${commonStyles.smallFlexRow} ${commonStyles.fullWidth} ${commonStyles.justifyEnd}`}>
-          <Button
-            disabled={!folderPrepared}
-            label='Copy Logs'
-            onClick={() => onClickCopyLogs()}
-            color={WHITE}
-            backgroundColor={RICH_BLACK}
-            paddingClass={`${commonStyles.buttonPadding} cy-action-donwload-logs`}
-          />
-        </div>
-        <BorderedBox classes={`${commonStyles.fullWidth} ${styles.content}`} backgroundColor={TRANSPARENT} borderColorOpacity={OPACITY_30} color={WHITE}>
-          <div className={`${commonStyles.flexBlockNoGap} `}>
-            {npmLogs.map((log, index) => renderLog(log, index))}
+    <>
+      <div className={styles.container} ref={ref}>
+        <div className={commonStyles.mediumFlexBlock}>
+          <div className={`${commonStyles.mediumFlexBlock} ${commonStyles.fullWidth}`}>
+            <Title
+              title={formData.createApplication.application}
+              iconName='AppIcon'
+              dataAttrName='cy'
+              dataAttrValue='step-title'
+            />
+            <p className={`${typographyStyles.desktopBodyLarge} ${typographyStyles.textWhite} ${typographyStyles.opacity70}`}>
+              We are preparing your folder.<br /> Once all the steps are done you will be able to configure your services.
+            </p>
           </div>
-        </BorderedBox>
-        <div className={`${commonStyles.mediumFlexBlock} ${commonStyles.halfWidth}`}>
-          <CountDown status={countDownStatus} />
-        </div>
+          <div className={`${commonStyles.smallFlexRow} ${commonStyles.fullWidth} ${commonStyles.justifyEnd}`}>
+            <Button
+              disabled={!folderPrepared}
+              label='Copy Logs'
+              onClick={() => onClickCopyLogs()}
+              color={WHITE}
+              backgroundColor={RICH_BLACK}
+              paddingClass={`${commonStyles.buttonPadding} cy-action-donwload-logs`}
+            />
+          </div>
+          <BorderedBox classes={`${commonStyles.fullWidth} ${styles.content}`} backgroundColor={TRANSPARENT} borderColorOpacity={OPACITY_30} color={WHITE}>
+            <div className={`${commonStyles.flexBlockNoGap} `}>
+              {npmLogs.map((log, index) => renderLog(log, index))}
+            </div>
+          </BorderedBox>
+          <div className={`${commonStyles.mediumFlexBlock} ${commonStyles.halfWidth}`}>
+            <CountDown status={countDownStatus} />
+          </div>
 
+        </div>
       </div>
       <div className={`${styles.buttonContainer} ${commonStyles.fullWidth}`}>
         <div className={`${commonStyles.smallFlexRow}`}>
@@ -143,7 +145,7 @@ const PrepareFolder = React.forwardRef(({ onNext, onBack }, ref) => {
               paddingClass={`${commonStyles.buttonPadding} cy-action-next`}
             />}
       </div>
-    </div>
+    </>
   )
 })
 

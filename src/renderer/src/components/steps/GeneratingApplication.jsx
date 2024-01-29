@@ -77,97 +77,99 @@ const GeneratingApplication = React.forwardRef(({ onRestartProcess }, ref) => {
   }
 
   return !restartInProgress && (
-    <div className={`${commonStyles.mediumFlexBlock} ${commonStyles.fullWidth}`} ref={ref}>
-      <div className={commonStyles.mediumFlexBlock}>
-        <Title
-          title={`Generating ${formData.createApplication.application}`}
-          iconName='AppIcon'
-          dataAttrName='cy'
-          dataAttrValue='step-title'
-        />
-        <p className={`${typographyStyles.desktopBodyLarge} ${typographyStyles.textWhite} ${typographyStyles.opacity70}`}>
-          We are generating your app. <br />Once all the steps are done you will be able to complete and use your new application.
-        </p>
-      </div>
-      <div className={`${commonStyles.smallFlexRow} ${commonStyles.fullWidth} ${commonStyles.justifyEnd}`}>
-        <Button
-          disabled={!appGenerated}
-          label='Copy Logs'
-          onClick={() => onClickCopyLogs()}
-          color={WHITE}
-          backgroundColor={RICH_BLACK}
-          paddingClass={`${commonStyles.buttonPadding} cy-action-donwload-logs`}
-        />
-      </div>
-      <BorderedBox classes={`${commonStyles.fullWidth} ${styles.content}`} backgroundColor={TRANSPARENT} borderColorOpacity={OPACITY_30} color={WHITE}>
-        <div className={`${commonStyles.flexBlockNoGap} `}>
-          {npmLogs.map((log, index) => renderLog(log, index))}
+    <>
+      <div className={`${commonStyles.mediumFlexBlock} ${commonStyles.fullWidth}`} ref={ref}>
+        <div className={commonStyles.mediumFlexBlock}>
+          <Title
+            title={`Generating ${formData.createApplication.application}`}
+            iconName='AppIcon'
+            dataAttrName='cy'
+            dataAttrValue='step-title'
+          />
+          <p className={`${typographyStyles.desktopBodyLarge} ${typographyStyles.textWhite} ${typographyStyles.opacity70}`}>
+            We are generating your app. <br />Once all the steps are done you will be able to complete and use your new application.
+          </p>
         </div>
-      </BorderedBox>
-      <div className={`${commonStyles.mediumFlexBlock} ${commonStyles.halfWidth}`}>
-        <CountDown status={countDownStatus} />
-      </div>
-      <div className={`${styles.buttonContainer} ${commonStyles.fullWidth}`}>
-        <Button
-          disabled={!appGenerated}
-          label='Continue'
-          onClick={() => setShowModalContinue(true)}
-          color={RICH_BLACK}
-          bordered={false}
-          backgroundColor={WHITE}
-          hoverEffect={BOX_SHADOW}
-          paddingClass={commonStyles.buttonPadding}
-        />
+        <div className={`${commonStyles.smallFlexRow} ${commonStyles.fullWidth} ${commonStyles.justifyEnd}`}>
+          <Button
+            disabled={!appGenerated}
+            label='Copy Logs'
+            onClick={() => onClickCopyLogs()}
+            color={WHITE}
+            backgroundColor={RICH_BLACK}
+            paddingClass={`${commonStyles.buttonPadding} cy-action-donwload-logs`}
+          />
+        </div>
+        <BorderedBox classes={`${commonStyles.fullWidth} ${styles.content}`} backgroundColor={TRANSPARENT} borderColorOpacity={OPACITY_30} color={WHITE}>
+          <div className={`${commonStyles.flexBlockNoGap} `}>
+            {npmLogs.map((log, index) => renderLog(log, index))}
+          </div>
+        </BorderedBox>
+        <div className={`${commonStyles.mediumFlexBlock} ${commonStyles.halfWidth}`}>
+          <CountDown status={countDownStatus} />
+        </div>
+        <div className={`${styles.buttonContainer} ${commonStyles.fullWidth}`}>
+          <Button
+            disabled={!appGenerated}
+            label='Continue'
+            onClick={() => setShowModalContinue(true)}
+            color={RICH_BLACK}
+            bordered={false}
+            backgroundColor={WHITE}
+            hoverEffect={BOX_SHADOW}
+            paddingClass={commonStyles.buttonPadding}
+          />
 
-      </div>
-      {showModalContinue && (
-        <Modal
-          key='editService'
-          setIsOpen={() => setShowModalContinue(false)}
-          title='Application Created!'
-          titleClassName={`${typographyStyles.desktopHeadline4} ${typographyStyles.textWhite}`}
-          layout={MODAL_POPUP_V2}
-        >
-          <div className={`${commonStyles.mediumFlexBlock} ${commonStyles.fullWidth}`}>
-            <p className={`${typographyStyles.desktopBody} ${typographyStyles.textWhite} ${commonStyles.fullWidth}`}>
-              <span className={`${typographyStyles.opacity70}`}>Your application has been created successfull. <br />Click on "Restart" to create another application from scratch <br /> or click on "Complete" to close the application.</span>
-            </p>
-            <HorizontalSeparator marginBottom={MARGIN_0} marginTop={MARGIN_0} color={WHITE} opacity={OPACITY_30} />
-            <div className={`${commonStyles.mediumFlexRow} ${commonStyles.justifyBetween}`}>
-              <Button
-                type='button'
-                paddingClass={commonStyles.buttonPadding}
-                label='Cancel'
-                onClick={() => setShowModalContinue(false)}
-                color={WHITE}
-                backgroundColor={TRANSPARENT}
-              />
-              <div className={`${commonStyles.smallFlexRow} `}>
+        </div>
+        {showModalContinue && (
+          <Modal
+            key='editService'
+            setIsOpen={() => setShowModalContinue(false)}
+            title='Application Created!'
+            titleClassName={`${typographyStyles.desktopHeadline4} ${typographyStyles.textWhite}`}
+            layout={MODAL_POPUP_V2}
+          >
+            <div className={`${commonStyles.mediumFlexBlock} ${commonStyles.fullWidth}`}>
+              <p className={`${typographyStyles.desktopBody} ${typographyStyles.textWhite} ${commonStyles.fullWidth}`}>
+                <span className={`${typographyStyles.opacity70}`}>Your application has been created successfull. <br />Click on "Restart" to create another application from scratch <br /> or click on "Complete" to close the application.</span>
+              </p>
+              <HorizontalSeparator marginBottom={MARGIN_0} marginTop={MARGIN_0} color={WHITE} opacity={OPACITY_30} />
+              <div className={`${commonStyles.mediumFlexRow} ${commonStyles.justifyBetween}`}>
                 <Button
-                  disabled={!appGenerated}
-                  label='Restart'
-                  onClick={() => onClickRestart()}
+                  type='button'
+                  paddingClass={commonStyles.buttonPadding}
+                  label='Cancel'
+                  onClick={() => setShowModalContinue(false)}
                   color={WHITE}
                   backgroundColor={TRANSPARENT}
-                  paddingClass={`${commonStyles.buttonPadding} cy-action-restart`}
                 />
-                <Button
-                  disabled={!appGenerated}
-                  label={appGeneratedError ? 'Close' : 'Complete'}
-                  onClick={() => onClickComplete()}
-                  color={RICH_BLACK}
-                  bordered={false}
-                  backgroundColor={WHITE}
-                  hoverEffect={BOX_SHADOW}
-                  paddingClass={`${commonStyles.buttonPadding} cy-action-next`}
-                />
+                <div className={`${commonStyles.smallFlexRow} `}>
+                  <Button
+                    disabled={!appGenerated}
+                    label='Restart'
+                    onClick={() => onClickRestart()}
+                    color={WHITE}
+                    backgroundColor={TRANSPARENT}
+                    paddingClass={`${commonStyles.buttonPadding} cy-action-restart`}
+                  />
+                  <Button
+                    disabled={!appGenerated}
+                    label={appGeneratedError ? 'Close' : 'Complete'}
+                    onClick={() => onClickComplete()}
+                    color={RICH_BLACK}
+                    bordered={false}
+                    backgroundColor={WHITE}
+                    hoverEffect={BOX_SHADOW}
+                    paddingClass={`${commonStyles.buttonPadding} cy-action-next`}
+                  />
+                </div>
               </div>
             </div>
-          </div>
 
-        </Modal>
-      )}
-    </div>
+          </Modal>
+        )}
+      </div>
+    </>
   )
 })
 

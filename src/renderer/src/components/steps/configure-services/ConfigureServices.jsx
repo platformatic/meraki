@@ -113,46 +113,48 @@ const ConfigureServices = React.forwardRef(({ onNext, onBack }, ref) => {
   }
 
   return (
-    <div className={styles.container} ref={ref}>
-      <div className={commonStyles.largeFlexBlock}>
-        <div className={`${commonStyles.mediumFlexBlock} ${commonStyles.fullWidth}`}>
-          <Title
-            title={formData.createApplication.application}
-            iconName='AppIcon'
-            dataAttrName='cy'
-            dataAttrValue='step-title'
-          />
-          <p className={`${typographyStyles.desktopBodyLarge} ${typographyStyles.textWhite} ${typographyStyles.opacity70}`}>Select a template and plugins for your service from our Stackables Marketplace. <br />Once you have chosen a template you can add another Service.</p>
+    <>
+      <div className={styles.container} ref={ref}>
+        <div className={commonStyles.largeFlexBlock}>
+          <div className={`${commonStyles.mediumFlexBlock} ${commonStyles.fullWidth}`}>
+            <Title
+              title={formData.createApplication.application}
+              iconName='AppIcon'
+              dataAttrName='cy'
+              dataAttrValue='step-title'
+            />
+            <p className={`${typographyStyles.desktopBodyLarge} ${typographyStyles.textWhite} ${typographyStyles.opacity70}`}>Select a template and plugins for your service from our Stackables Marketplace. <br />Once you have chosen a template you can add another Service.</p>
+          </div>
+          <div className={`${commonStyles.mediumFlexBlock} ${commonStyles.fullWidth} ${styles.content}`}>
+            <ConfigureEnvVarsTemplateAndPlugins
+              configuredServices={configuredServices}
+              handleChangeTemplateForm={handleChangeTemplateForm}
+              handleChangePluginForm={handleChangePluginForm}
+            />
+          </div>
         </div>
-        <div className={`${commonStyles.mediumFlexBlock} ${commonStyles.fullWidth} ${styles.content}`}>
-          <ConfigureEnvVarsTemplateAndPlugins
-            configuredServices={configuredServices}
-            handleChangeTemplateForm={handleChangeTemplateForm}
-            handleChangePluginForm={handleChangePluginForm}
+        <div className={`${styles.buttonContainer} ${commonStyles.fullWidth}`}>
+          <Button
+            type='button'
+            label='Back'
+            onClick={() => onBack()}
+            color={WHITE}
+            backgroundColor={TRANSPARENT}
+            paddingClass={`${commonStyles.buttonPadding} cy-action-back`}
+          />
+          <Button
+            disabled={disabled}
+            label='Next - Configure Application'
+            onClick={() => onClickConfigureApplication()}
+            color={RICH_BLACK}
+            bordered={false}
+            backgroundColor={WHITE}
+            hoverEffect={BOX_SHADOW}
+            paddingClass={`${commonStyles.buttonPadding} cy-action-next`}
           />
         </div>
       </div>
-      <div className={`${styles.buttonContainer} ${commonStyles.fullWidth}`}>
-        <Button
-          type='button'
-          label='Back'
-          onClick={() => onBack()}
-          color={WHITE}
-          backgroundColor={TRANSPARENT}
-          paddingClass={`${commonStyles.buttonPadding} cy-action-back`}
-        />
-        <Button
-          disabled={disabled}
-          label='Next - Configure Application'
-          onClick={() => onClickConfigureApplication()}
-          color={RICH_BLACK}
-          bordered={false}
-          backgroundColor={WHITE}
-          hoverEffect={BOX_SHADOW}
-          paddingClass={`${commonStyles.buttonPadding} cy-action-next`}
-        />
-      </div>
-    </div>
+    </>
   )
 })
 
