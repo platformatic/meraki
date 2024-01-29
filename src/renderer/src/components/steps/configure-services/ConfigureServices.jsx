@@ -133,26 +133,26 @@ const ConfigureServices = React.forwardRef(({ onNext, onBack }, ref) => {
             />
           </div>
         </div>
-        <div className={`${styles.buttonContainer} ${commonStyles.fullWidth}`}>
-          <Button
-            type='button'
-            label='Back'
-            onClick={() => onBack()}
-            color={WHITE}
-            backgroundColor={TRANSPARENT}
-            paddingClass={`${commonStyles.buttonPadding} cy-action-back`}
-          />
-          <Button
-            disabled={disabled}
-            label='Next - Configure Application'
-            onClick={() => onClickConfigureApplication()}
-            color={RICH_BLACK}
-            bordered={false}
-            backgroundColor={WHITE}
-            hoverEffect={BOX_SHADOW}
-            paddingClass={`${commonStyles.buttonPadding} cy-action-next`}
-          />
-        </div>
+      </div>
+      <div className={`${styles.buttonContainer} ${commonStyles.fullWidth}`}>
+        <Button
+          type='button'
+          label='Back'
+          onClick={() => onBack()}
+          color={WHITE}
+          backgroundColor={TRANSPARENT}
+          paddingClass={`${commonStyles.buttonPadding} cy-action-back`}
+        />
+        <Button
+          disabled={disabled}
+          label='Next - Configure Application'
+          onClick={() => onClickConfigureApplication()}
+          color={RICH_BLACK}
+          bordered={false}
+          backgroundColor={WHITE}
+          hoverEffect={BOX_SHADOW}
+          paddingClass={`${commonStyles.buttonPadding} cy-action-next`}
+        />
       </div>
     </>
   )

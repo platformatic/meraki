@@ -230,27 +230,27 @@ const ConfigureApplication = React.forwardRef(({ onNext, onBack }, ref) => {
             </BorderedBox> */}
           </div>
         </div>
-        <div className={`${styles.buttonContainer} ${commonStyles.fullWidth}`}>
-          <Button
-            type='button'
-            label='Back'
-            onClick={() => onBack()}
-            color={WHITE}
-            backgroundColor={TRANSPARENT}
-            paddingClass={`${commonStyles.buttonPadding} cy-action-back`}
-          />
-          <Button
-            type='button'
-            disabled={!validForm}
-            label='Generate App'
-            onClick={() => onClickGenerateApp()}
-            color={RICH_BLACK}
-            bordered={false}
-            backgroundColor={WHITE}
-            hoverEffect={BOX_SHADOW}
-            paddingClass={`${commonStyles.buttonPadding} cy-action-next`}
-          />
-        </div>
+      </div>
+      <div className={`${styles.buttonContainer} ${commonStyles.fullWidth}`}>
+        <Button
+          type='button'
+          label='Back'
+          onClick={() => onBack()}
+          color={WHITE}
+          backgroundColor={TRANSPARENT}
+          paddingClass={`${commonStyles.buttonPadding} cy-action-back`}
+        />
+        <Button
+          type='button'
+          disabled={!validForm}
+          label='Generate App'
+          onClick={() => onClickGenerateApp()}
+          color={RICH_BLACK}
+          bordered={false}
+          backgroundColor={WHITE}
+          hoverEffect={BOX_SHADOW}
+          paddingClass={`${commonStyles.buttonPadding} cy-action-next`}
+        />
       </div>
     </>
   )

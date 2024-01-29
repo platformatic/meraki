@@ -4,8 +4,6 @@
 .buttonContainer {
   @apply flex justify-between;
 }
-
 .content {
-  min-height: calc(100vH - 22rem);
-  max-height: calc(100vH - 22rem);
+  @apply max-h-[calc(100vH-22rem)] min-h-[calc(100vH-22rem)] lg:max-h-[calc(100vH-32rem)] lg:min-h-[calc(100vH-32rem)]
 }
