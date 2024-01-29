@@ -1,5 +1,5 @@
 .container {
-  @apply flex flex-row justify-between h-full relative;
+  @apply flex flex-row justify-between h-full relative grow;
 }
 .buttonContainer {
   @apply flex justify-end;

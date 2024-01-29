@@ -5,5 +5,5 @@
   @apply flex justify-end;
 }
 .content {
-  @apply max-h-[calc(100vH-22rem)] min-h-[calc(100vH-22rem)] lg:max-h-[calc(100vH-32rem)] lg:min-h-[calc(100vH-32rem)]
+  @apply overflow-y-auto
 }

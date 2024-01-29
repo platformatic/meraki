@@ -78,7 +78,7 @@ const GeneratingApplication = React.forwardRef(({ onRestartProcess }, ref) => {
 
   return !restartInProgress && (
     <>
-      <div className={`${commonStyles.mediumFlexBlock} ${commonStyles.fullWidth}`} ref={ref}>
+      <div className={`${styles.container} ${commonStyles.mediumFlexBlock} ${commonStyles.fullWidth}`} ref={ref}>
         <div className={commonStyles.mediumFlexBlock}>
           <Title
             title={`Generating ${formData.createApplication.application}`}
