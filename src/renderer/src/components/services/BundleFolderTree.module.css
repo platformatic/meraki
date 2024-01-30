@@ -1,5 +1,7 @@
 .serviceContainer {
-  @apply min-w-[264px] max-w-[264px]
+  min-width: var(--compose-application-width);
+  max-width: var(--compose-application-width);
+  width: var(--compose-application-width);
 }
 .foldersContainer {
   @apply relative max-w-[160px] min-w-[160px]

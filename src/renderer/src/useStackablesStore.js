@@ -2,8 +2,7 @@ import { create } from 'zustand'
 
 const initialState = {
   formData: {},
-  services: [],
-  composeApplicationComponentWidth: 0
+  services: []
 }
 
 const useStackablesStore = create((set, get) => ({
@@ -44,12 +43,6 @@ const useStackablesStore = create((set, get) => ({
   }),
   removeService: (serviceName) => set((state) => {
     return { ...state, services: [...get().services.filter(service => service.name !== serviceName)] }
-  }),
-  setComposeApplicationComponentWidth: width => set((state) => {
-    return {
-      ...state,
-      composeApplicationComponentWidth: width
-    }
   }),
   setTemplate: (serviceName, template) => set((state) => {
     return {
