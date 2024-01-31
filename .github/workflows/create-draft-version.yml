@@ -15,7 +15,6 @@ on:
 jobs:
   release-tag:
     name: Prepare release tag 
-    needs: run-test
     runs-on: ubuntu-latest
     steps: 
     - name: Checkout
