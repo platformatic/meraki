@@ -1,4 +1,4 @@
-name: create-draft-version
+name: version-bump
 
 on:
   workflow_dispatch:
