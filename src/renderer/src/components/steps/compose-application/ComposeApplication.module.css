@@ -11,7 +11,7 @@
 }
 
 .wrapperContainerPuzzle {
-  max-height: 57vH;
-  min-height: 57vH;
+  max-height: var(--compose-application-height);
+  min-height: var(--compose-application-height);
   border: 1px solid red;
 }

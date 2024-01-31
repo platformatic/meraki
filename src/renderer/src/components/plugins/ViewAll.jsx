@@ -4,7 +4,7 @@ import typographyStyles from '~/styles/Typography.module.css'
 import commonStyles from '~/styles/CommonStyles.module.css'
 import Title from '~/components/ui/Title'
 import useStackablesStore from '~/useStackablesStore'
-import { HEIGHT_PLUGIN_3, WIDTH_PLUGIN_1, WIDTH_TEMPLATE_1, HEIGHT_TEMPLATE_1 } from '~/ui-constants'
+import { TEMPLATE_WITH_PLUGIN, PLUGINS_3 } from '~/ui-constants'
 import { CSSTransition, TransitionGroup } from 'react-transition-group'
 import PluginButton from '~/components/shaped-components/PluginButton'
 import ChangeTemplate from '~/components/shaped-components/ChangeTemplate'
@@ -39,11 +39,9 @@ function ViewAll ({ serviceName }) {
                   key={plugin.name}
                   index={index}
                   {...plugin}
-                  height={HEIGHT_PLUGIN_3}
+                  height={PLUGINS_3}
                   sortable
                   onClickRemove={() => removePlugin(serviceName, plugin.name)}
-                  useRefForWidth={false}
-                  preciseWidth={WIDTH_PLUGIN_1}
                 />
               </CSSTransition>
             )}
@@ -58,9 +56,8 @@ function ViewAll ({ serviceName }) {
           <ChangeTemplate
             showIcon
             name={getService(serviceName).template.name}
-            height={HEIGHT_TEMPLATE_1}
+            heightType={TEMPLATE_WITH_PLUGIN}
             useRefForWidth={false}
-            preciseWidth={WIDTH_TEMPLATE_1}
             clickable={false}
           />
         </CSSTransition>

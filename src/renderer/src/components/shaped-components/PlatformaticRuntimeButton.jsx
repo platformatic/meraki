@@ -1,17 +1,16 @@
 'use strict'
 import React, { useEffect, useState } from 'react'
 import PropTypes from 'prop-types'
-import Icons from '@platformatic/ui-components/src/components/icons'
+import commonStyles from '~/styles/CommonStyles.module.css'
 import typographyStyles from '~/styles/Typography.module.css'
 import styles from './PlatformaticRuntimeButton.module.css'
 import RuntimeSmallCard from '../backgrounds/RuntimeSmallCard'
-import { BorderedBox } from '@platformatic/ui-components'
-import { SMALL, TRANSPARENT, WHITE } from '@platformatic/ui-components/src/components/constants'
 import useStackablesStore from '~/useStackablesStore'
 import RuntimeLargeCard from '../backgrounds/RuntimeLargeCard'
 import RuntimeMediumCard from '../backgrounds/RuntimeMediumCard'
 import LineConnector from './LineConnector'
 import { NORMAL_VIEW } from '~/ui-constants'
+import SmallTitle from '~/components/ui/SmallTitle'
 
 function PlatformaticRuntimeButton ({ view }) {
   const globalState = useStackablesStore()
@@ -60,14 +59,19 @@ function PlatformaticRuntimeButton ({ view }) {
   return (
     <div className={styles.container}>
       {currentBackgrounComponent}
-      <BorderedBox
-        color={WHITE}
-        backgroundColor={TRANSPARENT}
-        classes={styles.platformaticRuntimeButton}
-      >
-        <Icons.CircleExclamationIcon color={WHITE} size={SMALL} />
-        <span className={`${typographyStyles.desktopBodyLarge} ${typographyStyles.textWhite} ${typographyStyles.opacity70}`}>Platformatic Runtime</span>
-      </BorderedBox>
+      <div className={styles.buttonContainer}>
+        <svg fill='none' preserveAspectRatio='none' xmlns='http://www.w3.org/2000/svg' className={styles.buttonWrapperSvg}>
+          <rect x='1' y='1' rx='3.5' stroke='white' />
+        </svg>
+        <div className={`${commonStyles.smallFlexBlock} ${commonStyles.itemsCenter}`}>
+          <SmallTitle
+            iconName='CircleExclamationIcon'
+            title='Platformatic Runtime'
+            titleClassName={`${typographyStyles.desktopBodyLarge} ${typographyStyles.textWhite} ${typographyStyles.opacity70}`}
+            containerClassName={`${commonStyles.smallFlexRow} ${typographyStyles.textCenter}`}
+          />
+        </div>
+      </div>
       {lines.map((line, index) =>
         (<LineConnector key={index} id={`vl-${index}`} {...line} />)
       )}

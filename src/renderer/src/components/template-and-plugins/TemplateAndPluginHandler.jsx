@@ -6,34 +6,35 @@ import useStackablesStore from '~/useStackablesStore'
 import ChangeTemplate from '~/components/shaped-components/ChangeTemplate'
 import PluginButton from '~/components/shaped-components/PluginButton'
 import styles from './TemplateAndPluginHandler.module.css'
-import { DEFAULT_HEIGHT_TEMPLATE, HEIGHT_PLUGIN_1, HEIGHT_PLUGIN_2, HEIGHT_PLUGIN_3 } from '~/ui-constants'
+import { ONLY_TEMPLATE, TEMPLATE_WITH_PLUGIN, TEMPLATE_WITH_2_PLUGINS, TEMPLATE_WITH_3_PLUGINS, ONLY_PLUGIN, PLUGINS_2, PLUGINS_3 } from '~/ui-constants'
 import { TransitionGroup, CSSTransition } from 'react-transition-group'
 import '~/components/component.animation.css'
 
 const TemplateAndPluginHandler = React.forwardRef(({ serviceName, onClickTemplate, onClickViewAll }, ref) => {
   const globalState = useStackablesStore()
-  const [heightTemplate, setHeightTemplate] = useState(DEFAULT_HEIGHT_TEMPLATE)
-  const [heightPlugin, setHeightPlugin] = useState(0)
+  const [heightTemplateType, setHeightTemplateType] = useState(ONLY_TEMPLATE)
+  const [heightPluginType, setHeightPluginType] = useState(0)
   const { getService, removePlugin } = globalState
 
   useEffect(() => {
     if (serviceName && Object.keys(getService(serviceName)?.plugins).length > 0) {
       switch (Object.keys(getService(serviceName).plugins).length) {
         case 2:
-          setHeightPlugin(HEIGHT_PLUGIN_2)
-          setHeightTemplate(DEFAULT_HEIGHT_TEMPLATE - 2 * HEIGHT_PLUGIN_2)
+          setHeightPluginType(PLUGINS_2)
+          setHeightTemplateType(TEMPLATE_WITH_2_PLUGINS)
           break
         case 3:
-          setHeightPlugin(HEIGHT_PLUGIN_3)
-          setHeightTemplate(DEFAULT_HEIGHT_TEMPLATE - 3 * HEIGHT_PLUGIN_3)
+          setHeightPluginType(PLUGINS_3)
+          setHeightTemplateType(TEMPLATE_WITH_3_PLUGINS)
           break
         default:
-          setHeightPlugin(HEIGHT_PLUGIN_1)
-          setHeightTemplate(DEFAULT_HEIGHT_TEMPLATE - HEIGHT_PLUGIN_1)
+          setHeightPluginType(ONLY_PLUGIN)
+          setHeightTemplateType(TEMPLATE_WITH_PLUGIN)
           break
       }
     } else {
-      setHeightTemplate(DEFAULT_HEIGHT_TEMPLATE)
+      setHeightPluginType(ONLY_PLUGIN)
+      setHeightTemplateType(ONLY_TEMPLATE)
     }
   }, [serviceName, Object.keys(getService(serviceName)?.plugins).length])
 
@@ -50,7 +51,7 @@ const TemplateAndPluginHandler = React.forwardRef(({ serviceName, onClickTemplat
               key={plugin.name}
               index={index}
               {...plugin}
-              height={heightPlugin}
+              heightType={heightPluginType}
               sortable={getService(serviceName).plugins.length !== 1}
               onClickRemove={() => removePlugin(serviceName, plugin.name)}
             />
@@ -66,7 +67,7 @@ const TemplateAndPluginHandler = React.forwardRef(({ serviceName, onClickTemplat
               sortable={false}
               totalPlugins={getService(serviceName).plugins.length}
               viewAll
-              height={heightPlugin}
+              heightType={heightPluginType}
               onClickViewAll={() => onClickViewAll()}
             />
           </CSSTransition>
@@ -80,7 +81,7 @@ const TemplateAndPluginHandler = React.forwardRef(({ serviceName, onClickTemplat
             showIcon={getService(serviceName).plugins.length < 2}
             name={getService(serviceName).template.name}
             onClick={() => onClickTemplate()}
-            height={heightTemplate}
+            heightType={heightTemplateType}
           />
         </CSSTransition>
       </TransitionGroup>

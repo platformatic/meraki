@@ -1,7 +1,7 @@
 .container {
   @apply flex flex-col justify-center h-full w-full border-0 relative;
-  min-height: calc(57vH * 0.715);
-  max-height: calc(57vH * 0.715);
+  min-height: calc(var(--compose-application-height) * 0.7);
+  max-height: calc(var(--compose-application-height) * 0.7);
 }
 .containerEnabled {
   @apply cursor-pointer; 

@@ -1,9 +1,23 @@
 .container {
-  @apply flex flex-col min-h-[125px] max-h-[125px] justify-center w-full cursor-pointer border-0 relative;
+  @apply flex flex-col justify-center w-full border-0 relative;
+  min-height: calc(var(--compose-application-height) * 0.2);
+  max-height: calc(var(--compose-application-height) * 0.2);
 }
 .svg {
   @apply absolute top-0 left-0 w-full h-full z-[-1];
 }
-.platformaticRuntimeButton {
-  @apply grow-0 w-full flex justify-center items-center p-4 gap-x-2 h-fit;  
- }
+
+.buttonContainer {
+  @apply flex flex-col justify-center w-full border-0 relative;
+  min-height: calc(var(--compose-application-height) * 0.09);
+  max-height: calc(var(--compose-application-height) * 0.09);
+}
+.buttonWrapperSvg {
+  @apply absolute top-0 left-0 w-full h-full z-[-1];
+}
+
+.buttonWrapperSvg > rect {
+  @apply absolute top-0 left-0;
+  width: calc(100% - 2px);
+  height: calc(100% - 2px);
+}

@@ -11,7 +11,7 @@ const AddPlugin = React.forwardRef(({ onClick, inactive }, ref) => {
     ? (
       <div className={styles.containerInactive} onClick={() => onClick()} ref={ref}>
         <svg viewBox='0 0 264 102' fill='none' preserveAspectRatio='none' xmlns='http://www.w3.org/2000/svg' className={styles.svg}>
-          <rect x='0.5' y='0.5' width='263' height='101' rx='3.5' stroke='white' stroke-opacity='0.3' />
+          <rect x='0.5' y='0.5' width='263' height='101' rx='3.5' stroke='white' strokeOpacity='0.3' />
         </svg>
         <div className={`${commonStyles.smallFlexBlock} ${commonStyles.itemsCenter}`}>
           <SmallTitle
