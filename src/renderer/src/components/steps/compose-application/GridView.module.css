@@ -2,7 +2,9 @@
   @apply flex flex-col gap-2 w-full h-full
 }
 .container {
-  @apply flex flex-row gap-x-2 w-full min-w-[824px] max-w-[824px] overflow-x-auto
+  @apply flex flex-row gap-x-2 w-full overflow-x-auto;
+  min-width: calc(var(--compose-application-width) * 3);
+  max-width: calc(var(--compose-application-width) * 3);
 }
 .halfWidth {
   max-width: calc(50% - 0.5rem);
