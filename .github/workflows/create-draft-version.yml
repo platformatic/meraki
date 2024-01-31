@@ -1,0 +1,32 @@
+name: create-draft-version
+
+on:
+  workflow_dispatch:
+    inputs:
+      versionType:
+        type: choice
+        description: 'The type of draft version to create'
+        required: true
+        options:
+          - 'patch'
+          - 'minor'
+          - 'major'
+
+jobs:
+  release-tag:
+    name: Prepare release tag 
+    needs: run-test
+    runs-on: ubuntu-latest
+    steps: 
+    - name: Checkout
+      uses: actions/checkout@v4
+    - id: version-bump 
+      name:  'Automated Version Bump'
+      uses:  'phips28/gh-action-bump-version@master'
+      env:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      with:
+        version-type:  ${{ github.event.inputs.versionType }}
+        tag-prefix:  'v'
+        tag-suffix:  '-draft'
+
