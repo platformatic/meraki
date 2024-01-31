@@ -10,7 +10,7 @@ import Template from './Template'
 import Title from '~/components/ui/Title'
 import NoResults from '~/components/ui/NoResults'
 import useStackablesStore from '~/useStackablesStore'
-import { getApiTemplates } from '~/api'
+import { getApiTemplates, registerUserStatusListener } from '~/api'
 import { MAX_MUMBER_SELECT, NO_RESULTS_VIEW, LIST_TEMPLATES_VIEW } from '~/ui-constants'
 import Forms from '@platformatic/ui-components/src/components/forms'
 
@@ -22,6 +22,7 @@ function SelectTemplate ({ onClick, serviceName }) {
   const [filteredTemplates, setFilteredTemplates] = useState([])
   const [optionsOrganizationsTemplates, setOptionsOrganizationsTemplates] = useState([])
   const [groupedTemplates, setGroupedTemplates] = useState([])
+  const [userStatus, setUserStatus] = useState(null)
   const [currentPage, setCurrentPage] = useState(1)
   const [currentView, setCurrentView] = useState(LIST_TEMPLATES_VIEW)
   const [pages, setPages] = useState([1])
@@ -32,6 +33,8 @@ function SelectTemplate ({ onClick, serviceName }) {
   const [maxStackableDispay] = useState(MAX_MUMBER_SELECT)
 
   const containerScrollRef = useRef(null)
+
+  registerUserStatusListener((_, value) => setUserStatus(value))
 
   useEffect(() => {
     async function getTemplates () {
@@ -213,6 +216,43 @@ function SelectTemplate ({ onClick, serviceName }) {
     )
   }
 
+  function renderLoginStatusMessage (color, message, showInstructions) {
+    return (
+      <div className={`${commonStyles.smallFlexBlock}`}>
+        <div className={`${commonStyles.smallFlexRow} ${commonStyles.fullWidth}`}>
+          <div>
+            <svg width='10' height='10'>
+              <circle cx='5' cy='5' r='4' fill={color} />
+            </svg>
+          </div>
+          <div className={`${typographyStyles.desktopBodySmall} ${typographyStyles.textWhite} ${typographyStyles.opacity70}`}>
+            {message}
+          </div>
+        </div>
+        {showInstructions && (
+          <div className={`${commonStyles.smallFlexRow} ${commonStyles.fullWidth}`}>
+            <div>
+              <svg width='10' height='10' />
+            </div>
+            <div className={`${typographyStyles.desktopBodySmall} ${typographyStyles.textWhite} ${typographyStyles.opacity70}`}>
+              If you want to view stackables in one of your organizations, remember to log in using <a href='https://docs.platformatic.dev/docs/reference/cli/#login' target='_blank' className={styles.link} rel='noreferrer'>platformatic login</a>.
+            </div>
+          </div>
+        )}
+      </div>
+    )
+  }
+
+  function renderLoginStatus () {
+    if (userStatus === 'LOGGED_IN') {
+      return renderLoginStatusMessage('green', 'Log Session valid')
+    } else if (userStatus === 'INVALID_API_KEY') {
+      return renderLoginStatusMessage('yellow', 'Log session expired', true)
+    } else if (userStatus === 'NO_API_KEY') {
+      return renderLoginStatusMessage('red', 'Log session invalid', true)
+    }
+  }
+
   return (
     <div className={`${commonStyles.largeFlexBlock} ${commonStyles.fullWidth} ${styles.container}`}>
       <div className={`${commonStyles.mediumFlexBlock} ${commonStyles.fullWidth}`}>
@@ -230,7 +270,8 @@ function SelectTemplate ({ onClick, serviceName }) {
         <div className={`${commonStyles.mediumFlexBlock24} ${commonStyles.fullWidth}`}>
           <div className={`${commonStyles.smallFlexBlock} ${commonStyles.fullWidth}`}>
             <p className={`${typographyStyles.desktopBodySmall} ${typographyStyles.textWhite} ${typographyStyles.opacity70}`}>
-              If you want to view stackables in one of your organizations, remember to log in using <a href='https://docs.platformatic.dev/docs/reference/cli/#login' target='_blank' className={styles.link} rel='noreferrer'>platformatic login</a>.
+
+              {renderLoginStatus()}
             </p>
             <div className={`${commonStyles.smallFlexRow} ${commonStyles.fullWidth}`}>
               <Forms.Select

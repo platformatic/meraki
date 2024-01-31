@@ -2,17 +2,14 @@ import { request } from 'undici'
 import errors from './errors.mjs'
 import { join } from 'path'
 import { readFile } from 'node:fs/promises'
-import { createRequire } from 'module'
 import { app } from 'electron'
-
-const require = createRequire(import.meta.url)
-
-const mockedPlugins = require('../../__mocks__/plugins.json')
-const mockedTemplates = require('../../__mocks__/templates.json')
-const mockedVars = require('../../__mocks__/pluginvars.json')
+import {
+  setUserLoggedIn,
+  setUserNoAPIKey,
+  setUserInvalidAPIKey
+} from './user-status.mjs'
 
 const deployServiceHost = import.meta.env.MAIN_VITE_DEPLOY_SERVICE_HOST || 'https://deploy.platformatic.cloud'
-const useMocks = import.meta.env.MAIN_VITE_USE_MOCKS === 'true'
 
 const getCurrentApiKey = async () => {
   let platformaticHome
@@ -61,9 +58,13 @@ async function getStackablesAPI (deployServiceHost, userApiKey = null) {
   })
 
   if (statusCode === 401) {
+    // the user presente an invalid api key
+    setUserInvalidAPIKey()
     // If the user is not authorized, we return only the public stackables
-    // TODO: we should show the "login" status in the UI in some way, missing design.
     return getStackablesAPI(deployServiceHost)
+  } else if (userApiKey) {
+    // The API key is valid
+    setUserLoggedIn()
   }
 
   if (statusCode !== 200) {
@@ -94,24 +95,15 @@ async function getPluginsAPI (deployServiceHost) {
 }
 
 export const getTemplates = async () => {
-  if (useMocks) {
-    const stackables = mockedTemplates.map(template => ({
-      ...template
-    }))
-    return stackables
-  }
   const apiKey = await getCurrentApiKey()
+  if (!apiKey) {
+    setUserNoAPIKey()
+  }
   const stackables = await getStackablesAPI(deployServiceHost, apiKey)
   return stackables
 }
 
 export const getPlugins = async () => {
-  if (useMocks) {
-    return mockedPlugins.map(plugin => ({
-      ...plugin,
-      envVars: [...mockedVars]
-    }))
-  }
   const plugins = await getPluginsAPI(deployServiceHost)
   return plugins
 }
