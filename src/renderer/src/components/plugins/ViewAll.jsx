@@ -39,7 +39,7 @@ function ViewAll ({ serviceName }) {
                   key={plugin.name}
                   index={index}
                   {...plugin}
-                  height={PLUGINS_3}
+                  heightType={PLUGINS_3}
                   sortable
                   onClickRemove={() => removePlugin(serviceName, plugin.name)}
                 />
