@@ -67,3 +67,6 @@
 .overflowHidden {
   @apply overflow-hidden ;
 }
+.fullHeight {
+  @apply h-full;
+}

@@ -9,3 +9,9 @@
   max-width: var(--compose-application-width);
   width: var(--compose-application-width);
 }
+
+.wrapperContainerPuzzle {
+  max-height: 57vH;
+  min-height: 57vH;
+  border: 1px solid red;
+}
