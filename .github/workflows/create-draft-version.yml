@@ -25,6 +25,8 @@ jobs:
       env:
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
       with:
+        default: predraft
+        preid: draft
         version-type:  ${{ github.event.inputs.versionType }}
         tag-prefix:  'v'
         tag-suffix:  '-draft'
