@@ -6,7 +6,7 @@ on:
       versionType:
         type: choice
         description: 'The type of release to create'
-        required: true
+        required: false
         options:
           - 'patch'
           - 'minor'
