@@ -1,5 +1,5 @@
 .container {
-  @apply border border-solid border-white/30 rounded-md p-4 w-auto h-fit;
+  @apply border border-solid border-white/30 rounded-md px-4 py-2 2xl:py-4 w-auto h-fit;
 }
 .box {
   @apply px-4 py-2 w-fit
