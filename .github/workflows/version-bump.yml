@@ -14,7 +14,7 @@ on:
 
 jobs:
   release-tag:
-    name: Verson bump 
+    name: Version bump 
     runs-on: ubuntu-latest
     steps: 
     - name: Checkout
