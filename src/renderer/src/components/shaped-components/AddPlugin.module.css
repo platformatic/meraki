@@ -1,10 +1,12 @@
 .containerInactive {
-  @apply flex flex-col justify-center w-full cursor-pointer border-0 relative;
+  @apply flex flex-col justify-center w-full border-0 relative;
   max-height: calc(57vH * 0.165);
   min-height: calc(57vH * 0.165);
 }
 .container {
-  @apply flex flex-col justify-center max-h-[74px] min-h-[74px] w-full cursor-pointer border-0 relative;
+  @apply flex flex-col justify-center w-full cursor-pointer border-0 relative;
+  max-height: calc(57vH * 0.165);
+  min-height: calc(57vH * 0.165);
 }
 .svg {
   @apply absolute top-0 left-0 w-full h-full z-[-1]
