@@ -59,18 +59,13 @@ function PlatformaticRuntimeButton ({ view }) {
   return (
     <div className={styles.container}>
       {currentBackgrounComponent}
-      <div className={styles.buttonContainer}>
-        <svg fill='none' preserveAspectRatio='none' xmlns='http://www.w3.org/2000/svg' className={styles.buttonWrapperSvg}>
-          <rect x='1' y='1' rx='3.5' stroke='white' />
-        </svg>
-        <div className={`${commonStyles.smallFlexBlock} ${commonStyles.itemsCenter}`}>
-          <SmallTitle
-            iconName='CircleExclamationIcon'
-            title='Platformatic Runtime'
-            titleClassName={`${typographyStyles.desktopBodyLarge} ${typographyStyles.textWhite} ${typographyStyles.opacity70}`}
-            containerClassName={`${commonStyles.smallFlexRow} ${typographyStyles.textCenter}`}
-          />
-        </div>
+      <div className={`${commonStyles.smallFlexBlock} ${commonStyles.itemsCenter}`}>
+        <SmallTitle
+          iconName='CircleExclamationIcon'
+          title='Platformatic Runtime'
+          titleClassName={`${typographyStyles.desktopBodyLarge} ${typographyStyles.textWhite}`}
+          containerClassName={`${commonStyles.smallFlexRow} ${typographyStyles.textCenter}`}
+        />
       </div>
       {lines.map((line, index) =>
         (<LineConnector key={index} id={`vl-${index}`} {...line} />)
