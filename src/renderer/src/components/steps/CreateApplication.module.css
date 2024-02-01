@@ -10,9 +10,9 @@
   height: auto;
 }
 .imageContent{
-  @apply absolute top-0 right-[2rem] w-1/2 z-[-1] w-full h-full;
+  @apply absolute bottom-0 left-[2rem] w-1/2 z-[-1] w-full h-full;
   background: url('~/assets/Illustration_Stackables.svg') no-repeat bottom right;
-  background-size: 90%;
+  background-size: contain;
 }
 .useTemplateIdContainer {
   @apply relative min-h-[8rem];
