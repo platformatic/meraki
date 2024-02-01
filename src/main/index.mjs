@@ -217,7 +217,13 @@ app.on('open-url', (event, url) => {
   log.info('Loaded templateId:', templateId)
 
   if (mainWindow) {
-    log.info('Inside mainWindow:' + getCurrentURL())
+    log.info('Loading on mainWindow:' + getCurrentURL())
+    mainWindow.loadURL(getCurrentURL())
+  } else if (app.isReady()) {
+    log.info('Creating a new mainWindow:' + getCurrentURL())
+    // In OSx the app can be running with no windows (because closed)
+    createWindow()
+    log.info('Loading on mainWindow:' + getCurrentURL())
     mainWindow.loadURL(getCurrentURL())
   }
 })
@@ -229,4 +235,5 @@ app.on('window-all-closed', () => {
   if (process.platform !== 'darwin') {
     app.quit()
   }
+  mainWindow = null
 })
