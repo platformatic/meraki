@@ -10,8 +10,9 @@ import Title from '~/components/ui/Title'
 import useStackablesStore from '~/useStackablesStore'
 import Plugin from './Plugin'
 import { getApiPlugins } from '~/api'
-import { MAX_MUMBER_SELECT, NO_RESULTS_VIEW, LIST_PLUGINS_VIEW } from '~/ui-constants'
+import { MAX_MUMBER_SELECT, MIN_MUMBER_SELECT, NO_RESULTS_VIEW, LIST_PLUGINS_VIEW, MAX_HEIGHT_CHANGE_NUMBER_SELECT } from '~/ui-constants'
 import NoResults from '~/components/ui/NoResults'
+import useWindowDimensions from '~/hooks/useWindowDimensions'
 
 function SelectPlugin ({ onClick, serviceName }) {
   const globalState = useStackablesStore()
@@ -27,7 +28,10 @@ function SelectPlugin ({ onClick, serviceName }) {
   const [pages, setPages] = useState([1])
   const scrollRef = useRef(null)
   const containerScrollRef = useRef(null)
-  const [maxPluginDispay] = useState(MAX_MUMBER_SELECT)
+  const [maxPluginDispay, setMaxPluginDispay] = useState(MAX_MUMBER_SELECT)
+  const { height: innerHeight, width: innerWindow } = useWindowDimensions()
+  const [pluginContainerClassName, setPluginContainerClassName] = useState(`${styles.pluginsContainer} ${styles.templatesContainerMediumHeight}`)
+  const [viewContainerClassName, setViewContainerClassName] = useState(`${styles.containerView} ${styles.containerViewMediumHeight}`)
 
   useEffect(() => {
     async function getPlugins () {
@@ -38,6 +42,19 @@ function SelectPlugin ({ onClick, serviceName }) {
     }
     getPlugins()
   }, [])
+
+  useEffect(() => {
+    if (innerHeight >= MAX_HEIGHT_CHANGE_NUMBER_SELECT && maxPluginDispay === MIN_MUMBER_SELECT) {
+      setMaxPluginDispay(MAX_MUMBER_SELECT)
+      setPluginContainerClassName(`${styles.pluginsContainer} ${styles.pluginsContainerMediumHeight}`)
+      setViewContainerClassName(`${styles.containerView} ${styles.containerViewMediumHeight}`)
+    }
+    if (innerHeight < MAX_HEIGHT_CHANGE_NUMBER_SELECT && maxPluginDispay === MAX_MUMBER_SELECT) {
+      setMaxPluginDispay(MIN_MUMBER_SELECT)
+      setPluginContainerClassName(`${styles.pluginsContainer} ${styles.pluginsContainerSmallHeight}`)
+      setViewContainerClassName(`${styles.containerView} ${styles.containerViewSmallHeight}`)
+    }
+  }, [innerHeight, innerWindow])
 
   useEffect(() => {
     if (serviceName && Object.keys(getService(serviceName)?.plugins).length > 0) {
@@ -134,27 +151,11 @@ function SelectPlugin ({ onClick, serviceName }) {
   function renderCurrentView () {
     if (currentView === LIST_PLUGINS_VIEW) {
       return (
-        <>
-          <div className={styles.pluginsContainer} ref={containerScrollRef}>
-            <div className={styles.pluginsContent} ref={scrollRef}>
-              {renderListPlugins()}
-            </div>
+        <div className={pluginContainerClassName} ref={containerScrollRef}>
+          <div className={styles.pluginsContent} ref={scrollRef}>
+            {renderListPlugins()}
           </div>
-          <div className={`${commonStyles.mediumFlexRow} ${commonStyles.fullWidth} ${commonStyles.justifyCenter}`}>
-            {pages.map(page =>
-              <Button
-                key={page}
-                paddingClass={commonStyles.buttonPadding}
-                label={`${page}`}
-                onClick={() => scroll(page)}
-                color={WHITE}
-                selected={page === currentPage}
-                backgroundColor={TRANSPARENT}
-                bordered={false}
-              />
-            )}
-          </div>
-        </>
+        </div>
       )
     }
     return (
@@ -180,7 +181,7 @@ function SelectPlugin ({ onClick, serviceName }) {
         </div>
         <div className={`${commonStyles.mediumFlexBlock24} ${commonStyles.fullWidth}`}>
           <SearchBarV2 placeholder='Search for a Plugin' onClear={handleClearPlugins} onChange={handleFilterPlugins} />
-          <div className={`${commonStyles.mediumFlexBlock24} ${commonStyles.fullWidth} ${commonStyles.justifyCenter} ${styles.containerView}`}>
+          <div className={`${commonStyles.mediumFlexBlock24} ${commonStyles.fullWidth} ${commonStyles.justifyCenter} ${viewContainerClassName}`}>
             {innerLoading
               ? <LoadingSpinnerV2
                   loading={innerLoading}
@@ -200,17 +201,35 @@ function SelectPlugin ({ onClick, serviceName }) {
           </div>
         </div>
       </div>
-      <Button
-        disabled={pluginsSelected.length === 0}
-        paddingClass={commonStyles.buttonPadding}
-        label={pluginsSelected.length > 1 ? `Continue with these Plugins (${pluginsSelected.length})` : 'Continue with this plugin'}
-        backgroundColor={WHITE}
-        color={RICH_BLACK}
-        hoverEffect={BOX_SHADOW}
-        fullWidth
-        bordered={false}
-        onClick={() => handleUsePluginsSelected()}
-      />
+      <div className={`${commonStyles.mediumFlexBlock} ${commonStyles.fullWidth}`}>
+        {currentView === LIST_PLUGINS_VIEW && (
+          <div className={`${commonStyles.mediumFlexRow} ${commonStyles.fullWidth} ${commonStyles.justifyCenter}`}>
+            {pages.map(page =>
+              <Button
+                key={page}
+                paddingClass={commonStyles.buttonPadding}
+                label={`${page}`}
+                onClick={() => scroll(page)}
+                color={WHITE}
+                selected={page === currentPage}
+                backgroundColor={TRANSPARENT}
+                bordered={false}
+              />
+            )}
+          </div>
+        )}
+        <Button
+          disabled={pluginsSelected.length === 0}
+          paddingClass={commonStyles.buttonPadding}
+          label={pluginsSelected.length > 1 ? `Continue with these Plugins (${pluginsSelected.length})` : 'Continue with this plugin'}
+          backgroundColor={WHITE}
+          color={RICH_BLACK}
+          hoverEffect={BOX_SHADOW}
+          fullWidth
+          bordered={false}
+          onClick={() => handleUsePluginsSelected()}
+        />
+      </div>
     </div>
   )
 }

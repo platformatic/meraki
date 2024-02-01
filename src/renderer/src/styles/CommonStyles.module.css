@@ -10,6 +10,9 @@
 .smallFlexBlock {
   @apply flex flex-col items-start gap-y-2;
 }
+.extraSmallFlexBlock {
+  @apply flex flex-col items-start gap-y-1;
+}
 .mediumFlexRow {
   @apply flex flex-row items-center gap-x-2 lg:gap-x-4 w-full;
 }

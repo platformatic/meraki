@@ -6,7 +6,7 @@ export const STEP_CONFIGURE_APPLICATION = 'STEP_CONFIGURE_APPLICATION'
 export const STEP_GENERATING_APPLICATION = 'STEP_GENERATING_APPLICATION'
 
 export const BREAKPOINTS_HEIGHT_LG = 810
-export const HEIGHT_LG = '57vH'
+export const HEIGHT_LG = '55vH'
 export const BREAKPOINTS_HEIGHT_MD = 810
 export const HEIGHT_MD = '67vH'
 
@@ -29,7 +29,8 @@ export const LIST_PLUGINS_VIEW = 'list_plugins'
 export const NO_RESULTS_VIEW = 'no_results'
 
 export const MAX_MUMBER_SELECT = 9
-export const MAX_WIDTH_XL = 1440
+export const MIN_MUMBER_SELECT = 6
+export const MAX_HEIGHT_CHANGE_NUMBER_SELECT = 900
 
 export const TYPESCRIPT = 'typescript'
 export const JAVASCRIPT = 'javascript'
