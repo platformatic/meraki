@@ -4,9 +4,13 @@
 .buttonContainer {
   @apply flex justify-end;
 }
+
 .imageContainer{
-  @apply absolute top-0 right-[2rem] w-1/2 z-[-1];
-  height: 80vH;
+  position: relative;
+  height: auto;
+}
+.imageContent{
+  @apply absolute top-0 right-[2rem] w-1/2 z-[-1] w-full h-full;
   background: url('~/assets/Illustration_Stackables.svg') no-repeat bottom right;
   background-size: 90%;
 }

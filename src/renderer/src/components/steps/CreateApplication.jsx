@@ -197,7 +197,9 @@ const CreateApplication = React.forwardRef(({ onNext }, ref) => {
             </Forms.Field>
           </div>
         </div>
-        <div className={styles.imageContainer} />
+        <div className={`${commonStyles.largeFlexBlock} ${commonStyles.halfWidth} ${styles.imageContainer}` }>
+          <div className={styles.imageContent} />
+        </div>
       </form>
       <div className={`${styles.buttonContainer} ${commonStyles.fullWidth}`}>
         <Button
