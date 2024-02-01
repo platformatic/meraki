@@ -6,10 +6,11 @@ import typographyStyles from '~/styles/Typography.module.css'
 import { SMALL, WHITE } from '@platformatic/ui-components/src/components/constants'
 import { Icons } from '@platformatic/ui-components'
 
-function SmallTitle ({ containerClassName, iconName, title, titleClassName }) {
+function SmallTitle ({ containerClassName, iconName, iconInactive, title, titleClassName }) {
   const icon = React.createElement(Icons[`${iconName}`], {
     color: WHITE,
-    size: SMALL
+    size: SMALL,
+    inactive: iconInactive
   })
 
   return (
@@ -30,6 +31,10 @@ SmallTitle.propTypes = {
    */
   iconName: PropTypes.string.isRequired,
   /**
+   * iconInactive
+   */
+  iconInactive: PropTypes.bool,
+  /**
    * title
    */
   title: PropTypes.string.isRequired,
@@ -41,6 +46,7 @@ SmallTitle.propTypes = {
 
 SmallTitle.defaultProps = {
   containerClassName: `${commonStyles.smallFlexRow} ${commonStyles.textCenter}`,
-  titleClassName: `${typographyStyles.desktopBodyLarge} ${typographyStyles.textWhite} ${typographyStyles.opacity70}`
+  titleClassName: `${typographyStyles.desktopBodyLarge} ${typographyStyles.textWhite} ${typographyStyles.opacity70}`,
+  iconInactive: false
 }
 export default SmallTitle

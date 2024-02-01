@@ -5,13 +5,21 @@ export const STEP_CONFIGURE_SERVICES = 'STEP_CONFIGURE_SERVICES'
 export const STEP_CONFIGURE_APPLICATION = 'STEP_CONFIGURE_APPLICATION'
 export const STEP_GENERATING_APPLICATION = 'STEP_GENERATING_APPLICATION'
 
-export const DEFAULT_HEIGHT_TEMPLATE = 292
-export const HEIGHT_PLUGIN_1 = 106
-export const HEIGHT_PLUGIN_2 = 81
-export const HEIGHT_PLUGIN_3 = 56
+export const BREAKPOINTS_HEIGHT_LG = 810
+export const HEIGHT_LG = '57vH'
+export const BREAKPOINTS_HEIGHT_MD = 810
+export const HEIGHT_MD = '67vH'
+
+export const ONLY_TEMPLATE = 'ONLY_TEMPLATE'
+export const TEMPLATE_WITH_PLUGIN = 'TEMPLATE_WITH_PLUGIN'
+export const TEMPLATE_WITH_2_PLUGINS = 'TEMPLATE_WITH_2_PLUGINS'
+export const TEMPLATE_WITH_3_PLUGINS = 'TEMPLATE_WITH_3_PLUGINS'
+
+export const ONLY_PLUGIN = 'ONLY_PLUGIN'
+export const PLUGINS_2 = 'PLUGINS_2'
+export const PLUGINS_3 = 'PLUGINS_3'
 
 export const WIDTH_PLUGIN_1 = 392
-export const WIDTH_TEMPLATE_1 = 392
 export const HEIGHT_TEMPLATE_1 = 175
 
 export const NORMAL_VIEW = 'normal'
@@ -21,7 +29,7 @@ export const LIST_PLUGINS_VIEW = 'list_plugins'
 export const NO_RESULTS_VIEW = 'no_results'
 
 export const MAX_MUMBER_SELECT = 9
-export const MAX_WIDTH_LG = 1240
+export const MAX_WIDTH_XL = 1440
 
 export const TYPESCRIPT = 'typescript'
 export const JAVASCRIPT = 'javascript'

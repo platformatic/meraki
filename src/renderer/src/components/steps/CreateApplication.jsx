@@ -145,63 +145,65 @@ const CreateApplication = React.forwardRef(({ onNext }, ref) => {
   }
 
   return (
-    <form className={styles.container} onSubmit={handleSubmit} ref={ref}>
-      <div className={styles.imageContainer} />
-      <div className={`${commonStyles.largeFlexBlock} ${commonStyles.halfWidth}`}>
-        <div className={commonStyles.mediumFlexBlock}>
-          <Title
-            title='Create Application'
-            iconName='AppIcon'
-            dataAttrName='cy'
-            dataAttrValue='step-title'
-          />
-          <p className={`${typographyStyles.desktopBodyLarge} ${typographyStyles.textWhite} ${typographyStyles.opacity70}`}>Start by entering the name of your Application and the name of your service.</p>
+    <>
+      <form className={styles.container} onSubmit={handleSubmit} ref={ref}>
+        <div className={`${commonStyles.largeFlexBlock} ${commonStyles.halfWidth}`}>
+          <div className={commonStyles.mediumFlexBlock}>
+            <Title
+              title='Create Application'
+              iconName='AppIcon'
+              dataAttrName='cy'
+              dataAttrValue='step-title'
+            />
+            <p className={`${typographyStyles.desktopBodyLarge} ${typographyStyles.textWhite} ${typographyStyles.opacity70}`}>Start by entering the name of your Application and the name of your service.</p>
+          </div>
+          {useTemplateId &&
+            <div className={`${commonStyles.mediumFlexBlock} ${commonStyles.fullWidth} ${styles.useTemplateIdContainer}`}>
+              {renderTemplateIdDefault()}
+            </div>}
+          <div className={`${commonStyles.largeFlexBlock} ${commonStyles.fullWidth}`}>
+            <Forms.Field title='Application name' titleColor={WHITE} required>
+              <Forms.Input
+                placeholder='Enter the name of your application'
+                name='application'
+                borderColor={WHITE}
+                value={form.application}
+                onChange={handleChangeApplication}
+                errorMessage={validations.formErrors.application}
+                backgroundColor={RICH_BLACK}
+              />
+            </Forms.Field>
+            <Forms.Field title='Select destination folder' titleColor={WHITE} required>
+              <Button
+                type='button'
+                platformaticIcon={{ iconName: 'FolderIcon', color: WHITE }}
+                label='Select folder'
+                onClick={async () => handleOpenFolder()}
+                color={WHITE}
+                backgroundColor={TRANSPARENT}
+                paddingClass={`${commonStyles.buttonPaddingBordered} cy-action-open-folder`}
+                textClass={`${typographyStyles.desktopBody} ${typographyStyles.textWhite}`}
+              />
+              <Forms.Input
+                placeholder='Select the destination folder of your application using the Button'
+                name='folder'
+                borderColor={WHITE}
+                value={form.folder}
+                onChange={mockUse ? handleChange : () => {}}
+                errorMessage={validations.formErrors.folder}
+                backgroundColor={RICH_BLACK}
+                readOnly={!mockUse}
+              />
+            </Forms.Field>
+          </div>
         </div>
-        {useTemplateId &&
-          <div className={`${commonStyles.mediumFlexBlock} ${commonStyles.fullWidth} ${styles.useTemplateIdContainer}`}>
-            {renderTemplateIdDefault()}
-          </div>}
-        <div className={`${commonStyles.largeFlexBlock} ${commonStyles.fullWidth}`}>
-          <Forms.Field title='Application name' titleColor={WHITE} required>
-            <Forms.Input
-              placeholder='Enter the name of your application'
-              name='application'
-              borderColor={WHITE}
-              value={form.application}
-              onChange={handleChangeApplication}
-              errorMessage={validations.formErrors.application}
-              backgroundColor={RICH_BLACK}
-            />
-          </Forms.Field>
-          <Forms.Field title='Select destination folder' titleColor={WHITE} required>
-            <Button
-              type='button'
-              platformaticIcon={{ iconName: 'FolderIcon', color: WHITE }}
-              label='Select folder'
-              onClick={async () => handleOpenFolder()}
-              color={WHITE}
-              backgroundColor={TRANSPARENT}
-              paddingClass={`${commonStyles.buttonPaddingBordered} cy-action-open-folder`}
-              textClass={`${typographyStyles.desktopBody} ${typographyStyles.textWhite}`}
-            />
-            <Forms.Input
-              placeholder='Select the destination folder of your application using the Button'
-              name='folder'
-              borderColor={WHITE}
-              value={form.folder}
-              onChange={mockUse ? handleChange : () => {}}
-              errorMessage={validations.formErrors.folder}
-              backgroundColor={RICH_BLACK}
-              readOnly={!mockUse}
-            />
-          </Forms.Field>
-        </div>
-      </div>
+        <div className={styles.imageContainer} />
+      </form>
       <div className={`${styles.buttonContainer} ${commonStyles.fullWidth}`}>
         <Button
           disabled={!validForm}
           label='Next'
-          onClick={() => handleSubmit}
+          onClick={(event) => handleSubmit(event)}
           color={RICH_BLACK}
           bordered={false}
           backgroundColor={WHITE}
@@ -209,7 +211,7 @@ const CreateApplication = React.forwardRef(({ onNext }, ref) => {
           paddingClass={`${commonStyles.buttonPadding} cy-action-next`}
         />
       </div>
-    </form>
+    </>
   )
 })
 

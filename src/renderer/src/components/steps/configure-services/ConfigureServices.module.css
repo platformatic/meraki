@@ -1,11 +1,9 @@
 .container {
-  @apply flex flex-col min-h-[80vH] overflow-x-hidden overflow-y-auto justify-between
+  @apply flex flex-col h-full overflow-x-hidden overflow-y-auto justify-between grow
 }
 .buttonContainer {
   @apply flex justify-between;
 }
-
 .content {
-  min-height: calc(100vH - 22rem);
-  max-height: calc(100vH - 22rem);
+  @apply overflow-y-auto
 }

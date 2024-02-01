@@ -1,3 +1,5 @@
 .container {
-  @apply max-w-[264px] min-w-[264px];
+  min-width: var(--compose-application-width);
+  max-width: var(--compose-application-width);
+  width: var(--compose-application-width);
 }

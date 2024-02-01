@@ -20,8 +20,25 @@
   @apply absolute right-[1rem] translate-y-[-50%]
 }
 .rectBordered {
-  @apply stroke-tertiary-blue
+  @apply stroke-tertiary-blue;
+  width: calc(100% - 0.5px);
+  height: calc(100% - 3px);
 }
 .rectFilled {
   @apply fill-tertiary-blue/15;
+  width: calc(100% - 1px);
+  height: calc(100% - 1px);
+}
+
+.containerOnlyPlugin {
+  min-height: calc(var(--compose-application-height) * 0.17);
+  max-height: calc(var(--compose-application-height) * 0.17);
+}
+.containerPlugins2 {
+  min-height: calc(var(--compose-application-height) * 0.11);
+  max-height: calc(var(--compose-application-height) * 0.11);
+}
+.containerPlugins3 {
+  min-height: calc(var(--compose-application-height) * 0.09);
+  max-height: calc(var(--compose-application-height) * 0.09);
 }

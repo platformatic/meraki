@@ -152,23 +152,24 @@ const ComposeApplication = React.forwardRef(({ onNext, onBack }, ref) => {
   }
 
   return (
-    <div className={styles.container} ref={ref}>
-      <div className={`${commonStyles.largeFlexBlock}`}>
-        <div className={`${commonStyles.mediumFlexBlock} ${commonStyles.fullWidth}`}>
-          <EditableTitle
-            title={formData.createApplication.application}
-            iconName='AppIcon'
-            onClickSubmit={(name) => handleEditApplicationName(name)}
-            dataAttrName='cy'
-            dataAttrValue='step-title'
-          />
-          <p className={`${typographyStyles.desktopBodyLarge} ${typographyStyles.textWhite} ${typographyStyles.opacity70}`}>Select a template and plugins for your service from our Stackables Marketplace. <br />Once you have chosen a template you can add another Service.</p>
-        </div>
-        <div className={`${commonStyles.mediumFlexRow} ${commonStyles.fullWidth} ${commonStyles.justifyBetween} ${commonStyles.itemsCenter}`}>
-          <div className={`${commonStyles.flexBlockNoGap}`}>
-            <div className={`${commonStyles.largeFlexBlock}`}>
-              <div className={currentComponentClassName}>
-                {/* <SwitchTransition>
+    <>
+      <div className={styles.container} ref={ref}>
+        <div className={`${commonStyles.largeFlexBlock}`}>
+          <div className={`${commonStyles.mediumFlexBlock} ${commonStyles.fullWidth}`}>
+            <EditableTitle
+              title={formData.createApplication.application}
+              iconName='AppIcon'
+              onClickSubmit={(name) => handleEditApplicationName(name)}
+              dataAttrName='cy'
+              dataAttrValue='step-title'
+            />
+            <p className={`${typographyStyles.desktopBodyLarge} ${typographyStyles.textWhite} ${typographyStyles.opacity70}`}>Select a template and plugins for your service from our Stackables Marketplace. <br />Once you have chosen a template you can add another Service.</p>
+          </div>
+          <div className={`${commonStyles.mediumFlexRow} ${commonStyles.fullWidth} ${commonStyles.justifyBetween} ${commonStyles.itemsCenter}`}>
+            <div className={`${commonStyles.flexBlockNoGap}`}>
+              <div className={`${commonStyles.largeFlexBlock}`}>
+                <div className={currentComponentClassName}>
+                  {/* <SwitchTransition>
                   <CSSTransition
                     key={currentComponent.name}
                     nodeRef={currentComponent.ref}
@@ -178,23 +179,24 @@ const ComposeApplication = React.forwardRef(({ onNext, onBack }, ref) => {
                     classNames='fade-vertical'
                   >
                  */}    {currentComponent}
-                {/*   </CSSTransition>
+                  {/*   </CSSTransition>
                 </SwitchTransition>
  */}
-                <div className={`${commonStyles.mediumFlexBlock} ${commonStyles.fullWidth} ${styles.containerPuzzle}`}>
-                  <div className={commonStyles.mediumFlexRow}>
-                    <h5 className={`${typographyStyles.desktopHeadline4} ${typographyStyles.textWhite}`}>&nbsp;</h5>
+                  <div className={`${commonStyles.mediumFlexBlock} ${commonStyles.fullWidth} ${styles.containerPuzzle}`}>
+                    <div className={commonStyles.mediumFlexRow}>
+                      <h5 className={`${typographyStyles.desktopHeadline4} ${typographyStyles.textWhite}`}>&nbsp;</h5>
+                    </div>
+                    <AddService
+                      onClick={() => onClickAddService()}
+                      enabled={services.find(service => Object.keys(service.template).length === 0) === undefined || currentView === GRID_VIEW}
+                    />
                   </div>
-                  <AddService
-                    onClick={() => onClickAddService()}
-                    enabled={services.find(service => Object.keys(service.template).length === 0) === undefined || currentView === GRID_VIEW}
-                  />
                 </div>
               </div>
+              <PlatformaticRuntimeButton view={currentView} />
             </div>
-            <PlatformaticRuntimeButton view={currentView} />
+            <ConnectorAndBundleFolderTree />
           </div>
-          <ConnectorAndBundleFolderTree />
         </div>
       </div>
       <div className={`${styles.buttonContainer} ${commonStyles.fullWidth}`}>
@@ -208,7 +210,7 @@ const ComposeApplication = React.forwardRef(({ onNext, onBack }, ref) => {
         />
 
         <Button
-          disabled={services.find(service => (service.template?.name ?? '') === '')}
+          disabled={services.find(service => (service.template?.name ?? '') === '') !== undefined}
           label='Next - Prepare Folder'
           onClick={() => onClickPrepareFolder()}
           color={RICH_BLACK}
@@ -282,7 +284,7 @@ const ComposeApplication = React.forwardRef(({ onNext, onBack }, ref) => {
           />
         </Modal>
       )}
-    </div>
+    </>
   )
 })
 

@@ -1,5 +1,7 @@
 .container {
   @apply flex flex-col justify-center w-full border-0 relative;
+  min-height: calc(var(--compose-application-height) * 0.45);
+  max-height: calc(var(--compose-application-height) * 0.45);
 }
 .containerClickable {
   @apply cursor-pointer 
@@ -14,8 +16,31 @@
   @apply stroke-main-green fill-main-green;
 }
 .rectBordered {
-  @apply stroke-main-green
+  @apply stroke-main-green;
+  width: calc(100% - 0.5px);
+  height: calc(100% - 3px);
 }
 .rectFilled {
   @apply fill-main-green/30;
+  width: calc(100% - 1px);
+  height: calc(100% - 1px);
+}
+.containerOnlyTemplate {
+  min-height: calc(var(--compose-application-height) * 0.45);
+  max-height: calc(var(--compose-application-height) * 0.45);
+}
+.containerTemplateWithPlugin {
+  min-height: calc(var(--compose-application-height) * 0.28);
+  max-height: calc(var(--compose-application-height) * 0.28);
+}
+.containerTemplateWith2Plugins {
+  min-height: calc(var(--compose-application-height) * 0.23);
+  max-height: calc(var(--compose-application-height) * 0.23);
+}
+.containerTemplateWith3Plugins {
+  min-height: calc(var(--compose-application-height) * 0.18);
+  max-height: calc(var(--compose-application-height) * 0.18);
+}
+.ellipsis {
+  @apply truncate w-full;
 }

@@ -1,14 +1,14 @@
 .container {
-  @apply flex flex-col justify-between min-h-[80vH] relative overflow-hidden;
+  @apply flex flex-row justify-between h-full relative grow;
 }
 .buttonContainer {
   @apply flex justify-end;
 }
 .imageContainer{
-  @apply absolute bottom-[-3rem] right-[-4rem] w-1/2 z-[-1];
-  height: calc(100vH - 5rem);
+  @apply absolute top-0 right-[2rem] w-1/2 z-[-1];
+  height: 80vH;
   background: url('~/assets/Illustration_Stackables.svg') no-repeat bottom right;
-  background-size: 100%;
+  background-size: 90%;
 }
 .useTemplateIdContainer {
   @apply relative min-h-[8rem];

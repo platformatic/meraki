@@ -1,9 +1,17 @@
 .container {
-  @apply flex flex-col justify-between min-h-[80vH]
+  @apply flex flex-col justify-between h-full grow
 }
 .buttonContainer {
   @apply flex justify-between;
 }
 .containerPuzzle {
-  @apply min-w-[264px] max-w-[264px] w-[264px];
+  min-width: var(--compose-application-width);
+  max-width: var(--compose-application-width);
+  width: var(--compose-application-width);
+}
+
+.wrapperContainerPuzzle {
+  max-height: var(--compose-application-height);
+  min-height: var(--compose-application-height);
+  border: 1px solid red;
 }

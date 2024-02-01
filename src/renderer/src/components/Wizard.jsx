@@ -7,7 +7,10 @@ import {
   STEP_CONFIGURE_SERVICES,
   STEP_CREATE_APPLICATION,
   STEP_CONFIGURE_APPLICATION,
-  STEP_GENERATING_APPLICATION
+  STEP_GENERATING_APPLICATION,
+  BREAKPOINTS_HEIGHT_LG,
+  HEIGHT_LG,
+  HEIGHT_MD
 } from '~/ui-constants'
 import CreateApplication from '~/components/steps/CreateApplication'
 import ComposeApplication from '~/components/steps/compose-application/ComposeApplication'
@@ -16,8 +19,9 @@ import ConfigureApplication from '~/components/steps/ConfigureApplication'
 import GeneratingApplication from '~/components/steps/GeneratingApplication'
 import PrepareFolder from '~/components/steps/PrepareFolder'
 import { CSSTransition, SwitchTransition } from 'react-transition-group'
+import styles from './Wizard.module.css'
 import '~/components/component.animation.css'
-
+import useWindowDimensions from '~/hooks/useWindowDimensions'
 function Wizard () {
   const NEXT = 'next'; const BACK = 'back'
   const [cssClassNames, setCssClassNames] = useState(NEXT)
@@ -60,6 +64,15 @@ function Wizard () {
   ])
   const [currentComponent, setCurrentComponent] = useState(components.find(component => component.key === STEP_CREATE_APPLICATION))
 
+  const { height: innerHeight } = useWindowDimensions()
+
+  useEffect(() => {
+    if (innerHeight > BREAKPOINTS_HEIGHT_LG) {
+      document.documentElement.style.setProperty('--compose-application-height', HEIGHT_LG)
+    } else {
+      document.documentElement.style.setProperty('--compose-application-height', HEIGHT_MD)
+    }
+  }, [innerHeight])
   function nextStep (step) {
     setCssClassNames(NEXT)
     setCurrentStep(step)
@@ -75,7 +88,7 @@ function Wizard () {
   }, [currentStep])
 
   return (
-    <div>
+    <div className={styles.wizardContent}>
       <SwitchTransition>
         <CSSTransition
           key={currentComponent.key}

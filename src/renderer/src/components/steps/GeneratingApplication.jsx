@@ -77,35 +77,37 @@ const GeneratingApplication = React.forwardRef(({ onRestartProcess }, ref) => {
   }
 
   return !restartInProgress && (
-    <div className={`${commonStyles.mediumFlexBlock} ${commonStyles.fullWidth}`} ref={ref}>
-      <div className={commonStyles.mediumFlexBlock}>
-        <Title
-          title={`Generating ${formData.createApplication.application}`}
-          iconName='AppIcon'
-          dataAttrName='cy'
-          dataAttrValue='step-title'
-        />
-        <p className={`${typographyStyles.desktopBodyLarge} ${typographyStyles.textWhite} ${typographyStyles.opacity70}`}>
-          We are generating your app. <br />Once all the steps are done you will be able to complete and use your new application.
-        </p>
-      </div>
-      <div className={`${commonStyles.smallFlexRow} ${commonStyles.fullWidth} ${commonStyles.justifyEnd}`}>
-        <Button
-          disabled={!appGenerated}
-          label='Copy Logs'
-          onClick={() => onClickCopyLogs()}
-          color={WHITE}
-          backgroundColor={RICH_BLACK}
-          paddingClass={`${commonStyles.buttonPadding} cy-action-donwload-logs`}
-        />
-      </div>
-      <BorderedBox classes={`${commonStyles.fullWidth} ${styles.content}`} backgroundColor={TRANSPARENT} borderColorOpacity={OPACITY_30} color={WHITE}>
-        <div className={`${commonStyles.flexBlockNoGap} `}>
-          {npmLogs.map((log, index) => renderLog(log, index))}
+    <>
+      <div className={`${styles.container} ${commonStyles.mediumFlexBlock} ${commonStyles.fullWidth}`} ref={ref}>
+        <div className={commonStyles.mediumFlexBlock}>
+          <Title
+            title={`Generating ${formData.createApplication.application}`}
+            iconName='AppIcon'
+            dataAttrName='cy'
+            dataAttrValue='step-title'
+          />
+          <p className={`${typographyStyles.desktopBodyLarge} ${typographyStyles.textWhite} ${typographyStyles.opacity70}`}>
+            We are generating your app. <br />Once all the steps are done you will be able to complete and use your new application.
+          </p>
         </div>
-      </BorderedBox>
-      <div className={`${commonStyles.mediumFlexBlock} ${commonStyles.halfWidth}`}>
-        <CountDown status={countDownStatus} />
+        <div className={`${commonStyles.smallFlexRow} ${commonStyles.fullWidth} ${commonStyles.justifyEnd}`}>
+          <Button
+            disabled={!appGenerated}
+            label='Copy Logs'
+            onClick={() => onClickCopyLogs()}
+            color={WHITE}
+            backgroundColor={RICH_BLACK}
+            paddingClass={`${commonStyles.buttonPadding} cy-action-donwload-logs`}
+          />
+        </div>
+        <BorderedBox classes={`${commonStyles.fullWidth} ${styles.content}`} backgroundColor={TRANSPARENT} borderColorOpacity={OPACITY_30} color={WHITE}>
+          <div className={`${commonStyles.flexBlockNoGap} `}>
+            {npmLogs.map((log, index) => renderLog(log, index))}
+          </div>
+        </BorderedBox>
+        <div className={`${commonStyles.mediumFlexBlock} ${commonStyles.halfWidth}`}>
+          <CountDown status={countDownStatus} />
+        </div>
       </div>
       <div className={`${styles.buttonContainer} ${commonStyles.fullWidth}`}>
         <Button
@@ -164,10 +166,9 @@ const GeneratingApplication = React.forwardRef(({ onRestartProcess }, ref) => {
               </div>
             </div>
           </div>
-
         </Modal>
       )}
-    </div>
+    </>
   )
 })
 
