@@ -5,9 +5,10 @@ on:
     inputs:
       versionType:
         type: choice
-        description: 'The type of release to create'
-        required: false
+        description: "The version of the release. Select 'current' to use the current version, or 'patch', 'minor', or 'major' to bump the version."
+        required: true
         options:
+          - 'current'
           - 'patch'
           - 'minor'
           - 'major'
@@ -17,12 +18,12 @@ jobs:
     name: Run Tests
     uses: platformatic/meraki/.github/workflows/test.yml@main
 
-  prepare-release:
-    name: Prepare release tag 
+  # We create a tag and a release draft from the tag, then we publish the release. 
+  prepare-draft-with-bump:
+    if: github.event.inputs.versionType != 'current'
+    name: Prepare release tag with version bump
     needs: run-test
     runs-on: ubuntu-latest
-    outputs:
-      TAG: v${{ steps.tag-name.outputs.TAG }}
     steps: 
     - name: Checkout
       uses: actions/checkout@v4
@@ -34,23 +35,44 @@ jobs:
       with:
         version-type:  ${{ github.event.inputs.versionType }}
         tag-prefix:  'v'
-    - name: Export TAG Parameter
-      id: tag-name
+    - name: get current version
+      id: get-current-version
       run: |
-        echo "TAG=`cat package.json | jq -r .version`" >> $GITHUB_OUTPUT
+        echo "CURRENT_VERSION=`cat package.json | jq -r .version`" >> $GITHUB_OUTPUT
       shell: bash
+    - name: Create Draft Release
+      uses: platformatic/meraki/.github/workflows/release-draft.yml@main
+      with:
+        tag_name: v${{ steps.get-current-version.outputs.CURRENT_VERSION }}
+      secrets: inherit
 
-  create-draft:
-    needs: prepare-release
-    name: Create Draft Release
-    uses: platformatic/meraki/.github/workflows/release-draft.yml@main
-    with:
-      tag_name: ${{ needs.prepare-release.outputs.TAG }}
-    secrets: inherit
+  prepare-draft:
+    if: github.event.inputs.versionType == 'current'
+    name: Prepare release tag with current version
+    needs: run-test
+    runs-on: ubuntu-latest
+    steps: 
+    - name: Checkout
+      uses: actions/checkout@v4
+    - name: get current version
+      id: get-current-version
+      run: |
+        echo "CURRENT_VERSION=`cat package.json | jq -r .version`" >> $GITHUB_OUTPUT
+      shell: bash
+    - name: Bump version and push tag
+      id: tag_version
+      uses: mathieudutour/github-tag-action@v6.1
+      with:
+        github_token: ${{ secrets.GITHUB_TOKEN }}
+        custom_tag: v${{ steps.get-current-version.outputs.CURRENT_VERSION }}
+    - name: Create Draft Release
+      uses: platformatic/meraki/.github/workflows/release-draft.yml@main
+      with:
+        tag_name: v${{ steps.get-current-version.outputs.CURRENT_VERSION }}
+      secrets: inherit
 
   release:
     name: Release 
-    needs: create-draft
     runs-on: ubuntu-latest
     steps:  
     - name: Get last Draft
