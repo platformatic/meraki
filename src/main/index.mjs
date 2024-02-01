@@ -14,13 +14,14 @@ const generate = require('boring-name-generator')
 
 log.info('App starting...')
 
-const isMac = process.platform === 'darwin'
-
 // Create a URL to load in the main window based on params passed in meraki:// protocol
 const getTemplateId = url => {
   if (!url || url === '') return ''
   const urlSplit = url.split('//')
-  const templateId = urlSplit[1]
+  let templateId = urlSplit[1]
+  if (templateId && templateId.endsWith('/')) {
+    templateId = templateId.slice(0, -1)
+  }
   return templateId
 }
 
@@ -87,21 +88,20 @@ const gotTheLock = app.requestSingleInstanceLock()
 if (!gotTheLock) {
   app.quit()
 } else {
-  if (!isMac) {
-    log.info('Running in windows or linux')
-    // See: https://www.electronjs.org/docs/latest/tutorial/launch-app-from-url-in-another-app
-    app.on('second-instance', (event, commandLine, workingDirectory) => {
-      log.info(`Meraki opened for: ${commandLine.pop()}`)
-      templateId = getTemplateId(commandLine.pop())
-      const currentUrl = getCurrentURL()
-      log.info('Loading URL: ' + currentUrl)
-      if (mainWindow) {
-        if (mainWindow.isMinimized()) mainWindow.restore()
-        mainWindow.focus()
-        mainWindow.loadURL(getCurrentURL())
-      }
-    })
-  }
+  // in win and linux, if the app is already open, emits `second-instance`
+  // See: https://www.electronjs.org/docs/latest/tutorial/launch-app-from-url-in-another-app
+  app.on('second-instance', (event, commandLine, workingDirectory) => {
+    const passedUrl = commandLine.pop()
+    log.info(`Received second-instance. Opening meraki for: ${passedUrl}`)
+    templateId = getTemplateId(passedUrl)
+    log.info('Received templateId:' + templateId)
+    if (mainWindow) {
+      if (mainWindow.isMinimized()) mainWindow.restore()
+      mainWindow.focus()
+      log.info('Loading URL: ' + getCurrentURL())
+      mainWindow.loadURL(getCurrentURL())
+    }
+  })
 }
 
 function createWindow () {
@@ -127,6 +127,15 @@ function createWindow () {
     shell.openExternal(details.url)
     return { action: 'deny' }
   })
+
+  if (process.argv.length > 1) {
+    const passedUrl = process.argv.length > 1 ? process.argv[1] : null
+    if (passedUrl) {
+      log.info(`Received args. Opening meraki for: ${passedUrl}`)
+      templateId = getTemplateId(passedUrl)
+      log.info('Received templateId:' + templateId)
+    }
+  }
 
   const currentUrl = getCurrentURL()
   log.info('Loading URL: ' + currentUrl)
@@ -202,19 +211,22 @@ app.whenReady().then(() => {
   })
 })
 
-if (isMac) {
-  // deep link on mac
-  app.on('open-url', (event, url) => {
-    log.info('Meraki opened for url:' + url)
-    templateId = getTemplateId(url)
-    log.info('Loaded templateId:', templateId)
+app.on('open-url', (event, url) => {
+  log.info('Received open url event for url:' + url)
+  templateId = getTemplateId(url)
+  log.info('Loaded templateId:', templateId)
 
-    if (mainWindow) {
-      log.info('Inside mainWindow:' + getCurrentURL())
-      mainWindow.loadURL(getCurrentURL())
-    }
-  })
-}
+  if (mainWindow) {
+    log.info('Loading on mainWindow:' + getCurrentURL())
+    mainWindow.loadURL(getCurrentURL())
+  } else if (app.isReady()) {
+    log.info('Creating a new mainWindow:' + getCurrentURL())
+    // In OSx the app can be running with no windows (because closed)
+    createWindow()
+    log.info('Loading on mainWindow:' + getCurrentURL())
+    mainWindow.loadURL(getCurrentURL())
+  }
+})
 
 // Quit when all windows are closed, except on macOS. There, it's common
 // for applications and their menu bar to stay active until the user quits
@@ -223,4 +235,5 @@ app.on('window-all-closed', () => {
   if (process.platform !== 'darwin') {
     app.quit()
   }
+  mainWindow = null
 })
