@@ -89,108 +89,110 @@ const ConfigureApplication = React.forwardRef(({ onNext, onBack }, ref) => {
             />
             <p className={`${typographyStyles.desktopBodyLarge} ${typographyStyles.textWhite} ${typographyStyles.opacity70}`}>Select a template and plugins for your service from our Stackables Marketplace.<br />Once you have chosen a template you can add another Service.</p>
           </div>
-          <div className={styles.customFlexBlock}>
-            <Forms.Field
-              title='EntryPoint'
-              helper='Select a service as entrypoint of your Application'
-              required
-              titleClassName={`${typographyStyles.desktopBodySemibold} ${typographyStyles.textWhite} `}
-              helperClassName={`${typographyStyles.desktopBodySmall} ${typographyStyles.textWhite} ${typographyStyles.opacity70}`}
-            >
-              <div className={commonStyles.smallFlexRow}>
-                {services.map(service => (
-                  <Button
-                    key={service.name}
-                    type='button'
-                    label={service.name}
-                    onClick={() => setForm(form => ({ ...form, entryPoint: service.name }))}
-                    color={WHITE}
-                    backgroundColor={TRANSPARENT}
-                    paddingClass={commonStyles.buttonPadding}
-                    selected={service.name === form.entryPoint}
-                  />
-                ))}
-              </div>
-            </Forms.Field>
+          <div className={commonStyles.halfWidth}>
+            <div className={styles.customFlexBlock}>
+              <Forms.Field
+                title='EntryPoint'
+                helper='Select a service as entrypoint of your Application'
+                required
+                titleClassName={`${typographyStyles.desktopBodySemibold} ${typographyStyles.textWhite} `}
+                helperClassName={`${typographyStyles.desktopBodySmall} ${typographyStyles.textWhite} ${typographyStyles.opacity70}`}
+              >
+                <div className={commonStyles.smallFlexRow}>
+                  {services.map(service => (
+                    <Button
+                      key={service.name}
+                      type='button'
+                      label={service.name}
+                      onClick={() => setForm(form => ({ ...form, entryPoint: service.name }))}
+                      color={WHITE}
+                      backgroundColor={TRANSPARENT}
+                      paddingClass={commonStyles.buttonPadding}
+                      selected={service.name === form.entryPoint}
+                    />
+                  ))}
+                </div>
+              </Forms.Field>
 
-            <Forms.Field
-              title='Port Number'
-              titleClassName={`${typographyStyles.desktopBodySemibold} ${typographyStyles.textWhite} `}
-              required
-            >
-              <Forms.Input
-                placeholder='Enter port number'
-                name='port'
-                borderColor={WHITE}
-                value={form.port}
-                onChange={handleChange}
-                errorMessage={validations.formErrors.port}
-                backgroundColor={RICH_BLACK}
-                inputTextClassName={`${typographyStyles.desktopBody} ${typographyStyles.textWhite}`}
-                verticalPaddingClassName={commonStyles.noVerticalPadding}
-              />
-            </Forms.Field>
+              <Forms.Field
+                title='Port Number'
+                titleClassName={`${typographyStyles.desktopBodySemibold} ${typographyStyles.textWhite} `}
+                required
+              >
+                <Forms.Input
+                  placeholder='Enter port number'
+                  name='port'
+                  borderColor={WHITE}
+                  value={form.port}
+                  onChange={handleChange}
+                  errorMessage={validations.formErrors.port}
+                  backgroundColor={RICH_BLACK}
+                  inputTextClassName={`${typographyStyles.desktopBody} ${typographyStyles.textWhite}`}
+                  verticalPaddingClassName={commonStyles.noVerticalPadding}
+                />
+              </Forms.Field>
 
-            <Forms.Field
-              title='Log Level'
-              helper='Select a service as entrypoint of your Application'
-              titleClassName={`${typographyStyles.desktopBodySemibold} ${typographyStyles.textWhite} `}
-              helperClassName={`${typographyStyles.desktopBodySmall} ${typographyStyles.textWhite} ${typographyStyles.opacity70}`}
-              required
-            >
-              <div className={commonStyles.smallFlexRow}>
-                {logLevels.map(logLevel => (
-                  <Button
-                    key={logLevel}
-                    type='button'
-                    label={logLevel.charAt(0).toUpperCase() + logLevel.slice(1)}
-                    onClick={() => setForm(form => ({ ...form, logLevel }))}
-                    color={WHITE}
-                    backgroundColor={TRANSPARENT}
-                    selected={logLevel === form.logLevel}
-                    paddingClass={commonStyles.buttonPadding}
-                  />
-                ))}
-              </div>
-            </Forms.Field>
+              <Forms.Field
+                title='Log Level'
+                helper='Select a service as entrypoint of your Application'
+                titleClassName={`${typographyStyles.desktopBodySemibold} ${typographyStyles.textWhite} `}
+                helperClassName={`${typographyStyles.desktopBodySmall} ${typographyStyles.textWhite} ${typographyStyles.opacity70}`}
+                required
+              >
+                <div className={commonStyles.smallFlexRow}>
+                  {logLevels.map(logLevel => (
+                    <Button
+                      key={logLevel}
+                      type='button'
+                      label={logLevel.charAt(0).toUpperCase() + logLevel.slice(1)}
+                      onClick={() => setForm(form => ({ ...form, logLevel }))}
+                      color={WHITE}
+                      backgroundColor={TRANSPARENT}
+                      selected={logLevel === form.logLevel}
+                      paddingClass={commonStyles.buttonPadding}
+                    />
+                  ))}
+                </div>
+              </Forms.Field>
 
-            <Forms.Field
-              title='Language'
-              helper='Select a language for your Application'
-              titleClassName={`${typographyStyles.desktopBodySemibold} ${typographyStyles.textWhite} `}
-              helperClassName={`${typographyStyles.desktopBodySmall} ${typographyStyles.textWhite} ${typographyStyles.opacity70}`}
-              required
-            >
-              <div className={commonStyles.smallFlexRow}>
-                {[TYPESCRIPT, JAVASCRIPT].map(language => (
-                  <Button
-                    key={language}
-                    type='button'
-                    label={language.charAt(0).toUpperCase() + language.slice(1)}
-                    onClick={() => setForm(form => ({ ...form, language }))}
-                    color={WHITE}
-                    backgroundColor={TRANSPARENT}
-                    selected={language === form.language}
-                    paddingClass={commonStyles.buttonPadding}
-                  />
-                ))}
-              </div>
-            </Forms.Field>
+              <Forms.Field
+                title='Language'
+                helper='Select a language for your Application'
+                titleClassName={`${typographyStyles.desktopBodySemibold} ${typographyStyles.textWhite} `}
+                helperClassName={`${typographyStyles.desktopBodySmall} ${typographyStyles.textWhite} ${typographyStyles.opacity70}`}
+                required
+              >
+                <div className={commonStyles.smallFlexRow}>
+                  {[TYPESCRIPT, JAVASCRIPT].map(language => (
+                    <Button
+                      key={language}
+                      type='button'
+                      label={language.charAt(0).toUpperCase() + language.slice(1)}
+                      onClick={() => setForm(form => ({ ...form, language }))}
+                      color={WHITE}
+                      backgroundColor={TRANSPARENT}
+                      selected={language === form.language}
+                      paddingClass={commonStyles.buttonPadding}
+                    />
+                  ))}
+                </div>
+              </Forms.Field>
 
-            <Forms.Field
-              title='Create Git Repository'
-              helper='Create a Git Repository for you Application'
-              titleClassName={`${typographyStyles.desktopBodySemibold} ${typographyStyles.textWhite} `}
-              helperClassName={`${typographyStyles.desktopBodySmall} ${typographyStyles.textWhite} ${typographyStyles.opacity70}`}
-            >
-              <Forms.ToggleSwitch
-                label='Toggle on will create a GitHub repository'
-                labelClassName={`${typographyStyles.desktopBodySmall} ${typographyStyles.textWhite} ${typographyStyles.opacity70}`}
-                name='createGitHubRepository'
-                onChange={handleChange}
-                checked={form.createGitHubRepository}
-              />
-            </Forms.Field>
+              <Forms.Field
+                title='Create Git Repository'
+                helper='Create a Git Repository for you Application'
+                titleClassName={`${typographyStyles.desktopBodySemibold} ${typographyStyles.textWhite} `}
+                helperClassName={`${typographyStyles.desktopBodySmall} ${typographyStyles.textWhite} ${typographyStyles.opacity70}`}
+              >
+                <Forms.ToggleSwitch
+                  label='Toggle on will create a GitHub repository'
+                  labelClassName={`${typographyStyles.desktopBodySmall} ${typographyStyles.textWhite} ${typographyStyles.opacity70}`}
+                  name='createGitHubRepository'
+                  onChange={handleChange}
+                  checked={form.createGitHubRepository}
+                />
+              </Forms.Field>
+            </div>
 
             {/* <BorderedBox color={WHITE} borderColorOpacity={30} backgroundColor={TRANSPARENT} classes={`${commonStyles.largeFlexRow}`}>
 

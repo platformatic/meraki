@@ -5,5 +5,5 @@
   @apply flex justify-between;
 }
 .customFlexBlock {
-  @apply flex flex-col gap-8 w-full lg:max-w-[50%] flex-wrap max-h-[calc(100vH-22rem)] min-h-[calc(100vH-22rem)] lg:max-h-[calc(100vH-25rem)] lg:min-h-[calc(100vH-25rem)];
+  @apply flex flex-col gap-8 w-full flex-wrap max-h-[calc(100vH-22rem)] min-h-[calc(100vH-22rem)] lg:max-h-[calc(100vH-25rem)] lg:min-h-[calc(100vH-25rem)];
 }
