@@ -5,16 +5,13 @@ body {
 }
 
 #root {
-  @apply mx-auto p-5 xl:px-[7.5rem] xl:py-10 font-inter overflow-x-hidden;
+  @apply mx-auto p-5 xl:px-[7.5rem] xl:py-[3vH] font-inter overflow-x-hidden;
   height: 100%;
   min-height: calc(100Vh - 5rem);
   --compose-application-width: calc(calc(100vw - 2.25rem) / 6);
-  --compose-application-height: 69vH;
-  @media screen(lg) {
-    --compose-application-height: 65vH;
-  }
+  --compose-application-height: 57vH;
+  
   @media screen(xl) {
-    --compose-application-height: 57vH;
     --compose-application-width: calc(calc(100vw - 15rem) / 6);
   }
 }
