@@ -45,6 +45,7 @@ jobs:
     secrets: inherit
 
   release:
+    needs: create-draft
     name: Release 
     runs-on: ubuntu-latest
     steps:  
