@@ -147,7 +147,7 @@ const CreateApplication = React.forwardRef(({ onNext }, ref) => {
   return (
     <>
       <form className={styles.container} onSubmit={handleSubmit} ref={ref}>
-        <div className={`${commonStyles.extraLargeFlexBlock} ${commonStyles.halfWidth}`}>
+        <div className={`${commonStyles.largeFlexBlock} ${commonStyles.halfWidth}`}>
           <div className={commonStyles.mediumFlexBlock}>
             <Title
               title='Create Application'
@@ -158,10 +158,10 @@ const CreateApplication = React.forwardRef(({ onNext }, ref) => {
             <p className={`${typographyStyles.desktopBodyLarge} ${typographyStyles.textWhite} ${typographyStyles.opacity70}`}>Start by entering the name of your Application and the name of your service.</p>
           </div>
           {useTemplateId &&
-            <div className={`${commonStyles.mediumFlexBlock} ${commonStyles.fullWidth} ${styles.useTemplateIdContainer}`}>
+            <div className={`${commonStyles.mediumFlexBlock} ${commonStyles.fullWidth} ${styles.useTemplateIdContainer} ${commonStyles.justifyEnd}`}>
               {renderTemplateIdDefault()}
             </div>}
-          <div className={`${commonStyles.largeFlexBlock} ${commonStyles.fullWidth}`}>
+          <div className={`${commonStyles.largeFlexBlock} ${commonStyles.fullWidth} ${useTemplateId ? '' : styles.paddingTop}`}>
             <Forms.Field title='Application name' titleColor={WHITE} required>
               <Forms.Input
                 placeholder='Enter the name of your application'

@@ -28,9 +28,6 @@
 .largeFlexBlock {
   @apply flex flex-col items-start gap-y-3 xl:gap-y-[2vH];
 }
-.extraLargeFlexBlock {
-  @apply flex flex-col items-start gap-y-3 xl:gap-y-20;
-}
 .fullWidth {
   @apply w-full;
 }

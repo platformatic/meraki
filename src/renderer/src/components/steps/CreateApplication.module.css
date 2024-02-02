@@ -24,3 +24,6 @@
 .borderedBox {
   @apply grow-0;
 }
+.paddingTop {
+  @apply pt-20
+}
