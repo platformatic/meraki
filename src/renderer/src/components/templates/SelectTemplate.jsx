@@ -11,8 +11,9 @@ import Title from '~/components/ui/Title'
 import NoResults from '~/components/ui/NoResults'
 import useStackablesStore from '~/useStackablesStore'
 import { getApiTemplates, registerUserStatusListener } from '~/api'
-import { MAX_MUMBER_SELECT, NO_RESULTS_VIEW, LIST_TEMPLATES_VIEW } from '~/ui-constants'
+import { MAX_MUMBER_SELECT, MIN_MUMBER_SELECT, NO_RESULTS_VIEW, LIST_TEMPLATES_VIEW, MAX_HEIGHT_CHANGE_NUMBER_SELECT } from '~/ui-constants'
 import Forms from '@platformatic/ui-components/src/components/forms'
+import useWindowDimensions from '~/hooks/useWindowDimensions'
 
 function SelectTemplate ({ onClick, serviceName }) {
   const globalState = useStackablesStore()
@@ -30,8 +31,10 @@ function SelectTemplate ({ onClick, serviceName }) {
   const scrollRef = useRef(null)
   const [filterTemplatesByName, setFilterTemplatesByName] = useState('')
   const [filterTemplatesByOrgName, setFilterTemplatesByOrgName] = useState('')
-  const [maxStackableDispay] = useState(MAX_MUMBER_SELECT)
-
+  const [maxStackableDispay, setMaxStackableDispay] = useState(MAX_MUMBER_SELECT)
+  const { height: innerHeight } = useWindowDimensions()
+  const [templateContainerClassName, setTemplateContainerClassName] = useState(`${styles.templatesContainer} ${styles.templatesContainerMediumHeight}`)
+  const [viewContainerClassName, setViewContainerClassName] = useState(`${styles.containerView} ${styles.containerViewMediumHeight}`)
   const containerScrollRef = useRef(null)
 
   registerUserStatusListener((_, value) => setUserStatus(value))
@@ -47,6 +50,19 @@ function SelectTemplate ({ onClick, serviceName }) {
     }
     getTemplates()
   }, [])
+
+  useEffect(() => {
+    if (innerHeight >= MAX_HEIGHT_CHANGE_NUMBER_SELECT && maxStackableDispay === MIN_MUMBER_SELECT) {
+      setMaxStackableDispay(MAX_MUMBER_SELECT)
+      setTemplateContainerClassName(`${styles.templatesContainer} ${styles.templatesContainerMediumHeight}`)
+      setViewContainerClassName(`${styles.containerView} ${styles.containerViewMediumHeight}`)
+    }
+    if (innerHeight < MAX_HEIGHT_CHANGE_NUMBER_SELECT && maxStackableDispay === MAX_MUMBER_SELECT) {
+      setMaxStackableDispay(MIN_MUMBER_SELECT)
+      setTemplateContainerClassName(`${styles.templatesContainer} ${styles.templatesContainerSmallHeight}`)
+      setViewContainerClassName(`${styles.containerView} ${styles.containerViewSmallHeight}`)
+    }
+  }, [innerHeight])
 
   useEffect(() => {
     if (templates.length > 0 && serviceName && Object.keys(getService(serviceName)?.template).length > 0) {
@@ -184,27 +200,11 @@ function SelectTemplate ({ onClick, serviceName }) {
   function renderCurrentView () {
     if (currentView === LIST_TEMPLATES_VIEW) {
       return (
-        <>
-          <div className={styles.templatesContainer} ref={containerScrollRef}>
-            <div className={styles.templatesContent} ref={scrollRef}>
-              {renderListTemplates()}
-            </div>
+        <div className={templateContainerClassName} ref={containerScrollRef}>
+          <div className={styles.templatesContent} ref={scrollRef}>
+            {renderListTemplates()}
           </div>
-          <div className={`${commonStyles.mediumFlexRow} ${commonStyles.fullWidth} ${commonStyles.justifyCenter}`}>
-            {pages.map(page =>
-              <Button
-                key={page}
-                paddingClass={commonStyles.buttonPadding}
-                label={`${page}`}
-                onClick={() => scroll(page)}
-                color={WHITE}
-                selected={page === currentPage}
-                backgroundColor={TRANSPARENT}
-                bordered={false}
-              />
-            )}
-          </div>
-        </>
+        </div>
       )
     }
     return (
@@ -218,7 +218,7 @@ function SelectTemplate ({ onClick, serviceName }) {
 
   function renderLoginStatusMessage (color, message, showInstructions) {
     return (
-      <div className={`${commonStyles.smallFlexBlock}`}>
+      <div className={`${commonStyles.extraSmallFlexBlock}`}>
         <div className={`${commonStyles.smallFlexRow} ${commonStyles.fullWidth}`}>
           <div>
             <svg width='10' height='10'>
@@ -264,13 +264,12 @@ function SelectTemplate ({ onClick, serviceName }) {
             dataAttrValue='modal-title'
           />
           <p className={`${typographyStyles.desktopBodyLarge} ${typographyStyles.textWhite} ${typographyStyles.opacity70}`}>
-            Select a template from our Stackables Marketplace to be uses as a base for your new Service.If you don’t want to select any Template your new service will be built on top of Platformatic Service.
+            Select a template from our Stackables Marketplace to be uses as a base for your new Service. If you don’t want to select any Template your new service will be built on top of Platformatic Service.
           </p>
         </div>
         <div className={`${commonStyles.mediumFlexBlock24} ${commonStyles.fullWidth}`}>
           <div className={`${commonStyles.smallFlexBlock} ${commonStyles.fullWidth}`}>
             <p className={`${typographyStyles.desktopBodySmall} ${typographyStyles.textWhite} ${typographyStyles.opacity70}`}>
-
               {renderLoginStatus()}
             </p>
             <div className={`${commonStyles.smallFlexRow} ${commonStyles.fullWidth}`}>
@@ -296,7 +295,7 @@ function SelectTemplate ({ onClick, serviceName }) {
               />
             </div>
           </div>
-          <div className={`${commonStyles.mediumFlexBlock24} ${commonStyles.fullWidth} ${commonStyles.justifyCenter} ${styles.containerView}`}>
+          <div className={`${commonStyles.mediumFlexBlock24} ${commonStyles.fullWidth} ${commonStyles.justifyCenter} ${viewContainerClassName}`}>
             {innerLoading
               ? <LoadingSpinnerV2
                   loading={innerLoading}
@@ -316,18 +315,35 @@ function SelectTemplate ({ onClick, serviceName }) {
           </div>
         </div>
       </div>
-
-      <Button
-        disabled={!templateSelected}
-        paddingClass={`${commonStyles.buttonPadding} cy-action-use-template`}
-        label={`Use ${templateSelected?.name ?? '...'}`}
-        color={RICH_BLACK}
-        backgroundColor={WHITE}
-        hoverEffect={BOX_SHADOW}
-        fullWidth
-        bordered={false}
-        onClick={() => handleUsePlatformaticService()}
-      />
+      <div className={`${commonStyles.mediumFlexBlock} ${commonStyles.fullWidth}`}>
+        {currentView === LIST_TEMPLATES_VIEW && (
+          <div className={`${commonStyles.mediumFlexRow} ${commonStyles.fullWidth} ${commonStyles.justifyCenter}`}>
+            {pages.map(page =>
+              <Button
+                key={page}
+                paddingClass={commonStyles.buttonPadding}
+                label={`${page}`}
+                onClick={() => scroll(page)}
+                color={WHITE}
+                selected={page === currentPage}
+                backgroundColor={TRANSPARENT}
+                bordered={false}
+              />
+            )}
+          </div>
+        )}
+        <Button
+          disabled={!templateSelected}
+          paddingClass={`${commonStyles.buttonPadding} cy-action-use-template`}
+          label={`Use ${templateSelected?.name ?? '...'}`}
+          color={RICH_BLACK}
+          backgroundColor={WHITE}
+          hoverEffect={BOX_SHADOW}
+          fullWidth
+          bordered={false}
+          onClick={() => handleUsePlatformaticService()}
+        />
+      </div>
     </div>
   )
 }

@@ -1,17 +1,18 @@
 'use strict'
 import PropTypes from 'prop-types'
-import { MEDIUM, TERTIARY_BLUE, WHITE } from '@platformatic/ui-components/src/components/constants'
+import { MEDIUM, SMALL, TERTIARY_BLUE, WHITE } from '@platformatic/ui-components/src/components/constants'
 import Icons from '@platformatic/ui-components/src/components/icons'
 import typographyStyles from '~/styles/Typography.module.css'
 import commonStyles from '~/styles/CommonStyles.module.css'
+import modalStyles from '~/styles/ModalStyles.module.css'
 import styles from './Plugin.module.css'
-import { Button, ModalDirectional } from '@platformatic/ui-components'
+import { ModalDirectional } from '@platformatic/ui-components'
 import { useState } from 'react'
 import PluginDetail from './PluginDetail'
 
 function Plugin ({ name, onClickCardPlugin, isSelected, description, tags, author, homepage, downloads }) {
   const [showModalDetail, setShowModalDetail] = useState(false)
-  let className = `${commonStyles.smallFlexBlock} ${styles.container} `
+  let className = `${commonStyles.extraSmallFlexBlock} ${styles.container} `
   className += isSelected ? styles.selected : styles.unSelected
 
   function handleShowModal (event) {
@@ -27,7 +28,7 @@ function Plugin ({ name, onClickCardPlugin, isSelected, description, tags, autho
   return (
     <>
       <div className={className} onClick={() => onClickCardPlugin()} {...{ 'data-cy': 'template' }}>
-        <div className={`${commonStyles.mediumFlexBlock} ${commonStyles.fullWidth} ${styles.overflowHidden}`}>
+        <div className={`${commonStyles.smallFlexBlock} ${commonStyles.fullWidth} ${styles.overflowHidden}`}>
           <Icons.StackablesPluginIcon color={TERTIARY_BLUE} size={MEDIUM} />
           <p
             className={`${typographyStyles.desktopBodyLarge} ${typographyStyles.textWhite} ${styles.ellipsis}`}
@@ -36,15 +37,10 @@ function Plugin ({ name, onClickCardPlugin, isSelected, description, tags, autho
             {name}
           </p>
         </div>
-        <Button
-          type='button'
-          color={WHITE}
-          label='View Details'
-          platformaticIconAfter={{ iconName: 'ArrowLongRightIcon', color: WHITE }}
-          bordered={false}
-          paddingClass={commonStyles.buttonPadding}
-          onClick={(event) => handleShowModal(event)}
-        />
+        <div className={`${commonStyles.smallFlexRow} ${commonStyles.itemsCenter} ${styles.link}`} onClick={(event) => handleShowModal(event)}>
+          <span className={`${typographyStyles.desktopBodySmall} ${typographyStyles.textWhite} `}>View Details</span>
+          <Icons.ArrowLongRightIcon color={WHITE} size={SMALL} />
+        </div>
       </div>
       {showModalDetail && (
         <ModalDirectional
@@ -52,6 +48,7 @@ function Plugin ({ name, onClickCardPlugin, isSelected, description, tags, autho
           setIsOpen={() => setShowModalDetail(false)}
           title='Back to Plugin'
           titleClassName={`${typographyStyles.desktopBody} ${typographyStyles.textWhite} ${typographyStyles.opacity70}`}
+          classNameModalLefty={modalStyles.modalLefty}
         >
           <PluginDetail
             name={name}

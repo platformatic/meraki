@@ -1,0 +1,4 @@
+.modalLefty {
+  @apply p-5 xl:py-[7vH] xl:px-[7.5rem] h-[calc(100%-2.5rem)] xl:h-[86vH];
+}
+  

@@ -23,6 +23,7 @@ import NormalView from './NormalView'
 // import { CSSTransition, SwitchTransition } from 'react-transition-group'
 import GridView from './GridView'
 import { NORMAL_VIEW, GRID_VIEW } from '~/ui-constants'
+import modalStyles from '~/styles/ModalStyles.module.css'
 
 const ComposeApplication = React.forwardRef(({ onNext, onBack }, ref) => {
   const globalState = useStackablesStore()
@@ -226,6 +227,7 @@ const ComposeApplication = React.forwardRef(({ onNext, onBack }, ref) => {
           setIsOpen={() => handleCloseModalTemplate()}
           title='Back to Application view'
           titleClassName={`${typographyStyles.desktopBody} ${typographyStyles.textWhite} ${typographyStyles.opacity70} cy-modal-template`}
+          classNameModalLefty={modalStyles.modalLefty}
         >
           <SelectTemplate onClick={() => handleCloseModalTemplate()} serviceName={serviceSelected.name} />
         </ModalDirectional>
@@ -236,6 +238,7 @@ const ComposeApplication = React.forwardRef(({ onNext, onBack }, ref) => {
           setIsOpen={() => handleCloseModalPlugin()}
           title='Back to Application view'
           titleClassName={`${typographyStyles.desktopBody} ${typographyStyles.textWhite} ${typographyStyles.opacity70}`}
+          classNameModalLefty={modalStyles.modalLefty}
         >
           <SelectPlugin
             onClick={() => handleCloseModalPlugin()}

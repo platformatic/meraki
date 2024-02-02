@@ -107,7 +107,7 @@ if (!gotTheLock) {
 function createWindow () {
   mainWindow = new BrowserWindow({
     minWidth: 1024,
-    minHeight: 786,
+    minHeight: 750,
     show: false,
     title: `Platformatic Meraki v${version}`,
     autoHideMenuBar: false,

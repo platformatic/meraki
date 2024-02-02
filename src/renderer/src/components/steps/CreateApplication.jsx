@@ -147,7 +147,7 @@ const CreateApplication = React.forwardRef(({ onNext }, ref) => {
   return (
     <>
       <form className={styles.container} onSubmit={handleSubmit} ref={ref}>
-        <div className={`${commonStyles.largeFlexBlock} ${commonStyles.halfWidth}`}>
+        <div className={`${commonStyles.extraLargeFlexBlock} ${commonStyles.halfWidth}`}>
           <div className={commonStyles.mediumFlexBlock}>
             <Title
               title='Create Application'
@@ -197,7 +197,9 @@ const CreateApplication = React.forwardRef(({ onNext }, ref) => {
             </Forms.Field>
           </div>
         </div>
-        <div className={styles.imageContainer} />
+        <div className={`${commonStyles.largeFlexBlock} ${commonStyles.halfWidth} ${styles.imageContainer}`}>
+          <div className={styles.imageContent} />
+        </div>
       </form>
       <div className={`${styles.buttonContainer} ${commonStyles.fullWidth}`}>
         <Button
