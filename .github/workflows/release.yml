@@ -79,10 +79,4 @@ jobs:
         id: ${{ steps.last_release.outputs.id }}
         name: "Platformatic Meraki ${{ steps.last_release.outputs.TAG }}"
 
-    - name: Create Release Notes
-      uses: docker://decathlon/release-notes-generator-action:2.0.1
-      env:
-        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-        OUTPUT_FOLDER: temp_release_notes
-        USE_MILESTONE_TITLE: "true"
 
