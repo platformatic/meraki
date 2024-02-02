@@ -51,10 +51,12 @@ $ npm run build:linux
 
 ### Release
 
-Launch the `release` action manually, selecting the release type (`patch`, `minor`, `major`). 
+Launch the `release` or `release-version-dump` action manually.
+In the `release-version-dump` case you need to select the release type (`patch`, `minor`, `major`). The version dump is done before the release. 
 
 <img src="./docs/release-action.png" width="400" alt="Release Action" />
 
+When done, you can generate/adjust the release notes in the release page.
 
 
 
