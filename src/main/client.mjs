@@ -2,7 +2,7 @@ import { request } from 'undici'
 import errors from './errors.mjs'
 import { join } from 'path'
 import { readFile } from 'node:fs/promises'
-import { app } from 'electron'
+import { app, dialog } from 'electron'
 import {
   setUserLoggedIn,
   setUserNoAPIKey,
@@ -42,56 +42,67 @@ const getCurrentApiKey = async () => {
 
 // User API key is optional. If passed we used it to retrieve also the private stackables
 async function getStackablesAPI (deployServiceHost, userApiKey = null) {
-  const url = deployServiceHost + '/stackables'
+  try {
+    const url = deployServiceHost + '/stackables'
 
-  const headers = {
-    'content-type': 'application/json'
-  }
+    const headers = {
+      'content-type': 'application/json'
+    }
 
-  if (userApiKey) {
-    headers['x-platformatic-user-api-key'] = userApiKey
-  }
+    if (userApiKey) {
+      headers['x-platformatic-user-api-key'] = userApiKey
+    }
 
-  const { statusCode, body } = await request(url, {
-    method: 'GET',
-    headers
-  })
+    const { statusCode, body } = await request(url, {
+      method: 'GET',
+      headers
+    })
 
-  if (statusCode === 401) {
+    if (statusCode === 401) {
     // the user presente an invalid api key
-    setUserInvalidAPIKey()
-    // If the user is not authorized, we return only the public stackables
-    return getStackablesAPI(deployServiceHost)
-  } else if (userApiKey) {
+      setUserInvalidAPIKey()
+      // If the user is not authorized, we return only the public stackables
+      return getStackablesAPI(deployServiceHost)
+    } else if (userApiKey) {
     // The API key is valid
-    setUserLoggedIn()
-  }
+      setUserLoggedIn()
+    }
 
-  if (statusCode !== 200) {
-    const error = await body.json()
-    console.log('Cannot get stackables', error)
-    throw new errors.CannotGetStackablesError(error.message)
+    if (statusCode !== 200) {
+      const error = await body.json()
+      throw new errors.CannotGetStackablesError(error.message)
+    }
+    const stackables = await body.json()
+    return stackables
+  } catch (error) {
+    console.log('Error in getting stackables', error)
+    await dialog.showErrorBox('Error', `Cannot get stackables: ${error}, please check network connection`)
+    return [] // We return so the UI stops waiting.
   }
-  const stackables = await body.json()
-  return stackables
 }
 
 async function getPluginsAPI (deployServiceHost) {
-  const url = deployServiceHost + '/plugins'
+  try {
+    const url = deployServiceHost + '/plugins'
 
-  const { statusCode, body } = await request(url, {
-    method: 'GET',
-    headers: {
-      'content-type': 'application/json'
+    const { statusCode, body } = await request(url, {
+      method: 'GET',
+      headers: {
+        'content-type': 'application/json'
+      }
+    })
+
+    if (statusCode !== 200) {
+      throw new errors.CannotGetStackablesError()
     }
-  })
 
-  if (statusCode !== 200) {
-    throw new errors.CannotGetStackablesError()
+    const plugins = await body.json()
+    return plugins
+  } catch (error) {
+    console.log('Error in getting plugins', error)
+    await dialog.showErrorBox('Error', `Cannot get plugins: ${error}, please check network connection`)
+    return [] // We return so the UI stops waiting.
   }
-
-  const plugins = await body.json()
-  return plugins
 }
 
 export const getTemplates = async () => {
