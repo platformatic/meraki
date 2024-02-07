@@ -17,6 +17,7 @@ export const getLabelDownloads = (downloads) => {
 
 export const getLabelReleasedAt = (releasedAt) => {
   if (releasedAt === '-') return '-'
+  if (!(typeof releasedAt === 'string' || typeof releasedAt === 'number')) return '-'
 
   const time = parseInt(releasedAt)
   if (isNaN(time)) return '-'
