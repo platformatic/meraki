@@ -9,7 +9,7 @@ import {
   setUserInvalidAPIKey
 } from './user-status.mjs'
 
-const deployServiceHost = import.meta.env.MAIN_VITE_DEPLOY_SERVICE_HOST || 'https://deploy.platformatic.cloud'
+const marketplaceHost = import.meta.env.MAIN_VITE_MARKETPLACE_HOST || 'https://marketplace.platformatic.dev'
 
 const getCurrentApiKey = async () => {
   let platformaticHome
@@ -41,9 +41,9 @@ const getCurrentApiKey = async () => {
 }
 
 // User API key is optional. If passed we used it to retrieve also the private stackables
-async function getStackablesAPI (deployServiceHost, userApiKey = null) {
+async function getStackablesAPI (marketplaceHost, userApiKey = null) {
   try {
-    const url = deployServiceHost + '/stackables'
+    const url = marketplaceHost + '/templates'
 
     const headers = {
       'content-type': 'application/json'
@@ -62,7 +62,7 @@ async function getStackablesAPI (deployServiceHost, userApiKey = null) {
     // the user presente an invalid api key
       setUserInvalidAPIKey()
       // If the user is not authorized, we return only the public stackables
-      return getStackablesAPI(deployServiceHost)
+      return getStackablesAPI(marketplaceHost)
     } else if (userApiKey) {
     // The API key is valid
       setUserLoggedIn()
@@ -81,9 +81,9 @@ async function getStackablesAPI (deployServiceHost, userApiKey = null) {
   }
 }
 
-async function getPluginsAPI (deployServiceHost) {
+async function getPluginsAPI (marketplaceHost) {
   try {
-    const url = deployServiceHost + '/plugins'
+    const url = marketplaceHost + '/plugins'
 
     const { statusCode, body } = await request(url, {
       method: 'GET',
@@ -110,11 +110,11 @@ export const getTemplates = async () => {
   if (!apiKey) {
     setUserNoAPIKey()
   }
-  const stackables = await getStackablesAPI(deployServiceHost, apiKey)
+  const stackables = await getStackablesAPI(marketplaceHost, apiKey)
   return stackables
 }
 
 export const getPlugins = async () => {
-  const plugins = await getPluginsAPI(deployServiceHost)
+  const plugins = await getPluginsAPI(marketplaceHost)
   return plugins
 }
