@@ -1,5 +1,5 @@
 import { test, expect } from 'vitest'
-import { startDeployService, setUpEnvironment } from './helper.mjs'
+import { startMarketplace, setUpEnvironment } from './helper.mjs'
 import { mkdtemp, writeFile } from 'node:fs/promises'
 import { tmpdir } from 'node:os'
 import { join } from 'node:path'
@@ -8,7 +8,7 @@ import { mkdirp } from 'mkdirp'
 setUpEnvironment()
 const { getTemplates, getPlugins } = await import('../../src/main/client.mjs')
 
-test('should invoke deploy service for stackables, no user key', async () => {
+test('should invoke marketplace for stackables, no user key', async () => {
   const platformaticDir = await mkdtemp(join(tmpdir(), 'plat-app-test-home'))
   process.env.HOME = platformaticDir
   await mkdirp(join(platformaticDir, '.platformatic'))
@@ -26,18 +26,18 @@ test('should invoke deploy service for stackables, no user key', async () => {
       public: true
     }
   ]
-  const deployServiceHost = await startDeployService({
+  const marketplaceHost = await startMarketplace({
     getStackablesCallback: (request, reply) => {
       const headers = request.headers
       expect(headers['x-platformatic-user-api-key']).toBeUndefined()
       reply.code(200).send(stacks)
     }
   })
-  const stackables = await getTemplates(deployServiceHost)
+  const stackables = await getTemplates(marketplaceHost)
   expect(stackables).toEqual(stacks)
 })
 
-test('should invoke deploy service for stackables, passing user key', async () => {
+test('should invoke marketplace for stackables, passing user key', async () => {
   const platformaticDir = await mkdtemp(join(tmpdir(), 'plat-app-test-home'))
   process.env.HOME = platformaticDir
   await mkdirp(join(platformaticDir, '.platformatic'))
@@ -63,18 +63,18 @@ test('should invoke deploy service for stackables, passing user key', async () =
       public: true
     }
   ]
-  const deployServiceHost = await startDeployService({
+  const marketplaceHost = await startMarketplace({
     getStackablesCallback: (request, reply) => {
       const headers = request.headers
       expect(headers['x-platformatic-user-api-key']).toEqual(userApiKey)
       reply.code(200).send(stacks)
     }
   })
-  const stackables = await getTemplates(deployServiceHost)
+  const stackables = await getTemplates(marketplaceHost)
   expect(stackables).toEqual(stacks)
 })
 
-test('should invoke deploy service for stackables, passing user key but not authorized', async () => {
+test('should invoke marketplace for stackables, passing user key but not authorized', async () => {
   const platformaticDir = await mkdtemp(join(tmpdir(), 'plat-app-test-home'))
   process.env.HOME = platformaticDir
   await mkdirp(join(platformaticDir, '.platformatic'))
@@ -100,7 +100,7 @@ test('should invoke deploy service for stackables, passing user key but not auth
       public: true
     }
   ]
-  const deployServiceHost = await startDeployService({
+  const marketplaceHost = await startMarketplace({
     getStackablesCallback: (request, reply) => {
       const headers = request.headers
       if (headers['x-platformatic-user-api-key']) {
@@ -112,11 +112,11 @@ test('should invoke deploy service for stackables, passing user key but not auth
       }
     }
   })
-  const stackables = await getTemplates(deployServiceHost)
+  const stackables = await getTemplates(marketplaceHost)
   expect(stackables).toEqual(stacks)
 })
 
-test('should invoke deploy service for stackables', async () => {
+test('should invoke marketplace for stackables', async () => {
   const envVars1 = [{
     name: 'TEST',
     path: '/test',
@@ -139,12 +139,12 @@ test('should invoke deploy service for stackables', async () => {
       envVars: []
     }
   ]
-  const deployServiceHost = await startDeployService({
+  const marketplaceHost = await startMarketplace({
     getPluginsCallback: (request, reply) => {
       reply.code(200).send(plugs)
     }
   })
-  const plugins = await getPlugins(deployServiceHost)
+  const plugins = await getPlugins(marketplaceHost)
   // console.log(plugins)
   expect(plugins).toEqual(plugs)
 })
