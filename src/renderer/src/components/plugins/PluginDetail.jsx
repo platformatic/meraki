@@ -6,9 +6,9 @@ import styles from './PluginDetail.module.css'
 import Title from '~/components/ui/Title'
 import { Button, HorizontalSeparator, Icons, Tag, VerticalSeparator } from '@platformatic/ui-components'
 import { BOX_SHADOW, MARGIN_0, OPACITY_30, RICH_BLACK, SMALL, TERTIARY_BLUE, WHITE } from '@platformatic/ui-components/src/components/constants'
-import { getLabelDownloads } from '~/utilityDetails'
+import { getLabelDownloads, getLabelReleasedAt } from '~/utilityDetails'
 
-function PluginDetail ({ name, description, tags, author, homepage, downloads, onClickSelectPlugin }) {
+function PluginDetail ({ name, description, tags, author, homepage, downloads, releasedAt, onClickSelectPlugin }) {
   return (
     <div className={styles.container}>
       <div className={`${commonStyles.largeFlexBlock} ${commonStyles.fullWidth}`}>
@@ -24,6 +24,13 @@ function PluginDetail ({ name, description, tags, author, homepage, downloads, o
             <div className={`${commonStyles.smallFlexRow} ${commonStyles.itemsCenter}`}>
               <Icons.ComputerIcon color={WHITE} size={SMALL} />
               <span className={`${typographyStyles.desktopBodyLarge} ${typographyStyles.textWhite} ${typographyStyles.opacity70}`}>{getLabelDownloads(downloads)}</span>
+            </div>
+
+            <VerticalSeparator color={WHITE} backgroundColorOpacity={OPACITY_30} />
+
+            <div className={`${commonStyles.smallFlexRow} ${commonStyles.itemsCenter}`}>
+              <Icons.CalendarIcon color={WHITE} size={SMALL} />
+              <span className={`${typographyStyles.desktopBodyLarge} ${typographyStyles.textWhite} ${typographyStyles.opacity70}`}>{getLabelReleasedAt(releasedAt)}</span>
             </div>
 
             <VerticalSeparator color={WHITE} backgroundColorOpacity={OPACITY_30} />
@@ -115,6 +122,10 @@ PluginDetail.propTypes = {
     PropTypes.number
   ]),
   /**
+   * releasedAt
+    */
+  releasedAt: PropTypes.string,
+  /**
    * onClickSelectPlugin
     */
   onClickSelectPlugin: PropTypes.func
@@ -126,6 +137,7 @@ PluginDetail.defaultProps = {
   author: '',
   homepage: '',
   downloads: 0,
+  releasedAt: '-',
   onClickSelectPlugin: () => {}
 }
 

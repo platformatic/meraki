@@ -6,8 +6,8 @@ import styles from './TemplateDetail.module.css'
 import Title from '~/components/ui/Title'
 import { Button, HorizontalSeparator, Icons, Tag, VerticalSeparator } from '@platformatic/ui-components'
 import { BOX_SHADOW, MARGIN_0, OPACITY_30, RICH_BLACK, SMALL, TERTIARY_BLUE, WHITE } from '@platformatic/ui-components/src/components/constants'
-import { getLabelDownloads } from '~/utilityDetails'
-function TemplateDetail ({ name, description, tags, author, homepage, downloads, onClickSelectTemplate }) {
+import { getLabelDownloads, getLabelReleasedAt } from '~/utilityDetails'
+function TemplateDetail ({ name, description, tags, author, homepage, downloads, releasedAt, onClickSelectTemplate }) {
   return (
     <div className={styles.container}>
       <div className={`${commonStyles.largeFlexBlock} ${commonStyles.fullWidth}`}>
@@ -23,6 +23,13 @@ function TemplateDetail ({ name, description, tags, author, homepage, downloads,
             <div className={`${commonStyles.smallFlexRow} ${commonStyles.itemsCenter}`}>
               <Icons.ComputerIcon color={WHITE} size={SMALL} />
               <span className={`${typographyStyles.desktopBodyLarge} ${typographyStyles.textWhite} ${typographyStyles.opacity70}`}>{getLabelDownloads(downloads)}</span>
+            </div>
+
+            <VerticalSeparator color={WHITE} backgroundColorOpacity={OPACITY_30} />
+
+            <div className={`${commonStyles.smallFlexRow} ${commonStyles.itemsCenter}`}>
+              <Icons.CalendarIcon color={WHITE} size={SMALL} />
+              <span className={`${typographyStyles.desktopBodyLarge} ${typographyStyles.textWhite} ${typographyStyles.opacity70}`}>{getLabelReleasedAt(releasedAt)}</span>
             </div>
 
             <VerticalSeparator color={WHITE} backgroundColorOpacity={OPACITY_30} />
@@ -109,6 +116,10 @@ TemplateDetail.propTypes = {
     PropTypes.number
   ]),
   /**
+   * releasedAt
+    */
+  releasedAt: PropTypes.string,
+  /**
    * onClickSelectTemplate
     */
   onClickSelectTemplate: PropTypes.func,
@@ -124,6 +135,7 @@ TemplateDetail.defaultProps = {
   author: '',
   downloads: 0,
   homepage: '',
+  releasedAt: '-',
   onClickSelectTemplate: () => {}
 }
 

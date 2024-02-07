@@ -10,7 +10,7 @@ import { ModalDirectional } from '@platformatic/ui-components'
 import { useState } from 'react'
 import PluginDetail from './PluginDetail'
 
-function Plugin ({ name, onClickCardPlugin, isSelected, description, tags, author, homepage, downloads }) {
+function Plugin ({ name, onClickCardPlugin, isSelected, description, tags, author, homepage, downloads, releasedAt }) {
   const [showModalDetail, setShowModalDetail] = useState(false)
   let className = `${commonStyles.extraSmallFlexBlock} ${styles.container} `
   className += isSelected ? styles.selected : styles.unSelected
@@ -57,6 +57,7 @@ function Plugin ({ name, onClickCardPlugin, isSelected, description, tags, autho
             author={author}
             homepage={homepage}
             downloads={downloads}
+            releasedAt={releasedAt}
             onClickSelectPlugin={() => handleClickSelectPluginDetail()}
           />
         </ModalDirectional>
@@ -96,7 +97,11 @@ Plugin.propTypes = {
   downloads: PropTypes.oneOfType([
     PropTypes.string,
     PropTypes.number
-  ])
+  ]),
+  /**
+   * releasedAt
+    */
+  releasedAt: PropTypes.string
 }
 
 Plugin.defaultProps = {
@@ -106,7 +111,8 @@ Plugin.defaultProps = {
   tags: [],
   author: '',
   downloads: 0,
-  homepage: ''
+  homepage: '',
+  releasedAt: '-'
 }
 
 export default Plugin

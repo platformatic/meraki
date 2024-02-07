@@ -1,7 +1,7 @@
 import { test, expect } from 'vitest'
-import { getLabelDownloads } from '../../src/renderer/src/utilityDetails'
+import { getLabelDownloads, getLabelReleasedAt } from '../../src/renderer/src/utilityDetails'
 
-test('return service on form without plugin', async () => {
+test('return label donwloads', async () => {
   expect('0').toEqual(getLabelDownloads('0'))
   expect('0').toEqual(getLabelDownloads(0))
   expect('0').toEqual(getLabelDownloads(0))
@@ -17,4 +17,40 @@ test('return service on form without plugin', async () => {
   for (let i = 0; i < params.length; i++) {
     expect(expected[i]).toEqual(getLabelDownloads(params[i]))
   }
+})
+
+test('return label released At', async () => {
+  expect('54 years ago').toEqual(getLabelReleasedAt('0'))
+  expect('54 years ago').toEqual(getLabelReleasedAt(0))
+  expect('54 years ago').toEqual(getLabelReleasedAt(0))
+  expect('-').toEqual(getLabelReleasedAt('-'))
+  expect('-').toEqual(getLabelReleasedAt(null))
+  expect('-').toEqual(getLabelReleasedAt(undefined))
+  expect('-').toEqual(getLabelReleasedAt('aaa'))
+  expect('-').toEqual(getLabelReleasedAt({}))
+  expect('-').toEqual(getLabelReleasedAt({ asas: 1 }))
+  expect('-').toEqual(getLabelReleasedAt([1, 2, 3]))
+  // yesterday
+  const date = new Date()
+  date.setDate(date.getDate() - 1)
+  expect('-').toEqual(getLabelReleasedAt(date))
+  expect('1 day ago').toEqual(getLabelReleasedAt(date.getTime()))
+
+  date.setDate(date.getDate() - 3)
+  expect('4 days ago').toEqual(getLabelReleasedAt(date.getTime()))
+
+  date.setDate(date.getDate() - 2)
+  expect('2 weeks ago').toEqual(getLabelReleasedAt(date.getTime()))
+
+  date.setDate(date.getDate() - 14)
+  expect('1 month ago').toEqual(getLabelReleasedAt(date.getTime()))
+
+  date.setDate(date.getDate() - 36)
+  expect('2 months ago').toEqual(getLabelReleasedAt(date.getTime()))
+
+  date.setDate(date.getDate() - 365)
+  expect('1 year ago').toEqual(getLabelReleasedAt(date.getTime()))
+
+  date.setDate(date.getDate() - 777)
+  expect('3 years ago').toEqual(getLabelReleasedAt(date.getTime()))
 })

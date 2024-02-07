@@ -19,6 +19,7 @@ function Template ({
   author,
   homepage,
   downloads,
+  releasedAt,
   onClickCardTemplate
 }) {
   const [showModalDetail, setShowModalDetail] = useState(false)
@@ -67,6 +68,7 @@ function Template ({
             author={author}
             downloads={downloads}
             homepage={homepage}
+            releasedAt={releasedAt}
             onClickSelectTemplate={() => handleClickSelectTemplateDetail()}
           />
         </ModalDirectional>
@@ -113,6 +115,10 @@ Template.propTypes = {
     PropTypes.number
   ]),
   /**
+   * releasedAt
+    */
+  releasedAt: PropTypes.string,
+  /**
    * homepage
     */
   homepage: PropTypes.string
@@ -127,6 +133,7 @@ Template.defaultProps = {
   author: '',
   downloads: 0,
   homepage: '',
+  releasedAt: '-',
   tags: []
 }
 
