@@ -1,5 +1,5 @@
 appId: dev.platformatic
-productName: meraki
+productName: Meraki
 directories:
   buildResources: build
 files:
