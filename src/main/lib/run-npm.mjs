@@ -30,7 +30,7 @@ async function findNpmInShellPath () {
   // and we need to make sure that those binaries are in the PATH
   const options = {
     env: {
-      PATH: '/bin:/usr/local/bin:/sbin:/usr/sbin:/opt/homebrew/bin'
+      PATH: '/usr/bin:/bin:/usr/local/bin:/sbin:/usr/sbin:/opt/homebrew/bin'
     }
   }
   let binPath = null
