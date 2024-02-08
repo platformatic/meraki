@@ -1,4 +1,3 @@
-import { request } from 'undici'
 import errors from './errors.mjs'
 import { join } from 'path'
 import { readFile } from 'node:fs/promises'
@@ -8,6 +7,8 @@ import {
   setUserNoAPIKey,
   setUserInvalidAPIKey
 } from './user-status.mjs'
+
+import buildMarketplaceClient from './marketplace-client/marketplace-client.mjs'
 
 const marketplaceHost = import.meta.env.MAIN_VITE_MARKETPLACE_HOST || 'https://marketplace.platformatic.dev'
 
@@ -41,39 +42,26 @@ const getCurrentApiKey = async () => {
 }
 
 // User API key is optional. If passed we used it to retrieve also the private stackables
-async function getStackablesAPI (marketplaceHost, userApiKey = null) {
+async function getStackablesAPI (marketplaceHost, apiKey) {
   try {
-    const url = marketplaceHost + '/templates'
-
-    const headers = {
-      'content-type': 'application/json'
-    }
-
-    if (userApiKey) {
-      headers['x-platformatic-user-api-key'] = userApiKey
-    }
-
-    const { statusCode, body } = await request(url, {
-      method: 'GET',
-      headers
+    const marketplaceClient = buildMarketplaceClient(marketplaceHost)
+    const { statusCode, body } = await marketplaceClient.getTemplates({
+      'x-platformatic-user-api-key': apiKey ?? undefined
     })
-
     if (statusCode === 401) {
     // the user presente an invalid api key
       setUserInvalidAPIKey()
       // If the user is not authorized, we return only the public stackables
       return getStackablesAPI(marketplaceHost)
-    } else if (userApiKey) {
+    } else if (apiKey) {
     // The API key is valid
       setUserLoggedIn()
     }
 
     if (statusCode !== 200) {
-      const error = await body.json()
-      throw new errors.CannotGetStackablesError(error.message)
+      throw new errors.CannotGetStackablesError(body.message)
     }
-    const stackables = await body.json()
-    return stackables
+    return body
   } catch (error) {
     console.log('Error in getting stackables', error)
     await dialog.showErrorBox('Error', `Cannot get stackables: ${error}, please check network connection`)
@@ -81,23 +69,18 @@ async function getStackablesAPI (marketplaceHost, userApiKey = null) {
   }
 }
 
-async function getPluginsAPI (marketplaceHost) {
+async function getPluginsAPI (marketplaceHost, search = '') {
   try {
-    const url = marketplaceHost + '/plugins'
-
-    const { statusCode, body } = await request(url, {
-      method: 'GET',
-      headers: {
-        'content-type': 'application/json'
-      }
+    const marketplaceClient = buildMarketplaceClient(marketplaceHost)
+    const { statusCode, body } = await marketplaceClient.getPlugins({
+      search
     })
 
     if (statusCode !== 200) {
       throw new errors.CannotGetStackablesError()
     }
 
-    const plugins = await body.json()
-    return plugins
+    return body
   } catch (error) {
     console.log('Error in getting plugins', error)
     await dialog.showErrorBox('Error', `Cannot get plugins: ${error}, please check network connection`)
