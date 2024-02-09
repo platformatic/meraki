@@ -4,6 +4,9 @@ import { createRequire } from 'module'
 import { npmInstall } from './run-npm.mjs'
 
 async function importOrLocal ({ projectDir, pkg, logger }) {
+  if (pkg) {
+    pkg = pkg.trim()
+  }
   try {
     logger.info(`Installing ${pkg} on ${projectDir}...`)
     await import(pkg)
