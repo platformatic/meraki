@@ -1,4 +1,4 @@
-import { stat } from 'node:fs/promises'
+import { stat, readdir } from 'node:fs/promises'
 import { join, resolve } from 'node:path'
 import { importOrLocal } from './lib/import-or-local.mjs'
 import errors from './errors.mjs'
@@ -144,6 +144,12 @@ export const createApp = async (dir, { projectName, services, entrypoint, port, 
   await generator.writeFiles()
 
   await npmInstall(null, { cwd: projectDir }, logger)
+
+  const serviceFolders = await readdir(join(projectDir, 'services'))
+  for (const serviceFolder of serviceFolders) {
+    const servicePath = join(projectDir, 'services', serviceFolder)
+    await npmInstall(null, { cwd: servicePath }, logger)
+  }
   await generator.postInstallActions()
 
   logger.info('App created!')
