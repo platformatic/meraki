@@ -48,7 +48,7 @@ async function getStackablesAPI (marketplaceHost, apiKey) {
     const { statusCode, body } = await marketplaceClient.getTemplates({
       'x-platformatic-user-api-key': apiKey ?? undefined
     })
-    if (statusCode === 401) {
+    if (statusCode === 401 || statusCode === 403) {
     // the user presente an invalid api key
       setUserInvalidAPIKey()
       // If the user is not authorized, we return only the public stackables
@@ -64,6 +64,7 @@ async function getStackablesAPI (marketplaceHost, apiKey) {
     return body
   } catch (error) {
     console.log('Error in getting stackables', error)
+    console.log('Error in getting stackables', JSON.stringify(error))
     await dialog.showErrorBox('Error', `Cannot get stackables: ${error}, please check network connection`)
     return [] // We return so the UI stops waiting.
   }
