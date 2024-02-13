@@ -5,7 +5,7 @@ body {
 }
 
 #root {
-  @apply mx-auto p-5 xl:px-[7.5rem] xl:py-[3vH] font-inter overflow-x-hidden;
+  @apply mx-auto p-5 xl:px-[7.5rem] xl:py-[3vH] font-inter overflow-x-hidden flex flex-col justify-between;
   height: 100%;
   min-height: calc(100Vh - 5rem);
   --compose-application-width: calc(calc(100vw - 2.25rem) / 6);
