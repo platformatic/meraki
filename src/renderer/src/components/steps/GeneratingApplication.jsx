@@ -12,7 +12,7 @@ import CountDown from '~/components/ui/CountDown'
 import { callCreateApp, logInfo, quitApp } from '~/api'
 import { NONE, RUNNING, SUCCESS, ERROR } from '~/ui-constants'
 
-const GeneratingApplication = React.forwardRef(({ onRestartProcess }, ref) => {
+const GeneratingApplication = React.forwardRef(({ onBack, onRestartProcess }, ref) => {
   const globalState = useStackablesStore()
   const { formData, reset } = globalState
   const [appGenerated, setAppGenerated] = useState(false)
@@ -111,6 +111,15 @@ const GeneratingApplication = React.forwardRef(({ onRestartProcess }, ref) => {
       </div>
       <div className={`${styles.buttonContainer} ${commonStyles.fullWidth}`}>
         <Button
+          type='button'
+          label='Back'
+          onClick={() => onBack()}
+          color={WHITE}
+          backgroundColor={TRANSPARENT}
+          paddingClass={`${commonStyles.buttonPadding} cy-action-back`}
+          disabled={!appGeneratedError}
+        />
+        <Button
           disabled={!appGenerated}
           label='Continue'
           onClick={() => setShowModalContinue(true)}
@@ -174,9 +183,9 @@ const GeneratingApplication = React.forwardRef(({ onRestartProcess }, ref) => {
 
 GeneratingApplication.propTypes = {
   /**
-   * onComplete
+   * onBack
    */
-  onComplete: PropTypes.func,
+  onBack: PropTypes.func,
   /**
    * onRestartProcess
    */
@@ -184,9 +193,8 @@ GeneratingApplication.propTypes = {
 }
 
 GeneratingApplication.defaultProps = {
-  onComplete: () => {},
+  onBack: () => {},
   onRestartProcess: () => {}
-
 }
 
 export default GeneratingApplication

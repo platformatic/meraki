@@ -59,6 +59,7 @@ function Wizard () {
     <GeneratingApplication
       ref={useRef(null)}
       key={STEP_GENERATING_APPLICATION}
+      onBack={() => previousStep(STEP_ADD_TEMPLATE_AND_PLUGINS)}
       onRestartProcess={() => nextStep(STEP_CREATE_APPLICATION)}
     />
   ])
