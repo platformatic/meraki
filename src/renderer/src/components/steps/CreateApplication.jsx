@@ -82,7 +82,7 @@ const CreateApplication = React.forwardRef(({ onNext }, ref) => {
   function validateField (fieldName, fieldValue, callback = () => {}) {
     let tmpValid = validations[`${fieldName}Valid`]
     const formErrors = { ...validations.formErrors }
-    tmpValid = fieldName === 'folder' ? fieldValue.length > 0 && /^\S+$/g.test(fieldValue) : fieldValue.length > 0 && /^[\w-]+$/g.test(fieldValue)
+    tmpValid = fieldName === 'folder' ? fieldValue.length > 0 && /^\S+$/g.test(fieldValue) : fieldValue.length > 0 && /^[\S]+$/g.test(fieldValue)
     formErrors[fieldName] = fieldValue.length > 0 ? (tmpValid ? '' : 'The field is not valid, make sure you are using regular characters') : ''
     const nextValidation = { ...validations, formErrors }
     nextValidation[`${fieldName}Valid`] = tmpValid
