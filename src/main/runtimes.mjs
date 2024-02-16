@@ -6,13 +6,11 @@ import EventEmitter from 'node:events'
 
 class RuntimeEmitter extends EventEmitter {
   #sockets
-  #enabled
   #interval
 
   constructor () {
     super()
     this.#sockets = []
-    this.#enabled = true
   }
 
   async #getCurrentRuntimes (folder) {
