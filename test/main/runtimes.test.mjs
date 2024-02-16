@@ -2,7 +2,7 @@ import { test, expect } from 'vitest'
 import { mkdtemp, writeFile } from 'node:fs/promises'
 import { tmpdir } from 'node:os'
 import { join } from 'node:path'
-import runtimes from '../../src/main/runtimes.mjs'
+import Runtimes from '../../src/main/runtimes.mjs'
 import { setTimeout } from 'timers/promises'
 
 test('should get the runtime unix socket', async () => {
@@ -10,9 +10,11 @@ test('should get the runtime unix socket', async () => {
   process.env.PLATFORMATIC_TMP_DIR = tempDir
   process.env.RUNTIME_POLL_INTERVAL = 500
 
-  runtimes.poll()
+  const runtimes = new Runtimes()
+  runtimes.start()
+
   {
-    const sockets = runtimes.getSockets()
+    const sockets = runtimes.sockets
     expect(sockets).toEqual([])
   }
 
@@ -22,7 +24,7 @@ test('should get the runtime unix socket', async () => {
     const sockFile = join(tempDir, 'test.sock')
     await writeFile(sockFile, '')
     await setTimeout(1000)
-    const sockets = runtimes.getSockets()
+    const sockets = runtimes.sockets
     expect(sockets).toEqual([sockFile])
   }
 
@@ -30,7 +32,7 @@ test('should get the runtime unix socket', async () => {
     // windows
     Object.defineProperty(process, 'platform', { value: 'win32' })
     await setTimeout(1000)
-    const sockets = runtimes.getSockets()
+    const sockets = runtimes.sockets
     expect(sockets).toEqual(['\\\\.\\pipe\\' + join(tempDir, 'test.sock')])
   }
 })
