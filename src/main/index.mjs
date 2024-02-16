@@ -7,8 +7,11 @@ import setupMenu from './menu.mjs'
 import { getTemplates, getPlugins } from './client.mjs'
 import { prepareFolder, createApp } from './generate.mjs'
 import log from 'electron-log'
+import runtimes from './runtimes.mjs'
 
-log.transports.file.level = 'info'
+log.transports.file.level = 'debug'
+log.transports.console.level = 'debug'
+
 const version = app.getVersion()
 const generate = require('boring-name-generator')
 
@@ -237,3 +240,6 @@ app.on('window-all-closed', () => {
   }
   mainWindow = null
 })
+
+// Start polling of runtimes
+runtimes.poll()
