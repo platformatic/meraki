@@ -1,9 +1,12 @@
 .container {
-  @apply border border-solid border-white/30 rounded-md px-4 py-2 2xl:py-4 w-auto h-fit;
+  @apply border border-solid border-white/30 rounded-md py-0.5 px-2 xl:px-4 xl:py-2 2xl:py-4 w-auto h-fit;
 }
 .box {
-  @apply px-4 py-2 w-fit
+  @apply px-0.5 py-0 xl:px-4 xl:py-2 w-fit
 }
 .boxGrow {
-  @apply px-4 py-2 w-fit grow
+  @apply px-0.5 py-0 xl:px-4 xl:py-2 w-fit grow
+}
+.buttonsContainer {
+  @apply flex flex-col gap-y-1 xl:flex-row gap-x-2 xl:justify-end;
 }

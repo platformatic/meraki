@@ -170,19 +170,7 @@ const ComposeApplication = React.forwardRef(({ onNext, onBack }, ref) => {
             <div className={`${commonStyles.flexBlockNoGap}`}>
               <div className={`${commonStyles.largeFlexBlock}`}>
                 <div className={currentComponentClassName}>
-                  {/* <SwitchTransition>
-                  <CSSTransition
-                    key={currentComponent.name}
-                    nodeRef={currentComponent.ref}
-                    addEndListener={(done) => {
-                      ref.current.addEventListener('transitionend', done, false)
-                    }}
-                    classNames='fade-vertical'
-                  >
-                 */}    {currentComponent}
-                  {/*   </CSSTransition>
-                </SwitchTransition>
- */}
+                  {currentComponent}
                   <div className={`${commonStyles.mediumFlexBlock} ${commonStyles.fullWidth} ${styles.containerPuzzle}`}>
                     <div className={commonStyles.mediumFlexRow}>
                       <h5 className={`${typographyStyles.desktopHeadline4} ${typographyStyles.textWhite}`}>&nbsp;</h5>

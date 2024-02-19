@@ -9,7 +9,7 @@ import styles from './Service.module.css'
 function Service ({ onClickAddPlugin, onClickTemplate, onClickViewAll, service }) {
   return (
     <div
-      className={`${commonStyles.smallFlexBlock} ${commonStyles.fullWidth} ${styles.containerPuzzle}`}
+      className={`${commonStyles.fullWidth} ${styles.containerPuzzle}`}
     >
       <PluginHandler onClickAddPlugin={() => { onClickAddPlugin(service) }} serviceName={service.name} />
       <TemplateHandler
