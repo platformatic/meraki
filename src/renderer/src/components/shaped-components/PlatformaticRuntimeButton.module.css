@@ -1,5 +1,5 @@
 .container {
-  @apply flex flex-col justify-center w-full border-0 relative top-[-0.25rem];
+  @apply flex flex-col justify-center w-full border-0 relative top-[-0.2rem];
   min-height: calc(var(--compose-application-height) * 0.2);
   max-height: calc(var(--compose-application-height) * 0.2);
 }

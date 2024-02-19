@@ -35,7 +35,7 @@ function GridElement ({
           <PlatformaticIcon iconName='ExpandIcon' color={WHITE} size={SMALL} onClick={() => onClickViewAll()} disabled={!(service?.template?.name)} />
         </div>
       </div>
-      <div className={`${commonStyles.smallFlexRow} ${commonStyles.justifyEnd}`}>
+      <div className={styles.buttonsContainer}>
         {service?.template?.name &&
         (
           <BorderedBox color={TERTIARY_BLUE} backgroundColor={TERTIARY_BLUE} backgroundColorOpacity={OPACITY_20} classes={styles.box} onClick={() => { onClickPluginHandler(service) }} clickable>

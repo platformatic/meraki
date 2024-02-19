@@ -6,6 +6,8 @@ import commonStyles from '~/styles/CommonStyles.module.css'
 import typographyStyles from '~/styles/Typography.module.css'
 import styles from './GridView.module.css'
 import GridElement from './GridElement'
+import useWindowDimensions from '~/hooks/useWindowDimensions'
+import { BREAKPOINTS_HEIGHT_LG } from '~/ui-constants'
 
 const GridView = React.forwardRef(({
   onClickEditNameService,
@@ -18,10 +20,11 @@ const GridView = React.forwardRef(({
   const { services } = globalState
   const [gridClassName, setGridClassName] = useState(styles.gridClassName)
   const [contentClassName, setContentClassName] = useState(styles.container)
-  const MAX_NUMBER = 5
+  const { height: innerHeight } = useWindowDimensions()
+  const [maxNumber, setMaxNumber] = useState(5)
 
   useEffect(() => {
-    if (services.length > MAX_NUMBER) {
+    if (services.length > maxNumber) {
       setGridClassName(`${styles.gridClassName} ${styles.halfWidth}`)
       setContentClassName(`${styles.container}`)
     } else {
@@ -30,10 +33,18 @@ const GridView = React.forwardRef(({
     }
   }, [services?.length])
 
+  useEffect(() => {
+    if (innerHeight > BREAKPOINTS_HEIGHT_LG) {
+      setMaxNumber(5)
+    } else {
+      setMaxNumber(4)
+    }
+  }, [innerHeight])
+
   function renderContent () {
     const groupedServices = []
-    for (let i = 0; i < services.length; i += MAX_NUMBER) {
-      groupedServices.push(services.slice(i, i + MAX_NUMBER))
+    for (let i = 0; i < services.length; i += maxNumber) {
+      groupedServices.push(services.slice(i, i + maxNumber))
     }
 
     return groupedServices.map((group, index) => (

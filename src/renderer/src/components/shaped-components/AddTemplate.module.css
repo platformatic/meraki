@@ -1,7 +1,7 @@
 .container {
   @apply flex flex-col justify-center w-full cursor-pointer border-0 relative;
-  max-height: calc(var(--compose-application-height) * 0.525);
-  min-height: calc(var(--compose-application-height) * 0.525)
+  max-height: calc(var(--compose-application-height) * 0.52);
+  min-height: calc(var(--compose-application-height) * 0.52)
 }
 .svg {
   @apply absolute top-0 left-0 w-full h-full z-[-1]
