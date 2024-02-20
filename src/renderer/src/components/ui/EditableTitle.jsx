@@ -1,116 +1,30 @@
 'use strict'
-import React, { useState } from 'react'
+import React from 'react'
 import PropTypes from 'prop-types'
-import typographyStyles from '~/styles/Typography.module.css'
 import commonStyles from '~/styles/CommonStyles.module.css'
-import { BOX_SHADOW, LARGE, MEDIUM, RICH_BLACK, TRANSPARENT, WHITE } from '@platformatic/ui-components/src/components/constants'
-import { Button, Icons, PlatformaticIcon } from '@platformatic/ui-components'
-import Forms from '@platformatic/ui-components/src/components/forms'
+import typographyStyles from '~/styles/Typography.module.css'
+import { LARGE, MEDIUM, WHITE } from '@platformatic/ui-components/src/components/constants'
+import { Icons, PlatformaticIcon } from '@platformatic/ui-components'
 import styles from './EditableTitle.module.css'
 
-function EditableTitle ({ title, iconName, onClickSubmit, dataAttrName, dataAttrValue }) {
-  const [editable, setEditable] = useState(false)
+function EditableTitle ({ title, iconName, onClickIcon, dataAttrName, dataAttrValue }) {
   const icon = React.createElement(Icons[`${iconName}`], {
     color: WHITE,
     size: LARGE
   })
-  const [form, setForm] = useState({ application: title })
-  const [validations, setValidations] = useState({ applicationValid: true, formErrors: { application: '' } })
-  const [validForm, setValidForm] = useState(true)
-  const h2ClassName = `${typographyStyles.desktopHeadline2} ${typographyStyles.textWhite}`
-  const [containerClassName, setContainerClassName] = useState(`${styles.container}`)
 
   const dataProps = {}
   if (dataAttrName && dataAttrValue) {
     dataProps[`data-${dataAttrName}`] = dataAttrValue
   }
 
-  function handleChange (event) {
-    const value = event.target.value
-    validateField(event.target.name, value, setForm(form => ({ ...form, [event.target.name]: value })))
-  }
-
-  function validateField (fieldName, fieldValue, callback = () => {}) {
-    let tmpValid = validations[`${fieldName}Valid`]
-    const formErrors = { ...validations.formErrors }
-    tmpValid = fieldValue.length > 0 && /^[\w-]+$/g.test(fieldValue)
-    formErrors[fieldName] = fieldValue.length > 0 ? (tmpValid ? '' : 'The field is not valid, make sure you are using regular characters') : ''
-    const nextValidation = { ...validations, formErrors }
-    nextValidation[`${fieldName}Valid`] = tmpValid
-    setValidations(nextValidation)
-    validateForm(nextValidation, callback())
-  }
-
-  function validateForm (validations, callback = () => {}) {
-    // eslint-disable-next-line no-unused-vars
-    const { _formErrors, ...restValidations } = validations
-    const valid = Object.keys(restValidations).findIndex(element => restValidations[element] === false) === -1
-    setValidForm(valid)
-    return callback
-  }
-
-  function handleEditable (value) {
-    setEditable(value)
-    setContainerClassName(value ? '' : `${styles.container}`)
-  }
-
-  function handleSubmit (event) {
-    event.preventDefault()
-    if (editable) {
-      onClickSubmit(form.application)
-      handleEditable(false)
-    }
-  }
-
   return (
-    <div className={containerClassName}>
-      <form onSubmit={handleSubmit} className={`${commonStyles.mediumFlexRow}`}>
+    <div className={styles.container}>
+      <div className={commonStyles.mediumFlexRow}>
         {icon}
-        {editable
-          ? (
-            <div className={`${commonStyles.mediumFlexRow} ${`${commonStyles.justifyBetween}`}`}>
-              <Forms.Input
-                placeholder='Enter the name of your application'
-                name='application'
-                borderColor={WHITE}
-                value={form.application}
-                onChange={handleChange}
-                errorMessage={validations.formErrors.application}
-                backgroundColor={RICH_BLACK}
-                inputTextClassName={h2ClassName}
-                verticalPaddingClassName={commonStyles.noVerticalPadding}
-              />
-              <div className={commonStyles.smallFlexRow}>
-                <Button
-                  disabled={!validForm}
-                  type='submit'
-                  paddingClass={commonStyles.buttonPadding}
-                  label='Save'
-                  onClick={() => handleSubmit}
-                  color={RICH_BLACK}
-                  bordered={false}
-                  backgroundColor={WHITE}
-                  hoverEffect={BOX_SHADOW}
-                />
-                <Button
-                  type='button'
-                  paddingClass={commonStyles.buttonPadding}
-                  label='Cancel'
-                  onClick={() => handleEditable(false)}
-                  color={WHITE}
-                  bordered
-                  backgroundColor={TRANSPARENT}
-                />
-              </div>
-            </div>
-            )
-          : (
-            <>
-              <h2 className={h2ClassName} {...dataProps}>{title}</h2>
-              <PlatformaticIcon iconName='EditIcon' color={WHITE} size={MEDIUM} onClick={() => handleEditable(true)} />
-            </>
-            )}
-      </form>
+        <h2 className={`${typographyStyles.desktopHeadline2} ${typographyStyles.textWhite}`} {...dataProps}>{title}</h2>
+        <PlatformaticIcon iconName='EditIcon' color={WHITE} size={MEDIUM} onClick={() => onClickIcon()} />
+      </div>
     </div>
   )
 }
@@ -125,9 +39,9 @@ EditableTitle.propTypes = {
      */
   iconName: PropTypes.string.isRequired,
   /**
-     * onClickSubmit
+     * onClickIcon
      */
-  onClickSubmit: PropTypes.func,
+  onClickIcon: PropTypes.func,
   /**
    * dataAttrName
   */
@@ -139,7 +53,7 @@ EditableTitle.propTypes = {
 }
 
 EditableTitle.defaultProps = {
-  onClickSubmit: () => {},
+  onClickIcon: () => {},
   dataAttrName: '',
   dataAttrValue: ''
 }
