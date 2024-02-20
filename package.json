@@ -51,7 +51,7 @@
     "@types/react": "^18.2.42",
     "@types/react-dom": "^18.2.17",
     "@vitejs/plugin-react": "^4.2.1",
-    "electron": "^28.0.0",
+    "electron": "^29.0.0",
     "electron-builder": "^24.9.1",
     "electron-vite": "^2.0.0",
     "fastify": "^4.24.3",
