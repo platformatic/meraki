@@ -7,8 +7,8 @@ import commonStyles from '~/styles/CommonStyles.module.css'
 import { Button, HorizontalSeparator } from '@platformatic/ui-components'
 import Forms from '@platformatic/ui-components/src/components/forms'
 
-function EditService ({ name, onClickCancel, onClickConfirm }) {
-  const [form, setForm] = useState({ service: name })
+function EditApplicationName ({ name, onClickCancel, onClickConfirm }) {
+  const [form, setForm] = useState({ application: name })
   const [validations, setValidations] = useState({ applicationValid: true, formErrors: { application: '' } })
   const [validForm, setValidForm] = useState(true)
 
@@ -38,19 +38,19 @@ function EditService ({ name, onClickCancel, onClickConfirm }) {
 
   function handleSubmit (event) {
     event.preventDefault()
-    onClickConfirm(form.service)
+    onClickConfirm(form.application)
   }
 
   return (
     <form onSubmit={handleSubmit}>
       <div className={`${commonStyles.mediumFlexBlock} ${commonStyles.fullWidth}`}>
         <Forms.Input
-          placeholder='Enter the name of your service'
-          name='service'
+          placeholder='Enter the name of your application'
+          name='application'
           borderColor={WHITE}
-          value={form.service}
+          value={form.application}
           onChange={handleChange}
-          errorMessage={validations.formErrors.service}
+          errorMessage={validations.formErrors.application}
           backgroundColor={RICH_BLACK}
           inputTextClassName={`${typographyStyles.desktopBody} ${typographyStyles.textWhite}`}
           verticalPaddingClassName={commonStyles.noVerticalPadding}
@@ -82,7 +82,7 @@ function EditService ({ name, onClickCancel, onClickConfirm }) {
   )
 }
 
-EditService.propTypes = {
+EditApplicationName.propTypes = {
   /**
    * name
     */
@@ -97,9 +97,9 @@ EditService.propTypes = {
   onClickConfirm: PropTypes.func
 }
 
-EditService.defaultProps = {
+EditApplicationName.defaultProps = {
   onClickCancel: () => {},
   onClickConfirm: () => {}
 }
 
-export default EditService
+export default EditApplicationName

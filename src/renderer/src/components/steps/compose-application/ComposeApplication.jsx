@@ -17,6 +17,7 @@ import ConnectorAndBundleFolderTree from '~/components/services/ConnectorAndBund
 import PlatformaticRuntimeButton from '~/components/shaped-components/PlatformaticRuntimeButton'
 import ViewAll from '~/components/plugins/ViewAll'
 import EditService from '~/components/services/EditService'
+import EditApplicationName from '~/components/application/EditApplicationName'
 import RemoveService from '~/components/services/RemoveService'
 import '~/components/component.animation.css'
 import NormalView from './NormalView'
@@ -33,6 +34,7 @@ const ComposeApplication = React.forwardRef(({ onNext, onBack }, ref) => {
   const [showModalViewAll, setShowModalViewAll] = useState(false)
   const [serviceSelected, setServiceSelected] = useState(null)
   const [showModalEditService, setShowModalEditService] = useState(false)
+  const [showModalEditApplicationName, setShowModalEditApplicationName] = useState(false)
   const [showModalRemoveService, setShowModalRemoveService] = useState(false)
   const normalViewRef = useRef(null)
   const gridViewRef = useRef(null)
@@ -113,6 +115,7 @@ const ComposeApplication = React.forwardRef(({ onNext, onBack }, ref) => {
   }
 
   function handleEditApplicationName (newName) {
+    setShowModalEditApplicationName(false)
     addFormData({
       createApplication: {
         application: newName,
@@ -160,7 +163,7 @@ const ComposeApplication = React.forwardRef(({ onNext, onBack }, ref) => {
             <EditableTitle
               title={formData.createApplication.application}
               iconName='AppIcon'
-              onClickSubmit={(name) => handleEditApplicationName(name)}
+              onClickIcon={() => setShowModalEditApplicationName(true)}
               dataAttrName='cy'
               dataAttrValue='step-title'
             />
@@ -245,11 +248,26 @@ const ComposeApplication = React.forwardRef(({ onNext, onBack }, ref) => {
           <ViewAll onClick={() => handleCloseModalViewAll()} serviceName={serviceSelected.name} />
         </ModalDirectional>
       )}
+      {showModalEditApplicationName && (
+        <Modal
+          key='editApplicationName'
+          setIsOpen={() => setShowModalEditApplicationName(false)}
+          title='Application Name'
+          titleClassName={`${typographyStyles.desktopBody} ${typographyStyles.textWhite} ${typographyStyles.opacity70}`}
+          layout={MODAL_POPUP_V2}
+        >
+          <EditApplicationName
+            name={formData.createApplication.application}
+            onClickCancel={() => setShowModalEditApplicationName(false)}
+            onClickConfirm={(newName) => handleEditApplicationName(newName)}
+          />
+        </Modal>
+      )}
       {showModalEditService && (
         <Modal
           key='editService'
           setIsOpen={() => handleCloseModalEditService()}
-          title='Edit Service'
+          title='Service Name'
           titleClassName={`${typographyStyles.desktopBody} ${typographyStyles.textWhite} ${typographyStyles.opacity70}`}
           layout={MODAL_POPUP_V2}
         >

@@ -1,0 +1,6 @@
+.buttonContainer {
+  @apply w-auto
+}
+.flexGrow {
+  @apply grow
+}
