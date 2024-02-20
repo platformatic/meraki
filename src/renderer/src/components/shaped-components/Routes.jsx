@@ -4,6 +4,7 @@ import styles from './Routes.module.css'
 import commonStyles from '~/styles/CommonStyles.module.css'
 import SmallTitle from '../ui/SmallTitle'
 import React from 'react'
+import { SMALL, WHITE } from '@platformatic/ui-components/src/components/constants'
 
 const Routes = React.forwardRef(({ _object }, ref) => {
   return (
@@ -15,10 +16,17 @@ const Routes = React.forwardRef(({ _object }, ref) => {
 
       <div className={`${commonStyles.smallFlexBlock} ${commonStyles.itemsCenter}`}>
         <SmallTitle
-          iconName='FoldersIcon'
           title='routes'
           titleClassName={`${typographyStyles.desktopBodyLarge} ${typographyStyles.textWhite} ${typographyStyles.opacity70}`}
           containerClassName={`${commonStyles.smallFlexRow} ${typographyStyles.textCenter}`}
+          platformaticIcon={{
+            iconName: 'FoldersIcon',
+            disabled: false,
+            inactive: false,
+            color: WHITE,
+            size: SMALL,
+            tip: ''
+          }}
         />
       </div>
     </div>

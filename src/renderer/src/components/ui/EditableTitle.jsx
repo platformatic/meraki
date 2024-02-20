@@ -80,7 +80,7 @@ function EditableTitle ({ title, iconName, onClickSubmit, dataAttrName, dataAttr
                 inputTextClassName={h2ClassName}
                 verticalPaddingClassName={commonStyles.noVerticalPadding}
               />
-              <div className={commonStyles.mediumFlexRow}>
+              <div className={commonStyles.smallFlexRow}>
                 <Button
                   disabled={!validForm}
                   type='submit'
