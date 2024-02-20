@@ -1,6 +1,6 @@
 'use strict'
 import React from 'react'
-import { MEDIUM, TRANSPARENT, WHITE } from '@platformatic/ui-components/src/components/constants'
+import { MEDIUM, SMALL, TRANSPARENT, WHITE } from '@platformatic/ui-components/src/components/constants'
 import Icons from '@platformatic/ui-components/src/components/icons'
 import typographyStyles from '~/styles/Typography.module.css'
 import styles from './BundleFolderTree.module.css'
@@ -36,10 +36,17 @@ const BundleFolderTree = React.forwardRef(({ _ }, ref) => {
                     <div className={`${styles.foldersContainer}`} key={index}>
                       {index + 1 !== services.length && <hr className={styles.horizontalDivided} />}
                       <SmallTitle
-                        iconName='FoldersIcon'
                         title={service.name}
                         titleClassName={`${typographyStyles.desktopBodyLarge} ${typographyStyles.textWhite} ${typographyStyles.opacity70} ${styles.ellipsis}`}
                         containerClassName={`${commonStyles.smallFlexRow} ${typographyStyles.textCenter} ${commonStyles.overflowHidden}`}
+                        platformaticIcon={{
+                          iconName: 'FoldersIcon',
+                          disabled: false,
+                          inactive: false,
+                          color: WHITE,
+                          size: SMALL,
+                          tip: ''
+                        }}
                       />
                     </div>
 

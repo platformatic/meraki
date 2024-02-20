@@ -5,6 +5,7 @@ import styles from './AddPlugin.module.css'
 import commonStyles from '~/styles/CommonStyles.module.css'
 import SmallTitle from '~/components/ui/SmallTitle'
 import React from 'react'
+import { SMALL, WHITE } from '@platformatic/ui-components/src/components/constants'
 
 const AddPlugin = React.forwardRef(({ onClick, inactive }, ref) => {
   return inactive
@@ -15,11 +16,17 @@ const AddPlugin = React.forwardRef(({ onClick, inactive }, ref) => {
         </svg>
         <div className={`${commonStyles.smallFlexBlock} ${commonStyles.itemsCenter}`}>
           <SmallTitle
-            iconName='CircleAddIcon'
-            iconInactive
             title='Add Plugin'
             titleClassName={`${typographyStyles.desktopBodyLarge} ${typographyStyles.textWhite} ${typographyStyles.opacity70}`}
             containerClassName={`${commonStyles.smallFlexRow} ${typographyStyles.textCenter}`}
+            platformaticIcon={{
+              iconName: 'CircleAddIcon',
+              disabled: false,
+              inactive: true,
+              color: WHITE,
+              size: SMALL,
+              tip: ''
+            }}
           />
         </div>
       </div>
@@ -32,10 +39,17 @@ const AddPlugin = React.forwardRef(({ onClick, inactive }, ref) => {
 
         <div className={`${commonStyles.smallFlexBlock} ${commonStyles.itemsCenter}`}>
           <SmallTitle
-            iconName='CircleAddIcon'
             title='Add Plugin'
             titleClassName={`${typographyStyles.desktopBodyLarge} ${typographyStyles.textWhite} ${typographyStyles.opacity70}`}
             containerClassName={`${commonStyles.smallFlexRow} ${typographyStyles.textCenter}`}
+            platformaticIcon={{
+              iconName: 'CircleAddIcon',
+              disabled: false,
+              inactive: false,
+              color: WHITE,
+              size: SMALL,
+              tip: ''
+            }}
           />
         </div>
       </div>

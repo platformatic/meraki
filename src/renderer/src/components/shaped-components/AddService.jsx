@@ -5,6 +5,7 @@ import styles from './AddService.module.css'
 import commonStyles from '~/styles/CommonStyles.module.css'
 import SmallTitle from '../ui/SmallTitle'
 import React, { useRef } from 'react'
+import { SMALL, WHITE } from '@platformatic/ui-components/src/components/constants'
 
 function AddService ({ onClick, enabled }) {
   const ref = useRef(null)
@@ -13,7 +14,7 @@ function AddService ({ onClick, enabled }) {
   if (enabled) {
     classNameContainer += styles.containerEnabled
   } else {
-    titleClassName += `${typographyStyles.opacity70}`
+    titleClassName += `${typographyStyles.opacity30}`
   }
 
   return (
@@ -24,10 +25,17 @@ function AddService ({ onClick, enabled }) {
 
       <div className={`${commonStyles.smallFlexBlock} ${commonStyles.itemsCenter}`}>
         <SmallTitle
-          iconName='CircleAddIcon'
           title='Add Service'
           titleClassName={titleClassName}
           containerClassName={`${commonStyles.smallFlexRow} ${typographyStyles.textCenter}`}
+          platformaticIcon={{
+            iconName: 'CircleAddIcon',
+            disabled: !enabled,
+            inactive: false,
+            color: WHITE,
+            size: SMALL,
+            tip: ''
+          }}
         />
       </div>
     </div>

@@ -19,3 +19,7 @@
   width: calc(100% - 2px);
   height: calc(100% - 2px);
 }
+
+.cursorDefault {
+  @apply cursor-default
+}

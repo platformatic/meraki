@@ -3,15 +3,15 @@ import React from 'react'
 import PropTypes from 'prop-types'
 import commonStyles from '~/styles/CommonStyles.module.css'
 import typographyStyles from '~/styles/Typography.module.css'
-import { SMALL, WHITE } from '@platformatic/ui-components/src/components/constants'
-import { Icons } from '@platformatic/ui-components'
+import { PlatformaticIcon } from '@platformatic/ui-components'
 
-function SmallTitle ({ containerClassName, iconName, iconInactive, title, titleClassName }) {
-  const icon = React.createElement(Icons[`${iconName}`], {
-    color: WHITE,
-    size: SMALL,
-    inactive: iconInactive
-  })
+function SmallTitle ({
+  containerClassName,
+  title,
+  titleClassName,
+  platformaticIcon
+}) {
+  const icon = React.createElement(PlatformaticIcon, platformaticIcon)
 
   return (
     <div className={containerClassName}>
@@ -27,13 +27,20 @@ SmallTitle.propTypes = {
    */
   containerClassName: PropTypes.string,
   /**
-   * iconName
+   * platformaticIcon
    */
-  iconName: PropTypes.string.isRequired,
+  platformaticIcon: PropTypes.shape({
+    iconName: PropTypes.string,
+    disabled: PropTypes.bool,
+    inactive: PropTypes.bool,
+    tip: PropTypes.string,
+    color: PropTypes.string,
+    size: PropTypes.string
+  }),
   /**
-   * iconInactive
+   * iconTip
    */
-  iconInactive: PropTypes.bool,
+  iconTip: PropTypes.string,
   /**
    * title
    */
@@ -47,6 +54,6 @@ SmallTitle.propTypes = {
 SmallTitle.defaultProps = {
   containerClassName: `${commonStyles.smallFlexRow} ${commonStyles.textCenter}`,
   titleClassName: `${typographyStyles.desktopBodyLarge} ${typographyStyles.textWhite} ${typographyStyles.opacity70}`,
-  iconInactive: false
+  platformaticIcon: {}
 }
 export default SmallTitle

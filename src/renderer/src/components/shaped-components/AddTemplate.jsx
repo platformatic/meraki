@@ -5,6 +5,7 @@ import typographyStyles from '~/styles/Typography.module.css'
 import styles from './AddTemplate.module.css'
 import commonStyles from '~/styles/CommonStyles.module.css'
 import SmallTitle from '../ui/SmallTitle'
+import { SMALL, WHITE } from '@platformatic/ui-components/src/components/constants'
 
 const AddTemplate = React.forwardRef(({ onClickAddTemplate }, ref) => {
   return (
@@ -19,6 +20,14 @@ const AddTemplate = React.forwardRef(({ onClickAddTemplate }, ref) => {
         title='Select Template'
         titleClassName={`${typographyStyles.desktopBodyLarge} ${typographyStyles.textWhite}`}
         iconName='CircleAddIcon'
+        platformaticIcon={{
+          iconName: 'CircleAddIcon',
+          disabled: false,
+          inactive: false,
+          color: WHITE,
+          size: SMALL,
+          tip: ''
+        }}
         containerClassName={`${commonStyles.smallFlexRow} ${commonStyles.justifyCenter}`}
       />
     </div>

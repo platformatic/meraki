@@ -16,6 +16,9 @@
 .opacity70 {
   @apply opacity-70;
 }
+.opacity30 {
+  @apply opacity-30;
+}
 .ellipsis {
   @apply truncate w-full;
 }

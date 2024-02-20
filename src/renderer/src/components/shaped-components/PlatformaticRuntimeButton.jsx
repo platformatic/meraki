@@ -11,6 +11,7 @@ import RuntimeMediumCard from '../backgrounds/RuntimeMediumCard'
 import { NORMAL_VIEW } from '~/ui-constants'
 import SmallTitle from '~/components/ui/SmallTitle'
 import RuntimeLargeCardGridView from '../backgrounds/RuntimeLargeCardGridView'
+import { SMALL, WHITE } from '@platformatic/ui-components/src/components/constants'
 
 function PlatformaticRuntimeButton ({ view }) {
   const globalState = useStackablesStore()
@@ -44,10 +45,17 @@ function PlatformaticRuntimeButton ({ view }) {
       {currentBackgroundComponent}
       <div className={`${commonStyles.smallFlexBlock} ${commonStyles.itemsCenter} ${styles.buttonContainer}`}>
         <SmallTitle
-          iconName='CircleExclamationIcon'
           title='Platformatic Runtime'
-          titleClassName={`${typographyStyles.desktopBodyLarge} ${typographyStyles.textWhite}`}
+          titleClassName={`${typographyStyles.desktopBodyLarge} ${typographyStyles.textWhite} ${styles.cursorDefault}`}
           containerClassName={`${commonStyles.smallFlexRow} ${typographyStyles.textCenter}`}
+          platformaticIcon={{
+            iconName: 'CircleExclamationIcon',
+            disabled: false,
+            inactive: false,
+            color: WHITE,
+            size: SMALL,
+            tip: 'Platformatic Runtime is an environment for running multiple Platformatic microservices as a single monolithic deployment unit.'
+          }}
         />
       </div>
     </div>
