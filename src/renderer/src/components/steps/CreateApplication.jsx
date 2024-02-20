@@ -155,14 +155,18 @@ const CreateApplication = React.forwardRef(({ onNext }, ref) => {
               dataAttrName='cy'
               dataAttrValue='step-title'
             />
-            <p className={`${typographyStyles.desktopBodyLarge} ${typographyStyles.textWhite} ${typographyStyles.opacity70}`}>Start by entering the name of your Application and the name of your service.</p>
+            <p className={`${typographyStyles.desktopBodyLarge} ${typographyStyles.textWhite} ${typographyStyles.opacity70}`}>Start by entering the name of your Application, and the destination folder.</p>
           </div>
           {useTemplateId &&
             <div className={`${commonStyles.mediumFlexBlock} ${commonStyles.fullWidth} ${styles.useTemplateIdContainer} ${commonStyles.justifyEnd}`}>
               {renderTemplateIdDefault()}
             </div>}
           <div className={`${commonStyles.largeFlexBlock} ${commonStyles.fullWidth} ${useTemplateId ? '' : styles.paddingTop}`}>
-            <Forms.Field title='Application name' titleColor={WHITE} required>
+            <Forms.Field
+              title='Application name'
+              titleClassName={`${typographyStyles.desktopBodySemibold} ${typographyStyles.textWhite} `}
+              required
+            >
               <Forms.Input
                 placeholder='Enter the name of your application'
                 name='application'
@@ -170,10 +174,16 @@ const CreateApplication = React.forwardRef(({ onNext }, ref) => {
                 value={form.application}
                 onChange={handleChangeApplication}
                 errorMessage={validations.formErrors.application}
+                inputTextClassName={`${typographyStyles.desktopBodySmall} ${typographyStyles.textWhite}`}
+                verticalPaddingClassName={commonStyles.noVerticalPadding}
                 backgroundColor={RICH_BLACK}
               />
             </Forms.Field>
-            <Forms.Field title='Select destination folder' titleColor={WHITE} required>
+            <Forms.Field
+              title='Select destination folder'
+              titleClassName={`${typographyStyles.desktopBodySemibold} ${typographyStyles.textWhite} `}
+              required
+            >
               <Button
                 type='button'
                 platformaticIcon={{ iconName: 'FolderIcon', color: WHITE }}
@@ -193,6 +203,8 @@ const CreateApplication = React.forwardRef(({ onNext }, ref) => {
                 errorMessage={validations.formErrors.folder}
                 backgroundColor={RICH_BLACK}
                 readOnly={!mockUse}
+                inputTextClassName={`${typographyStyles.desktopBodySmall} ${typographyStyles.textWhite}`}
+                verticalPaddingClassName={commonStyles.noVerticalPadding}
               />
             </Forms.Field>
           </div>

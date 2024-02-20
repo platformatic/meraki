@@ -32,7 +32,7 @@
   @apply font-inter font-medium text-[1.125rem] leading-[1.35rem] lg:text-[1.25rem] lg:leading-[1.688rem];
 }
 .desktopBodyLarge {
-  @apply font-inter font-normal text-[1rem] leading-[1.5rem] lg:text-[1.125rem] lg:leading-[1.688rem];
+  @apply font-inter font-light text-[1rem] leading-[1.5rem] lg:text-[1.125rem] lg:leading-[1.688rem];
 }
 .desktopBody {
   @apply font-inter font-normal text-[1rem] leading-[1.5rem];
@@ -47,7 +47,7 @@
   @apply font-inter font-semibold text-[1rem] leading-[1.5rem] lg:text-[1.125rem] lg:leading-[1.688rem];
 }
 .desktopBodySemibold {
-  @apply font-inter font-semibold text-[1rem] leading-[1.5rem];
+  @apply font-inter font-medium text-[1rem] leading-[1.5rem];
 }
 
 .desktopOtherCliTerminalSmall {
