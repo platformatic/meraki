@@ -1,0 +1,19 @@
+{
+  "scripts": {
+    "start": "platformatic start",
+    "test": "node --test test/**",
+    "clean": "rm -fr ./dist",
+    "build": "platformatic compile"
+  },
+  "devDependencies": {
+    "fastify": "^4.26.0",
+    "typescript": "^5.3.3"
+  },
+  "dependencies": {
+    "platformatic": "^1.23.0",
+    "@platformatic/db": "^1.23.0"
+  },
+  "engines": {
+    "node": "^18.8.0 || >=20.6.0"
+  }
+}

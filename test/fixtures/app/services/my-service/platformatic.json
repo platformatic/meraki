@@ -1,0 +1,17 @@
+{
+  "$schema": "https://platformatic.dev/schemas/v1.23.0/service",
+  "service": {
+    "openapi": true
+  },
+  "watch": true,
+  "plugins": {
+    "paths": [
+      {
+        "path": "./plugins",
+        "encapsulate": false
+      },
+      "./routes"
+    ],
+    "typescript": "{PLT_MY_SERVICE_TYPESCRIPT}"
+  }
+}

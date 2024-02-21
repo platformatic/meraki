@@ -1,0 +1,16 @@
+{
+  "scripts": {
+    "start": "platformatic start",
+    "test": "node --test test/**"
+  },
+  "devDependencies": {
+    "fastify": "^4.26.0"
+  },
+  "dependencies": {
+    "platformatic": "^1.23.0",
+    "stackable-example": "^0.0.10"
+  },
+  "engines": {
+    "node": "^18.8.0 || >=20.6.0"
+  }
+}
