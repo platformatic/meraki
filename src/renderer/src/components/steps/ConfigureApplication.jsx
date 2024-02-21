@@ -6,7 +6,8 @@ import commonStyles from '~/styles/CommonStyles.module.css'
 import typographyStyles from '~/styles/Typography.module.css'
 import {
   WHITE, RICH_BLACK, TRANSPARENT, /* , OPACITY_30 */
-  BOX_SHADOW
+  ANTI_FLASH_WHITE,
+  DULLS_BACKGROUND_COLOR
 } from '@platformatic/ui-components/src/components/constants'
 import { Button/* , BorderedBox, VerticalSeparator */ } from '@platformatic/ui-components'
 import useStackablesStore from '~/useStackablesStore'
@@ -248,7 +249,8 @@ const ConfigureApplication = React.forwardRef(({ onNext, onBack }, ref) => {
           color={RICH_BLACK}
           bordered={false}
           backgroundColor={WHITE}
-          hoverEffect={BOX_SHADOW}
+          hoverEffect={DULLS_BACKGROUND_COLOR}
+          hoverEffectProperties={{ changeBackgroundColor: ANTI_FLASH_WHITE }}
           paddingClass={`${commonStyles.buttonPadding} cy-action-next`}
         />
       </div>
