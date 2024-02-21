@@ -15,11 +15,8 @@ import Title from '~/components/ui/Title'
 import '~/components/component.animation.css'
 import Forms from '@platformatic/ui-components/src/components/forms'
 import { TYPESCRIPT, JAVASCRIPT } from '~/ui-constants'
-import log from 'electron-log/renderer'
 
 const ConfigureApplication = React.forwardRef(({ onNext, onBack }, ref) => {
-  console.log = log.log
-  Object.assign(console, log.functions)
   const globalState = useStackablesStore()
   const { formData, services, addFormData } = globalState
   const logLevels = ['trace', 'info', 'debug', 'warn', 'error']

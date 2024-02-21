@@ -11,12 +11,8 @@ import Title from '~/components/ui/Title'
 import '~/components/component.animation.css'
 import ConfigureEnvVarsTemplateAndPlugins from './ConfigureEnvVarsTemplateAndPlugins'
 import { generateForm, preapareFormForCreateApplication } from '../../../utils'
-import log from 'electron-log/renderer'
 
 const ConfigureServices = React.forwardRef(({ onNext, onBack }, ref) => {
-  console.log = log.log
-  Object.assign(console, log.functions)
-
   const globalState = useStackablesStore()
   const { formData, addFormData, services } = globalState
   const [disabled, setDisabled] = useState(true)

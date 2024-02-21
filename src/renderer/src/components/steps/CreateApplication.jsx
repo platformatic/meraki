@@ -11,12 +11,8 @@ import useStackablesStore from '~/useStackablesStore'
 import Title from '~/components/ui/Title'
 import { getApiTemplates } from '~/api'
 import { RUNNING, SUCCESS, ERROR } from '~/ui-constants'
-import log from 'electron-log/renderer'
 
 const CreateApplication = React.forwardRef(({ onNext }, ref) => {
-  console.log = log.log
-  Object.assign(console, log.functions)
-
   const globalState = useStackablesStore()
   const { addFormData, addService, formData } = globalState
   const [form, setForm] = useState({ application: '', folder: '' })

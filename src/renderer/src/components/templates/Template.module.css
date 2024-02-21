@@ -8,7 +8,7 @@
   @apply border-white/30 
 }
 .selected {
-  @apply bg-white/20 border-white
+  @apply bg-white/15 border-white
 }
 .overflowHidden {
   @apply overflow-hidden ;
