@@ -177,7 +177,7 @@ function SelectPlugin ({ onClick, serviceName }) {
             dataAttrName='cy'
             dataAttrValue='modal-title'
           />
-          <p className={`${typographyStyles.desktopBodyLarge} ${typographyStyles.textWhite} ${typographyStyles.opacity70}`}>Select one or more Plugins from our Stackables Marketplace to be added to your new serviceAdding a plugin to your service is optional.</p>
+          <p className={`${typographyStyles.desktopBodyLarge} ${typographyStyles.textWhite} ${typographyStyles.opacity70}`}>Select one or more Plugins to be added to your new service. Adding a plugin to your service is optional.</p>
         </div>
         <div className={`${commonStyles.mediumFlexBlock24} ${commonStyles.fullWidth}`}>
           <SearchBarV2 placeholder='Search for a Plugin' onClear={handleClearPlugins} onChange={handleFilterPlugins} />

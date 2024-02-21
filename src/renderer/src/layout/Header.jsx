@@ -3,7 +3,7 @@ import styles from './Header.module.css'
 import commonStyles from '~/styles/CommonStyles.module.css'
 import typographyStyles from '~/styles/Typography.module.css'
 import { Button, HorizontalSeparator } from '@platformatic/ui-components'
-import { WHITE, MARGIN_0 } from '@platformatic/ui-components/src/components/constants'
+import { WHITE, MARGIN_0, OPACITY_30 } from '@platformatic/ui-components/src/components/constants'
 import MerakiLogo from '~/components/ui/MerakiLogo'
 
 function Header () {
@@ -26,7 +26,7 @@ function Header () {
           />
         </div>
       </div>
-      <HorizontalSeparator marginBottom={MARGIN_0} marginTop={MARGIN_0} color={WHITE} />
+      <HorizontalSeparator marginBottom={MARGIN_0} marginTop={MARGIN_0} color={WHITE} opacity={OPACITY_30} />
     </div>
   )
 }

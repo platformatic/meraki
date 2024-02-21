@@ -12,8 +12,12 @@ import '~/components/component.animation.css'
 import { callPrepareFolder, logInfo, quitApp } from '~/api'
 import { NONE, RUNNING, SUCCESS, ERROR } from '~/ui-constants'
 import Title from '~/components/ui/Title'
+import log from 'electron-log/renderer'
 
 const PrepareFolder = React.forwardRef(({ onNext, onBack }, ref) => {
+  console.log = log.log
+  Object.assign(console, log.functions)
+
   const globalState = useStackablesStore()
   const { formData, services, setTemplate } = globalState
   const [countDownStatus, setCountDownStatus] = useState(NONE)

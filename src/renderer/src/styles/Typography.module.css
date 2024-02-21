@@ -58,4 +58,7 @@
   font-family: 'Roboto_Mono';
 }
 
+.desktopOtherOverlineNormal {
+  @apply font-inter font-light uppercase text-[0.875rem] leading-[1.313rem] tracking-[0.15em] ;
+}
 

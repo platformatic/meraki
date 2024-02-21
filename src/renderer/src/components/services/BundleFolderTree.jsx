@@ -19,7 +19,7 @@ const BundleFolderTree = React.forwardRef(({ _ }, ref) => {
     <div className={`${commonStyles.mediumFlexRow} ${commonStyles.itemsCenter}`} ref={ref}>
       <ArrowConnector />
       <div className={`${commonStyles.mediumFlexBlock} ${styles.serviceContainer} ${commonStyles.overflowHidden}`}>
-        <h5 className={`${typographyStyles.desktopHeadline4} ${typographyStyles.textWhite} ${typographyStyles.ellipsis}`} title={formData.createApplication.service}>{formData.createApplication.service}</h5>
+        <h5 className={`${typographyStyles.desktopHeadline4} ${typographyStyles.textWhite} ${typographyStyles.ellipsis}`} title={formData.createApplication.application}>{formData.createApplication.application}</h5>
         <BorderedBox color={WHITE} borderColorOpacity={30} backgroundColor={TRANSPARENT} classes={commonStyles.fullWidth}>
           <div className={`${commonStyles.smallFlexBlock} ${commonStyles.fullWidth}`}>
             <div className={`${commonStyles.smallFlexRow} ${commonStyles.justifyCenter}`}>

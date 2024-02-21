@@ -8,6 +8,8 @@ import { getTemplates, getPlugins } from './client.mjs'
 import { prepareFolder, createApp } from './generate.mjs'
 import log from 'electron-log'
 
+log.initialize()
+
 log.transports.file.level = 'info'
 const version = app.getVersion()
 const generate = require('boring-name-generator')

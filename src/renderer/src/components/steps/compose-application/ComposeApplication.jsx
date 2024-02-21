@@ -25,8 +25,12 @@ import NormalView from './NormalView'
 import GridView from './GridView'
 import { NORMAL_VIEW, GRID_VIEW } from '~/ui-constants'
 import modalStyles from '~/styles/ModalStyles.module.css'
+import log from 'electron-log/renderer'
 
 const ComposeApplication = React.forwardRef(({ onNext, onBack }, ref) => {
+  console.log = log.log
+  Object.assign(console, log.functions)
+
   const globalState = useStackablesStore()
   const { formData, addService, services, addFormData, renameService, removeService } = globalState
   const [showModalTemplate, setShowModalTemplate] = useState(false)
