@@ -1,7 +1,7 @@
 'use strict'
 import React, { useState } from 'react'
 import PropTypes from 'prop-types'
-import { RICH_BLACK, WHITE, MARGIN_0, OPACITY_30, TRANSPARENT, BOX_SHADOW } from '@platformatic/ui-components/src/components/constants'
+import { RICH_BLACK, WHITE, MARGIN_0, OPACITY_30, TRANSPARENT, DULLS_BACKGROUND_COLOR, ANTI_FLASH_WHITE } from '@platformatic/ui-components/src/components/constants'
 import typographyStyles from '~/styles/Typography.module.css'
 import commonStyles from '~/styles/CommonStyles.module.css'
 import { Button, HorizontalSeparator } from '@platformatic/ui-components'
@@ -73,7 +73,8 @@ function EditApplicationName ({ name, onClickCancel, onClickConfirm }) {
             onClick={(event) => handleSubmit(event)}
             color={RICH_BLACK}
             backgroundColor={WHITE}
-            hoverEffect={BOX_SHADOW}
+            hoverEffect={DULLS_BACKGROUND_COLOR}
+            hoverEffectProperties={{ changeBackgroundColor: ANTI_FLASH_WHITE }}
             bordered={false}
           />
         </div>

@@ -1,19 +1,27 @@
 'use strict'
 import PropTypes from 'prop-types'
-import { MEDIUM, SMALL, TERTIARY_BLUE, WHITE } from '@platformatic/ui-components/src/components/constants'
+import { ACTIVE_AND_INACTIVE_STATUS, MEDIUM, SMALL, TERTIARY_BLUE, TRANSPARENT, WHITE } from '@platformatic/ui-components/src/components/constants'
 import Icons from '@platformatic/ui-components/src/components/icons'
 import typographyStyles from '~/styles/Typography.module.css'
 import commonStyles from '~/styles/CommonStyles.module.css'
 import modalStyles from '~/styles/ModalStyles.module.css'
 import styles from './Plugin.module.css'
-import { ModalDirectional } from '@platformatic/ui-components'
-import { useState } from 'react'
+import { Button, ModalDirectional } from '@platformatic/ui-components'
+import { useState, useEffect } from 'react'
 import PluginDetail from './PluginDetail'
 
 function Plugin ({ name, onClickCardPlugin, isSelected, description, tags, author, homepage, downloads, releasedAt }) {
   const [showModalDetail, setShowModalDetail] = useState(false)
-  let className = `${commonStyles.extraSmallFlexBlock} ${styles.container} `
-  className += isSelected ? styles.selected : styles.unSelected
+  const [hover, setHover] = useState(false)
+  const [className, setClassName] = useState(normalClassName())
+
+  useEffect(() => {
+    if (hover || isSelected) {
+      setClassName(hoverClassName())
+    } else {
+      setClassName(normalClassName())
+    }
+  }, [hover, isSelected])
 
   function handleShowModal (event) {
     event.stopPropagation()
@@ -25,9 +33,23 @@ function Plugin ({ name, onClickCardPlugin, isSelected, description, tags, autho
     onClickCardPlugin()
   }
 
+  function normalClassName () {
+    return `${commonStyles.extraSmallFlexBlock} ${styles.container} ${styles.unSelected}`
+  }
+
+  function hoverClassName () {
+    return `${commonStyles.extraSmallFlexBlock} ${styles.container} ${styles.selected}`
+  }
+
   return (
     <>
-      <div className={className} onClick={() => onClickCardPlugin()} {...{ 'data-cy': 'template' }}>
+      <div
+        className={className}
+        onClick={() => onClickCardPlugin()}
+        onMouseLeave={() => { setHover(false) }}
+        onMouseOver={() => { setHover(true) }}
+        {...{ 'data-cy': 'plugin' }}
+      >
         <div className={`${commonStyles.smallFlexBlock} ${commonStyles.fullWidth} ${styles.overflowHidden}`}>
           <Icons.StackablesPluginIcon color={TERTIARY_BLUE} size={MEDIUM} />
           <p
@@ -37,17 +59,24 @@ function Plugin ({ name, onClickCardPlugin, isSelected, description, tags, autho
             {name}
           </p>
         </div>
-        <div className={`${commonStyles.smallFlexRow} ${commonStyles.itemsCenter} ${styles.link}`} onClick={(event) => handleShowModal(event)}>
-          <span className={`${typographyStyles.desktopBodySmall} ${typographyStyles.textWhite} `}>View Details</span>
-          <Icons.ArrowLongRightIcon color={WHITE} size={SMALL} />
-        </div>
+        <Button
+          type='button'
+          paddingClass={commonStyles.buttonPadding}
+          label='View Details'
+          onClick={(event) => handleShowModal(event)}
+          color={WHITE}
+          bordered={false}
+          backgroundColor={TRANSPARENT}
+          hoverEffect={ACTIVE_AND_INACTIVE_STATUS}
+          platformaticIconAfter={{ iconName: 'ArrowLongRightIcon', size: SMALL, color: WHITE }}
+        />
       </div>
       {showModalDetail && (
         <ModalDirectional
           key={name}
           setIsOpen={() => setShowModalDetail(false)}
           title='Back to Plugin'
-          titleClassName={`${typographyStyles.desktopBody} ${typographyStyles.textWhite} ${typographyStyles.opacity70}`}
+          titleClassName={`${typographyStyles.desktopBody} ${typographyStyles.textWhite}`}
           classNameModalLefty={modalStyles.modalLefty}
         >
           <PluginDetail

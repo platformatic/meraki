@@ -1,5 +1,5 @@
 .container {
-  @apply h-[calc(100%-2.5rem)]  justify-between;
+  @apply h-[calc(100%-3.5rem)]  justify-between;
 }
 .pluginsContainer {
   @apply h-full w-full relative;
