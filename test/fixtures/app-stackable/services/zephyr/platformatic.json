@@ -1,0 +1,21 @@
+{
+  "$schema": "./stackable.schema.json",
+  "service": {
+    "openapi": true
+  },
+  "watch": true,
+  "plugins": {
+    "paths": [
+      {
+        "path": "./plugins",
+        "encapsulate": false
+      },
+      "./routes"
+    ],
+    "typescript": "{PLT_ZEPHYR_TYPESCRIPT}"
+  },
+  "module": "stackable-example",
+  "greeting": {
+    "text": "{PLT_GREETING_TEXT}"
+  }
+}

@@ -1,0 +1,43 @@
+{
+  "$schema": "https://platformatic.dev/schemas/v1.23.0/composer",
+  "composer": {
+    "services": [
+      {
+        "id": "my-service",
+        "openapi": {
+          "url": "/documentation/json",
+          "prefix": "/my-service"
+        }
+      },
+      {
+        "id": "my-db",
+        "openapi": {
+          "url": "/documentation/json",
+          "prefix": "/my-db"
+        }
+      }
+    ],
+    "refreshTimeout": 1000
+  },
+  "watch": true,
+  "plugins": {
+    "paths": [
+      {
+        "path": "./plugins",
+        "encapsulate": false
+      },
+      "./routes"
+    ],
+    "typescript": "{PLT_MAIN_TYPESCRIPT}",
+    "packages": [
+      {
+        "name": "@fastify/static",
+        "options": {
+          "root": "{PLT_ROOT}/{PLT_MAIN_FST_PLUGIN_STATIC_ROOT}",
+          "prefix": "{PLT_MAIN_FST_PLUGIN_STATIC_PREFIX}",
+          "schemaHide": "{PLT_MAIN_FST_PLUGIN_STATIC_SCHEMA_HIDE}"
+        }
+      }
+    ]
+  }
+}
