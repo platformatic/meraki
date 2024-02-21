@@ -13,6 +13,3 @@
 .overflowHidden {
   @apply overflow-hidden ;
 }
-.link {
-  @apply hover:underline
-}

@@ -31,7 +31,7 @@
     "@electron-toolkit/utils": "^3.0.0",
     "@fastify/error": "^3.4.1",
     "@platformatic/client": "^1.20.2",
-    "@platformatic/ui-components": "^0.1.154",
+    "@platformatic/ui-components": "^0.2.2",
     "autoprefixer": "^10.4.16",
     "boring-name-generator": "^1.0.3",
     "electron-log": "^5.0.1",

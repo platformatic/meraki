@@ -4,7 +4,7 @@ import PropTypes from 'prop-types'
 import styles from './ComposeApplication.module.css'
 import commonStyles from '~/styles/CommonStyles.module.css'
 import typographyStyles from '~/styles/Typography.module.css'
-import { WHITE, RICH_BLACK, MODAL_POPUP_V2, TRANSPARENT, BOX_SHADOW } from '@platformatic/ui-components/src/components/constants'
+import { WHITE, RICH_BLACK, MODAL_POPUP_V2, TRANSPARENT, DULLS_BACKGROUND_COLOR, ANTI_FLASH_WHITE } from '@platformatic/ui-components/src/components/constants'
 import { Button, Modal, ModalDirectional } from '@platformatic/ui-components'
 import useStackablesStore from '~/useStackablesStore'
 /* import PluginHandler from '~/components/plugins/PluginHandler'
@@ -208,7 +208,8 @@ const ComposeApplication = React.forwardRef(({ onNext, onBack }, ref) => {
           color={RICH_BLACK}
           bordered={false}
           backgroundColor={WHITE}
-          hoverEffect={BOX_SHADOW}
+          hoverEffect={DULLS_BACKGROUND_COLOR}
+          hoverEffectProperties={{ changeBackgroundColor: ANTI_FLASH_WHITE }}
           paddingClass={`${commonStyles.buttonPadding} cy-action-next`}
         />
       </div>
@@ -217,7 +218,7 @@ const ComposeApplication = React.forwardRef(({ onNext, onBack }, ref) => {
           key='modalTemplate'
           setIsOpen={() => handleCloseModalTemplate()}
           title='Back to Application view'
-          titleClassName={`${typographyStyles.desktopBody} ${typographyStyles.textWhite} ${typographyStyles.opacity70} cy-modal-template`}
+          titleClassName={`${typographyStyles.desktopBody} ${typographyStyles.textWhite} cy-modal-template`}
           classNameModalLefty={modalStyles.modalLefty}
         >
           <SelectTemplate onClick={() => handleCloseModalTemplate()} serviceName={serviceSelected.name} />
@@ -228,7 +229,7 @@ const ComposeApplication = React.forwardRef(({ onNext, onBack }, ref) => {
           key='modalPlugin'
           setIsOpen={() => handleCloseModalPlugin()}
           title='Back to Application view'
-          titleClassName={`${typographyStyles.desktopBody} ${typographyStyles.textWhite} ${typographyStyles.opacity70}`}
+          titleClassName={`${typographyStyles.desktopBody} ${typographyStyles.textWhite} `}
           classNameModalLefty={modalStyles.modalLefty}
         >
           <SelectPlugin
@@ -242,7 +243,7 @@ const ComposeApplication = React.forwardRef(({ onNext, onBack }, ref) => {
           key='modalViewAll'
           setIsOpen={() => handleCloseModalViewAll()}
           title='Back to Application view'
-          titleClassName={`${typographyStyles.desktopBody} ${typographyStyles.textWhite} ${typographyStyles.opacity70}`}
+          titleClassName={`${typographyStyles.desktopBody} ${typographyStyles.textWhite} `}
           smallLayout
         >
           <ViewAll onClick={() => handleCloseModalViewAll()} serviceName={serviceSelected.name} />

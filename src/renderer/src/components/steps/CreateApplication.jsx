@@ -5,7 +5,7 @@ import Forms from '@platformatic/ui-components/src/components/forms'
 import styles from './CreateApplication.module.css'
 import commonStyles from '~/styles/CommonStyles.module.css'
 import typographyStyles from '~/styles/Typography.module.css'
-import { WHITE, RICH_BLACK, TRANSPARENT, BOX_SHADOW, OPACITY_30, MAIN_GREEN, MEDIUM, MARGIN_0, ERROR_RED } from '@platformatic/ui-components/src/components/constants'
+import { WHITE, RICH_BLACK, TRANSPARENT, OPACITY_30, MAIN_GREEN, MEDIUM, MARGIN_0, ERROR_RED, DULLS_BACKGROUND_COLOR, ANTI_FLASH_WHITE } from '@platformatic/ui-components/src/components/constants'
 import { BorderedBox, Button, HorizontalSeparator, Icons, LoadingSpinnerV2 } from '@platformatic/ui-components'
 import useStackablesStore from '~/useStackablesStore'
 import Title from '~/components/ui/Title'
@@ -221,7 +221,8 @@ const CreateApplication = React.forwardRef(({ onNext }, ref) => {
           color={RICH_BLACK}
           bordered={false}
           backgroundColor={WHITE}
-          hoverEffect={BOX_SHADOW}
+          hoverEffect={DULLS_BACKGROUND_COLOR}
+          hoverEffectProperties={{ changeBackgroundColor: ANTI_FLASH_WHITE }}
           paddingClass={`${commonStyles.buttonPadding} cy-action-next`}
         />
       </div>
