@@ -4,7 +4,7 @@ import Header from './layout/Header'
 import Wizard from './components/Wizard'
 import log from 'electron-log/renderer'
 import useErrorBoundary from 'use-error-boundary'
-import typographyStyles from '~/styles/Typography.module.css'
+import ErrorComponent from './components/errors/ErrorComponent'
 
 function App () {
   const {
@@ -17,12 +17,9 @@ function App () {
     }
   })
 
-  console.log = log.log
-  Object.assign(console, log.functions)
-
   return didCatch
     ? (
-      <p className={`${typographyStyles.desktopBody} ${typographyStyles.textErrorRed}`}>An error has been caught: {error.message}</p>
+      <ErrorComponent message={error.message} />
       )
     : (
       <ErrorBoundary>
