@@ -1,0 +1,31 @@
+.container {
+  @apply flex flex-row justify-between relative grow;
+}
+.leftContent {
+  @apply flex flex-col items-center justify-center;
+}
+.buttonContainer {
+  @apply flex justify-start gap-x-2;
+}
+.imageContainer{
+  position: relative;
+  height: auto;
+}
+.imageContent{
+  @apply absolute bottom-0 left-[2rem] w-1/2 z-[-1] w-full h-full;
+  background: url('~/assets/Illustration_Stackables.svg') no-repeat bottom right;
+  background-size: contain;
+}
+.useTemplateIdContainer {
+  @apply relative min-h-[8rem];
+}
+.loadingSpinner {
+  @apply absolute left-1/2 top-1/2;
+  transform: translate(-50%, -50%);
+}
+.borderedBox {
+  @apply grow-0;
+}
+.paddingTop {
+  @apply pt-20
+}

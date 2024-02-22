@@ -25,6 +25,9 @@
 .largeFlexRow {
   @apply flex flex-row items-center gap-x-3 lg:gap-x-10 w-full;
 }
+.largeFlexBlock40 {
+  @apply flex flex-col items-start gap-y-3 xl:gap-y-10;
+}
 .largeFlexBlock {
   @apply flex flex-col items-start gap-y-3 xl:gap-y-[2vH];
 }
@@ -60,6 +63,9 @@
 }
 .buttonPadding {
   @apply px-4 py-2 !important
+}
+.buttonSquarePadding {
+  @apply p-2 !important;
 }
 .noPadding {
   @apply p-0 !important

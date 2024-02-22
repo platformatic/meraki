@@ -44,7 +44,7 @@
   @apply font-inter font-normal text-[0.875rem] leading-[1.313rem];
 }
 .desktopBodySmallest {
-  @apply font-inter font-light text-[0.75] leading-[1.125rem];
+  @apply font-inter font-light text-[0.75rem] leading-[1.125rem];
 }
 .desktopBodyLargeSemibold {
   @apply font-inter font-semibold text-[1rem] leading-[1.5rem] lg:text-[1.125rem] lg:leading-[1.688rem];
