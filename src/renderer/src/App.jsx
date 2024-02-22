@@ -25,8 +25,10 @@ function App () {
       )
     : (
       <ErrorBoundary>
-        <Header />
-        {featureFlag ? <ApplicationContainer /> : <Wizard />}
+        <div className={featureFlag ? 'rootFeatureFlag' : 'rootNormal'}>
+          <Header />
+          {featureFlag ? <ApplicationContainer /> : <Wizard />}
+        </div>
       </ErrorBoundary>
       )
 }
