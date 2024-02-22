@@ -14,8 +14,8 @@ function SideBar ({ selected, topItems }) {
     return (
       <div
         className={`${commonStyles.smallFlexBlock} ${commonStyles.itemsCenter} ${typographyStyles.desktopBodySmallest} ${typographyStyles.textWhite} ${typographyStyles.textCenter} ${hover ? '' : typographyStyles.opacity70}`}
-        onMouseLeave={() => setHover(false) }
-        onMouseOver={() => setHover(true) }
+        onMouseLeave={() => setHover(false)}
+        onMouseOver={() => setHover(true)}
       >
         <ButtonOnlyIcon
           altLabel={item.label}

@@ -2,7 +2,7 @@
   @apply flex flex-row justify-between relative grow;
 }
 .leftContent {
-  @apply flex flex-col items-center justify-center;
+  @apply flex flex-col items-center justify-center px-6;
 }
 .buttonContainer {
   @apply flex justify-start gap-x-2;
@@ -12,9 +12,10 @@
   height: auto;
 }
 .imageContent{
-  @apply absolute bottom-0 left-[2rem] w-1/2 z-[-1] w-full h-full;
-  background: url('~/assets/Illustration_Stackables.svg') no-repeat bottom right;
+  @apply absolute top-[50%] left-0 w-1/2 z-[-1] w-full h-full max-h-[708px];
+  background: url('~/assets/Illustration_Welcome.svg') no-repeat center;
   background-size: contain;
+  transform: translateY(-50%)
 }
 .useTemplateIdContainer {
   @apply relative min-h-[8rem];

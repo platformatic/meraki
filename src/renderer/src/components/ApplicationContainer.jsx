@@ -4,7 +4,7 @@ import {
   PAGE_WELCOME,
   BREAKPOINTS_HEIGHT_LG,
   HEIGHT_LG,
-  HEIGHT_MD,
+  HEIGHT_MD
 } from '~/ui-constants'
 import { CSSTransition, SwitchTransition } from 'react-transition-group'
 import styles from './ApplicationContainer.module.css'
@@ -14,8 +14,8 @@ import Welcome from './welcome/Welcome'
 import SideBar from './ui/SideBar'
 
 function ApplicationContainer () {
-  const [cssClassNames, setCssClassNames] = useState('next')
-  const [currentPage, setCurrentPage] = useState(PAGE_WELCOME)
+  const [cssClassNames] = useState('next')
+  const [currentPage] = useState(PAGE_WELCOME)
   const [components] = useState([
     <Welcome
       ref={useRef(null)}
@@ -47,6 +47,12 @@ function ApplicationContainer () {
         }, {
           label: 'All Apps',
           iconName: 'AppIcon'
+        }, {
+          label: 'Create App',
+          iconName: 'CreateAppIcon'
+        }, {
+          label: 'Import App',
+          iconName: 'ImportAppIcon'
         }]}
       />
       <SwitchTransition>

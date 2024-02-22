@@ -5,13 +5,13 @@ import commonStyles from '~/styles/CommonStyles.module.css'
 import styles from './Welcome.module.css'
 import '~/components/component.animation.css'
 import { Button, HorizontalSeparator } from '@platformatic/ui-components'
-import { ANTI_FLASH_WHITE, DULLS_BACKGROUND_COLOR, MARGIN_0, OPACITY_30, RICH_BLACK, SMALL, TRANSPARENT, WHITE } from '@platformatic/ui-components/src/components/constants'
+import { ANTI_FLASH_WHITE, DULLS_BACKGROUND_COLOR, MARGIN_0, OPACITY_30, RICH_BLACK, SMALL, WHITE } from '@platformatic/ui-components/src/components/constants'
 
 const Welcome = React.forwardRef((_props, ref) => {
   function createNewApp () {
 
   }
-  
+
   function importApp () {
 
   }
@@ -50,6 +50,11 @@ const Welcome = React.forwardRef((_props, ref) => {
               />
             </div>
             <HorizontalSeparator marginBottom={MARGIN_0} marginTop={MARGIN_0} color={WHITE} opacity={OPACITY_30} />
+            <div className={commonStyles.extraSmallFlexBlock}>
+              <p className={`${typographyStyles.desktopBodyLargeSemibold} ${typographyStyles.textWhite}`}>Applications running in your System</p>
+              <p className={`${typographyStyles.desktopBodyLarge} ${typographyStyles.textWhite} ${typographyStyles.opacity70}`}>You don’t have running application in your system.</p>
+            </div>
+
           </div>
         </div>
         <div className={`${commonStyles.largeFlexBlock} ${commonStyles.halfWidth} ${styles.imageContainer}`}>
