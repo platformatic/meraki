@@ -5,7 +5,8 @@ import PropTypes from 'prop-types'
 function BrickPath ({
   height,
   width,
-  bricksNumber
+  bricksNumber,
+  hover
 }) {
   const radius = 4
   const topRadius = 3
@@ -33,7 +34,10 @@ function BrickPath ({
   return (
     <path
       d={`M${startX},${startY} ${drawBricksOnTop()} ${addArch(radius, radius, 1, radius, radius)} v${height - startY - (radius * 2) - 1} ${addArch(radius, radius, 1, -radius, radius)} h-${width - (radius * 2) - 1} ${addArch(radius, radius, 1, -radius, -radius)} v-${height - startY - (radius * 2) - 1} ${addArch(radius, radius, 1, radius, -radius)} Z`}
-      fill='none' fillOpacity={0.15} stroke='none'
+      fill='none'
+      fillOpacity={hover ? 0.30 : 0.15}
+      stroke='none'
+      strokeOpacity={hover ? 1 : 0.7}
     />
   )
 }
@@ -50,11 +54,16 @@ BrickPath.propTypes = {
   /**
    * bricksNumber
     */
-  bricksNumber: PropTypes.number
+  bricksNumber: PropTypes.number,
+  /**
+   * hover
+    */
+  hover: PropTypes.bool
 }
 
 BrickPath.defaultProps = {
-  bricksNumber: 4
+  bricksNumber: 4,
+  hover: false
 }
 
 export default BrickPath
