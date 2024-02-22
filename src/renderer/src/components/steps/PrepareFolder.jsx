@@ -12,7 +12,6 @@ import '~/components/component.animation.css'
 import { callPrepareFolder, logInfo, quitApp } from '~/api'
 import { NONE, RUNNING, SUCCESS, ERROR } from '~/ui-constants'
 import Title from '~/components/ui/Title'
-
 const PrepareFolder = React.forwardRef(({ onNext, onBack }, ref) => {
   const globalState = useStackablesStore()
   const { formData, services, setTemplate } = globalState

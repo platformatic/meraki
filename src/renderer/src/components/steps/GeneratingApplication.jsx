@@ -11,7 +11,6 @@ import Title from '~/components/ui/Title'
 import CountDown from '~/components/ui/CountDown'
 import { callCreateApp, logInfo, quitApp } from '~/api'
 import { NONE, RUNNING, SUCCESS, ERROR } from '~/ui-constants'
-
 const GeneratingApplication = React.forwardRef(({ onBack, onRestartProcess }, ref) => {
   const globalState = useStackablesStore()
   const { formData, reset } = globalState
