@@ -11,6 +11,9 @@
 .svg {
   @apply absolute top-0 left-0 w-full h-full z-[-1]
 }
-.svg > path {
-  @apply stroke-white;
+.svgRelaxed > path{
+  @apply stroke-white;  
+}
+.svgHover > path{
+  @apply fill-white stroke-white
 }

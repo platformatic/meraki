@@ -25,7 +25,7 @@
   height: calc(100% - 3px);
 }
 .rectFilled {
-  @apply fill-tertiary-blue/15;
+  @apply fill-tertiary-blue;
   width: calc(100% - 1px);
   height: calc(100% - 1px);
 }
