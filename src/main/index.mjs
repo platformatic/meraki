@@ -208,8 +208,8 @@ app.whenReady().then(() => {
     // return importApp(path, uiLogger, appName)
     const pro = new Promise((resolve, reject) => {
       setTimeout(() => {
-        return resolve(true)
-        // return reject('Boom')
+        // return resolve(true)
+        return reject(new Error('Boom'))
       }, 2000)
     })
     return pro

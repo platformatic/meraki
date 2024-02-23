@@ -68,7 +68,7 @@ function ImportApplicationFlow ({ onCloseModal, onClickConfirm }) {
             containerClassName: `${commonStyles.mediumFlexBlock} ${commonStyles.itemsCenter}`,
             sentences: [{
               style: `${typographyStyles.desktopBodyLarge} ${typographyStyles.textWhite}`,
-              text: 'Loading plugins....'
+              text: 'We are importing your Application'
             }, {
               style: `${typographyStyles.desktopBodyLarge} ${typographyStyles.textWhite} ${typographyStyles.opacity70}`,
               text: 'This process will just take a few seconds.'
@@ -79,7 +79,7 @@ function ImportApplicationFlow ({ onCloseModal, onClickConfirm }) {
       )
     }
     if (innerStatus === ERROR) {
-      return <ErrorComponent message={error} />
+      return <ErrorComponent message={error} onClickDismiss={() => onCloseModal()} />
     }
     if (innerStatus === SUCCESS) {
       return (
