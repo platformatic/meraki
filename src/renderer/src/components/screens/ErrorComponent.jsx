@@ -14,10 +14,10 @@ function ErrorComponent ({ message }) {
         <Icons.AlertIcon size={LARGE} color={ERROR_RED} />
         <div className={`${commonStyles.smallFlexBlock} ${commonStyles.fullWidth} ${commonStyles.justifyCenter}`}>
           <p className={`${typographyStyles.desktopBodyLarge} ${typographyStyles.textWhite} ${typographyStyles.textCenter} ${commonStyles.fullWidth}`}>
-            Something went wrong: {message}
+            Something went wrong!
           </p>
           <p className={`${typographyStyles.desktopBodyLarge} ${typographyStyles.textWhite} ${typographyStyles.opacity70} ${typographyStyles.textCenter} ${commonStyles.fullWidth}`}>
-            Please try again.
+            {message}
           </p>
         </div>
       </div>

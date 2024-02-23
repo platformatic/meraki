@@ -1,0 +1,4 @@
+.container {
+  @apply w-full h-screen md:min-h-[calc(100vh-10rem)] flex flex-col justify-center items-center md:h-full max-w-screen-xl mx-auto
+}
+

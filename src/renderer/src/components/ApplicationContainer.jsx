@@ -11,15 +11,18 @@ import styles from './ApplicationContainer.module.css'
 import '~/components/component.animation.css'
 import useWindowDimensions from '~/hooks/useWindowDimensions'
 import Welcome from './welcome/Welcome'
-import SideBar from './ui/SideBar'
+import SideBar from '~/components/ui/SideBar'
+import ImportApplicationFlow from '~/components/application/import/ImportApplicationFlow'
 
 function ApplicationContainer () {
+  const [showModalImportApplication, setShowModalImportApplication] = useState(false)
   const [cssClassNames] = useState('next')
   const [currentPage] = useState(PAGE_WELCOME)
   const [components] = useState([
     <Welcome
       ref={useRef(null)}
       key={PAGE_WELCOME}
+      onClickImportApp={() => setShowModalImportApplication(true)}
     />
   ])
   const [currentComponent, setCurrentComponent] = useState(components.find(component => component.key === PAGE_WELCOME))
@@ -38,34 +41,48 @@ function ApplicationContainer () {
     setCurrentComponent(components.find(component => component.key === currentPage))
   }, [currentPage])
 
+  function handleImportApplication () {
+    setShowModalImportApplication(false)
+    // TODO: setCurrentComponent('Recent Apps')
+  }
+
   return (
-    <div className={styles.content}>
-      <SideBar
-        topItems={[{
-          label: 'Recent Apps',
-          iconName: 'RecentAppsIcon'
-        }, {
-          label: 'All Apps',
-          iconName: 'AppIcon'
-        }, {
-          label: 'Create App',
-          iconName: 'CreateAppIcon'
-        }, {
-          label: 'Import App',
-          iconName: 'ImportAppIcon'
-        }]}
-      />
-      <SwitchTransition>
-        <CSSTransition
-          key={currentComponent.key}
-          nodeRef={currentComponent.ref}
-          timeout={300}
-          classNames={cssClassNames}
-        >
-          {currentComponent}
-        </CSSTransition>
-      </SwitchTransition>
-    </div>
+    <>
+      <div className={styles.content}>
+        <SideBar
+          topItems={[{
+            label: 'Recent Apps',
+            iconName: 'RecentAppsIcon'
+          }, {
+            label: 'All Apps',
+            iconName: 'AppIcon'
+          }, {
+            label: 'Create App',
+            iconName: 'CreateAppIcon'
+          }, {
+            label: 'Import App',
+            iconName: 'ImportAppIcon',
+            onClick: () => setShowModalImportApplication(true)
+          }]}
+        />
+        <SwitchTransition>
+          <CSSTransition
+            key={currentComponent.key}
+            nodeRef={currentComponent.ref}
+            timeout={300}
+            classNames={cssClassNames}
+          >
+            {currentComponent}
+          </CSSTransition>
+        </SwitchTransition>
+      </div>
+      {showModalImportApplication && (
+        <ImportApplicationFlow
+          onCloseModal={() => setShowModalImportApplication(false)}
+          onClickConfirm={() => handleImportApplication()}
+        />
+      )}
+    </>
   )
 }
 

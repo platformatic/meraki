@@ -36,6 +36,7 @@ export const TYPESCRIPT = 'typescript'
 export const JAVASCRIPT = 'javascript'
 
 export const RUNNING = 'RUNNING'
+export const LOADING = 'LOADING'
 export const NONE = 'NONE'
 export const SUCCESS = 'SUCCESS'
 export const ERROR = 'ERROR'

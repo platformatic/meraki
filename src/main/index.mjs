@@ -203,6 +203,18 @@ app.whenReady().then(() => {
     return createApp(path, project, uiLogger)
   })
 
+  ipcMain.handle('import-app', async (_, path, appName) => {
+    // MOCK TO REMOVE
+    // return importApp(path, uiLogger, appName)
+    const pro = new Promise((resolve, reject) => {
+      setTimeout(() => {
+        return resolve(true)
+        // return reject('Boom')
+      }, 2000)
+    })
+    return pro
+  })
+
   ipcMain.handle('quit-app', () => {
     app.quit()
   })
