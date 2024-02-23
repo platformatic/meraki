@@ -18,7 +18,6 @@ function ImportApplicationFlow ({ onCloseModal, onClickConfirm }) {
   const [validForm, setValidForm] = useState(false)
   const [innerStatus, setInnerStatus] = useState(NONE)
   const [error, setError] = useState('')
-  let timeoutID = null
 
   function validateField (fieldName, fieldValue, callback = () => {}) {
     let tmpValid = validations[`${fieldName}Valid`]
@@ -45,7 +44,7 @@ function ImportApplicationFlow ({ onCloseModal, onClickConfirm }) {
       setInnerStatus(LOADING)
       await callImportApp(form.folder, form.name)
       setInnerStatus(SUCCESS)
-      timeoutID = setTimeout(() => onClickConfirm(), 2000)
+      setTimeout(() => onClickConfirm(), 3000)
     } catch (error) {
       console.error(`Error on callImportApp ${error}`)
       setError(error.message)
