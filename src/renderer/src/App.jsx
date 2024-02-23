@@ -4,7 +4,7 @@ import Header from './layout/Header'
 import Wizard from './components/Wizard'
 import log from 'electron-log/renderer'
 import useErrorBoundary from 'use-error-boundary'
-import ErrorComponent from './components/errors/ErrorComponent'
+import ErrorComponent from './components/screens/ErrorComponent'
 import ApplicationContainer from './components/ApplicationContainer'
 
 function App () {

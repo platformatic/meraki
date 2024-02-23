@@ -20,6 +20,7 @@ if (process.contextIsolated) {
       prepareFolder: (folder, templates, appName) => (ipcRenderer.invoke('prepare-folder', folder, templates, appName)),
       onLog: callback => ipcRenderer.on('log', callback),
       createApp: (folder, project) => (ipcRenderer.invoke('create-app', folder, project)),
+      importApp: (folder, appName) => (ipcRenderer.invoke('import-app', folder, appName)),
       quitApp: () => (ipcRenderer.invoke('quit-app')),
       getServiceName: () => (ipcRenderer.invoke('generate-name')),
       onUserStatus: callback => ipcRenderer.on('user-status', callback)

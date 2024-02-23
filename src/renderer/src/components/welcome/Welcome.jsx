@@ -1,5 +1,6 @@
 'use strict'
 import React from 'react'
+import PropTypes from 'prop-types'
 import typographyStyles from '~/styles/Typography.module.css'
 import commonStyles from '~/styles/CommonStyles.module.css'
 import styles from './Welcome.module.css'
@@ -7,12 +8,8 @@ import '~/components/component.animation.css'
 import { Button, HorizontalSeparator } from '@platformatic/ui-components'
 import { ANTI_FLASH_WHITE, DULLS_BACKGROUND_COLOR, MARGIN_0, OPACITY_30, RICH_BLACK, SMALL, WHITE } from '@platformatic/ui-components/src/components/constants'
 
-const Welcome = React.forwardRef((_props, ref) => {
+const Welcome = React.forwardRef(({ onClickImportApp }, ref) => {
   function createNewApp () {
-
-  }
-
-  function importApp () {
 
   }
 
@@ -42,7 +39,7 @@ const Welcome = React.forwardRef((_props, ref) => {
               />
               <Button
                 label='Import App'
-                onClick={() => importApp()}
+                onClick={() => onClickImportApp()}
                 backgroundColor={RICH_BLACK}
                 color={WHITE}
                 paddingClass={`${commonStyles.buttonPadding} cy-action-import-app`}
@@ -64,5 +61,16 @@ const Welcome = React.forwardRef((_props, ref) => {
     </>
   )
 })
+
+Welcome.propTypes = {
+  /**
+     * onClickImportApp
+     */
+  onClickImportApp: PropTypes.func
+}
+
+Welcome.defaultProps = {
+  onClickImportApp: () => {}
+}
 
 export default Welcome
