@@ -1,0 +1,32 @@
+.container {
+  @apply flex flex-row justify-between relative grow;
+}
+.leftContent {
+  @apply flex flex-col items-center justify-center px-6;
+}
+.buttonContainer {
+  @apply flex justify-start gap-x-2;
+}
+.imageContainer{
+  position: relative;
+  height: auto;
+}
+.imageContent{
+  @apply absolute top-[50%] left-0 w-1/2 z-[-1] w-full h-full max-h-[708px];
+  background: url('~/assets/Illustration_Welcome.svg') no-repeat center;
+  background-size: contain;
+  transform: translateY(-50%)
+}
+.useTemplateIdContainer {
+  @apply relative min-h-[8rem];
+}
+.loadingSpinner {
+  @apply absolute left-1/2 top-1/2;
+  transform: translate(-50%, -50%);
+}
+.borderedBox {
+  @apply grow-0;
+}
+.paddingTop {
+  @apply pt-20
+}

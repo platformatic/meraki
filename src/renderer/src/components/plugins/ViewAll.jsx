@@ -23,10 +23,10 @@ function ViewAll ({ serviceName }) {
           dataAttrName='cy'
           dataAttrValue='modal-title'
         />
-        <p className={`${typographyStyles.desktopBodyLarge} ${typographyStyles.textWhite} ${typographyStyles.opacity70}`}>Plugins selected for this service: ({getService(serviceName).plugins.length})</p>
+        <p className={`${typographyStyles.desktopBodyLarge} ${typographyStyles.textWhite}`}><span className={typographyStyles.opacity70}>Plugins selected for this service: (</span>{getService(serviceName).plugins.length}<span className={typographyStyles.opacity70}>)</span></p>
       </div>
 
-      <div className={`${commonStyles.flexBlockNoGap} ${commonStyles.fullWidth}`}>
+      <div className={`${commonStyles.mediumFlexBlock} ${commonStyles.fullWidth}`}>
         <div className={styles.pluginContainer}>
           <TransitionGroup component={null}>
             {getService(serviceName).plugins.map((plugin, index) =>

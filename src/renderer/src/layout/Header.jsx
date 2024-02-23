@@ -7,9 +7,13 @@ import { WHITE, MARGIN_0, OPACITY_30 } from '@platformatic/ui-components/src/com
 import MerakiLogo from '~/components/ui/MerakiLogo'
 
 function Header () {
+  const featureFlag = import.meta.env.VITE_DEV_FF
+
+  const classNameContainer = featureFlag ? styles.containerFeatureFlag : styles.container
+  const classNameHeader = featureFlag ? styles.headerFeatureFlag : styles.header
   return (
-    <div className={styles.container}>
-      <div className={styles.header}>
+    <div className={classNameContainer}>
+      <div className={classNameHeader}>
         <div className={commonStyles.smallFlexRow}>
           <MerakiLogo />
         </div>
