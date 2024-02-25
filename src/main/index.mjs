@@ -215,6 +215,80 @@ app.whenReady().then(() => {
     return pro
   })
 
+  ipcMain.handle('get-applications', async (_) => {
+    // MOCK TO REMOVE
+    // return importApp(path, uiLogger, appName)
+    const pro = new Promise((resolve, reject) => {
+      setTimeout(() => {
+        return resolve([{
+          id: '1',
+          name: 'Ransom',
+          status: 'running',
+          platformaticVersion: '1.0.0',
+          updateVersion: true,
+          lastUpdate: '1708887874046',
+          insideMeraki: true
+        }, {
+          id: '2',
+          name: 'Coolhio',
+          status: 'stopped',
+          platformaticVersion: '3.0.0',
+          lastUpdate: '1706295948105',
+          insideMeraki: false
+        }, {
+          id: '3',
+          name: 'a horse with a long long long name',
+          status: 'running',
+          platformaticVersion: '3.0.0',
+          lastUpdate: '1706295948105',
+          insideMeraki: true
+        }, {
+          id: '4',
+          name: 'pitiful',
+          status: 'running',
+          platformaticVersion: '1.0.0',
+          updateVersion: true,
+          lastUpdate: '1708715157920',
+          insideMeraki: false
+        }, {
+          id: '5',
+          name: 'searching',
+          status: 'running',
+          platformaticVersion: '1.0.0',
+          updateVersion: true,
+          lastUpdate: '1708023980957',
+          insideMeraki: true
+        }, {
+          id: '6',
+          name: 'trouble',
+          status: 'stopped',
+          platformaticVersion: '1.0.0',
+          updateVersion: true,
+          lastUpdate: '1708283136299',
+          insideMeraki: false
+        }, {
+          id: '7',
+          name: 'loading',
+          status: 'stopped',
+          platformaticVersion: '1.0.0',
+          updateVersion: true,
+          lastUpdate: '1708628722661',
+          insideMeraki: true
+        }, {
+          id: '8',
+          name: 'Dodge',
+          status: 'running',
+          platformaticVersion: '3.0.0',
+          lastUpdate: '1708801496452',
+          insideMeraki: false
+        }]
+        )
+        // return reject(new Error('Boom'))
+      }, 2000)
+    })
+    return pro
+  })
+
   ipcMain.handle('quit-app', () => {
     app.quit()
   })

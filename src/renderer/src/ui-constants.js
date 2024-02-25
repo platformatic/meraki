@@ -44,3 +44,6 @@ export const ERROR = 'ERROR'
 export const PAGE_WELCOME = 'welcome'
 export const PAGE_RECENT_APPS = 'recent_apps'
 export const PAGE_ALL_APPS = 'all_apps'
+
+export const ASC = 'ASC'
+export const DESC = 'DESC'

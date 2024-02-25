@@ -21,6 +21,7 @@ if (process.contextIsolated) {
       onLog: callback => ipcRenderer.on('log', callback),
       createApp: (folder, project) => (ipcRenderer.invoke('create-app', folder, project)),
       importApp: (folder, appName) => (ipcRenderer.invoke('import-app', folder, appName)),
+      getApplications: (folder) => (ipcRenderer.invoke('get-applications', folder)),
       quitApp: () => (ipcRenderer.invoke('quit-app')),
       getServiceName: () => (ipcRenderer.invoke('generate-name')),
       onUserStatus: callback => ipcRenderer.on('user-status', callback)

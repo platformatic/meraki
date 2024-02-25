@@ -2,6 +2,8 @@
 import { useRef, useState, useEffect } from 'react'
 import {
   PAGE_WELCOME,
+  PAGE_RECENT_APPS,
+  PAGE_ALL_APPS,
   BREAKPOINTS_HEIGHT_LG,
   HEIGHT_LG,
   HEIGHT_MD
@@ -10,19 +12,24 @@ import { CSSTransition, SwitchTransition } from 'react-transition-group'
 import styles from './ApplicationContainer.module.css'
 import '~/components/component.animation.css'
 import useWindowDimensions from '~/hooks/useWindowDimensions'
-import Welcome from './welcome/Welcome'
+import Welcome from '~/components/welcome/Welcome'
+import RecentApplications from '~/components/applications/recent/RecentApplications'
 import SideBar from '~/components/ui/SideBar'
 import ImportApplicationFlow from '~/components/application/import/ImportApplicationFlow'
 
 function ApplicationContainer () {
   const [showModalImportApplication, setShowModalImportApplication] = useState(false)
-  const [cssClassNames] = useState('next')
-  const [currentPage] = useState(PAGE_WELCOME)
+  const [cssClassNames] = useState('scroll-down')
+  const [currentPage, setCurrentPage] = useState(PAGE_WELCOME)
   const [components] = useState([
     <Welcome
       ref={useRef(null)}
       key={PAGE_WELCOME}
       onClickImportApp={() => setShowModalImportApplication(true)}
+    />,
+    <RecentApplications
+      ref={useRef(null)}
+      key={PAGE_RECENT_APPS}
     />
   ])
   const [currentComponent, setCurrentComponent] = useState(components.find(component => component.key === PAGE_WELCOME))
@@ -50,10 +57,14 @@ function ApplicationContainer () {
     <>
       <div className={styles.content}>
         <SideBar
+          selected={currentPage}
           topItems={[{
+            name: PAGE_RECENT_APPS,
             label: 'Recent Apps',
-            iconName: 'RecentAppsIcon'
+            iconName: 'RecentAppsIcon',
+            onClick: () => setCurrentPage(PAGE_RECENT_APPS)
           }, {
+            name: PAGE_ALL_APPS,
             label: 'All Apps',
             iconName: 'AppIcon'
           }, {

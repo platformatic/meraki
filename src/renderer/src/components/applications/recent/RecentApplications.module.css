@@ -1,0 +1,6 @@
+.container {
+  @apply grow;  
+}
+.content {
+  @apply pt-10 px-6 flex flex-col gap-y-10; 
+}
