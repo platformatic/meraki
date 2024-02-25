@@ -25,7 +25,7 @@ function TopContent ({ runningApps, stoppedApps }) {
           </div>
           <VerticalSeparator color={WHITE} backgroundColorOpacity={OPACITY_30} classes={styles.verticalSeparator} />
           <div className={`${commonStyles.smallFlexRow} ${commonStyles.itemsCenter}`}>
-            <Icons.StackablesPluginIcon color={WHITE} size={SMALL} />
+            <Icons.StoppedAppIcon color={WHITE} size={SMALL} />
             <span className={`${typographyStyles.desktopBodyLarge} ${typographyStyles.textWhite} ${typographyStyles.opacity70}`}>Stopped: </span>
             <span className={`${typographyStyles.desktopBodyLarge} ${typographyStyles.textWhite}`}>{stoppedApps}</span>
           </div>

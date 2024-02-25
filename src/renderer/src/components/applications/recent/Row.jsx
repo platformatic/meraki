@@ -2,13 +2,14 @@
 import PropTypes from 'prop-types'
 import typographyStyles from '~/styles/Typography.module.css'
 import commonStyles from '~/styles/CommonStyles.module.css'
-import { DULLS_BACKGROUND_COLOR, MEDIUM, RICH_BLACK, SMALL, WARNING_YELLOW, WHITE } from '@platformatic/ui-components/src/components/constants'
+import { DULLS_BACKGROUND_COLOR, MAIN_GREEN, MEDIUM, RICH_BLACK, SMALL, WARNING_YELLOW, WHITE } from '@platformatic/ui-components/src/components/constants'
 import { ButtonOnlyIcon, Icons } from '@platformatic/ui-components'
 import styles from './Row.module.css'
 
 function Row ({
   id,
   insideMeraki,
+  updateVersion,
   name,
   status,
   platformaticVersion,
@@ -16,49 +17,67 @@ function Row ({
   onClickStart,
   onClickRunning
 }) {
+  function statusPills () {
+    if (status === 'stopped') {
+      return (
+        <div className={styles.stoppedPills}>
+          <Icons.CircleStopIcon color={WHITE} size={SMALL} />
+          <span className={`${typographyStyles.desktopOtherOverlineNormal} ${typographyStyles.textWhite}`}>{status}</span>
+        </div>
+      )
+    }
+    return (
+      <div className={styles.runningPills}>
+        <Icons.RunningIcon color={MAIN_GREEN} size={SMALL} />
+        <span className={`${typographyStyles.desktopOtherOverlineNormal} ${typographyStyles.textMainGreen}`}>{status}</span>
+
+      </div>
+    )
+  }
+
   return (
     <tr className={styles.trBordered}>
       <td data-label='Name' colSpan={6}>
         <div className={`${styles.customSmallFlexRow}`} title={name}>
           {insideMeraki && <Icons.StackablesPluginIcon color={WHITE} size={MEDIUM} />}
-          {!insideMeraki && <Icons.StackablesTemplateIcon color={WHITE} size={MEDIUM} />}
+          {!insideMeraki && <Icons.CLIIcon color={WHITE} size={MEDIUM} />}
           <span className={`${typographyStyles.desktopBodySemibold} ${typographyStyles.textWhite} ${styles.ellipsis}`} title={name}>{name}</span>
         </div>
       </td>
       <td data-label='Status' colSpan={2}>
-        <div className={`${styles.customSmallFlexRow}`}>
-          {/* <Icons.CircleFullIcon color={getCircleColor()} size={EXTRA_SMALL} /> */}
-          <span className={`${typographyStyles.desktopBody} ${typographyStyles.textWhite} ${typographyStyles.opacity70}`}>{status}</span>
-        </div>
+        {statusPills()}
       </td>
       <td data-label='Plt Version' colSpan={2}>
-        <span className={`${typographyStyles.desktopBody} ${typographyStyles.textWhite} ${typographyStyles.opacity70}`}>{platformaticVersion}</span>
+        <div className={`${styles.customSmallFlexRow}`}>
+          <span className={`${typographyStyles.desktopBody} ${typographyStyles.textWhite} ${typographyStyles.opacity70}`}>{platformaticVersion}</span>
+          {updateVersion && <Icons.AlertIcon color={WARNING_YELLOW} size={SMALL} />}
+        </div>
       </td>
       <td data-label='Actions' colSpan={2}>
         <div className={`${styles.buttonsContainer} `}>
           <ButtonOnlyIcon
             textClass={typographyStyles.desktopBody}
-            altLabel='Refresh npm'
-            paddingClass={commonStyles.buttonSquarePadding}
-            color={WHITE}
-            backgroundColor={RICH_BLACK}
-            onClick={() => onClickStop()}
-            hoverEffect={DULLS_BACKGROUND_COLOR}
-            platformaticIcon={{ size: SMALL, iconName: 'StopIcon', color: WHITE }}
-          />
-          <ButtonOnlyIcon
-            textClass={typographyStyles.desktopBody}
-            altLabel='Refresh npm'
+            altLabel='Start application'
             paddingClass={commonStyles.buttonSquarePadding}
             color={WHITE}
             backgroundColor={RICH_BLACK}
             onClick={() => onClickStart()}
             hoverEffect={DULLS_BACKGROUND_COLOR}
-            platformaticIcon={{ size: SMALL, iconName: 'PlayIcon', color: WHITE }}
+            platformaticIcon={{ size: SMALL, iconName: 'CirclePlayIcon', color: WHITE }}
           />
           <ButtonOnlyIcon
             textClass={typographyStyles.desktopBody}
-            altLabel='Refresh npm'
+            altLabel='Stop application'
+            paddingClass={commonStyles.buttonSquarePadding}
+            color={WHITE}
+            backgroundColor={RICH_BLACK}
+            onClick={() => onClickStop()}
+            hoverEffect={DULLS_BACKGROUND_COLOR}
+            platformaticIcon={{ size: SMALL, iconName: 'CircleStopIcon', color: WHITE }}
+          />
+          <ButtonOnlyIcon
+            textClass={typographyStyles.desktopBody}
+            altLabel='Restart application'
             paddingClass={commonStyles.buttonSquarePadding}
             color={WHITE}
             backgroundColor={RICH_BLACK}
@@ -78,9 +97,13 @@ Row.propTypes = {
     */
   id: PropTypes.string.isRequired,
   /**
-   * type
+   * insideMeraky
     */
-  type: PropTypes.string,
+  insideMeraky: PropTypes.bool,
+  /**
+   * updateVersion
+    */
+  updateVersion: PropTypes.bool,
   /**
    * name
     */
@@ -88,33 +111,11 @@ Row.propTypes = {
   /**
    * status
     */
-  status: PropTypes.shape({
-    label: PropTypes.string,
-    value: PropTypes.string
-  }),
+  status: PropTypes.string,
   /**
    * latest
     */
   platformaticVersion: PropTypes.string,
-  /**
-   * downloads
-    */
-  downloads: PropTypes.oneOfType([
-    PropTypes.string,
-    PropTypes.number
-  ]),
-  /**
-   * orgName
-    */
-  orgName: PropTypes.string,
-  /**
-   * description
-    */
-  description: PropTypes.string,
-  /**
-   * tags
-    */
-  tags: PropTypes.array,
   /**
    * onClickDelete
     */
@@ -127,14 +128,11 @@ Row.propTypes = {
 }
 
 Row.defaultProps = {
-  insideMeraki: '',
+  insideMeraki: false,
+  updateVersion: false,
   name: '',
   status: '',
   platformaticVersion: '-',
-  downloads: '-',
-  orgName: '',
-  description: '',
-  tags: [],
   onClickDelete: () => {},
   onClickSave: () => {}
 }
