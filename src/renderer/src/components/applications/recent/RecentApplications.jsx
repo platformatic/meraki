@@ -58,7 +58,7 @@ const RecentApplications = React.forwardRef(({ onClickCreateNewApp }, ref) => {
     setApplicationsLoaded(false)
   }
 
-  function handleRunningApplication () {
+  function handleRestartApplication () {
     setApplicationsLoaded(false)
   }
 
@@ -76,7 +76,7 @@ const RecentApplications = React.forwardRef(({ onClickCreateNewApp }, ref) => {
             applications={applications}
             onStopApplication={handleStopApplication}
             onStartApplication={handleStartApplication}
-            onRunningApplication={handleRunningApplication}
+            onRestartApplication={handleRestartApplication}
             onErrorOccurred={() => setShowErrorComponent(true)}
             onClickCreateNewApp={() => onClickCreateNewApp()}
           />

@@ -15,11 +15,9 @@ function Table ({
   applications,
   onStopApplication,
   onStartApplication,
-  onErrorOccurred,
-  onRunningApplication,
+  onRestartApplication,
   onClickCreateNewApp
 }) {
-  const [stackableSelected, setStackableSelected] = useState(null)
   const [innerLoading, setInnerLoading] = useState(true)
   const [showNoResult, setShowNoResult] = useState(false)
   const [sortActiveOn, setSortActiveOn] = useState('name')
@@ -46,24 +44,6 @@ function Table ({
       setInnerLoading(false)
     }
   }, [filteredApplications])
-
-  async function handleSaveStackable ({ id, ...form }) {
-    try {
-      setInnerLoading(true)
-      const response = await editTemplate(accessToken, id, form)
-      if (response.status === 200) {
-        onStartApplication()
-      } else {
-        console.error(`Error on response status ${response.status}`)
-        onErrorOccurred()
-      }
-    } catch (error) {
-      console.error(`Error on handleSaveStackable: ${error}`)
-      onErrorOccurred()
-    } finally {
-      setInnerLoading(false)
-    }
-  }
 
   function handleSortByName () {
     setSortActiveOn('name')
@@ -159,11 +139,12 @@ function Table ({
           </tr>
         </thead>
         <tbody>
-          {filteredApplications.map(stackable => (
+          {filteredApplications.map(application => (
             <Row
-              key={stackable.id} {...stackable}
-              onClickDelete={() => setStackableSelected(stackable)}
-              onClickSave={(payload) => handleSaveStackable(payload)}
+              key={application.id} {...application}
+              onClickStop={() => onStopApplication(application.id)}
+              onClickStart={() => onStartApplication(application.id)}
+              onClickRestart={() => onRestartApplication(application.id)}
             />
           ))}
         </tbody>

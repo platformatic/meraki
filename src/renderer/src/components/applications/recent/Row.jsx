@@ -15,7 +15,7 @@ function Row ({
   platformaticVersion,
   onClickStop,
   onClickStart,
-  onClickRunning
+  onClickRestart
 }) {
   function statusPills () {
     if (status === 'stopped') {
@@ -64,6 +64,7 @@ function Row ({
             onClick={() => onClickStart()}
             hoverEffect={DULLS_BACKGROUND_COLOR}
             platformaticIcon={{ size: SMALL, iconName: 'CirclePlayIcon', color: WHITE }}
+            disabled={status === 'running'}
           />
           <ButtonOnlyIcon
             textClass={typographyStyles.desktopBody}
@@ -74,6 +75,7 @@ function Row ({
             onClick={() => onClickStop()}
             hoverEffect={DULLS_BACKGROUND_COLOR}
             platformaticIcon={{ size: SMALL, iconName: 'CircleStopIcon', color: WHITE }}
+            disabled={status === 'stopped'}
           />
           <ButtonOnlyIcon
             textClass={typographyStyles.desktopBody}
@@ -81,7 +83,7 @@ function Row ({
             paddingClass={commonStyles.buttonSquarePadding}
             color={WHITE}
             backgroundColor={RICH_BLACK}
-            onClick={() => onClickRunning()}
+            onClick={() => onClickRestart()}
             hoverEffect={DULLS_BACKGROUND_COLOR}
             platformaticIcon={{ size: SMALL, iconName: 'RestartIcon', color: WHITE }}
           />
