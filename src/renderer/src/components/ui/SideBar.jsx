@@ -9,13 +9,13 @@ import { DULLS_BACKGROUND_COLOR, RICH_BLACK, SMALL, WHITE } from '@platformatic/
 
 function SideBar ({ selected, topItems }) {
   function Item ({ item }) {
-    const [hover, setHover] = useState(false)
+    const [hover, setHover] = useState(selected === item.name)
 
     return (
       <div
         className={`${commonStyles.smallFlexBlock} ${commonStyles.itemsCenter} ${typographyStyles.desktopBodySmallest} ${typographyStyles.textWhite} ${typographyStyles.textCenter} ${hover ? '' : typographyStyles.opacity70}`}
-        onMouseLeave={() => setHover(false)}
-        onMouseOver={() => setHover(true)}
+        onMouseLeave={() => selected !== item.name ? setHover(false) : {}}
+        onMouseOver={() => selected !== item.name ? setHover(true) : {}}
       >
         <ButtonOnlyIcon
           altLabel={item.label}

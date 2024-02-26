@@ -66,11 +66,16 @@ Welcome.propTypes = {
   /**
      * onClickImportApp
      */
-  onClickImportApp: PropTypes.func
+  onClickImportApp: PropTypes.func,
+  /**
+     * onClickCreateNewApp
+    */
+  onClickCreateNewApp: PropTypes.func
 }
 
 Welcome.defaultProps = {
-  onClickImportApp: () => {}
+  onClickImportApp: () => {},
+  onClickCreateNewApp: () => {}
 }
 
 export default Welcome
