@@ -14,6 +14,7 @@ import '~/components/component.animation.css'
 import useWindowDimensions from '~/hooks/useWindowDimensions'
 import Welcome from '~/components/welcome/Welcome'
 import RecentApplications from '~/components/applications/recent/RecentApplications'
+import AllApplications from '~/components/applications/all/AllApplications'
 import SideBar from '~/components/ui/SideBar'
 import ImportApplicationFlow from '~/components/application/import/ImportApplicationFlow'
 
@@ -30,7 +31,12 @@ function ApplicationContainer () {
     <RecentApplications
       ref={useRef(null)}
       key={PAGE_RECENT_APPS}
+    />,
+    <AllApplications
+      ref={useRef(null)}
+      key={PAGE_ALL_APPS}
     />
+
   ])
   const [currentComponent, setCurrentComponent] = useState(components.find(component => component.key === PAGE_WELCOME))
 
@@ -66,7 +72,8 @@ function ApplicationContainer () {
           }, {
             name: PAGE_ALL_APPS,
             label: 'All Apps',
-            iconName: 'AppIcon'
+            iconName: 'AppIcon',
+            onClick: () => setCurrentPage(PAGE_ALL_APPS)
           }, {
             label: 'Create App',
             iconName: 'CreateAppIcon'

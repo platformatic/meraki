@@ -25,6 +25,7 @@ function SideBar ({ selected, topItems }) {
           onClick={() => item.onClick()}
           hoverEffect={DULLS_BACKGROUND_COLOR}
           platformaticIcon={{ size: SMALL, iconName: item.iconName, color: WHITE }}
+          selected={selected === item.name}
         />
         <span>{item.label}</span>
       </div>

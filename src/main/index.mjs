@@ -226,6 +226,7 @@ app.whenReady().then(() => {
           status: 'running',
           platformaticVersion: '1.0.0',
           updateVersion: true,
+          lastStarted: '1708887874046',
           lastUpdate: '1708887874046',
           insideMeraki: true
         }, {
@@ -233,6 +234,7 @@ app.whenReady().then(() => {
           name: 'Coolhio',
           status: 'stopped',
           platformaticVersion: '3.0.0',
+          lastStarted: '1706295948105',
           lastUpdate: '1706295948105',
           insideMeraki: false
         }, {
@@ -240,6 +242,7 @@ app.whenReady().then(() => {
           name: 'a horse with a long long long name',
           status: 'running',
           platformaticVersion: '3.0.0',
+          lastStarted: '1706295948105',
           lastUpdate: '1706295948105',
           insideMeraki: true
         }, {
@@ -248,6 +251,7 @@ app.whenReady().then(() => {
           status: 'running',
           platformaticVersion: '1.0.0',
           updateVersion: true,
+          lastStarted: '1708715157920',
           lastUpdate: '1708715157920',
           insideMeraki: false
         }, {
@@ -256,6 +260,7 @@ app.whenReady().then(() => {
           status: 'running',
           platformaticVersion: '1.0.0',
           updateVersion: true,
+          lastStarted: '1708023980957',
           lastUpdate: '1708023980957',
           insideMeraki: true
         }, {
@@ -264,6 +269,7 @@ app.whenReady().then(() => {
           status: 'stopped',
           platformaticVersion: '1.0.0',
           updateVersion: true,
+          lastStarted: '1708283136299',
           lastUpdate: '1708283136299',
           insideMeraki: false
         }, {
@@ -272,6 +278,7 @@ app.whenReady().then(() => {
           status: 'stopped',
           platformaticVersion: '1.0.0',
           updateVersion: true,
+          lastStarted: '1708628722661',
           lastUpdate: '1708628722661',
           insideMeraki: true
         }, {
@@ -279,6 +286,7 @@ app.whenReady().then(() => {
           name: 'Dodge',
           status: 'running',
           platformaticVersion: '3.0.0',
+          lastStarted: '1708801496452',
           lastUpdate: '1708801496452',
           insideMeraki: false
         }]

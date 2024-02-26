@@ -1,0 +1,82 @@
+.container {
+  @apply w-full h-auto ;
+}
+.loadingSpinner {
+  @apply absolute left-1/2 top-1/2;
+  transform: translate(-50%, -50%);
+}
+.select {
+  @apply basis-1/4
+}
+.selectUl {
+  @apply w-full md:min-w-[150%]
+}
+
+
+table {
+  @apply w-full ;
+  table-layout: fixed;
+  border-spacing: 0 24px;
+  vertical-align: middle;
+  border-collapse: collapse;
+}
+
+table td {
+  padding: 12px 12px 12px 0px;
+  vertical-align: middle;
+}
+table tr:first-child,
+table div tr:first-child {
+  border-top: 0px;
+}
+
+table th {
+  @apply pb-12 text-left ;
+}
+.noStackableFound {
+  @apply h-full flex flex-col items-center justify-center;
+  min-height: inherit;
+}
+.thWithIcon {
+  @apply flex flex-row items-center gap-x-2
+}
+
+@media screen and (max-width: 1024px) {
+  table {
+    border-bottom: 0;
+  }
+
+  
+  table thead {
+    width: 100%;
+    border: none;
+    height: 1px;
+    margin: -1px;
+    overflow: hidden;
+    padding: 0;
+    position: absolute;
+  }
+  
+  table div tr {
+    display: block;
+  }
+  
+  table td {
+    display: block;
+    text-align: right;
+  }
+  
+  table td::before {
+    @apply text-white font-bold;
+    /*
+    * aria-label has no advantage, it won't be read inside a table
+    content: attr(aria-label);
+    */
+    content: attr(data-label);
+    float: left;
+  }
+  
+  table td:last-child {
+    border-bottom: 0;
+  }
+}
