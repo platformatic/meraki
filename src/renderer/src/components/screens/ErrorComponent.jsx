@@ -94,7 +94,7 @@ ErrorComponent.propTypes = {
   /**
    * onClickDismiss
    */
-  onClickDismiss: PropTypes.string
+  onClickDismiss: PropTypes.func
 }
 
 ErrorComponent.defaultProps = {

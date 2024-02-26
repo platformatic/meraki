@@ -3,14 +3,14 @@ import React, { useEffect, useState } from 'react'
 import PropTypes from 'prop-types'
 import typographyStyles from '~/styles/Typography.module.css'
 import commonStyles from '~/styles/CommonStyles.module.css'
-import styles from './Table.module.css'
+import styles from './TableRecent.module.css'
 import { LoadingSpinnerV2, Button, PlatformaticIcon } from '@platformatic/ui-components'
 import { RICH_BLACK, WHITE, SMALL, DULLS_BACKGROUND_COLOR, ANTI_FLASH_WHITE } from '@platformatic/ui-components/src/components/constants'
 import { ASC, DESC } from '~/ui-constants'
 import Row from './Row'
 import { sortCollection } from '~/utilitySorting'
 
-function Table ({
+function TableRecent ({
   applicationsLoaded,
   applications,
   onStopApplication,
@@ -24,8 +24,6 @@ function Table ({
   const [sortByName, setSortByName] = useState(ASC)
   const [sortByStatus, setSortByStatus] = useState('')
   const [sortByPltVersion, setSortByPltVersion] = useState('')
-  const [sortByLastStarted, setSortByLastStarted] = useState('')
-  const [sortByLastUpdate, setSortByLastUpdate] = useState('')
   const [filteredApplications, setFilteredApplications] = useState([])
 
   // const orgIdOfUser = globalState.computed.orgIdOfUser
@@ -68,20 +66,6 @@ function Table ({
     setFilteredApplications(sortCollection(filteredApplications, 'platformaticVersion', newValue === ASC))
   }
 
-  function handleSortByLastUpdate () {
-    setSortActiveOn('lastUpdate')
-    const newValue = sortByLastUpdate === '' ? ASC : sortByLastUpdate === ASC ? DESC : ASC
-    setSortByLastUpdate(newValue)
-    setFilteredApplications(sortCollection(filteredApplications, 'lastUpdate', newValue === ASC))
-  }
-
-  function handleSortByLastStarted () {
-    setSortActiveOn('lastStarted')
-    const newValue = sortByLastStarted === '' ? ASC : sortByLastStarted === ASC ? DESC : ASC
-    setSortByLastStarted(newValue)
-    setFilteredApplications(sortCollection(filteredApplications, 'lastStarted', newValue === ASC))
-  }
-
   function getSortIcon (key, cb) {
     if (sortActiveOn !== key) {
       return 'SortIcon'
@@ -110,7 +94,7 @@ function Table ({
     }
     if (showNoResult) {
       return (
-        <div className={styles.noStackableFound}>
+        <div className={styles.noApplicationFound}>
           <p className={`${typographyStyles.desktopBodyLarge} ${typographyStyles.textWhite} `}>Seems that you haven't any application on your machine! Click here to Create your first application! &nbsp;
             <Button
               label='Create new App'
@@ -131,13 +115,13 @@ function Table ({
       <table>
         <thead>
           <tr className={`${typographyStyles.desktopOtherOverlineNormal} ${typographyStyles.textWhite} ${typographyStyles.opacity70}`}>
-            <th scope='col' colSpan={4}>
+            <th scope='col' colSpan={6}>
               <div className={styles.thWithIcon}>
                 <span>Name</span>
                 <PlatformaticIcon iconName={getSortIcon('name', sortByName === ASC ? 'SortDownIcon' : 'SortUpIcon')} color={WHITE} size={SMALL} onClick={() => handleSortByName()} />
               </div>
             </th>
-            <th scope='col' colSpan={1}>
+            <th scope='col' colSpan={2}>
               <div className={styles.thWithIcon}>
                 <span>Status</span>
                 <PlatformaticIcon iconName={getSortIcon('status', sortByStatus === ASC ? 'SortDownIcon' : 'SortUpIcon')} color={WHITE} size={SMALL} onClick={() => handleSortByStatus()} />
@@ -149,19 +133,7 @@ function Table ({
                 <PlatformaticIcon iconName={getSortIcon('platformaticVersion', sortByPltVersion === ASC ? 'SortDownIcon' : 'SortUpIcon')} color={WHITE} size={SMALL} onClick={() => handleSortByPltVersion()} />
               </div>
             </th>
-            <th scope='col' colSpan={2}>
-              <div className={styles.thWithIcon}>
-                <span>Last Update</span>
-                <PlatformaticIcon iconName={getSortIcon('lastUpdate', sortByStatus === ASC ? 'SortDownIcon' : 'SortUpIcon')} color={WHITE} size={SMALL} onClick={() => handleSortByLastUpdate()} />
-              </div>
-            </th>
-            <th scope='col' colSpan={2}>
-              <div className={styles.thWithIcon}>
-                <span>Last Started</span>
-                <PlatformaticIcon iconName={getSortIcon('lastStarted', sortByStatus === ASC ? 'SortDownIcon' : 'SortUpIcon')} color={WHITE} size={SMALL} onClick={() => handleSortByLastStarted()} />
-              </div>
-            </th>
-            <th scope='col' colSpan={1}>
+            <th scope='col' colSpan={3}>
               <span>Actions</span>
             </th>
           </tr>
@@ -187,7 +159,7 @@ function Table ({
   )
 }
 
-Table.propTypes = {
+TableRecent.propTypes = {
   /**
    * applicationsLoaded
     */
@@ -214,7 +186,7 @@ Table.propTypes = {
   onRunningApplication: PropTypes.func
 }
 
-Table.defaultProps = {
+TableRecent.defaultProps = {
   applicationsLoaded: false,
   applications: [],
   onStopApplication: () => {},
@@ -224,4 +196,4 @@ Table.defaultProps = {
   onClickCreateNewApp: () => {}
 }
 
-export default Table
+export default TableRecent

@@ -3,7 +3,7 @@ import PropTypes from 'prop-types'
 import typographyStyles from '~/styles/Typography.module.css'
 import commonStyles from '~/styles/CommonStyles.module.css'
 import { DULLS_BACKGROUND_COLOR, MAIN_GREEN, MEDIUM, RICH_BLACK, SMALL, WARNING_YELLOW, WHITE } from '@platformatic/ui-components/src/components/constants'
-import { ButtonOnlyIcon, Icons } from '@platformatic/ui-components'
+import { ButtonOnlyIcon, Icons, PlatformaticIcon } from '@platformatic/ui-components'
 import styles from './Row.module.css'
 
 function Row ({
@@ -20,18 +20,18 @@ function Row ({
   onClickRestart
 }) {
   function statusPills () {
-    if (status === 'stopped') {
+    if (status.value === 'stopped') {
       return (
         <div className={styles.stoppedPills}>
           <Icons.CircleStopIcon color={WHITE} size={SMALL} />
-          <span className={`${typographyStyles.desktopOtherOverlineNormal} ${typographyStyles.textWhite}`}>{status}</span>
+          <span className={`${typographyStyles.desktopOtherOverlineNormal} ${typographyStyles.textWhite}`}>{status.label}</span>
         </div>
       )
     }
     return (
       <div className={styles.runningPills}>
         <Icons.RunningIcon color={MAIN_GREEN} size={SMALL} />
-        <span className={`${typographyStyles.desktopOtherOverlineNormal} ${typographyStyles.textMainGreen}`}>{status}</span>
+        <span className={`${typographyStyles.desktopOtherOverlineNormal} ${typographyStyles.textMainGreen}`}>{status.label}</span>
       </div>
     )
   }
@@ -39,9 +39,17 @@ function Row ({
   return (
     <tr className={styles.trBordered}>
       <td data-label='Name' colSpan={4}>
-        <div className={`${styles.customSmallFlexRow}`} title={name}>
+        <div className={`${styles.customSmallFlexRow}`}>
           {insideMeraki && <Icons.StackablesPluginIcon color={WHITE} size={MEDIUM} />}
-          {!insideMeraki && <Icons.CLIIcon color={WHITE} size={MEDIUM} />}
+          {!insideMeraki &&
+            <PlatformaticIcon
+              iconName='CLIIcon'
+              color={WHITE}
+              size={MEDIUM}
+              tip='Application outside Meraki'
+              onClick={() => {}}
+              internalOverHandling
+            />}
           <span className={`${typographyStyles.desktopBodySemibold} ${typographyStyles.textWhite} ${styles.ellipsis}`} title={name}>{name}</span>
         </div>
       </td>
@@ -120,7 +128,10 @@ Row.propTypes = {
   /**
    * status
     */
-  status: PropTypes.string,
+  status: PropTypes.shape({
+    label: PropTypes.string,
+    value: PropTypes.string
+  }),
   /**
    * platformaticVersion
     */
