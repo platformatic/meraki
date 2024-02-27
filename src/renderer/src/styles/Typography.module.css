@@ -1,6 +1,9 @@
 .textWhite {
   @apply text-white;
 }
+.textRichBlack {
+  @apply text-rich-black;
+}
 .textMainGreen {
   @apply text-main-green;
 }

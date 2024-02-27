@@ -10,7 +10,7 @@
   @apply flex flex-col md:flex-row items-end gap-2 justify-end md:justify-start;
 }
 .trBordered {
-  @apply border-t border-white/30 border-solid;
+  @apply border-b border-white/30 border-solid;
 }
 .ellipsis {
   @apply truncate w-full;
@@ -23,4 +23,27 @@
 }
 .stoppedPills {
   @apply bg-white/15
+}
+.tableRow {
+  @apply grid grid-cols-6 gap-x-4 w-full items-center;
+}
+.tableSmall {
+  display: table-cell;
+  vertical-align: middle;
+}
+.tableRow > .tableSmall > .tableCell:nth-child(odd) {
+  display: none;
+  @apply py-4;
+}
+
+.tableRow > .tableSmall > .tableCell {
+  @apply py-4;
+}
+
+.tableRow:last-child > .tableSmall:last-child > .tableCell:last-child {
+  border-bottom-right-radius: 5px;
+}
+
+.tableRow:last-child > .tableSmall:first-child > .tableCell:last-child {
+  border-bottom-left-radius: 5px;
 }

@@ -1,5 +1,8 @@
 .container {
-  @apply max-h-[calc(100vh-18rem)] overflow-hidden
+  @apply max-h-[calc(100vh-18rem)];
+}
+.content {
+  @apply flex flex-col items-start gap-y-3 xl:gap-y-10 w-full;
 }
 .loadingSpinner {
   @apply absolute left-1/2 top-1/2;
@@ -14,27 +17,28 @@
 .filtersContainer {
   @apply grid grid-cols-1 md:flex md:flex-row gap-2 w-full items-center
 }
-
-table {
-  @apply w-full max-w-[calc(100%-1rem)];
-  table-layout: fixed;
+.table {
+  @apply w-full relative max-h-[calc(100vh-23rem)] w-full;
   border-spacing: 0 24px;
   vertical-align: middle;
   border-collapse: collapse;
+  overflow-x: hidden;
+  overflow-y: auto;
 }
 
-table td {
-  padding: 12px 12px 12px 0px;
-  vertical-align: middle;
-}
-table tr:first-child,
-table div tr:first-child {
-  border-top: 0px;
+.tableRows {
+  @apply w-full;
 }
 
-table th {
-  @apply pb-12 text-left ;
+.tableHeaders {
+  @apply grid grid-cols-6 gap-x-4 w-full top-0 bg-rich-black z-10 border-b border-white/30 border-solid;
+  position: sticky;;
 }
+
+.tableHeader {
+  @apply pt-0 pb-12 text-left;;
+}
+
 .noApplicationFound {
   @apply h-full flex flex-col items-center justify-center;
   min-height: inherit;

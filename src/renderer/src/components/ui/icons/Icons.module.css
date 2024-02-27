@@ -1,0 +1,96 @@
+.rich-black > circle,
+.rich-black > ellipse,
+.rich-black > rect,
+.rich-black > line, 
+.rich-black > path {
+  @apply stroke-rich-black;
+}
+
+.error-red > circle,
+.error-red > ellipse,
+.error-red > rect,
+.error-red > line, 
+.error-red > path {
+  @apply stroke-error-red;
+}
+
+.main-dark-blue > circle,
+.main-dark-blue > ellipse,
+.main-dark-blue > rect,
+.main-dark-blue > line,
+.main-dark-blue > path {
+  @apply stroke-main-dark-blue;
+}
+
+.main-green > circle,
+.main-green > ellipse,
+.main-green > rect, 
+.main-green > line, 
+.main-green > path {
+  @apply stroke-main-green;
+}
+
+.tertiary-blue > circle,
+.tertiary-blue > ellipse,
+.tertiary-blue > rect,
+.tertiary-blue > line,
+.tertiary-blue > path {
+  @apply stroke-tertiary-blue;
+}
+
+.warning-yellow > circle,
+.warning-yellow > ellipse,
+.warning-yellow > rect,
+.warning-yellow > line,
+.warning-yellow > path {
+  @apply stroke-warning-yellow;
+}
+
+.white > circle,
+.white > ellipse,
+.white > rect,
+.white > line,
+.white > path {
+  @apply stroke-white;
+}
+
+.filled-rich-black {
+  @apply fill-rich-black
+}
+.filled-white {
+  @apply fill-white
+}
+.filled-error-red{
+  @apply fill-error-red;
+}
+.filled-main-dark-blue {
+  @apply fill-main-dark-blue ;
+}
+.filled-main-green {
+  @apply fill-main-green ;
+}
+.filled-warning-yellow {
+  @apply fill-warning-yellow ;
+}
+.filled-tertiary-blue {
+  @apply fill-tertiary-blue;
+}
+
+.fill-circle-green > circle {
+  @apply fill-white;
+}
+.fill-circle-main-dark-blue > circle {
+  @apply fill-main-dark-blue;
+}
+.svgClassName {
+  @apply block shrink-0;
+  overflow-clip-margin: unset;
+}
+
+.iconDisabled {
+  @apply opacity-30
+}
+
+.iconInactive {
+  @apply opacity-70
+}
