@@ -112,43 +112,42 @@ function TableRecent ({
       )
     }
     return (
-      <table>
-        <thead>
-          <tr className={`${typographyStyles.desktopOtherOverlineNormal} ${typographyStyles.textWhite} ${typographyStyles.opacity70}`}>
-            <th scope='col' colSpan={6}>
-              <div className={styles.thWithIcon}>
-                <span>Name</span>
-                <PlatformaticIcon iconName={getSortIcon('name', sortByName === ASC ? 'SortDownIcon' : 'SortUpIcon')} color={WHITE} size={SMALL} onClick={() => handleSortByName()} />
-              </div>
-            </th>
-            <th scope='col' colSpan={2}>
-              <div className={styles.thWithIcon}>
-                <span>Status</span>
-                <PlatformaticIcon iconName={getSortIcon('status', sortByStatus === ASC ? 'SortDownIcon' : 'SortUpIcon')} color={WHITE} size={SMALL} onClick={() => handleSortByStatus()} />
-              </div>
-            </th>
-            <th scope='col' colSpan={2}>
-              <div className={styles.thWithIcon}>
-                <span>Plt Version</span>
-                <PlatformaticIcon iconName={getSortIcon('platformaticVersion', sortByPltVersion === ASC ? 'SortDownIcon' : 'SortUpIcon')} color={WHITE} size={SMALL} onClick={() => handleSortByPltVersion()} />
-              </div>
-            </th>
-            <th scope='col' colSpan={3}>
-              <span>Actions</span>
-            </th>
-          </tr>
-        </thead>
-        <tbody>
-          {filteredApplications.map(application => (
-            <Row
-              key={application.id} {...application}
-              onClickStop={() => onStopApplication(application.id)}
-              onClickStart={() => onStartApplication(application.id)}
-              onClickRestart={() => onRestartApplication(application.id)}
-            />
-          ))}
-        </tbody>
-      </table>
+      <div className={styles.table}>
+        <div className={styles.tableHeaders}>
+          <div className={styles.tableHeader}>
+            <div className={styles.thWithIcon}>
+              <span className={`${typographyStyles.desktopOtherOverlineNormal} ${typographyStyles.textWhite}`}>Name</span>
+              <PlatformaticIcon iconName={getSortIcon('name', sortByName === ASC ? 'SortDownIcon' : 'SortUpIcon')} color={WHITE} size={SMALL} onClick={() => handleSortByName()} />
+            </div>
+          </div>
+          <div className={styles.tableHeader}>
+            <div className={styles.thWithIcon}>
+              <span className={`${typographyStyles.desktopOtherOverlineNormal} ${typographyStyles.textWhite}`}>Status</span>
+              <PlatformaticIcon iconName={getSortIcon('status', sortByStatus === ASC ? 'SortDownIcon' : 'SortUpIcon')} color={WHITE} size={SMALL} onClick={() => handleSortByStatus()} />
+            </div>
+          </div>
+          <div className={styles.tableHeader}>
+            <div className={styles.thWithIcon}>
+              <span className={`${typographyStyles.desktopOtherOverlineNormal} ${typographyStyles.textWhite}`}>Plt Version</span>
+              <PlatformaticIcon iconName={getSortIcon('platformaticVersion', sortByPltVersion === ASC ? 'SortDownIcon' : 'SortUpIcon')} color={WHITE} size={SMALL} onClick={() => handleSortByPltVersion()} />
+            </div>
+          </div>
+          <div className={styles.tableHeader}>
+            <div className={styles.thWithIcon}>
+              <span className={`${typographyStyles.desktopOtherOverlineNormal} ${typographyStyles.textWhite}`}>Actions</span>
+            </div>
+          </div>
+        </div>
+
+        {filteredApplications.map(application => (
+          <Row
+            key={application.id} {...application}
+            onClickStop={() => onStopApplication(application.id)}
+            onClickStart={() => onStartApplication(application.id)}
+            onClickRestart={() => onRestartApplication(application.id)}
+          />
+        ))}
+      </div>
     )
   }
 

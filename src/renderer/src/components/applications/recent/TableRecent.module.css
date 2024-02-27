@@ -11,28 +11,6 @@
 .selectUl {
   @apply w-full md:min-w-[150%]
 }
-
-
-table {
-  @apply w-full ;
-  table-layout: fixed;
-  border-spacing: 0 24px;
-  vertical-align: middle;
-  border-collapse: collapse;
-}
-
-table td {
-  padding: 12px 12px 12px 0px;
-  vertical-align: middle;
-}
-table tr:first-child,
-table div tr:first-child {
-  border-top: 0px;
-}
-
-table th {
-  @apply pb-12 text-left ;
-}
 .noApplicationFound {
   @apply h-full flex flex-col items-center justify-center;
   min-height: inherit;
@@ -40,43 +18,22 @@ table th {
 .thWithIcon {
   @apply flex flex-row items-center gap-x-2
 }
-
-@media screen and (max-width: 1024px) {
-  table {
-    border-bottom: 0;
-  }
-
-  
-  table thead {
-    width: 100%;
-    border: none;
-    height: 1px;
-    margin: -1px;
-    overflow: hidden;
-    padding: 0;
-    position: absolute;
-  }
-  
-  table div tr {
-    display: block;
-  }
-  
-  table td {
-    display: block;
-    text-align: right;
-  }
-  
-  table td::before {
-    @apply text-white font-bold;
-    /*
-    * aria-label has no advantage, it won't be read inside a table
-    content: attr(aria-label);
-    */
-    content: attr(data-label);
-    float: left;
-  }
-  
-  table td:last-child {
-    border-bottom: 0;
-  }
+.table {
+  @apply w-full relative max-h-[calc(100vh-23rem)] w-full;
+  border-spacing: 0 24px;
+  vertical-align: middle;
+  border-collapse: collapse;
+  overflow-x: hidden;
+  overflow-y: auto;
+  transform: translate(0,0);
+}
+.tableRows {
+  @apply w-full;
+}
+.tableHeaders {
+  @apply grid grid-cols-4 gap-x-4 w-full top-0 bg-rich-black z-10 border-b border-white/30 border-solid;
+  position: sticky;;
+}
+.tableHeader {
+  @apply pt-0 pb-12 text-left;;
 }
