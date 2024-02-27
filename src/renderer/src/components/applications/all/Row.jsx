@@ -5,6 +5,7 @@ import commonStyles from '~/styles/CommonStyles.module.css'
 import { DULLS_BACKGROUND_COLOR, MAIN_GREEN, MEDIUM, RICH_BLACK, SMALL, WARNING_YELLOW, WHITE } from '@platformatic/ui-components/src/components/constants'
 import { ButtonOnlyIcon, Icons, PlatformaticIcon } from '@platformatic/ui-components'
 import styles from './Row.module.css'
+import { getFormattedDate } from '~/utilityDetails'
 
 function Row ({
   id,
@@ -63,10 +64,10 @@ function Row ({
         </div>
       </td>
       <td data-label='Last Update' colSpan={2}>
-        <span className={`${typographyStyles.desktopBody} ${typographyStyles.textWhite} ${typographyStyles.opacity70}`}>{lastUpdate}</span>
+        <span className={`${typographyStyles.desktopBody} ${typographyStyles.textWhite} ${typographyStyles.opacity70}`}>{getFormattedDate(lastUpdate)}</span>
       </td>
       <td data-label='Last Started' colSpan={2}>
-        <span className={`${typographyStyles.desktopBody} ${typographyStyles.textWhite} ${typographyStyles.opacity70}`}>{lastStarted}</span>
+        <span className={`${typographyStyles.desktopBody} ${typographyStyles.textWhite} ${typographyStyles.opacity70}`}>{getFormattedDate(lastStarted)}</span>
       </td>
       <td data-label='Actions' colSpan={1}>
         <div className={`${styles.buttonsContainer} `}>
