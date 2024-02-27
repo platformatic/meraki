@@ -1,4 +1,4 @@
-import { ABB_MONTH_NAMES } from '~/ui-constants'
+import { ABB_MONTH_NAMES } from './ui-constants'
 
 export const getLabelDownloads = (downloads) => {
   let unit = ''
