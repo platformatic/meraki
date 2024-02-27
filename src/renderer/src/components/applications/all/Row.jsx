@@ -79,7 +79,7 @@ function Row ({
             onClick={() => onClickStart()}
             hoverEffect={DULLS_BACKGROUND_COLOR}
             platformaticIcon={{ size: SMALL, iconName: 'CirclePlayIcon', color: WHITE }}
-            disabled={status === 'running'}
+            disabled={status.value === 'running'}
           />
           <ButtonOnlyIcon
             textClass={typographyStyles.desktopBody}
@@ -90,7 +90,7 @@ function Row ({
             onClick={() => onClickStop()}
             hoverEffect={DULLS_BACKGROUND_COLOR}
             platformaticIcon={{ size: SMALL, iconName: 'CircleStopIcon', color: WHITE }}
-            disabled={status === 'stopped'}
+            disabled={status.value === 'stopped'}
           />
           <ButtonOnlyIcon
             textClass={typographyStyles.desktopBody}
