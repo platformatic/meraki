@@ -289,6 +289,39 @@ app.whenReady().then(() => {
           lastStarted: '1708801496452',
           lastUpdate: '1708801496452',
           insideMeraki: false
+        }, {
+          id: '9',
+          name: 'Dodge - 2',
+          status: 'running',
+          platformaticVersion: '3.0.0',
+          lastStarted: '1677425773811',
+          lastUpdate: '1677425773811',
+          insideMeraki: false
+        }, {
+          id: '10',
+          name: 'Dodge - 3',
+          status: 'running',
+          platformaticVersion: '3.0.0',
+          lastStarted: '1677425773811',
+          lastUpdate: '1677425773811',
+          insideMeraki: false
+        }, {
+          id: '11',
+          name: 'Dodge - 4',
+          status: 'running',
+          platformaticVersion: '3.0.0',
+          lastStarted: '1677425773811',
+          lastUpdate: '1677425773811',
+          insideMeraki: false
+        }, {
+          id: '12',
+          name: 'Dodge - 5',
+          status: 'stopped',
+          platformaticVersion: '1.0.0',
+          updateVersion: true,
+          lastStarted: '1677425773811',
+          lastUpdate: '1677425773811',
+          insideMeraki: true
         }]
         )
         // return reject(new Error('Boom'))

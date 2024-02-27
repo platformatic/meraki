@@ -2,7 +2,7 @@
 import PropTypes from 'prop-types'
 import styles from './RecentApplications.module.css'
 import TopContent from './TopContent'
-import Table from './Table'
+import TableRecent from './TableRecent'
 import { getApiApplications } from '~/api'
 import React, { useEffect, useState } from 'react'
 import ErrorComponent from '~/components/screens/ErrorComponent'
@@ -71,7 +71,7 @@ const RecentApplications = React.forwardRef(({ onClickCreateNewApp }, ref) => {
             runningApps={runningApps}
             stoppedApps={stoppedApps}
           />
-          <Table
+          <TableRecent
             applicationsLoaded={applicationsLoaded}
             applications={applications}
             onStopApplication={handleStopApplication}

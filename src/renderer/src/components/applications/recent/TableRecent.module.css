@@ -33,7 +33,7 @@ table div tr:first-child {
 table th {
   @apply pb-12 text-left ;
 }
-.noStackableFound {
+.noApplicationFound {
   @apply h-full flex flex-col items-center justify-center;
   min-height: inherit;
 }

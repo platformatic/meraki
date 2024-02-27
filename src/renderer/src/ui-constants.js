@@ -47,3 +47,5 @@ export const PAGE_ALL_APPS = 'all_apps'
 
 export const ASC = 'ASC'
 export const DESC = 'DESC'
+
+export const ABB_MONTH_NAMES = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec']

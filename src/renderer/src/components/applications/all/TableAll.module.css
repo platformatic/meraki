@@ -1,5 +1,5 @@
 .container {
-  @apply w-full h-auto ;
+  @apply max-h-[calc(100vh-18rem)] overflow-hidden
 }
 .loadingSpinner {
   @apply absolute left-1/2 top-1/2;
@@ -11,10 +11,12 @@
 .selectUl {
   @apply w-full md:min-w-[150%]
 }
-
+.filtersContainer {
+  @apply grid grid-cols-1 md:flex md:flex-row gap-2 w-full items-center
+}
 
 table {
-  @apply w-full ;
+  @apply w-full max-w-[calc(100%-1rem)];
   table-layout: fixed;
   border-spacing: 0 24px;
   vertical-align: middle;
@@ -33,7 +35,7 @@ table div tr:first-child {
 table th {
   @apply pb-12 text-left ;
 }
-.noStackableFound {
+.noApplicationFound {
   @apply h-full flex flex-col items-center justify-center;
   min-height: inherit;
 }

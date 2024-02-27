@@ -25,19 +25,19 @@ function TopContent ({ totalApps, runningApps, stoppedApps }) {
           <div className={`${commonStyles.smallFlexRow} ${commonStyles.itemsCenter}`}>
             <Icons.AppIcon color={WHITE} size={SMALL} />
             <span className={`${typographyStyles.desktopBodyLarge} ${typographyStyles.textWhite} ${typographyStyles.opacity70}`}>Total: </span>
-            <span className={`${typographyStyles.desktopBodyLarge} ${typographyStyles.textWhite}`}>{totalApps}</span>
+            <span className={`${typographyStyles.desktopBodyLarge} ${typographyStyles.textWhite} ${styles.dataContentElement}`} title='00'>{totalApps}</span>
           </div>
           <VerticalSeparator color={WHITE} backgroundColorOpacity={OPACITY_30} classes={styles.verticalSeparator} />
           <div className={`${commonStyles.smallFlexRow} ${commonStyles.itemsCenter}`}>
             <Icons.CreatingAppIcon color={WHITE} size={SMALL} />
             <span className={`${typographyStyles.desktopBodyLarge} ${typographyStyles.textWhite} ${typographyStyles.opacity70}`}>Running: </span>
-            <span className={`${typographyStyles.desktopBodyLarge} ${typographyStyles.textWhite}`}>{runningApps}</span>
+            <span className={`${typographyStyles.desktopBodyLarge} ${typographyStyles.textWhite} ${styles.dataContentElement}`} title='00'>{runningApps}</span>
           </div>
           <VerticalSeparator color={WHITE} backgroundColorOpacity={OPACITY_30} classes={styles.verticalSeparator} />
           <div className={`${commonStyles.smallFlexRow} ${commonStyles.itemsCenter}`}>
             <Icons.StoppedAppIcon color={WHITE} size={SMALL} />
             <span className={`${typographyStyles.desktopBodyLarge} ${typographyStyles.textWhite} ${typographyStyles.opacity70}`}>Stopped: </span>
-            <span className={`${typographyStyles.desktopBodyLarge} ${typographyStyles.textWhite}`}>{stoppedApps}</span>
+            <span className={`${typographyStyles.desktopBodyLarge} ${typographyStyles.textWhite} ${styles.dataContentElement}`} title='00'>{stoppedApps}</span>
           </div>
         </div>
       </div>

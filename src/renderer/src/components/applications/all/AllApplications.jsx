@@ -2,7 +2,7 @@
 import PropTypes from 'prop-types'
 import styles from './AllApplications.module.css'
 import TopContent from './TopContent'
-import Table from './Table'
+import TableAll from './TableAll'
 import { getApiApplications } from '~/api'
 import React, { useEffect, useState } from 'react'
 import ErrorComponent from '~/components/screens/ErrorComponent'
@@ -21,9 +21,16 @@ const AllApplications = React.forwardRef(({ onClickCreateNewApp }, ref) => {
           setApplications([])
           const allApplications = await getApiApplications()
           if (allApplications.length > 0) {
-            setApplications(allApplications)
-            setStoppedApps(allApplications.filter(a => a.status === 'stopped').length)
-            setRunningApps(allApplications.filter(a => a.status === 'running').length)
+            const myReworkedApplications = allApplications.map(application => {
+              application.status = {
+                value: application.status,
+                label: application.status.charAt(0).toUpperCase() + application.status.slice(1)
+              }
+              return application
+            })
+            setApplications(myReworkedApplications)
+            setStoppedApps(allApplications.filter(a => a.status.value === 'stopped').length)
+            setRunningApps(allApplications.filter(a => a.status.value === 'running').length)
           } else {
             // no applications
           }
@@ -60,7 +67,7 @@ const AllApplications = React.forwardRef(({ onClickCreateNewApp }, ref) => {
             runningApps={runningApps}
             stoppedApps={stoppedApps}
           />
-          <Table
+          <TableAll
             applicationsLoaded={applicationsLoaded}
             applications={applications}
             onStopApplication={handleStopApplication}
