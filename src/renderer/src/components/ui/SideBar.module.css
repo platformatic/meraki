@@ -1,3 +1,6 @@
 .container {
-  @apply border-solid border-white/30 border-r px-2 py-4 xl:px-6 xl:py-10 flex flex-col gap-y-6 shrink-0;
+  @apply border-solid border-white/30 border-r px-2 py-4 xl:px-6 xl:py-10 flex flex-col justify-between shrink-0;
+}
+.content {
+  @apply flex flex-col gap-y-6 
 }

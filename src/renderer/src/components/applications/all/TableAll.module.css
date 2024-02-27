@@ -24,7 +24,9 @@
   border-collapse: collapse;
   overflow-x: hidden;
   overflow-y: auto;
+  transform: translate(0,0);
 }
+
 
 .tableRows {
   @apply w-full;
