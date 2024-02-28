@@ -74,7 +74,8 @@ function ApplicationContainer () {
             label: 'All Apps',
             iconName: 'AppIcon',
             onClick: () => setCurrentPage(PAGE_ALL_APPS)
-          }, {
+          }]}
+          bottomItems={[{
             label: 'Create App',
             iconName: 'CreateAppIcon'
           }, {

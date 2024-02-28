@@ -7,7 +7,7 @@ import styles from './SideBar.module.css'
 import { ButtonOnlyIcon } from '@platformatic/ui-components'
 import { DULLS_BACKGROUND_COLOR, RICH_BLACK, SMALL, WHITE } from '@platformatic/ui-components/src/components/constants'
 
-function SideBar ({ selected, topItems }) {
+function SideBar ({ selected, topItems, bottomItems }) {
   function Item ({ item }) {
     const [hover, setHover] = useState(selected === item.name)
 
@@ -34,7 +34,12 @@ function SideBar ({ selected, topItems }) {
 
   return (
     <div className={styles.container}>
-      {topItems.map((item, index) => <Item item={item} key={index} />)}
+      <div className={styles.content}>
+        {topItems.map((item, index) => <Item item={item} key={index} />)}
+      </div>
+      <div className={styles.content}>
+        {bottomItems.map((item, index) => <Item item={item} key={index} />)}
+      </div>
     </div>
   )
 }

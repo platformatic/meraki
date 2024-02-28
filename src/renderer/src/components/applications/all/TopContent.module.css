@@ -2,10 +2,10 @@
   @apply bg-rich-black; 
 }
 .content {
-  @apply flex flex-col md:flex-row gap-4 w-full justify-between items-start md:items-center;
+  @apply flex flex-row gap-4 w-full justify-between items-center;
 }
 .dataContent {
-  @apply flex flex-col lg:flex-row gap-y-1 w-full lg:gap-x-10 items-start lg:items-center;
+  @apply flex flex-row gap-y-1 w-full gap-x-4 lg:gap-x-10 items-center;
 }
 .verticalSeparator {
   @apply hidden md:block

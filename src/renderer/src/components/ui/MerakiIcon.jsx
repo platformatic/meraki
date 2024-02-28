@@ -1,18 +1,19 @@
 'use strict'
 import React, { useState } from 'react'
 import PropTypes from 'prop-types'
-import ReactTooltip from 'react-tooltip'
 import Icons from './icons'
-import styles from './PlatformaticIcon.module.css'
-import { COLORS_ICON, MAIN_GREEN, SIZES, SMALL } from './constants'
+import styles from './MerakiIcon.module.css'
+import { COLORS_ICON, MAIN_GREEN, SIZES, SMALL } from '@platformatic/ui-components/src/components/constants'
+import { Tooltip } from '@platformatic/ui-components'
 
-function MerakiLogoIcon ({
+function MerakiIcon ({
   iconName,
   color,
   onClick,
   size,
   classes,
   tip,
+  tipClassName,
   disabled,
   inactive,
   internalOverHandling,
@@ -30,31 +31,31 @@ function MerakiLogoIcon ({
       ...rest
     })
     if (onClick && !disabled) {
-      let className = styles.cursorPointer
+      let className = `${styles.cursorPointer} ${tip ? styles.pltTooltip : ''}`
       if (classes) className += ` ${classes}`
       icon = (
         <div
-          dataTip={tip}
+          data-tip={tip}
           className={className}
           onClick={onClick}
           onMouseOver={() => internalOverHandling && !disabled ? setHover(true) : {}}
           onMouseLeave={() => internalOverHandling && !disabled ? setHover(false) : {}}
         >
           {icon}
+          {tip && <Tooltip tooltipClassName={tipClassName} text={tip} visible={hover} />}
         </div>
       )
     }
   }
-  console.log('tip')
+
   return (
     <>
       {icon}
-      {tip && <ReactTooltip place='top' type='info' />}
     </>
   )
 }
 
-MerakiLogoIcon.propTypes = {
+MerakiIcon.propTypes = {
   /**
    * iconName
    */
@@ -80,6 +81,10 @@ MerakiLogoIcon.propTypes = {
    */
   tip: PropTypes.string,
   /**
+   * tip
+   */
+  tipClassName: PropTypes.string,
+  /**
    * disabled
    */
   disabled: PropTypes.bool,
@@ -93,16 +98,17 @@ MerakiLogoIcon.propTypes = {
   internalOverHandling: PropTypes.bool
 }
 
-MerakiLogoIcon.defaultProps = {
+MerakiIcon.defaultProps = {
   iconName: '',
   color: MAIN_GREEN,
   size: SMALL,
   onClick: () => {},
   classes: '',
   tip: '',
+  tipClassName: '',
   disabled: false,
   inactive: false,
   internalOverHandling: false
 }
 
-export default MerakiLogoIcon
+export default MerakiIcon

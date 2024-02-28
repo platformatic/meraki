@@ -1,0 +1,6 @@
+.cursorPointer {
+  @apply cursor-pointer;
+}
+.pltTooltip {
+  @apply relative;
+}
