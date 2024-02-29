@@ -11,6 +11,17 @@
 $ npm install
 ```
 
+### Fix dependencies
+
+The native dependencies are build / downloaded for electron. 
+If you need to launch the test (run in `node`), you need to fix the dependencies.
+
+```bash
+$ npm run fix-node-deps
+```
+You can rollback the fix with `npm run fix-electron-deps`.
+
+
 ### Development
 
 ### UI Components Live

@@ -17,5 +17,6 @@ jobs:
         with:
           node-version: 18
       - run: npm ci
+      - run: npm run fix-node-deps
       - run: npm run test
 

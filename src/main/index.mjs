@@ -7,6 +7,8 @@ import setupMenu from './menu.mjs'
 import { getTemplates, getPlugins } from './client.mjs'
 import { prepareFolder, createApp } from './generate.mjs'
 import log from 'electron-log'
+import Applications from './lib/applications.mjs'
+import { getAppPath } from './lib/utils.mjs'
 
 log.initialize()
 
@@ -96,7 +98,7 @@ if (!gotTheLock) {
     const passedUrl = commandLine.pop()
     log.info(`Received second-instance. Opening meraki for: ${passedUrl}`)
     templateId = getTemplateId(passedUrl)
-    log.info('Received templateId:' + templateId)
+    log.info('Received templateId:', templateId)
     if (mainWindow) {
       if (mainWindow.isMinimized()) mainWindow.restore()
       mainWindow.focus()
@@ -159,9 +161,14 @@ function createWindow () {
   }
 }
 
-app.whenReady().then(() => {
+app.whenReady().then(async () => {
   // Set app user model id for windows
   electronApp.setAppUserModelId('com.electron')
+
+  // The first folder is where `migrations` is located, the second is where the `meraki.sqlite` is located
+  const apps = await Applications.getApplications(getAppPath(), app.getPath('userData'))
+  const appList = await apps.getApplications()
+  log.info('Applications list loaded at startup', appList)
 
   // Default open or close DevTools by F12 in development
   // and ignore CommandOrControl + R in production.
