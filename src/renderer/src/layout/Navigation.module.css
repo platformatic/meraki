@@ -14,5 +14,5 @@
   @apply inline-flex items-center gap-x-6 no-underline;
 }
 .link {
-  @apply no-underline hover:opacity-100;
+  @apply no-underline hover:opacity-100 hover:cursor-pointer;
 }

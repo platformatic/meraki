@@ -1,15 +1,20 @@
 'use strict'
-import React from 'react'
+import React, { useEffect } from 'react'
 import PropTypes from 'prop-types'
 import { RICH_BLACK, WHITE, MARGIN_0, OPACITY_30, TRANSPARENT, DULLS_BACKGROUND_COLOR, ANTI_FLASH_WHITE } from '@platformatic/ui-components/src/components/constants'
 import styles from './Overview.module.css'
 import typographyStyles from '~/styles/Typography.module.css'
 import commonStyles from '~/styles/CommonStyles.module.css'
 import { Button, HorizontalSeparator, VerticalSeparator } from '@platformatic/ui-components'
-import { getFormattedDate } from '../../../utilityDetails'
+import { getFormattedDate } from '~/utilityDetails'
 import Title from '~/components/ui/Title'
+import useStackablesStore from '~/useStackablesStore'
+import { APPLICATION_PAGE_OVERVIEW /*, APPLICATION_PATH */ } from '~/ui-constants'
 
 const Overview = React.forwardRef((_props, ref) => {
+  const globalState = useStackablesStore()
+  const { setNavigation, setCurrentPage } = globalState
+
   const applicationSelected = {
     id: '1',
     name: 'Ransom',
@@ -20,6 +25,18 @@ const Overview = React.forwardRef((_props, ref) => {
     lastUpdate: '1708887874046',
     insideMeraki: true
   }
+
+  useEffect(() => {
+    setNavigation({
+      label: applicationSelected.name,
+      handleClick: () => {
+        // navigate(APPLICATION_PATH.replace(':id', applicationSelected.id))
+        setCurrentPage(APPLICATION_PAGE_OVERVIEW)
+      },
+      key: APPLICATION_PAGE_OVERVIEW,
+      page: APPLICATION_PAGE_OVERVIEW
+    }, 1)
+  }, [])
 
   function onStop () {
 

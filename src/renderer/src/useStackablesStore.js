@@ -1,9 +1,11 @@
 import { create } from 'zustand'
+import { PAGE_WELCOME } from './ui-constants'
 
 const initialState = {
   formData: {},
   services: [],
-  breadCrumbs: []
+  breadCrumbs: [],
+  currentPage: PAGE_WELCOME
 }
 
 const useStackablesStore = create((set, get) => ({
@@ -120,6 +122,14 @@ const useStackablesStore = create((set, get) => ({
       return {
         ...state,
         breadCrumbs: []
+      }
+    })
+  },
+  setCurrentPage: (page) => {
+    set((state) => {
+      return {
+        ...state,
+        currentPage: page
       }
     })
   }

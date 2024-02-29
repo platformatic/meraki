@@ -17,11 +17,14 @@ import RecentApplications from '~/components/applications/recent/RecentApplicati
 import AllApplications from '~/components/applications/all/AllApplications'
 import SideBar from '~/components/ui/SideBar'
 import ImportApplicationFlow from '~/components/application/import/ImportApplicationFlow'
+import useStackablesStore from '~/useStackablesStore'
 
 function HomeContainer () {
+  const globalState = useStackablesStore()
+  const { currentPage, setCurrentPage } = globalState
   const [showModalImportApplication, setShowModalImportApplication] = useState(false)
   const [cssClassNames] = useState('scroll-down')
-  const [currentPage, setCurrentPage] = useState(PAGE_WELCOME)
+  // const [currentPage, setCurrentPage] = useState(PAGE_WELCOME)
   const [components] = useState([
     <Welcome
       ref={useRef(null)}
