@@ -6,13 +6,21 @@ import TableRecent from './TableRecent'
 import { getApiApplications } from '~/api'
 import React, { useEffect, useState } from 'react'
 import ErrorComponent from '~/components/screens/ErrorComponent'
+import useStackablesStore from '~/useStackablesStore'
+import { PAGE_RECENT_APPS } from '~/ui-constants'
 
 const RecentApplications = React.forwardRef(({ onClickCreateNewApp }, ref) => {
+  const globalState = useStackablesStore()
+  const { setNavigation } = globalState
   const [showErrorComponent, setShowErrorComponent] = useState(false)
   const [applications, setApplications] = useState([])
   const [applicationsLoaded, setApplicationsLoaded] = useState(false)
   const [runningApps, setRunningApps] = useState('-')
   const [stoppedApps, setStoppedApps] = useState('-')
+
+  useEffect(() => {
+    setNavigation({ label: 'Recent Apps', link: PAGE_RECENT_APPS, key: PAGE_RECENT_APPS })
+  }, [])
 
   useEffect(() => {
     if (!applicationsLoaded) {

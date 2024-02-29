@@ -8,6 +8,8 @@ import { ButtonOnlyIcon, Icons, PlatformaticIcon } from '@platformatic/ui-compon
 import styles from './Row.module.css'
 import { getFormattedDate } from '~/utilityDetails'
 import MerakiIcon from '~/components/ui/MerakiIcon'
+import { useNavigate } from 'react-router-dom'
+import { APPLICATION_PATH } from '../../../ui-constants'
 
 function Row ({
   id,
@@ -22,6 +24,12 @@ function Row ({
   onClickStart,
   onClickRestart
 }) {
+  const navigate = useNavigate()
+
+  function goToApplication () {
+    navigate(APPLICATION_PATH.replace(':id', id))
+  }
+
   function statusPills () {
     if (status.value === 'stopped') {
       return (
@@ -46,7 +54,7 @@ function Row ({
           <span className={`${typographyStyles.desktopBodySemibold} ${typographyStyles.textWhite} ${styles.ellipsis}`} title={name}>Name</span>
         </div>
         <div className={styles.tableCell}>
-          <div className={`${styles.customSmallFlexRow}`}>
+          <div className={`${styles.customSmallFlexRow} ${styles.linkToApplication}`} onClick={() => goToApplication()}>
             {insideMeraki &&
               <MerakiIcon
                 iconName='MerakiLogoIcon'

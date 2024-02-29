@@ -2,7 +2,8 @@ import { create } from 'zustand'
 
 const initialState = {
   formData: {},
-  services: []
+  services: [],
+  breadCrumbs: []
 }
 
 const useStackablesStore = create((set, get) => ({
@@ -93,8 +94,35 @@ const useStackablesStore = create((set, get) => ({
       })]
     }
   }),
-  reset: () => { set(initialState) }
-
+  reset: () => { set(initialState) },
+  setNavigation: (item, level = 0) => {
+    set((state) => {
+      const currentBreadcrumbs = state.breadCrumbs.slice(0, level)
+      currentBreadcrumbs.push(item)
+      return {
+        ...state,
+        breadCrumbs: currentBreadcrumbs
+      }
+    })
+  },
+  pushNavigation: (item) => {
+    set((state) => {
+      const currentBreadcrumbs = state.breadCrumbs
+      currentBreadcrumbs.push(item)
+      return {
+        ...state,
+        breadCrumbs: currentBreadcrumbs
+      }
+    })
+  },
+  resetNavigation: () => {
+    set((state) => {
+      return {
+        ...state,
+        breadCrumbs: []
+      }
+    })
+  }
 }))
 
 if (window.Cypress) {
