@@ -64,30 +64,27 @@ function ApplicationContainer () {
           topItems={[{
             name: APPLICATION_PAGE_OVERVIEW,
             label: 'Overview',
-            iconName: 'AppIcon',
+            iconName: 'AppDetailsIcon',
             onClick: () => setCurrentPage(APPLICATION_PAGE_OVERVIEW)
           }, {
             name: APPLICATION_PAGE_METRICS,
             label: 'Metrics',
-            iconName: 'AppIcon',
+            iconName: 'MetricsIcon',
             onClick: () => setCurrentPage(APPLICATION_PAGE_METRICS)
           }, {
             name: APPLICATION_PAGE_LOGS,
             label: 'Logs',
-            iconName: 'AppIcon',
+            iconName: 'CodeTestingIcon',
             onClick: () => setCurrentPage(APPLICATION_PAGE_LOGS)
           }, {
             name: APPLICATION_PAGE_ENV_VAR,
             label: 'Environment Variables',
-            iconName: 'AppIcon',
+            iconName: 'AppConfigurationIcon',
             onClick: () => setCurrentPage(APPLICATION_PAGE_ENV_VAR)
           }]}
           bottomItems={[{
             label: 'Edit App',
-            iconName: 'AppIcon'
-          }, {
-            label: 'Settings',
-            iconName: 'AppIcon'
+            iconName: 'AppEditIcon'
           }]}
         />
         <SwitchTransition>

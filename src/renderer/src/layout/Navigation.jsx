@@ -9,8 +9,6 @@ export default function Navigation () {
   const globalState = useStackablesStore()
   const { breadCrumbs } = globalState
 
-  console.log('breadCrumbs', breadCrumbs)
-
   return (
     <div className={styles.container}>
       <div className={styles.breadCrumbs}>

@@ -1,7 +1,7 @@
 'use strict'
 import { useRef, useState, useEffect } from 'react'
 import {
-  PAGE_WELCOME,
+  // PAGE_WELCOME,
   PAGE_RECENT_APPS,
   PAGE_ALL_APPS,
   BREAKPOINTS_HEIGHT_LG,
@@ -12,25 +12,17 @@ import { CSSTransition, SwitchTransition } from 'react-transition-group'
 import styles from './HomeContainer.module.css'
 import '~/components/component.animation.css'
 import useWindowDimensions from '~/hooks/useWindowDimensions'
-import Welcome from '~/components/welcome/Welcome'
 import RecentApplications from '~/components/applications/recent/RecentApplications'
 import AllApplications from '~/components/applications/all/AllApplications'
 import SideBar from '~/components/ui/SideBar'
-import ImportApplicationFlow from '~/components/application/import/ImportApplicationFlow'
 import useStackablesStore from '~/useStackablesStore'
 
 function HomeContainer () {
   const globalState = useStackablesStore()
   const { currentPage, setCurrentPage } = globalState
-  const [showModalImportApplication, setShowModalImportApplication] = useState(false)
   const [cssClassNames] = useState('scroll-down')
   // const [currentPage, setCurrentPage] = useState(PAGE_WELCOME)
   const [components] = useState([
-    <Welcome
-      ref={useRef(null)}
-      key={PAGE_WELCOME}
-      onClickImportApp={() => setShowModalImportApplication(true)}
-    />,
     <RecentApplications
       ref={useRef(null)}
       key={PAGE_RECENT_APPS}
@@ -41,8 +33,7 @@ function HomeContainer () {
     />
 
   ])
-  const [currentComponent, setCurrentComponent] = useState(components.find(component => component.key === PAGE_WELCOME))
-
+  const [currentComponent, setCurrentComponent] = useState(components.find(component => component.key === PAGE_RECENT_APPS))
   const { height: innerHeight } = useWindowDimensions()
 
   useEffect(() => {
@@ -57,11 +48,6 @@ function HomeContainer () {
     setCurrentComponent(components.find(component => component.key === currentPage))
   }, [currentPage])
 
-  function handleImportApplication () {
-    setShowModalImportApplication(false)
-    // TODO: setCurrentComponent('Recent Apps')
-  }
-
   return (
     <>
       <div className={styles.content}>
@@ -75,16 +61,8 @@ function HomeContainer () {
           }, {
             name: PAGE_ALL_APPS,
             label: 'All Apps',
-            iconName: 'AppIcon',
+            iconName: 'AllAppsIcon',
             onClick: () => setCurrentPage(PAGE_ALL_APPS)
-          }]}
-          bottomItems={[{
-            label: 'Create App',
-            iconName: 'CreateAppIcon'
-          }, {
-            label: 'Import App',
-            iconName: 'ImportAppIcon',
-            onClick: () => setShowModalImportApplication(true)
           }]}
         />
         <SwitchTransition>
@@ -98,12 +76,6 @@ function HomeContainer () {
           </CSSTransition>
         </SwitchTransition>
       </div>
-      {showModalImportApplication && (
-        <ImportApplicationFlow
-          onCloseModal={() => setShowModalImportApplication(false)}
-          onClickConfirm={() => handleImportApplication()}
-        />
-      )}
     </>
   )
 }

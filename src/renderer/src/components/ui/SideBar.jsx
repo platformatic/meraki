@@ -52,11 +52,16 @@ SideBar.propTypes = {
   /**
    * topItems
    */
-  topItems: PropTypes.array
+  topItems: PropTypes.array,
+  /**
+   * bottomItems
+   */
+  bottomItems: PropTypes.array
 }
 
 SideBar.defaultProps = {
-  topItems: []
+  topItems: [],
+  bottomItems: []
 }
 
 export default SideBar

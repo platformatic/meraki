@@ -1,0 +1,10 @@
+.container {
+  @apply fixed top-0 left-0 w-screen h-full z-20 flex justify-center items-center;
+}
+.containerDulls {
+  @apply bg-rich-black
+}
+.loadingSpinner {
+  @apply absolute left-1/2 top-1/2;
+  transform: translate(-50%, -50%);
+}
