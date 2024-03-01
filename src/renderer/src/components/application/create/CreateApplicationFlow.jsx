@@ -6,7 +6,6 @@ import { MODAL_FULL_RICH_BLACK } from '@platformatic/ui-components/src/component
 import Wizard from '~/components/Wizard'
 
 function CreateApplicationFlow ({ onCloseModal }) {
-  console.log('CreateApplicationFlow')
   return (
     <Modal
       key='createApplicationFlow'
