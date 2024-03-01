@@ -1,9 +1,10 @@
 'use strict'
 import { useRef, useState, useEffect } from 'react'
 import {
-  PAGE_WELCOME,
-  PAGE_RECENT_APPS,
-  PAGE_ALL_APPS,
+  APPLICATION_PAGE_OVERVIEW,
+  APPLICATION_PAGE_METRICS,
+  APPLICATION_PAGE_LOGS,
+  APPLICATION_PAGE_ENV_VAR,
   BREAKPOINTS_HEIGHT_LG,
   HEIGHT_LG,
   HEIGHT_MD
@@ -12,34 +13,35 @@ import { CSSTransition, SwitchTransition } from 'react-transition-group'
 import styles from './ApplicationContainer.module.css'
 import '~/components/component.animation.css'
 import useWindowDimensions from '~/hooks/useWindowDimensions'
-import Welcome from '~/components/welcome/Welcome'
-import RecentApplications from '~/components/applications/recent/RecentApplications'
-import AllApplications from '~/components/applications/all/AllApplications'
+import Overview from '~/components/application/overview/Overview'
+import Metrics from '~/components/application/metrics/Metrics'
+import Logs from '~/components/application/logs/Logs'
+import EnvironmentVariables from '~/components/application/environment-variables/EnvironmentVariables'
 import SideBar from '~/components/ui/SideBar'
-import ImportApplicationFlow from '~/components/application/import/ImportApplicationFlow'
 
 function ApplicationContainer () {
-  const [showModalImportApplication, setShowModalImportApplication] = useState(false)
   const [cssClassNames] = useState('scroll-down')
-  const [currentPage, setCurrentPage] = useState(PAGE_WELCOME)
+  const [currentPage, setCurrentPage] = useState(APPLICATION_PAGE_OVERVIEW)
   const [components] = useState([
-    <Welcome
+    <Overview
       ref={useRef(null)}
-      key={PAGE_WELCOME}
-      onClickImportApp={() => setShowModalImportApplication(true)}
+      key={APPLICATION_PAGE_OVERVIEW}
     />,
-    <RecentApplications
+    <Logs
       ref={useRef(null)}
-      key={PAGE_RECENT_APPS}
+      key={APPLICATION_PAGE_LOGS}
     />,
-    <AllApplications
+    <Metrics
       ref={useRef(null)}
-      key={PAGE_ALL_APPS}
+      key={APPLICATION_PAGE_METRICS}
+    />,
+    <EnvironmentVariables
+      ref={useRef(null)}
+      key={APPLICATION_PAGE_ENV_VAR}
     />
 
   ])
-  const [currentComponent, setCurrentComponent] = useState(components.find(component => component.key === PAGE_WELCOME))
-
+  const [currentComponent, setCurrentComponent] = useState(components.find(component => component.key === APPLICATION_PAGE_OVERVIEW))
   const { height: innerHeight } = useWindowDimensions()
 
   useEffect(() => {
@@ -54,34 +56,38 @@ function ApplicationContainer () {
     setCurrentComponent(components.find(component => component.key === currentPage))
   }, [currentPage])
 
-  function handleImportApplication () {
-    setShowModalImportApplication(false)
-    // TODO: setCurrentComponent('Recent Apps')
-  }
-
   return (
     <>
       <div className={styles.content}>
         <SideBar
           selected={currentPage}
           topItems={[{
-            name: PAGE_RECENT_APPS,
-            label: 'Recent Apps',
-            iconName: 'RecentAppsIcon',
-            onClick: () => setCurrentPage(PAGE_RECENT_APPS)
-          }, {
-            name: PAGE_ALL_APPS,
-            label: 'All Apps',
+            name: APPLICATION_PAGE_OVERVIEW,
+            label: 'Overview',
             iconName: 'AppIcon',
-            onClick: () => setCurrentPage(PAGE_ALL_APPS)
+            onClick: () => setCurrentPage(APPLICATION_PAGE_OVERVIEW)
+          }, {
+            name: APPLICATION_PAGE_METRICS,
+            label: 'Metrics',
+            iconName: 'AppIcon',
+            onClick: () => setCurrentPage(APPLICATION_PAGE_METRICS)
+          }, {
+            name: APPLICATION_PAGE_LOGS,
+            label: 'Logs',
+            iconName: 'AppIcon',
+            onClick: () => setCurrentPage(APPLICATION_PAGE_LOGS)
+          }, {
+            name: APPLICATION_PAGE_ENV_VAR,
+            label: 'Environment Variables',
+            iconName: 'AppIcon',
+            onClick: () => setCurrentPage(APPLICATION_PAGE_ENV_VAR)
           }]}
           bottomItems={[{
-            label: 'Create App',
-            iconName: 'CreateAppIcon'
+            label: 'Edit App',
+            iconName: 'AppIcon'
           }, {
-            label: 'Import App',
-            iconName: 'ImportAppIcon',
-            onClick: () => setShowModalImportApplication(true)
+            label: 'Settings',
+            iconName: 'AppIcon'
           }]}
         />
         <SwitchTransition>
@@ -95,12 +101,6 @@ function ApplicationContainer () {
           </CSSTransition>
         </SwitchTransition>
       </div>
-      {showModalImportApplication && (
-        <ImportApplicationFlow
-          onCloseModal={() => setShowModalImportApplication(false)}
-          onClickConfirm={() => handleImportApplication()}
-        />
-      )}
     </>
   )
 }

@@ -47,3 +47,6 @@
 .tableRow:last-child > .tableSmall:first-child > .tableCell:last-child {
   border-bottom-left-radius: 5px;
 }
+.linkToApplication {
+  @apply hover:cursor-pointer
+}

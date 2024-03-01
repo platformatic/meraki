@@ -10,3 +10,6 @@
 .containerFeatureFlag {
   @apply flex flex-col w-full gap-y-0 py-0.5;
 }
+.helpContainer {
+  @apply shrink-0
+}

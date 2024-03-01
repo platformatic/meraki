@@ -5,6 +5,7 @@ import typographyStyles from '~/styles/Typography.module.css'
 import { Button, HorizontalSeparator } from '@platformatic/ui-components'
 import { WHITE, MARGIN_0, OPACITY_30 } from '@platformatic/ui-components/src/components/constants'
 import MerakiLogo from '~/components/ui/MerakiLogo'
+import Navigation from '~/layout/Navigation'
 
 function Header () {
   const featureFlag = import.meta.env.VITE_DEV_FF
@@ -14,10 +15,11 @@ function Header () {
   return (
     <div className={classNameContainer}>
       <div className={classNameHeader}>
-        <div className={commonStyles.smallFlexRow}>
+        <div className={`${commonStyles.largeFlexRow} ${commonStyles.itemsCenter}`}>
           <MerakiLogo />
+          <Navigation />
         </div>
-        <div className={commonStyles.smallFlexRow}>
+        <div className={`${commonStyles.smallFlexRow} ${styles.helpContainer}`}>
           <span className={`${typographyStyles.desktopBodySmall} ${typographyStyles.textWhite} `}>Need Help?</span>
           <Button
             label='Chat on Discord'

@@ -45,7 +45,15 @@ export const PAGE_WELCOME = 'welcome'
 export const PAGE_RECENT_APPS = 'recent_apps'
 export const PAGE_ALL_APPS = 'all_apps'
 
+export const APPLICATION_PAGE_OVERVIEW = 'overview'
+export const APPLICATION_PAGE_METRICS = 'metrics'
+export const APPLICATION_PAGE_LOGS = 'logs'
+export const APPLICATION_PAGE_ENV_VAR = 'env_var'
+
 export const ASC = 'ASC'
 export const DESC = 'DESC'
 
 export const ABB_MONTH_NAMES = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec']
+
+export const HOME_PATH = '/'
+export const APPLICATION_PATH = '/:appId'
