@@ -15,7 +15,7 @@ import '~/components/component.animation.css'
 import useWindowDimensions from '~/hooks/useWindowDimensions'
 import Overview from '~/components/application/overview/Overview'
 import Metrics from '~/components/application/metrics/Metrics'
-import Logs from '~/components/application/logs/Logs'
+import ApplicationLogs from '~/components/application/application-logs/ApplicationLogs'
 import EnvironmentVariables from '~/components/application/environment-variables/EnvironmentVariables'
 import SideBar from '~/components/ui/SideBar'
 
@@ -27,7 +27,7 @@ function ApplicationContainer () {
       ref={useRef(null)}
       key={APPLICATION_PAGE_OVERVIEW}
     />,
-    <Logs
+    <ApplicationLogs
       ref={useRef(null)}
       key={APPLICATION_PAGE_LOGS}
     />,
