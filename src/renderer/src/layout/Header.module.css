@@ -5,11 +5,12 @@
   @apply flex flex-col w-full gap-y-4 xl:gap-y-8
 }
 .headerFeatureFlag {
-  @apply flex justify-between items-center px-6 py-4;
+  @apply flex justify-between items-center px-6 py-3.5 min-h-[71px] max-h-[71px];
+  box-sizing: border-box;
 }
 .containerFeatureFlag {
-  @apply flex flex-col w-full gap-y-0 py-0.5;
+  @apply flex flex-col w-full gap-y-0;
 }
-.helpContainer {
-  @apply shrink-0
+.buttonContainer {
+  @apply flex justify-end items-center gap-x-2 shrink-0;
 }

@@ -13,7 +13,7 @@ function TopContent ({ totalApps, runningApps, stoppedApps }) {
     <div className={`${styles.container} ${commonStyles.mediumFlexBlock}`}>
       <Title
         title='All Apps'
-        iconName='AppIcon'
+        iconName='AllAppsIcon'
         dataAttrName='cy'
         dataAttrValue='all-apps-title'
       />
@@ -23,13 +23,13 @@ function TopContent ({ totalApps, runningApps, stoppedApps }) {
       <div className={styles.content}>
         <div className={styles.dataContent}>
           <div className={`${commonStyles.smallFlexRow} ${commonStyles.itemsCenter}`}>
-            <Icons.AppIcon color={WHITE} size={SMALL} />
+            <Icons.AllAppsIcon color={WHITE} size={SMALL} />
             <span className={`${typographyStyles.desktopBodyLarge} ${typographyStyles.textWhite} ${typographyStyles.opacity70}`}>Total: </span>
             <span className={`${typographyStyles.desktopBodyLarge} ${typographyStyles.textWhite} ${styles.dataContentElement}`} title='00'>{totalApps}</span>
           </div>
           <VerticalSeparator color={WHITE} backgroundColorOpacity={OPACITY_30} classes={styles.verticalSeparator} />
           <div className={`${commonStyles.smallFlexRow} ${commonStyles.itemsCenter}`}>
-            <Icons.CreatingAppIcon color={WHITE} size={SMALL} />
+            <Icons.RunningAppIcon color={WHITE} size={SMALL} />
             <span className={`${typographyStyles.desktopBodyLarge} ${typographyStyles.textWhite} ${typographyStyles.opacity70}`}>Running: </span>
             <span className={`${typographyStyles.desktopBodyLarge} ${typographyStyles.textWhite} ${styles.dataContentElement}`} title='00'>{runningApps}</span>
           </div>

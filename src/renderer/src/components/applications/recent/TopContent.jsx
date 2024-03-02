@@ -23,7 +23,7 @@ function TopContent ({ runningApps, stoppedApps }) {
       <div className={styles.content}>
         <div className={styles.dataContent}>
           <div className={`${commonStyles.smallFlexRow} ${commonStyles.itemsCenter}`}>
-            <Icons.CreatingAppIcon color={WHITE} size={SMALL} />
+            <Icons.RunningAppIcon color={WHITE} size={SMALL} />
             <span className={`${typographyStyles.desktopBodyLarge} ${typographyStyles.textWhite} ${typographyStyles.opacity70}`}>Running: </span>
             <span className={`${typographyStyles.desktopBodyLarge} ${typographyStyles.textWhite} ${styles.dataContentElement}`} title='00'>{runningApps}</span>
           </div>
