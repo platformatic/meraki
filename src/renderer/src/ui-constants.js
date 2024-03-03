@@ -57,3 +57,6 @@ export const ABB_MONTH_NAMES = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul',
 
 export const HOME_PATH = '/'
 export const APPLICATION_PATH = '/:appId'
+
+export const RAW = 'raw'
+export const PRETTY = 'pretty'
