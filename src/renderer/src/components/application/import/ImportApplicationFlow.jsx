@@ -95,7 +95,7 @@ function ImportApplicationFlow ({ onCloseModal, onClickConfirm }) {
         key='importApplicationName'
         setIsOpen={() => onCloseModal()}
         title='Import Application'
-        titleClassName={`${typographyStyles.desktopBody} ${typographyStyles.textWhite} ${typographyStyles.opacity70}`}
+        titleClassName={`${typographyStyles.desktopHeadline4} ${typographyStyles.textWhite}`}
         layout={MODAL_POPUP_V2}
       >
         <form onSubmit={handleSubmit}>

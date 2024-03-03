@@ -1,19 +1,25 @@
 'use strict'
+import React, { useEffect, useState } from 'react'
 import PropTypes from 'prop-types'
 import styles from './AllApplications.module.css'
+import typographyStyles from '~/styles/Typography.module.css'
 import TopContent from './TopContent'
 import TableAll from './TableAll'
 import { getApiApplications } from '~/api'
-import React, { useEffect, useState } from 'react'
 import ErrorComponent from '~/components/screens/ErrorComponent'
 import useStackablesStore from '~/useStackablesStore'
 import { HOME_PATH, PAGE_ALL_APPS } from '~/ui-constants'
 import { useNavigate } from 'react-router-dom'
+import { Modal } from '@platformatic/ui-components'
+import { MODAL_POPUP_V2 } from '@platformatic/ui-components/src/components/constants'
+import DeleteApplication from '~/components/application/DeleteApplication'
 
 const AllApplications = React.forwardRef(({ onClickCreateNewApp }, ref) => {
   const globalState = useStackablesStore()
   const { setNavigation, setCurrentPage } = globalState
   const [showErrorComponent, setShowErrorComponent] = useState(false)
+  const [showModalDeleteApplication, setShowModalDeleteApplication] = useState(false)
+  const [applicationSelected, setApplicatinSelected] = useState(null)
   const [applications, setApplications] = useState([])
   const [applicationsLoaded, setApplicationsLoaded] = useState(false)
   const [runningApps, setRunningApps] = useState('-')
@@ -75,27 +81,60 @@ const AllApplications = React.forwardRef(({ onClickCreateNewApp }, ref) => {
     setApplicationsLoaded(false)
   }
 
+  function handleDeleteApplication (applicationSelected) {
+    setApplicatinSelected(applicationSelected)
+    setShowModalDeleteApplication(true)
+  }
+
+  function handleCloseModalDeleteApplication () {
+    setApplicatinSelected(null)
+    setShowModalDeleteApplication(false)
+  }
+
+  function handleConfirmDeleteApplication () {
+    // TODO: call applicationSelected delete
+    handleCloseModalDeleteApplication()
+  }
+
   return showErrorComponent
     ? <ErrorComponent />
     : (
-      <div className={styles.container} ref={ref}>
-        <div className={styles.content}>
-          <TopContent
-            totalApps={applications.length || '-'}
-            runningApps={runningApps}
-            stoppedApps={stoppedApps}
-          />
-          <TableAll
-            applicationsLoaded={applicationsLoaded}
-            applications={applications}
-            onStopApplication={handleStopApplication}
-            onStartApplication={handleStartApplication}
-            onRestartApplication={handleRestartApplication}
-            onErrorOccurred={() => setShowErrorComponent(true)}
-            onClickCreateNewApp={() => onClickCreateNewApp()}
-          />
+      <>
+        <div className={styles.container} ref={ref}>
+          <div className={styles.content}>
+            <TopContent
+              totalApps={applications.length || '-'}
+              runningApps={runningApps}
+              stoppedApps={stoppedApps}
+            />
+            <TableAll
+              applicationsLoaded={applicationsLoaded}
+              applications={applications}
+              onStopApplication={handleStopApplication}
+              onStartApplication={handleStartApplication}
+              onRestartApplication={handleRestartApplication}
+              onErrorOccurred={() => setShowErrorComponent(true)}
+              onClickCreateNewApp={() => onClickCreateNewApp()}
+              onDeleteApplication={handleDeleteApplication}
+            />
+          </div>
         </div>
-      </div>
+        {showModalDeleteApplication && (
+          <Modal
+            key='deleteApplicationAll'
+            setIsOpen={() => handleCloseModalDeleteApplication()}
+            title='Delete Application'
+            titleClassName={`${typographyStyles.desktopHeadline4} ${typographyStyles.textWhite}`}
+            layout={MODAL_POPUP_V2}
+          >
+            <DeleteApplication
+              name={applicationSelected.name}
+              onClickCancel={() => handleCloseModalDeleteApplication()}
+              onClickConfirm={() => handleConfirmDeleteApplication()}
+            />
+          </Modal>
+        )}
+      </>
       )
 })
 

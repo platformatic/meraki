@@ -16,7 +16,8 @@ function TableRecent ({
   onStopApplication,
   onStartApplication,
   onRestartApplication,
-  onClickCreateNewApp
+  onClickCreateNewApp,
+  onDeleteApplication
 }) {
   const [innerLoading, setInnerLoading] = useState(true)
   const [showNoResult, setShowNoResult] = useState(false)
@@ -145,6 +146,8 @@ function TableRecent ({
             onClickStop={() => onStopApplication(application.id)}
             onClickStart={() => onStartApplication(application.id)}
             onClickRestart={() => onRestartApplication(application.id)}
+            onClickDelete={() => onDeleteApplication({ id: application.id, name: application.name })}
+
           />
         ))}
       </div>
@@ -182,7 +185,11 @@ TableRecent.propTypes = {
   /**
    * onErrorOccurred
     */
-  onRunningApplication: PropTypes.func
+  onRunningApplication: PropTypes.func,
+  /**
+   * onDeleteApplication
+    */
+  onDeleteApplication: PropTypes.func
 }
 
 TableRecent.defaultProps = {
@@ -192,7 +199,8 @@ TableRecent.defaultProps = {
   onStartApplication: () => {},
   onErrorOccurred: () => {},
   onRunningApplication: () => {},
-  onClickCreateNewApp: () => {}
+  onClickCreateNewApp: () => {},
+  onDeleteApplication: () => {}
 }
 
 export default TableRecent

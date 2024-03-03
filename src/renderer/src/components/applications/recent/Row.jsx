@@ -2,7 +2,7 @@
 import PropTypes from 'prop-types'
 import typographyStyles from '~/styles/Typography.module.css'
 import commonStyles from '~/styles/CommonStyles.module.css'
-import { DULLS_BACKGROUND_COLOR, MAIN_GREEN, MEDIUM, RICH_BLACK, SMALL, WARNING_YELLOW, WHITE } from '@platformatic/ui-components/src/components/constants'
+import { DULLS_BACKGROUND_COLOR, ERROR_RED, MAIN_GREEN, MEDIUM, RICH_BLACK, SMALL, WARNING_YELLOW, WHITE } from '@platformatic/ui-components/src/components/constants'
 import { ButtonOnlyIcon, Icons, PlatformaticIcon } from '@platformatic/ui-components'
 import styles from './Row.module.css'
 import MerakiIcon from '~/components/ui/MerakiIcon'
@@ -19,7 +19,8 @@ function Row ({
   platformaticVersion,
   onClickStop,
   onClickStart,
-  onClickRestart
+  onClickRestart,
+  onClickDelete
 }) {
   const navigate = useNavigate()
 
@@ -102,28 +103,31 @@ function Row ({
         </div>
         <div className={styles.tableCell}>
           <div className={`${styles.buttonsContainer} `}>
-            <ButtonOnlyIcon
-              textClass={typographyStyles.desktopBody}
-              altLabel='Start application'
-              paddingClass={commonStyles.buttonSquarePadding}
-              color={WHITE}
-              backgroundColor={RICH_BLACK}
-              onClick={() => onClickStart()}
-              hoverEffect={DULLS_BACKGROUND_COLOR}
-              platformaticIcon={{ size: SMALL, iconName: 'CirclePlayIcon', color: WHITE }}
-              disabled={status === 'running'}
-            />
-            <ButtonOnlyIcon
-              textClass={typographyStyles.desktopBody}
-              altLabel='Stop application'
-              paddingClass={commonStyles.buttonSquarePadding}
-              color={WHITE}
-              backgroundColor={RICH_BLACK}
-              onClick={() => onClickStop()}
-              hoverEffect={DULLS_BACKGROUND_COLOR}
-              platformaticIcon={{ size: SMALL, iconName: 'CircleStopIcon', color: WHITE }}
-              disabled={status === 'stopped'}
-            />
+            {status === 'stopped'
+              ? (
+                <ButtonOnlyIcon
+                  textClass={typographyStyles.desktopBody}
+                  altLabel='Start application'
+                  paddingClass={commonStyles.buttonSquarePadding}
+                  color={WHITE}
+                  backgroundColor={RICH_BLACK}
+                  onClick={() => onClickStart()}
+                  hoverEffect={DULLS_BACKGROUND_COLOR}
+                  platformaticIcon={{ size: SMALL, iconName: 'CirclePlayIcon', color: WHITE }}
+                />
+                )
+              : (
+                <ButtonOnlyIcon
+                  textClass={typographyStyles.desktopBody}
+                  altLabel='Stop application'
+                  paddingClass={commonStyles.buttonSquarePadding}
+                  color={WHITE}
+                  backgroundColor={RICH_BLACK}
+                  onClick={() => onClickStop()}
+                  hoverEffect={DULLS_BACKGROUND_COLOR}
+                  platformaticIcon={{ size: SMALL, iconName: 'CircleStopIcon', color: WHITE }}
+                />
+                )}
             <ButtonOnlyIcon
               textClass={typographyStyles.desktopBody}
               altLabel='Restart application'
@@ -133,6 +137,16 @@ function Row ({
               onClick={() => onClickRestart()}
               hoverEffect={DULLS_BACKGROUND_COLOR}
               platformaticIcon={{ size: SMALL, iconName: 'RestartIcon', color: WHITE }}
+            />
+            <ButtonOnlyIcon
+              textClass={typographyStyles.desktopBody}
+              altLabel='Delete application'
+              paddingClass={commonStyles.buttonSquarePadding}
+              color={ERROR_RED}
+              backgroundColor={RICH_BLACK}
+              onClick={() => onClickDelete()}
+              hoverEffect={DULLS_BACKGROUND_COLOR}
+              platformaticIcon={{ size: SMALL, iconName: 'TrashIcon', color: ERROR_RED }}
             />
           </div>
         </div>
@@ -167,14 +181,21 @@ Row.propTypes = {
     */
   platformaticVersion: PropTypes.string,
   /**
+   * onClickStop
+    */
+  onClickStop: PropTypes.func,
+  /**
+   * onClickStart
+    */
+  onClickStart: PropTypes.func,
+  /**
+   * onClickRestart
+    */
+  onClickRestart: PropTypes.func,
+  /**
    * onClickDelete
     */
-  onClickDelete: PropTypes.func,
-  /**
-   * onClickSave
-    */
-  onClickSave: PropTypes.func
-
+  onClickDelete: PropTypes.func
 }
 
 Row.defaultProps = {
@@ -183,8 +204,10 @@ Row.defaultProps = {
   name: '',
   status: '',
   platformaticVersion: '-',
-  onClickDelete: () => {},
-  onClickSave: () => {}
+  onClickStop: () => {},
+  onClickStart: () => {},
+  onClickRestart: () => {},
+  onClickDelete: () => {}
 }
 
 export default Row
