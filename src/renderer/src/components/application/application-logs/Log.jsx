@@ -31,8 +31,8 @@ function Log ({ log, display, onClickArrow }) {
   if (name) copyValue += ` ${name} ${pid}`
   copyValue += ` ${msg}`
   const convertedErr = err?.stack?.split('\n') ?? []
+  // eslint-disable-next-line no-unused-vars
   copyValue += err?.stack || ''
-  console.log('copyValue', copyValue)
   // const rawMessage = JSON.stringify({ level, pid, name, hostname, msg, err })
   const logClassName = `${styles.log} ` + styles[`log${level}`]
 
