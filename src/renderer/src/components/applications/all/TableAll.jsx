@@ -17,7 +17,8 @@ function TableAll ({
   onStopApplication,
   onStartApplication,
   onRestartApplication,
-  onClickCreateNewApp
+  onClickCreateNewApp,
+  onDeleteApplication
 }) {
   const [innerLoading, setInnerLoading] = useState(true)
   const [showNoResult, setShowNoResult] = useState(false)
@@ -281,6 +282,7 @@ function TableAll ({
               onClickStop={() => onStopApplication(application.id)}
               onClickStart={() => onStartApplication(application.id)}
               onClickRestart={() => onRestartApplication(application.id)}
+              onClickDelete={() => onDeleteApplication({ id: application.id, name: application.name })}
             />
           ))}
         </div>
@@ -319,7 +321,11 @@ TableAll.propTypes = {
   /**
    * onErrorOccurred
     */
-  onRunningApplication: PropTypes.func
+  onRunningApplication: PropTypes.func,
+  /**
+   * onDeleteApplication
+    */
+  onDeleteApplication: PropTypes.func
 }
 
 TableAll.defaultProps = {
@@ -329,7 +335,8 @@ TableAll.defaultProps = {
   onStartApplication: () => {},
   onErrorOccurred: () => {},
   onRunningApplication: () => {},
-  onClickCreateNewApp: () => {}
+  onClickCreateNewApp: () => {},
+  onDeleteApplication: () => {}
 }
 
 export default TableAll

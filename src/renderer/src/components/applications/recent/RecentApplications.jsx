@@ -1,14 +1,18 @@
 'use strict'
+import React, { useEffect, useState } from 'react'
 import PropTypes from 'prop-types'
 import styles from './RecentApplications.module.css'
+import typographyStyles from '~/styles/Typography.module.css'
 import TopContent from './TopContent'
 import TableRecent from './TableRecent'
 import { getApiApplications } from '~/api'
-import React, { useEffect, useState } from 'react'
 import ErrorComponent from '~/components/screens/ErrorComponent'
 import useStackablesStore from '~/useStackablesStore'
 import { HOME_PATH, PAGE_RECENT_APPS } from '~/ui-constants'
 import { useNavigate } from 'react-router-dom'
+import { Modal } from '@platformatic/ui-components'
+import { MODAL_POPUP_V2 } from '@platformatic/ui-components/src/components/constants'
+import DeleteApplication from '~/components/application/DeleteApplication'
 
 const RecentApplications = React.forwardRef(({ onClickCreateNewApp }, ref) => {
   const globalState = useStackablesStore()
@@ -18,6 +22,8 @@ const RecentApplications = React.forwardRef(({ onClickCreateNewApp }, ref) => {
   const [applicationsLoaded, setApplicationsLoaded] = useState(false)
   const [runningApps, setRunningApps] = useState('-')
   const [stoppedApps, setStoppedApps] = useState('-')
+  const [showModalDeleteApplication, setShowModalDeleteApplication] = useState(false)
+  const [applicationSelected, setApplicatinSelected] = useState(null)
   const navigate = useNavigate()
 
   useEffect(() => {
@@ -80,26 +86,59 @@ const RecentApplications = React.forwardRef(({ onClickCreateNewApp }, ref) => {
     setApplicationsLoaded(false)
   }
 
+  function handleDeleteApplication (applicationSelected) {
+    setApplicatinSelected(applicationSelected)
+    setShowModalDeleteApplication(true)
+  }
+
+  function handleCloseModalDeleteApplication () {
+    setApplicatinSelected(null)
+    setShowModalDeleteApplication(false)
+  }
+
+  function handleConfirmDeleteApplication () {
+    // TODO: call applicationSelected delete
+    handleCloseModalDeleteApplication()
+  }
+
   return showErrorComponent
     ? <ErrorComponent />
     : (
-      <div className={styles.container} ref={ref}>
-        <div className={styles.content}>
-          <TopContent
-            runningApps={runningApps}
-            stoppedApps={stoppedApps}
-          />
-          <TableRecent
-            applicationsLoaded={applicationsLoaded}
-            applications={applications}
-            onStopApplication={handleStopApplication}
-            onStartApplication={handleStartApplication}
-            onRestartApplication={handleRestartApplication}
-            onErrorOccurred={() => setShowErrorComponent(true)}
-            onClickCreateNewApp={() => onClickCreateNewApp()}
-          />
+      <>
+        <div className={styles.container} ref={ref}>
+          <div className={styles.content}>
+            <TopContent
+              runningApps={runningApps}
+              stoppedApps={stoppedApps}
+            />
+            <TableRecent
+              applicationsLoaded={applicationsLoaded}
+              applications={applications}
+              onStopApplication={handleStopApplication}
+              onStartApplication={handleStartApplication}
+              onRestartApplication={handleRestartApplication}
+              onDeleteApplication={handleDeleteApplication}
+              onErrorOccurred={() => setShowErrorComponent(true)}
+              onClickCreateNewApp={() => onClickCreateNewApp()}
+            />
+          </div>
         </div>
-      </div>
+        {showModalDeleteApplication && (
+          <Modal
+            key='deleteApplicationRecent'
+            setIsOpen={() => handleCloseModalDeleteApplication()}
+            title='Delete Application'
+            titleClassName={`${typographyStyles.desktopHeadline4} ${typographyStyles.textWhite}`}
+            layout={MODAL_POPUP_V2}
+          >
+            <DeleteApplication
+              name={applicationSelected.name}
+              onClickCancel={() => handleCloseModalDeleteApplication()}
+              onClickConfirm={() => handleConfirmDeleteApplication()}
+            />
+          </Modal>
+        )}
+      </>
       )
 })
 
