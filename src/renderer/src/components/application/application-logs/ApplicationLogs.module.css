@@ -2,5 +2,24 @@
   @apply grow relative;
 }
 .content {
-  @apply pt-10 px-6 flex flex-col gap-y-10; 
+  @apply py-10 px-6 flex flex-col gap-y-10; 
+}
+.select {
+  @apply basis-1/4
+}
+.selectUl {
+  @apply w-full
+}
+.borderexBoxContainer {
+  @apply py-4 px-0 w-full flex flex-col gap-y-4;
+}
+.lateralPadding {
+  @apply px-4;
+}
+.top, .bottom {
+  @apply shrink-0 grow-0;
+}
+
+.logsContainer {
+  @apply grow h-full min-h-[calc(100vH-25rem)] max-h-[calc(100vH-25rem)] overflow-y-auto flex flex-col gap-y-1;
 }

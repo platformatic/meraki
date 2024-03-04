@@ -79,3 +79,6 @@
 .fullHeight {
   @apply h-full;
 }
+.cursorPointer {
+  @apply cursor-pointer;
+}
