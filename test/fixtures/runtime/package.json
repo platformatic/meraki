@@ -1,0 +1,7 @@
+{
+  "name": "runtime-1",
+  "version": "1.0.42",
+  "dependencies": {
+    "platformatic": "^1.24.0"
+  }
+}
