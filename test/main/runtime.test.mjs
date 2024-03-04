@@ -1,14 +1,18 @@
 import { test, expect, beforeAll, onTestFinished } from 'vitest'
 import { tmpdir } from 'node:os'
-import { mkdtemp, cp, rm } from 'node:fs/promises'
+import { mkdtemp, cp, rm, access } from 'node:fs/promises'
 import { resolve, join } from 'node:path'
 import { mkdirp } from 'mkdirp'
 import Runtimes from '../../src/main/lib/runtimes.mjs'
 
 beforeAll(async () => {
   // we clean up the runtimes folder
-  await rm(resolve(tmpdir(), 'platformatic', 'pids'), { recursive: true })
-  await mkdirp(join(tmpdir(), 'platformatic', 'pids'))
+  const PLATFORMATIC_TMP_DIR = resolve(tmpdir(), 'platformatic', 'pids')
+  try {
+    await access(PLATFORMATIC_TMP_DIR)
+    await rm(PLATFORMATIC_TMP_DIR, { recursive: true })
+    await mkdirp(PLATFORMATIC_TMP_DIR)
+  } catch (err) {}
 })
 
 // const sleep = (ms) => new Promise((resolve) => setTimeout(resolve, ms))
