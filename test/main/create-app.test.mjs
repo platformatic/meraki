@@ -61,8 +61,6 @@ test('Create app with no entrypoint should fail', async () => {
 
 test('Create app', async (t) => {
   const appDir = await mkdtemp(join(tmpdir(), 'plat-app-test-create'))
-  console.log(appDir)
-
   const project = {
     projectName: 'electron-testing',
     services: [

@@ -145,6 +145,5 @@ test('should invoke marketplace for stackables', async () => {
     }
   })
   const plugins = await getPlugins(marketplaceHost)
-  // console.log(plugins)
   expect(plugins).toEqual(plugs)
 })

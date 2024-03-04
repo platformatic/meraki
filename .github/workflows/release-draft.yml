@@ -111,6 +111,7 @@ jobs:
       - uses: actions/setup-node@v4
         with:
           node-version: 18
+      # for building the native modules with python 3.12
       - run: sudo -H pip install setuptools
       - run: npm ci
       - run: npm run build
