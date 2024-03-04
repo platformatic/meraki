@@ -12,14 +12,14 @@ const getConnectionString = (dbFolder) => {
   return `sqlite://${dbPath}`
 }
 
-const getSqlMapper = async (appPath, configFolder) => {
-  const connectionString = getConnectionString(configFolder)
+const getSqlMapper = async (merakiFolder, merakiConfigFolder) => {
+  const connectionString = getConnectionString(merakiConfigFolder)
 
   // When the DB is ready, try to apply the migrations
   async function onDatabaseLoad (db, sql) {
     try {
       const Postgrator = (await import('postgrator')).default
-      const migrationPattern = resolve(join(appPath, 'migrations', '*'))
+      const migrationPattern = resolve(join(merakiFolder, 'migrations', '*'))
       log.info('Migrations:', migrationPattern)
       const postgrator = new Postgrator({
         driver: 'sqlite3',

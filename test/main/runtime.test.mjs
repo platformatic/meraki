@@ -5,6 +5,12 @@ import { resolve, join } from 'node:path'
 import { mkdirp } from 'mkdirp'
 import Runtimes from '../../src/main/lib/runtimes.mjs'
 
+// Setup meraki app folder (for migrations) and config folder (for the DB)
+const platformaticTestDir = await mkdtemp(join(tmpdir(), 'plat-app-test'))
+process.env.MERAKI_FOLDER = resolve(join(__dirname, '..', '..'))
+process.env.MERAKI_CONFIG_FOLDER = platformaticTestDir
+process.env.MERAKI_DB_CONNECTION_STRING = `sqlite://${join(platformaticTestDir, 'meraki.sqlite')}`
+
 beforeAll(async () => {
   // we clean up the runtimes folder
   const PLATFORMATIC_TMP_DIR = resolve(tmpdir(), 'platformatic', 'pids')
@@ -13,14 +19,19 @@ beforeAll(async () => {
     await rm(PLATFORMATIC_TMP_DIR, { recursive: true })
     await mkdirp(PLATFORMATIC_TMP_DIR)
   } catch (err) {}
+
+  // we clean up the DB
+  try {
+    await access(platformaticTestDir)
+    await rm(platformaticTestDir, { recursive: true })
+    await mkdirp(platformaticTestDir)
+  } catch (err) {}
 })
 
-// const sleep = (ms) => new Promise((resolve) => setTimeout(resolve, ms))
-
 test('get empty list of runtimes', async () => {
-  const runtimeApi = new Runtimes()
-  const runtimes = await runtimeApi.getRuntimes()
-  expect(runtimes).toEqual([])
+  const runtimeApi = await Runtimes.create()
+  const applications = await runtimeApi.getApplications()
+  expect(applications).toEqual([])
 }, 5000)
 
 test('start one runtime, see it in list and stop it', async (t) => {
@@ -28,17 +39,27 @@ test('start one runtime, see it in list and stop it', async (t) => {
   const appFixture = join('test', 'fixtures', 'runtime')
   await cp(appFixture, appDir, { recursive: true })
 
-  const runtimeApi = new Runtimes()
+  const runtimeApi = await Runtimes.create()
   const { runtime } = await runtimeApi.startRuntime(appDir)
   onTestFinished(() => runtime.kill('SIGINT'))
 
-  const runtimes = await runtimeApi.getRuntimes()
-  expect(runtimes.length).toBe(1)
-  expect(runtimes[0].pid).toBe(runtime.pid)
-  expect(runtimes[0].projectDir).toBe(appDir)
+  const applications = await runtimeApi.getApplications()
+  expect(applications.length).toBe(1)
+  expect(applications[0].running).toBe(true)
+  expect(applications[0].name).toBe('runtime-1')
+  expect(applications[0].path).toBe(appDir)
+  expect(applications[0].runtime.pid).toBe(runtime.pid)
+
   {
+    // Stop the application, is still there, but not running
     await runtimeApi.stopRuntime(runtime.pid)
-    const runtimes = await runtimeApi.getRuntimes()
-    expect(runtimes).toEqual([])
+    const applications = await runtimeApi.getApplications()
+    expect(applications.length).toBe(1)
+    expect(applications[0].running).toBe(false)
+    // Delete the application
+    const applicationId = applications[0].id
+    await runtimeApi.deleteApplication(applicationId)
+    const applicationsAfter = await runtimeApi.getApplications()
+    expect(applicationsAfter).toEqual([])
   }
 }, 60000)
