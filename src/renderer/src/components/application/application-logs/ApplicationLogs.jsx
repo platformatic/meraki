@@ -13,11 +13,15 @@ import Log from './Log'
 import { PRETTY, RAW } from '~/ui-constants'
 
 const ApplicationLogs = React.forwardRef((_props, ref) => {
-  const [displayLog, setDisplayLog] = useState('pretty')
+  const [displayLog, setDisplayLog] = useState(PRETTY)
   const [filterLogsByService, setFilterLogsByService] = useState('')
   const [optionsServices/* , setOptionsServices */] = useState([])
+  const [scrollDirection, setScrollDirection] = useState('down')
   const [logValue, setLogValue] = useState([])
   const logContentRef = useRef()
+  const [previousScrollTop, setPreviousScrollTop] = useState(0)
+  const [displayGoToTop, setDisplayGoToTop] = useState(false)
+  const [displayGoToBottom, setDisplayGoToBottom] = useState(false)
 
   useEffect(() => {
     const intervalId = setInterval(() => {
@@ -41,14 +45,33 @@ const ApplicationLogs = React.forwardRef((_props, ref) => {
   }, [])
 
   useEffect(() => {
-    if (logValue.length > 0) {
+    if (scrollDirection === 'down' && logValue.length > 0) {
       logContentRef.current.scrollTo({
         top: logContentRef.current.scrollHeight,
         left: 0,
         behavior: 'smooth'
       })
+      setPreviousScrollTop(logContentRef.current.scrollTop)
     }
-  }, [logValue])
+  }, [scrollDirection, logValue])
+
+  useEffect(() => {
+    if (scrollDirection === 'up') {
+      setDisplayGoToBottom(true)
+    }
+  }, [scrollDirection])
+
+  function handleScroll (event) {
+    if (event.currentTarget.scrollTop < previousScrollTop) {
+      setScrollDirection('up')
+    }
+    // 30 Height of a single line
+    if (event.currentTarget.scrollTop * 30 > logContentRef.current.clientHeight) {
+      setDisplayGoToTop(true)
+    } else {
+      setDisplayGoToTop(false)
+    }
+  }
 
   function handleChangeService (event) {
     setFilterLogsByService(event.target.value)
@@ -66,7 +89,20 @@ const ApplicationLogs = React.forwardRef((_props, ref) => {
 
   }
 
-  console.log(logValue.length)
+  function clickGoToTop () {
+    setScrollDirection('up')
+    logContentRef.current.scrollTo({
+      top: 0,
+      left: 0,
+      behavior: 'smooth'
+    })
+  }
+
+  function resumeScrolling () {
+    setScrollDirection('down')
+    setDisplayGoToBottom(false)
+  }
+
   return (
     <div className={styles.container} ref={ref}>
       <div className={styles.content}>
@@ -120,8 +156,8 @@ const ApplicationLogs = React.forwardRef((_props, ref) => {
               </div>
             </div>
             <HorizontalSeparator marginBottom={MARGIN_0} marginTop={MARGIN_0} color={WHITE} opacity={OPACITY_30} />
-            <div className={`${styles.logsContainer} ${styles.lateralPadding}`} ref={logContentRef}>
-              {logValue?.length > 0 && logValue.map((log, index) => <Log key={index} log={{ ...log }} display={displayLog} />)}
+            <div className={`${styles.logsContainer} ${styles.lateralPadding}`} ref={logContentRef} onScroll={handleScroll}>
+              {logValue?.length > 0 && logValue.map((log, index) => <Log key={index} log={{ ...log }} display={displayLog} onClickArrow={() => setScrollDirection('still')} />)}
             </div>
             <HorizontalSeparator marginBottom={MARGIN_0} marginTop={MARGIN_0} color={WHITE} opacity={OPACITY_30} />
             <div className={`${commonStyles.smallFlexRow} ${commonStyles.itemsCenter} ${commonStyles.justifyBetween} ${styles.lateralPadding} ${styles.bottom}`}>
@@ -129,11 +165,19 @@ const ApplicationLogs = React.forwardRef((_props, ref) => {
                 type='button'
                 paddingClass={commonStyles.buttonPadding}
                 label='Go to Top'
-                onClick={() => saveLogs()}
-                color={WHITE}
-                backgroundColor={TRANSPARENT}
+                onClick={() => clickGoToTop()}
+                color={displayGoToTop ? WHITE : RICH_BLACK}
+                backgroundColor={RICH_BLACK}
+                disabled={!displayGoToTop}
               />
-              <p>There are new logs. Go to the bottom to resume</p>
+
+              {displayGoToBottom
+                ? (
+                  <p className={`${typographyStyles.desktopBodySmall} ${typographyStyles.textWhite}`}>There are new logs. <span className={`${commonStyles.cursorPointer} ${typographyStyles.textTertiaryBlue}`} onClick={() => resumeScrolling()}>Go to the bottom</span> to resume</p>
+                  )
+                : (
+                  <p className={`${typographyStyles.desktopBodySmall} ${typographyStyles.textRichBlack}`}>There are new logs. Go to the bottom to resume</p>
+                  )}
               <Button
                 type='button'
                 paddingClass={commonStyles.buttonPadding}

@@ -1,5 +1,6 @@
 'use strict'
-import React from 'react'
+import React, { useEffect, useState } from 'react'
+import PropTypes from 'prop-types'
 import commonStyles from '~/styles/CommonStyles.module.css'
 import typographyStyles from '~/styles/Typography.module.css'
 import styles from './Log.module.css'
@@ -7,7 +8,10 @@ import { CopyAndPaste, PlatformaticIcon } from '@platformatic/ui-components'
 import { WHITE, SMALL } from '@platformatic/ui-components/src/components/constants'
 import { PRETTY } from '~/ui-constants'
 
-export default function Log ({ log, display }) {
+function Log ({ log, display, onClickArrow }) {
+  const [displayJson, setDisplayJson] = useState(false)
+  const [logContainerClassName, setLogContainerClassName] = useState(normalClassName())
+
   const timestamp = new Date(log[0] / 1000000).toISOString()
   const message = log[1]
   const { level, pid, name, hostname, msg, err } = JSON.parse(message)
@@ -28,14 +32,36 @@ export default function Log ({ log, display }) {
   copyValue += ` ${msg}`
   const convertedErr = err?.stack?.split('\n') ?? []
   copyValue += err?.stack || ''
+  console.log('copyValue', copyValue)
   // const rawMessage = JSON.stringify({ level, pid, name, hostname, msg, err })
   const logClassName = `${styles.log} ` + styles[`log${level}`]
-  console.log('copyValue', copyValue)
+
+  useEffect(() => {
+    if (displayJson) {
+      setLogContainerClassName(activeClassName())
+    } else {
+      setLogContainerClassName(normalClassName())
+    }
+  }, [displayJson])
+
+  function handleChangeDisplayView () {
+    setDisplayJson(!displayJson)
+    onClickArrow()
+  }
+
+  function normalClassName () {
+    return `${styles.logContainerClassNameInactive}`
+  }
+
+  function activeClassName () {
+    return `${styles.logContainerClassNameActive} ` + styles[`logContainerClassNameActive${level}`]
+  }
+
   return display === PRETTY
     ? (
-      <>
+      <div className={logContainerClassName}>
         <div className={logClassName}>
-          <PlatformaticIcon iconName='ArrowRightIcon' color={WHITE} size={SMALL} onClick={() => {}} internalOverHandling />
+          <PlatformaticIcon iconName={displayJson ? 'ArrowDownIcon' : 'ArrowRightIcon'} color={WHITE} size={SMALL} onClick={() => handleChangeDisplayView()} internalOverHandling />
           <span className={`${typographyStyles.desktopOtherCliTerminalSmall} ${typographyStyles.textWhite}`}>[{`${timestamp}`}]</span>&nbsp;
           <span className={styles[`text${level}`]}>{levelDisplayed}</span>&nbsp;
           <span>{hostname}</span>&nbsp;
@@ -52,14 +78,37 @@ export default function Log ({ log, display }) {
             {convertedErr.map((err, index) => <React.Fragment key={`${err}-${index}`}><span className={index === 0 ? commonStyles.fullWidth : commonStyles.containerLeftSpacedSmall}> {err}</span><br /></React.Fragment>)}
           </p>
         )}
-      </>
+      </div>
       )
     : (
       <div className={`${commonStyles.smallFlexRow} ${commonStyles.justifyBetween}`}>
-        <p className={styles.log}>{message}</p>
+        <p className={`${styles.log} ${typographyStyles.desktopOtherCliTerminalSmall} ${typographyStyles.textWhite}`}>{message}</p>
         <div className={commonStyles.smallFlexRow}>
           <CopyAndPaste value={message} tooltipLabel='Message copied!' color={WHITE} size={SMALL} />
         </div>
       </div>
       )
 }
+
+Log.propTypes = {
+  /**
+   * log
+    */
+  log: PropTypes.object,
+  /**
+   * display
+   */
+  display: PropTypes.string,
+  /**
+   * onClickArrow
+   */
+  onClickArrow: PropTypes.func
+}
+
+Log.defaultProps = {
+  log: () => {},
+  display: PRETTY,
+  onClickArrow: () => {}
+}
+
+export default Log

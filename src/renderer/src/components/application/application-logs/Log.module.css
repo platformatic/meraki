@@ -39,3 +39,24 @@
 .buttonRawJson {
   @apply py-0;
 }
+.logContainerClassNameInactive {
+  @apply p-0;
+}
+.logContainerClassNameActive {
+  @apply p-2 border border-solid rounded-sm;
+}
+.logContainerClassNameActive10 {
+  @apply border-white;
+}
+.logContainerClassNameActive20 {
+  @apply border-tertiary-blue; 
+}
+.logContainerClassNameActive30 {
+  @apply border-main-green; 
+}
+.logContainerClassNameActive40 {
+  @apply border-warning-yellow;
+}
+.logContainerClassNameActive50 {
+  @apply border-error-red;
+}

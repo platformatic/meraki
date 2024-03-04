@@ -8,7 +8,7 @@
   @apply basis-1/4
 }
 .selectUl {
-  @apply w-full md:min-w-[150%]
+  @apply w-full
 }
 .borderexBoxContainer {
   @apply py-4 px-0 w-full flex flex-col gap-y-4;
