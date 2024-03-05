@@ -4,6 +4,7 @@ import { access } from 'node:fs/promises'
 import { createRequire } from 'node:module'
 import { on } from 'node:events'
 import { npmInstall } from './run-npm.mjs'
+import { getLatestPlatformaticVersion } from './utils.mjs'
 import { resolve, join } from 'node:path'
 import getSqlMapper from './db.mjs'
 import split from 'split2'
@@ -15,11 +16,12 @@ class Applications {
   #started // map application id => pid for apps started by meraki
   #mapper
 
-  constructor (mapper) {
+  constructor (mapper, latestPlatformaticVersion) {
     this.#runtimeApi = new RuntimeApiClient()
     this.#mapper = mapper
     this.#applications = []
     this.#started = {}
+    this.latestPlatformaticVersion = latestPlatformaticVersion
   }
 
   async #getApps () {
@@ -54,6 +56,7 @@ class Applications {
         running: false,
         status: 'stopped',
         platformaticVersion: app.lastPltVersion,
+        isLatestPltVersion: app.lastPltVersion === this.latestPlatformaticVersion,
         runtime: null,
         insideMeraki: false,
         lastStarted: app.startedAt,
@@ -64,6 +67,7 @@ class Applications {
         appForList.running = true
         appForList.status = 'running'
         appForList.platformaticVersion = runtime.platformaticVersion
+        isLatestPltVersion: runtime.platformaticVersion === this.latestPlatformaticVersion,
         appForList.runtime = runtime
         appForList.insideMeraki = !!this.#started[app.id]
         // We need to update the lastPltVersion if unknown or it's different
@@ -182,7 +186,8 @@ class Applications {
       merakiConfigFolder = process.env.MERAKI_CONFIG_FOLDER
     }
     const mapper = await getSqlMapper(merakiFolder, merakiConfigFolder)
-    return new Applications(mapper)
+    const latestPlatformaticVersion = await getLatestPlatformaticVersion()
+    return new Applications(mapper, latestPlatformaticVersion)
   }
 }
 
