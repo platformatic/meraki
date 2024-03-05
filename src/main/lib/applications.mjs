@@ -1,9 +1,10 @@
 import execa from 'execa'
 import { RuntimeApiClient } from '@platformatic/control'
+import { access } from 'node:fs/promises'
 import { createRequire } from 'node:module'
 import { on } from 'node:events'
-import { join } from 'node:path'
 import { npmInstall } from './run-npm.mjs'
+import { resolve, join } from 'node:path'
 import getSqlMapper from './db.mjs'
 import split from 'split2'
 const logger = require('pino')()
@@ -11,12 +12,14 @@ const logger = require('pino')()
 class Applications {
   #runtimeApi
   #applications = []
+  #started // map application id => pid for apps started by meraki
   #mapper
 
   constructor (mapper) {
     this.#runtimeApi = new RuntimeApiClient()
     this.#mapper = mapper
     this.#applications = []
+    this.#started = {}
   }
 
   async #getApps () {
@@ -36,6 +39,7 @@ class Applications {
 
   // TODO: This might be polled to refresh the current list of running runtimes
   // and generate an event to notify the UI
+
   async #refreshApplications () {
     const runningRuntimes = await this.#runtimeApi.getRuntimes()
     await this.#createMissingApplications(runningRuntimes)
@@ -43,26 +47,32 @@ class Applications {
     const ret = []
 
     for (const app of apps) {
+      const appForList = {
+        id: app.id,
+        name: app.name,
+        path: app.path,
+        running: false,
+        platformaticVersion: app.lastPltVersion,
+        runtime: null,
+        merakiStarted: false,
+        lastStarted: app.startedAt,
+        lastUpdated: app.updatedAt
+      }
       const runtime = runningRuntimes.find((runtime) => runtime.projectDir === app.path)
       if (runtime) {
-        ret.push({
-          id: app.id,
-          name: app.name,
-          path: app.path,
-          running: true,
-          platformaticVersion: runtime.platformaticVersion,
-          runtime
-        })
-      } else {
-        ret.push({
-          id: app.id,
-          name: app.name,
-          path: app.path,
-          running: false,
-          platformaticVersion: null,
-          runtime: null
-        })
+        appForList.running = true
+        appForList.platformaticVersion = runtime.platformaticVersion
+        appForList.runtime = runtime
+        appForList.merakiStarted = !!this.#started[app.id]
+        // We need to update the lastPltVersion if unknown or it's different
+        if (!app.lastPltVersion || app.lastPltVersion !== runtime.platformaticVersion) {
+          await this.#mapper.entities.application.save({
+            fields: ['id', 'lastPltVersion'],
+            input: { id: app.id, lastPltVersion: runtime.platformaticVersion }
+          })
+        }
       }
+      ret.push(appForList)
     }
 
     this.#applications = ret
@@ -74,13 +84,18 @@ class Applications {
     return _require.resolve('@platformatic/runtime/runtime.mjs')
   }
 
-  async startRuntime (appFolder, env = {}) {
+  async startRuntime (id, env = {}) {
+    const app = await this.#mapper.entities.application.find({ where: { id: { eq: id } } })
+    if (!app || app.length === 0) {
+      throw new Error(`Application with id ${id} not found`)
+    }
+    const appFolder = app[0].path
     await npmInstall(null, { cwd: appFolder }, logger)
     const configFile = join(appFolder, 'platformatic.json')
     const runtimeCliPath = this.#getRuntimeCliPath(appFolder)
     const runtime = execa(
       process.execPath, [runtimeCliPath, 'start', '-c', configFile],
-      { env }
+      { env, cleanup: true, cwd: appFolder }
     )
     runtime.stdout.pipe(process.stdout)
     runtime.stderr.pipe(process.stderr)
@@ -106,7 +121,12 @@ class Applications {
 
           if (url !== undefined) {
             clearTimeout(errorTimeout)
-            return { runtime, url, output }
+            this.#started[id] = runtime.pid
+            this.#mapper.entities.application.save({
+              fields: ['id', 'startedAt'],
+              input: { id, startedAt: new Date() }
+            })
+            return { id, runtime, url, output }
           }
         }
       }
@@ -114,8 +134,12 @@ class Applications {
     await this.refreshRunningRuntimes()
   }
 
-  async stopRuntime (pid) {
-    await this.#runtimeApi.stopRuntime(pid)
+  async stopRuntime (id) {
+    const pid = this.#started[id]
+    if (pid) {
+      await this.#runtimeApi.stopRuntime(pid)
+      delete this.#started[id]
+    }
     await this.#refreshApplications()
   }
 
@@ -124,9 +148,21 @@ class Applications {
     return this.#applications
   }
 
+  async importApplication (path) {
+    const packageJsonPath = resolve(path, 'package.json')
+    try {
+      await access(packageJsonPath)
+    } catch (err) {
+      throw new Error(`Import error: cannot find package.json in the provided path, ${path}`)
+    }
+    const packageJson = require(packageJsonPath)
+    const { name } = packageJson
+    return this.createApplication(name, path)
+  }
+
   async createApplication (name, path) {
     return this.#mapper.entities.application.save({
-      fields: ['name', 'path'],
+      fields: ['id', 'name', 'path'],
       input: { name, path }
     })
   }

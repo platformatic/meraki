@@ -40,26 +40,27 @@ test('start one runtime, see it in list and stop it', async (t) => {
   await cp(appFixture, appDir, { recursive: true })
 
   const applicationsApi = await Applications.create()
-  const { runtime } = await applicationsApi.startRuntime(appDir)
+  const { id } = await applicationsApi.importApplication(appDir)
+  const { runtime } = await applicationsApi.startRuntime(id)
   onTestFinished(() => runtime.kill('SIGINT'))
 
   const applications = await applicationsApi.getApplications()
   expect(applications.length).toBe(1)
-  console.log(applications[0])
   expect(applications[0].running).toBe(true)
   expect(applications[0].name).toBe('runtime-1')
   expect(applications[0].path).toBe(appDir)
   expect(applications[0].runtime.pid).toBe(runtime.pid)
+  expect(applications[0].merakiStarted).toBe(true)
+  expect(applications[0].platformaticVersion).toBe('1.25.0')
 
   {
     // Stop the application, is still there, but not running
-    await applicationsApi.stopRuntime(runtime.pid)
+    await applicationsApi.stopRuntime(id)
     const applications = await applicationsApi.getApplications()
     expect(applications.length).toBe(1)
     expect(applications[0].running).toBe(false)
     // Delete the application
-    const applicationId = applications[0].id
-    await applicationsApi.deleteApplication(applicationId)
+    await applicationsApi.deleteApplication(id)
     const applicationsAfter = await applicationsApi.getApplications()
     expect(applicationsAfter).toEqual([])
   }
