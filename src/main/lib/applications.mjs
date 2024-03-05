@@ -52,18 +52,20 @@ class Applications {
         name: app.name,
         path: app.path,
         running: false,
+        status: 'stopped',
         platformaticVersion: app.lastPltVersion,
         runtime: null,
-        merakiStarted: false,
+        insideMeraki: false,
         lastStarted: app.startedAt,
         lastUpdated: app.updatedAt
       }
       const runtime = runningRuntimes.find((runtime) => runtime.projectDir === app.path)
       if (runtime) {
         appForList.running = true
+        appForList.status = 'running'
         appForList.platformaticVersion = runtime.platformaticVersion
         appForList.runtime = runtime
-        appForList.merakiStarted = !!this.#started[app.id]
+        appForList.insideMeraki = !!this.#started[app.id]
         // We need to update the lastPltVersion if unknown or it's different
         if (!app.lastPltVersion || app.lastPltVersion !== runtime.platformaticVersion) {
           await this.#mapper.entities.application.save({

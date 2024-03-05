@@ -169,8 +169,8 @@ app.whenReady().then(async () => {
   const merakiFolder = getAppPath()
   const merakiConfigFolder = app.getPath('userData')
   const appApis = await Applications.create(merakiFolder, merakiConfigFolder)
-  const appList = await appApis.getApplications()
-  log.info('Applications list loaded at startup', appList)
+  // const appList = await appApis.getApplications()
+  // log.info('Applications list loaded at startup', appList)
 
   // Default open or close DevTools by F12 in development
   // and ignore CommandOrControl + R in production.
@@ -209,134 +209,28 @@ app.whenReady().then(async () => {
   })
 
   ipcMain.handle('create-app', async (_, path, project) => {
-    return createApp(path, project, uiLogger)
-  })
-
-  ipcMain.handle('import-app', async (_, path, appName) => {
-    // MOCK TO REMOVE
-    // return importApp(path, uiLogger, appName)
-    const pro = new Promise((resolve, reject) => {
-      setTimeout(() => {
-        // return resolve(true)
-        return reject(new Error('Boom'))
-      }, 2000)
-    })
-    return pro
+    await createApp(path, project, uiLogger)
+    await appApis.createApplication(path, project)
   })
 
   ipcMain.handle('get-applications', async (_) => {
-    // MOCK TO REMOVE
-    // return importApp(path, uiLogger, appName)
-    const pro = new Promise((resolve, reject) => {
-      setTimeout(() => {
-        return resolve([{
-          id: '1',
-          name: 'Ransom',
-          status: 'running',
-          platformaticVersion: '1.0.0',
-          updateVersion: true,
-          lastStarted: '1708887874046',
-          lastUpdate: '1708887874046',
-          insideMeraki: true
-        }, {
-          id: '2',
-          name: 'Coolhio',
-          status: 'stopped',
-          platformaticVersion: '3.0.0',
-          lastStarted: '1706295948105',
-          lastUpdate: '1706295948105',
-          insideMeraki: false
-        }, {
-          id: '3',
-          name: 'a horse with a long long long name',
-          status: 'running',
-          platformaticVersion: '3.0.0',
-          lastStarted: '1706295948105',
-          lastUpdate: '1706295948105',
-          insideMeraki: true
-        }, {
-          id: '4',
-          name: 'pitiful',
-          status: 'running',
-          platformaticVersion: '1.0.0',
-          updateVersion: true,
-          lastStarted: '1708715157920',
-          lastUpdate: '1708715157920',
-          insideMeraki: false
-        }, {
-          id: '5',
-          name: 'searching',
-          status: 'running',
-          platformaticVersion: '1.0.0',
-          updateVersion: true,
-          lastStarted: '1708023980957',
-          lastUpdate: '1708023980957',
-          insideMeraki: true
-        }, {
-          id: '6',
-          name: 'trouble',
-          status: 'stopped',
-          platformaticVersion: '1.0.0',
-          updateVersion: true,
-          lastStarted: '1708283136299',
-          lastUpdate: '1708283136299',
-          insideMeraki: false
-        }, {
-          id: '7',
-          name: 'loading',
-          status: 'stopped',
-          platformaticVersion: '1.0.0',
-          updateVersion: true,
-          lastStarted: '1708628722661',
-          lastUpdate: '1708628722661',
-          insideMeraki: true
-        }, {
-          id: '8',
-          name: 'Dodge',
-          status: 'running',
-          platformaticVersion: '3.0.0',
-          lastStarted: '1708801496452',
-          lastUpdate: '1708801496452',
-          insideMeraki: false
-        }, {
-          id: '9',
-          name: 'Dodge - 2',
-          status: 'running',
-          platformaticVersion: '3.0.0',
-          lastStarted: '1677425773811',
-          lastUpdate: '1677425773811',
-          insideMeraki: false
-        }, {
-          id: '10',
-          name: 'Dodge - 3',
-          status: 'running',
-          platformaticVersion: '3.0.0',
-          lastStarted: '1677425773811',
-          lastUpdate: '1677425773811',
-          insideMeraki: false
-        }, {
-          id: '11',
-          name: 'Dodge - 4',
-          status: 'running',
-          platformaticVersion: '3.0.0',
-          lastStarted: '1677425773811',
-          lastUpdate: '1677425773811',
-          insideMeraki: false
-        }, {
-          id: '12',
-          name: 'Dodge - 5',
-          status: 'stopped',
-          platformaticVersion: '1.0.0',
-          updateVersion: true,
-          lastStarted: '1677425773811',
-          lastUpdate: '1677425773811',
-          insideMeraki: true
-        }]
-        )
-        // return reject(new Error('Boom'))
-      }, 2000)
-    })
-    return pro
+    return appApis.getApplications()
+  })
+
+  ipcMain.handle('import-app', async (_, path) => {
+    return appApis.importApplication(path)
+  })
+
+  ipcMain.handle('delete-app', async (_, id) => {
+    return appApis.deleteApplication(path)
+  })
+
+  ipcMain.handle('start-app', async (_, id) => {
+    return appApis.startRuntime(id)
+  })
+
+  ipcMain.handle('stop-app', async (_, id) => {
+    return appApis.stopRuntime(id)
   })
 
   ipcMain.handle('quit-app', () => {

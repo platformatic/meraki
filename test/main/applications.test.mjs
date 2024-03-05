@@ -50,7 +50,7 @@ test('start one runtime, see it in list and stop it', async (t) => {
   expect(applications[0].name).toBe('runtime-1')
   expect(applications[0].path).toBe(appDir)
   expect(applications[0].runtime.pid).toBe(runtime.pid)
-  expect(applications[0].merakiStarted).toBe(true)
+  expect(applications[0].insideMeraki).toBe(true)
   expect(applications[0].platformaticVersion).toBe('1.25.0')
 
   {
