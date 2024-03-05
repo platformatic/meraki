@@ -11,38 +11,20 @@ import { BorderedBox, Button, HorizontalSeparator } from '@platformatic/ui-compo
 import Forms from '@platformatic/ui-components/src/components/forms'
 import Log from './Log'
 import { PRETTY, RAW } from '~/ui-constants'
+import LogFilterSelector from './LogFilterSelector'
 
 const ApplicationLogs = React.forwardRef((_props, ref) => {
   const [displayLog, setDisplayLog] = useState(PRETTY)
   const [filterLogsByService, setFilterLogsByService] = useState('')
+  const [filterLogByLevel, setFilterLogByLevel] = useState('')
   const [optionsServices/* , setOptionsServices */] = useState([])
   const [scrollDirection, setScrollDirection] = useState('down')
-  const [logValue, setLogValue] = useState([])
+  const [logValue/* , setLogValue */] = useState([])
+  const [filteredLogs, setFilteredLogs] = useState([])
   const logContentRef = useRef()
   const [previousScrollTop, setPreviousScrollTop] = useState(0)
   const [displayGoToTop, setDisplayGoToTop] = useState(false)
   const [displayGoToBottom, setDisplayGoToBottom] = useState(false)
-
-  useEffect(() => {
-    const intervalId = setInterval(() => {
-      const date = new Date()
-      const a = Math.floor(Math.random() * 6)
-      let err = null
-      if (a === 5) { err = 'error' }
-      setLogValue(logValue => [...logValue, [
-        date.getTime(),
-        JSON.stringify({
-          level: a * 10,
-          pid: Math.random() * 1000,
-          name: ['composer', 'service', 'db'][(Math.random() * 3)],
-          msg: 'Mocked message',
-          err
-        })
-      ]
-      ])
-    }, 500)
-    return () => clearInterval(intervalId)
-  }, [])
 
   useEffect(() => {
     if (scrollDirection === 'down' && logValue.length > 0) {
@@ -72,6 +54,22 @@ const ApplicationLogs = React.forwardRef((_props, ref) => {
       setDisplayGoToTop(false)
     }
   }
+
+  useEffect(() => {
+    if (filterLogByLevel || filterLogsByService) {
+      let founds = [...filteredLogs]
+      founds = founds.filter(logs => logs.level >= filterLogByLevel)
+      if (filterLogsByService && filterLogsByService !== '') {
+        founds = founds.filter(application => application.name.toLowerCase().includes(filterLogsByService.toLowerCase()))
+      }
+      setFilteredLogs(founds)
+    } else {
+      setFilteredLogs([...logValue])
+    }
+  }, [
+    filterLogByLevel,
+    filterLogsByService
+  ])
 
   function handleChangeService (event) {
     setFilterLogsByService(event.target.value)
@@ -133,7 +131,7 @@ const ApplicationLogs = React.forwardRef((_props, ref) => {
                 value={filterLogsByService}
                 inputTextClassName={`${typographyStyles.desktopBodySmall} ${typographyStyles.textWhite}`}
               />
-              <p>Log Selector</p>
+              <LogFilterSelector onChangeLevelSelected={(level) => setFilterLogByLevel(level)} />
               <div className={`${commonStyles.smallFlexRow} ${commonStyles.justifyEnd}`}>
                 <Button
                   type='button'
