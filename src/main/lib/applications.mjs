@@ -11,13 +11,13 @@ import split from 'split2'
 const logger = require('pino')()
 
 class Applications {
-  #runtimeApi
+  #runtimeClient
   #applications = []
   #started // map application id => pid for apps started by meraki
   #mapper
 
   constructor (mapper, latestPlatformaticVersion) {
-    this.#runtimeApi = new RuntimeApiClient()
+    this.#runtimeClient = new RuntimeApiClient()
     this.#mapper = mapper
     this.#applications = []
     this.#started = {}
@@ -43,7 +43,7 @@ class Applications {
   // and generate an event to notify the UI
 
   async #refreshApplications () {
-    const runningRuntimes = await this.#runtimeApi.getRuntimes()
+    const runningRuntimes = await this.#runtimeClient.getRuntimes()
     await this.#createMissingApplications(runningRuntimes)
     const apps = await this.#getApps()
     const ret = []
@@ -137,13 +137,13 @@ class Applications {
         }
       }
     }
-    await this.refreshRunningRuntimes()
+    await this.#refreshApplications()
   }
 
   async stopRuntime (id) {
     const pid = this.#started[id]
     if (pid) {
-      await this.#runtimeApi.stopRuntime(pid)
+      await this.#runtimeClient.stopRuntime(pid)
       delete this.#started[id]
     }
     await this.#refreshApplications()
@@ -152,6 +152,10 @@ class Applications {
   async getApplications () {
     await this.#refreshApplications()
     return this.#applications
+  }
+
+  getPid (id) {
+    return this.#started[id]
   }
 
   async importApplication (path) {

@@ -9,6 +9,7 @@ import { prepareFolder, createApp } from './generate.mjs'
 import log from 'electron-log'
 import { getAppPath } from './lib/utils.mjs'
 import Applications from './lib/applications.mjs'
+import Logs from './lib/logs.mjs'
 
 log.initialize()
 
@@ -169,8 +170,7 @@ app.whenReady().then(async () => {
   const merakiFolder = getAppPath()
   const merakiConfigFolder = app.getPath('userData')
   const appApis = await Applications.create(merakiFolder, merakiConfigFolder)
-  // const appList = await appApis.getApplications()
-  // log.info('Applications list loaded at startup', appList)
+  const logsApi = new Logs(appApis)
 
   // Default open or close DevTools by F12 in development
   // and ignore CommandOrControl + R in production.
@@ -213,6 +213,16 @@ app.whenReady().then(async () => {
     await appApis.createApplication(path, project)
   })
 
+  ipcMain.handle('generate-name', async () => {
+    const val = await generate({ words: 1 }).dashed
+    return val
+  })
+
+  ipcMain.handle('quit-app', () => {
+    app.quit()
+  })
+
+  // ********** APPLICATIONS LIST ********** //
   ipcMain.handle('get-applications', async (_) => {
     return appApis.getApplications()
   })
@@ -233,13 +243,21 @@ app.whenReady().then(async () => {
     return appApis.stopRuntime(id)
   })
 
-  ipcMain.handle('quit-app', () => {
-    app.quit()
+  // ********** LOGS ********** //
+  ipcMain.handle('start-logs', async (_, id, callback) => {
+    logsApi.start(id, callback)
   })
 
-  ipcMain.handle('generate-name', async () => {
-    const val = await generate({ words: 1 }).dashed
-    return val
+  ipcMain.handle('pause-logs', async (_) => {
+    logsApi.pause()
+  })
+
+  ipcMain.handle('resume-logs', async (_) => {
+    logsApi.resume()
+  })
+
+  ipcMain.handle('stop-logs', async (_) => {
+    logsApi.stop()
   })
 })
 
