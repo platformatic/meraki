@@ -67,7 +67,7 @@ class Applications {
         appForList.running = true
         appForList.status = 'running'
         appForList.platformaticVersion = runtime.platformaticVersion
-        isLatestPltVersion: runtime.platformaticVersion === this.latestPlatformaticVersion,
+        appForList.isLatestPltVersion = (runtime.platformaticVersion === this.latestPlatformaticVersion)
         appForList.runtime = runtime
         appForList.insideMeraki = !!this.#started[app.id]
         // We need to update the lastPltVersion if unknown or it's different
