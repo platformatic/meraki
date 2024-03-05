@@ -8,7 +8,7 @@ import { getTemplates, getPlugins } from './client.mjs'
 import { prepareFolder, createApp } from './generate.mjs'
 import log from 'electron-log'
 import { getAppPath } from './lib/utils.mjs'
-import { Applications } from './lib/applications.mjs'
+import Applications from './lib/applications.mjs'
 
 log.initialize()
 
