@@ -23,8 +23,15 @@ class Applications {
     return this.#entities.application.delete({ where: { id: { eq: id } } })
   }
 
-  static async getApplications (appPath, configFolder) {
-    const mapper = await getSqlMapper(appPath, configFolder)
+  static async create (merakiFolder, merakiConfigFolder) {
+    // We use these environment variables for tests
+    if (!merakiFolder) {
+      merakiFolder = process.env.MERAKI_FOLDER
+    }
+    if (!merakiConfigFolder) {
+      merakiConfigFolder = process.env.MERAKI_CONFIG_FOLDER
+    }
+    const mapper = await getSqlMapper(merakiFolder, merakiConfigFolder)
     return new Applications(mapper)
   }
 }

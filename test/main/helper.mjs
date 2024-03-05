@@ -6,7 +6,6 @@ function setUpEnvironment (env = {}) {
     MAIN_VITE_MARKETPLACE_HOST: 'http://localhost:13042',
     MAIN_VITE_USE_MOCKS: false
   }
-
   Object.assign(process.env, defaultEnv, env)
 }
 
