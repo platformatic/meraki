@@ -92,4 +92,30 @@ test('start one runtime, see it in list and stop it', async (t) => {
     const applicationsAfter = await applicationsApi.getApplications()
     expect(applicationsAfter).toEqual([])
   }
+
+  {
+    // Start the  runtime, but with platformatic up-to-date
+    mockAgent
+      .get('https://registry.npmjs.org')
+      .intercept({
+        method: 'GET',
+        path: '/platformatic'
+      })
+      .reply(200, {
+        'dist-tags': {
+          latest: '1.25.0'
+        }
+      })
+    // We get another instance of the APIm because we get the platformatic version once
+    // We also need to re-import the app because we deleted it
+    const applicationsApi = await Applications.create()
+    const { id } = await applicationsApi.importApplication(appDir)
+    const { runtime } = await applicationsApi.startRuntime(id)
+    onTestFinished(() => runtime.kill('SIGINT'))
+
+    const applications = await applicationsApi.getApplications()
+    expect(applications.length).toBe(1)
+    expect(applications[0].running).toBe(true)
+    expect(applications[0].isLatestPltVersion).toBe(true)
+  }
 }, 60000)
