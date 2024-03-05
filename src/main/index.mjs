@@ -8,7 +8,7 @@ import { getTemplates, getPlugins } from './client.mjs'
 import { prepareFolder, createApp } from './generate.mjs'
 import log from 'electron-log'
 import { getAppPath } from './lib/utils.mjs'
-import { Runtimes } from './lib/runtimes.mjs'
+import { Applications } from './lib/applications.mjs'
 
 log.initialize()
 
@@ -168,8 +168,8 @@ app.whenReady().then(async () => {
   // The first folder is where `migrations` is located, the second is where the `meraki.sqlite` is located
   const merakiFolder = getAppPath()
   const merakiConfigFolder = app.getPath('userData')
-  const runtimes = Runtimes.create(merakiFolder, merakiConfigFolder)
-  const appList = await runtimes.getApplications()
+  const appApis = Applications.create(merakiFolder, merakiConfigFolder)
+  const appList = await appApis.getApplications()
   log.info('Applications list loaded at startup', appList)
 
   // Default open or close DevTools by F12 in development

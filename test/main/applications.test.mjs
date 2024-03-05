@@ -1,8 +1,8 @@
-import { test, expect, beforeEach } from 'vitest'
-import { mkdtemp, rm, access } from 'node:fs/promises'
-import { mkdirp } from 'mkdirp'
+import { test, expect, beforeAll, onTestFinished } from 'vitest'
 import { tmpdir } from 'node:os'
+import { mkdtemp, cp, rm, access } from 'node:fs/promises'
 import { resolve, join } from 'node:path'
+import { mkdirp } from 'mkdirp'
 import Applications from '../../src/main/lib/applications.mjs'
 
 // Setup meraki app folder (for migrations) and config folder (for the DB)
@@ -11,7 +11,7 @@ process.env.MERAKI_FOLDER = resolve(join(__dirname, '..', '..'))
 process.env.MERAKI_CONFIG_FOLDER = platformaticTestDir
 process.env.MERAKI_DB_CONNECTION_STRING = `sqlite://${join(platformaticTestDir, 'meraki.sqlite')}`
 
-beforeEach(async () => {
+beforeAll(async () => {
   // we clean up the runtimes folder
   const PLATFORMATIC_TMP_DIR = resolve(tmpdir(), 'platformatic', 'pids')
   try {
@@ -28,33 +28,39 @@ beforeEach(async () => {
   } catch (err) {}
 })
 
-test('get the empty list of applications', async () => {
-  const apps = await Applications.create()
-  const applications = await apps.getApplications()
+test('get empty list of runtimes', async () => {
+  const applicationsApi = await Applications.create()
+  const applications = await applicationsApi.getApplications()
   expect(applications).toEqual([])
-})
+}, 5000)
 
-test('add and delete applications', async () => {
-  const apps = await Applications.create()
-  await apps.addApplication({ name: 'test1', path: '/path/1' })
-  await apps.addApplication({ name: 'test2', path: '/path/2' })
-  const applications = await apps.getApplications()
-  expect(applications).toMatchObject([
-    { id: '1', name: 'test1', path: '/path/1' },
-    { id: '2', name: 'test2', path: '/path/2' }
-  ])
+test('start one runtime, see it in list and stop it', async (t) => {
+  const appDir = await mkdtemp(join(tmpdir(), 'plat-app-test'))
+  const appFixture = join('test', 'fixtures', 'runtime')
+  await cp(appFixture, appDir, { recursive: true })
+
+  const applicationsApi = await Applications.create()
+  const { runtime } = await applicationsApi.startRuntime(appDir)
+  onTestFinished(() => runtime.kill('SIGINT'))
+
+  const applications = await applicationsApi.getApplications()
+  expect(applications.length).toBe(1)
+  console.log(applications[0])
+  expect(applications[0].running).toBe(true)
+  expect(applications[0].name).toBe('runtime-1')
+  expect(applications[0].path).toBe(appDir)
+  expect(applications[0].runtime.pid).toBe(runtime.pid)
 
   {
-    await apps.deleteApplication('1')
-    const applications = await apps.getApplications()
-    expect(applications).toMatchObject([
-      { id: '2', name: 'test2', path: '/path/2' }
-    ])
+    // Stop the application, is still there, but not running
+    await applicationsApi.stopRuntime(runtime.pid)
+    const applications = await applicationsApi.getApplications()
+    expect(applications.length).toBe(1)
+    expect(applications[0].running).toBe(false)
+    // Delete the application
+    const applicationId = applications[0].id
+    await applicationsApi.deleteApplication(applicationId)
+    const applicationsAfter = await applicationsApi.getApplications()
+    expect(applicationsAfter).toEqual([])
   }
-
-  {
-    await apps.deleteApplication('2')
-    const applications = await apps.getApplications()
-    expect(applications).toEqual([])
-  }
-})
+}, 60000)
