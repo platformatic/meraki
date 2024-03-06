@@ -1,9 +1,19 @@
-import { stat, readdir } from 'node:fs/promises'
+import { stat, readdir, readFile, writeFile } from 'node:fs/promises'
 import { join, resolve } from 'node:path'
 import { importOrLocal } from './lib/import-or-local.mjs'
 import errors from './errors.mjs'
 import { mkdirp } from 'mkdirp'
 import { npmInstall } from './lib/run-npm.mjs'
+
+const enableManagementAPI = async (projectDir) => {
+  const config = join(projectDir, 'platformatic.json')
+  const platformaticConfig = await readFile(config, 'utf8')
+  const platformaticConf = JSON.parse(platformaticConfig)
+  if (platformaticConf.managementApi === undefined) {
+    platformaticConf.managementApi = true
+  }
+  await writeFile(config, JSON.stringify(platformaticConf, null, 2))
+}
 
 export const prepareFolder = async (path, tempNames, logger, appName = 'appName') => {
   const s = await stat(path)
@@ -151,6 +161,8 @@ export const createApp = async (dir, { projectName, services, entrypoint, port, 
     await npmInstall(null, { cwd: servicePath }, logger)
   }
   await generator.postInstallActions()
+
+  await enableManagementAPI(projectDir)
 
   logger.info('App created!')
 }
