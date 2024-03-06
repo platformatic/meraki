@@ -235,8 +235,9 @@ app.whenReady().then(async () => {
     return appApis.deleteApplication(id)
   })
 
-  ipcMain.handle('start-app', async (_, id) => {
-    return appApis.startRuntime(id)
+  ipcMain.handle('start-app', async (_, appId) => {
+    const { id, url } = appApis.startRuntime(appId)
+    return { id, url }
   })
 
   ipcMain.handle('stop-app', async (_, id) => {
