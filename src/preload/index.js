@@ -26,7 +26,7 @@ if (process.contextIsolated) {
 
       // Applications
       getApplications: () => (ipcRenderer.invoke('get-applications')),
-      importApp: (path) => (ipcRenderer.invoke('import-app', path)),
+      importApp: (path, folderName) => (ipcRenderer.invoke('import-app', path, folderName)),
       deleteApp: (id) => (ipcRenderer.invoke('delete-app', id)),
       startApp: (id) => (ipcRenderer.invoke('start-app', id)),
       stopApp: (id) => (ipcRenderer.invoke('stop-app', id)),

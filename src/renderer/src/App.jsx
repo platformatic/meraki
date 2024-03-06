@@ -81,12 +81,14 @@ function App ({ path }) {
     setShowModalImportApplication(false)
     setCurrentBodyComponent(<HomeContainer />)
     setShowCreateNewAppHeader(true)
+    setApplicationsLoaded(false)
   }
 
   function handleCreateApplication () {
     setShowModalCreateApplication(false)
     setCurrentBodyComponent(<HomeContainer />)
     setShowCreateNewAppHeader(true)
+    setApplicationsLoaded(false)
   }
 
   return didCatch
