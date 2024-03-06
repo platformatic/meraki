@@ -1,9 +1,15 @@
-import { test, expect, beforeEach } from 'vitest'
-import { mkdtemp, rm, access } from 'node:fs/promises'
-import { mkdirp } from 'mkdirp'
+import { test, expect, beforeAll, onTestFinished } from 'vitest'
 import { tmpdir } from 'node:os'
+import { mkdtemp, cp, rm, access } from 'node:fs/promises'
 import { resolve, join } from 'node:path'
+import { mkdirp } from 'mkdirp'
 import Applications from '../../src/main/lib/applications.mjs'
+
+const { MockAgent, setGlobalDispatcher } = require('undici')
+
+const mockAgent = new MockAgent()
+setGlobalDispatcher(mockAgent)
+mockAgent.disableNetConnect()
 
 // Setup meraki app folder (for migrations) and config folder (for the DB)
 const platformaticTestDir = await mkdtemp(join(tmpdir(), 'plat-app-test'))
@@ -11,7 +17,7 @@ process.env.MERAKI_FOLDER = resolve(join(__dirname, '..', '..'))
 process.env.MERAKI_CONFIG_FOLDER = platformaticTestDir
 process.env.MERAKI_DB_CONNECTION_STRING = `sqlite://${join(platformaticTestDir, 'meraki.sqlite')}`
 
-beforeEach(async () => {
+beforeAll(async () => {
   // we clean up the runtimes folder
   const PLATFORMATIC_TMP_DIR = resolve(tmpdir(), 'platformatic', 'pids')
   try {
@@ -28,33 +34,88 @@ beforeEach(async () => {
   } catch (err) {}
 })
 
-test('get the empty list of applications', async () => {
-  const apps = await Applications.create()
-  const applications = await apps.getApplications()
+test('get empty list of runtimes', async () => {
+  mockAgent
+    .get('https://registry.npmjs.org')
+    .intercept({
+      method: 'GET',
+      path: '/platformatic'
+    })
+    .reply(200, {
+      'dist-tags': {
+        latest: '2.0.0'
+      }
+    })
+  const applicationsApi = await Applications.create()
+  const applications = await applicationsApi.getApplications()
   expect(applications).toEqual([])
-})
+}, 5000)
 
-test('add and delete applications', async () => {
-  const apps = await Applications.create()
-  await apps.addApplication({ name: 'test1', path: '/path/1' })
-  await apps.addApplication({ name: 'test2', path: '/path/2' })
-  const applications = await apps.getApplications()
-  expect(applications).toMatchObject([
-    { id: '1', name: 'test1', path: '/path/1' },
-    { id: '2', name: 'test2', path: '/path/2' }
-  ])
+test('start one runtime, see it in list and stop it', async (t) => {
+  const appDir = await mkdtemp(join(tmpdir(), 'plat-app-test'))
+  const appFixture = join('test', 'fixtures', 'runtime')
+  await cp(appFixture, appDir, { recursive: true })
+  mockAgent
+    .get('https://registry.npmjs.org')
+    .intercept({
+      method: 'GET',
+      path: '/platformatic'
+    })
+    .reply(200, {
+      'dist-tags': {
+        latest: '2.0.0'
+      }
+    })
 
+  const applicationsApi = await Applications.create()
+  const { id } = await applicationsApi.importApplication(appDir)
+  const { runtime } = await applicationsApi.startRuntime(id)
+  onTestFinished(() => runtime.kill('SIGINT'))
+
+  const applications = await applicationsApi.getApplications()
+  expect(applications.length).toBe(1)
+  expect(applications[0].running).toBe(true)
+  expect(applications[0].name).toBe('runtime-1')
+  expect(applications[0].path).toBe(appDir)
+  expect(applications[0].runtime.pid).toBe(runtime.pid)
+  expect(applications[0].insideMeraki).toBe(true)
+  expect(applications[0].platformaticVersion).toBe('1.25.0')
+  expect(applications[0].isLatestPltVersion).toBe(false)
   {
-    await apps.deleteApplication('1')
-    const applications = await apps.getApplications()
-    expect(applications).toMatchObject([
-      { id: '2', name: 'test2', path: '/path/2' }
-    ])
+    // Stop the application, is still there, but not running
+    await applicationsApi.stopRuntime(id)
+    const applications = await applicationsApi.getApplications()
+    expect(applications.length).toBe(1)
+    expect(applications[0].running).toBe(false)
+    // Delete the application
+    await applicationsApi.deleteApplication(id)
+    const applicationsAfter = await applicationsApi.getApplications()
+    expect(applicationsAfter).toEqual([])
   }
 
   {
-    await apps.deleteApplication('2')
-    const applications = await apps.getApplications()
-    expect(applications).toEqual([])
+    // Start the  runtime, but with platformatic up-to-date
+    mockAgent
+      .get('https://registry.npmjs.org')
+      .intercept({
+        method: 'GET',
+        path: '/platformatic'
+      })
+      .reply(200, {
+        'dist-tags': {
+          latest: '1.25.0'
+        }
+      })
+    // We get another instance of the APIm because we get the platformatic version once
+    // We also need to re-import the app because we deleted it
+    const applicationsApi = await Applications.create()
+    const { id } = await applicationsApi.importApplication(appDir)
+    const { runtime } = await applicationsApi.startRuntime(id)
+    onTestFinished(() => runtime.kill('SIGINT'))
+
+    const applications = await applicationsApi.getApplications()
+    expect(applications.length).toBe(1)
+    expect(applications[0].running).toBe(true)
+    expect(applications[0].isLatestPltVersion).toBe(true)
   }
-})
+}, 60000)

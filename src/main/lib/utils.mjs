@@ -1,5 +1,6 @@
 import { app } from 'electron'
 import { basename, dirname, resolve } from 'node:path'
+import { request } from 'undici'
 
 const isMac = process.platform === 'darwin'
 
@@ -19,4 +20,13 @@ const getAppPath = () => {
   return rootDir
 }
 
-export { getAppPath }
+async function getLatestPlatformaticVersion (pkg) {
+  const res = await request('https://registry.npmjs.org/platformatic')
+  if (res.statusCode === 200) {
+    const json = await res.body.json()
+    return json['dist-tags'].latest
+  }
+  return null
+}
+
+export { getAppPath, getLatestPlatformaticVersion }
