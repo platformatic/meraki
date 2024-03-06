@@ -23,8 +23,10 @@ import styles from './Wizard.module.css'
 import '~/components/component.animation.css'
 import useWindowDimensions from '~/hooks/useWindowDimensions'
 function Wizard ({
-  useClassVersion
+  useVersion,
+  onClickGoToApps
 }) {
+  const wizardClassName = styles[`wizardContentV${useVersion}`]
   const NEXT = 'next'; const BACK = 'back'
   const [cssClassNames, setCssClassNames] = useState(NEXT)
   const [currentStep, setCurrentStep] = useState(STEP_CREATE_APPLICATION)
@@ -63,6 +65,8 @@ function Wizard ({
       key={STEP_GENERATING_APPLICATION}
       onBack={() => previousStep(STEP_ADD_TEMPLATE_AND_PLUGINS)}
       onRestartProcess={() => nextStep(STEP_CREATE_APPLICATION)}
+      useVersion={useVersion}
+      onClickGoToApps={() => onClickGoToApps()}
     />
   ])
   const [currentComponent, setCurrentComponent] = useState(components.find(component => component.key === STEP_CREATE_APPLICATION))
@@ -76,6 +80,7 @@ function Wizard ({
       document.documentElement.style.setProperty('--compose-application-height', HEIGHT_MD)
     }
   }, [innerHeight])
+
   function nextStep (step) {
     setCssClassNames(NEXT)
     setCurrentStep(step)
@@ -91,7 +96,7 @@ function Wizard ({
   }, [currentStep])
 
   return (
-    <div className={styles[useClassVersion]}>
+    <div className={wizardClassName}>
       <SwitchTransition>
         <CSSTransition
           key={currentComponent.key}
@@ -108,14 +113,18 @@ function Wizard ({
 
 Wizard.propTypes = {
   /**
-     * useClassVersion
+     * useVersion
      */
-  useClassVersion: PropTypes.string
-
+  useVersion: PropTypes.string,
+  /**
+     * useVersion
+     */
+  onClickGoToApps: PropTypes.func
 }
 
 Wizard.defaultProps = {
-  useClassVersion: 'wizardContentV1'
+  useVersion: '1',
+  onClickGoToApps: () => {}
 }
 
 export default Wizard

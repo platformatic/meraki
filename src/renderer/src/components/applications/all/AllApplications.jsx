@@ -5,7 +5,7 @@ import styles from './AllApplications.module.css'
 import typographyStyles from '~/styles/Typography.module.css'
 import TopContent from './TopContent'
 import TableAll from './TableAll'
-import { getApiApplications } from '~/api'
+import { getApiApplications, callStartApplication, callStopApplication, callDeleteApplication } from '~/api'
 import ErrorComponent from '~/components/screens/ErrorComponent'
 import useStackablesStore from '~/useStackablesStore'
 import { HOME_PATH, PAGE_ALL_APPS } from '~/ui-constants'
@@ -19,7 +19,7 @@ const AllApplications = React.forwardRef(({ onClickCreateNewApp }, ref) => {
   const { setNavigation, setCurrentPage } = globalState
   const [showErrorComponent, setShowErrorComponent] = useState(false)
   const [showModalDeleteApplication, setShowModalDeleteApplication] = useState(false)
-  const [applicationSelected, setApplicatinSelected] = useState(null)
+  const [applicationSelected, setApplicationSelected] = useState(null)
   const [applications, setApplications] = useState([])
   const [applicationsLoaded, setApplicationsLoaded] = useState(false)
   const [runningApps, setRunningApps] = useState('-')
@@ -69,12 +69,22 @@ const AllApplications = React.forwardRef(({ onClickCreateNewApp }, ref) => {
     }
   }, [applicationsLoaded])
 
-  function handleStopApplication () {
-    setApplicationsLoaded(false)
+  async function handleStopApplication (id) {
+    try {
+      await callStopApplication(id)
+      setApplicationsLoaded(false)
+    } catch (error) {
+      console.error(`Error on callStopApplication ${error}`)
+    }
   }
 
-  function handleStartApplication () {
-    setApplicationsLoaded(false)
+  async function handleStartApplication (id) {
+    try {
+      await callStartApplication(id)
+      setApplicationsLoaded(false)
+    } catch (error) {
+      console.error(`Error on callStartApplication ${error}`)
+    }
   }
 
   function handleRestartApplication () {
@@ -82,18 +92,23 @@ const AllApplications = React.forwardRef(({ onClickCreateNewApp }, ref) => {
   }
 
   function handleDeleteApplication (applicationSelected) {
-    setApplicatinSelected(applicationSelected)
+    setApplicationSelected(applicationSelected)
     setShowModalDeleteApplication(true)
   }
 
   function handleCloseModalDeleteApplication () {
-    setApplicatinSelected(null)
+    setApplicationSelected(null)
     setShowModalDeleteApplication(false)
   }
 
-  function handleConfirmDeleteApplication () {
-    // TODO: call applicationSelected delete
-    handleCloseModalDeleteApplication()
+  async function handleConfirmDeleteApplication () {
+    try {
+      await callDeleteApplication(applicationSelected.id)
+      handleCloseModalDeleteApplication()
+      setApplicationsLoaded(false)
+    } catch (error) {
+      console.error(`Error on handleConfirmDeleteApplication ${error}`)
+    }
   }
 
   return showErrorComponent
@@ -110,9 +125,9 @@ const AllApplications = React.forwardRef(({ onClickCreateNewApp }, ref) => {
             <TableAll
               applicationsLoaded={applicationsLoaded}
               applications={applications}
-              onStopApplication={handleStopApplication}
-              onStartApplication={handleStartApplication}
-              onRestartApplication={handleRestartApplication}
+              onStopApplication={(id) => handleStopApplication(id)}
+              onStartApplication={(id) => handleStartApplication(id)}
+              onRestartApplication={() => handleRestartApplication}
               onErrorOccurred={() => setShowErrorComponent(true)}
               onClickCreateNewApp={() => onClickCreateNewApp()}
               onDeleteApplication={handleDeleteApplication}

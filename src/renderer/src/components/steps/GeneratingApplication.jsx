@@ -11,7 +11,8 @@ import Title from '~/components/ui/Title'
 import CountDown from '~/components/ui/CountDown'
 import { callCreateApp, logInfo, quitApp } from '~/api'
 import { NONE, RUNNING, SUCCESS, ERROR } from '~/ui-constants'
-const GeneratingApplication = React.forwardRef(({ onBack, onRestartProcess }, ref) => {
+
+const GeneratingApplication = React.forwardRef(({ onBack, onRestartProcess, useVersion, onClickGoToApps }, ref) => {
   const globalState = useStackablesStore()
   const { formData, reset } = globalState
   const [appGenerated, setAppGenerated] = useState(false)
@@ -118,16 +119,31 @@ const GeneratingApplication = React.forwardRef(({ onBack, onRestartProcess }, re
           paddingClass={`${commonStyles.buttonPadding} cy-action-back`}
           disabled={!appGeneratedError}
         />
-        <Button
-          disabled={!appGenerated}
-          label='Continue'
-          onClick={() => setShowModalContinue(true)}
-          color={RICH_BLACK}
-          bordered={false}
-          backgroundColor={WHITE}
-          hoverEffect={BOX_SHADOW}
-          paddingClass={commonStyles.buttonPadding}
-        />
+        {useVersion === '0'
+          ? (
+            <Button
+              disabled={!appGenerated}
+              label='Continue'
+              onClick={() => setShowModalContinue(true)}
+              color={RICH_BLACK}
+              bordered={false}
+              backgroundColor={WHITE}
+              hoverEffect={BOX_SHADOW}
+              paddingClass={commonStyles.buttonPadding}
+            />
+            )
+          : (
+            <Button
+              disabled={!appGenerated}
+              label='Go to Apps'
+              onClick={() => onClickGoToApps()}
+              color={RICH_BLACK}
+              bordered={false}
+              backgroundColor={WHITE}
+              hoverEffect={BOX_SHADOW}
+              paddingClass={commonStyles.buttonPadding}
+            />
+            )}
 
       </div>
       {showModalContinue && (
@@ -188,12 +204,22 @@ GeneratingApplication.propTypes = {
   /**
    * onRestartProcess
    */
-  onRestartProcess: PropTypes.func
+  onRestartProcess: PropTypes.func,
+  /**
+   * useVersion
+   */
+  useVersion: PropTypes.string,
+  /**
+   * onClickGoToApps
+   */
+  onClickGoToApps: PropTypes.func
 }
 
 GeneratingApplication.defaultProps = {
   onBack: () => {},
-  onRestartProcess: () => {}
+  onRestartProcess: () => {},
+  useVersion: '1',
+  onClickGoToApps: () => {}
 }
 
 export default GeneratingApplication

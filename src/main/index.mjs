@@ -232,7 +232,7 @@ app.whenReady().then(async () => {
   })
 
   ipcMain.handle('delete-app', async (_, id) => {
-    return appApis.deleteApplication(path)
+    return appApis.deleteApplication(id)
   })
 
   ipcMain.handle('start-app', async (_, id) => {

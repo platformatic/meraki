@@ -22,6 +22,18 @@ export const getApiApplications = async (path) => {
   return await window.api.getApplications(path)
 }
 
+export const callStartApplication = async (id) => {
+  return await window.api.startApp(id)
+}
+
+export const callStopApplication = async (id) => {
+  return await window.api.stopApp(id)
+}
+
+export const callDeleteApplication = async (id) => {
+  return await window.api.deleteApp(id)
+}
+
 export const logInfo = callback => window.api.onLog(callback)
 export const registerUserStatusListener = callback => window.api.onUserStatus(callback)
 
