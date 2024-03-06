@@ -5,7 +5,7 @@ import styles from './AllApplications.module.css'
 import typographyStyles from '~/styles/Typography.module.css'
 import TopContent from './TopContent'
 import TableAll from './TableAll'
-import { getApiApplications } from '~/api'
+import { getApiApplications, callStartApiApplication, callStopApiApplication } from '~/api'
 import ErrorComponent from '~/components/screens/ErrorComponent'
 import useStackablesStore from '~/useStackablesStore'
 import { HOME_PATH, PAGE_ALL_APPS } from '~/ui-constants'
@@ -69,12 +69,22 @@ const AllApplications = React.forwardRef(({ onClickCreateNewApp }, ref) => {
     }
   }, [applicationsLoaded])
 
-  function handleStopApplication () {
-    setApplicationsLoaded(false)
+  async function handleStopApplication (id) {
+    try {
+      await callStopApiApplication(id)
+      setApplicationsLoaded(false)
+    } catch (error) {
+      console.error(`Error on callStopApiApplication ${error}`)
+    }
   }
 
-  function handleStartApplication () {
-    setApplicationsLoaded(false)
+  async function handleStartApplication (id) {
+    try {
+      await callStartApiApplication(id)
+      setApplicationsLoaded(false)
+    } catch (error) {
+      console.error(`Error on callStartApiApplication ${error}`)
+    }
   }
 
   function handleRestartApplication () {
@@ -110,9 +120,9 @@ const AllApplications = React.forwardRef(({ onClickCreateNewApp }, ref) => {
             <TableAll
               applicationsLoaded={applicationsLoaded}
               applications={applications}
-              onStopApplication={handleStopApplication}
-              onStartApplication={handleStartApplication}
-              onRestartApplication={handleRestartApplication}
+              onStopApplication={(id) => handleStopApplication(id)}
+              onStartApplication={(id) => handleStartApplication(id)}
+              onRestartApplication={() => handleRestartApplication}
               onErrorOccurred={() => setShowErrorComponent(true)}
               onClickCreateNewApp={() => onClickCreateNewApp()}
               onDeleteApplication={handleDeleteApplication}
