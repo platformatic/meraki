@@ -2,7 +2,7 @@
   @apply flex flex-row justify-between relative grow;
 }
 .leftContent {
-  @apply flex flex-col items-center justify-center px-6;
+  @apply flex flex-col items-center justify-center px-6 xl:px-40;
 }
 .buttonContainer {
   @apply flex justify-start gap-x-2;

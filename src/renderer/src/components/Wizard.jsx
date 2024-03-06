@@ -22,7 +22,9 @@ import { CSSTransition, SwitchTransition } from 'react-transition-group'
 import styles from './Wizard.module.css'
 import '~/components/component.animation.css'
 import useWindowDimensions from '~/hooks/useWindowDimensions'
-function Wizard () {
+function Wizard ({
+  useClassVersion
+}) {
   const NEXT = 'next'; const BACK = 'back'
   const [cssClassNames, setCssClassNames] = useState(NEXT)
   const [currentStep, setCurrentStep] = useState(STEP_CREATE_APPLICATION)
@@ -89,7 +91,7 @@ function Wizard () {
   }, [currentStep])
 
   return (
-    <div className={styles.wizardContent}>
+    <div className={styles[useClassVersion]}>
       <SwitchTransition>
         <CSSTransition
           key={currentComponent.key}
@@ -106,13 +108,14 @@ function Wizard () {
 
 Wizard.propTypes = {
   /**
-     * children
+     * useClassVersion
      */
-  children: PropTypes.node
+  useClassVersion: PropTypes.string
+
 }
 
 Wizard.defaultProps = {
-  children: null
+  useClassVersion: 'wizardContentV1'
 }
 
 export default Wizard

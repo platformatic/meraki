@@ -1,11 +1,10 @@
 import { create } from 'zustand'
-import { PAGE_RECENT_APPS } from './ui-constants'
 
 const initialState = {
   formData: {},
   services: [],
   breadCrumbs: [],
-  currentPage: PAGE_RECENT_APPS
+  currentPage: ''
 }
 
 const useStackablesStore = create((set, get) => ({

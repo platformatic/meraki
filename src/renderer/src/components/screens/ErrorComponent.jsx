@@ -8,9 +8,8 @@ import Icons from '@platformatic/ui-components/src/components/icons'
 import { ANTI_FLASH_WHITE, DULLS_BACKGROUND_COLOR, ERROR_RED, LARGE, SMALL, RICH_BLACK, WHITE, TRANSPARENT, OPACITY_30, MARGIN_0 } from '@platformatic/ui-components/src/components/constants'
 import { BorderedBox, Button, HorizontalSeparator } from '@platformatic/ui-components'
 
-function ErrorComponent ({ message, onClickDismiss }) {
+function ErrorComponent ({ error, message, onClickDismiss }) {
   const [showLogs, setShowLogs] = useState(false)
-
   function copyLogs () {
 
   }
@@ -77,8 +76,8 @@ function ErrorComponent ({ message, onClickDismiss }) {
             />
           </div>
           <HorizontalSeparator marginTop={MARGIN_0} marginBottom={MARGIN_0} color={WHITE} opacity={OPACITY_30} />
-          <div className={styles.logContainer}>
-            {message}
+          <div className={`${styles.logContainer} ${typographyStyles.desktopOtherCliTerminalSmall} ${typographyStyles.textWhite}`}>
+            {error?.stack?.split('\n').map((s, index) => <p key={index}>{s}</p>)}
           </div>
         </BorderedBox>
       )}
@@ -87,6 +86,10 @@ function ErrorComponent ({ message, onClickDismiss }) {
 }
 
 ErrorComponent.propTypes = {
+  /**
+   * error
+   */
+  error: PropTypes.object,
   /**
    * message
    */
@@ -98,6 +101,7 @@ ErrorComponent.propTypes = {
 }
 
 ErrorComponent.defaultProps = {
+  error: () => {},
   message: '',
   onClickDismiss: () => {}
 }

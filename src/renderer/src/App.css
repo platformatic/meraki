@@ -4,11 +4,16 @@ body {
   box-sizing: border-box;
 }
 
-#root .rootFeatureFlag,
-#root .rootNormal {
+#root .rootV1,
+#root .rootV0 {
   @apply mx-auto font-inter overflow-x-hidden flex flex-col justify-between;
   height: 100%;
   min-height: calc(100Vh - 5rem);
+}
+
+#root .rootV0 {
+  @apply p-5 xl:px-[7.5rem] xl:py-[3vH];
+  
   --compose-application-width: calc(calc(100vw - 2.25rem) / 6);
   --compose-application-height: 55vH;
   
@@ -18,9 +23,6 @@ body {
   }
 }
 
-#root .rootNormal {
-  @apply p-5 xl:px-[7.5rem] xl:py-[3vH];
-}
 
 .flexible {
   display: flex;
