@@ -210,7 +210,7 @@ app.whenReady().then(async () => {
 
   ipcMain.handle('create-app', async (_, path, project) => {
     await createApp(path, project, uiLogger)
-    await appApis.createApplication(path, project)
+    await appApis.createApplication(project.projectName, path)
   })
 
   ipcMain.handle('generate-name', async () => {
