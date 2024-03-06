@@ -20,11 +20,22 @@ if (process.contextIsolated) {
       prepareFolder: (folder, templates, appName) => (ipcRenderer.invoke('prepare-folder', folder, templates, appName)),
       onLog: callback => ipcRenderer.on('log', callback),
       createApp: (folder, project) => (ipcRenderer.invoke('create-app', folder, project)),
-      importApp: (folder, appName) => (ipcRenderer.invoke('import-app', folder, appName)),
-      getApplications: (folder) => (ipcRenderer.invoke('get-applications', folder)),
       quitApp: () => (ipcRenderer.invoke('quit-app')),
       getServiceName: () => (ipcRenderer.invoke('generate-name')),
-      onUserStatus: callback => ipcRenderer.on('user-status', callback)
+      onUserStatus: callback => ipcRenderer.on('user-status', callback),
+
+      // Applications
+      getApplications: () => (ipcRenderer.invoke('get-applications')),
+      importApp: (path) => (ipcRenderer.invoke('import-app', path)),
+      deleteApp: (id) => (ipcRenderer.invoke('delete-app', id)),
+      startApp: (id) => (ipcRenderer.invoke('start-app', id)),
+      stopApp: (id) => (ipcRenderer.invoke('stop-app', id)),
+
+      // logs
+      startLogs: (id) => (ipcRenderer.invoke('start-logs', id)),
+      pauseLogs: () => (ipcRenderer.invoke('pause-logs')),
+      resumeLogs: () => (ipcRenderer.invoke('resume-logs')),
+      stopLogs: () => (ipcRenderer.invoke('stop-logs'))
     })
   } catch (error) {
     console.error(error)

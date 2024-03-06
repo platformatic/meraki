@@ -45,8 +45,8 @@ test('start one runtime and stream logs', async (t) => {
   onTestFinished(() => runtime.kill('SIGINT'))
 
   let receivedLogs = []
-  const send = (log) => {
-    receivedLogs.push(log)
+  const send = (logs) => {
+    receivedLogs.push(...logs)
   }
 
   logs.start(id, send)

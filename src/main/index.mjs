@@ -244,8 +244,11 @@ app.whenReady().then(async () => {
   })
 
   // ********** LOGS ********** //
+  // id: application id
   ipcMain.handle('start-logs', async (_, id, callback) => {
-    logsApi.start(id, callback)
+    logsApi.start(id, logs => {
+      mainWindow.webContents.send('app-logs', logs)
+    })
   })
 
   ipcMain.handle('pause-logs', async (_) => {

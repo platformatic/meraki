@@ -2,7 +2,6 @@ import execa from 'execa'
 import { RuntimeApiClient } from '@platformatic/control'
 import { access } from 'node:fs/promises'
 import { createRequire } from 'node:module'
-import { on } from 'node:events'
 import { npmInstall } from './run-npm.mjs'
 import { getLatestPlatformaticVersion } from './utils.mjs'
 import { resolve, join } from 'node:path'
@@ -111,7 +110,7 @@ class Applications {
         const obj = JSON.parse(line)
         return obj
       } catch (err) {
-        console.log(line)
+        logger.error(err)
       }
     }))
 
@@ -119,21 +118,20 @@ class Applications {
       throw new Error('Couldn\'t start server')
     }, 30000)
 
-    for await (const messages of on(output, 'data')) {
-      for (const message of messages) {
-        if (message.msg) {
-          const url = message.url ??
+    // Here we check every message of the runtime output only to check if the runtime is started
+    for await (const message of output) {
+      if (message.msg) {
+        const url = message.url ??
           message.msg.match(/server listening at (.+)/i)?.[1]
 
-          if (url !== undefined) {
-            clearTimeout(errorTimeout)
-            this.#started[id] = runtime.pid
-            this.#mapper.entities.application.save({
-              fields: ['id', 'startedAt'],
-              input: { id, startedAt: new Date() }
-            })
-            return { id, runtime, url, output }
-          }
+        if (url !== undefined) {
+          clearTimeout(errorTimeout)
+          this.#started[id] = runtime.pid
+          this.#mapper.entities.application.save({
+            fields: ['id', 'startedAt'],
+            input: { id, startedAt: new Date() }
+          })
+          return { id, runtime, url, output }
         }
       }
     }
