@@ -156,7 +156,7 @@ class Applications {
     return this.#started[id]
   }
 
-  async importApplication (path) {
+  async importApplication (path, folderName) {
     const packageJsonPath = resolve(path, 'package.json')
     try {
       await access(packageJsonPath)
@@ -165,7 +165,7 @@ class Applications {
     }
     const packageJson = require(packageJsonPath)
     const { name } = packageJson
-    return this.createApplication(name, path)
+    return this.createApplication(name || folderName, path)
   }
 
   async createApplication (name, path) {

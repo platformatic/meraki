@@ -227,8 +227,8 @@ app.whenReady().then(async () => {
     return appApis.getApplications()
   })
 
-  ipcMain.handle('import-app', async (_, path) => {
-    return appApis.importApplication(path)
+  ipcMain.handle('import-app', async (_, path, folderName) => {
+    return appApis.importApplication(path, folderName)
   })
 
   ipcMain.handle('delete-app', async (_, id) => {
