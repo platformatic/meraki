@@ -45,7 +45,11 @@ function HomeContainer () {
   }, [innerHeight])
 
   useEffect(() => {
-    setCurrentComponent(components.find(component => component.key === currentPage))
+    if (currentPage) {
+      setCurrentComponent(components.find(component => component.key === currentPage))
+    } else {
+      setCurrentPage(PAGE_RECENT_APPS)
+    }
   }, [currentPage])
 
   return (

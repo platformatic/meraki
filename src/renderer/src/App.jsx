@@ -9,21 +9,17 @@ import useErrorBoundary from 'use-error-boundary'
 import ErrorComponent from '~/components/screens/ErrorComponent'
 import ApplicationContainer from '~/components/ApplicationContainer'
 import HomeContainer from '~/components/HomeContainer'
-import { HOME_PATH, APPLICATION_PATH } from '~/ui-constants'
+import { HOME_PATH, APPLICATION_PATH, PAGE_WELCOME } from '~/ui-constants'
 import ImportApplicationFlow from '~/components/application/import/ImportApplicationFlow'
 import CreateApplicationFlow from '~/components/application/create/CreateApplicationFlow'
-/* import Welcome from '~/components/welcome/Welcome' */
+import Welcome from '~/components/welcome/Welcome'
+import { getApiApplications } from '~/api'
 
 function App ({ path }) {
-  const [currentBodyComponent, setCurrentBodyComponent] = useState(<HomeContainer />)
+  const [currentBodyComponent, setCurrentBodyComponent] = useState(null)
   const [showCreateNewAppHeader, setShowCreateNewAppHeader] = useState(true)
   const [showModalImportApplication, setShowModalImportApplication] = useState(false)
   const [showModalCreateApplication, setShowModalCreateApplication] = useState(false)
-  /* <Welcome
-      ref={useRef(null)}
-      key={PAGE_WELCOME}
-      onClickImportApp={() => setShowModalImportApplication(true)}
-    /> */
   const featureFlag = import.meta.env.VITE_DEV_FF
   const {
     ErrorBoundary,
@@ -34,38 +30,72 @@ function App ({ path }) {
       log.error(error)
     }
   })
+  const [showWelcomePage, setShowWelcomePage] = useState(true)
+  const [applicationsLoaded, setApplicationsLoaded] = useState(false)
 
   useEffect(() => {
-    switch (path) {
-      case APPLICATION_PATH:
-        setCurrentBodyComponent(<ApplicationContainer />)
-        setShowCreateNewAppHeader(false)
-        break
-      default:
-        setCurrentBodyComponent(<HomeContainer />)
-        setShowCreateNewAppHeader(true)
-        break
+    if (!applicationsLoaded) {
+      async function getApplications () {
+        try {
+          const allApplications = await getApiApplications()
+          if (allApplications.length > 0) {
+            setShowWelcomePage(false)
+          } else {
+            setShowWelcomePage(true)
+          }
+        } catch (error) {
+          console.error(`Error on catch ${error}`)
+        } finally {
+          setApplicationsLoaded(true)
+        }
+      }
+      getApplications()
     }
-  }, [path])
+  }, [applicationsLoaded])
+
+  useEffect(() => {
+    if (!showWelcomePage) {
+      switch (path) {
+        case APPLICATION_PATH:
+          setCurrentBodyComponent(<ApplicationContainer />)
+          setShowCreateNewAppHeader(false)
+          break
+        default:
+          setCurrentBodyComponent(<HomeContainer />)
+          setShowCreateNewAppHeader(true)
+          break
+      }
+    } else {
+      setCurrentBodyComponent(
+        <Welcome
+          key={PAGE_WELCOME}
+          onClickImportApp={() => setShowModalImportApplication(true)}
+          onClickCreateNewApp={() => setShowModalCreateApplication(true)}
+        />
+      )
+      setShowCreateNewAppHeader(false)
+    }
+  }, [showWelcomePage, path])
 
   function handleImportApplication () {
     setShowModalImportApplication(false)
-    // setCurrentPage(PAGE_RECENT_APPS)
+    setCurrentBodyComponent(<HomeContainer />)
+    setShowCreateNewAppHeader(true)
   }
 
   return didCatch
     ? (
-      <ErrorComponent message={error.message} />
+      <ErrorComponent error={error} message={error.message} />
       )
     : (
       <ErrorBoundary>
-        <div className={featureFlag ? 'rootFeatureFlag' : 'rootNormal'}>
+        <div className={featureFlag ? 'rootV1' : 'rootV0'}>
           <Header
             showCreateNewApp={featureFlag && showCreateNewAppHeader}
             onClickCreateNewApp={() => setShowModalCreateApplication(true)}
             onClickImportApp={() => setShowModalImportApplication(true)}
           />
-          {featureFlag ? currentBodyComponent : <Wizard />}
+          {featureFlag ? currentBodyComponent : <Wizard useClassVersion='wizardContentV0' />}
         </div>
         {showModalImportApplication && (
           <ImportApplicationFlow

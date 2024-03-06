@@ -1,3 +1,6 @@
-.wizardContent {
+.wizardContentV0 {
   @apply pt-4 xl:pt-8 min-h-[calc(100vH-6.75rem)] xl:min-h-[calc(100vH-11.25rem)] h-full flex flex-col justify-between relative;
+}
+.wizardContentV1 {
+  @apply pt-4 xl:pt-8 min-h-[calc(100vH-7.75rem)] xl:min-h-[calc(100vH-11.25rem)] h-full flex flex-col justify-between relative overflow-hidden;
 }
