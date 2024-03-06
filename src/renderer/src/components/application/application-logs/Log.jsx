@@ -27,6 +27,7 @@ function Log ({ log, display, onClickArrow }) {
       60: 'FATAL'
     }[level]
   }
+
   let copyValue = `${timestamp} ${levelDisplayed} ${hostname}`
   if (name) copyValue += ` ${name} ${pid}`
   copyValue += ` ${msg}`
