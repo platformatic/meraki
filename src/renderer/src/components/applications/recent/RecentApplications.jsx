@@ -5,7 +5,7 @@ import styles from './RecentApplications.module.css'
 import typographyStyles from '~/styles/Typography.module.css'
 import TopContent from './TopContent'
 import TableRecent from './TableRecent'
-import { getApiApplications, callStartApiApplication, callStopApiApplication } from '~/api'
+import { getApiApplications, callStartApplication, callStopApplication, callDeleteApplication } from '~/api'
 import ErrorComponent from '~/components/screens/ErrorComponent'
 import useStackablesStore from '~/useStackablesStore'
 import { HOME_PATH, PAGE_RECENT_APPS } from '~/ui-constants'
@@ -23,7 +23,7 @@ const RecentApplications = React.forwardRef(({ onClickCreateNewApp }, ref) => {
   const [runningApps, setRunningApps] = useState('-')
   const [stoppedApps, setStoppedApps] = useState('-')
   const [showModalDeleteApplication, setShowModalDeleteApplication] = useState(false)
-  const [applicationSelected, setApplicatinSelected] = useState(null)
+  const [applicationSelected, setApplicationSelected] = useState(null)
   const navigate = useNavigate()
 
   useEffect(() => {
@@ -76,21 +76,21 @@ const RecentApplications = React.forwardRef(({ onClickCreateNewApp }, ref) => {
 
   async function handleStopApplication (id) {
     try {
-      await callStopApiApplication(id)
+      await callStopApplication(id)
       setApplicationsLoaded(false)
     } catch (error) {
       setShowErrorComponent(true)
-      console.error(`Error on callStopApiApplication ${error}`)
+      console.error(`Error on callStopApplication ${error}`)
     }
   }
 
   async function handleStartApplication (id) {
     try {
-      await callStartApiApplication(id)
+      await callStartApplication(id)
       setApplicationsLoaded(false)
     } catch (error) {
       setShowErrorComponent(true)
-      console.error(`Error on callStartApiApplication ${error}`)
+      console.error(`Error on callStartApplication ${error}`)
     }
   }
 
@@ -99,18 +99,23 @@ const RecentApplications = React.forwardRef(({ onClickCreateNewApp }, ref) => {
   }
 
   function handleDeleteApplication (applicationSelected) {
-    setApplicatinSelected(applicationSelected)
+    setApplicationSelected(applicationSelected)
     setShowModalDeleteApplication(true)
   }
 
   function handleCloseModalDeleteApplication () {
-    setApplicatinSelected(null)
+    setApplicationSelected(null)
     setShowModalDeleteApplication(false)
   }
 
-  function handleConfirmDeleteApplication () {
-    // TODO: call applicationSelected delete
-    handleCloseModalDeleteApplication()
+  async function handleConfirmDeleteApplication () {
+    try {
+      await callDeleteApplication(applicationSelected.id)
+      handleCloseModalDeleteApplication()
+      setApplicationsLoaded(false)
+    } catch (error) {
+      console.error(`Error on handleConfirmDeleteApplication ${error}`)
+    }
   }
 
   return showErrorComponent
