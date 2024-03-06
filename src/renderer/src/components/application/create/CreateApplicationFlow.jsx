@@ -7,7 +7,7 @@ import HeaderCreateApplicationFlow from '~/components/application/create/HeaderC
 import Wizard from '~/components/Wizard'
 import styles from './CreateApplicationFlow.module.css'
 
-function CreateApplicationFlow ({ onCloseModal }) {
+function CreateApplicationFlow ({ onCloseModal, onClickGoToApps }) {
   return (
     <Modal
       key='createApplicationFlow'
@@ -17,7 +17,7 @@ function CreateApplicationFlow ({ onCloseModal }) {
       modalCloseClassName={styles.modalCloseClassName}
     >
       <HeaderCreateApplicationFlow />
-      <Wizard />
+      <Wizard onClickGoToApps={() => onClickGoToApps()} />
     </Modal>
   )
 }
@@ -26,11 +26,16 @@ CreateApplicationFlow.propTypes = {
   /**
    * onCloseModal
    */
-  onCloseModal: PropTypes.func
+  onCloseModal: PropTypes.func,
+  /**
+   * onClickGoToApps
+   */
+  onClickGoToApps: PropTypes.func
 }
 
 CreateApplicationFlow.defaultProps = {
-  onCloseModal: () => {}
+  onCloseModal: () => {},
+  onClickGoToApps: () => {}
 }
 
 export default CreateApplicationFlow

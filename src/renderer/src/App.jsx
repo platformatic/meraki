@@ -83,6 +83,12 @@ function App ({ path }) {
     setShowCreateNewAppHeader(true)
   }
 
+  function handleCreateApplication () {
+    setShowModalCreateApplication(false)
+    setCurrentBodyComponent(<HomeContainer />)
+    setShowCreateNewAppHeader(true)
+  }
+
   return didCatch
     ? (
       <ErrorComponent error={error} message={error.message} />
@@ -95,7 +101,7 @@ function App ({ path }) {
             onClickCreateNewApp={() => setShowModalCreateApplication(true)}
             onClickImportApp={() => setShowModalImportApplication(true)}
           />
-          {featureFlag ? currentBodyComponent : <Wizard useClassVersion='wizardContentV0' />}
+          {featureFlag ? currentBodyComponent : <Wizard useVersion='0' />}
         </div>
         {showModalImportApplication && (
           <ImportApplicationFlow
@@ -106,7 +112,7 @@ function App ({ path }) {
         {showModalCreateApplication && (
           <CreateApplicationFlow
             onCloseModal={() => setShowModalCreateApplication(false)}
-            onClickConfirm={() => handleImportApplication()}
+            onClickGoToApps={() => handleCreateApplication()}
           />
         )}
       </ErrorBoundary>
