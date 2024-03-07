@@ -3,7 +3,7 @@ import { RuntimeApiClient } from '@platformatic/control'
 import { access } from 'node:fs/promises'
 import { createRequire } from 'node:module'
 import { npmInstall } from './run-npm.mjs'
-import { getLatestPlatformaticVersion } from './utils.mjs'
+import { getLatestPlatformaticVersion, findExecutable } from './utils.mjs'
 import { resolve, join } from 'node:path'
 import getSqlMapper from './db.mjs'
 import split from 'split2'
@@ -98,8 +98,10 @@ class Applications {
     await npmInstall(null, { cwd: appFolder }, logger)
     const configFile = join(appFolder, 'platformatic.json')
     const runtimeCliPath = this.#getRuntimeCliPath(appFolder)
+    // We canot use `process.execPath` because it's the path to the electron binary
+    const nodePath = await findExecutable('node')
     const runtime = execa(
-      process.execPath, [runtimeCliPath, 'start', '-c', configFile],
+      nodePath, [runtimeCliPath, 'start', '-c', configFile],
       { env, cleanup: true, cwd: appFolder }
     )
     runtime.stdout.pipe(process.stdout)
@@ -131,11 +133,10 @@ class Applications {
             fields: ['id', 'startedAt'],
             input: { id, startedAt: new Date() }
           })
-          return { id, runtime, url, output }
+          return { runtime, id, url }
         }
       }
     }
-    await this.#refreshApplications()
   }
 
   async stopRuntime (id) {
