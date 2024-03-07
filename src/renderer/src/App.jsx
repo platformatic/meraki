@@ -40,12 +40,10 @@ function App ({ path }) {
     if (reloadApplications) {
       async function getApplications () {
         try {
-          console.log('reloadApplications')
           setApplications([])
           const allApplications = await getApiApplications()
           if (allApplications.length > 0) {
             setApplications(allApplications)
-            console.log('allApplications reloaded')
             setShowWelcomePage(false)
           } else {
             setShowWelcomePage(true)
