@@ -1,7 +1,7 @@
 'use strict'
 import React from 'react'
 import PropTypes from 'prop-types'
-import { WHITE, OPACITY_30, MEDIUM, TRANSPARENT, SMALL, WARNING_YELLOW } from '@platformatic/ui-components/src/components/constants'
+import { WHITE, OPACITY_30, MEDIUM, TRANSPARENT, SMALL, WARNING_YELLOW, OPACITY_10 } from '@platformatic/ui-components/src/components/constants'
 import styles from './OverviewSection.module.css'
 import typographyStyles from '~/styles/Typography.module.css'
 import commonStyles from '~/styles/CommonStyles.module.css'
@@ -21,7 +21,7 @@ function OverviewSection ({ applicationSelected }) {
         />
         <h3 className={`${typographyStyles.desktopHeadline3} ${typographyStyles.textWhite}`}>Overview</h3>
       </div>
-      <div className={`${commonStyles.mediumFlexRow} ${commonStyles.fullWidth} ${commonStyles.itemsCenter} `}>
+      <div className={`${commonStyles.mediumFlexRow} ${commonStyles.itemsCenter} `}>
         <div className={`${commonStyles.smallFlexRow} ${commonStyles.itemsCenter}`}>
           <span className={`${typographyStyles.desktopBody} ${typographyStyles.textWhite} ${typographyStyles.opacity70}`}>Current Platformatic Version</span>
           <span className={`${typographyStyles.desktopBodyLarge} ${typographyStyles.textWarningYellow}`}>{applicationSelected.platformaticVersion}</span>
@@ -29,7 +29,7 @@ function OverviewSection ({ applicationSelected }) {
         <BorderedBox
           color={WARNING_YELLOW}
           backgroundColor={WARNING_YELLOW}
-          backgroundColorOpacity={OPACITY_30}
+          backgroundColorOpacity={OPACITY_10}
           classes={`${commonStyles.buttonPadding} ${styles.updatePlatformaticBox}`}
         >
           <div className={`${commonStyles.smallFlexRow} ${commonStyles.itemsCenter}`}>
