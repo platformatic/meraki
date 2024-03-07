@@ -52,7 +52,7 @@ function OverviewSection ({ applicationSelected }) {
             color={WHITE}
             backgroundColor={TRANSPARENT}
             paddingClass={commonStyles.buttonPadding}
-            platformaticIcon={{ iconName: 'RestartIcon', color: WHITE }}
+            platformaticIcon={{ iconName: 'APIDocsIcon', color: WHITE }}
             textClass={typographyStyles.desktopBody}
           />
         </div>

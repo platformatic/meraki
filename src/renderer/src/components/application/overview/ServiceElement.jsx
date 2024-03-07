@@ -28,7 +28,7 @@ function ServiceElement ({ service }) {
               color={WHITE}
               backgroundColor={TRANSPARENT}
               paddingClass={commonStyles.buttonSquarePadding}
-              platformaticIcon={{ iconName: 'RestartIcon', color: WHITE }}
+              platformaticIcon={{ iconName: 'APIDocsIcon', color: WHITE }}
               textClass={typographyStyles.desktopBody}
             />
             <VerticalSeparator color={WHITE} backgroundColorOpacity={OPACITY_30} />
