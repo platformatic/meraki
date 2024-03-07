@@ -20,7 +20,7 @@ process.env.MERAKI_DB_CONNECTION_STRING = `sqlite://${join(platformaticTestDir, 
 
 beforeAll(async () => {
   // we clean up the runtimes folder
-  const PLATFORMATIC_TMP_DIR = resolve(tmpdir(), 'platformatic', 'pids')
+  const PLATFORMATIC_TMP_DIR = resolve(tmpdir(), 'platformatic', 'runtimes')
   try {
     await access(PLATFORMATIC_TMP_DIR)
     await rm(PLATFORMATIC_TMP_DIR, { recursive: true })

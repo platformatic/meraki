@@ -1,5 +1,6 @@
 import { RuntimeApiClient } from '@platformatic/control'
 import { Writable } from 'node:stream'
+import Fastify from 'fastify'
 
 const BUFFER_TIMEOUT = 1000
 
@@ -43,6 +44,7 @@ class Logs {
   #runtimeClient
   #currentStream
   #applications
+  #logServer
 
   constructor (applications) {
     if (!applications) throw new Error('Applications is required')
@@ -80,6 +82,29 @@ class Logs {
       this.#currentStream.destroy()
       this.#currentStream = null
     }
+  }
+
+  async getAllLogsURL (id) {
+    if (!this.#logServer) {
+      this.#logServer = Fastify()
+
+      this.#logServer.get('/logs/:id', (req, reply) => {
+        const pid = this.#applications.getPid(id)
+        const stream = this.#runtimeClient.getRuntimeHistoryLogsStream(pid)
+        reply.send(stream)
+      })
+      await this.#logServer.listen(0)
+    }
+    const host = this.#logServer.server.address().address
+    const port = this.#logServer.server.address().port
+    return `http://${host}:${port}/logs/${id}`
+  }
+
+  async closeLogServer () {
+    if (this.#logServer) {
+      await this.#logServer.close()
+    }
+    this.#logServer = null
   }
 }
 

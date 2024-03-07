@@ -159,6 +159,10 @@ class Applications {
     return this.#started[id]
   }
 
+  getApplication (id) {
+    return this.#applications.find((app) => app.id === id)
+  }
+
   async importApplication (path, folderName) {
     const packageJsonPath = resolve(path, 'package.json')
     try {
