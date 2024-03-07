@@ -237,7 +237,7 @@ app.whenReady().then(async () => {
   })
 
   ipcMain.handle('start-app', async (_, appId) => {
-    const { id, url } = appApis.startRuntime(appId)
+    const { id, url } = await appApis.startRuntime(appId)
     return { id, url }
   })
 
