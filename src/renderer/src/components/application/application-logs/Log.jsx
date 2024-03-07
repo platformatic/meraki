@@ -4,7 +4,7 @@ import PropTypes from 'prop-types'
 import commonStyles from '~/styles/CommonStyles.module.css'
 import typographyStyles from '~/styles/Typography.module.css'
 import styles from './Log.module.css'
-import { CopyAndPaste, PlatformaticIcon } from '@platformatic/ui-components'
+import { PlatformaticIcon } from '@platformatic/ui-components'
 import { WHITE, SMALL } from '@platformatic/ui-components/src/components/constants'
 import { PRETTY } from '~/ui-constants'
 
@@ -12,7 +12,7 @@ function Log ({ log, display, onClickArrow }) {
   const [displayJson, setDisplayJson] = useState(false)
   const [logContainerClassName, setLogContainerClassName] = useState(normalClassName())
 
-  const { level, pid, name, hostname, msg, err, time } = JSON.parse(log)
+  const { level, pid, name, hostname, msg, time } = JSON.parse(log)
   const timestamp = new Date(time).toISOString()
   const levelDisplayed = getLevel(level)
 
@@ -27,12 +27,12 @@ function Log ({ log, display, onClickArrow }) {
     }[level]
   }
 
-  let copyValue = `${timestamp} ${levelDisplayed} ${hostname}`
-  if (name) copyValue += ` ${name} ${pid}`
-  copyValue += ` ${msg}`
-  const convertedErr = err?.stack?.split('\n') ?? []
+  // let copyValue = `${timestamp} ${levelDisplayed} ${hostname}`
+  // if (name) copyValue += ` ${name} ${pid}`
+  // copyValue += ` ${msg}`
+  // const convertedErr = err?.stack?.split('\n') ?? []
   // eslint-disable-next-line no-unused-vars
-  copyValue += err?.stack || ''
+  // copyValue += err?.stack || ''
   // const rawMessage = JSON.stringify({ level, pid, name, hostname, msg, err })
   const logClassName = `${styles.log} ` + styles[`log${level}`]
 
@@ -73,19 +73,20 @@ function Log ({ log, display, onClickArrow }) {
           )}
           <span>{msg}</span>&nbsp;
         </div>
-        {convertedErr.length > 0 && (
-          <p className={commonStyles.fullWidth}>
-            {convertedErr.map((err, index) => <React.Fragment key={`${err}-${index}`}><span className={index === 0 ? commonStyles.fullWidth : commonStyles.containerLeftSpacedSmall}> {err}</span><br /></React.Fragment>)}
-          </p>
+        {displayJson && (
+          <p className={`${styles.log} ${typographyStyles.desktopOtherCliTerminalSmall} ${typographyStyles.textWhite}`}><pre>{JSON.stringify(JSON.parse(log), null, 2)}</pre></p>
         )}
       </div>
       )
     : (
-      <div className={`${commonStyles.smallFlexRow} ${commonStyles.justifyBetween}`}>
-        <p className={`${styles.log} ${typographyStyles.desktopOtherCliTerminalSmall} ${typographyStyles.textWhite}`}>{log}</p>
-        <div className={commonStyles.smallFlexRow}>
-          <CopyAndPaste value={log} tooltipLabel='Message copied!' color={WHITE} size={SMALL} />
-        </div>
+      <div className={`${commonStyles.smallFlexBlock} ${commonStyles.fullWidth}`}>
+        <p className={`${styles.log} ${typographyStyles.desktopOtherCliTerminalSmall} ${typographyStyles.textWhite}`}>
+          <span>[{`${timestamp}`}]</span>&nbsp;
+          <span>{levelDisplayed}</span>&nbsp;
+          <span>{hostname}</span>&nbsp;
+          <span>{msg}</span>&nbsp;
+        </p>
+        <p className={`${styles.log} ${typographyStyles.desktopOtherCliTerminalSmall} ${typographyStyles.textWhite}`}><pre>{JSON.stringify(JSON.parse(log), null, 2)}</pre></p>
       </div>
       )
 }

@@ -7,26 +7,43 @@ import typographyStyles from '~/styles/Typography.module.css'
 import commonStyles from '~/styles/CommonStyles.module.css'
 import { Button, VerticalSeparator } from '@platformatic/ui-components'
 import { getFormattedDate } from '~/utilityDetails'
-import { STATUS_RUNNING } from '~/ui-constants'
+import { STATUS_RUNNING, STATUS_STOPPED } from '~/ui-constants'
 import Icons from '@platformatic/ui-components/src/components/icons'
 import ApplicationStatusPills from '~/components/ui/ApplicationStatusPills'
 import MerakiIcon from '~/components/ui/MerakiIcon'
 import Forms from '@platformatic/ui-components/src/components/forms'
+import { callStartApplication, callStopApplication } from '~/api'
 
 function TopContent ({ applicationSelected }) {
   const [form, setForm] = useState({ automaticRestart: false })
+  const [internalStatus, setInternalStatus] = useState(applicationSelected.status)
+  const [changingStatus, setChangingStatus] = useState(false)
 
-  function onStop () {
-
+  async function handleStopApplication () {
+    try {
+      setChangingStatus(true)
+      await callStopApplication(applicationSelected.id)
+      setInternalStatus(STATUS_STOPPED)
+    } catch (error) {
+      console.error(`Error on callStopApplication ${error}`)
+    } finally {
+      setChangingStatus(false)
+    }
   }
 
-  function onStart () {
-
+  async function handleStartApplication () {
+    try {
+      setChangingStatus(true)
+      await callStartApplication(applicationSelected.id)
+      setInternalStatus(STATUS_RUNNING)
+    } catch (error) {
+      console.error(`Error on callStartApplication ${error}`)
+    } finally {
+      setChangingStatus(false)
+    }
   }
 
-  function onRestart () {
-
-  }
+  function onRestart () {}
 
   function handleChange (event) {
     const isCheckbox = event.target.type === 'checkbox'
@@ -51,7 +68,7 @@ function TopContent ({ applicationSelected }) {
             size={MEDIUM}
           />}
         <h2 className={`${typographyStyles.desktopHeadline2} ${typographyStyles.textWhite}`}>{applicationSelected.name}</h2>
-        <ApplicationStatusPills status={applicationSelected.status} />
+        <ApplicationStatusPills status={internalStatus} />
       </div>
       <div className={`${commonStyles.mediumFlexRow} ${commonStyles.fullWidth} ${commonStyles.itemsCenter} ${commonStyles.justifyBetween} `}>
         <div className={`${commonStyles.mediumFlexRow} ${commonStyles.fullWidth} ${commonStyles.itemsCenter} `}>
@@ -71,19 +88,37 @@ function TopContent ({ applicationSelected }) {
         </div>
 
         <div className={`${styles.buttonContainer} ${commonStyles.fullWidth}`}>
-          <Button
-            type='button'
-            label={applicationSelected.status === STATUS_RUNNING ? 'Stop' : 'Start'}
-            onClick={() => applicationSelected.status === STATUS_RUNNING ? onStop() : onStart()}
-            color={RICH_BLACK}
-            bordered={false}
-            backgroundColor={WHITE}
-            hoverEffect={DULLS_BACKGROUND_COLOR}
-            hoverEffectProperties={{ changeBackgroundColor: ANTI_FLASH_WHITE }}
-            paddingClass={commonStyles.buttonPadding}
-            platformaticIcon={{ iconName: applicationSelected.status === STATUS_RUNNING ? 'CircleStopIcon' : 'CirclePlayIcon', color: RICH_BLACK }}
-            textClass={typographyStyles.desktopBody}
-          />
+          {changingStatus
+            ? (
+              <Button
+                type='button'
+                label='Loading'
+                onClick={() => {}}
+                color={RICH_BLACK}
+                bordered={false}
+                backgroundColor={WHITE}
+                hoverEffect={DULLS_BACKGROUND_COLOR}
+                hoverEffectProperties={{ changeBackgroundColor: ANTI_FLASH_WHITE }}
+                paddingClass={commonStyles.buttonPadding}
+                platformaticIcon={{ iconName: 'RunningIcon', color: RICH_BLACK }}
+                textClass={typographyStyles.desktopBody}
+              />
+              )
+            : (
+              <Button
+                type='button'
+                label={internalStatus === STATUS_RUNNING ? 'Stop' : 'Start'}
+                onClick={() => internalStatus === STATUS_RUNNING ? handleStopApplication() : handleStartApplication()}
+                color={RICH_BLACK}
+                bordered={false}
+                backgroundColor={WHITE}
+                hoverEffect={DULLS_BACKGROUND_COLOR}
+                hoverEffectProperties={{ changeBackgroundColor: ANTI_FLASH_WHITE }}
+                paddingClass={commonStyles.buttonPadding}
+                platformaticIcon={{ iconName: internalStatus === STATUS_RUNNING ? 'CircleStopIcon' : 'CirclePlayIcon', color: RICH_BLACK }}
+                textClass={typographyStyles.desktopBody}
+              />
+              )}
           <Button
             type='button'
             label='Restart'

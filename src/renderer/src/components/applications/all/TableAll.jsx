@@ -6,7 +6,7 @@ import commonStyles from '~/styles/CommonStyles.module.css'
 import styles from './TableAll.module.css'
 import { LoadingSpinnerV2, Button, PlatformaticIcon, SearchBarV2 } from '@platformatic/ui-components'
 import { RICH_BLACK, WHITE, SMALL, DULLS_BACKGROUND_COLOR, ANTI_FLASH_WHITE, MAIN_GREEN } from '@platformatic/ui-components/src/components/constants'
-import { ASC, DESC } from '~/ui-constants'
+import { ASC, DESC, STATUS_RUNNING } from '~/ui-constants'
 import Row from './Row'
 import { sortCollection } from '~/utilitySorting'
 import Forms from '@platformatic/ui-components/src/components/forms'
@@ -157,9 +157,9 @@ function TableAll ({
     }, []).map(status => ({
       label: status.label,
       value: status.value,
-      iconName: status.value === 'running' ? 'RunningIcon' : 'CircleStopIcon',
+      iconName: status.value === STATUS_RUNNING ? 'RunningIcon' : 'CircleStopIcon',
       iconSize: SMALL,
-      iconColor: status.value === 'running' ? MAIN_GREEN : WHITE
+      iconColor: status.value === STATUS_RUNNING ? MAIN_GREEN : WHITE
     }))
     tmpStatuses.unshift({
       label: 'All Statuses',

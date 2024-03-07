@@ -1,5 +1,6 @@
 'use strict'
 import PropTypes from 'prop-types'
+import { useState, useEffect } from 'react'
 import typographyStyles from '~/styles/Typography.module.css'
 import commonStyles from '~/styles/CommonStyles.module.css'
 import tooltipStyles from '~/styles/TooltipStyles.module.css'
@@ -9,7 +10,7 @@ import styles from './Row.module.css'
 import { getFormattedDate } from '~/utilityDetails'
 import MerakiIcon from '~/components/ui/MerakiIcon'
 import { useNavigate } from 'react-router-dom'
-import { APPLICATION_PATH } from '~/ui-constants'
+import { APPLICATION_PATH, STATUS_STOPPED } from '~/ui-constants'
 import ApplicationStatusPills from '~/components/ui/ApplicationStatusPills'
 
 function Row ({
@@ -27,9 +28,62 @@ function Row ({
   onClickDelete
 }) {
   const navigate = useNavigate()
+  const [buttonClicked, setButtonClicked] = useState(false)
+
+  useEffect(() => {
+    setButtonClicked(false)
+  }, [status])
 
   function goToApplication () {
     navigate(APPLICATION_PATH.replace(':appId', id))
+  }
+
+  function handleStart () {
+    setButtonClicked(true)
+    onClickStart()
+  }
+
+  function handleStop () {
+    setButtonClicked(true)
+    onClickStop()
+  }
+
+  function getStartStopButton () {
+    if (buttonClicked) {
+      return (
+        <div className={`${styles.containerRunning} ${commonStyles.buttonSquarePadding}`}>
+          <div className={styles.clockWiseRotation}>
+            <Icons.RunningIcon size={MEDIUM} color={WHITE} />
+          </div>
+        </div>
+      )
+    }
+    if (status.value === STATUS_STOPPED) {
+      return (
+        <ButtonOnlyIcon
+          textClass={typographyStyles.desktopBody}
+          altLabel='Start application'
+          paddingClass={commonStyles.buttonSquarePadding}
+          color={WHITE}
+          backgroundColor={RICH_BLACK}
+          onClick={() => handleStart()}
+          hoverEffect={DULLS_BACKGROUND_COLOR}
+          platformaticIcon={{ size: SMALL, iconName: 'CirclePlayIcon', color: WHITE }}
+        />
+      )
+    }
+    return (
+      <ButtonOnlyIcon
+        textClass={typographyStyles.desktopBody}
+        altLabel='Stop application'
+        paddingClass={commonStyles.buttonSquarePadding}
+        color={WHITE}
+        backgroundColor={RICH_BLACK}
+        onClick={() => handleStop()}
+        hoverEffect={DULLS_BACKGROUND_COLOR}
+        platformaticIcon={{ size: SMALL, iconName: 'CircleStopIcon', color: WHITE }}
+      />
+    )
   }
 
   return (
@@ -105,29 +159,7 @@ function Row ({
         </div>
         <div className={styles.tableCell}>
           <div className={`${styles.buttonsContainer} `}>
-            {status.value === 'stopped'
-              ? (<ButtonOnlyIcon
-                  textClass={typographyStyles.desktopBody}
-                  altLabel='Start application'
-                  paddingClass={commonStyles.buttonSquarePadding}
-                  color={WHITE}
-                  backgroundColor={RICH_BLACK}
-                  onClick={() => onClickStart()}
-                  hoverEffect={DULLS_BACKGROUND_COLOR}
-                  platformaticIcon={{ size: SMALL, iconName: 'CirclePlayIcon', color: WHITE }}
-                 />)
-              : (
-                <ButtonOnlyIcon
-                  textClass={typographyStyles.desktopBody}
-                  altLabel='Stop application'
-                  paddingClass={commonStyles.buttonSquarePadding}
-                  color={WHITE}
-                  backgroundColor={RICH_BLACK}
-                  onClick={() => onClickStop()}
-                  hoverEffect={DULLS_BACKGROUND_COLOR}
-                  platformaticIcon={{ size: SMALL, iconName: 'CircleStopIcon', color: WHITE }}
-                />
-                )}
+            {getStartStopButton()}
             <ButtonOnlyIcon
               textClass={typographyStyles.desktopBody}
               altLabel='Restart application'

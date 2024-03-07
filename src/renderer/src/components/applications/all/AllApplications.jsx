@@ -8,7 +8,7 @@ import TableAll from './TableAll'
 import { getApiApplications, callStartApplication, callStopApplication, callDeleteApplication } from '~/api'
 import ErrorComponent from '~/components/screens/ErrorComponent'
 import useStackablesStore from '~/useStackablesStore'
-import { HOME_PATH, PAGE_ALL_APPS } from '~/ui-constants'
+import { HOME_PATH, PAGE_ALL_APPS, STATUS_RUNNING, STATUS_STOPPED } from '~/ui-constants'
 import { useNavigate } from 'react-router-dom'
 import { Modal } from '@platformatic/ui-components'
 import { MODAL_POPUP_V2 } from '@platformatic/ui-components/src/components/constants'
@@ -53,8 +53,8 @@ const AllApplications = React.forwardRef(({ onClickCreateNewApp }, ref) => {
               return application
             })
             setApplications(myReworkedApplications)
-            setStoppedApps(allApplications.filter(a => a.status.value === 'stopped').length)
-            setRunningApps(allApplications.filter(a => a.status.value === 'running').length)
+            setStoppedApps(allApplications.filter(a => a.status.value === STATUS_STOPPED).length)
+            setRunningApps(allApplications.filter(a => a.status.value === STATUS_RUNNING).length)
           } else {
             // no applications
           }

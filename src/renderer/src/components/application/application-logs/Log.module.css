@@ -5,16 +5,16 @@
   @apply relative flex flex-row gap-x-2 items-center py-1 px-2;
 }
 .log10 {
-  @apply bg-white/15;
+  @apply bg-tertiary-blue/15; ;
 }
 .text10 {
-  @apply text-white;
+  @apply text-tertiary-blue;
 }
 .log20 {
-  @apply bg-tertiary-blue/15; 
+  @apply bg-electric-purple/15; 
 }
 .text20 {
-  @apply text-tertiary-blue; 
+  @apply text-electric-purple; 
 }
 .log30 {
   @apply bg-main-green/15; 
@@ -46,10 +46,10 @@
   @apply p-2 border border-solid rounded-sm;
 }
 .logContainerClassNameActive10 {
-  @apply border-white;
+  @apply border-tertiary-blue;
 }
 .logContainerClassNameActive20 {
-  @apply border-tertiary-blue; 
+  @apply border-electric-purple; 
 }
 .logContainerClassNameActive30 {
   @apply border-main-green; 

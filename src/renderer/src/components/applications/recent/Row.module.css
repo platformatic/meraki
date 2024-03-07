@@ -39,3 +39,19 @@
 .linkToApplication {
   @apply hover:cursor-pointer
 }
+
+.clockWiseRotation {
+  animation: rotationClockwise 2s infinite linear;
+}
+@keyframes rotationClockwise {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(359deg);
+  }
+}
+
+.containerRunning {
+  @apply border border-solid border-white/30 rounded-sm
+}

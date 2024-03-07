@@ -82,6 +82,7 @@ function App ({ path }) {
     setCurrentBodyComponent(<HomeContainer />)
     setShowCreateNewAppHeader(true)
     setApplicationsLoaded(false)
+    setShowWelcomePage(false)
   }
 
   function handleCreateApplication () {
@@ -89,6 +90,7 @@ function App ({ path }) {
     setCurrentBodyComponent(<HomeContainer />)
     setShowCreateNewAppHeader(true)
     setApplicationsLoaded(false)
+    setShowWelcomePage(false)
   }
 
   return didCatch
