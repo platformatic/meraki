@@ -12,7 +12,7 @@ import Forms from '@platformatic/ui-components/src/components/forms'
 import Log from './Log'
 import { PRETTY, RAW } from '~/ui-constants'
 import LogFilterSelector from './LogFilterSelector'
-import { callApiStartLogs, getAppLogs } from '~/api'
+import { callApiStartLogs, getAppLogs, callApiGetAllLogs } from '~/api'
 
 const ApplicationLogs = React.forwardRef(({ applicationSelected }, ref) => {
   const [displayLog, setDisplayLog] = useState(PRETTY)
@@ -97,10 +97,6 @@ const ApplicationLogs = React.forwardRef(({ applicationSelected }, ref) => {
 
   function handleClearService () {
     setFilterLogsByService('')
-  }
-
-  function saveLogs () {
-
   }
 
   function clickGoToTop () {
@@ -196,7 +192,7 @@ const ApplicationLogs = React.forwardRef(({ applicationSelected }, ref) => {
                 type='button'
                 paddingClass={commonStyles.buttonPadding}
                 label='Save Logs'
-                onClick={() => saveLogs()}
+                onClick={() => callApiGetAllLogs(applicationSelected.id)}
                 color={WHITE}
                 backgroundColor={TRANSPARENT}
               />

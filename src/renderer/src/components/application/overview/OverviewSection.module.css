@@ -6,4 +6,5 @@
 }
 .updatePlatformaticBox {
   @apply w-fit;
+  flex: unset !important;
 }
