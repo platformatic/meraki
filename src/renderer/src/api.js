@@ -48,6 +48,10 @@ export const callApiPauseLogs = async () => {
   return await window.api.pauseLogs()
 }
 
+export const callApiGetAllLogs = async (id) => {
+  return await window.api.getAllLogs(id)
+}
+
 export const callApiResumeLogs = async () => {
   return await window.api.resumeLogs()
 }
