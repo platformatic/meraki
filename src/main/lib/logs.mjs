@@ -95,9 +95,8 @@ class Logs {
       })
       await this.#logServer.listen(0)
     }
-    const host = this.#logServer.server.address().address
     const port = this.#logServer.server.address().port
-    return `http://${host}:${port}/logs/${id}`
+    return `http://127.0.0.1:${port}/logs/${id}`
   }
 
   async closeLogServer () {
