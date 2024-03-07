@@ -17,7 +17,7 @@ const sleep = (ms) => new Promise((resolve) => setTimeout(resolve, ms))
 
 beforeAll(async () => {
   // we clean up the runtimes folder
-  const PLATFORMATIC_TMP_DIR = resolve(tmpdir(), 'platformatic', 'pids')
+  const PLATFORMATIC_TMP_DIR = resolve(tmpdir(), 'platformatic', 'runtimes')
   try {
     await access(PLATFORMATIC_TMP_DIR)
     await rm(PLATFORMATIC_TMP_DIR, { recursive: true })
@@ -78,4 +78,28 @@ test('start one runtime and stream logs', async (t) => {
     logs.stop()
     await applicationsApi.stopRuntime(id)
   }
+}, 60000)
+
+test('get all logs', async (t) => {
+  const appDir = await mkdtemp(join(tmpdir(), 'plat-app-test'))
+  const appFixture = join('test', 'fixtures', 'runtime')
+  await cp(appFixture, appDir, { recursive: true })
+
+  const applicationsApi = await Applications.create()
+  const logs = new Logs(applicationsApi)
+
+  const { id } = await applicationsApi.importApplication(appDir)
+  const { runtime, url } = await applicationsApi.startRuntime(id)
+  onTestFinished(() => runtime.kill('SIGINT'))
+
+  await sleep(2000)
+
+  await request(url)
+  await sleep(1000)
+
+  const logsURL = await logs.getAllLogsURL(id)
+  const response = await request(logsURL)
+  const body = await response.body.text()
+  console.log(body)
+  expect(body).toContain(`Server listening at ${url}`)
 }, 60000)

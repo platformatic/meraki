@@ -7,6 +7,7 @@ import setupMenu from './menu.mjs'
 import { getTemplates, getPlugins } from './client.mjs'
 import { prepareFolder, createApp } from './generate.mjs'
 import log from 'electron-log'
+import { download } from 'electron-dl'
 import { getAppPath } from './lib/utils.mjs'
 import Applications from './lib/applications.mjs'
 import Logs from './lib/logs.mjs'
@@ -263,6 +264,26 @@ app.whenReady().then(async () => {
 
   ipcMain.handle('stop-logs', async (_) => {
     logsApi.stop()
+  })
+
+  ipcMain.handle('get-all-logs', async (_, id) => {
+    if (!id) {
+      throw new Error('Application ID is required')
+    }
+    const logsApiURL = await logsApi.getAllLogsURL(id)
+    const app = appApis.getApplication(id)
+    if (!app) {
+      // This should never happen
+      throw new Error(`Application with id ${id} not found`)
+    }
+    const name = app?.name || id
+    const filename = `${name}.logs`
+    await download(mainWindow, logsApiURL, {
+      filename,
+      saveAs: true,
+      showProgressBar: true,
+      openFolderWhenDone: true
+    })
   })
 })
 

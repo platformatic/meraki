@@ -36,7 +36,8 @@ if (process.contextIsolated) {
       onAppLog: callback => ipcRenderer.on('app-logs', callback),
       pauseLogs: () => (ipcRenderer.invoke('pause-logs')),
       resumeLogs: () => (ipcRenderer.invoke('resume-logs')),
-      stopLogs: () => (ipcRenderer.invoke('stop-logs'))
+      stopLogs: () => (ipcRenderer.invoke('stop-logs')),
+      getAllLogs: () => (ipcRenderer.invoke('get-all-logs'))
     })
   } catch (error) {
     console.error(error)
