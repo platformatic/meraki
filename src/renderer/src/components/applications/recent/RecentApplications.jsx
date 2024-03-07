@@ -5,7 +5,7 @@ import styles from './RecentApplications.module.css'
 import typographyStyles from '~/styles/Typography.module.css'
 import TopContent from './TopContent'
 import TableRecent from './TableRecent'
-import { getApiApplications, callStartApplication, callStopApplication, callDeleteApplication } from '~/api'
+import { callStartApplication, callStopApplication, callDeleteApplication } from '~/api'
 import ErrorComponent from '~/components/screens/ErrorComponent'
 import useStackablesStore from '~/useStackablesStore'
 import { HOME_PATH, PAGE_RECENT_APPS, STATUS_RUNNING, STATUS_STOPPED } from '~/ui-constants'
@@ -16,9 +16,9 @@ import DeleteApplication from '~/components/application/DeleteApplication'
 
 const RecentApplications = React.forwardRef(({ onClickCreateNewApp }, ref) => {
   const globalState = useStackablesStore()
-  const { setNavigation, setCurrentPage } = globalState
+  const { applications, setNavigation, setCurrentPage, reloadApplications, setReloadApplications } = globalState
   const [showErrorComponent, setShowErrorComponent] = useState(false)
-  const [applications, setApplications] = useState([])
+  const [localApplications, setLocalApplications] = useState([])
   const [applicationsLoaded, setApplicationsLoaded] = useState(false)
   const [runningApps, setRunningApps] = useState('-')
   const [stoppedApps, setStoppedApps] = useState('-')
@@ -39,45 +39,37 @@ const RecentApplications = React.forwardRef(({ onClickCreateNewApp }, ref) => {
   }, [])
 
   useEffect(() => {
-    if (!applicationsLoaded) {
-      async function getApplications () {
-        try {
-          setApplications([])
+    if (!reloadApplications && applications.length > 0) {
+      function getApplications () {
+        setApplicationsLoaded(false)
+        setLocalApplications([])
+        setTimeout(() => {
           let keyA, keyB
-          const applications = await getApiApplications()
-          if (applications.length > 0) {
-            const recentApplications = applications.sort((a, b) => {
-              keyA = new Date(b.lastUpdate)
-              keyB = new Date(a.lastUpdate)
-              if (keyA < keyB) {
-                return 1
-              }
-              if (keyA > keyB) {
-                return -1
-              }
-              return 0
-            }).slice(-5)
-            setApplications(recentApplications)
-            setStoppedApps(recentApplications.filter(a => a.status === STATUS_STOPPED).length)
-            setRunningApps(recentApplications.filter(a => a.status === STATUS_RUNNING).length)
-          } else {
-            // no applications
-          }
-        } catch (error) {
-          setShowErrorComponent(true)
-          console.error(`Error on catch ${error}`)
-        } finally {
+          const recentApplications = [...applications].sort((a, b) => {
+            keyA = new Date(b.lastUpdate)
+            keyB = new Date(a.lastUpdate)
+            if (keyA < keyB) {
+              return 1
+            }
+            if (keyA > keyB) {
+              return -1
+            }
+            return 0
+          }).slice(-5)
+          setLocalApplications(recentApplications)
+          setStoppedApps(recentApplications.filter(a => a.status === STATUS_STOPPED).length)
+          setRunningApps(recentApplications.filter(a => a.status === STATUS_RUNNING).length)
           setApplicationsLoaded(true)
-        }
+        }, 100)
       }
       getApplications()
     }
-  }, [applicationsLoaded])
+  }, [reloadApplications, applications])
 
   async function handleStopApplication (id) {
     try {
       await callStopApplication(id)
-      setApplicationsLoaded(false)
+      setReloadApplications(true)
     } catch (error) {
       setShowErrorComponent(true)
       console.error(`Error on callStopApplication ${error}`)
@@ -87,7 +79,7 @@ const RecentApplications = React.forwardRef(({ onClickCreateNewApp }, ref) => {
   async function handleStartApplication (id) {
     try {
       await callStartApplication(id)
-      setApplicationsLoaded(false)
+      setReloadApplications(true)
     } catch (error) {
       setShowErrorComponent(true)
       console.error(`Error on callStartApplication ${error}`)
@@ -95,7 +87,7 @@ const RecentApplications = React.forwardRef(({ onClickCreateNewApp }, ref) => {
   }
 
   function handleRestartApplication () {
-    setApplicationsLoaded(false)
+    setReloadApplications(true)
   }
 
   function handleDeleteApplication (applicationSelected) {
@@ -112,7 +104,7 @@ const RecentApplications = React.forwardRef(({ onClickCreateNewApp }, ref) => {
     try {
       await callDeleteApplication(applicationSelected.id)
       handleCloseModalDeleteApplication()
-      setApplicationsLoaded(false)
+      setReloadApplications(true)
     } catch (error) {
       console.error(`Error on handleConfirmDeleteApplication ${error}`)
     }
@@ -130,7 +122,7 @@ const RecentApplications = React.forwardRef(({ onClickCreateNewApp }, ref) => {
             />
             <TableRecent
               applicationsLoaded={applicationsLoaded}
-              applications={applications}
+              applications={localApplications}
               onStopApplication={(id) => handleStopApplication(id)}
               onStartApplication={(id) => handleStartApplication(id)}
               onRestartApplication={handleRestartApplication}

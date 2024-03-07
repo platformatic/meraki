@@ -4,7 +4,9 @@ const initialState = {
   formData: {},
   services: [],
   breadCrumbs: [],
-  currentPage: ''
+  currentPage: '',
+  applications: [],
+  reloadApplications: true
 }
 
 const useStackablesStore = create((set, get) => ({
@@ -129,6 +131,31 @@ const useStackablesStore = create((set, get) => ({
       return {
         ...state,
         currentPage: page
+      }
+    })
+  },
+  setApplications: (data = []) => {
+    set((state) => {
+      return {
+        ...state,
+        applications: [...data]
+      }
+    })
+  },
+  setReloadApplications: (reloadApplications) => {
+    set((state) => {
+      return {
+        ...state,
+        reloadApplications
+      }
+    })
+  },
+  resetWizardState: () => {
+    set((state) => {
+      return {
+        ...state,
+        formData: {},
+        services: []
       }
     })
   }

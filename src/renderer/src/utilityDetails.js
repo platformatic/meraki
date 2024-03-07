@@ -56,10 +56,7 @@ export const getFormattedDate = (date) => {
   if (date === '-') return '-'
   if (!(typeof date === 'string' || typeof date === 'number')) return '-'
 
-  const time = parseInt(date)
-  if (isNaN(time)) return '-'
-
-  const formattedDate = new Date(parseInt(date))
+  const formattedDate = new Date(date)
   if (formattedDate === 'Invalid Date') return '-'
   return `${ABB_MONTH_NAMES[formattedDate.getMonth()]} ${formattedDate.getDate()}, ${formattedDate.getFullYear()}`
 }
