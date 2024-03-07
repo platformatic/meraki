@@ -164,3 +164,78 @@ test('import automatically a running runtime, started externally', async (t) => 
   expect(applications[0].insideMeraki).toBe(false)
   expect(applications[0].automaticallyImported).toBe(true)
 }, 60000)
+
+test('open application', async (t) => {
+  const appDir = await mkdtemp(join(tmpdir(), 'plat-app-test'))
+  const appFixture = join('test', 'fixtures', 'runtime')
+  await cp(appFixture, appDir, { recursive: true })
+  mockAgent
+    .get('https://registry.npmjs.org')
+    .intercept({
+      method: 'GET',
+      path: '/platformatic'
+    })
+    .reply(200, {
+      'dist-tags': {
+        latest: '2.0.0'
+      }
+    })
+
+  const applicationsApi = await Applications.create()
+  const { id } = await applicationsApi.importApplication(appDir)
+
+  const applicationDesc = await applicationsApi.openApplication(id)
+
+  const expected = {
+    $schema: 'https://platformatic.dev/schemas/v1.26.0/runtime',
+    configPath: `${appDir}/platformatic.json`,
+    entrypoint: 'service-1',
+    path: appDir,
+    services: [
+      {
+        id: 'service-1',
+        path: `${appDir}/services/service-1`,
+        configPath: `${appDir}/services/service-1/platformatic.json`,
+        config: {
+          $schema: 'https://platformatic.dev/schemas/v1.22.0/service',
+          service: {
+            openapi: true
+          },
+          plugins: {
+            paths: [
+              'plugin.js'
+            ]
+          },
+          watch: true,
+          metrics: {
+            server: 'parent'
+          }
+        },
+        env: {},
+        template: '@platformatic/service',
+        plugins: []
+      },
+      {
+        id: 'service-2',
+        path: `${appDir}/services/service-2`,
+        configPath: `${appDir}/services/service-2/platformatic.json`,
+        config: {
+          $schema: 'https://platformatic.dev/schemas/v1.22.0/service',
+          service: {
+            openapi: true
+          },
+          plugins: {
+            paths: [
+              'plugin.js'
+            ]
+          }
+        },
+        env: {},
+        template: '@platformatic/service',
+        plugins: []
+      }
+    ]
+  }
+
+  expect(applicationDesc).toEqual(expected)
+}, 60000)

@@ -246,6 +246,10 @@ app.whenReady().then(async () => {
     return appApis.stopRuntime(id)
   })
 
+  ipcMain.handle('open-app', async (_, id) => {
+    return appApis.openApplication(id)
+  })
+
   // ********** LOGS ********** //
   // id: application id
   ipcMain.handle('start-logs', async (_, id, callback) => {

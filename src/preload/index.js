@@ -30,6 +30,7 @@ if (process.contextIsolated) {
       deleteApp: (id) => (ipcRenderer.invoke('delete-app', id)),
       startApp: (id) => (ipcRenderer.invoke('start-app', id)),
       stopApp: (id) => (ipcRenderer.invoke('stop-app', id)),
+      openApp: (id) => (ipcRenderer.invoke('open-app', id)),
 
       // logs
       startLogs: (id) => (ipcRenderer.invoke('start-logs', id)),
