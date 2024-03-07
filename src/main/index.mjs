@@ -111,6 +111,7 @@ if (!gotTheLock) {
 
 function createWindow () {
   mainWindow = new BrowserWindow({
+    maxWidth: 1440,
     minWidth: 1024,
     minHeight: 750,
     show: false,

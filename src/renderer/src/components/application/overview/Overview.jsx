@@ -10,22 +10,9 @@ import OverviewSection from './OverviewSection'
 import ServicesSection from './ServicesSection'
 import { MARGIN_0, OPACITY_30, WHITE } from '@platformatic/ui-components/src/components/constants'
 
-const Overview = React.forwardRef((_props, ref) => {
+const Overview = React.forwardRef(({ applicationSelected }, ref) => {
   const globalState = useStackablesStore()
   const { setNavigation, setCurrentPage } = globalState
-
-  const applicationSelected = {
-    id: '1',
-    name: 'Ransom',
-    status: 'running',
-    platformaticVersion: '1.0.0',
-    updateVersion: true,
-    lastStarted: '1708887874046',
-    lastUpdate: '1708887874046',
-    insideMeraki: true,
-    entryPoint: 'https://simplifying-developer-experience.deploy.space/',
-    services: [{ name: 'Services-name-1' }, { name: 'Services-name-2' }, { name: 'Services-name-3' }, { name: 'Services-name-4-example-very-long' }]
-  }
 
   useEffect(() => {
     setNavigation({
@@ -54,22 +41,13 @@ const Overview = React.forwardRef((_props, ref) => {
 
 Overview.propTypes = {
   /**
-   * name
+   * applicationSelected
     */
-  name: PropTypes.string,
-  /**
-   * onClickEdit
-   */
-  onCloseModal: PropTypes.func,
-  /**
-   * onClickRemove
-   */
-  onClickConfirm: PropTypes.func
+  applicationSelected: PropTypes.object
 }
 
 Overview.defaultProps = {
-  onCloseModal: () => {},
-  onClickConfirm: () => {}
+  applicationSelected: {}
 }
 
 export default Overview

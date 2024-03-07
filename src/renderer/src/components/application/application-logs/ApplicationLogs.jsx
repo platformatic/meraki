@@ -12,14 +12,16 @@ import Forms from '@platformatic/ui-components/src/components/forms'
 import Log from './Log'
 import { PRETTY, RAW } from '~/ui-constants'
 import LogFilterSelector from './LogFilterSelector'
+import { callApiStartLogs, getAppLogs } from '~/api'
 
-const ApplicationLogs = React.forwardRef((_props, ref) => {
+const ApplicationLogs = React.forwardRef(({ applicationSelected }, ref) => {
   const [displayLog, setDisplayLog] = useState(PRETTY)
   const [filterLogsByService, setFilterLogsByService] = useState('')
   const [filterLogByLevel, setFilterLogByLevel] = useState('')
   const [optionsServices/* , setOptionsServices */] = useState([])
   const [scrollDirection, setScrollDirection] = useState('down')
-  const [logValue/* , setLogValue */] = useState([])
+  const [logValue, setLogValue] = useState(null)
+  const [displayedLogs, setDisplayedLogs] = useState([])
   const [filteredLogs, setFilteredLogs] = useState([])
   const logContentRef = useRef()
   const [previousScrollTop, setPreviousScrollTop] = useState(0)
@@ -27,7 +29,21 @@ const ApplicationLogs = React.forwardRef((_props, ref) => {
   const [displayGoToBottom, setDisplayGoToBottom] = useState(false)
 
   useEffect(() => {
-    if (scrollDirection === 'down' && logValue.length > 0) {
+    if (applicationSelected.id) {
+      getAppLogs((_, value) => setLogValue(value))
+      callApiStartLogs(applicationSelected.id)
+    }
+  }, [applicationSelected.id])
+
+  useEffect(() => {
+    if (logValue) {
+      console.log('logValue', logValue)
+      setDisplayedLogs([...displayedLogs, ...logValue])
+    }
+  }, [logValue])
+
+  useEffect(() => {
+    if (scrollDirection === 'down' && displayedLogs.length > 0) {
       logContentRef.current.scrollTo({
         top: logContentRef.current.scrollHeight,
         left: 0,
@@ -35,7 +51,7 @@ const ApplicationLogs = React.forwardRef((_props, ref) => {
       })
       setPreviousScrollTop(logContentRef.current.scrollTop)
     }
-  }, [scrollDirection, logValue])
+  }, [scrollDirection, displayedLogs])
 
   useEffect(() => {
     if (scrollDirection === 'up') {
@@ -64,7 +80,7 @@ const ApplicationLogs = React.forwardRef((_props, ref) => {
       }
       setFilteredLogs(founds)
     } else {
-      setFilteredLogs([...logValue])
+      setFilteredLogs([...displayedLogs])
     }
   }, [
     filterLogByLevel,
@@ -107,7 +123,7 @@ const ApplicationLogs = React.forwardRef((_props, ref) => {
         <div className={`${commonStyles.largeFlexBlock} ${commonStyles.fullWidth}`}>
           <div className={commonStyles.mediumFlexBlock}>
             <Title
-              title='ApplicationLogs'
+              title='Logs'
               iconName='CodeTestingIcon'
               dataAttrName='cy'
               dataAttrValue='application-log-title'
@@ -155,7 +171,7 @@ const ApplicationLogs = React.forwardRef((_props, ref) => {
             </div>
             <HorizontalSeparator marginBottom={MARGIN_0} marginTop={MARGIN_0} color={WHITE} opacity={OPACITY_30} />
             <div className={`${styles.logsContainer} ${styles.lateralPadding}`} ref={logContentRef} onScroll={handleScroll}>
-              {logValue?.length > 0 && logValue.map((log, index) => <Log key={index} log={{ ...log }} display={displayLog} onClickArrow={() => setScrollDirection('still')} />)}
+              {displayedLogs?.length > 0 && displayedLogs.map((log, index) => <Log key={index} log={log} display={displayLog} onClickArrow={() => setScrollDirection('still')} />)}
             </div>
             <HorizontalSeparator marginBottom={MARGIN_0} marginTop={MARGIN_0} color={WHITE} opacity={OPACITY_30} />
             <div className={`${commonStyles.smallFlexRow} ${commonStyles.itemsCenter} ${commonStyles.justifyBetween} ${styles.lateralPadding} ${styles.bottom}`}>
@@ -195,22 +211,13 @@ const ApplicationLogs = React.forwardRef((_props, ref) => {
 
 ApplicationLogs.propTypes = {
   /**
-   * name
+   * applicationSelected
     */
-  name: PropTypes.string,
-  /**
-   * onClickEdit
-   */
-  onCloseModal: PropTypes.func,
-  /**
-   * onClickRemove
-   */
-  onClickConfirm: PropTypes.func
+  applicationSelected: PropTypes.object
 }
 
 ApplicationLogs.defaultProps = {
-  onCloseModal: () => {},
-  onClickConfirm: () => {}
+  applicationSelected: {}
 }
 
 export default ApplicationLogs

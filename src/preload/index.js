@@ -33,6 +33,7 @@ if (process.contextIsolated) {
 
       // logs
       startLogs: (id) => (ipcRenderer.invoke('start-logs', id)),
+      onAppLog: callback => ipcRenderer.on('app-logs', callback),
       pauseLogs: () => (ipcRenderer.invoke('pause-logs')),
       resumeLogs: () => (ipcRenderer.invoke('resume-logs')),
       stopLogs: () => (ipcRenderer.invoke('stop-logs'))

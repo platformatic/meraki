@@ -1,11 +1,11 @@
 'use strict'
 import React from 'react'
 import PropTypes from 'prop-types'
-import { WHITE, OPACITY_30, MEDIUM, TRANSPARENT, SMALL } from '@platformatic/ui-components/src/components/constants'
+import { WHITE, OPACITY_30, MEDIUM, TRANSPARENT, SMALL, WARNING_YELLOW } from '@platformatic/ui-components/src/components/constants'
 import styles from './OverviewSection.module.css'
 import typographyStyles from '~/styles/Typography.module.css'
 import commonStyles from '~/styles/CommonStyles.module.css'
-import { Button, PlatformaticIcon, VerticalSeparator } from '@platformatic/ui-components'
+import { BorderedBox, Button, PlatformaticIcon, VerticalSeparator } from '@platformatic/ui-components'
 import Icons from '@platformatic/ui-components/src/components/icons'
 
 function OverviewSection ({ applicationSelected }) {
@@ -24,15 +24,33 @@ function OverviewSection ({ applicationSelected }) {
       <div className={`${commonStyles.mediumFlexRow} ${commonStyles.fullWidth} ${commonStyles.itemsCenter} `}>
         <div className={`${commonStyles.smallFlexRow} ${commonStyles.itemsCenter}`}>
           <span className={`${typographyStyles.desktopBody} ${typographyStyles.textWhite} ${typographyStyles.opacity70}`}>Current Platformatic Version</span>
-          <span className={`${typographyStyles.desktopBodyLarge} ${typographyStyles.textYellowWarning}`}>{applicationSelected.platformaticVersion}</span>
+          <span className={`${typographyStyles.desktopBodyLarge} ${typographyStyles.textWarningYellow}`}>{applicationSelected.platformaticVersion}</span>
         </div>
+        <BorderedBox
+          color={WARNING_YELLOW}
+          backgroundColor={WARNING_YELLOW}
+          backgroundColorOpacity={OPACITY_30}
+          classes={`${commonStyles.buttonPadding} ${styles.updatePlatformaticBox}`}
+        >
+          <div className={`${commonStyles.smallFlexRow} ${commonStyles.itemsCenter}`}>
+            <Icons.AlertIcon size={SMALL} color={WARNING_YELLOW} />
+            <span className={`${typographyStyles.desktopBody} ${typographyStyles.textWarningYellow}`}>There is a new Platformatic version.</span>
+          </div>
+        </BorderedBox>
       </div>
 
       <div className={`${commonStyles.mediumFlexRow} ${commonStyles.fullWidth} ${commonStyles.itemsCenter} ${commonStyles.justifyBetween} `}>
         <div className={`${commonStyles.mediumFlexRow} ${commonStyles.fullWidth} ${commonStyles.itemsCenter} `}>
           <div className={`${commonStyles.smallFlexRow} ${commonStyles.itemsCenter}`}>
             <span className={`${typographyStyles.desktopBody} ${typographyStyles.textWhite} ${typographyStyles.opacity70}`}>Entrypoint:</span>
-            <span className={`${typographyStyles.desktopBodyLarge} ${typographyStyles.textWarningYellow}`}>{applicationSelected.platformaticVersion}</span>
+            <BorderedBox
+              color={WHITE}
+              backgroundColor={WHITE}
+              backgroundColorOpacity={OPACITY_30}
+              classes={commonStyles.buttonPadding}
+            >
+              <span className={`${typographyStyles.desktopBody} ${typographyStyles.textWhite}`}>Service-name-1</span>
+            </BorderedBox>
           </div>
 
           <VerticalSeparator color={WHITE} backgroundColorOpacity={OPACITY_30} />
@@ -52,7 +70,7 @@ function OverviewSection ({ applicationSelected }) {
             color={WHITE}
             backgroundColor={TRANSPARENT}
             paddingClass={commonStyles.buttonPadding}
-            platformaticIcon={{ iconName: 'RestartIcon', color: WHITE }}
+            platformaticIcon={{ iconName: 'APIDocsIcon', color: WHITE }}
             textClass={typographyStyles.desktopBody}
           />
         </div>
