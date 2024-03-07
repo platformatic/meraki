@@ -41,6 +41,9 @@ export const NONE = 'NONE'
 export const SUCCESS = 'SUCCESS'
 export const ERROR = 'ERROR'
 
+export const STATUS_RUNNING = 'running'
+export const STATUS_STOPPED = 'stopped'
+
 export const PAGE_WELCOME = 'welcome'
 export const PAGE_RECENT_APPS = 'recent_apps'
 export const PAGE_ALL_APPS = 'all_apps'

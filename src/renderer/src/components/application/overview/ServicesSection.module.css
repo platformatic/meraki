@@ -1,0 +1,6 @@
+.servicesContainer{
+  @apply flex flex-col gap-y-4 overflow-y-auto w-full max-h-[30vH];
+}
+.buttonContainer {
+  @apply flex gap-x-2 justify-end items-center;
+}

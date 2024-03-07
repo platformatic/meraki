@@ -1,0 +1,14 @@
+.runningPills,
+.stoppedPills {
+  @apply flex flex-row items-center gap-2 justify-end md:justify-start;
+}
+
+.stoppedPills, .runningPills {
+  @apply w-fit px-2 py-0.5 rounded-full
+}
+.runningPills {
+  @apply bg-main-green/15 
+}
+.stoppedPills {
+  @apply bg-white/15
+}
