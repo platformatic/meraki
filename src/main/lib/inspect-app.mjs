@@ -1,6 +1,7 @@
 import { importOrLocal } from './import-or-local.mjs'
 import { constantCase } from 'change-case-all'
 import { readFile } from 'node:fs/promises'
+import logger from 'electron-log'
 
 // We need to get the service config from the service path
 // because we don't want the envs to be resolved
@@ -29,7 +30,8 @@ const getPlugins = (serviceConfig) => {
 const inspectApp = async (path) => {
   const { loadConfig, platformaticRuntime } = await importOrLocal({
     projectDir: path,
-    pkg: '@platformatic/runtime'
+    pkg: '@platformatic/runtime',
+    logger
   })
 
   const configPath = `${path}/platformatic.json`

@@ -6,6 +6,7 @@ import { npmInstall } from './run-npm.mjs'
 import { getLatestPlatformaticVersion, findExecutable } from './utils.mjs'
 import { resolve, join } from 'node:path'
 import getSqlMapper from './db.mjs'
+import { inspectApp } from './inspect-app.mjs'
 import split from 'split2'
 import pino from 'pino'
 const logger = pino()
@@ -172,7 +173,9 @@ class Applications {
     }
     const packageJson = require(packageJsonPath)
     const { name } = packageJson
-    return this.createApplication(name || folderName, path)
+    const app = this.createApplication(name || folderName, path)
+    await this.#refreshApplications()
+    return app
   }
 
   async createApplication (name, path, automaticallyImported = false) {
@@ -180,6 +183,15 @@ class Applications {
       fields: ['id', 'name', 'path', 'automaticallyImported'],
       input: { name, path, automaticallyImported }
     })
+  }
+
+  async openApplication (id) {
+    const app = await this.getApplication(id)
+    if (!app) {
+      throw new Error(`Application with id ${id} not found`)
+    }
+    const appFolder = app.path
+    return inspectApp(appFolder)
   }
 
   async deleteApplication (id) {
