@@ -38,3 +38,20 @@ export const logInfo = callback => window.api.onLog(callback)
 export const registerUserStatusListener = callback => window.api.onUserStatus(callback)
 
 export const quitApp = () => window.api.quitApp()
+
+export const callApiStartLogs = async (id) => {
+  return await window.api.startLogs(id)
+}
+export const getAppLogs = callback => window.api.onLog(callback)
+
+export const callApiPauseLogs = async () => {
+  return await window.api.pauseLogs()
+}
+
+export const callApiResumeLogs = async () => {
+  return await window.api.resumeLogs()
+}
+
+export const callApiStopLogs = async () => {
+  return await window.api.stopLogs()
+}

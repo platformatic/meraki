@@ -18,26 +18,44 @@ import Metrics from '~/components/application/metrics/Metrics'
 import ApplicationLogs from '~/components/application/application-logs/ApplicationLogs'
 import EnvironmentVariables from '~/components/application/environment-variables/EnvironmentVariables'
 import SideBar from '~/components/ui/SideBar'
+import { useParams } from 'react-router-dom'
 
 function ApplicationContainer () {
+  const { appId } = useParams()
+  const applicationSelected = {
+    id: appId,
+    name: 'Ransom',
+    status: 'running',
+    platformaticVersion: '1.0.0',
+    updateVersion: true,
+    lastStarted: '1708887874046',
+    lastUpdate: '1708887874046',
+    insideMeraki: true,
+    entryPoint: 'https://simplifying-developer-experience.deploy.space/',
+    services: [{ name: 'Services-name-1' }, { name: 'Services-name-2' }, { name: 'Services-name-3' }, { name: 'Services-name-4-example-very-long' }]
+  }
   const [cssClassNames] = useState('scroll-down')
   const [currentPage, setCurrentPage] = useState(APPLICATION_PAGE_OVERVIEW)
   const [components] = useState([
     <Overview
       ref={useRef(null)}
       key={APPLICATION_PAGE_OVERVIEW}
+      applicationSelected={applicationSelected}
     />,
     <ApplicationLogs
       ref={useRef(null)}
       key={APPLICATION_PAGE_LOGS}
+      applicationSelected={applicationSelected}
     />,
     <Metrics
       ref={useRef(null)}
       key={APPLICATION_PAGE_METRICS}
+      applicationSelected={applicationSelected}
     />,
     <EnvironmentVariables
       ref={useRef(null)}
       key={APPLICATION_PAGE_ENV_VAR}
+      applicationSelected={applicationSelected}
     />
 
   ])

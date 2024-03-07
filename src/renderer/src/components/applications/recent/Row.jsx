@@ -26,7 +26,7 @@ function Row ({
   const navigate = useNavigate()
 
   function goToApplication () {
-    navigate(APPLICATION_PATH.replace(':id', id))
+    navigate(APPLICATION_PATH.replace(':appId', id))
   }
 
   return (
