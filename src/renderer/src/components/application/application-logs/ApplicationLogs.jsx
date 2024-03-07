@@ -17,7 +17,7 @@ import { callApiStartLogs, getAppLogs } from '~/api'
 const ApplicationLogs = React.forwardRef(({ applicationSelected }, ref) => {
   const [displayLog, setDisplayLog] = useState(PRETTY)
   const [filterLogsByService, setFilterLogsByService] = useState('')
-  const [filterLogByLevel, setFilterLogByLevel] = useState('')
+  const [filterLogByLevel, setFilterLogByLevel] = useState(30)
   const [optionsServices/* , setOptionsServices */] = useState([])
   const [scrollDirection, setScrollDirection] = useState('down')
   const [logValue, setLogValue] = useState(null)
@@ -37,13 +37,12 @@ const ApplicationLogs = React.forwardRef(({ applicationSelected }, ref) => {
 
   useEffect(() => {
     if (logValue) {
-      console.log('logValue', logValue)
       setDisplayedLogs([...displayedLogs, ...logValue])
     }
   }, [logValue])
 
   useEffect(() => {
-    if (scrollDirection === 'down' && displayedLogs.length > 0) {
+    if (scrollDirection === 'down' && filteredLogs.length > 0) {
       logContentRef.current.scrollTo({
         top: logContentRef.current.scrollHeight,
         left: 0,
@@ -51,7 +50,7 @@ const ApplicationLogs = React.forwardRef(({ applicationSelected }, ref) => {
       })
       setPreviousScrollTop(logContentRef.current.scrollTop)
     }
-  }, [scrollDirection, displayedLogs])
+  }, [scrollDirection, filteredLogs])
 
   useEffect(() => {
     if (scrollDirection === 'up') {
@@ -72,9 +71,9 @@ const ApplicationLogs = React.forwardRef(({ applicationSelected }, ref) => {
   }
 
   useEffect(() => {
-    if (filterLogByLevel || filterLogsByService) {
-      let founds = [...filteredLogs]
-      founds = founds.filter(logs => logs.level >= filterLogByLevel)
+    if (displayedLogs.length > 0 && (filterLogByLevel || filterLogsByService)) {
+      let founds = [...displayedLogs]
+      founds = founds.filter(log => JSON.parse(log).level >= filterLogByLevel)
       if (filterLogsByService && filterLogsByService !== '') {
         founds = founds.filter(application => application.name.toLowerCase().includes(filterLogsByService.toLowerCase()))
       }
@@ -83,6 +82,7 @@ const ApplicationLogs = React.forwardRef(({ applicationSelected }, ref) => {
       setFilteredLogs([...displayedLogs])
     }
   }, [
+    displayedLogs,
     filterLogByLevel,
     filterLogsByService
   ])
@@ -171,7 +171,7 @@ const ApplicationLogs = React.forwardRef(({ applicationSelected }, ref) => {
             </div>
             <HorizontalSeparator marginBottom={MARGIN_0} marginTop={MARGIN_0} color={WHITE} opacity={OPACITY_30} />
             <div className={`${styles.logsContainer} ${styles.lateralPadding}`} ref={logContentRef} onScroll={handleScroll}>
-              {displayedLogs?.length > 0 && displayedLogs.map((log, index) => <Log key={index} log={log} display={displayLog} onClickArrow={() => setScrollDirection('still')} />)}
+              {filteredLogs?.length > 0 && filteredLogs.map((log, index) => <Log key={index} log={log} display={displayLog} onClickArrow={() => setScrollDirection('still')} />)}
             </div>
             <HorizontalSeparator marginBottom={MARGIN_0} marginTop={MARGIN_0} color={WHITE} opacity={OPACITY_30} />
             <div className={`${commonStyles.smallFlexRow} ${commonStyles.itemsCenter} ${commonStyles.justifyBetween} ${styles.lateralPadding} ${styles.bottom}`}>

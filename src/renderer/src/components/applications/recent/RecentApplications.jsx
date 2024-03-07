@@ -8,7 +8,7 @@ import TableRecent from './TableRecent'
 import { getApiApplications, callStartApplication, callStopApplication, callDeleteApplication } from '~/api'
 import ErrorComponent from '~/components/screens/ErrorComponent'
 import useStackablesStore from '~/useStackablesStore'
-import { HOME_PATH, PAGE_RECENT_APPS } from '~/ui-constants'
+import { HOME_PATH, PAGE_RECENT_APPS, STATUS_RUNNING, STATUS_STOPPED } from '~/ui-constants'
 import { useNavigate } from 'react-router-dom'
 import { Modal } from '@platformatic/ui-components'
 import { MODAL_POPUP_V2 } from '@platformatic/ui-components/src/components/constants'
@@ -58,8 +58,8 @@ const RecentApplications = React.forwardRef(({ onClickCreateNewApp }, ref) => {
               return 0
             }).slice(-5)
             setApplications(recentApplications)
-            setStoppedApps(recentApplications.filter(a => a.status === 'stopped').length)
-            setRunningApps(recentApplications.filter(a => a.status === 'running').length)
+            setStoppedApps(recentApplications.filter(a => a.status === STATUS_STOPPED).length)
+            setRunningApps(recentApplications.filter(a => a.status === STATUS_RUNNING).length)
           } else {
             // no applications
           }
