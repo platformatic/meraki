@@ -2,13 +2,14 @@
 import PropTypes from 'prop-types'
 import typographyStyles from '~/styles/Typography.module.css'
 import commonStyles from '~/styles/CommonStyles.module.css'
-import { DULLS_BACKGROUND_COLOR, ERROR_RED, MAIN_GREEN, MEDIUM, RICH_BLACK, SMALL, WARNING_YELLOW, WHITE } from '@platformatic/ui-components/src/components/constants'
+import { DULLS_BACKGROUND_COLOR, ERROR_RED, MEDIUM, RICH_BLACK, SMALL, WARNING_YELLOW, WHITE } from '@platformatic/ui-components/src/components/constants'
 import { ButtonOnlyIcon, Icons, PlatformaticIcon } from '@platformatic/ui-components'
 import styles from './Row.module.css'
 import MerakiIcon from '~/components/ui/MerakiIcon'
 import tooltipStyles from '~/styles/TooltipStyles.module.css'
 import { useNavigate } from 'react-router-dom'
 import { APPLICATION_PATH } from '~/ui-constants'
+import ApplicationStatusPills from '~/components/ui/ApplicationStatusPills'
 
 function Row ({
   id,
@@ -26,24 +27,6 @@ function Row ({
 
   function goToApplication () {
     navigate(APPLICATION_PATH.replace(':id', id))
-  }
-
-  function statusPills () {
-    if (status === 'stopped') {
-      return (
-        <div className={styles.stoppedPills}>
-          <Icons.CircleStopIcon color={WHITE} size={SMALL} />
-          <span className={`${typographyStyles.desktopOtherOverlineNormal} ${typographyStyles.textWhite}`}>{status}</span>
-        </div>
-      )
-    }
-    return (
-      <div className={styles.runningPills}>
-        <Icons.RunningIcon color={MAIN_GREEN} size={SMALL} />
-        <span className={`${typographyStyles.desktopOtherOverlineNormal} ${typographyStyles.textMainGreen}`}>{status}</span>
-
-      </div>
-    )
   }
 
   return (
@@ -83,7 +66,7 @@ function Row ({
           <span className={`${typographyStyles.desktopBodySemibold} ${typographyStyles.textWhite} ${styles.ellipsis}`} title={name}>Status</span>
         </div>
         <div className={styles.tableCell}>
-          {statusPills()}
+          <ApplicationStatusPills status={status} />
         </div>
       </div>
       <div className={styles.tableSmall}>

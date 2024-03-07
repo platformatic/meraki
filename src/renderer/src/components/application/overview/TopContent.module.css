@@ -2,8 +2,7 @@
   @apply grow relative;
 }
 .content {
-  @apply pt-4 px-4 xl:pt-10 xl:px-6 flex flex-col items-start gap-y-3 xl:gap-y-10; 
-  box-sizing: border-box;
+  @apply pt-10 px-6 flex flex-col gap-y-10; 
 }
 .buttonContainer {
   @apply flex gap-x-2 justify-end items-center;

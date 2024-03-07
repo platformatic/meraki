@@ -1,0 +1,6 @@
+.container {
+  @apply grow relative;
+}
+.buttonContainer {
+  @apply flex gap-x-2 justify-end items-center;
+}

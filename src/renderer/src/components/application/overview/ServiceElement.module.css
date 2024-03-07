@@ -1,0 +1,6 @@
+.paddingElement {
+  @apply p-4
+}
+.buttonContainer {
+  @apply flex gap-x-2 justify-end items-center;
+}
