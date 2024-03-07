@@ -35,7 +35,6 @@ beforeAll(async () => {
   } catch (err) {}
 })
 
-
 beforeEach(async () => {
   const sqlitePath = join(platformaticTestDir, 'meraki.sqlite')
   try {
