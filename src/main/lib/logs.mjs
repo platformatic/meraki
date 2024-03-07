@@ -94,7 +94,7 @@ class Logs {
         reply.send(stream)
       })
       // TODO: We should use a unix socket for that
-      await this.#logServer.listen({ host: '0.0.0.0', port: 0 })
+      await this.#logServer.listen(0)
     }
     const port = this.#logServer.server.address().port
     return `http://127.0.0.1:${port}/logs/${id}`
