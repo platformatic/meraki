@@ -59,7 +59,7 @@ class Logs {
     const pid = this.#applications.getPid(id)
     if (!pid) throw new Error('Application running PID not found')
 
-    this.#currentStream = this.#runtimeClient.getRuntimeLogsStream(pid)
+    this.#currentStream = this.#runtimeClient.getRuntimeLiveLogsStream(pid)
     this.#currentStream.pipe(new WriteableBuffer(callback))
   }
 
