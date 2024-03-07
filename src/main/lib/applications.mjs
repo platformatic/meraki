@@ -7,7 +7,8 @@ import { getLatestPlatformaticVersion, findExecutable } from './utils.mjs'
 import { resolve, join } from 'node:path'
 import getSqlMapper from './db.mjs'
 import split from 'split2'
-const logger = require('pino')()
+import pino from 'pino'
+const logger = pino()
 
 class Applications {
   #runtimeClient
@@ -33,7 +34,7 @@ class Applications {
     for (const runtime of runningRuntimes) {
       let app = apps.find((app) => app.path === runtime.projectDir)
       if (!app) {
-        app = await this.createApplication(runtime.packageName, runtime.projectDir)
+        app = await this.createApplication(runtime.packageName, runtime.projectDir, true)
       }
     }
   }
@@ -59,7 +60,8 @@ class Applications {
         runtime: null,
         insideMeraki: false,
         lastStarted: app.startedAt,
-        lastUpdated: app.updatedAt
+        lastUpdated: app.updatedAt,
+        automaticallyImported: !!app.automaticallyImported
       }
       const runtime = runningRuntimes.find((runtime) => runtime.projectDir === app.path)
       if (runtime) {
@@ -169,10 +171,10 @@ class Applications {
     return this.createApplication(name || folderName, path)
   }
 
-  async createApplication (name, path) {
+  async createApplication (name, path, automaticallyImported = false) {
     return this.#mapper.entities.application.save({
-      fields: ['id', 'name', 'path'],
-      input: { name, path }
+      fields: ['id', 'name', 'path', 'automaticallyImported'],
+      input: { name, path, automaticallyImported }
     })
   }
 
