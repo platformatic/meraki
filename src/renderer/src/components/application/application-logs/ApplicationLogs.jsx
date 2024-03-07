@@ -20,7 +20,8 @@ const ApplicationLogs = React.forwardRef(({ applicationSelected }, ref) => {
   const [filterLogByLevel, setFilterLogByLevel] = useState('')
   const [optionsServices/* , setOptionsServices */] = useState([])
   const [scrollDirection, setScrollDirection] = useState('down')
-  const [logValue, setLogValue] = useState([])
+  const [logValue, setLogValue] = useState(null)
+  const [displayedLogs, setDisplayedLogs] = useState([])
   const [filteredLogs, setFilteredLogs] = useState([])
   const logContentRef = useRef()
   const [previousScrollTop, setPreviousScrollTop] = useState(0)
@@ -35,7 +36,14 @@ const ApplicationLogs = React.forwardRef(({ applicationSelected }, ref) => {
   }, [applicationSelected.id])
 
   useEffect(() => {
-    if (scrollDirection === 'down' && logValue.length > 0) {
+    if (logValue) {
+      console.log('logValue', logValue)
+      setDisplayedLogs([...displayedLogs, ...logValue])
+    }
+  }, [logValue])
+
+  useEffect(() => {
+    if (scrollDirection === 'down' && displayedLogs.length > 0) {
       logContentRef.current.scrollTo({
         top: logContentRef.current.scrollHeight,
         left: 0,
@@ -43,7 +51,7 @@ const ApplicationLogs = React.forwardRef(({ applicationSelected }, ref) => {
       })
       setPreviousScrollTop(logContentRef.current.scrollTop)
     }
-  }, [scrollDirection, logValue])
+  }, [scrollDirection, displayedLogs])
 
   useEffect(() => {
     if (scrollDirection === 'up') {
@@ -72,7 +80,7 @@ const ApplicationLogs = React.forwardRef(({ applicationSelected }, ref) => {
       }
       setFilteredLogs(founds)
     } else {
-      setFilteredLogs([...logValue])
+      setFilteredLogs([...displayedLogs])
     }
   }, [
     filterLogByLevel,
@@ -163,7 +171,7 @@ const ApplicationLogs = React.forwardRef(({ applicationSelected }, ref) => {
             </div>
             <HorizontalSeparator marginBottom={MARGIN_0} marginTop={MARGIN_0} color={WHITE} opacity={OPACITY_30} />
             <div className={`${styles.logsContainer} ${styles.lateralPadding}`} ref={logContentRef} onScroll={handleScroll}>
-              {logValue?.length > 0 && logValue.map((log, index) => <Log key={index} log={{ ...log }} display={displayLog} onClickArrow={() => setScrollDirection('still')} />)}
+              {displayedLogs?.length > 0 && displayedLogs.map((log, index) => <Log key={index} log={log} display={displayLog} onClickArrow={() => setScrollDirection('still')} />)}
             </div>
             <HorizontalSeparator marginBottom={MARGIN_0} marginTop={MARGIN_0} color={WHITE} opacity={OPACITY_30} />
             <div className={`${commonStyles.smallFlexRow} ${commonStyles.itemsCenter} ${commonStyles.justifyBetween} ${styles.lateralPadding} ${styles.bottom}`}>

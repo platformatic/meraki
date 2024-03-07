@@ -4,3 +4,6 @@
 .buttonContainer {
   @apply flex gap-x-2 justify-end items-center;
 }
+.updatePlatformaticBox {
+  @apply w-fit;
+}

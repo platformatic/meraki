@@ -12,9 +12,8 @@ function Log ({ log, display, onClickArrow }) {
   const [displayJson, setDisplayJson] = useState(false)
   const [logContainerClassName, setLogContainerClassName] = useState(normalClassName())
 
-  const timestamp = new Date(log[0] / 1000000).toISOString()
-  const message = log[1]
-  const { level, pid, name, hostname, msg, err } = JSON.parse(message)
+  const { level, pid, name, hostname, msg, err, time } = JSON.parse(log)
+  const timestamp = new Date(time).toISOString()
   const levelDisplayed = getLevel(level)
 
   function getLevel (level) {
@@ -83,9 +82,9 @@ function Log ({ log, display, onClickArrow }) {
       )
     : (
       <div className={`${commonStyles.smallFlexRow} ${commonStyles.justifyBetween}`}>
-        <p className={`${styles.log} ${typographyStyles.desktopOtherCliTerminalSmall} ${typographyStyles.textWhite}`}>{message}</p>
+        <p className={`${styles.log} ${typographyStyles.desktopOtherCliTerminalSmall} ${typographyStyles.textWhite}`}>{log}</p>
         <div className={commonStyles.smallFlexRow}>
-          <CopyAndPaste value={message} tooltipLabel='Message copied!' color={WHITE} size={SMALL} />
+          <CopyAndPaste value={log} tooltipLabel='Message copied!' color={WHITE} size={SMALL} />
         </div>
       </div>
       )
@@ -95,7 +94,7 @@ Log.propTypes = {
   /**
    * log
     */
-  log: PropTypes.object,
+  log: PropTypes.string,
   /**
    * display
    */
@@ -107,7 +106,7 @@ Log.propTypes = {
 }
 
 Log.defaultProps = {
-  log: () => {},
+  log: '',
   display: PRETTY,
   onClickArrow: () => {}
 }

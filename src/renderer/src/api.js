@@ -42,7 +42,7 @@ export const quitApp = () => window.api.quitApp()
 export const callApiStartLogs = async (id) => {
   return await window.api.startLogs(id)
 }
-export const getAppLogs = callback => window.api.onLog(callback)
+export const getAppLogs = callback => window.api.onAppLog(callback)
 
 export const callApiPauseLogs = async () => {
   return await window.api.pauseLogs()
