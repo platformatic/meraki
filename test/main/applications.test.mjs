@@ -1,9 +1,10 @@
-import { test, expect, beforeAll, onTestFinished } from 'vitest'
+import { test, expect, beforeAll, beforeEach, afterAll, onTestFinished } from 'vitest'
 import { tmpdir } from 'node:os'
 import { mkdtemp, cp, rm, access } from 'node:fs/promises'
 import { resolve, join } from 'node:path'
 import { mkdirp } from 'mkdirp'
 import Applications from '../../src/main/lib/applications.mjs'
+import { startRuntimeInFolder } from './helper.mjs'
 
 const { MockAgent, setGlobalDispatcher } = require('undici')
 
@@ -31,6 +32,21 @@ beforeAll(async () => {
     await access(platformaticTestDir)
     await rm(platformaticTestDir, { recursive: true })
     await mkdirp(platformaticTestDir)
+  } catch (err) {}
+})
+
+
+beforeEach(async () => {
+  const sqlitePath = join(platformaticTestDir, 'meraki.sqlite')
+  try {
+    await access(sqlitePath)
+    await rm(sqlitePath)
+  } catch (err) {}
+})
+
+afterAll(async () => {
+  try {
+    await rm(platformaticTestDir, { recursive: true })
   } catch (err) {}
 })
 
@@ -81,6 +97,7 @@ test('start one runtime, see it in list and stop it', async (t) => {
   expect(applications[0].insideMeraki).toBe(true)
   expect(applications[0].platformaticVersion).toBe('1.25.0')
   expect(applications[0].isLatestPltVersion).toBe(false)
+  expect(applications[0].automaticallyImported).toBe(false)
   {
     // Stop the application, is still there, but not running
     await applicationsApi.stopRuntime(id)
@@ -118,4 +135,33 @@ test('start one runtime, see it in list and stop it', async (t) => {
     expect(applications[0].running).toBe(true)
     expect(applications[0].isLatestPltVersion).toBe(true)
   }
+}, 60000)
+
+test('import automatically a running runtime, started externally', async (t) => {
+  const appDir = await mkdtemp(join(tmpdir(), 'plat-app-test'))
+  const appFixture = join('test', 'fixtures', 'runtime')
+  await cp(appFixture, appDir, { recursive: true })
+  mockAgent
+    .get('https://registry.npmjs.org')
+    .intercept({
+      method: 'GET',
+      path: '/platformatic'
+    })
+    .reply(200, {
+      'dist-tags': {
+        latest: '2.0.0'
+      }
+    })
+
+  const applicationsApi = await Applications.create()
+
+  // We start the runtime but not through the API
+  const { runtime } = await startRuntimeInFolder(appDir)
+  onTestFinished(() => runtime.kill('SIGINT'))
+
+  const applications = await applicationsApi.getApplications()
+  expect(applications.length).toBe(1)
+  expect(applications[0].running).toBe(true)
+  expect(applications[0].insideMeraki).toBe(false)
+  expect(applications[0].automaticallyImported).toBe(true)
 }, 60000)
