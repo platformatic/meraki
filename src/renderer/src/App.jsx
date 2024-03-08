@@ -14,8 +14,12 @@ import ImportApplicationFlow from '~/components/application/import/ImportApplica
 import CreateApplicationFlow from '~/components/application/create/CreateApplicationFlow'
 import Welcome from '~/components/welcome/Welcome'
 import { getApiApplications } from '~/api'
+import useStackablesStore from '~/useStackablesStore'
 
 function App ({ path }) {
+  const globalState = useStackablesStore()
+  const { reloadApplications, setApplications, setReloadApplications, resetWizardState } = globalState
+
   const [currentBodyComponent, setCurrentBodyComponent] = useState(null)
   const [showCreateNewAppHeader, setShowCreateNewAppHeader] = useState(true)
   const [showModalImportApplication, setShowModalImportApplication] = useState(false)
@@ -31,14 +35,15 @@ function App ({ path }) {
     }
   })
   const [showWelcomePage, setShowWelcomePage] = useState(true)
-  const [applicationsLoaded, setApplicationsLoaded] = useState(false)
 
   useEffect(() => {
-    if (!applicationsLoaded) {
+    if (reloadApplications) {
       async function getApplications () {
         try {
+          setApplications([])
           const allApplications = await getApiApplications()
           if (allApplications.length > 0) {
+            setApplications(allApplications)
             setShowWelcomePage(false)
           } else {
             setShowWelcomePage(true)
@@ -46,12 +51,12 @@ function App ({ path }) {
         } catch (error) {
           console.error(`Error on catch ${error}`)
         } finally {
-          setApplicationsLoaded(true)
+          setReloadApplications(false)
         }
       }
       getApplications()
     }
-  }, [applicationsLoaded])
+  }, [reloadApplications])
 
   useEffect(() => {
     if (!showWelcomePage) {
@@ -79,18 +84,19 @@ function App ({ path }) {
 
   function handleImportApplication () {
     setShowModalImportApplication(false)
-    setCurrentBodyComponent(<HomeContainer />)
+    // setCurrentBodyComponent(<HomeContainer />)
     setShowCreateNewAppHeader(true)
-    setApplicationsLoaded(false)
+    setReloadApplications(true)
     setShowWelcomePage(false)
   }
 
   function handleCreateApplication () {
     setShowModalCreateApplication(false)
-    setCurrentBodyComponent(<HomeContainer />)
+    // setCurrentBodyComponent(<HomeContainer />)
     setShowCreateNewAppHeader(true)
-    setApplicationsLoaded(false)
+    setReloadApplications(true)
     setShowWelcomePage(false)
+    resetWizardState()
   }
 
   return didCatch
