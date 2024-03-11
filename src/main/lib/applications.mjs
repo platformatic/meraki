@@ -191,7 +191,8 @@ class Applications {
       throw new Error(`Application with id ${id} not found`)
     }
     const appFolder = app.path
-    return inspectApp(appFolder)
+    const [application, appMetadata] = await Promise.all([this.getApplication(id), inspectApp(appFolder)])
+    return { ...application, ...appMetadata }
   }
 
   async deleteApplication (id) {
