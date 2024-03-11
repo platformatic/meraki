@@ -49,7 +49,7 @@ function OverviewSection ({ applicationSelected }) {
               backgroundColorOpacity={OPACITY_30}
               classes={commonStyles.buttonPadding}
             >
-              <span className={`${typographyStyles.desktopBody} ${typographyStyles.textWhite}`}>Service-name-1</span>
+              <span className={`${typographyStyles.desktopBody} ${typographyStyles.textWhite}`}>{applicationSelected.entrypoint}</span>
             </BorderedBox>
           </div>
 
@@ -57,7 +57,7 @@ function OverviewSection ({ applicationSelected }) {
 
           <div className={`${commonStyles.smallFlexRow} ${commonStyles.itemsCenter}`}>
             <span className={`${typographyStyles.desktopBodyLarge} ${typographyStyles.textWhite} ${typographyStyles.opacity70}`}>URL:</span>
-            <span className={`${typographyStyles.desktopBodyLarge} ${typographyStyles.textWhite}`}>{applicationSelected.entryPoint} </span>
+            <span className={`${typographyStyles.desktopBodyLarge} ${typographyStyles.textWhite}`}>{applicationSelected.entrypoint} </span>
             <PlatformaticIcon iconName='ExpandIcon' color={WHITE} size={SMALL} onClick={() => window.open(applicationSelected.entryPoint, '_blank')} internalOverHandling />
           </div>
         </div>

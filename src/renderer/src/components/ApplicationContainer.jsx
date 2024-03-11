@@ -42,6 +42,7 @@ function ApplicationContainer () {
     if (appId) {
       async function getApplication () {
         const applicationSelected = await callOpenApplication(appId)
+        console.log('applicationSelected', applicationSelected)
         let separatorPath = '/'
         if (applicationSelected.path.indexOf('\\') >= 0) {
           separatorPath = '\\'

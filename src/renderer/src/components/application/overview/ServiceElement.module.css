@@ -4,3 +4,6 @@
 .buttonContainer {
   @apply flex gap-x-2 justify-end items-center;
 }
+.serviceTemplate {
+  @apply flex flex-row gap-x-2 items-center px-4 py-2 grow-0 w-fit
+}

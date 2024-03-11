@@ -9,7 +9,7 @@ import { Button } from '@platformatic/ui-components'
 import Icons from '@platformatic/ui-components/src/components/icons'
 import ServiceElement from './ServiceElement'
 
-function ServicesSection ({ id, services }) {
+function ServicesSection ({ id, services, entrypoint }) {
   function onClickEditApplication () {
 
   }
@@ -45,7 +45,7 @@ function ServicesSection ({ id, services }) {
       </div>
 
       <div className={styles.servicesContainer}>
-        {services.map((service, index) => <ServiceElement key={index} service={service} />)}
+        {services.map((service, index) => <ServiceElement key={index} service={service} applicationEntrypoint={entrypoint === service.id} />)}
       </div>
     </div>
   )
@@ -59,13 +59,18 @@ ServicesSection.propTypes = {
   /**
    * services
     */
-  services: PropTypes.array
+  services: PropTypes.array,
+  /**
+   * entrypoint
+    */
+  entrypoint: PropTypes.string
 
 }
 
 ServicesSection.defaultProps = {
   id: {},
-  services: []
+  services: [],
+  entrypoint: ''
 }
 
 export default ServicesSection

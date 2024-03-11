@@ -33,7 +33,7 @@ const Overview = React.forwardRef(({ applicationSelected }, ref) => {
         <HorizontalSeparator marginBottom={MARGIN_0} marginTop={MARGIN_0} color={WHITE} opacity={OPACITY_30} />
         <OverviewSection applicationSelected={applicationSelected} />
         <HorizontalSeparator marginBottom={MARGIN_0} marginTop={MARGIN_0} color={WHITE} opacity={OPACITY_30} />
-        <ServicesSection id={applicationSelected.id} services={applicationSelected.services} />
+        <ServicesSection id={applicationSelected.id} services={applicationSelected.services} entrypoint={applicationSelected.entrypoint} />
       </div>
     </div>
   )

@@ -1,13 +1,38 @@
 'use strict'
 import React, { useState } from 'react'
 import PropTypes from 'prop-types'
-import { RICH_BLACK, WHITE, MEDIUM, OPACITY_30, MARGIN_0, TRANSPARENT } from '@platformatic/ui-components/src/components/constants'
+import { RICH_BLACK, WHITE, MEDIUM, OPACITY_30, MARGIN_0, TRANSPARENT, SMALL, MAIN_GREEN, OPACITY_10, TERTIARY_BLUE } from '@platformatic/ui-components/src/components/constants'
 import styles from './ServiceElement.module.css'
 import typographyStyles from '~/styles/Typography.module.css'
 import commonStyles from '~/styles/CommonStyles.module.css'
 import { BorderedBox, ButtonOnlyIcon, HorizontalSeparator, PlatformaticIcon, VerticalSeparator } from '@platformatic/ui-components'
+import Icons from '@platformatic/ui-components/src/components/icons'
 
-function ServiceElement ({ service }) {
+function ServiceElementTemplate ({ name }) {
+  return (
+    <BorderedBox classes={styles.serviceTemplate} color={MAIN_GREEN} borderColorOpacity={OPACITY_30} backgroundColor={MAIN_GREEN} backgroundColorOpacity={OPACITY_10}>
+      <div className={`${commonStyles.smallFlexRow} ${commonStyles.itemsCenter}`}>
+        <Icons.StackablesTemplateIcon color={MAIN_GREEN} size={SMALL} />
+        <p className={`${typographyStyles.desktopBody} ${typographyStyles.textWhite} ${typographyStyles.textCenter} ${styles.ellipsis}`} title={name}>{name}</p>
+        <PlatformaticIcon iconName='ExpandIcon' color={WHITE} size={SMALL} onClick={() => {}} internalOverHandling />
+      </div>
+    </BorderedBox>
+  )
+}
+
+function ServiceElementPlugin ({ name }) {
+  return (
+    <BorderedBox classes={styles.servicePlugin} color={TERTIARY_BLUE} borderColorOpacity={OPACITY_30} backgroundColor={TERTIARY_BLUE} backgroundColorOpacity={OPACITY_10}>
+      <div className={`${commonStyles.smallFlexRow} ${commonStyles.itemsCenter}`}>
+        <Icons.StackablesPluginIcon color={TERTIARY_BLUE} size={SMALL} />
+        <p className={`${typographyStyles.desktopBody} ${typographyStyles.textWhite} ${typographyStyles.textCenter} ${styles.ellipsis}`} title={name}>{name}</p>
+        <PlatformaticIcon iconName='ExpandIcon' color={WHITE} size={SMALL} onClick={() => {}} internalOverHandling />
+      </div>
+    </BorderedBox>
+  )
+}
+
+function ServiceElement ({ service, applicationEntrypoint }) {
   const [expanded, setExpanded] = useState(false)
   function onClickScalarIntegration () {
 
@@ -15,10 +40,13 @@ function ServiceElement ({ service }) {
 
   return (
     <BorderedBox classes={styles.paddingElement} backgroundColor={RICH_BLACK} color={WHITE} borderColorOpacity={OPACITY_30}>
-      <div className={`${commonStyles.smallFexBlock} ${commonStyles.fullWidth}`}>
+      <div className={`${commonStyles.smallFlexBlock} ${commonStyles.fullWidth}`}>
         <div className={`${commonStyles.mediumFlexRow} ${commonStyles.fullWidth} ${commonStyles.itemsCenter} ${commonStyles.justifyBetween} `}>
           <div className={`${commonStyles.smallFlexRow} ${commonStyles.itemsCenter}`}>
-            <span className={`${typographyStyles.desktopBodyLargeSemibold} ${typographyStyles.textWhite}`}>{service.name}</span>
+            <span className={`${typographyStyles.desktopBodyLargeSemibold} ${typographyStyles.textWhite}`}>{service.id}</span>
+            {applicationEntrypoint && (
+              <span className={`${typographyStyles.desktopBodySmall} ${typographyStyles.textWhite} ${typographyStyles.opacity70}`}>(This service is the Application Entrypoint)</span>
+            )}
           </div>
 
           <div className={`${styles.buttonContainer}`}>
@@ -35,14 +63,23 @@ function ServiceElement ({ service }) {
             <PlatformaticIcon iconName={expanded ? 'ArrowUpIcon' : 'ArrowDownIcon'} color={WHITE} size={MEDIUM} onClick={() => setExpanded(!expanded)} internalOverHandling />
           </div>
         </div>
+
         {expanded && (
           <>
             <HorizontalSeparator marginBottom={MARGIN_0} marginTop={MARGIN_0} color={WHITE} opacity={OPACITY_30} />
-            <div className={`${commonStyles.smallFlexRow} ${commonStyles.itemsCenter}`}>
-              <span className={`${typographyStyles.desktopBodyLarge} ${typographyStyles.textWhite} ${typographyStyles.opacity70}`}>Templates</span>
-            </div>
-            <div className={`${commonStyles.smallFlexRow} ${commonStyles.itemsCenter}`}>
-              <span className={`${typographyStyles.desktopBodyLarge} ${typographyStyles.textWhite} ${typographyStyles.opacity70}`}>Plugins</span>
+            <div className={`${commonStyles.smallFlexBlock} ${commonStyles.fullWidth}`}>
+              {service.template !== null && (
+                <div className={`${commonStyles.smallFlexRow} ${commonStyles.itemsCenter}`}>
+                  <span className={`${typographyStyles.desktopBody} ${typographyStyles.textWhite} ${typographyStyles.opacity70}`}>Template: </span>
+                  <ServiceElementTemplate name={service.template} />
+                </div>
+              )}
+              {service.plugins.length > 0 && (
+                <div className={`${commonStyles.smallFlexRow} ${commonStyles.itemsCenter}`}>
+                  <span className={`${typographyStyles.desktopBody} ${typographyStyles.textWhite} ${typographyStyles.opacity70}`}>Plugins: </span>
+                  {service.plugins.map(plugin => <ServiceElementPlugin key={plugin.id} plugin={plugin} />)}
+                </div>
+              )}
             </div>
           </>
         )}
@@ -59,13 +96,18 @@ ServiceElement.propTypes = {
   /**
    * services
     */
-  services: PropTypes.array
+  services: PropTypes.array,
+  /**
+   * applicationEntrypoint
+    */
+  applicationEntrypoint: PropTypes.bool
 
 }
 
 ServiceElement.defaultProps = {
   id: {},
-  services: []
+  services: [],
+  applicationEntrypoint: false
 }
 
 export default ServiceElement
