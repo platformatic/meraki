@@ -6,9 +6,8 @@ import commonStyles from '~/styles/CommonStyles.module.css'
 import typographyStyles from '~/styles/Typography.module.css'
 import { OPACITY_30, RICH_BLACK, TRANSPARENT, WHITE } from '@platformatic/ui-components/src/components/constants'
 
-function PluginEnvVarsForm ({
+function PluginEnvVarsViewOnly ({
   configuredServices,
-  onChange,
   templateName,
   serviceName,
   pluginName
@@ -35,13 +34,13 @@ function PluginEnvVarsForm ({
           name={element}
           borderColor={WHITE}
           value={pluginFound.form[element].value}
-          onChange={onChange}
           errorMessage={pluginFound.validations.formErrors[element]}
           backgroundColor={RICH_BLACK}
           inputTextClassName={`${typographyStyles.desktopBody} ${typographyStyles.textWhite}`}
           verticalPaddingClassName={commonStyles.noVerticalPadding}
           dataAttrName='cy'
           dataAttrValue='config-service'
+          readOnly
         />
       </Forms.Field>
     ))
@@ -78,7 +77,7 @@ function PluginEnvVarsForm ({
   )
 }
 
-PluginEnvVarsForm.propTypes = {
+PluginEnvVarsViewOnly.propTypes = {
   /**
    * configuredServices
    */
@@ -92,21 +91,16 @@ PluginEnvVarsForm.propTypes = {
    */
   serviceName: PropTypes.string,
   /**
-   * onChange
-   */
-  onChange: PropTypes.func,
-  /**
    * pluginName
    */
   pluginName: PropTypes.string
 
 }
 
-PluginEnvVarsForm.defaultProps = {
+PluginEnvVarsViewOnly.defaultProps = {
   templateName: '',
   serviceName: '',
-  onChange: () => {},
   pluginName: ''
 }
 
-export default PluginEnvVarsForm
+export default PluginEnvVarsViewOnly

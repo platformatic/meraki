@@ -23,13 +23,16 @@ import SideBar from '~/components/ui/SideBar'
 import { useParams } from 'react-router-dom'
 import { callOpenApplication } from '~/api'
 import { LoadingSpinnerV2 } from '@platformatic/ui-components'
+import useStackablesStore from '~/useStackablesStore'
 
 function ApplicationContainer () {
+  const globalState = useStackablesStore()
+  const { currentPage, setCurrentPage } = globalState
   const { appId } = useParams()
   const [innerLoading, setInnerLoading] = useState(true)
   const [applicationSelected, setApplicationSelected] = useState(null)
   const [cssClassNames] = useState('scroll-down')
-  const [currentPage, setCurrentPage] = useState(null)
+  // const [currentPage, setCurrentPage] = useState(null)
   const overViewRef = useRef(null)
   const applicationLogsRef = useRef(null)
   const metricRef = useRef(null)
@@ -69,7 +72,7 @@ function ApplicationContainer () {
         <EnvironmentVariables
           ref={envVarRef}
           key={APPLICATION_PAGE_ENV_VAR}
-          applicationSelected={applicationSelected}
+          services={applicationSelected.services}
         />
       ])
     }
@@ -92,6 +95,7 @@ function ApplicationContainer () {
   }, [innerHeight])
 
   useEffect(() => {
+    console.log('currentPage', currentPage)
     setCurrentComponent(components.find(component => component.key === currentPage))
   }, [currentPage])
 

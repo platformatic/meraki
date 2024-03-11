@@ -10,8 +10,21 @@ import { BorderedBox, Button, HorizontalSeparator } from '@platformatic/ui-compo
 
 function ErrorComponent ({ error, message, onClickDismiss }) {
   const [showLogs, setShowLogs] = useState(false)
-  function copyLogs () {
+  const [logsCopied, setLogsCopied] = useState(false)
 
+  function copyLogs () {
+    setLogsCopied(true)
+    navigator.clipboard.writeText(error.stack)
+    setTimeout(() => {
+      setLogsCopied(false)
+    }, 1000)
+  }
+
+  function getButtonCopyIcon () {
+    if (logsCopied) {
+      return { iconName: 'CircleCheckMarkIcon', size: SMALL, color: WHITE }
+    }
+    return { iconName: 'CLIIcon', size: SMALL, color: WHITE }
   }
 
   function reportIssue () {
@@ -63,7 +76,7 @@ function ErrorComponent ({ error, message, onClickDismiss }) {
               backgroundColor={RICH_BLACK}
               paddingClass={`${commonStyles.buttonPadding} cy-action-dismiss`}
               textClass={typographyStyles.desktopBody}
-              platformaticIcon={{ iconName: 'ArrowUpIcon', size: SMALL, color: WHITE }}
+              platformaticIcon={getButtonCopyIcon()}
             />
             <Button
               label='Report issue'

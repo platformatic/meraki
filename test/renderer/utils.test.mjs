@@ -1,5 +1,5 @@
 import { test, expect } from 'vitest'
-import { generateForm, preapareFormForCreateApplication } from '../../src/renderer/src/utils'
+import { generateForm, prepareFormForCreateApplication } from '../../src/renderer/src/utils'
 
 const expectedA = [{
   name: 'test-1',
@@ -255,7 +255,7 @@ test('prepare services without plugins', async () => {
     }],
     plugins: []
   }]
-  expect(expected).toEqual(preapareFormForCreateApplication(expectedA))
+  expect(expected).toEqual(prepareFormForCreateApplication(expectedA))
 })
 
 test('prepare services with a single plugins', async () => {
@@ -302,5 +302,5 @@ test('prepare services with a single plugins', async () => {
       }]
     }]
   }]
-  expect(expected).toEqual(preapareFormForCreateApplication(expectedB))
+  expect(expected).toEqual(prepareFormForCreateApplication(expectedB))
 })
