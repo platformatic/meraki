@@ -45,7 +45,7 @@ function ServicesSection ({ id, services, entrypoint }) {
       </div>
 
       <div className={styles.servicesContainer}>
-        {services.map((service, index) => <ServiceElement key={index} service={service} applicationEntrypoint={entrypoint === service.id} />)}
+        {services.map((service, index) => <ServiceElement key={index} id={service.id} service={service} applicationEntrypoint={entrypoint === service.id} />)}
       </div>
     </div>
   )
