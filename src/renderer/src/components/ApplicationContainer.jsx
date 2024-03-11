@@ -42,22 +42,7 @@ function ApplicationContainer () {
     if (appId) {
       async function getApplication () {
         const applicationSelected = await callOpenApplication(appId)
-        console.log('applicationSelected', applicationSelected)
-        let separatorPath = '/'
-        if (applicationSelected.path.indexOf('\\') >= 0) {
-          separatorPath = '\\'
-        }
-        setApplicationSelected({
-          id: appId,
-          name: applicationSelected.path.substr(applicationSelected.path.lastIndexOf(separatorPath) + 1),
-          status: 'running',
-          platformaticVersion: '1.0.0',
-          updateVersion: true,
-          lastStarted: '2011-10-05T14:48:00.000Z',
-          lastUpdate: '2011-10-05T14:48:00.000Z',
-          insideMeraki: true,
-          ...applicationSelected
-        })
+        setApplicationSelected({ ...applicationSelected })
       }
       getApplication()
     }

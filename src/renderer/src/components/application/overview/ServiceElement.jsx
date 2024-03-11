@@ -43,6 +43,7 @@ function ServiceElement ({ service, applicationEntrypoint }) {
       <div className={`${commonStyles.smallFlexBlock} ${commonStyles.fullWidth}`}>
         <div className={`${commonStyles.mediumFlexRow} ${commonStyles.fullWidth} ${commonStyles.itemsCenter} ${commonStyles.justifyBetween} `}>
           <div className={`${commonStyles.smallFlexRow} ${commonStyles.itemsCenter}`}>
+            {applicationEntrypoint && (<Icons.EntrypointIcon size={SMALL} color={WHITE} />)}
             <span className={`${typographyStyles.desktopBodyLargeSemibold} ${typographyStyles.textWhite}`}>{service.id}</span>
             {applicationEntrypoint && (
               <span className={`${typographyStyles.desktopBodySmall} ${typographyStyles.textWhite} ${typographyStyles.opacity70}`}>(This service is the Application Entrypoint)</span>
