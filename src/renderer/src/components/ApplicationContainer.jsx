@@ -69,7 +69,7 @@ function ApplicationContainer () {
         <EnvironmentVariables
           ref={envVarRef}
           key={APPLICATION_PAGE_ENV_VAR}
-          applicationSelected={applicationSelected}
+          services={applicationSelected.services}
         />
       ])
     }

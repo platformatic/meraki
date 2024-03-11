@@ -10,7 +10,7 @@ import useStackablesStore from '~/useStackablesStore'
 import Title from '~/components/ui/Title'
 import '~/components/component.animation.css'
 import ConfigureEnvVarsTemplateAndPlugins from './ConfigureEnvVarsTemplateAndPlugins'
-import { generateForm, preapareFormForCreateApplication } from '../../../utils'
+import { generateForm, prepareFormForCreateApplication } from '../../../utils'
 
 const ConfigureServices = React.forwardRef(({ onNext, onBack }, ref) => {
   const globalState = useStackablesStore()
@@ -32,7 +32,7 @@ const ConfigureServices = React.forwardRef(({ onNext, onBack }, ref) => {
 
   function onClickConfigureApplication () {
     addFormData({
-      configuredServices: { services: preapareFormForCreateApplication(configuredServices) }
+      configuredServices: { services: prepareFormForCreateApplication(configuredServices) }
     })
     onNext()
   }
