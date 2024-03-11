@@ -97,7 +97,7 @@ export const getTemplates = async (names) => {
   // TODO: pass the names to the API, we need to change the API to accept an array of names
   const stackables = await getStackablesAPI(marketplaceHost, apiKey)
   if (names) {
-    return stackables.filter((stackable) => names.includes(stackable.name))
+    return stackables.filter((stackable) => names.includes(stackable?.name))
   }
   return stackables
 }
@@ -106,7 +106,7 @@ export const getPlugins = async (names) => {
   const plugins = await getPluginsAPI(marketplaceHost)
   // TODO: pass the names to the API, we need to change the API to accept an array of names
   if (names) {
-    return plugins.filter((plugin) => names.includes(plugin.name))
+    return plugins.filter((plugin) => names.includes(plugin?.name))
   }
   return plugins
 }

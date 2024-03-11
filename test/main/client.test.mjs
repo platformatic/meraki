@@ -26,14 +26,14 @@ test('should invoke marketplace for stackables, no user key', async () => {
       public: true
     }
   ]
-  const marketplaceHost = await startMarketplace({
+  await startMarketplace({
     getStackablesCallback: (request, reply) => {
       const headers = request.headers
       expect(headers['x-platformatic-user-api-key']).toBeUndefined()
       reply.code(200).send(stacks)
     }
   })
-  const stackables = await getTemplates(marketplaceHost)
+  const stackables = await getTemplates()
   expect(stackables).toEqual(stacks)
 })
 
@@ -63,14 +63,14 @@ test('should invoke marketplace for stackables, passing user key', async () => {
       public: true
     }
   ]
-  const marketplaceHost = await startMarketplace({
+  await startMarketplace({
     getStackablesCallback: (request, reply) => {
       const headers = request.headers
       expect(headers['x-platformatic-user-api-key']).toEqual(userApiKey)
       reply.code(200).send(stacks)
     }
   })
-  const stackables = await getTemplates(marketplaceHost)
+  const stackables = await getTemplates()
   expect(stackables).toEqual(stacks)
 })
 
@@ -100,7 +100,7 @@ test('should invoke marketplace for stackables, passing user key but not authori
       public: true
     }
   ]
-  const marketplaceHost = await startMarketplace({
+  await startMarketplace({
     getStackablesCallback: (request, reply) => {
       const headers = request.headers
       if (headers['x-platformatic-user-api-key']) {
@@ -112,7 +112,7 @@ test('should invoke marketplace for stackables, passing user key but not authori
       }
     }
   })
-  const stackables = await getTemplates(marketplaceHost)
+  const stackables = await getTemplates()
   expect(stackables).toEqual(stacks)
 })
 
@@ -139,11 +139,11 @@ test('should invoke marketplace for stackables', async () => {
       envVars: []
     }
   ]
-  const marketplaceHost = await startMarketplace({
+  await startMarketplace({
     getPluginsCallback: (request, reply) => {
       reply.code(200).send(plugs)
     }
   })
-  const plugins = await getPlugins(marketplaceHost)
+  const plugins = await getPlugins()
   expect(plugins).toEqual(plugs)
 })
