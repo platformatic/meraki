@@ -23,7 +23,7 @@ function PluginEnvVarsForm ({
     return Object.keys(pluginFound.form).map((element) => (
       <Forms.Field
         title={pluginFound.form[element].path}
-        titleClassName={`${typographyStyles.desktopBodySemibold} ${typographyStyles.textWhite} `}              
+        titleClassName={`${typographyStyles.desktopBodySemibold} ${typographyStyles.textWhite} `}
         titleColor={WHITE}
         key={element}
         helper={pluginFound.form[element].description || ''}
