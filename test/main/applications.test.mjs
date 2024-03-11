@@ -222,7 +222,9 @@ test('open application', async (t) => {
             server: 'parent'
           }
         },
-        env: {},
+        env: {
+          PLT_SERVICE_1_CONFIG_PARAM: 'true'
+        },
         template: '@platformatic/service',
         plugins: []
       },
@@ -241,7 +243,9 @@ test('open application', async (t) => {
             ]
           }
         },
-        env: {},
+        env: {
+          PLT_SERVICE_2_CONFIG_PARAM: 'false'
+        },
         template: '@platformatic/service',
         plugins: []
       }
