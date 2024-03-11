@@ -9,7 +9,7 @@ import styles from './Row.module.css'
 import MerakiIcon from '~/components/ui/MerakiIcon'
 import tooltipStyles from '~/styles/TooltipStyles.module.css'
 import { useNavigate } from 'react-router-dom'
-import { APPLICATION_PATH, STATUS_STOPPED } from '~/ui-constants'
+import { APPLICATION_PATH, STATUS_STOPPED, STATUS_RUNNING } from '~/ui-constants'
 import ApplicationStatusPills from '~/components/ui/ApplicationStatusPills'
 function Row ({
   id,
@@ -159,6 +159,7 @@ function Row ({
               onClick={() => onClickDelete()}
               hoverEffect={DULLS_BACKGROUND_COLOR}
               platformaticIcon={{ size: SMALL, iconName: 'TrashIcon', color: ERROR_RED }}
+              disabled={status === STATUS_RUNNING}
             />
           </div>
         </div>
