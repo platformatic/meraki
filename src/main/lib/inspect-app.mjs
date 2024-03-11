@@ -1,6 +1,7 @@
 import { importOrLocal } from './import-or-local.mjs'
 import { constantCase } from 'change-case-all'
 import { readFile } from 'node:fs/promises'
+import { getPlugins as getMarketPlugins, getTemplates as getMarketTemplates } from '../client.mjs'
 import logger from 'electron-log'
 
 // We need to get the service config from the service path
@@ -25,6 +26,27 @@ const getTemplate = (serviceConfig) => {
 const getPlugins = (serviceConfig) => {
   const plugins = serviceConfig?.plugins?.packages || []
   return plugins
+}
+
+const getEnvVariables = async (projectDir, name) => {
+  try {
+    const template = await importOrLocal({
+      projectDir,
+      pkg: name,
+      logger
+    })
+    // Get the template variables and return them here, if the template has a generator
+    if (template.Generator && typeof template.Generator === 'function') {
+      const gen = new template.Generator()
+      gen.setConfig({
+        isRuntimeContext: true
+      })
+      return gen.getConfigFieldsDefinitions()
+    }
+  } catch (err) {
+    logger.error(err)
+    throw err
+  }
 }
 
 const inspectApp = async (path) => {
@@ -53,7 +75,11 @@ const inspectApp = async (path) => {
 
     const serviceConfig = await loadServiceConfig(service.path)
     const template = getTemplate(serviceConfig)
+    const templateEnvVariables = await getEnvVariables(path, template)
     const plugins = getPlugins(serviceConfig)
+    const pluginNames = plugins.map((plugin) => plugin.name)
+    const pluginsDesc = await getMarketPlugins(pluginNames)
+    const templateDesc = await getMarketTemplates([template])
 
     services.push({
       id,
@@ -62,7 +88,10 @@ const inspectApp = async (path) => {
       config: serviceConfig,
       env,
       template,
-      plugins
+      plugins,
+      templateEnvVariables,
+      pluginsDesc,
+      templateDesc
     })
   }
 

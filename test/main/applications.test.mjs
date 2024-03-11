@@ -181,6 +181,12 @@ test('open application', async (t) => {
       }
     })
 
+  // calls to marketplace. We could batch these
+  mockAgent.get('https://marketplace.platformatic.dev').intercept({ method: 'GET', path: '/plugins' }).reply(200, [])
+  mockAgent.get('https://marketplace.platformatic.dev').intercept({ method: 'GET', path: '/plugins' }).reply(200, [])
+  mockAgent.get('https://marketplace.platformatic.dev').intercept({ method: 'GET', path: '/templates' }).reply(200, [])
+  mockAgent.get('https://marketplace.platformatic.dev').intercept({ method: 'GET', path: '/templates' }).reply(200, [])
+
   const applicationsApi = await Applications.create()
   const { id } = await applicationsApi.importApplication(appDir)
 
@@ -226,7 +232,10 @@ test('open application', async (t) => {
           PLT_SERVICE_1_CONFIG_PARAM: 'true'
         },
         template: '@platformatic/service',
-        plugins: []
+        templateEnvVariables: [],
+        plugins: [],
+        pluginsDesc: [],
+        templateDesc: []
       },
       {
         id: 'service-2',
@@ -247,7 +256,10 @@ test('open application', async (t) => {
           PLT_SERVICE_2_CONFIG_PARAM: 'false'
         },
         template: '@platformatic/service',
-        plugins: []
+        templateEnvVariables: [],
+        plugins: [],
+        pluginsDesc: [],
+        templateDesc: []
       }
     ]
   }
