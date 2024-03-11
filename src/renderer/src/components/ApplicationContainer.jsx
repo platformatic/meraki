@@ -10,6 +10,8 @@ import {
   HEIGHT_MD
 } from '~/ui-constants'
 import { CSSTransition, SwitchTransition } from 'react-transition-group'
+import typographyStyles from '~/styles/Typography.module.css'
+import commonStyles from '~/styles/CommonStyles.module.css'
 import styles from './ApplicationContainer.module.css'
 import '~/components/component.animation.css'
 import useWindowDimensions from '~/hooks/useWindowDimensions'
@@ -19,48 +21,81 @@ import ApplicationLogs from '~/components/application/application-logs/Applicati
 import EnvironmentVariables from '~/components/application/environment-variables/EnvironmentVariables'
 import SideBar from '~/components/ui/SideBar'
 import { useParams } from 'react-router-dom'
+import { callOpenApplication } from '~/api'
+import { LoadingSpinnerV2 } from '@platformatic/ui-components'
 
 function ApplicationContainer () {
   const { appId } = useParams()
-  const applicationSelected = {
-    id: appId,
-    name: 'Ransom',
-    status: 'running',
-    platformaticVersion: '1.0.0',
-    updateVersion: true,
-    lastStarted: '1708887874046',
-    lastUpdate: '1708887874046',
-    insideMeraki: true,
-    entryPoint: 'https://simplifying-developer-experience.deploy.space/',
-    services: [{ name: 'Services-name-1' }, { name: 'Services-name-2' }, { name: 'Services-name-3' }, { name: 'Services-name-4-example-very-long' }]
-  }
+  const [innerLoading, setInnerLoading] = useState(true)
+  const [applicationSelected, setApplicationSelected] = useState(null)
   const [cssClassNames] = useState('scroll-down')
-  const [currentPage, setCurrentPage] = useState(APPLICATION_PAGE_OVERVIEW)
-  const [components] = useState([
-    <Overview
-      ref={useRef(null)}
-      key={APPLICATION_PAGE_OVERVIEW}
-      applicationSelected={applicationSelected}
-    />,
-    <ApplicationLogs
-      ref={useRef(null)}
-      key={APPLICATION_PAGE_LOGS}
-      applicationSelected={applicationSelected}
-    />,
-    <Metrics
-      ref={useRef(null)}
-      key={APPLICATION_PAGE_METRICS}
-      applicationSelected={applicationSelected}
-    />,
-    <EnvironmentVariables
-      ref={useRef(null)}
-      key={APPLICATION_PAGE_ENV_VAR}
-      applicationSelected={applicationSelected}
-    />
-
-  ])
-  const [currentComponent, setCurrentComponent] = useState(components.find(component => component.key === APPLICATION_PAGE_OVERVIEW))
+  const [currentPage, setCurrentPage] = useState(null)
+  const overViewRef = useRef(null)
+  const applicationLogsRef = useRef(null)
+  const metricRef = useRef(null)
+  const envVarRef = useRef(null)
+  const [components, setComponents] = useState([])
+  const [currentComponent, setCurrentComponent] = useState(null)
   const { height: innerHeight } = useWindowDimensions()
+
+  useEffect(() => {
+    if (appId) {
+      async function getApplication () {
+        const applicationSelected = await callOpenApplication(appId)
+        let separatorPath = '/'
+        if (applicationSelected.path.indexOf('\\') >= 0) {
+          separatorPath = '\\'
+        }
+        setApplicationSelected({
+          id: appId,
+          name: applicationSelected.path.substr(applicationSelected.path.lastIndexOf(separatorPath) + 1),
+          status: 'running',
+          platformaticVersion: '1.0.0',
+          updateVersion: true,
+          lastStarted: '2011-10-05T14:48:00.000Z',
+          lastUpdate: '2011-10-05T14:48:00.000Z',
+          insideMeraki: true,
+          ...applicationSelected
+        })
+      }
+      getApplication()
+    }
+  }, [appId])
+
+  useEffect(() => {
+    if (applicationSelected !== null) {
+      setComponents([
+        <Overview
+          ref={overViewRef}
+          key={APPLICATION_PAGE_OVERVIEW}
+          applicationSelected={applicationSelected}
+        />,
+        <ApplicationLogs
+          ref={applicationLogsRef}
+          key={APPLICATION_PAGE_LOGS}
+          applicationSelected={applicationSelected}
+        />,
+        <Metrics
+          ref={metricRef}
+          key={APPLICATION_PAGE_METRICS}
+          applicationSelected={applicationSelected}
+        />,
+        <EnvironmentVariables
+          ref={envVarRef}
+          key={APPLICATION_PAGE_ENV_VAR}
+          applicationSelected={applicationSelected}
+        />
+      ])
+    }
+  }, [applicationSelected])
+
+  useEffect(() => {
+    if (components.length > 0) {
+      setCurrentComponent(components.find(component => component.key === APPLICATION_PAGE_OVERVIEW))
+      setCurrentPage(APPLICATION_PAGE_OVERVIEW)
+      setInnerLoading(false)
+    }
+  }, [components.length])
 
   useEffect(() => {
     if (innerHeight > BREAKPOINTS_HEIGHT_LG) {
@@ -74,50 +109,73 @@ function ApplicationContainer () {
     setCurrentComponent(components.find(component => component.key === currentPage))
   }, [currentPage])
 
-  return (
-    <>
-      <div className={styles.content}>
-        <SideBar
-          selected={currentPage}
-          topItems={[{
-            name: APPLICATION_PAGE_OVERVIEW,
-            label: 'Overview',
-            iconName: 'AppDetailsIcon',
-            onClick: () => setCurrentPage(APPLICATION_PAGE_OVERVIEW)
-          }, {
-            name: APPLICATION_PAGE_METRICS,
-            label: 'Metrics',
-            iconName: 'MetricsIcon',
-            onClick: () => setCurrentPage(APPLICATION_PAGE_METRICS)
-          }, {
-            name: APPLICATION_PAGE_LOGS,
-            label: 'Logs',
-            iconName: 'CodeTestingIcon',
-            onClick: () => setCurrentPage(APPLICATION_PAGE_LOGS)
-          }, {
-            name: APPLICATION_PAGE_ENV_VAR,
-            label: 'Environment Variables',
-            iconName: 'AppConfigurationIcon',
-            onClick: () => setCurrentPage(APPLICATION_PAGE_ENV_VAR)
-          }]}
-          bottomItems={[{
-            label: 'Edit App',
-            iconName: 'AppEditIcon'
-          }]}
+  function renderComponent () {
+    if (innerLoading) {
+      return (
+        <LoadingSpinnerV2
+          loading
+          applySentences={{
+            containerClassName: `${commonStyles.mediumFlexBlock} ${commonStyles.itemsCenter}`,
+            sentences: [{
+              style: `${typographyStyles.desktopBodyLarge} ${typographyStyles.textWhite}`,
+              text: 'Loading yours application....'
+            }, {
+              style: `${typographyStyles.desktopBodyLarge} ${typographyStyles.textWhite} ${typographyStyles.opacity70}`,
+              text: 'This process will just take a few seconds.'
+            }]
+          }}
+          containerClassName={styles.loadingSpinner}
         />
-        <SwitchTransition>
-          <CSSTransition
-            key={currentComponent.key}
-            nodeRef={currentComponent.ref}
-            timeout={300}
-            classNames={cssClassNames}
-          >
-            {currentComponent}
-          </CSSTransition>
-        </SwitchTransition>
-      </div>
-    </>
-  )
+      )
+    }
+
+    return (
+      <>
+        <div className={styles.content}>
+          <SideBar
+            selected={currentPage}
+            topItems={[{
+              name: APPLICATION_PAGE_OVERVIEW,
+              label: 'Overview',
+              iconName: 'AppDetailsIcon',
+              onClick: () => setCurrentPage(APPLICATION_PAGE_OVERVIEW)
+            }, {
+              name: APPLICATION_PAGE_METRICS,
+              label: 'Metrics',
+              iconName: 'MetricsIcon',
+              onClick: () => setCurrentPage(APPLICATION_PAGE_METRICS)
+            }, {
+              name: APPLICATION_PAGE_LOGS,
+              label: 'Logs',
+              iconName: 'CodeTestingIcon',
+              onClick: () => setCurrentPage(APPLICATION_PAGE_LOGS)
+            }, {
+              name: APPLICATION_PAGE_ENV_VAR,
+              label: 'Environment Variables',
+              iconName: 'AppConfigurationIcon',
+              onClick: () => setCurrentPage(APPLICATION_PAGE_ENV_VAR)
+            }]}
+            bottomItems={[{
+              label: 'Edit App',
+              iconName: 'AppEditIcon'
+            }]}
+          />
+          <SwitchTransition>
+            <CSSTransition
+              key={currentComponent.key}
+              nodeRef={currentComponent.ref}
+              timeout={300}
+              classNames={cssClassNames}
+            >
+              {currentComponent}
+            </CSSTransition>
+          </SwitchTransition>
+        </div>
+      </>
+    )
+  }
+
+  return renderComponent()
 }
 
 export default ApplicationContainer

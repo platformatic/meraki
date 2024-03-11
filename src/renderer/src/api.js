@@ -34,6 +34,10 @@ export const callDeleteApplication = async (id) => {
   return await window.api.deleteApp(id)
 }
 
+export const callOpenApplication = async (id) => {
+  return await window.api.openApp(id)
+}
+
 export const logInfo = callback => window.api.onLog(callback)
 export const registerUserStatusListener = callback => window.api.onUserStatus(callback)
 
