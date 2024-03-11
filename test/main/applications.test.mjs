@@ -188,9 +188,20 @@ test('open application', async (t) => {
 
   const expected = {
     $schema: 'https://platformatic.dev/schemas/v1.26.0/runtime',
+    id: '1',
+    name: 'runtime-1',
+    path: appDir,
+    running: false,
+    status: 'stopped',
+    platformaticVersion: null,
+    isLatestPltVersion: false,
+    runtime: null,
+    insideMeraki: false,
+    lastStarted: null,
+    lastUpdated: applicationDesc.lastUpdated,
+    automaticallyImported: false,
     configPath: `${appDir}/platformatic.json`,
     entrypoint: 'service-1',
-    path: appDir,
     services: [
       {
         id: 'service-1',
