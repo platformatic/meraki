@@ -10,13 +10,13 @@ import styles from './Row.module.css'
 import { getFormattedDate } from '~/utilityDetails'
 import MerakiIcon from '~/components/ui/MerakiIcon'
 import { useNavigate } from 'react-router-dom'
-import { APPLICATION_PATH, STATUS_STOPPED } from '~/ui-constants'
+import { APPLICATION_PATH, STATUS_STOPPED, STATUS_RUNNING } from '~/ui-constants'
 import ApplicationStatusPills from '~/components/ui/ApplicationStatusPills'
 
 function Row ({
   id,
   insideMeraki,
-  updateVersion,
+  isLatestPltVersion,
   name,
   status,
   platformaticVersion,
@@ -133,7 +133,7 @@ function Row ({
         <div className={styles.tableCell}>
           <div className={`${styles.customSmallFlexRow}`}>
             <span className={`${typographyStyles.desktopBody} ${typographyStyles.textWhite} ${typographyStyles.opacity70}`}>{platformaticVersion}</span>
-            {updateVersion && <Icons.AlertIcon color={WARNING_YELLOW} size={SMALL} />}
+            {!isLatestPltVersion && <Icons.AlertIcon color={WARNING_YELLOW} size={SMALL} />}
           </div>
         </div>
       </div>
@@ -179,6 +179,7 @@ function Row ({
               onClick={() => onClickDelete()}
               hoverEffect={DULLS_BACKGROUND_COLOR}
               platformaticIcon={{ size: SMALL, iconName: 'TrashIcon', color: ERROR_RED }}
+              disabled={status.value === STATUS_RUNNING}
             />
           </div>
         </div>
@@ -197,9 +198,9 @@ Row.propTypes = {
     */
   insideMeraky: PropTypes.bool,
   /**
-   * updateVersion
+   * isLatestPltVersion
     */
-  updateVersion: PropTypes.bool,
+  isLatestPltVersion: PropTypes.bool,
   /**
    * name
     */
@@ -243,7 +244,7 @@ Row.propTypes = {
 
 Row.defaultProps = {
   insideMeraki: false,
-  updateVersion: false,
+  isLatestPltVersion: false,
   name: '',
   status: '',
   platformaticVersion: '-',

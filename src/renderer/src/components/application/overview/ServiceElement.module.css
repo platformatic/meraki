@@ -4,3 +4,13 @@
 .buttonContainer {
   @apply flex gap-x-2 justify-end items-center;
 }
+.servicePlugin {
+ @apply flex flex-wrap flex-row gap-x-2 items-center px-4 py-2 w-fit
+}
+.serviceTemplate {
+  @apply flex flex-row gap-x-2 items-center px-4 py-2 grow-0 w-fit
+}
+.pluginName,
+.templateName {
+  @apply shrink-0 w-max
+}

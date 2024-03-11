@@ -23,20 +23,22 @@ function OverviewSection ({ applicationSelected }) {
       </div>
       <div className={`${commonStyles.mediumFlexRow} ${commonStyles.itemsCenter} `}>
         <div className={`${commonStyles.smallFlexRow} ${commonStyles.itemsCenter}`}>
-          <span className={`${typographyStyles.desktopBody} ${typographyStyles.textWhite} ${typographyStyles.opacity70}`}>Current Platformatic Version</span>
-          <span className={`${typographyStyles.desktopBodyLarge} ${typographyStyles.textWarningYellow}`}>{applicationSelected.platformaticVersion}</span>
+          <span className={`${typographyStyles.desktopBody} ${typographyStyles.textWhite} ${typographyStyles.opacity70}`}>Current Platformatic Version: </span>
+          <span className={`${typographyStyles.desktopBodyLarge} ${typographyStyles.textWarningYellow}`}>{applicationSelected.platformaticVersion || '-'}</span>
         </div>
-        <BorderedBox
-          color={WARNING_YELLOW}
-          backgroundColor={WARNING_YELLOW}
-          backgroundColorOpacity={OPACITY_10}
-          classes={`${commonStyles.buttonPadding} ${styles.updatePlatformaticBox}`}
-        >
-          <div className={`${commonStyles.smallFlexRow} ${commonStyles.itemsCenter}`}>
-            <Icons.AlertIcon size={SMALL} color={WARNING_YELLOW} />
-            <span className={`${typographyStyles.desktopBody} ${typographyStyles.textWarningYellow}`}>There is a new Platformatic version.</span>
-          </div>
-        </BorderedBox>
+        {!applicationSelected.isLatestPltVersion && (
+          <BorderedBox
+            color={WARNING_YELLOW}
+            backgroundColor={WARNING_YELLOW}
+            backgroundColorOpacity={OPACITY_10}
+            classes={`${commonStyles.buttonPadding} ${styles.updatePlatformaticBox}`}
+          >
+            <div className={`${commonStyles.smallFlexRow} ${commonStyles.itemsCenter}`}>
+              <Icons.AlertIcon size={SMALL} color={WARNING_YELLOW} />
+              <span className={`${typographyStyles.desktopBody} ${typographyStyles.textWarningYellow}`}>There is a new Platformatic version.</span>
+            </div>
+          </BorderedBox>
+        )}
       </div>
 
       <div className={`${commonStyles.mediumFlexRow} ${commonStyles.fullWidth} ${commonStyles.itemsCenter} ${commonStyles.justifyBetween} `}>
@@ -49,7 +51,7 @@ function OverviewSection ({ applicationSelected }) {
               backgroundColorOpacity={OPACITY_30}
               classes={commonStyles.buttonPadding}
             >
-              <span className={`${typographyStyles.desktopBody} ${typographyStyles.textWhite}`}>Service-name-1</span>
+              <span className={`${typographyStyles.desktopBody} ${typographyStyles.textWhite}`}>{applicationSelected.entrypoint}</span>
             </BorderedBox>
           </div>
 
@@ -57,7 +59,7 @@ function OverviewSection ({ applicationSelected }) {
 
           <div className={`${commonStyles.smallFlexRow} ${commonStyles.itemsCenter}`}>
             <span className={`${typographyStyles.desktopBodyLarge} ${typographyStyles.textWhite} ${typographyStyles.opacity70}`}>URL:</span>
-            <span className={`${typographyStyles.desktopBodyLarge} ${typographyStyles.textWhite}`}>{applicationSelected.entryPoint} </span>
+            <span className={`${typographyStyles.desktopBodyLarge} ${typographyStyles.textWhite}`}>{applicationSelected.entrypoint} </span>
             <PlatformaticIcon iconName='ExpandIcon' color={WHITE} size={SMALL} onClick={() => window.open(applicationSelected.entryPoint, '_blank')} internalOverHandling />
           </div>
         </div>
