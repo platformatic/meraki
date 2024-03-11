@@ -5,8 +5,8 @@ import styles from './DisplayEnvironmentVariables.module.css'
 import commonStyles from '~/styles/CommonStyles.module.css'
 import TemplateAndPluginTreeSelector from '~/components/template-and-plugins/TemplateAndPluginTreeSelector'
 import { CSSTransition } from 'react-transition-group'
-import TemplateEnvVarsForm from '~/components/templates/TemplateEnvVarsForm'
-import PluginEnvVarsForm from '~/components/plugins/PluginEnvVarsForm'
+import TemplateEnvVarsViewOnly from '~/components/templates/TemplateEnvVarsViewOnly'
+import PluginEnvVarsViewOnly from '~/components/plugins/PluginEnvVarsViewOnly'
 import '~/components/component.animation.css'
 
 function DisplayEnvironmentVariables ({ configuredServices }) {
@@ -24,22 +24,20 @@ function DisplayEnvironmentVariables ({ configuredServices }) {
     if (serviceSelected) {
       if (pluginSelected) {
         setCurrentComponent(
-          <PluginEnvVarsForm
+          <PluginEnvVarsViewOnly
             key={`${serviceSelected.name}-${serviceSelected.template}-${serviceSelected.updatedAt}-${pluginSelected.name}-${pluginSelected.updatedAt}`}
             configuredServices={configuredServices}
             serviceName={serviceSelected.name}
             templateName={serviceSelected.template}
-            onChange={() => {}}
             pluginName={pluginSelected.name}
           />)
       } else {
         setCurrentComponent(
-          <TemplateEnvVarsForm
+          <TemplateEnvVarsViewOnly
             key={`${serviceSelected.name}-${serviceSelected.template}-${serviceSelected.updatedAt}`}
             configuredServices={configuredServices}
             serviceName={serviceSelected.name}
             templateName={serviceSelected.template}
-            onChange={() => {}}
           />)
       }
     }

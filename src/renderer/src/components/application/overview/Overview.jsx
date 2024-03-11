@@ -18,7 +18,7 @@ const Overview = React.forwardRef(({ applicationSelected }, ref) => {
     setNavigation({
       label: applicationSelected.name,
       handleClick: () => {
-        // navigate(APPLICATION_PATH.replace(':id', applicationSelected.id))
+        console.log('hola')
         setCurrentPage(APPLICATION_PAGE_OVERVIEW)
       },
       key: APPLICATION_PAGE_OVERVIEW,
