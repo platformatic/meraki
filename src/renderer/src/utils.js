@@ -186,3 +186,21 @@ export const generateFormForViewEnvironmentVariable = (services) => {
   })
   return tmpServices
 }
+
+export const prepareStoreForEditApplication = (application) => {
+  const createApplication = { application: application.name, path: application.path }
+  const services = application.services.map(service => ({
+    name: service.id,
+    template: {
+      name: service.template
+    },
+    plugins: []
+  }))
+
+  return {
+    formData: {
+      createApplication
+    },
+    services
+  }
+}

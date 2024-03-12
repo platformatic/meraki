@@ -11,7 +11,7 @@ import ServicesSection from './ServicesSection'
 import { MARGIN_0, OPACITY_30, WHITE } from '@platformatic/ui-components/src/components/constants'
 import ErrorComponent from '~/components/screens/ErrorComponent'
 
-const Overview = React.forwardRef(({ applicationSelected }, ref) => {
+const Overview = React.forwardRef(({ applicationSelected, onClickEditApplication }, ref) => {
   const globalState = useStackablesStore()
   const { setNavigation, setCurrentPage } = globalState
   const [applicationStatus, setApplicationStatus] = useState(applicationSelected.status)
@@ -47,7 +47,13 @@ const Overview = React.forwardRef(({ applicationSelected }, ref) => {
           <HorizontalSeparator marginBottom={MARGIN_0} marginTop={MARGIN_0} color={WHITE} opacity={OPACITY_30} />
           <OverviewSection applicationSelected={applicationSelected} applicationStatus={applicationStatus} />
           <HorizontalSeparator marginBottom={MARGIN_0} marginTop={MARGIN_0} color={WHITE} opacity={OPACITY_30} />
-          <ServicesSection id={applicationSelected.id} services={applicationSelected.services} entrypoint={applicationSelected.entrypoint} applicationStatus={applicationStatus} />
+          <ServicesSection
+            id={applicationSelected.id}
+            services={applicationSelected.services}
+            entrypoint={applicationSelected.entrypoint}
+            applicationStatus={applicationStatus}
+            onClickEditApplication={onClickEditApplication}
+          />
         </div>
       </div>
       )
@@ -57,11 +63,16 @@ Overview.propTypes = {
   /**
    * applicationSelected
     */
-  applicationSelected: PropTypes.object
+  applicationSelected: PropTypes.object,
+  /**
+   * onClickEditApplication
+    */
+  onClickEditApplication: PropTypes.func
 }
 
 Overview.defaultProps = {
-  applicationSelected: {}
+  applicationSelected: {},
+  onClickEditApplication: () => {}
 }
 
 export default Overview

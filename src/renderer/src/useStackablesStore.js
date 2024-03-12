@@ -158,6 +158,15 @@ const useStackablesStore = create((set, get) => ({
         services: []
       }
     })
+  },
+  initializeWizardState: (formData, services) => {
+    set((state) => {
+      return {
+        ...state,
+        formData: { ...formData },
+        services: [...services]
+      }
+    })
   }
 }))
 

@@ -11,15 +11,11 @@ import ServiceElement from './ServiceElement'
 import { STATUS_STOPPED, STATUS_RUNNING } from '~/ui-constants'
 import modalStyles from '~/styles/ModalStyles.module.css'
 
-function ServicesSection ({ id, services, entrypoint, applicationStatus }) {
+function ServicesSection ({ id, services, entrypoint, applicationStatus, onClickEditApplication }) {
   const [showModalScalarIntegration, setShowModalScalarIntegration] = useState(false)
 
   function handleCloseModalAPIReference () {
     setShowModalScalarIntegration(false)
-  }
-
-  function onClickEditApplication () {
-
   }
 
   return (
@@ -49,6 +45,7 @@ function ServicesSection ({ id, services, entrypoint, applicationStatus }) {
               paddingClass={commonStyles.buttonPadding}
               platformaticIcon={{ iconName: 'EditIcon', color: RICH_BLACK }}
               textClass={typographyStyles.desktopBody}
+              disabled={STATUS_RUNNING === applicationStatus}
             />
           </div>
         </div>
@@ -88,15 +85,19 @@ ServicesSection.propTypes = {
   /**
    * applicationStatus
     */
-  applicationStatus: PropTypes.oneOf([STATUS_RUNNING, STATUS_STOPPED])
-
+  applicationStatus: PropTypes.oneOf([STATUS_RUNNING, STATUS_STOPPED]),
+  /**
+   * onClickEditApplication
+    */
+  onClickEditApplication: PropTypes.func
 }
 
 ServicesSection.defaultProps = {
   id: {},
   services: [],
   entrypoint: '',
-  applicationStatus: STATUS_STOPPED
+  applicationStatus: STATUS_STOPPED,
+  onClickEditApplication: () => {}
 }
 
 export default ServicesSection
