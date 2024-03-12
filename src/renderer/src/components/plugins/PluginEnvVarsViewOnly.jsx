@@ -22,12 +22,10 @@ function PluginEnvVarsViewOnly ({
     return Object.keys(pluginFound.form).map((element) => (
       <Forms.Field
         title={pluginFound.form[element].path}
-        titleClassName={`${typographyStyles.desktopBodySemibold} ${typographyStyles.textWhite} `}
-        titleColor={WHITE}
         key={element}
         helper={pluginFound.form[element].description || ''}
+        titleClassName={`${typographyStyles.desktopBodySemibold} ${typographyStyles.textWhite} `}
         helperClassName={`${typographyStyles.desktopBodySmall} ${typographyStyles.textWhite} ${typographyStyles.opacity70}`}
-
       >
         <Forms.Input
           placeholder=''

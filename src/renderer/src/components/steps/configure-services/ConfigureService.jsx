@@ -60,7 +60,7 @@ function ConfigureService ({ service }) {
     return Object.keys(form).map((element) => (
       <Forms.Field
         title={`Configure ${element}`}
-        titleColor={WHITE}
+        titleClassName={`${typographyStyles.desktopBodySemibold} ${typographyStyles.textWhite} `}
         key={element}
       >
         <Forms.Input
