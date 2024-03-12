@@ -19,6 +19,7 @@ import Overview from '~/components/application/overview/Overview'
 import Metrics from '~/components/application/metrics/Metrics'
 import ApplicationLogs from '~/components/application/application-logs/ApplicationLogs'
 import EnvironmentVariables from '~/components/application/environment-variables/EnvironmentVariables'
+import EditApplicationFlow from '~/components/application/edit/EditApplicationFlow'
 import SideBar from '~/components/ui/SideBar'
 import { useParams } from 'react-router-dom'
 import { callOpenApplication } from '~/api'
@@ -27,7 +28,7 @@ import useStackablesStore from '~/useStackablesStore'
 
 function ApplicationContainer () {
   const globalState = useStackablesStore()
-  const { currentPage, setCurrentPage } = globalState
+  const { currentPage, setCurrentPage, resetWizardState } = globalState
   const { appId } = useParams()
   const [innerLoading, setInnerLoading] = useState(true)
   const [applicationSelected, setApplicationSelected] = useState(null)
@@ -40,6 +41,7 @@ function ApplicationContainer () {
   const [components, setComponents] = useState([])
   const [currentComponent, setCurrentComponent] = useState(null)
   const { height: innerHeight } = useWindowDimensions()
+  const [showModalEditApplication, setShowModalEditApplication] = useState(false)
 
   useEffect(() => {
     if (appId) {
@@ -58,6 +60,7 @@ function ApplicationContainer () {
           ref={overViewRef}
           key={APPLICATION_PAGE_OVERVIEW}
           applicationSelected={applicationSelected}
+          onClickEditApplication={() => setShowModalEditApplication(true)}
         />,
         <ApplicationLogs
           ref={applicationLogsRef}
@@ -97,6 +100,11 @@ function ApplicationContainer () {
   useEffect(() => {
     setCurrentComponent(components.find(component => component.key === currentPage))
   }, [currentPage])
+
+  function handleEditApplication () {
+    setShowModalEditApplication(false)
+    resetWizardState()
+  }
 
   function renderComponent () {
     if (innerLoading) {
@@ -146,7 +154,8 @@ function ApplicationContainer () {
             }]}
             bottomItems={[{
               label: 'Edit App',
-              iconName: 'AppEditIcon'
+              iconName: 'AppEditIcon',
+              onClick: () => setShowModalEditApplication(true)
             }]}
           />
           <SwitchTransition>
@@ -160,6 +169,12 @@ function ApplicationContainer () {
             </CSSTransition>
           </SwitchTransition>
         </div>
+        {showModalEditApplication && (
+          <EditApplicationFlow
+            onCloseModal={() => setShowModalEditApplication(false)}
+            onClickGoToApps={() => handleEditApplication()}
+          />
+        )}
       </>
     )
   }

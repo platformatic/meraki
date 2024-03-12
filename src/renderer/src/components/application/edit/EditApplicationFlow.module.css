@@ -1,0 +1,16 @@
+.modalClassName {
+  @apply p-4 md:p-6 flex flex-col justify-between w-full max-w-[calc(100%-2rem)] md:max-w-[calc(100%-3.5rem)]
+}
+.modalCloseClassName {
+  @apply absolute z-10 top-[1rem] md:top-[1.5rem] right-[1rem] md:right-[1.5rem];
+}
+
+.rootV1 {
+  --compose-application-width: calc(calc(100vW - 2.25rem) / 6);
+  --compose-application-height: 55vH;
+  
+  @media screen(xl) {
+    min-height: 94vH;
+    --compose-application-width: calc(calc(100vW - 3.5rem) / 6);
+  }
+}
