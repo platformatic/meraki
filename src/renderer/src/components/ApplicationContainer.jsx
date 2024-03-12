@@ -95,7 +95,6 @@ function ApplicationContainer () {
   }, [innerHeight])
 
   useEffect(() => {
-    console.log('currentPage', currentPage)
     setCurrentComponent(components.find(component => component.key === currentPage))
   }, [currentPage])
 

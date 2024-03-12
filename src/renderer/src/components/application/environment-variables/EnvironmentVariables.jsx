@@ -8,82 +8,13 @@ import commonStyles from '~/styles/CommonStyles.module.css'
 import { HorizontalSeparator } from '@platformatic/ui-components'
 import Icons from '@platformatic/ui-components/src/components/icons'
 import DisplayEnvironmentVariables from './DisplayEnvironmentVariables'
-import { generateForm } from '~/utils'
+import { generateFormForViewEnvironmentVariable } from '~/utils'
 import useStackablesStore from '~/useStackablesStore'
 import { APPLICATION_PAGE_ENV_VAR } from '~/ui-constants'
 
 const EnvironmentVariables = React.forwardRef(({ services }, ref) => {
   const globalState = useStackablesStore()
   const { setNavigation, setCurrentPage } = globalState
-
-  const mockedServices = [
-    {
-      template: {
-        orgId: 'platformatic',
-        orgName: 'Platformatic',
-        name: '@platformatic/service',
-        description: 'A Platformatic Service is an HTTP server based on Fastify that allows developers to build robust APIs with Node.js',
-        author: 'Platformatic',
-        homepage: 'https://platformatic.dev',
-        public: true,
-        platformaticService: true,
-        envVars: [
-          {
-            var: 'PLT_SERVER_HOSTNAME',
-            label: 'What is the hostname?',
-            default: '0.0.0.0',
-            type: 'string',
-            configValue: 'hostname'
-          },
-          {
-            var: 'PLT_SERVER_LOGGER_LEVEL',
-            label: 'What is the logger level?',
-            default: 'info',
-            type: 'string',
-            configValue: ''
-          },
-          {
-            label: 'Which port do you want to use?',
-            var: 'PORT',
-            default: 3042,
-            tyoe: 'number',
-            configValue: 'port'
-          }
-        ]
-      },
-      plugins: [
-        {
-          name: '@fastify/accepts',
-          description: 'To have accepts in your request object.',
-          author: 'mock author',
-          homepage: 'https://example.com',
-          envVars: [
-            {
-              name: 'PLT_COOKIE_SECRET',
-              path: 'secret',
-              type: 'string'
-            },
-            {
-              name: 'PLT_COOKIE_HOOK',
-              path: 'hook',
-              type: 'string'
-            },
-            {
-              name: 'PLT_COOKIE_PARSEOPTIONS_DOMAIN',
-              path: 'parseOptions.domain',
-              type: 'string'
-            },
-            {
-              name: 'PLT_COOKIE_PASEOPTIONS_MAXAGE',
-              path: 'parseOptions.maxAge',
-              type: 'number'
-            }
-          ]
-        }
-      ],
-      name: 'lunasa-1'
-    }
-  ]
 
   useEffect(() => {
     setNavigation({
@@ -110,7 +41,7 @@ const EnvironmentVariables = React.forwardRef(({ services }, ref) => {
           </div>
           <HorizontalSeparator marginBottom={MARGIN_0} marginTop={MARGIN_0} color={WHITE} opacity={OPACITY_30} />
           <div className={`${commonStyles.mediumFlexBlock} ${commonStyles.fullWidth}`}>
-            <DisplayEnvironmentVariables configuredServices={generateForm(mockedServices)} />
+            <DisplayEnvironmentVariables configuredServices={generateFormForViewEnvironmentVariable(services)} />
           </div>
         </div>
       </div>

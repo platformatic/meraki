@@ -103,3 +103,86 @@ export const prepareFormForCreateApplication = configuredServices =>
       })
     }))
   }))
+
+export const generateFormForViewEnvironmentVariable = (services) => {
+  const tmpServices = []
+  let tmpTemplateForms = {}
+  let tmpTemplateValidations = {}
+  let tmpTemplateValidForm = true
+  let tmpObj = {}
+
+  services.forEach(service => {
+    tmpTemplateForms = {}
+    tmpTemplateValidations = {}
+    tmpTemplateValidForm = true
+    tmpObj = {}
+
+    tmpObj.name = service.id
+    tmpObj.template = service.template
+    let form
+    let validations
+    let formErrors
+
+    if (service.templateEnvVariables.length > 0) {
+      form = {}
+      validations = {}
+      formErrors = {}
+
+      service.templateEnvVariables.forEach(envVar => {
+        const { var: envName, label } = envVar
+        const value = service.env[Object.keys(service.env).find(k => k.endsWith(envName))]
+        form[envName] = {
+          label,
+          var: envName,
+          value
+        }
+        validations[`${envName}Valid`] = value !== ''
+        formErrors[envName] = ''
+      })
+      tmpTemplateForms = { ...form }
+      tmpTemplateValidations = { ...validations, formErrors }
+      tmpTemplateValidForm = Object.keys(validations).findIndex(element => validations[element] === false) === -1
+    }
+    tmpObj.form = { ...tmpTemplateForms }
+    tmpObj.validations = { ...tmpTemplateValidations }
+    tmpObj.validForm = tmpTemplateValidForm
+
+    tmpObj.plugins = []
+    let pluginForm
+    let pluginValidations
+    let pluginFormErrors
+    let tmpPluginObj
+
+    (service?.plugins || []).forEach(plugin => {
+      tmpPluginObj = {}
+      pluginForm = {}
+      pluginValidations = {}
+      pluginFormErrors = {}
+
+      const envVars = service.pluginsDesc.find(pluginDesc => pluginDesc.name === plugin.name).envVars || []
+
+      if (envVars.length > 0) {
+        envVars.forEach(envVar => {
+          const { name: envName, path, description } = envVar
+          const value = service.env[Object.keys(service.env).find(k => k.endsWith(envName))]
+          pluginForm[envName] = {
+            path,
+            value,
+            description
+          }
+          pluginValidations[`${envName}Valid`] = value !== ''
+          pluginFormErrors[envName] = ''
+        })
+      }
+      tmpPluginObj = {
+        name: plugin.name,
+        form: { ...pluginForm },
+        validations: { ...pluginValidations, formErrors: { ...pluginFormErrors } },
+        validForm: Object.keys(pluginValidations).findIndex(element => pluginValidations[element] === false) === -1
+      }
+      tmpObj.plugins.push(tmpPluginObj)
+    })
+    tmpServices.push(tmpObj)
+  })
+  return tmpServices
+}
