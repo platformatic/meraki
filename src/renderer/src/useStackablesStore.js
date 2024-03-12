@@ -23,6 +23,7 @@ const useStackablesStore = create((set, get) => ({
       ...state,
       services: [...currentServices, {
         name: serviceName,
+        renameDisabled: false,
         template,
         plugins: []
       }]
@@ -56,7 +57,7 @@ const useStackablesStore = create((set, get) => ({
           let { template: templateReplaced, ...rest } = service
           templateReplaced = template
           return {
-            template: templateReplaced,
+            template: { ...templateReplaced, disabled: false },
             ...rest
           }
         } else {
