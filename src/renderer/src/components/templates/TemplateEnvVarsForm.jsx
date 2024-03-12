@@ -29,8 +29,8 @@ function TemplateEnvVarsForm ({
     return Object.keys(configuredServiceFound.form).map((element) => (
       <Forms.Field
         title={configuredServiceFound.form[element].label}
-        titleColor={WHITE}
         key={element}
+        titleClassName={`${typographyStyles.desktopBodySemibold} ${typographyStyles.textWhite} `}
       >
         <Forms.Input
           placeholder=''
