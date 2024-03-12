@@ -14,18 +14,24 @@ import MerakiIcon from '~/components/ui/MerakiIcon'
 import Forms from '@platformatic/ui-components/src/components/forms'
 import { callStartApplication, callStopApplication } from '~/api'
 
-function TopContent ({ applicationSelected }) {
+function TopContent ({
+  applicationSelected,
+  applicationStatus,
+  onSuccessfulStart,
+  onSuccessfulStop,
+  onErrorOccurred
+}) {
   const [form, setForm] = useState({ automaticRestart: false })
-  const [internalStatus, setInternalStatus] = useState(applicationSelected.status)
   const [changingStatus, setChangingStatus] = useState(false)
 
   async function handleStopApplication () {
     try {
       setChangingStatus(true)
       await callStopApplication(applicationSelected.id)
-      setInternalStatus(STATUS_STOPPED)
+      onSuccessfulStop()
     } catch (error) {
       console.error(`Error on callStopApplication ${error}`)
+      onErrorOccurred(error)
     } finally {
       setChangingStatus(false)
     }
@@ -35,9 +41,10 @@ function TopContent ({ applicationSelected }) {
     try {
       setChangingStatus(true)
       await callStartApplication(applicationSelected.id)
-      setInternalStatus(STATUS_RUNNING)
+      onSuccessfulStart()
     } catch (error) {
       console.error(`Error on callStartApplication ${error}`)
+      onErrorOccurred(error)
     } finally {
       setChangingStatus(false)
     }
@@ -68,7 +75,7 @@ function TopContent ({ applicationSelected }) {
             size={MEDIUM}
           />}
         <h2 className={`${typographyStyles.desktopHeadline2} ${typographyStyles.textWhite}`}>{applicationSelected.name}</h2>
-        <ApplicationStatusPills status={internalStatus} />
+        <ApplicationStatusPills status={applicationStatus} />
       </div>
       <div className={`${commonStyles.mediumFlexRow} ${commonStyles.fullWidth} ${commonStyles.itemsCenter} ${commonStyles.justifyBetween} `}>
         <div className={`${commonStyles.mediumFlexRow} ${commonStyles.fullWidth} ${commonStyles.itemsCenter} `}>
@@ -107,15 +114,15 @@ function TopContent ({ applicationSelected }) {
             : (
               <Button
                 type='button'
-                label={internalStatus === STATUS_RUNNING ? 'Stop' : 'Start'}
-                onClick={() => internalStatus === STATUS_RUNNING ? handleStopApplication() : handleStartApplication()}
+                label={applicationStatus === STATUS_RUNNING ? 'Stop' : 'Start'}
+                onClick={() => applicationStatus === STATUS_RUNNING ? handleStopApplication() : handleStartApplication()}
                 color={RICH_BLACK}
                 bordered={false}
                 backgroundColor={WHITE}
                 hoverEffect={DULLS_BACKGROUND_COLOR}
                 hoverEffectProperties={{ changeBackgroundColor: ANTI_FLASH_WHITE }}
                 paddingClass={commonStyles.buttonPadding}
-                platformaticIcon={{ iconName: internalStatus === STATUS_RUNNING ? 'CircleStopIcon' : 'CirclePlayIcon', color: RICH_BLACK }}
+                platformaticIcon={{ iconName: applicationStatus === STATUS_RUNNING ? 'CircleStopIcon' : 'CirclePlayIcon', color: RICH_BLACK }}
                 textClass={typographyStyles.desktopBody}
               />
               )}
@@ -155,11 +162,31 @@ TopContent.propTypes = {
   /**
    * applicationSelected
     */
-  applicationSelected: PropTypes.object
+  applicationSelected: PropTypes.object,
+  /**
+   * applicationStatus
+    */
+  applicationStatus: PropTypes.oneOf([STATUS_RUNNING, STATUS_STOPPED]),
+  /**
+   * onSuccessfulStart
+    */
+  onSuccessfulStart: PropTypes.func,
+  /**
+   * onSuccessfulStop
+    */
+  onSuccessfulStop: PropTypes.func,
+  /**
+   * onErrorOccurred
+    */
+  onErrorOccurred: PropTypes.func
 }
 
 TopContent.defaultProps = {
-  applicationSelected: {}
+  applicationSelected: {},
+  applicationStatus: STATUS_STOPPED,
+  onSuccessfulStart: () => {},
+  onSuccessfulStop: () => {},
+  onErrorOccurred: () => {}
 }
 
 export default TopContent

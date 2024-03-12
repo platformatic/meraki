@@ -45,7 +45,7 @@ function ApplicationContainer () {
     if (appId) {
       async function getApplication () {
         const applicationSelected = await callOpenApplication(appId)
-        setApplicationSelected({ ...applicationSelected })
+        setApplicationSelected(applicationSelected)
       }
       getApplication()
     }

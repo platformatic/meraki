@@ -7,6 +7,9 @@ import typographyStyles from '~/styles/Typography.module.css'
 import commonStyles from '~/styles/CommonStyles.module.css'
 import { BorderedBox, ButtonOnlyIcon, HorizontalSeparator, PlatformaticIcon, VerticalSeparator } from '@platformatic/ui-components'
 import Icons from '@platformatic/ui-components/src/components/icons'
+import { STATUS_STOPPED, STATUS_RUNNING } from '~/ui-constants'
+import JavascriptIcon from '../../ui/icons/JavascriptIcon'
+import TypescriptIcon from '../../ui/icons/TypescriptIcon'
 
 function ServiceElementTemplate ({ name, id }) {
   return (
@@ -32,11 +35,13 @@ function ServiceElementPlugin ({ name, id }) {
   )
 }
 
-function ServiceElement ({ service, applicationEntrypoint }) {
+function ServiceElement ({
+  service,
+  applicationEntrypoint,
+  applicationStatus,
+  onClickScalarIntegration
+}) {
   const [expanded, setExpanded] = useState(false)
-  function onClickScalarIntegration () {
-
-  }
 
   function getTemplateId (service) {
     return service.templateDesc.find(templateDesc => templateDesc.name === service.template).id
@@ -56,6 +61,7 @@ function ServiceElement ({ service, applicationEntrypoint }) {
             {applicationEntrypoint && (
               <span className={`${typographyStyles.desktopBodySmall} ${typographyStyles.textWhite} ${typographyStyles.opacity70}`}>(This service is the Application Entrypoint)</span>
             )}
+            {service.typescript ? <TypescriptIcon /> : <JavascriptIcon />}
           </div>
 
           <div className={`${styles.buttonContainer}`}>
@@ -67,6 +73,7 @@ function ServiceElement ({ service, applicationEntrypoint }) {
               paddingClass={commonStyles.buttonSquarePadding}
               platformaticIcon={{ iconName: 'APIDocsIcon', color: WHITE }}
               textClass={typographyStyles.desktopBody}
+              disabled={applicationStatus === STATUS_STOPPED}
             />
             <VerticalSeparator color={WHITE} backgroundColorOpacity={OPACITY_30} />
             <PlatformaticIcon iconName={expanded ? 'ArrowUpIcon' : 'ArrowDownIcon'} color={WHITE} size={MEDIUM} onClick={() => setExpanded(!expanded)} internalOverHandling />
@@ -109,14 +116,24 @@ ServiceElement.propTypes = {
   /**
    * applicationEntrypoint
     */
-  applicationEntrypoint: PropTypes.bool
+  applicationEntrypoint: PropTypes.bool,
+  /**
+   * applicationStatus
+    */
+  applicationStatus: PropTypes.oneOf([STATUS_RUNNING, STATUS_STOPPED]),
+  /**
+   * onClickScalarIntegration
+    */
+  onClickScalarIntegration: PropTypes.func
 
 }
 
 ServiceElement.defaultProps = {
   id: {},
   services: [],
-  applicationEntrypoint: false
+  applicationEntrypoint: false,
+  applicationStatus: STATUS_STOPPED,
+  onClickScalarIntegration: () => {}
 }
 
 export default ServiceElement
