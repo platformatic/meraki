@@ -9,6 +9,7 @@ import { BorderedBox } from '@platformatic/ui-components'
 import Icons from '@platformatic/ui-components/src/components/icons'
 import useStackablesStore from '~/useStackablesStore'
 import { APPLICATION_PAGE_METRICS } from '~/ui-constants'
+import LineChart from './LineChart'
 
 const Metrics = React.forwardRef(({ applicationSelected }, ref) => {
   const globalState = useStackablesStore()
@@ -42,13 +43,14 @@ const Metrics = React.forwardRef(({ applicationSelected }, ref) => {
               <p className={`${typographyStyles.desktopBodySmall} ${typographyStyles.textWhite} ${typographyStyles.opacity70}`}>(Last 5 minutes)</p>
             </div>
           </div>
+
           <div className={`${commonStyles.mediumFlexBlock} ${commonStyles.fullWidth}`}>
             <BorderedBox color={WHITE} borderColorOpacity={OPACITY_30} backgroundColor={TRANSPARENT} classes={styles.boxMetricContainer}>
-              <p className=''>Metric 1 for {applicationSelected.id}</p>
+              <LineChart title='Memory' unit='MB' labels={['RSS', 'Total Heap', 'Heap Used', 'New Space', 'Old Space']} colorSet={0} numberOfLines={5} />
             </BorderedBox>
 
             <BorderedBox color={WHITE} borderColorOpacity={OPACITY_30} backgroundColor={TRANSPARENT} classes={styles.boxMetricContainer}>
-              <p className=''>Metric 2 for {applicationSelected.id} </p>
+              <LineChart title='CPU Usage & Event loop utilization' unit='%' labels={['CPU usage', 'Event Loop Utilization']} colorSet={1} numberOfLines={2} />
             </BorderedBox>
           </div>
         </div>
