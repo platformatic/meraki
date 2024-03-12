@@ -45,6 +45,7 @@ function ServicesSection ({ id, services, entrypoint, applicationStatus, onClick
               paddingClass={commonStyles.buttonPadding}
               platformaticIcon={{ iconName: 'EditIcon', color: RICH_BLACK }}
               textClass={typographyStyles.desktopBody}
+              disabled={STATUS_RUNNING === applicationStatus}
             />
           </div>
         </div>

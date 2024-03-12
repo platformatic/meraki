@@ -4,12 +4,12 @@ import PropTypes from 'prop-types'
 import { Modal } from '@platformatic/ui-components'
 import { MODAL_FULL_RICH_BLACK_V2, MODAL_POPUP_V2 } from '@platformatic/ui-components/src/components/constants'
 import HeaderEditApplicationFlow from '~/components/application/edit/HeaderEditApplicationFlow'
-import Wizard from '~/components/Wizard'
+import EditWizard from '~/components/wizard/EditWizard'
 import styles from './EditApplicationFlow.module.css'
 import typographyStyles from '~/styles/Typography.module.css'
 import DiscardChanges from '~/components/application/edit/DiscardChanges'
 
-function EditApplicationFlow ({ onCloseModal, onClickGoToApps }) {
+function EditApplicationFlow ({ onCloseModal, onClickGoToApps, applicationSelected }) {
   const [showModalDiscardChanges, setShowModalDiscardChanges] = useState(false)
 
   function handleCloseModalEditApplication () {
@@ -35,7 +35,7 @@ function EditApplicationFlow ({ onCloseModal, onClickGoToApps }) {
         modalCloseClassName={styles.modalCloseClassName}
       >
         <HeaderEditApplicationFlow />
-        <Wizard onClickGoToApps={() => onClickGoToApps()} />
+        <EditWizard onClickGoToApps={() => onClickGoToApps()} applicationSelected={applicationSelected} />
       </Modal>
       {showModalDiscardChanges && (
         <Modal
@@ -63,12 +63,17 @@ EditApplicationFlow.propTypes = {
   /**
    * onClickGoToApps
    */
-  onClickGoToApps: PropTypes.func
+  onClickGoToApps: PropTypes.func,
+  /**
+   * applicationSelected
+   */
+  applicationSelected: PropTypes.object
 }
 
 EditApplicationFlow.defaultProps = {
   onCloseModal: () => {},
-  onClickGoToApps: () => {}
+  onClickGoToApps: () => {},
+  applicationSelected: {}
 }
 
 export default EditApplicationFlow

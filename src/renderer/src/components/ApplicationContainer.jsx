@@ -41,12 +41,13 @@ function ApplicationContainer () {
   const [components, setComponents] = useState([])
   const [currentComponent, setCurrentComponent] = useState(null)
   const { height: innerHeight } = useWindowDimensions()
-  const [showModalEditApplication, setShowModalEditApplication] = useState(false)
+  const [showModalEditApplicationFlow, setShowModalEditApplicationFlow] = useState(false)
 
   useEffect(() => {
     if (appId) {
       async function getApplication () {
         const applicationSelected = await callOpenApplication(appId)
+        console.log('applicationSelected', applicationSelected)
         setApplicationSelected(applicationSelected)
       }
       getApplication()
@@ -60,7 +61,7 @@ function ApplicationContainer () {
           ref={overViewRef}
           key={APPLICATION_PAGE_OVERVIEW}
           applicationSelected={applicationSelected}
-          onClickEditApplication={() => setShowModalEditApplication(true)}
+          onClickEditApplication={() => setShowModalEditApplicationFlow(true)}
         />,
         <ApplicationLogs
           ref={applicationLogsRef}
@@ -101,8 +102,13 @@ function ApplicationContainer () {
     setCurrentComponent(components.find(component => component.key === currentPage))
   }, [currentPage])
 
-  function handleEditApplication () {
-    setShowModalEditApplication(false)
+  function handleCloseEditApplicationFlow () {
+    setShowModalEditApplicationFlow(false)
+    resetWizardState()
+  }
+
+  function handleSuccessfulEditApplicationFlow () {
+    setShowModalEditApplicationFlow(false)
     resetWizardState()
   }
 
@@ -155,7 +161,7 @@ function ApplicationContainer () {
             bottomItems={[{
               label: 'Edit App',
               iconName: 'AppEditIcon',
-              onClick: () => setShowModalEditApplication(true)
+              onClick: () => setShowModalEditApplicationFlow(true)
             }]}
           />
           <SwitchTransition>
@@ -169,10 +175,11 @@ function ApplicationContainer () {
             </CSSTransition>
           </SwitchTransition>
         </div>
-        {showModalEditApplication && (
+        {showModalEditApplicationFlow && (
           <EditApplicationFlow
-            onCloseModal={() => setShowModalEditApplication(false)}
-            onClickGoToApps={() => handleEditApplication()}
+            onCloseModal={() => handleCloseEditApplicationFlow()}
+            onClickGoToApps={() => handleSuccessfulEditApplicationFlow()}
+            applicationSelected={applicationSelected}
           />
         )}
       </>

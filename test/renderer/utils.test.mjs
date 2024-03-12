@@ -1,5 +1,10 @@
 import { test, expect } from 'vitest'
-import { generateForm, prepareFormForCreateApplication, generateFormForViewEnvironmentVariable } from '../../src/renderer/src/utils'
+import {
+  generateForm,
+  prepareFormForCreateApplication,
+  generateFormForViewEnvironmentVariable,
+  prepareStoreForEditApplication
+} from '../../src/renderer/src/utils'
 
 const expectedA = [{
   name: 'test-1',
@@ -659,6 +664,7 @@ test('prepare services with multiple templates and plugins for environment varia
   const result = generateFormForViewEnvironmentVariable(servicesReceived)
   expect(expected).toEqual(result)
 })
+
 test('prepare services with a single plugins', async () => {
   const expected = [{
     name: 'lunasa-1',
@@ -985,4 +991,133 @@ test('prepare services with multiple templates and plugins for environment varia
   }]
   const result = generateFormForViewEnvironmentVariable(servicesReceived)
   expect(expected).toEqual(result)
+})
+
+test('prepareStoreForEditApplication - simple service', async () => {
+  const application = {
+    id: '16',
+    name: 'test-3',
+    path: '/Users/antonio/Documents/meraki-test/test-3',
+    running: false,
+    status: 'stopped',
+    platformaticVersion: '1.26.0',
+    isLatestPltVersion: true,
+    runtime: null,
+    insideMeraki: false,
+    lastStarted: '2024-03-12T10:58:14.723Z',
+    lastUpdated: '2024-03-12T10:58:14.723Z',
+    automaticallyImported: false,
+    $schema: 'https://platformatic.dev/schemas/v1.26.0/runtime',
+    configPath: '/Users/antonio/Documents/meraki-test/test-3/platformatic.json',
+    entrypoint: 'goatskin',
+    services: [
+      {
+        id: 'goatskin',
+        path: '/Users/antonio/Documents/meraki-test/test-3/services/goatskin',
+        configPath: '/Users/antonio/Documents/meraki-test/test-3/services/goatskin/platformatic.json',
+        config: {
+          $schema: 'https://platformatic.dev/schemas/v1.26.0/db',
+          db: {
+            connectionString: '{PLT_GOATSKIN_DATABASE_URL}',
+            graphql: true,
+            openapi: true,
+            schemalock: true
+          },
+          watch: {
+            ignore: [
+              '*.sqlite',
+              '*.sqlite-journal'
+            ]
+          },
+          migrations: {
+            dir: 'migrations',
+            autoApply: '{PLT_GOATSKIN_APPLY_MIGRATIONS}'
+          },
+          plugins: {
+            paths: [
+              {
+                path: './plugins',
+                encapsulate: false
+              },
+              {
+                path: './routes'
+              }
+            ],
+            typescript: '{PLT_GOATSKIN_TYPESCRIPT}'
+          },
+          types: {
+            autogenerate: true
+          }
+        },
+        env: {
+          PLT_GOATSKIN_DATABASE_URL: 'sqlite://./db.sqlite',
+          PLT_GOATSKIN_APPLY_MIGRATIONS: 'true',
+          PLT_GOATSKIN_TYPESCRIPT: 'true'
+        },
+        template: '@platformatic/db',
+        plugins: [],
+        templateEnvVariables: [
+          {
+            var: 'DATABASE_URL',
+            label: 'What is the connection string?',
+            default: 'sqlite://./db.sqlite',
+            type: 'string',
+            configValue: 'connectionString'
+          },
+          {
+            var: 'PLT_APPLY_MIGRATIONS',
+            label: 'Should migrations be applied automatically on startup?',
+            default: true,
+            type: 'boolean'
+          }
+        ],
+        pluginsDesc: [],
+        templateDesc: [
+          {
+            id: '8f3fbe51-4adc-4fdb-bdce-ec6845e2dd69',
+            name: '@platformatic/db',
+            description: 'Platformatic DB can expose a SQL database by dynamically mapping it to REST/OpenAPI and GraphQL endpoints. It supports a limited subset of the SQL query language, but also allows developers to add their own custom routes and resolvers,Platformatic',
+            author: 'Matteo Collina',
+            homepage: 'https://github.com/platformatic/platformatic#readme',
+            orgId: 'platformatic',
+            orgName: 'Platformatic',
+            public: true,
+            platformaticService: true,
+            tags: [
+              'Platformatic',
+              'DB',
+              'API'
+            ],
+            downloads: 980663,
+            latestVersion: '1.26.0',
+            createdAt: '1705329121747',
+            releasedAt: '1709820227000',
+            publicRequest: false,
+            supportedBy: '',
+            supportedByUrl: '',
+            supportedByIcon: '',
+            npmPackageName: '@platformatic/db'
+          }
+        ]
+      }
+    ]
+  }
+
+  const expected = {
+    formData: {
+      createApplication: {
+        application: 'test-3',
+        path: '/Users/antonio/Documents/meraki-test/test-3'
+      }
+    },
+    services: [{
+      name: 'goatskin',
+      template: {
+        name: '@platformatic/db'
+      },
+      plugins: []
+    }]
+  }
+
+  expect(expected).toEqual(prepareStoreForEditApplication(application))
 })
