@@ -191,8 +191,10 @@ export const prepareStoreForEditApplication = (application) => {
   const createApplication = { application: application.name, path: application.path }
   const services = application.services.map(service => ({
     name: service.id,
+    renameDisabled: true,
     template: {
-      name: service.template
+      name: service.template,
+      disabled: true
     },
     plugins: []
   }))

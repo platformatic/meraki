@@ -1112,8 +1112,10 @@ test('prepareStoreForEditApplication - simple service', async () => {
     },
     services: [{
       name: 'goatskin',
+      renameDisabled: true,
       template: {
-        name: '@platformatic/db'
+        name: '@platformatic/db',
+        disabled: true
       },
       plugins: []
     }]

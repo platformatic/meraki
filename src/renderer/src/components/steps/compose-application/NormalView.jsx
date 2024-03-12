@@ -25,6 +25,7 @@ const NormalView = React.forwardRef(({
         <div className={`${commonStyles.mediumFlexBlock} ${styles.container}`} key={service.name}>
           <NameService
             name={service.name}
+            renameDisabled={service.renameDisabled}
             onClickEdit={() => onClickEditNameService(service)}
             onClickRemove={() => onClickRemoveService(service)}
             removeDisabled={services.length < 2}

@@ -26,6 +26,7 @@ function GridElement ({
       <div className={commonStyles.flexBlockNoGap}>
         <NameService
           name={service.name}
+          renameDisabled={service.renameDisabled}
           onClickEdit={() => onClickEditNameService(service)}
           onClickRemove={() => onClickRemoveService(service)}
           removeDisabled={services.length < 2}

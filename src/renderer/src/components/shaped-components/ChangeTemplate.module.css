@@ -12,18 +12,33 @@
 .svg {
   @apply absolute top-0 left-0 w-full h-full z-[-1];
 }
-.svg > path {
+.svgEnabled > path {
   @apply stroke-main-green fill-main-green;
 }
-.rectBordered {
-  @apply stroke-main-green;
+.svgDisabled > path {
+  @apply stroke-white fill-white;
+}
+.rectBordered,
+.rectBorderedDisabled {
   width: calc(100% - 0.5px);
   height: calc(100% - 3px);
 }
-.rectFilled {
-  @apply fill-main-green;
+.rectFilled,
+.rectFilledDisabled {
   width: calc(100% - 1px);
   height: calc(100% - 1px);
+}
+.rectBordered {
+  @apply stroke-main-green;
+}
+.rectFilled {
+  @apply fill-main-green;
+}
+.rectBorderedDisabled {
+  @apply stroke-white;
+}
+.rectFilledDisabled {
+  @apply fill-white;
 }
 .containerOnlyTemplate {
   min-height: calc(var(--compose-application-height) * 0.45);

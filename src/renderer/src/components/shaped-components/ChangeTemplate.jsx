@@ -1,7 +1,7 @@
 'use strict'
 import React, { useRef, useState } from 'react'
 import PropTypes from 'prop-types'
-import { MAIN_GREEN, LARGE } from '@platformatic/ui-components/src/components/constants'
+import { MAIN_GREEN, LARGE, WHITE } from '@platformatic/ui-components/src/components/constants'
 import Icons from '@platformatic/ui-components/src/components/icons'
 import typographyStyles from '~/styles/Typography.module.css'
 import styles from './ChangeTemplate.module.css'
@@ -14,12 +14,16 @@ function ChangeTemplate ({
   onClick,
   name,
   heightType,
-  clickable
+  clickable,
+  disabled
 }) {
   const ref = useRef(null)
   const [hover, setHover] = useState(false)
   let className = `${styles.container} ${getSpecificContainerClassName()}`
-  if (clickable) className += ` ${styles.containerClickable}`
+  if (clickable && !disabled) className += ` ${styles.containerClickable}`
+  const classNameRectFilled = disabled ? styles.rectFilledDisabled : styles.rectFilled
+  const classNameRectBordered = disabled ? styles.rectBorderedDisabled : styles.rectBordered
+  const classNameSvg = disabled ? styles.svgDisabled : styles.svgEnabled
 
   function getSpecificContainerClassName () {
     let specContainerClassName
@@ -43,17 +47,17 @@ function ChangeTemplate ({
   return (
     <div
       className={className}
-      onClick={() => clickable ? onClick() : {}}
+      onClick={() => (clickable && !disabled) ? onClick() : {}}
       ref={ref}
-      onMouseLeave={() => clickable ? setHover(false) : {}}
-      onMouseOver={() => clickable ? setHover(true) : {}}
+      onMouseLeave={() => (clickable && !disabled) ? setHover(false) : {}}
+      onMouseOver={() => (clickable && !disabled) ? setHover(true) : {}}
     >
       <svg
         viewBox='0 0 284 323'
         fill='none'
         preserveAspectRatio='none'
         xmlns='http://www.w3.org/2000/svg'
-        className={styles.svg}
+        className={`${styles.svg} ${classNameSvg}`}
       >
         {heightType === ONLY_TEMPLATE
           ? (<BrickPath width={280} height={323} hover={hover} />)
@@ -67,7 +71,7 @@ function ChangeTemplate ({
                 y={1.02789}
                 rx={3.5}
                 fill='none'
-                className={styles.rectFilled}
+                className={classNameRectFilled}
                 fillOpacity={hover ? 0.30 : 0.15}
               />
               <rect
@@ -75,14 +79,14 @@ function ChangeTemplate ({
                 y={1.02789}
                 rx={3.5}
                 stroke='none'
-                className={styles.rectBordered}
+                className={classNameRectBordered}
                 strokeOpacity={hover ? 1 : 0.7}
               />
             </>
             )}
       </svg>
       <div className={`${commonStyles.smallFlexBlock} ${commonStyles.itemsCenter} ${styles.content}`}>
-        {showIcon && <Icons.StackablesTemplateIcon color={MAIN_GREEN} size={LARGE} />}
+        {showIcon && <Icons.StackablesTemplateIcon color={disabled ? WHITE : MAIN_GREEN} size={LARGE} />}
         <p className={`${typographyStyles.desktopBodyLarge} ${typographyStyles.textWhite} ${typographyStyles.textCenter} ${styles.ellipsis}`} title={name}>{name}</p>
         {clickable && <p className={`${typographyStyles.desktopBodySmall} ${typographyStyles.textWhite} ${typographyStyles.textCenter} ${typographyStyles.opacity70}`}>Change Template</p>}
       </div>
@@ -110,8 +114,11 @@ ChangeTemplate.propTypes = {
   /**
    * clickable
     */
-  clickable: PropTypes.bool
-
+  clickable: PropTypes.bool,
+  /**
+     * disabled
+      */
+  disabled: PropTypes.bool
 }
 
 ChangeTemplate.defaultProps = {
@@ -119,7 +126,8 @@ ChangeTemplate.defaultProps = {
   onClick: () => {},
   name: '',
   heightType: ONLY_TEMPLATE,
-  clickable: true
+  clickable: true,
+  disabled: false
 }
 
 export default ChangeTemplate
