@@ -18,7 +18,6 @@ function LogFilterSelector ({ defaultLevelSelected, onChangeLevelSelected }) {
   const levelOrdered = [50, 40, 30, 20, 10]
 
   function handleChangeLevelSelected (level) {
-    console.log('onChangeLevelSelected', level)
     setLevelSeleted(level)
     onChangeLevelSelected(level)
   }

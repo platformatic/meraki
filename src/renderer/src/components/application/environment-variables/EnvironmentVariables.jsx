@@ -13,7 +13,6 @@ import useStackablesStore from '~/useStackablesStore'
 import { APPLICATION_PAGE_ENV_VAR } from '~/ui-constants'
 
 const EnvironmentVariables = React.forwardRef(({ services }, ref) => {
-  console.log('services', services)
   const globalState = useStackablesStore()
   const { setNavigation, setCurrentPage } = globalState
 
