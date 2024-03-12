@@ -8,25 +8,25 @@ import commonStyles from '~/styles/CommonStyles.module.css'
 import { BorderedBox, ButtonOnlyIcon, HorizontalSeparator, PlatformaticIcon, VerticalSeparator } from '@platformatic/ui-components'
 import Icons from '@platformatic/ui-components/src/components/icons'
 
-function ServiceElementTemplate ({ name }) {
+function ServiceElementTemplate ({ name, id }) {
   return (
     <BorderedBox classes={styles.serviceTemplate} color={MAIN_GREEN} borderColorOpacity={OPACITY_30} backgroundColor={MAIN_GREEN} backgroundColorOpacity={OPACITY_10}>
       <div className={`${commonStyles.smallFlexRow} ${commonStyles.itemsCenter}`}>
         <Icons.StackablesTemplateIcon color={MAIN_GREEN} size={SMALL} />
         <p className={`${typographyStyles.desktopBody} ${typographyStyles.textWhite} ${typographyStyles.textCenter} ${styles.ellipsis} ${styles.templateName}`} title={name}>{name}</p>
-        <PlatformaticIcon iconName='ExpandIcon' color={WHITE} size={SMALL} onClick={() => window.open('https://marketplace.platformatic.dev', '_blank')} internalOverHandling />
+        <PlatformaticIcon iconName='ExpandIcon' color={WHITE} size={SMALL} onClick={() => window.open(`https://marketplace.platformatic.dev/#/detail/template/${id}`, '_blank')} internalOverHandling />
       </div>
     </BorderedBox>
   )
 }
 
-function ServiceElementPlugin ({ name }) {
+function ServiceElementPlugin ({ name, id }) {
   return (
     <BorderedBox classes={styles.servicePlugin} color={TERTIARY_BLUE} borderColorOpacity={OPACITY_30} backgroundColor={TERTIARY_BLUE} backgroundColorOpacity={OPACITY_10}>
       <div className={`${commonStyles.smallFlexRow} ${commonStyles.itemsCenter}`}>
         <Icons.StackablesPluginIcon color={TERTIARY_BLUE} size={SMALL} />
         <p className={`${typographyStyles.desktopBody} ${typographyStyles.textWhite} ${typographyStyles.textCenter} ${styles.ellipsis} ${styles.pluginName}`} title={name}>{name}</p>
-        <PlatformaticIcon iconName='ExpandIcon' color={WHITE} size={SMALL} onClick={() => window.open('https://marketplace.platformatic.dev/', '_blank')} internalOverHandling />
+        <PlatformaticIcon iconName='ExpandIcon' color={WHITE} size={SMALL} onClick={() => window.open(`https://marketplace.platformatic.dev/#/detail/plugin/${id}`, '_blank')} internalOverHandling />
       </div>
     </BorderedBox>
   )
@@ -36,6 +36,14 @@ function ServiceElement ({ service, applicationEntrypoint }) {
   const [expanded, setExpanded] = useState(false)
   function onClickScalarIntegration () {
 
+  }
+
+  function getTemplateId (service) {
+    return service.templateDesc.find(templateDesc => templateDesc.name === service.template).id
+  }
+
+  function getPluginId (plugin, service) {
+    return service.pluginsDesc.find(pluginDesc => pluginDesc.name === plugin.name).id
   }
 
   return (
@@ -72,13 +80,13 @@ function ServiceElement ({ service, applicationEntrypoint }) {
               {service.template !== null && (
                 <div className={`${commonStyles.smallFlexRow} ${commonStyles.itemsCenter}`}>
                   <span className={`${typographyStyles.desktopBody} ${typographyStyles.textWhite} ${typographyStyles.opacity70}`}>Template: </span>
-                  <ServiceElementTemplate name={service.template} />
+                  <ServiceElementTemplate name={service.template} id={getTemplateId(service)} />
                 </div>
               )}
               {service.plugins.length > 0 && (
                 <div className={`${commonStyles.smallFlexRow} ${commonStyles.itemsCenter}`}>
                   <span className={`${typographyStyles.desktopBody} ${typographyStyles.textWhite} ${typographyStyles.opacity70}`}>Plugins: </span>
-                  {service.plugins.map(plugin => <ServiceElementPlugin key={plugin.name} name={plugin.name} />)}
+                  {service.plugins.map(plugin => <ServiceElementPlugin key={plugin.name} name={plugin.name} id={getPluginId(plugin, service)} />)}
                 </div>
               )}
             </div>
