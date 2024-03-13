@@ -5,7 +5,7 @@
   @apply py-10 px-6 flex flex-col gap-y-10; 
 }
 .buttonLevel {
-  @apply py-1 px-2 cursor-pointer capitalize relative;
+  @apply py-1 px-2 cursor-pointer capitalize relative basis-0 grow; 
 }
 
 .point {
@@ -36,4 +36,27 @@
 }
 .selectedPoint {
   @apply border-2 border-solid border-white rounded-full mb-[-2px]
+}
+
+.progressContainer {
+  @apply absolute bottom-[-0.4rem] left-0 z-0 w-full px-6 h-[2px];
+  box-sizing: border-box;
+}
+
+.progress {
+  @apply relative bg-white/15 z-0 w-full h-full;
+  margin: 0;
+  padding: 0;
+  overflow: hidden;
+  border-radius: 2px;
+}
+
+.bar {
+	@apply relative bg-white h-full;
+  float:left;
+}
+
+.percent {
+  @apply absolute top-1/2 left-1/2 text-white;
+  transform: translate(-50%,-50%);
 }
