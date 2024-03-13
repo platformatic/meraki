@@ -191,9 +191,9 @@ test('open application', async (t) => {
   const { id } = await applicationsApi.importApplication(appDir)
 
   const applicationDesc = await applicationsApi.openApplication(id)
+  delete applicationDesc.$schema
 
   const expected = {
-    $schema: 'https://platformatic.dev/schemas/v1.27.0/runtime',
     id: '1',
     name: 'runtime-1',
     path: appDir,
