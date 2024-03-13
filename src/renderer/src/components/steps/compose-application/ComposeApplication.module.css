@@ -1,7 +1,10 @@
 .container {
   @apply flex flex-col justify-between h-full grow
 }
-.buttonContainer {
+.buttonContainerForEditMode {
+  @apply flex justify-end;
+}
+.buttonContainerForCreateMode {
   @apply flex justify-between;
 }
 .containerPuzzle {
