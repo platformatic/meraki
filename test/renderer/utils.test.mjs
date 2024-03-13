@@ -1335,7 +1335,8 @@ test('prepareStoreForEditApplication - simple service with a plugin', async () =
         disabled: true
       },
       plugins: [{
-        name: '@fastify/static'
+        name: '@fastify/static',
+        newPlugin: false
       }],
       templateEnvVariables: [
         {

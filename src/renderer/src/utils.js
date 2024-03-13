@@ -187,7 +187,7 @@ export const generateFormForViewEnvironmentVariable = (services) => {
   return tmpServices
 }
 
-export const generateFormForEditEnvironmentVariable = (services) => {
+export const generateFormForEditEnvironmentVariable = (services, addUpdatedAt = true) => {
   const tmpServices = []
   let tmpTemplateForms = {}
   let tmpTemplateValidations = {}
@@ -242,28 +242,56 @@ export const generateFormForEditEnvironmentVariable = (services) => {
       pluginValidations = {}
       pluginFormErrors = {}
 
-      const envVars = service.pluginsDesc.find(pluginDesc => pluginDesc.name === plugin.name).envVars || []
+      if (plugin.newPlugin === undefined) {
+        if (plugin.envVars.length > 0) {
+          plugin.envVars.forEach(envVar => {
+            const { name: envName, type, default: envDefault, path, description } = envVar
+            const value = envDefault || ''
+            pluginForm[envName] = {
+              path,
+              value,
+              type,
+              description
+            }
+            pluginValidations[`${envName}Valid`] = value !== ''
+            pluginFormErrors[envName] = ''
+          })
+        }
+        tmpPluginObj = {
+          name: plugin.name,
+          form: { ...pluginForm },
+          validations: { ...pluginValidations, formErrors: { ...pluginFormErrors } },
+          validForm: Object.keys(pluginValidations).findIndex(element => pluginValidations[element] === false) === -1
+        }
+        if (addUpdatedAt) {
+          tmpPluginObj.updatedAt = new Date().toISOString()
+        }
+        tmpObj.plugins.push(tmpPluginObj)
+      }
+      if (plugin.newPlugin !== undefined && plugin.newPlugin === false) {
+        const envVars = service.pluginsDesc.find(pluginDesc => pluginDesc.name === plugin.name).envVars || []
 
-      if (envVars.length > 0) {
-        envVars.forEach(envVar => {
-          const { name: envName, path, description } = envVar
-          const value = service.env[Object.keys(service.env).find(k => k.endsWith(envName))]
-          pluginForm[envName] = {
-            path,
-            value,
-            description
-          }
-          pluginValidations[`${envName}Valid`] = value !== ''
-          pluginFormErrors[envName] = ''
-        })
+        if (envVars.length > 0) {
+          envVars.forEach(envVar => {
+            const { name: envName, path, description } = envVar
+            const value = service.env[Object.keys(service.env).find(k => k.endsWith(envName))]
+            pluginForm[envName] = {
+              path,
+              value,
+              description
+            }
+            pluginValidations[`${envName}Valid`] = value !== ''
+            pluginFormErrors[envName] = ''
+          })
+        }
+        tmpPluginObj = {
+          name: plugin.name,
+          form: { ...pluginForm },
+          validations: { ...pluginValidations, formErrors: { ...pluginFormErrors } },
+          validForm: Object.keys(pluginValidations).findIndex(element => pluginValidations[element] === false) === -1
+        }
+        tmpObj.plugins.push(tmpPluginObj)
       }
-      tmpPluginObj = {
-        name: plugin.name,
-        form: { ...pluginForm },
-        validations: { ...pluginValidations, formErrors: { ...pluginFormErrors } },
-        validForm: Object.keys(pluginValidations).findIndex(element => pluginValidations[element] === false) === -1
-      }
-      tmpObj.plugins.push(tmpPluginObj)
     })
     tmpServices.push(tmpObj)
   })
@@ -281,7 +309,8 @@ export const prepareStoreForEditApplication = (application) => {
       disabled: true
     },
     plugins: service.plugins.map(plugin => ({
-      name: plugin.name
+      name: plugin.name,
+      newPlugin: false
     })),
     templateEnvVariables: service.templateEnvVariables,
     env: service.env,
