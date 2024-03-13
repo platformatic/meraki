@@ -22,7 +22,6 @@ const ConfigureServices = React.forwardRef(({ onNext, onBack }, ref) => {
     if (services.length > 0) {
       const newServices = generateForm(services.filter(service => service.newService))
       const editedService = generateFormForEditEnvironmentVariable(services.filter(service => !service.newService))
-      console.log([...newServices, ...editedService])
       setConfiguredServices([...newServices, ...editedService])
     }
   }, [services])
