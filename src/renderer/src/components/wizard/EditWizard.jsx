@@ -43,6 +43,7 @@ function EditWizard ({
       ref={useRef(null)}
       key={STEP_ADD_TEMPLATE_AND_PLUGINS}
       onNext={() => nextStep(STEP_PREPARE_FOLDER)}
+      createMode={false}
     />,
     <PrepareFolder
       ref={useRef(null)}

@@ -26,7 +26,7 @@ import GridView from './GridView'
 import { NORMAL_VIEW, GRID_VIEW } from '~/ui-constants'
 import modalStyles from '~/styles/ModalStyles.module.css'
 
-const ComposeApplication = React.forwardRef(({ onNext, onBack }, ref) => {
+const ComposeApplication = React.forwardRef(({ createMode, onNext, onBack }, ref) => {
   const globalState = useStackablesStore()
   const { formData, addService, services, addFormData, renameService, removeService } = globalState
   const [showModalTemplate, setShowModalTemplate] = useState(false)
@@ -191,15 +191,17 @@ const ComposeApplication = React.forwardRef(({ onNext, onBack }, ref) => {
           </div>
         </div>
       </div>
-      <div className={`${styles.buttonContainer} ${commonStyles.fullWidth}`}>
-        <Button
-          type='button'
-          label='Back'
-          onClick={() => onBack()}
-          color={WHITE}
-          backgroundColor={TRANSPARENT}
-          paddingClass={`${commonStyles.buttonPadding} cy-action-back`}
-        />
+      <div className={`${createMode ? styles.buttonContainerForCreateMode : styles.buttonContainerForEditMode} ${commonStyles.fullWidth}`}>
+        {createMode && (
+          <Button
+            type='button'
+            label='Back'
+            onClick={() => onBack()}
+            color={WHITE}
+            backgroundColor={TRANSPARENT}
+            paddingClass={`${commonStyles.buttonPadding} cy-action-back`}
+          />
+        )}
 
         <Button
           disabled={services.find(service => (service.template?.name ?? '') === '') !== undefined}
@@ -306,12 +308,17 @@ ComposeApplication.propTypes = {
   /**
     * onNext
     */
-  onBack: PropTypes.func
+  onBack: PropTypes.func,
+  /**
+    * onNext
+    */
+  createMode: PropTypes.bool
 }
 
 ComposeApplication.defaultProps = {
   onNext: () => {},
-  onBack: () => {}
+  onBack: () => {},
+  createMode: true
 }
 
 export default ComposeApplication

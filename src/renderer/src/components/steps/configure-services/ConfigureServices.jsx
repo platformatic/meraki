@@ -10,7 +10,7 @@ import useStackablesStore from '~/useStackablesStore'
 import Title from '~/components/ui/Title'
 import '~/components/component.animation.css'
 import ConfigureEnvVarsTemplateAndPlugins from './ConfigureEnvVarsTemplateAndPlugins'
-import { generateForm, prepareFormForCreateApplication } from '../../../utils'
+import { generateForm, prepareFormForCreateApplication, generateFormForEditEnvironmentVariable } from '../../../utils'
 
 const ConfigureServices = React.forwardRef(({ onNext, onBack }, ref) => {
   const globalState = useStackablesStore()
@@ -20,7 +20,9 @@ const ConfigureServices = React.forwardRef(({ onNext, onBack }, ref) => {
 
   useEffect(() => {
     if (services.length > 0) {
-      setConfiguredServices(generateForm(services))
+      const newServices = generateForm(services.filter(service => service.newService))
+      const editedService = generateFormForEditEnvironmentVariable(services.filter(service => !service.newService))
+      setConfiguredServices([...newServices, ...editedService])
     }
   }, [services])
 

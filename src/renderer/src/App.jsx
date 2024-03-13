@@ -99,6 +99,11 @@ function App ({ path }) {
     resetWizardState()
   }
 
+  function handleCloseModalCreateApplication () {
+    setShowModalCreateApplication(false)
+    resetWizardState()
+  }
+
   return didCatch
     ? (
       <ErrorComponent error={error} message={error.message} />
@@ -121,7 +126,7 @@ function App ({ path }) {
         )}
         {showModalCreateApplication && (
           <CreateApplicationFlow
-            onCloseModal={() => setShowModalCreateApplication(false)}
+            onCloseModal={() => handleCloseModalCreateApplication()}
             onClickGoToApps={() => handleCreateApplication()}
           />
         )}

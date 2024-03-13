@@ -187,16 +187,134 @@ export const generateFormForViewEnvironmentVariable = (services) => {
   return tmpServices
 }
 
+export const generateFormForEditEnvironmentVariable = (services, addUpdatedAt = true) => {
+  const tmpServices = []
+  let tmpTemplateForms = {}
+  let tmpTemplateValidations = {}
+  let tmpTemplateValidForm = true
+  let tmpObj = {}
+
+  services.forEach(service => {
+    tmpTemplateForms = {}
+    tmpTemplateValidations = {}
+    tmpTemplateValidForm = true
+    tmpObj = {}
+
+    tmpObj.name = service.name
+    tmpObj.template = service.template.name
+    let form
+    let validations
+    let formErrors
+
+    if (service.templateEnvVariables.length > 0) {
+      form = {}
+      validations = {}
+      formErrors = {}
+
+      service.templateEnvVariables.forEach(envVar => {
+        const { var: envName, label } = envVar
+        const value = service.env[Object.keys(service.env).find(k => k.endsWith(envName))]
+        form[envName] = {
+          label,
+          var: envName,
+          value
+        }
+        validations[`${envName}Valid`] = value !== ''
+        formErrors[envName] = ''
+      })
+      tmpTemplateForms = { ...form }
+      tmpTemplateValidations = { ...validations, formErrors }
+      tmpTemplateValidForm = Object.keys(validations).findIndex(element => validations[element] === false) === -1
+    }
+    tmpObj.form = { ...tmpTemplateForms }
+    tmpObj.validations = { ...tmpTemplateValidations }
+    tmpObj.validForm = tmpTemplateValidForm
+
+    tmpObj.plugins = []
+    let pluginForm
+    let pluginValidations
+    let pluginFormErrors
+    let tmpPluginObj
+
+    (service?.plugins || []).forEach(plugin => {
+      tmpPluginObj = {}
+      pluginForm = {}
+      pluginValidations = {}
+      pluginFormErrors = {}
+
+      if (plugin.newPlugin === undefined) {
+        if (plugin.envVars.length > 0) {
+          plugin.envVars.forEach(envVar => {
+            const { name: envName, type, default: envDefault, path, description } = envVar
+            const value = envDefault || ''
+            pluginForm[envName] = {
+              path,
+              value,
+              type,
+              description
+            }
+            pluginValidations[`${envName}Valid`] = value !== ''
+            pluginFormErrors[envName] = ''
+          })
+        }
+        tmpPluginObj = {
+          name: plugin.name,
+          form: { ...pluginForm },
+          validations: { ...pluginValidations, formErrors: { ...pluginFormErrors } },
+          validForm: Object.keys(pluginValidations).findIndex(element => pluginValidations[element] === false) === -1
+        }
+        if (addUpdatedAt) {
+          tmpPluginObj.updatedAt = new Date().toISOString()
+        }
+        tmpObj.plugins.push(tmpPluginObj)
+      }
+      if (plugin.newPlugin !== undefined && plugin.newPlugin === false) {
+        const envVars = service.pluginsDesc.find(pluginDesc => pluginDesc.name === plugin.name).envVars || []
+
+        if (envVars.length > 0) {
+          envVars.forEach(envVar => {
+            const { name: envName, path, description } = envVar
+            const value = service.env[Object.keys(service.env).find(k => k.endsWith(envName))]
+            pluginForm[envName] = {
+              path,
+              value,
+              description
+            }
+            pluginValidations[`${envName}Valid`] = value !== ''
+            pluginFormErrors[envName] = ''
+          })
+        }
+        tmpPluginObj = {
+          name: plugin.name,
+          form: { ...pluginForm },
+          validations: { ...pluginValidations, formErrors: { ...pluginFormErrors } },
+          validForm: Object.keys(pluginValidations).findIndex(element => pluginValidations[element] === false) === -1
+        }
+        tmpObj.plugins.push(tmpPluginObj)
+      }
+    })
+    tmpServices.push(tmpObj)
+  })
+  return tmpServices
+}
+
 export const prepareStoreForEditApplication = (application) => {
   const createApplication = { application: application.name, path: application.path }
   const services = application.services.map(service => ({
     name: service.id,
+    newService: false,
     renameDisabled: true,
     template: {
       name: service.template,
       disabled: true
     },
-    plugins: []
+    plugins: service.plugins.map(plugin => ({
+      name: plugin.name,
+      newPlugin: false
+    })),
+    templateEnvVariables: service.templateEnvVariables,
+    env: service.env,
+    pluginsDesc: service.pluginsDesc
   }))
 
   return {

@@ -7,7 +7,6 @@ import typographyStyles from '~/styles/Typography.module.css'
 // import { Button, HorizontalSeparator, VerticalSeparator } from '@platformatic/ui-components'
 
 function LogFilterSelector ({ defaultLevelSelected, onChangeLevelSelected }) {
-  const [levelSelected, setLevelSeleted] = useState(defaultLevelSelected)
   const levels = {
     50: 'ERROR',
     40: 'WARN',
@@ -16,9 +15,19 @@ function LogFilterSelector ({ defaultLevelSelected, onChangeLevelSelected }) {
     10: 'TRACE'
   }
   const levelOrdered = [50, 40, 30, 20, 10]
+  const barLevels = {
+    50: '0%',
+    40: 'calc(25% - 4px)',
+    30: 'calc(50% - 4px)',
+    20: 'calc(75% - 4px)',
+    10: 'calc(100% - 4px)'
+  }
+  const [levelSelected, setLevelSeleted] = useState(defaultLevelSelected)
+  const [barValue, setBarValue] = useState(barLevels[defaultLevelSelected])
 
   function handleChangeLevelSelected (level) {
     setLevelSeleted(level)
+    setBarValue(barLevels[level])
     onChangeLevelSelected(level)
   }
 
@@ -42,6 +51,13 @@ function LogFilterSelector ({ defaultLevelSelected, onChangeLevelSelected }) {
   return (
     <div className={styles.container}>
       {levelOrdered.map(k => renderButton(k))}
+      <div className={styles.progressContainer}>
+        <div className={styles.progress}>
+          <div className={styles.bar} style={{ width: `${barValue}` }}>
+            <p className={styles.percent} />
+          </div>
+        </div>
+      </div>
     </div>
   )
 }
