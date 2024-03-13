@@ -46,12 +46,23 @@ function GridElement ({
             </div>
           </BorderedBox>
         )}
-        <BorderedBox color={MAIN_GREEN} backgroundColor={MAIN_GREEN} backgroundColorOpacity={OPACITY_20} classes={styles.boxGrow} onClick={() => onClickChangeTemplate(service)} clickable>
-          <div className={`${commonStyles.smallFlexRow} ${commonStyles.itemsCenter}`}>
-            <Icons.StackablesTemplateIcon color={MAIN_GREEN} size={SMALL} />
-            <span className={`${typographyStyles.desktopBodySmall} ${typographyStyles.textWhite} ${typographyStyles.opacity70} `}>{service?.template?.name ? 1 : 0}</span>
-          </div>
-        </BorderedBox>
+        {service?.template?.disabled
+          ? (
+            <BorderedBox color={WHITE} backgroundColor={WHITE} backgroundColorOpacity={OPACITY_20} classes={styles.boxGrow}>
+              <div className={`${commonStyles.smallFlexRow} ${commonStyles.itemsCenter}`}>
+                <Icons.StackablesTemplateIcon color={WHITE} size={SMALL} />
+                <span className={`${typographyStyles.desktopBodySmall} ${typographyStyles.textWhite} ${typographyStyles.opacity70} `}>{service?.template?.name ? 1 : 0}</span>
+              </div>
+            </BorderedBox>
+            )
+          : (
+            <BorderedBox color={MAIN_GREEN} backgroundColor={MAIN_GREEN} backgroundColorOpacity={OPACITY_20} classes={styles.boxGrow} onClick={() => onClickChangeTemplate(service)} clickable>
+              <div className={`${commonStyles.smallFlexRow} ${commonStyles.itemsCenter}`}>
+                <Icons.StackablesTemplateIcon color={MAIN_GREEN} size={SMALL} />
+                <span className={`${typographyStyles.desktopBodySmall} ${typographyStyles.textWhite} ${typographyStyles.opacity70} `}>{service?.template?.name ? 1 : 0}</span>
+              </div>
+            </BorderedBox>
+            )}
       </div>
     </div>
 
