@@ -23,6 +23,7 @@ const useStackablesStore = create((set, get) => ({
       ...state,
       services: [...currentServices, {
         name: serviceName,
+        newService: true,
         renameDisabled: false,
         template,
         plugins: []

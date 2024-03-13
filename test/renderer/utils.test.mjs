@@ -1112,12 +1112,296 @@ test('prepareStoreForEditApplication - simple service', async () => {
     },
     services: [{
       name: 'goatskin',
+      newService: false,
       renameDisabled: true,
       template: {
         name: '@platformatic/db',
         disabled: true
       },
-      plugins: []
+      plugins: [],
+      templateEnvVariables: [
+        {
+          var: 'DATABASE_URL',
+          label: 'What is the connection string?',
+          default: 'sqlite://./db.sqlite',
+          type: 'string',
+          configValue: 'connectionString'
+        },
+        {
+          var: 'PLT_APPLY_MIGRATIONS',
+          label: 'Should migrations be applied automatically on startup?',
+          default: true,
+          type: 'boolean'
+        }
+      ],
+      env: {
+        PLT_GOATSKIN_DATABASE_URL: 'sqlite://./db.sqlite',
+        PLT_GOATSKIN_APPLY_MIGRATIONS: 'true',
+        PLT_GOATSKIN_TYPESCRIPT: 'true'
+      },
+      pluginsDesc: []
+    }]
+  }
+
+  expect(expected).toEqual(prepareStoreForEditApplication(application))
+})
+
+test('prepareStoreForEditApplication - simple service with a plugin', async () => {
+  const application = {
+    id: '23',
+    name: 'test-db',
+    path: '/Users/antonio/Documents/meraki-test/test-db',
+    running: false,
+    status: 'stopped',
+    platformaticVersion: null,
+    isLatestPltVersion: false,
+    runtime: null,
+    insideMeraki: false,
+    lastStarted: null,
+    lastUpdated: '2024-03-13T11:02:21.388Z',
+    automaticallyImported: false,
+    $schema: 'https://platformatic.dev/schemas/v1.26.0/runtime',
+    configPath: '/Users/antonio/Documents/meraki-test/test-db/platformatic.json',
+    entrypoint: 'hooderdooder',
+    services: [
+      {
+        id: 'hooderdooder',
+        path: '/Users/antonio/Documents/meraki-test/test-db/services/hooderdooder',
+        configPath: '/Users/antonio/Documents/meraki-test/test-db/services/hooderdooder/platformatic.json',
+        config: {
+          $schema: 'https://platformatic.dev/schemas/v1.26.0/db',
+          db: {
+            connectionString: '{PLT_HOODERDOODER_DATABASE_URL}',
+            graphql: true,
+            openapi: true,
+            schemalock: true
+          },
+          watch: {
+            ignore: [
+              '*.sqlite',
+              '*.sqlite-journal'
+            ]
+          },
+          migrations: {
+            dir: 'migrations',
+            autoApply: '{PLT_HOODERDOODER_APPLY_MIGRATIONS}'
+          },
+          plugins: {
+            paths: [
+              {
+                path: './plugins',
+                encapsulate: false
+              },
+              {
+                path: './routes'
+              }
+            ],
+            typescript: '{PLT_HOODERDOODER_TYPESCRIPT}',
+            packages: [
+              {
+                name: '@fastify/static',
+                options: {
+                  root: '{PLT_ROOT}/{PLT_HOODERDOODER_FST_PLUGIN_STATIC_ROOT}',
+                  prefix: '{PLT_HOODERDOODER_FST_PLUGIN_STATIC_PREFIX}',
+                  schemaHide: '{PLT_HOODERDOODER_FST_PLUGIN_STATIC_SCHEMA_HIDE}'
+                }
+              }
+            ]
+          },
+          types: {
+            autogenerate: true
+          }
+        },
+        env: {
+          PLT_HOODERDOODER_DATABASE_URL: 'sqlite://./db.sqlite-edited',
+          PLT_HOODERDOODER_APPLY_MIGRATIONS: 'false',
+          PLT_HOODERDOODER_TYPESCRIPT: 'true',
+          PLT_HOODERDOODER_FST_PLUGIN_STATIC_ROOT: '/preview-antonio',
+          PLT_HOODERDOODER_FST_PLUGIN_STATIC_PREFIX: '/',
+          PLT_HOODERDOODER_FST_PLUGIN_STATIC_SCHEMA_HIDE: 'true'
+        },
+        template: '@platformatic/db',
+        plugins: [
+          {
+            name: '@fastify/static',
+            options: {
+              root: '{PLT_ROOT}/{PLT_HOODERDOODER_FST_PLUGIN_STATIC_ROOT}',
+              prefix: '{PLT_HOODERDOODER_FST_PLUGIN_STATIC_PREFIX}',
+              schemaHide: '{PLT_HOODERDOODER_FST_PLUGIN_STATIC_SCHEMA_HIDE}'
+            }
+          }
+        ],
+        templateEnvVariables: [
+          {
+            var: 'DATABASE_URL',
+            label: 'What is the connection string?',
+            default: 'sqlite://./db.sqlite',
+            type: 'string',
+            configValue: 'connectionString'
+          },
+          {
+            var: 'PLT_APPLY_MIGRATIONS',
+            label: 'Should migrations be applied automatically on startup?',
+            default: true,
+            type: 'boolean'
+          }
+        ],
+        pluginsDesc: [
+          {
+            id: '021be97a-4c76-480d-9b81-1323083b705b',
+            name: '@fastify/static',
+            description: 'Plugin for serving static files as fast as possible.',
+            author: 'Tommaso Allevi - @allevo',
+            homepage: 'https://github.com/fastify/fastify-static',
+            tags: [
+              'fastify',
+              'static'
+            ],
+            latestVersion: '7.0.1',
+            createdAt: '1701789281163',
+            releasedAt: '1707332293000',
+            downloads: 4338784,
+            supportedBy: 'Fastify',
+            supportedByUrl: 'https://fastify.dev',
+            supportedByIcon: ' https://fastify.dev/img/logos/fastify-white.svg ',
+            envVars: [
+              {
+                name: 'FST_PLUGIN_STATIC_ROOT',
+                path: 'root',
+                type: 'path',
+                description: 'The absolute path of the directory that contains the files to serve.'
+              },
+              {
+                name: 'FST_PLUGIN_STATIC_PREFIX',
+                path: 'prefix',
+                type: 'string',
+                description: 'A URL path prefix used to create a virtual mount path for the static directory.',
+                default: '/'
+              },
+              {
+                name: 'FST_PLUGIN_STATIC_SCHEMA_HIDE',
+                path: 'schemaHide',
+                type: 'boolean',
+                description: 'A flag that define if the fastify route hide-schema attribute is hidden or not',
+                default: 'true'
+              }
+            ]
+          }
+        ],
+        templateDesc: [
+          {
+            id: '8f3fbe51-4adc-4fdb-bdce-ec6845e2dd69',
+            name: '@platformatic/db',
+            description: 'Platformatic DB can expose a SQL database by dynamically mapping it to REST/OpenAPI and GraphQL endpoints. It supports a limited subset of the SQL query language, but also allows developers to add their own custom routes and resolvers,Platformatic',
+            author: 'Matteo Collina',
+            homepage: 'https://github.com/platformatic/platformatic#readme',
+            orgId: 'platformatic',
+            orgName: 'Platformatic',
+            public: true,
+            platformaticService: true,
+            tags: [
+              'Platformatic',
+              'DB',
+              'API'
+            ],
+            downloads: 984247,
+            latestVersion: '1.26.0',
+            createdAt: '1705329121747',
+            releasedAt: '1709820227000',
+            publicRequest: false,
+            supportedBy: '',
+            supportedByUrl: '',
+            supportedByIcon: '',
+            npmPackageName: '@platformatic/db'
+          }
+        ]
+      }
+    ]
+  }
+
+  const expected = {
+    formData: {
+      createApplication: {
+        application: 'test-db',
+        path: '/Users/antonio/Documents/meraki-test/test-db'
+      }
+    },
+    services: [{
+      name: 'hooderdooder',
+      newService: false,
+      renameDisabled: true,
+      template: {
+        name: '@platformatic/db',
+        disabled: true
+      },
+      plugins: [{
+        name: '@fastify/static'
+      }],
+      templateEnvVariables: [
+        {
+          var: 'DATABASE_URL',
+          label: 'What is the connection string?',
+          default: 'sqlite://./db.sqlite',
+          type: 'string',
+          configValue: 'connectionString'
+        },
+        {
+          var: 'PLT_APPLY_MIGRATIONS',
+          label: 'Should migrations be applied automatically on startup?',
+          default: true,
+          type: 'boolean'
+        }
+      ],
+      env: {
+        PLT_HOODERDOODER_DATABASE_URL: 'sqlite://./db.sqlite-edited',
+        PLT_HOODERDOODER_APPLY_MIGRATIONS: 'false',
+        PLT_HOODERDOODER_TYPESCRIPT: 'true',
+        PLT_HOODERDOODER_FST_PLUGIN_STATIC_ROOT: '/preview-antonio',
+        PLT_HOODERDOODER_FST_PLUGIN_STATIC_PREFIX: '/',
+        PLT_HOODERDOODER_FST_PLUGIN_STATIC_SCHEMA_HIDE: 'true'
+      },
+      pluginsDesc: [
+        {
+          id: '021be97a-4c76-480d-9b81-1323083b705b',
+          name: '@fastify/static',
+          description: 'Plugin for serving static files as fast as possible.',
+          author: 'Tommaso Allevi - @allevo',
+          homepage: 'https://github.com/fastify/fastify-static',
+          tags: [
+            'fastify',
+            'static'
+          ],
+          latestVersion: '7.0.1',
+          createdAt: '1701789281163',
+          releasedAt: '1707332293000',
+          downloads: 4338784,
+          supportedBy: 'Fastify',
+          supportedByUrl: 'https://fastify.dev',
+          supportedByIcon: ' https://fastify.dev/img/logos/fastify-white.svg ',
+          envVars: [
+            {
+              name: 'FST_PLUGIN_STATIC_ROOT',
+              path: 'root',
+              type: 'path',
+              description: 'The absolute path of the directory that contains the files to serve.'
+            },
+            {
+              name: 'FST_PLUGIN_STATIC_PREFIX',
+              path: 'prefix',
+              type: 'string',
+              description: 'A URL path prefix used to create a virtual mount path for the static directory.',
+              default: '/'
+            },
+            {
+              name: 'FST_PLUGIN_STATIC_SCHEMA_HIDE',
+              path: 'schemaHide',
+              type: 'boolean',
+              description: 'A flag that define if the fastify route hide-schema attribute is hidden or not',
+              default: 'true'
+            }
+          ]
+        }
+      ]
     }]
   }
 
