@@ -9,9 +9,15 @@ const api = {}
 // just add to the DOM global.
 if (process.contextIsolated) {
   try {
+    const devMode = process.argv.filter((arg) => arg.startsWith('--devMode='))[0]?.split('=')?.[1]
+
     contextBridge.exposeInMainWorld('electron', electronAPI)
     contextBridge.exposeInMainWorld('dialog', {
       showDialog: () => (ipcRenderer.invoke('select-folder'))
+    })
+
+    contextBridge.exposeInMainWorld('appInfo', {
+      isDevMode: devMode === 'true'
     })
 
     contextBridge.exposeInMainWorld('api', {

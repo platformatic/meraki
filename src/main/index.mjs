@@ -19,6 +19,10 @@ const version = app.getVersion()
 const generate = require('boring-name-generator')
 
 log.info('App starting...')
+const devMode = !!(app.commandLine.getSwitchValue("dev"));
+if (devMode) {
+  log.info('Running in dev mode')
+}
 
 // Create a URL to load in the main window based on params passed in meraki:// protocol
 const getTemplateId = url => {
@@ -121,7 +125,8 @@ function createWindow () {
     ...(process.platform === 'linux' ? { icon } : {}),
     webPreferences: {
       preload: join(__dirname, '../preload/index.js'),
-      sandbox: false
+      sandbox: false,
+      additionalArguments: [`--devMode=${devMode}`],
     }
   })
 
