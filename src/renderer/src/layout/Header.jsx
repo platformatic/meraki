@@ -7,9 +7,10 @@ import { Button, HorizontalSeparator } from '@platformatic/ui-components'
 import { WHITE, MARGIN_0, OPACITY_30, RICH_BLACK, DULLS_BACKGROUND_COLOR, ANTI_FLASH_WHITE, SMALL } from '@platformatic/ui-components/src/components/constants'
 import MerakiLogo from '~/components/ui/MerakiLogo'
 import Navigation from '~/layout/Navigation'
+import { isDevMode } from '~/utils'
 
 function Header ({ showCreateNewApp, onClickCreateNewApp, onClickImportApp }) {
-  const featureFlag = import.meta.env.VITE_DEV_FF
+  const featureFlag = isDevMode()
 
   const classNameContainer = featureFlag ? styles.containerFeatureFlag : styles.container
   const classNameHeader = featureFlag ? styles.headerFeatureFlag : styles.header
