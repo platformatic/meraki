@@ -326,9 +326,9 @@ export const prepareStoreForEditApplication = (application) => {
 }
 
 export const isDevMode = () => {
-  const featureFlag = import.meta.env.VITE_DEV_FF 
+  const featureFlag = import.meta.env.VITE_DEV_FF
   const appInfo = window.appInfo
   console.log('featureFlag', featureFlag)
   console.log('appInfo', appInfo)
-  return featureFlag || appInfo?.isDevMode 
+  return featureFlag || appInfo?.isDevMode
 }

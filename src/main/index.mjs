@@ -19,7 +19,7 @@ const version = app.getVersion()
 const generate = require('boring-name-generator')
 
 log.info('App starting...')
-const devMode = !!(app.commandLine.getSwitchValue("dev"));
+const devMode = !!(app.commandLine.getSwitchValue('dev'))
 if (devMode) {
   log.info('Running in dev mode')
 }
@@ -126,7 +126,7 @@ function createWindow () {
     webPreferences: {
       preload: join(__dirname, '../preload/index.js'),
       sandbox: false,
-      additionalArguments: [`--devMode=${devMode}`],
+      additionalArguments: [`--devMode=${devMode}`]
     }
   })
 
