@@ -1,5 +1,5 @@
 'use strict'
-import React, { useEffect } from 'react'
+import React, { useEffect, useState } from 'react'
 import PropTypes from 'prop-types'
 import { MEDIUM, WHITE, OPACITY_30, TRANSPARENT } from '@platformatic/ui-components/src/components/constants'
 import styles from './Metrics.module.css'
@@ -9,10 +9,12 @@ import { BorderedBox } from '@platformatic/ui-components'
 import Icons from '@platformatic/ui-components/src/components/icons'
 import useStackablesStore from '~/useStackablesStore'
 import { APPLICATION_PAGE_METRICS } from '~/ui-constants'
+import LineChart from './LineChart'
 
 const Metrics = React.forwardRef(({ applicationSelected }, ref) => {
   const globalState = useStackablesStore()
   const { setNavigation, setCurrentPage } = globalState
+  const [paused, setPaused] = useState(false) // This pauses the chart scrolling (not the data generation)
 
   useEffect(() => {
     if (applicationSelected.id) {
@@ -40,15 +42,17 @@ const Metrics = React.forwardRef(({ applicationSelected }, ref) => {
               <Icons.MetricsIcon color={WHITE} size={MEDIUM} />
               <h2 className={`${typographyStyles.desktopHeadline2} ${typographyStyles.textWhite}`}>Metrics</h2>
               <p className={`${typographyStyles.desktopBodySmall} ${typographyStyles.textWhite} ${typographyStyles.opacity70}`}>(Last 5 minutes)</p>
+              {paused ? <p className={`${typographyStyles.desktopBodySmall}  ${typographyStyles.textWhite} ${typographyStyles.opacity70}`}>Paused, click on chart to resume</p> : null}
             </div>
           </div>
+
           <div className={`${commonStyles.mediumFlexBlock} ${commonStyles.fullWidth}`}>
             <BorderedBox color={WHITE} borderColorOpacity={OPACITY_30} backgroundColor={TRANSPARENT} classes={styles.boxMetricContainer}>
-              <p className=''>Metric 1 for {applicationSelected.id}</p>
+              <LineChart title='Memory' unit='MB' labels={['RSS', 'Total Heap', 'Heap Used', 'New Space', 'Old Space']} colorSet={0} numberOfLines={5} paused={paused} setPaused={setPaused} />
             </BorderedBox>
 
             <BorderedBox color={WHITE} borderColorOpacity={OPACITY_30} backgroundColor={TRANSPARENT} classes={styles.boxMetricContainer}>
-              <p className=''>Metric 2 for {applicationSelected.id} </p>
+              <LineChart title='CPU Usage & Event loop utilization' unit='%' labels={['CPU usage', 'Event Loop Utilization']} colorSet={1} numberOfLines={2} paused={paused} setPaused={setPaused} />
             </BorderedBox>
           </div>
         </div>

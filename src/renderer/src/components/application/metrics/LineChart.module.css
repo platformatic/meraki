@@ -1,0 +1,76 @@
+.container {
+  @apply flex flex-col justify-between relative space-y-4;
+} 
+
+.header {
+  @apply flex justify-between relative w-full;
+} 
+
+.title {
+  @apply w-full; 
+}
+
+.labels {
+  @apply flex  flex-row justify-end space-x-4; 
+}
+
+.labelContainer {
+  @apply flex flex-row justify-end space-x-4 w-full; 
+}
+
+.label {
+  @apply w-max; 
+}
+
+.legendLine {
+  @apply border-t-2 border-solid rounded-full w-8 h-0 mt-2;
+}
+
+.line {
+  fill: none;
+  stroke-width: 2px;
+}
+
+.tooltip {
+  position: absolute;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  color: black;
+  background-color: white;
+  border: 1px solid black;
+  border-radius: 5px;
+  pointer-events: none;
+  opacity: 0;
+}
+
+.tooltipContainer {
+  @apply flex flex-col items-center;
+}
+
+.tooltipTime {
+  @apply border-solid ml-2 mr-2 mt-2 flex flex-col items-center border-b;
+}
+
+.time {
+  @apply mb-2;
+}
+
+.tooltipTable {
+  @apply border-solid w-full mb-2 mt-2;
+}
+
+.tooltipLine {
+  @apply border-solid ml-2 mr-2 flex justify-between;
+}
+
+.tooltipValue {
+  @apply ml-4;
+}
+
+
+
+
+
+
+  
