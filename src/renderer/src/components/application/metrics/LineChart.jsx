@@ -6,7 +6,15 @@ import * as d3 from 'd3'
 import colorSet0 from './ColorSet0.module.css'
 import colorSet1 from './ColorSet1.module.css'
 
-const LineChart = ({ title, unit, labels, numberOfLines, colorSet = 0 }) => {
+const LineChart = ({
+  title,
+  unit,
+  labels,
+  numberOfLines,
+  colorSet = 0,
+  paused = false,
+  setPaused = () => { }
+}) => {
   // This params are here to configure the chart, we could also change them to props (and have these values ad defaults)
   const windowInMinutes = 5
   const miny = 0
@@ -15,7 +23,6 @@ const LineChart = ({ title, unit, labels, numberOfLines, colorSet = 0 }) => {
 
   // We assume the data is an array of objects with a time and a value
   const [data, setData] = useState([{ time: new Date(), values: Array(numberOfLines).fill(3) }])
-  const [paused, setPaused] = useState(false) // This pauses the chart scrolling (not the data generation)
   // The setter is missing on purpose. We don't want to trigger a rerender when the mouse position changes
   const [mousePosition] = useState({ x: 0, y: 0 })
 
