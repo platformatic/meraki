@@ -44,7 +44,12 @@ if (process.contextIsolated) {
       pauseLogs: () => (ipcRenderer.invoke('pause-logs')),
       resumeLogs: () => (ipcRenderer.invoke('resume-logs')),
       stopLogs: () => (ipcRenderer.invoke('stop-logs')),
-      getAllLogs: (id) => (ipcRenderer.invoke('get-all-logs', id))
+      getAllLogs: (id) => (ipcRenderer.invoke('get-all-logs', id)),
+
+      // metrics
+      startMetrics: (id) => (ipcRenderer.invoke('start-metrics', id)),
+      onAppMetrics: (id, callback) => (ipcRenderer.on('app-metrics', id, callback)),
+      stopMetrics: () => (ipcRenderer.invoke('stop-metrics'))
     })
   } catch (error) {
     console.error(error)

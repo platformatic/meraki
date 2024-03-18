@@ -63,3 +63,14 @@ export const callApiResumeLogs = async () => {
 export const callApiStopLogs = async () => {
   return await window.api.stopLogs()
 }
+
+// Metrics ****************************/
+export const callApiStartMetrics = async (id) => {
+  return await window.api.startMetrics(id)
+}
+
+export const getAppMetrics = (id, callback) => window.api.onAppMetrics(callback)
+
+export const callApiStopMetrics = async () => {
+  return await window.api.stopMetrics()
+}

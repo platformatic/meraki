@@ -1,32 +1,29 @@
 import { useRef, useState } from 'react'
-import styles from './charts.module.css'
 import typographyStyles from '~/styles/Typography.module.css'
+import styles from './charts.module.css'
 import * as d3 from 'd3'
-import colorSet0 from './colorset0.module.css'
-import colorSet1 from './colorset1.module.css'
 import { xMargin, yMargin, windowInMinutes } from './chart_constants.js'
 
-const LineChart = ({
+const StackedBarsChart = ({
   data,
   title,
   unit,
-  labels,
-  colorSet = 0,
   paused = false,
   setPaused = () => {}
 }) => {
-  const svgRef = useRef()
-  const tooltipRef = useRef()
-
-  // This params are here to configure the chart, we could also change them to props (and have these values ad defaults)
   const miny = 0
   const lowermaxy = 10 // y max is dynamic, but we migth want to have a max lower bound. Set to 0 for completely dynamic y max
-  const colorStyles = colorSet === 0 ? colorSet0 : colorSet1
-  const numberOfLines = labels.length
+  const percentiles = {
+    P99: '#FA6221',
+    P95: '#C61BE2',
+    P90: '#2192FA'
+  }
 
-  // We assume the data is an array of objects with a time and a value
   // The setter is missing on purpose. We don't want to trigger a rerender when the mouse position changes
   const [mousePosition] = useState({ x: 0, y: 0 })
+
+  const svgRef = useRef()
+  const tooltipRef = useRef()
 
   const filterDataInWindow = (data) => {
     const window = windowInMinutes * 60 * 1000
@@ -57,13 +54,15 @@ const LineChart = ({
     const lastTime = new Date(firstTime.getTime() + window)
     x.domain([firstTime, lastTime])
 
-    // We need to get the max y for all values to correctly set the y domain`
+    latestData.shift() // We remove the first element because the bar cover the y axis
+
+    // We need to get the max y for all values to correctly set the y domain
     const allCurrentValues = []
     for (let i = 0; i < latestData.length; i++) {
-      allCurrentValues.push(...latestData[i].values)
+      allCurrentValues.push(latestData[i].P99)
     }
     const maxy = d3.max(allCurrentValues)
-    const yMax = Math.max(maxy, lowermaxy) + (maxy * 0.05) // We add 5% to the max y to have some space on top
+    const yMax = Math.max(d3.max(allCurrentValues), lowermaxy) + +(maxy * 0.05) // We add 5% to the max y to have some space on top
     y.domain([miny, yMax])
 
     // We always show 10 labels on the x axis
@@ -92,43 +91,39 @@ const LineChart = ({
     $yAxis.call(yAxis)
     $xAxis.call(xAxis)
 
-    svg
-      .selectAll('rect')
-      .join('rect')
+    const chart = svg.selectAll('.chart')
+      .data(latestData)
+      .enter()
 
-    for (let i = 0; i < numberOfLines; i++) {
-      const $data = svg.append('path').attr('class', `${styles.line} ${colorStyles[`color-${i}`]}`)
-      $data.datum(latestData)
-        .attr('d', d3.line()
-          .x(p => {
-            return x(p.time)
-          })
-          .y((p) => y(p.values[i]))
-        )
-    }
+    const barWidth = 2
+    const barOffset = -(barWidth * 2)
+    chart.append('rect')
+      .attr('fill', percentiles.P90)
+      .attr('x', d => x(d.time) + barOffset)
+      .attr('y', d => y(d.P90))
+      .attr('width', barWidth)
+      .attr('height', d => h - yMargin - y(d.P90)) // We calculate the height upside-down
+      .attr('class', 'P90')
 
-    const tooltipDots = []
+    chart.append('rect')
+      .attr('fill', percentiles.P95)
+      .attr('x', d => x(d.time) + barOffset)
+      .attr('y', d => y(d.P95))
+      .attr('width', barWidth)
+      .attr('height', d => h - yMargin - y(d.P95 - d.P90))
 
-    for (let i = 0; i < numberOfLines; i++) {
-      tooltipDots.push(svg
-        .append('circle')
-        .attr('r', 5)
-        .attr('class', colorStyles[`color-${i}`])
-        .attr('stroke', 'black')
-        .attr('stroke-width', 2)
-        .style('opacity', 0)
-        .style('pointer-events', 'none')
-      )
-    }
+    chart.append('rect')
+      .attr('fill', percentiles.P99)
+      .attr('x', d => x(d.time) + barOffset)
+      .attr('y', d => y(d.P99))
+      .attr('width', barWidth)
+      .attr('height', d => h - yMargin - y(d.P99 - d.P95))
 
-    svg.on('mouseover pointermove', showCircles)
-      .on('pointerleave', hideCircles)
+    // Tooltip
+    svg.on('mouseover pointermove', showTooltip)
+      .on('pointerleave', hideTooltip)
 
-    // When we re-render the chart, we need to show the circles again
-    // (otherwise they disappear when the chart is re-rendered)
-    showCircles()
-
-    function showCircles (event) {
+    function showTooltip (event) {
       let xPos, yPos
       if (event) {
         [xPos, yPos] = d3.pointer(event)
@@ -148,21 +143,12 @@ const LineChart = ({
         return
       }
 
-      for (let i = 0; i < numberOfLines; i++) {
-        tooltipDots[i]
-          .style('opacity', 1)
-          .attr('cx', xPos)
-          .attr('cy', y(data.values[i]))
-          .raise()
-      }
-
       // Prepare the tooltip
       const timeString = d3.timeFormat('%H:%M:%S %p')(data.time)
-
-      const valuesData = data.values.map((v, i) => {
+      const valuesData = labels.map((label) => {
         return {
-          label: labels[i],
-          value: Math.round(v * 100) / 100
+          label,
+          value: Math.round(data[label] * 100) / 100
         }
       })
 
@@ -180,14 +166,12 @@ const LineChart = ({
           }).join('')}
         </div>
       </div>`)
-
-      const maxY = y(d3.max(data.values))
+      const maxY = y(data.P99)
       tooltip.style('left', xPos + 'px').style('top', maxY - (valuesData.length * 15) - 60 + 'px')
       tooltip.style('opacity', 0.9)
     }
 
-    function hideCircles () {
-      tooltipDots.forEach(t => t.style('opacity', 0))
+    function hideTooltip () {
       mousePosition.x = 0
       mousePosition.y = 0
       tooltip.style('opacity', 0)
@@ -202,7 +186,7 @@ const LineChart = ({
           return (
             <div key={`label-${i}`} className={styles.labelContainer}>
               <div className={styles.label}> {label} </div>
-              <div className={`${styles.legendLine} ${colorStyles[`color-${i}`]}`} />
+              <div className={`${styles.legendLine} ${styles[`${label}`]}`} />
               <div>{i !== labels.length - 1 ? '|' : ''}</div>
             </div>
           )
@@ -211,6 +195,7 @@ const LineChart = ({
       </div>
     )
   }
+  const labels = Object.keys(percentiles)
 
   return (
     <div className={styles.container}>
@@ -241,4 +226,4 @@ const LineChart = ({
   )
 }
 
-export default LineChart
+export default StackedBarsChart

@@ -5,22 +5,23 @@ import { MEDIUM, WHITE, OPACITY_30, TRANSPARENT } from '@platformatic/ui-compone
 import styles from './Metrics.module.css'
 import typographyStyles from '~/styles/Typography.module.css'
 import commonStyles from '~/styles/CommonStyles.module.css'
-import { BorderedBox } from '@platformatic/ui-components'
+import { BorderedBox, LoadingSpinnerV2 } from '@platformatic/ui-components'
 import Icons from '@platformatic/ui-components/src/components/icons'
 import useStackablesStore from '~/useStackablesStore'
 import { APPLICATION_PAGE_METRICS } from '~/ui-constants'
+import { callApiStartMetrics, getAppMetrics, callApiStopMetrics } from '~/api'
 import LineChart from './LineChart'
+import StackedBarsChart from './StackedBarsChart'
 
 const Metrics = React.forwardRef(({ applicationSelected }, ref) => {
   const globalState = useStackablesStore()
   const { setNavigation, setCurrentPage } = globalState
-  const [paused, setPaused] = useState(false) // This pauses the chart scrolling (not the data generation)
-
-  useEffect(() => {
-    if (applicationSelected.id) {
-      console.log('here the id', applicationSelected.id)
-    }
-  }, [applicationSelected.id])
+  const [paused, setPaused] = useState(false) // This pauses the chart flowing (not the data collection)
+  const [data, setData] = useState({
+    memory: [],
+    cpuEL: [],
+    latency: []
+  })
 
   useEffect(() => {
     setNavigation({
@@ -33,6 +34,61 @@ const Metrics = React.forwardRef(({ applicationSelected }, ref) => {
     }, 2)
   }, [])
 
+  const toMB = (bytes) => {
+    return Math.round(bytes / 1024 / 1024)
+  }
+
+  useEffect(() => {
+    if (applicationSelected.id) {
+      getAppMetrics(applicationSelected.id, (_, metric) => {
+        const parsedMetric = JSON.parse(metric)
+        const { date, cpu, elu, rss, totalHeapSize, usedHeapSize, newSpaceSize, oldSpaceSize, entrypoint } = parsedMetric
+        const { p50: P50, p90: P90, p95: P95, p99: P99 } = entrypoint.latency
+        const time = new Date(date)
+        const memory = data.memory
+        const cpuEL = data.cpuEL
+        const latency = data.latency
+        const eluPercentage = elu * 100
+        memory.push({
+          time,
+          values: [rss, totalHeapSize, usedHeapSize, newSpaceSize, oldSpaceSize].map(toMB)
+        })
+        cpuEL.push({
+          time,
+          values: [cpu, eluPercentage]
+        })
+        latency.push({ time, P50, P90, P95, P99 })
+
+        setData({
+          memory,
+          cpuEL,
+          latency
+        })
+      })
+      callApiStartMetrics(applicationSelected.id)
+    }
+    return callApiStopMetrics
+  }, [applicationSelected.id])
+
+  const { memory, cpuEL, latency } = data
+
+  // We need at least 2 data points to render the charts properly
+  if (memory.length < 2) {
+    return (
+      <LoadingSpinnerV2
+        loading
+        applySentences={{
+          containerClassName: `${commonStyles.mediumFlexBlock} ${commonStyles.itemsCenter}`,
+          sentences: [{
+            style: `${typographyStyles.desktopBodyLarge} ${typographyStyles.textWhite}`,
+            text: 'Start collecting metrics'
+          }]
+        }}
+        containerClassName={styles.loadingSpinner}
+      />
+    )
+  }
+
   return (
     <div className={styles.container} ref={ref}>
       <div className={styles.content}>
@@ -42,20 +98,46 @@ const Metrics = React.forwardRef(({ applicationSelected }, ref) => {
               <Icons.MetricsIcon color={WHITE} size={MEDIUM} />
               <h2 className={`${typographyStyles.desktopHeadline2} ${typographyStyles.textWhite}`}>Metrics</h2>
               <p className={`${typographyStyles.desktopBodySmall} ${typographyStyles.textWhite} ${typographyStyles.opacity70}`}>(Last 5 minutes)</p>
-              {paused ? <p className={`${typographyStyles.desktopBodySmall}  ${typographyStyles.textWhite} ${typographyStyles.opacity70}`}>Paused, click on chart to resume</p> : null}
+              {paused ? <p className={`${typographyStyles.desktopBodySmall}  ${typographyStyles.textWhite} ${typographyStyles.opacity70}`}>Paused, click on a chart to resume</p> : null}
             </div>
           </div>
 
           <div className={`${commonStyles.mediumFlexBlock} ${commonStyles.fullWidth}`}>
             <BorderedBox color={WHITE} borderColorOpacity={OPACITY_30} backgroundColor={TRANSPARENT} classes={styles.boxMetricContainer}>
-              <LineChart title='Memory' unit='MB' labels={['RSS', 'Total Heap', 'Heap Used', 'New Space', 'Old Space']} colorSet={0} numberOfLines={5} paused={paused} setPaused={setPaused} />
+              <LineChart
+                data={memory}
+                title='Memory'
+                unit='MB'
+                labels={['RSS', 'Total Heap', 'Heap Used', 'New Space', 'Old Space']}
+                colorSet={0}
+                paused={paused}
+                setPaused={setPaused}
+              />
             </BorderedBox>
 
             <BorderedBox color={WHITE} borderColorOpacity={OPACITY_30} backgroundColor={TRANSPARENT} classes={styles.boxMetricContainer}>
-              <LineChart title='CPU Usage & Event loop utilization' unit='%' labels={['CPU usage', 'Event Loop Utilization']} colorSet={1} numberOfLines={2} paused={paused} setPaused={setPaused} />
+              <LineChart
+                data={cpuEL}
+                title='CPU Usage & Event loop utilization'
+                unit='%'
+                labels={['CPU usage', 'Event Loop Utilization']}
+                colorSet={1}
+                paused={paused}
+                setPaused={setPaused}
+              />
+            </BorderedBox>
+
+            <BorderedBox color={WHITE} borderColorOpacity={OPACITY_30} backgroundColor={TRANSPARENT} classes={styles.boxMetricContainer}>
+              <StackedBarsChart
+                data={latency}
+                title='Entrypoint Latency'
+                unit='ms'
+                paused={paused}
+                setPaused={setPaused}
+              />
             </BorderedBox>
           </div>
-        </div>
+        </div>w:
       </div>
     </div>
   )
