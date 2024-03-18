@@ -47,7 +47,7 @@
   @apply font-inter font-normal text-[1rem] leading-[1.5rem];
 }
 .desktopBodySmall {
-  @apply font-inter font-normal text-[0.875rem] leading-[1.313rem];
+  @apply font-inter font-light text-[0.875rem] leading-[1.313rem];
 }
 .desktopBodySmallest {
   @apply font-inter font-light text-[0.75rem] leading-[1.125rem];
