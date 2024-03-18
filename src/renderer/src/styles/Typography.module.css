@@ -29,7 +29,7 @@
   @apply truncate w-full;
 }
 .desktopHeadline1 {
-  @apply font-inter font-semibold text-[1.75rem] leading-[2.18rem] md:text-[2.5rem] md:leading-[3.375rem];
+  @apply font-inter font-medium text-[1.75rem] leading-[2.18rem] md:text-[2.5rem] md:leading-[3.375rem];
 }
 .desktopHeadline2 {
   @apply font-inter font-semibold text-[1.375rem] leading-[1.65rem] md:text-[2rem] md:leading-[2.7rem];
@@ -47,7 +47,7 @@
   @apply font-inter font-normal text-[1rem] leading-[1.5rem];
 }
 .desktopBodySmall {
-  @apply font-inter font-normal text-[0.875rem] leading-[1.313rem];
+  @apply font-inter font-light text-[0.875rem] leading-[1.313rem];
 }
 .desktopBodySmallest {
   @apply font-inter font-light text-[0.75rem] leading-[1.125rem];
@@ -68,3 +68,6 @@
   @apply font-inter font-light uppercase text-[0.875rem] leading-[1.313rem] tracking-[0.15em] ;
 }
 
+.onHoverUnderline {
+  @apply no-underline hover:underline;
+}

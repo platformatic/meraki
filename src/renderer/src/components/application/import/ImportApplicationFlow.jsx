@@ -110,7 +110,7 @@ function ImportApplicationFlow ({ onCloseModal, onClickConfirm }) {
               <Button
                 type='button'
                 platformaticIcon={{ iconName: 'FolderIcon', color: WHITE }}
-                label='Change folder'
+                label={form.folder !== '' ? 'Change folder' : 'Select folder'}
                 onClick={async () => handleOpenFolder()}
                 color={WHITE}
                 backgroundColor={TRANSPARENT}
@@ -118,14 +118,14 @@ function ImportApplicationFlow ({ onCloseModal, onClickConfirm }) {
                 textClass={`${typographyStyles.desktopBody} ${typographyStyles.textWhite}`}
               />
               <Forms.Input
-                placeholder='Select the destination folder of your application using the Button'
+                placeholder='Select application folder'
                 name='folder'
                 borderColor={WHITE}
                 value={form.folder}
                 readOnly
                 errorMessage={validations.formErrors.folder}
                 backgroundColor={RICH_BLACK}
-                inputTextClassName={`${typographyStyles.desktopBodySmall} ${typographyStyles.textWhite}`}
+                inputTextClassName={`${typographyStyles.desktopBodySmall} ${typographyStyles.textWhite} ${typographyStyles.ellipsis}`}
                 verticalPaddingClassName={commonStyles.noVerticalPadding}
               />
             </Forms.Field>
@@ -153,6 +153,7 @@ function ImportApplicationFlow ({ onCloseModal, onClickConfirm }) {
               <Button
                 type='button'
                 paddingClass={commonStyles.buttonPadding}
+                textClass={typographyStyles.desktopBody}
                 label='Cancel'
                 onClick={() => onCloseModal()}
                 color={WHITE}
@@ -162,6 +163,7 @@ function ImportApplicationFlow ({ onCloseModal, onClickConfirm }) {
                 disabled={!validForm}
                 type='button'
                 paddingClass={commonStyles.buttonPadding}
+                textClass={typographyStyles.desktopBody}
                 label='Import App'
                 onClick={(event) => handleSubmit(event)}
                 color={RICH_BLACK}
