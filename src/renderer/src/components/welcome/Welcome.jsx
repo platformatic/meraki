@@ -16,9 +16,12 @@ const Welcome = React.forwardRef(({ onClickImportApp, onClickCreateNewApp }, ref
           <div className={`${commonStyles.largeFlexBlock40} ${commonStyles.fullWidth}`}>
             <div className={commonStyles.mediumFlexBlock}>
               <h1 className={`${typographyStyles.desktopHeadline1} ${typographyStyles.textWhite}`}>Welcome to Meraki</h1>
-              <p className={`${typographyStyles.desktopBodyLarge} ${typographyStyles.textWhite} ${typographyStyles.opacity70}`}>
-                Start by creating a new app, or import an existing one.<br />
-                Do you need help to start? Read our get <a href='#'>started</a> documentation.
+              <p className={`${typographyStyles.desktopBodyLarge} ${typographyStyles.textWhite}`}>
+                <span className={`${typographyStyles.opacity70}`}>Start by creating a new app, or import an existing one.<br /></span>
+                <span className={`${typographyStyles.opacity70}`}>Do you need help to start? Read our&nbsp;
+                  <a href='#' className={`${commonStyles.cursorPointer} ${typographyStyles.textTertiaryBlue} ${typographyStyles.onHoverUnderline}`}>Get started</a>
+                &nbsp;documentation.
+                </span>
               </p>
             </div>
             <div className={`${styles.buttonContainer} ${commonStyles.fullWidth}`}>
@@ -47,11 +50,11 @@ const Welcome = React.forwardRef(({ onClickImportApp, onClickCreateNewApp }, ref
             <HorizontalSeparator marginBottom={MARGIN_0} marginTop={MARGIN_0} color={WHITE} opacity={OPACITY_30} />
             <div className={commonStyles.extraSmallFlexBlock}>
               <p className={`${typographyStyles.desktopBodyLargeSemibold} ${typographyStyles.textWhite}`}>Applications running in your System</p>
-              <p className={`${typographyStyles.desktopBodyLarge} ${typographyStyles.textWhite} ${typographyStyles.opacity70}`}>You don’t have running application in your system.</p>
+              <p className={`${typographyStyles.desktopBody} ${typographyStyles.textWhite} ${typographyStyles.opacity70}`}>You don’t have running application in your system.</p>
             </div>
           </div>
         </div>
-        <div className={`${commonStyles.largeFlexBlock} ${commonStyles.halfWidth} ${styles.imageContainer}`}>
+        <div className={`${commonStyles.largeFlexBlock} ${commonStyles.halfWidth} ${styles.imageContainer} ${commonStyles.justifyCenter}`}>
           <div className={styles.imageContent} />
         </div>
       </div>

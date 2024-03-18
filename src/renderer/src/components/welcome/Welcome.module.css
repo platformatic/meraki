@@ -2,20 +2,15 @@
   @apply flex flex-row justify-between relative grow;
 }
 .leftContent {
-  @apply flex flex-col items-center justify-center px-6 xl:px-40;
+  @apply flex flex-col items-center justify-center pl-6 xl:pl-[142px];
 }
 .buttonContainer {
   @apply flex justify-start gap-x-2;
 }
-.imageContainer{
-  position: relative;
-  height: auto;
-}
 .imageContent{
-  @apply absolute top-[50%] left-0 w-1/2 z-[-1] w-full h-full max-h-[708px];
+  @apply max-h-[708px] w-full h-full;
   background: url('~/assets/Illustration_Welcome.svg') no-repeat center;
   background-size: contain;
-  transform: translateY(-50%)
 }
 .useTemplateIdContainer {
   @apply relative min-h-[8rem];
