@@ -118,7 +118,7 @@ function EditWizard ({
             containerClassName: `${commonStyles.mediumFlexBlock} ${commonStyles.itemsCenter}`,
             sentences: [{
               style: `${typographyStyles.desktopBodyLarge} ${typographyStyles.textWhite}`,
-              text: 'Loading your application....'
+              text: 'Loading your application...'
             }]
           }}
           containerClassName={styles.loadingSpinner}

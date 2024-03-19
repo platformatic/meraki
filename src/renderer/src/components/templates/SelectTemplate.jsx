@@ -303,7 +303,7 @@ function SelectTemplate ({ onClick, serviceName }) {
                     containerClassName: `${commonStyles.mediumFlexBlock} ${commonStyles.itemsCenter}`,
                     sentences: [{
                       style: `${typographyStyles.desktopBodyLarge} ${typographyStyles.textWhite}`,
-                      text: 'Loading templates....'
+                      text: 'Loading templates...'
                     }, {
                       style: `${typographyStyles.desktopBodyLarge} ${typographyStyles.textWhite} ${typographyStyles.opacity70}`,
                       text: 'This process will just take a few seconds.'
