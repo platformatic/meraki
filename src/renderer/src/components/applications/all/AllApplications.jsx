@@ -105,7 +105,7 @@ const AllApplications = React.forwardRef(({ onClickCreateNewApp }, ref) => {
   }
 
   return showErrorComponent
-    ? <ErrorComponent />
+    ? <ErrorComponent onClickDismiss={() => setShowErrorComponent(false)} />
     : (
       <>
         <div className={styles.container} ref={ref}>

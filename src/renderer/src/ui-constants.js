@@ -63,3 +63,9 @@ export const APPLICATION_PATH = '/:appId'
 
 export const RAW = 'raw'
 export const PRETTY = 'pretty'
+
+export const DIRECTION_DOWN = 'down'
+export const DIRECTION_UP = 'up'
+
+export const STATUS_PAUSED_LOGS = 'PAUSED'
+export const STATUS_RESUMED_LOGS = 'RESUMED'
