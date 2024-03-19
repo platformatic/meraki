@@ -68,7 +68,7 @@
     "electron-vite": "^2.1.0",
     "fastify": "^4.26.2",
     "glob": "^10.3.10",
-    "happy-dom": "^13.0.0",
+    "happy-dom": "^14.0.0",
     "react": "^18.2.0",
     "rimraf": "^5.0.5",
     "snazzy": "^9.0.0",
