@@ -30,7 +30,6 @@ function App ({ path }) {
 
   const {
     ErrorBoundary,
-    // didCatch,
     error
   } = useErrorBoundary({
     onDidCatch: (error) => {

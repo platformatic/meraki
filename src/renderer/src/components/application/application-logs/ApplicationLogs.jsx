@@ -124,13 +124,10 @@ const ApplicationLogs = React.forwardRef(({ applicationSelected }, ref) => {
       }
 
       if (filterLogsByLevel || filterLogsByService.value) {
-        console.log('filterLogsByService', filterLogsByService)
-        console.log('filterLogsByLevel', filterLogsByLevel)
         let founds = [...applicationLogs]
         founds = founds.filter(log => JSON.parse(log).level >= filterLogsByLevel)
         if (filterLogsByService.value !== null) {
           founds = founds.filter(log => {
-            console.log('JSON.parse', JSON.parse(log).name, filterLogsByService)
             return JSON.parse(log).name.toLowerCase().includes(filterLogsByService.value.toLowerCase()
             )
           })
@@ -154,8 +151,6 @@ const ApplicationLogs = React.forwardRef(({ applicationSelected }, ref) => {
   }
 
   function handleSelectService (event) {
-    console.log('handleSelectService')
-
     setFilterLogsByService({
       label: event.detail.label,
       value: event.detail.value
