@@ -223,6 +223,9 @@ app.whenReady().then(async () => {
   })
 
   ipcMain.handle('update-app', async (_, id, path, project) => {
+    console.log('id', id)
+    console.log('path', path)
+    console.log('project', project)
     await createApp(path, project, uiLogger, true)
     await appApis.updateApplication(id, project.projectName)
   })

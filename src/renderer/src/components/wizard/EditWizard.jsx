@@ -6,7 +6,7 @@ import {
   STEP_PREPARE_FOLDER,
   STEP_CONFIGURE_SERVICES,
   STEP_CONFIGURE_APPLICATION,
-  STEP_GENERATING_APPLICATION,
+  STEP_UPDATING_APPLICATION,
   BREAKPOINTS_HEIGHT_LG,
   HEIGHT_LG,
   HEIGHT_MD
@@ -14,7 +14,7 @@ import {
 import ComposeApplication from '~/components/steps/compose-application/ComposeApplication'
 import ConfigureServices from '~/components/steps/configure-services/ConfigureServices'
 import ConfigureApplication from '~/components/steps/ConfigureApplication'
-import GeneratingApplication from '~/components/steps/GeneratingApplication'
+import UpdatingApplication from '~/components/steps/UpdatingApplication'
 import PrepareFolder from '~/components/steps/PrepareFolder'
 import { CSSTransition, SwitchTransition } from 'react-transition-group'
 import styles from './EditWizard.module.css'
@@ -61,13 +61,14 @@ function EditWizard ({
       ref={useRef(null)}
       key={STEP_CONFIGURE_APPLICATION}
       onBack={() => nextStep(STEP_CONFIGURE_SERVICES)}
-      onNext={() => nextStep(STEP_GENERATING_APPLICATION)}
+      onNext={() => nextStep(STEP_UPDATING_APPLICATION)}
     />,
-    <GeneratingApplication
+    <UpdatingApplication
       ref={useRef(null)}
-      key={STEP_GENERATING_APPLICATION}
+      key={STEP_UPDATING_APPLICATION}
       onBack={() => previousStep(STEP_ADD_TEMPLATE_AND_PLUGINS)}
       onClickGoToApps={() => onClickGoToApps()}
+      applicationSelectedId={applicationSelected.id}
     />
   ]
   const [currentComponent, setCurrentComponent] = useState(components.find(component => component.key === startingStep))
