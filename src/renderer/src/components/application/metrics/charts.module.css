@@ -68,6 +68,22 @@
   @apply ml-4;
 }
 
+.P90 {
+  color: #2192FA;
+}
+
+.P95 {
+  color: #C61BE2;
+}
+
+.P99 {
+  color: #FA6221;
+}
+
+.grid {
+  opacity: 0.3;
+}
+
 
 
 
