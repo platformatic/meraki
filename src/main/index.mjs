@@ -222,6 +222,11 @@ app.whenReady().then(async () => {
     await appApis.createApplication(project.projectName, join(path, project.projectName))
   })
 
+  ipcMain.handle('update-app', async (_, id, path, project) => {
+    await createApp(path, project, uiLogger, true)
+    await appApis.updateApplication(id, project.projectName)
+  })
+
   ipcMain.handle('generate-name', async () => {
     const val = await generate({ words: 1 }).dashed
     return val

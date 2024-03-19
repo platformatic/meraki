@@ -25,18 +25,19 @@ if (process.contextIsolated) {
       getPlugins: () => (ipcRenderer.invoke('get-plugins')),
       prepareFolder: (folder, templates, appName) => (ipcRenderer.invoke('prepare-folder', folder, templates, appName)),
       onLog: callback => ipcRenderer.on('log', callback),
-      createApp: (folder, project) => (ipcRenderer.invoke('create-app', folder, project)),
       quitApp: () => (ipcRenderer.invoke('quit-app')),
       getServiceName: () => (ipcRenderer.invoke('generate-name')),
       onUserStatus: callback => ipcRenderer.on('user-status', callback),
 
       // Applications
+      createApp: (folder, project) => (ipcRenderer.invoke('create-app', folder, project)),
       getApplications: () => (ipcRenderer.invoke('get-applications')),
       importApp: (path, folderName) => (ipcRenderer.invoke('import-app', path, folderName)),
       deleteApp: (id) => (ipcRenderer.invoke('delete-app', id)),
       startApp: (id) => (ipcRenderer.invoke('start-app', id)),
       stopApp: (id) => (ipcRenderer.invoke('stop-app', id)),
       openApp: (id) => (ipcRenderer.invoke('open-app', id)),
+      updateApp: (folder, project) => (ipcRenderer.invoke('update-app', folder, project)),
 
       // logs
       startLogs: (id) => (ipcRenderer.invoke('start-logs', id)),
