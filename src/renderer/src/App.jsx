@@ -26,13 +26,14 @@ function App ({ path }) {
   const [showModalImportApplication, setShowModalImportApplication] = useState(false)
   const [showModalCreateApplication, setShowModalCreateApplication] = useState(false)
   const featureFlag = isDevMode()
+  const [showErrorComponent, setShowErrorComponent] = useState(false)
 
   const {
     ErrorBoundary,
-    didCatch,
     error
   } = useErrorBoundary({
     onDidCatch: (error) => {
+      setShowErrorComponent(true)
       log.error(error)
     }
   })
@@ -106,9 +107,9 @@ function App ({ path }) {
     resetWizardState()
   }
 
-  return didCatch
+  return showErrorComponent
     ? (
-      <ErrorComponent error={error} message={error.message} />
+      <ErrorComponent error={error} message={error.message} onClickDismiss={() => setShowErrorComponent(false)} />
       )
     : (
       <ErrorBoundary>

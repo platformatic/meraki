@@ -23,3 +23,7 @@
 .logsContainer {
   @apply grow h-full min-h-[calc(100vH-25rem)] max-h-[calc(100vH-25rem)] overflow-y-auto flex flex-col gap-y-1;
 }
+.logDividerBottom,
+.logDividerTop {
+  @apply h-[1px] w-full border-0;
+}

@@ -41,7 +41,7 @@ function LogFilterSelector ({ defaultLevelSelected, onChangeLevelSelected }) {
       classNamePoint += ` ${styles.selectedPoint}`
     }
     return (
-      <div className={`${styles.buttonLevel} ${typographyStyles.desktopBodySmall} ${typographyStyles.textWhite}`} onClick={() => handleChangeLevelSelected(currentLevel)}>
+      <div className={`${styles.buttonLevel} ${typographyStyles.desktopBodySmall} ${typographyStyles.textWhite}`} onClick={() => handleChangeLevelSelected(currentLevel)} key={currentLevel}>
         {levelName}
         <div className={classNamePoint} />
       </div>
