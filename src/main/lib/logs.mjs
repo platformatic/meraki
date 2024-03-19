@@ -1,6 +1,8 @@
 import { RuntimeApiClient } from '@platformatic/control'
 import { Writable } from 'node:stream'
 import Fastify from 'fastify'
+import split from 'split2'
+import logger from 'electron-log'
 
 const BUFFER_TIMEOUT = 1000
 
@@ -62,7 +64,9 @@ class Logs {
     if (!pid) throw new Error('Application running PID not found')
 
     this.#currentStream = this.#runtimeClient.getRuntimeLiveLogsStream(pid)
-    this.#currentStream.pipe(new WriteableBuffer(callback))
+    this.#currentStream.pipe(split()).pipe(new WriteableBuffer(callback)).on('error', (err) => {
+      logger.error('Error streaming logs', err)
+    })
   }
 
   pause () {
