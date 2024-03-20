@@ -64,6 +64,10 @@ export const callApiStopLogs = async () => {
   return await window.api.stopLogs()
 }
 
+export const callGetPreviousLogs = async () => {
+  return await window.api.getPreviousLogs()
+}
+
 // Metrics ****************************/
 export const callApiStartMetrics = async (id) => {
   return await window.api.startMetrics(id)
