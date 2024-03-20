@@ -120,7 +120,6 @@ class Logs {
         if (!pid) throw new Error('Application running PID not found')
 
         const logIndexes = await this.#runtimeClient.getRuntimeLogIndexes(pid)
-        console.log('logIndexes', logIndexes)
 
         const logStreams = []
         for (const index of logIndexes) {
