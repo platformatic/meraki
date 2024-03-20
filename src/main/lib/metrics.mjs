@@ -34,7 +34,6 @@ class Metrics {
 
       writev (chunks, cb) {
         for (const c of chunks) {
-          console.log('writev chunk', c.chunk.toString())
           callback(c.chunk.toString())
         }
         setImmediate(cb)
