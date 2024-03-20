@@ -32,7 +32,7 @@
 }
 .tableHeaders {
   @apply grid grid-cols-4 gap-x-4 w-full top-0 bg-rich-black z-10 border-b border-white/30 border-solid;
-  position: sticky;;
+  position: sticky;
 }
 .tableHeader {
   @apply pt-0 pb-12 text-left;;

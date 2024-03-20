@@ -31,3 +31,6 @@
   margin-inline-start: unset;
   margin-inline-end: unset;
 }
+.previousLogContainer {
+  @apply sticky w-full bg-rich-black mx-auto top-0 z-20; 
+}

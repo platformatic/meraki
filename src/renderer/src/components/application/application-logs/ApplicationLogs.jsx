@@ -238,6 +238,10 @@ const ApplicationLogs = React.forwardRef(({ applicationSelected }, ref) => {
             </div>
             <HorizontalSeparator marginBottom={MARGIN_0} marginTop={MARGIN_0} color={WHITE} opacity={OPACITY_30} />
             <div className={`${styles.logsContainer} ${styles.lateralPadding}`} ref={logContentRef} onScroll={handleScroll}>
+              <div className={styles.previousLogContainer}>
+                <p className={`${typographyStyles.desktopBodySmallest} ${typographyStyles.textWhite} ${typographyStyles.textCenter} ${commonStyles.fullWidth} `}>There are new logs. <span className={`${commonStyles.cursorPointer} ${typographyStyles.textTertiaryBlue}`} onClick={() => resumeScrolling()}>Click Here</span> to load</p>
+              </div>
+
               {filteredLogs?.length > 0 && (
                 <>
                   <hr className={styles.logDividerTop} />
