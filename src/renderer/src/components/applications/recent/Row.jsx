@@ -95,7 +95,7 @@ function Row ({
                 iconName='MerakiLogoIcon'
                 color={WHITE}
                 size={MEDIUM}
-                tip='Application outside Meraki'
+                tip='Application inside Meraki'
                 tipClassName={tooltipStyles.tooltipDarkStyle}
                 onClick={() => {}}
                 internalOverHandling
