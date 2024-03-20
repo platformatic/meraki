@@ -172,9 +172,10 @@ class Applications {
       throw new Error(`Import error: cannot find package.json in the provided path, ${path}`)
     }
     const packageJson = require(packageJsonPath)
-    const { name } = packageJson
+    let { name } = packageJson
     // This is a workaround for a plt bug that sets the name to "undefined"
-    if (name && name === "undefined") {
+    // TODO: remove
+    if (name && name === 'undefined') {
       name = folderName
     }
     const app = this.createApplication(name || folderName, path)
