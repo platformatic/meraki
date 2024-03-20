@@ -11,7 +11,6 @@ import { PRETTY } from '~/ui-constants'
 function Log ({ log, display, onClickArrow }) {
   const [displayJson, setDisplayJson] = useState(false)
   const [logContainerClassName, setLogContainerClassName] = useState(normalClassName())
-
   const { level, pid, name, hostname, msg, time } = JSON.parse(log)
   const timestamp = new Date(time).toISOString()
   const levelDisplayed = getLevel(level)
@@ -50,11 +49,11 @@ function Log ({ log, display, onClickArrow }) {
   }
 
   function normalClassName () {
-    return `${styles.logContainerClassNameInactive}`
+    return `${styles.logContainerClassNameInactive} ${typographyStyles.desktopOtherCliTerminalSmall} ${typographyStyles.textWhite} `
   }
 
   function activeClassName () {
-    return `${styles.logContainerClassNameActive} ` + styles[`logContainerClassNameActive${level}`]
+    return `${styles.logContainerClassNameActive} ${typographyStyles.desktopOtherCliTerminalSmall} ${typographyStyles.textWhite} ` + styles[`logContainerClassNameActive${level}`]
   }
 
   return display === PRETTY
@@ -62,16 +61,16 @@ function Log ({ log, display, onClickArrow }) {
       <div className={logContainerClassName}>
         <div className={logClassName}>
           <PlatformaticIcon iconName={displayJson ? 'ArrowDownIcon' : 'ArrowRightIcon'} color={WHITE} size={SMALL} onClick={() => handleChangeDisplayView()} internalOverHandling />
-          <span className={`${typographyStyles.desktopOtherCliTerminalSmall} ${typographyStyles.textWhite}`}>[{`${timestamp}`}]</span>&nbsp;
-          <span className={styles[`text${level}`]}>{levelDisplayed}</span>&nbsp;
-          <span>{hostname}</span>&nbsp;
+          <span>[{`${timestamp}`}]</span>
+          <span className={styles[`text${level}`]}>{levelDisplayed}</span>
+          <span>{hostname}</span>
           {name && (
             <>
-              <span>{name}</span>&nbsp;
-              <span>({pid})</span>&nbsp;
+              <span>{name}</span>
+              <span>({pid})</span>
             </>
           )}
-          <span>{msg}</span>&nbsp;
+          <p className={styles.msg}>{msg}</p>
         </div>
         {displayJson && (
           <p className={`${styles.log} ${typographyStyles.desktopOtherCliTerminalSmall} ${typographyStyles.textWhite}`}><pre>{JSON.stringify(JSON.parse(log), null, 2)}</pre></p>

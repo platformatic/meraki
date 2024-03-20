@@ -60,3 +60,6 @@
 .logContainerClassNameActive50 {
   @apply border-error-red;
 }
+.msg {
+  @apply w-[290px] lg:w-[470px] inline-block truncate
+}

@@ -44,6 +44,7 @@ if (process.contextIsolated) {
       pauseLogs: () => (ipcRenderer.invoke('pause-logs')),
       resumeLogs: () => (ipcRenderer.invoke('resume-logs')),
       stopLogs: () => (ipcRenderer.invoke('stop-logs')),
+      getPreviousLogs: (id) => (ipcRenderer.invoke('get-previous-logs', id)),
       getAllLogs: (id) => (ipcRenderer.invoke('get-all-logs', id)),
 
       // metrics
