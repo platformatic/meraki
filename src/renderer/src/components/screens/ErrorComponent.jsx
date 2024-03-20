@@ -6,14 +6,14 @@ import commonStyles from '~/styles/CommonStyles.module.css'
 import styles from './ErrorComponent.module.css'
 import Icons from '@platformatic/ui-components/src/components/icons'
 import { ANTI_FLASH_WHITE, DULLS_BACKGROUND_COLOR, ERROR_RED, LARGE, SMALL, RICH_BLACK, WHITE, TRANSPARENT, OPACITY_30, MARGIN_0, ALIGNMENT_CENTER } from '@platformatic/ui-components/src/components/constants'
-import { BorderedBox, Button, HorizontalSeparator, Tooltip } from '@platformatic/ui-components'
+import { BorderedBox, Button, HorizontalSeparator, TooltipV2 } from '@platformatic/ui-components'
 import tooltipStyles from '~/styles/TooltipStyles.module.css'
 
+// eslint-disable-next-line no-unused-vars
 function ErrorComponent ({ error, message, onClickDismiss }) {
   const [showLogs, setShowLogs] = useState(false)
   const [logsCopied, setLogsCopied] = useState(false)
   const [errorStack] = useState(error?.stack?.split('\n') || [])
-  const showTooltip = false
 
   function copyLogs () {
     setLogsCopied(true)
@@ -31,6 +31,7 @@ function ErrorComponent ({ error, message, onClickDismiss }) {
   }
 
   function reportIssue () {}
+
   return (
     <div className={styles.container}>
       <div className={`${commonStyles.mediumFlexBlock} ${commonStyles.fullWidth} ${commonStyles.itemsCenter}`}>
@@ -78,10 +79,10 @@ function ErrorComponent ({ error, message, onClickDismiss }) {
                 color={WHITE}
                 backgroundColor={RICH_BLACK}
                 paddingClass={`${commonStyles.buttonPadding} cy-action-dismiss`}
-                textClass={typographyStyles.desktopBody}
+                textClass={`${typographyStyles.desktopBody} action-copy-logs`}
                 platformaticIcon={getButtonCopyIcon()}
               />
-              {showTooltip && <Tooltip tooltipClassName={tooltipStyles.tooltipDarkStyle} text='Logs copied!' visible alignment={ALIGNMENT_CENTER} />}
+              {logsCopied && <TooltipV2 tooltipClassName={tooltipStyles.tooltipDarkStyle} text='Logs copied!' visible alignment={ALIGNMENT_CENTER} elementClassName='action-copy-logs' />}
             </div>
             <Button
               label='Report issue'
