@@ -60,3 +60,10 @@
 .logContainerClassNameActive50 {
   @apply border-error-red;
 }
+.msg {
+  /* display: inline-block;
+  width: 500px;
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis; */
+}

@@ -240,9 +240,9 @@ const ApplicationLogs = React.forwardRef(({ applicationSelected }, ref) => {
             <div className={`${styles.logsContainer} ${styles.lateralPadding}`} ref={logContentRef} onScroll={handleScroll}>
               {filteredLogs?.length > 0 && (
                 <>
-                  <hr className='logDividerTop' />
+                  <hr className={styles.logDividerTop} />
                   {filteredLogs.map((log, index) => <Log key={index} log={log} display={displayLog} onClickArrow={() => setScrollDirection('still')} />)}
-                  <hr className='logDividerBottom' />
+                  <hr className={styles.logDividerBottom} />
                 </>
               )}
             </div>
