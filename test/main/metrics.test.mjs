@@ -41,6 +41,7 @@ test('start one runtime and stream metrics', async (t) => {
 
   const { id } = await applicationsApi.importApplication(appDir)
   const { runtime } = await applicationsApi.startRuntime(id)
+  await sleep(2500)
   onTestFinished(() => runtime.kill('SIGINT'))
 
   const receivedMetrics = []
