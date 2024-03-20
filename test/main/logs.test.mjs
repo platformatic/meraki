@@ -89,7 +89,7 @@ test('all logs', async (t) => {
   const logs = new Logs(applicationsApi)
   const { id } = await applicationsApi.importApplication(appDir)
 
-  const { runtime, url } = await applicationsApi.startRuntime(id)
+  const { runtime } = await applicationsApi.startRuntime(id)
   onTestFinished(() => runtime.kill('SIGINT'))
 
   // Write some log files
