@@ -18,7 +18,8 @@ import {
   getAppLogs,
   callApiGetAllLogs,
   callApiPauseLogs,
-  callApiResumeLogs
+  callApiResumeLogs,
+  callApiGetPreviousLogs
 } from '~/api'
 
 const ApplicationLogs = React.forwardRef(({ applicationSelected }, ref) => {
@@ -36,6 +37,7 @@ const ApplicationLogs = React.forwardRef(({ applicationSelected }, ref) => {
   const [previousScrollTop, setPreviousScrollTop] = useState(0)
   const [displayGoToTop, setDisplayGoToTop] = useState(false)
   const [displayGoToBottom, setDisplayGoToBottom] = useState(false)
+  const [showPreviousLogs, setShowPreviousLogs] = useState(true)
   const [statusPausedLogs, setStatusPausedLogs] = useState('')
 
   useEffect(() => {
@@ -178,6 +180,20 @@ const ApplicationLogs = React.forwardRef(({ applicationSelected }, ref) => {
     setDisplayGoToBottom(false)
   }
 
+  async function loadPreviousLogs () {
+    try {
+      const response = await callApiGetPreviousLogs(applicationSelected.id)
+      console.log('response', response)
+      if (response.data.length > 0) {
+        setApplicationLogs([...response.data, ...applicationLogs])
+      } else {
+        setShowPreviousLogs(false)
+      }
+    } catch (error) {
+      console.error(`Error on load previous logs ${error}`)
+    }
+  }
+
   function onlyUnique (value, index, array) {
     return array.indexOf(value) === index
   }
@@ -238,9 +254,11 @@ const ApplicationLogs = React.forwardRef(({ applicationSelected }, ref) => {
             </div>
             <HorizontalSeparator marginBottom={MARGIN_0} marginTop={MARGIN_0} color={WHITE} opacity={OPACITY_30} />
             <div className={`${styles.logsContainer} ${styles.lateralPadding}`} ref={logContentRef} onScroll={handleScroll}>
-              <div className={styles.previousLogContainer}>
-                <p className={`${typographyStyles.desktopBodySmallest} ${typographyStyles.textWhite} ${typographyStyles.textCenter} ${commonStyles.fullWidth} `}>There are new logs. <span className={`${commonStyles.cursorPointer} ${typographyStyles.textTertiaryBlue}`} onClick={() => resumeScrolling()}>Click Here</span> to load</p>
-              </div>
+              {showPreviousLogs && (
+                <div className={styles.previousLogContainer}>
+                  <p className={`${typographyStyles.desktopBodySmallest} ${typographyStyles.textWhite} ${typographyStyles.textCenter} ${commonStyles.fullWidth} `}><span className={`${commonStyles.cursorPointer} ${typographyStyles.textTertiaryBlue}`} onClick={() => loadPreviousLogs()}>Click Here</span> to load previous logs</p>
+                </div>
+              )}
 
               {filteredLogs?.length > 0 && (
                 <>

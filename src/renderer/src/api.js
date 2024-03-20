@@ -64,7 +64,7 @@ export const callApiStopLogs = async () => {
   return await window.api.stopLogs()
 }
 
-export const callGetPreviousLogs = async () => {
+export const callApiGetPreviousLogs = async () => {
   return await window.api.getPreviousLogs()
 }
 
