@@ -61,7 +61,7 @@ test('start one runtime and stream logs', async (t) => {
     const { runtime, url } = await applicationsApi.startRuntime(id)
     onTestFinished(() => runtime.kill('SIGINT'))
     logs.start(id, send)
-    await sleep(1000)
+    await sleep(1500)
     expect(receivedLogs.join('\n')).toContain(`Server listening at ${url}`)
 
     // Let's pause, make some requests and see that logs are not being received
@@ -80,8 +80,7 @@ test('start one runtime and stream logs', async (t) => {
   }
 }, 60000)
 
-// TODO: this is now broken after latest runtime API changes.
-test.skip('get all logs', async (t) => {
+test('get all logs', async (t) => {
   const appDir = await mkdtemp(join(tmpdir(), 'plat-app-test'))
   const appFixture = join('test', 'fixtures', 'runtime')
   await cp(appFixture, appDir, { recursive: true })
@@ -101,6 +100,5 @@ test.skip('get all logs', async (t) => {
   const logsURL = await logs.getAllLogsURL(id)
   const response = await request(logsURL)
   const body = await response.body.text()
-  console.log(body)
   expect(body).toContain(`Server listening at ${url}`)
 }, 60000)

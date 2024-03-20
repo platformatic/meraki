@@ -1,5 +1,5 @@
 import { RuntimeApiClient } from '@platformatic/control'
-import { Writable } from 'node:stream'
+import { Writable, Readable } from 'node:stream'
 import Fastify from 'fastify'
 import split from 'split2'
 import logger from 'electron-log'
@@ -41,61 +41,103 @@ class WriteableBuffer extends Writable {
 }
 
 // We assume we stream only one log at a time. This can be exteded
-// maintaining a map of streams and pausing/resuming them individually
+// maintaining a map of streams (and log indexes) and pausing/resuming them individually
 class Logs {
   #runtimeClient
-  #currentStream
+  #currentLiveStream
   #applications
   #logServer
+  #logIndexes
+  #currentLogIndex
 
   constructor (applications) {
     if (!applications) throw new Error('Applications is required')
+    this.#resetLog()
     this.#runtimeClient = new RuntimeApiClient()
-    this.#currentStream = null
     this.#applications = applications
   }
 
-  // callback is a function that will be called with the log lines (as array of strings)
-  start (id, callback) {
-    if (this.#currentStream) {
-      this.#currentStream.destroy()
+  #resetLog () {
+    if (this.#currentLiveStream) {
+      this.#currentLiveStream.destroy()
+      this.#currentLiveStream = null
     }
+    this.#logServer = null
+    this.#logIndexes = []
+    this.#currentLogIndex = 0
+  }
+
+  // Start the live streaming of logs for the given application
+  // callback is a function that will be called with the log lines (as array of strings)
+  async start (id, callback) {
+    this.#resetLog()
     const pid = this.#applications.getPid(id)
     if (!pid) throw new Error('Application running PID not found')
 
-    this.#currentStream = this.#runtimeClient.getRuntimeLiveLogsStream(pid)
-    this.#currentStream.pipe(split()).pipe(new WriteableBuffer(callback)).on('error', (err) => {
+    this.#logIndexes = await this.#runtimeClient.getRuntimeLogIndexes(pid)
+    this.#currentLogIndex = this.#logIndexes.length - 1
+    this.#currentLiveStream = this.#runtimeClient.getRuntimeLiveLogsStream(pid, this.#logIndexes[this.#currentLogIndex])
+
+    this.#currentLiveStream.pipe(split()).pipe(new WriteableBuffer(callback)).on('error', (err) => {
       logger.error('Error streaming logs', err)
     })
   }
 
   pause () {
-    if (this.#currentStream) {
-      this.#currentStream.pause()
+    if (this.#currentLiveStream) {
+      this.#currentLiveStream.pause()
     }
   }
 
   resume () {
-    if (this.#currentStream) {
-      this.#currentStream.resume()
+    if (this.#currentLiveStream) {
+      this.#currentLiveStream.resume()
     }
   }
 
   stop () {
-    if (this.#currentStream) {
-      this.#currentStream.destroy()
-      this.#currentStream = null
-    }
+    this.#resetLog()
   }
 
+  // This creates a new server that will stream all the logs for the given application
+  // and returns the URL to access it. We need this to use electron-dl (which uses the electron native APIs)
+  // to download the logs
   async getAllLogsURL (id) {
+    async function * concatStreams (readables) {
+      for (const readable of readables) {
+        for await (const chunk of readable) {
+          yield chunk
+        }
+      }
+    }
+
     if (!this.#logServer) {
       this.#logServer = Fastify()
 
-      this.#logServer.get('/logs/:id', (req, reply) => {
+      this.#logServer.get('/logs/:id', async (req, reply) => {
         const pid = this.#applications.getPid(id)
-        const stream = this.#runtimeClient.getRuntimeHistoryLogsStream(pid)
-        reply.send(stream)
+        if (!pid) throw new Error('Application running PID not found')
+
+        const logIndexes = await this.#runtimeClient.getRuntimeLogIndexes(pid)
+        logIndexes.reverse() // last one is the most recent one
+
+        const logStreams = []
+        for (const index of logIndexes) {
+          try {
+            const logStream = await this.#runtimeClient.getRuntimeLogsStream(pid, index)
+            logStreams.push(logStream)
+          } catch (err) {
+            if (err.statusCode === 404) {
+              // This is a log file that was deleted
+              continue
+            }
+            logger.error('Error getting log stream', err)
+            throw err
+          }
+        }
+
+        const fullLogStream = Readable.from(concatStreams(logStreams))
+        return reply.send(fullLogStream)
       })
       // TODO: We should use a unix socket for that
       await this.#logServer.listen(0)
@@ -108,7 +150,7 @@ class Logs {
     if (this.#logServer) {
       await this.#logServer.close()
     }
-    this.#logServer = null
+    this.#resetLog()
   }
 }
 
