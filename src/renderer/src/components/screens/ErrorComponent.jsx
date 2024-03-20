@@ -1,5 +1,5 @@
 'use strict'
-import React, { useEffect, useRef, useState } from 'react'
+import React, { useState } from 'react'
 import PropTypes from 'prop-types'
 import typographyStyles from '~/styles/Typography.module.css'
 import commonStyles from '~/styles/CommonStyles.module.css'
@@ -9,6 +9,7 @@ import { ANTI_FLASH_WHITE, DULLS_BACKGROUND_COLOR, ERROR_RED, LARGE, SMALL, RICH
 import { BorderedBox, Button, HorizontalSeparator, TooltipV2 } from '@platformatic/ui-components'
 import tooltipStyles from '~/styles/TooltipStyles.module.css'
 
+// eslint-disable-next-line no-unused-vars
 function ErrorComponent ({ error, message, onClickDismiss }) {
   const [showLogs, setShowLogs] = useState(false)
   const [logsCopied, setLogsCopied] = useState(false)
