@@ -32,5 +32,5 @@
   margin-inline-end: unset;
 }
 .previousLogContainer {
-  @apply sticky w-full bg-rich-black mx-auto top-0 z-20; 
+  @apply sticky w-full bg-rich-black mx-auto top-0 z-10 pb-1; 
 }

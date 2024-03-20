@@ -73,7 +73,7 @@ function Log ({ log, display, onClickArrow }) {
           <p className={styles.msg}>{msg}</p>
         </div>
         {displayJson && (
-          <p className={`${styles.log} ${typographyStyles.desktopOtherCliTerminalSmall} ${typographyStyles.textWhite}`}><pre>{JSON.stringify(JSON.parse(log), null, 2)}</pre></p>
+          <div className={`${styles.log} ${typographyStyles.desktopOtherCliTerminalSmall} ${typographyStyles.textWhite}`}><pre>{JSON.stringify(JSON.parse(log), null, 2)}</pre></div>
         )}
       </div>
       )

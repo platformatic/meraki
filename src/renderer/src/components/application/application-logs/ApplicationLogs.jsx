@@ -24,7 +24,7 @@ import {
 
 const ApplicationLogs = React.forwardRef(({ applicationSelected }, ref) => {
   const [displayLog, setDisplayLog] = useState(PRETTY)
-  const [filterLogsByService, setFilterLogsByService] = useState('')
+  const [filterLogsByService, setFilterLogsByService] = useState({ value: '', label: '' })
   const [filterLogsByLevel, setFilterLogsByLevel] = useState('')
   const [filtersInitialized, setFiltersInitialized] = useState(false)
   const [defaultOptionsSelected, setDefaultOptionsSelected] = useState(null)
@@ -118,8 +118,10 @@ const ApplicationLogs = React.forwardRef(({ applicationSelected }, ref) => {
       setOptionsServices([...optionsServices, ...newServices])
 
       if (!filtersInitialized) {
-        setFilterLogsByService({ value: newServices[0].value, label: newServices[0].label })
-        setDefaultOptionsSelected({ value: newServices[0].value, label: newServices[0].label })
+        if (newServices.length === 1) {
+          setFilterLogsByService({ value: newServices[0].value, label: newServices[0].label })
+          setDefaultOptionsSelected({ value: newServices[0].value, label: newServices[0].label })
+        }
         setFilterLogsByLevel(30)
         setFiltersInitialized(true)
         return
@@ -145,6 +147,10 @@ const ApplicationLogs = React.forwardRef(({ applicationSelected }, ref) => {
     filterLogsByLevel,
     filterLogsByService
   ])
+
+  useEffect(() => {
+    if (logContentRef?.current?.scrollHeight) console.log(logContentRef.current.scrollHeight)
+  }, [logContentRef, logContentRef?.current, logContentRef?.current?.scrollHeight])
 
   function handleChangeService (event) {
     setFilterLogsByService({
@@ -255,7 +261,7 @@ const ApplicationLogs = React.forwardRef(({ applicationSelected }, ref) => {
             <div className={`${styles.logsContainer} ${styles.lateralPadding}`} ref={logContentRef} onScroll={handleScroll}>
               {showPreviousLogs && (
                 <div className={styles.previousLogContainer}>
-                  <p className={`${typographyStyles.desktopBodySmallest} ${typographyStyles.textWhite} ${typographyStyles.textCenter} ${commonStyles.fullWidth} `}><span className={`${commonStyles.cursorPointer} ${typographyStyles.textTertiaryBlue}`} onClick={() => loadPreviousLogs()}>Click Here</span> to load previous logs</p>
+                  <p className={`${typographyStyles.desktopBodySmall} ${typographyStyles.textWhite} ${typographyStyles.textCenter} ${commonStyles.fullWidth} `}><span className={`${commonStyles.cursorPointer} ${typographyStyles.textTertiaryBlue}`} onClick={() => loadPreviousLogs()}>Click Here</span> to load previous logs</p>
                 </div>
               )}
 
