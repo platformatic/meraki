@@ -17,7 +17,7 @@ class Metrics {
   }
 
   // callback is a function that will be called with the single metrics line
-  async start (id, callback) {
+  start (id, callback) {
     if (this.#currentStream) {
       this.#currentStream.destroy()
     }
