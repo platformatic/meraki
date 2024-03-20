@@ -120,6 +120,7 @@ const Metrics = React.forwardRef(({ applicationSelected }, ref) => {
                 data={cpuEL}
                 title='CPU Usage & Event loop utilization'
                 unit='%'
+                lowerMaxY={100}
                 labels={['CPU usage', 'Event Loop Utilization']}
                 colorSet={1}
                 paused={paused}
