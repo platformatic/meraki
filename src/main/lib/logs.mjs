@@ -5,6 +5,7 @@ import split from 'split2'
 import logger from 'electron-log'
 
 const BUFFER_TIMEOUT = 1000
+const MAX_LOGS_BUFFERED = 10000
 
 // This is a Writable stream that will buffer the logs and calls the callback every 100 lines
 // and every BUFFER_TIMEOUT millis
@@ -24,7 +25,7 @@ class WriteableBuffer extends Writable {
 
   #processChunk (chunks) {
     this.buffer = this.buffer.concat(chunks)
-    if (this.buffer.length > 100) {
+    if (this.buffer.length > MAX_LOGS_BUFFERED) {
       this.#sendBuffer()
     }
   }
@@ -151,6 +152,30 @@ class Logs {
       await this.#logServer.close()
     }
     this.#resetLog()
+  }
+
+  async getPreviousLogs (id) {
+    if (this.#currentLogIndex <= 0) return []
+    const pid = this.#applications.getPid(id)
+    if (!pid) throw new Error('Application running PID not found')
+    const index = this.#logIndexes[this.#currentLogIndex - 1]
+
+    const logs = []
+    try {
+      const logStream = await this.#runtimeClient.getRuntimeLogsStream(pid, index)
+      for await (const chunk of logStream.pipe(split())) {
+        logs.push(chunk)
+      }
+      this.#currentLogIndex -= 1
+      return logs
+    } catch (err) {
+      if (err.statusCode === 404) {
+        // This is a log file that has been deleted
+        return []
+      }
+      logger.error(`Error getting log stream with index ${index}`, err)
+      throw err
+    }
   }
 }
 

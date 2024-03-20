@@ -183,9 +183,8 @@ const ApplicationLogs = React.forwardRef(({ applicationSelected }, ref) => {
   async function loadPreviousLogs () {
     try {
       const response = await callApiGetPreviousLogs(applicationSelected.id)
-      console.log('response', response)
-      if (response.data.length > 0) {
-        setApplicationLogs([...response.data, ...applicationLogs])
+      if (response.length > 0) {
+        setApplicationLogs([...response, ...applicationLogs])
       } else {
         setShowPreviousLogs(false)
       }

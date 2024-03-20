@@ -297,6 +297,10 @@ app.whenReady().then(async () => {
     })
   })
 
+  ipcMain.handle('get-previous-logs', async (_, id) => {
+    return logsApi.getPreviousLogs(id)
+  })
+
   // ********** METRICS ********** //
   // id: application id
   ipcMain.handle('start-metrics', async (_, id, callback) => {
