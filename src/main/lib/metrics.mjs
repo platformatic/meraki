@@ -1,6 +1,7 @@
 import { RuntimeApiClient } from '@platformatic/control'
-import { Readable } from 'node:stream'
-import split from 'split2'
+import { Writable } from 'node:stream'
+import logger from 'electron-log'
+// import split from 'split2'
 
 // We assume we manage only one stream at a given  time. This can be exteded maintaining a map of streams
 class Metrics {
@@ -15,53 +16,38 @@ class Metrics {
     this.#applications = applications
   }
 
-  // callback is a function that will be called with the metrics
+  // callback is a function that will be called with the single metrics line
   start (id, callback) {
     if (this.#currentStream) {
       this.#currentStream.destroy()
     }
 
-    // TODO: get the metrics stream. For the time being we just generate random values
-    // TODO: uncomment to test with the real stream
-    // const pid = this.#applications.getPid(id)
-    // if (!pid) throw new Error('Application running PID not found')
-    // this.#currentStream = this.#runtimeClient.getRuntimeLiveLogsStream(pid)
+    const pid = this.#applications.getPid(id)
+    if (!pid) throw new Error('Application running PID not found')
+    this.#currentStream = this.#runtimeClient.getRuntimeLiveMetricsStream(pid)
 
-    // TODO: remove this block when the real stream is available
-    async function * metricGenerator () {
-      while (true) {
-        const p50 = Math.round(Math.random() * 100, 0)
-        const p90 = p50 + Math.round(Math.random() * 100, 0)
-        const p95 = p90 + Math.round(Math.random() * 100, 0)
-        const p99 = p95 + Math.round(Math.random() * 100, 0)
+    const callbackWritable = new Writable({
+      write (chunk, encoding, cb) {
+        callback(chunk.toString())
+        setImmediate(cb)
+      },
 
-        const metric = {
-          version: 1,
-          date: new Date().toISOString(),
-          cpu: Math.round(Math.random() * 100),
-          elu: Math.round(Math.random() * 100) / 100,
-          rss: Math.round(Math.random() * 100000000),
-          totalHeapSize: Math.round(Math.random() * 100000000),
-          usedHeapSize: Math.round(Math.random() * 100000000),
-          newSpaceSize: Math.round(Math.random() * 100000000),
-          oldSpaceSize: Math.round(Math.random() * 100000000),
-          entrypoint: {
-            latency: {
-              p50,
-              p90,
-              p95,
-              p99
-            }
-          }
+      writev (chunks, cb) {
+        for (const c of chunks) {
+          callback(c.chunk.toString())
         }
-        await new Promise((resolve) => setTimeout(resolve, 1000))
-        yield JSON.stringify(metric).concat('\n')
+        setImmediate(cb)
       }
-    }
-    this.#currentStream = Readable.from(metricGenerator())
+    })
 
-    // We don't buffer because we expect one metric per second, and we want to process them as soon as they arrive
-    this.#currentStream.pipe(split(callback))
+    // TODO: This is not working, temporary not using `split()`
+    // this.#currentStream.pipe(split()).pipe(callbackWritable).on('error', (err) => {
+    //   logger.error('Error streaming metrics', err)
+    // })
+
+    this.#currentStream.pipe(callbackWritable).on('error', (err) => {
+      logger.error('Error streaming metrics', err)
+    })
   }
 
   stop () {

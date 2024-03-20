@@ -13,14 +13,13 @@ const LineChart = ({
   labels,
   colorSet = 0,
   paused = false,
-  setPaused = () => {}
+  setPaused = () => {},
+  lowerMaxY = 10, // y max is dynamic, but we migth want to have a max lower bound. Set to 0 for completely dynamic y max
+  yMin = 0
 }) => {
   const svgRef = useRef()
   const tooltipRef = useRef()
 
-  // This params are here to configure the chart, we could also change them to props (and have these values ad defaults)
-  const miny = 0
-  const lowermaxy = 10 // y max is dynamic, but we migth want to have a max lower bound. Set to 0 for completely dynamic y max
   const colorStyles = colorSet === 0 ? colorSet0 : colorSet1
   const numberOfLines = labels.length
 
@@ -62,9 +61,9 @@ const LineChart = ({
     for (let i = 0; i < latestData.length; i++) {
       allCurrentValues.push(...latestData[i].values)
     }
-    const maxy = d3.max(allCurrentValues)
-    const yMax = Math.max(maxy, lowermaxy) + (maxy * 0.05) // We add 5% to the max y to have some space on top
-    y.domain([miny, yMax])
+    const max = d3.max([d3.max(allCurrentValues), lowerMaxY])
+    const yMax = max + (max * 0.05) // We add 5% to the max to have some space on top
+    y.domain([yMin, yMax])
 
     // We always show 10 labels on the x axis
     const labelSecondsInterval = windowInMinutes * 60 / 10
