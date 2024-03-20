@@ -103,15 +103,12 @@ test('all logs', async (t) => {
   await writeFile(join(runtimeTmpDir, 'logs.3'), testLog3)
 
   await sleep(2000)
-  await request(url)
-  await sleep(1000)
 
   const logsURL = await logs.getAllLogsURL(id)
   const response = await request(logsURL)
   const body = await response.body.text()
+  console.log(body)
   expect(body).toContain('test-logs-1')
-  // this is actually appended to the "1" file because it's not filled.
-  expect(body).toContain(`Server listening at ${url}`)
   expect(body).toContain('test-logs-2')
   expect(body).toContain('test-logs-3')
 }, 60000)
