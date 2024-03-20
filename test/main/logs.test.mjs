@@ -1,6 +1,6 @@
 import { test, expect, beforeAll, onTestFinished } from 'vitest'
 import { tmpdir } from 'node:os'
-import { mkdtemp, cp, rm, access } from 'node:fs/promises'
+import { mkdtemp, cp, rm, access, writeFile } from 'node:fs/promises'
 import { resolve, join } from 'node:path'
 import { mkdirp } from 'mkdirp'
 import Applications from '../../src/main/lib/applications.mjs'
@@ -80,7 +80,43 @@ test('start one runtime and stream logs', async (t) => {
   }
 }, 60000)
 
-test('get all logs', async (t) => {
+test('all logs', async (t) => {
+  const appDir = await mkdtemp(join(tmpdir(), 'plat-app-test'))
+  const appFixture = join('test', 'fixtures', 'runtime')
+  await cp(appFixture, appDir, { recursive: true })
+
+  const applicationsApi = await Applications.create()
+  const logs = new Logs(applicationsApi)
+  const { id } = await applicationsApi.importApplication(appDir)
+
+  const { runtime, url } = await applicationsApi.startRuntime(id)
+  onTestFinished(() => runtime.kill('SIGINT'))
+
+  // Write some log files
+  const PLATFORMATIC_TMP_DIR = resolve(tmpdir(), 'platformatic', 'runtimes')
+  const runtimeTmpDir = join(PLATFORMATIC_TMP_DIR, runtime.pid.toString())
+  const testLog1 = 'test-logs-1\n'
+  await writeFile(join(runtimeTmpDir, 'logs.1'), testLog1)
+  const testLog2 = 'test-logs-2\n'
+  await writeFile(join(runtimeTmpDir, 'logs.2'), testLog2)
+  const testLog3 = 'test-logs-3\n'
+  await writeFile(join(runtimeTmpDir, 'logs.3'), testLog3)
+
+  await sleep(2000)
+  await request(url)
+  await sleep(1000)
+
+  const logsURL = await logs.getAllLogsURL(id)
+  const response = await request(logsURL)
+  const body = await response.body.text()
+  expect(body).toContain('test-logs-1')
+  // this is actually appended to the "1" file because it's not filled.
+  expect(body).toContain(`Server listening at ${url}`)
+  expect(body).toContain('test-logs-2')
+  expect(body).toContain('test-logs-3')
+}, 60000)
+
+test('previous logs', async (t) => {
   const appDir = await mkdtemp(join(tmpdir(), 'plat-app-test'))
   const appFixture = join('test', 'fixtures', 'runtime')
   await cp(appFixture, appDir, { recursive: true })
@@ -89,16 +125,32 @@ test('get all logs', async (t) => {
   const logs = new Logs(applicationsApi)
 
   const { id } = await applicationsApi.importApplication(appDir)
-  const { runtime, url } = await applicationsApi.startRuntime(id)
+
+  const receivedLogs = []
+  const send = (logs) => {
+    receivedLogs.push(...logs)
+  }
+
+  const { runtime } = await applicationsApi.startRuntime(id)
   onTestFinished(() => runtime.kill('SIGINT'))
 
-  await sleep(2000)
+  // Write some log files
+  const PLATFORMATIC_TMP_DIR = resolve(tmpdir(), 'platformatic', 'runtimes')
+  const runtimeTmpDir = join(PLATFORMATIC_TMP_DIR, runtime.pid.toString())
+  const testLog1 = 'test-logs-1\n'
+  await writeFile(join(runtimeTmpDir, 'logs.1'), testLog1)
+  const testLog2 = 'test-logs-2\n'
+  await writeFile(join(runtimeTmpDir, 'logs.2'), testLog2)
+  const testLog3 = 'test-logs-3\n'
+  await writeFile(join(runtimeTmpDir, 'logs.3'), testLog3)
 
-  await request(url)
-  await sleep(1000)
-
-  const logsURL = await logs.getAllLogsURL(id)
-  const response = await request(logsURL)
-  const body = await response.body.text()
-  expect(body).toContain(`Server listening at ${url}`)
+  logs.start(id, send)
+  await sleep(1500)
+  expect(receivedLogs.join('\n')).toContain('test-logs-3')
+  const prevLogs2 = await logs.getPreviousLogs(id)
+  expect(prevLogs2).toContain('test-logs-2')
+  const prevLogs1 = await logs.getPreviousLogs(id)
+  expect(prevLogs1).toContain('test-logs-1')
+  logs.stop()
+  await applicationsApi.stopRuntime(id)
 }, 60000)
