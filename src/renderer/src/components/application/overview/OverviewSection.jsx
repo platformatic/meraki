@@ -3,6 +3,7 @@ import React, { useEffect, useState } from 'react'
 import PropTypes from 'prop-types'
 import { WHITE, OPACITY_30, MEDIUM, TRANSPARENT, SMALL, WARNING_YELLOW, OPACITY_10 } from '@platformatic/ui-components/src/components/constants'
 import { BorderedBox, Button, ModalDirectional, PlatformaticIcon, VerticalSeparator } from '@platformatic/ui-components'
+import useStackablesStore from '~/useStackablesStore'
 import Icons from '@platformatic/ui-components/src/components/icons'
 import { STATUS_STOPPED, STATUS_RUNNING } from '~/ui-constants'
 import styles from './OverviewSection.module.css'
@@ -10,7 +11,9 @@ import typographyStyles from '~/styles/Typography.module.css'
 import commonStyles from '~/styles/CommonStyles.module.css'
 import modalStyles from '~/styles/ModalStyles.module.css'
 
-function OverviewSection ({ applicationSelected, applicationStatus }) {
+function OverviewSection ({ applicationSelected }) {
+  const globalState = useStackablesStore()
+  const { applicationStatus } = globalState
   const [url, setUrl] = useState('-')
   const [showModalScalarIntegration, setShowModalScalarIntegration] = useState(false)
 
@@ -122,17 +125,11 @@ OverviewSection.propTypes = {
   /**
    * applicationSelected
     */
-  applicationSelected: PropTypes.object,
-  /**
-   * applicationStatus
-    */
-  applicationStatus: PropTypes.oneOf([STATUS_RUNNING, STATUS_STOPPED])
-
+  applicationSelected: PropTypes.object
 }
 
 OverviewSection.defaultProps = {
-  applicationSelected: {},
-  applicationStatus: STATUS_STOPPED
+  applicationSelected: {}
 }
 
 export default OverviewSection

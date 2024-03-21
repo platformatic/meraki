@@ -1,16 +1,15 @@
 'use strict'
 import React, { useState, useEffect, useRef } from 'react'
 import PropTypes from 'prop-types'
-import { RICH_BLACK, WHITE, OPACITY_30, TRANSPARENT, MARGIN_0 } from '@platformatic/ui-components/src/components/constants'
+import { RICH_BLACK, WHITE, OPACITY_30, TRANSPARENT, MARGIN_0, MEDIUM } from '@platformatic/ui-components/src/components/constants'
 import styles from './ApplicationLogs.module.css'
 import typographyStyles from '~/styles/Typography.module.css'
 import commonStyles from '~/styles/CommonStyles.module.css'
 // import { Button, HorizontalSeparator, VerticalSeparator } from '@platformatic/ui-components'
-import Title from '~/components/ui/Title'
 import { BorderedBox, Button, HorizontalSeparator } from '@platformatic/ui-components'
 import Forms from '@platformatic/ui-components/src/components/forms'
 import Log from './Log'
-import { PRETTY, RAW, DIRECTION_UP, DIRECTION_DOWN, STATUS_PAUSED_LOGS, STATUS_RESUMED_LOGS } from '~/ui-constants'
+import { PRETTY, RAW, DIRECTION_UP, DIRECTION_DOWN, STATUS_PAUSED_LOGS, STATUS_RESUMED_LOGS, STATUS_STOPPED } from '~/ui-constants'
 import LogFilterSelector from './LogFilterSelector'
 import {
   callApiStartLogs,
@@ -21,6 +20,8 @@ import {
   callApiResumeLogs,
   callApiGetPreviousLogs
 } from '~/api'
+import Icons from '@platformatic/ui-components/src/components/icons'
+import useStackablesStore from '~/useStackablesStore'
 
 const ApplicationLogs = React.forwardRef(({ applicationSelected }, ref) => {
   const [displayLog, setDisplayLog] = useState(PRETTY)
@@ -39,6 +40,8 @@ const ApplicationLogs = React.forwardRef(({ applicationSelected }, ref) => {
   const [displayGoToBottom, setDisplayGoToBottom] = useState(false)
   const [showPreviousLogs, setShowPreviousLogs] = useState(true)
   const [statusPausedLogs, setStatusPausedLogs] = useState('')
+  const globalState = useStackablesStore()
+  const { applicationStatus } = globalState
 
   useEffect(() => {
     if (applicationSelected.id) {
@@ -208,12 +211,11 @@ const ApplicationLogs = React.forwardRef(({ applicationSelected }, ref) => {
       <div className={styles.content}>
         <div className={`${commonStyles.largeFlexBlock} ${commonStyles.fullWidth}`}>
           <div className={commonStyles.mediumFlexBlock}>
-            <Title
-              title='Logs'
-              iconName='CodeTestingIcon'
-              dataAttrName='cy'
-              dataAttrValue='application-log-title'
-            />
+            <div className={`${commonStyles.mediumFlexRow} ${commonStyles.fullWidth} ${commonStyles.itemsCenter}`}>
+              <Icons.CodeTestingIcon color={WHITE} size={MEDIUM} />
+              <h2 className={`${typographyStyles.desktopHeadline2} ${typographyStyles.textWhite}`}>Logs</h2>
+              {applicationStatus === STATUS_STOPPED && <p className={`${typographyStyles.desktopBodySmall} ${typographyStyles.textWhite} ${typographyStyles.opacity70}`}>(The application is stopped. Restart the app to collect new logs.)</p>}
+            </div>
           </div>
           <BorderedBox classes={styles.borderexBoxContainer} backgroundColor={RICH_BLACK} color={WHITE} borderColorOpacity={OPACITY_30}>
             <div className={`${commonStyles.smallFlexRow} ${commonStyles.itemsCenter} ${commonStyles.justifyBetween} ${styles.lateralPadding} ${styles.top}`}>

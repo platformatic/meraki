@@ -28,7 +28,7 @@ import useStackablesStore from '~/useStackablesStore'
 
 function ApplicationContainer () {
   const globalState = useStackablesStore()
-  const { currentPage, setCurrentPage, resetWizardState } = globalState
+  const { currentPage, setCurrentPage, resetWizardState, setApplicationStatus } = globalState
   const { appId } = useParams()
   const [innerLoading, setInnerLoading] = useState(true)
   const [applicationSelected, setApplicationSelected] = useState(null)
@@ -55,6 +55,7 @@ function ApplicationContainer () {
 
   useEffect(() => {
     if (applicationSelected !== null) {
+      setApplicationStatus(applicationSelected.status)
       setComponents([
         <Overview
           ref={overViewRef}

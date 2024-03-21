@@ -1,4 +1,5 @@
 import { create } from 'zustand'
+import { STATUS_STOPPED } from './ui-constants'
 
 const initialState = {
   formData: {},
@@ -6,7 +7,8 @@ const initialState = {
   breadCrumbs: [],
   currentPage: '',
   applications: [],
-  reloadApplications: true
+  reloadApplications: true,
+  applicationStatus: STATUS_STOPPED
 }
 
 const useStackablesStore = create((set, get) => ({
@@ -149,6 +151,14 @@ const useStackablesStore = create((set, get) => ({
       return {
         ...state,
         reloadApplications
+      }
+    })
+  },
+  setApplicationStatus: (status) => {
+    set((state) => {
+      return {
+        ...state,
+        applicationStatus: status
       }
     })
   },

@@ -8,14 +8,14 @@ import commonStyles from '~/styles/CommonStyles.module.css'
 import { BorderedBox, LoadingSpinnerV2 } from '@platformatic/ui-components'
 import Icons from '@platformatic/ui-components/src/components/icons'
 import useStackablesStore from '~/useStackablesStore'
-import { APPLICATION_PAGE_METRICS } from '~/ui-constants'
+import { APPLICATION_PAGE_METRICS, STATUS_RUNNING } from '~/ui-constants'
 import { callApiStartMetrics, getAppMetrics, callApiStopMetrics } from '~/api'
 import LineChart from './LineChart'
 import StackedBarsChart from './StackedBarsChart'
 
 const Metrics = React.forwardRef(({ applicationSelected }, ref) => {
   const globalState = useStackablesStore()
-  const { setNavigation, setCurrentPage } = globalState
+  const { applicationStatus, setNavigation, setCurrentPage } = globalState
   const [paused, setPaused] = useState(false) // This pauses the chart flowing (not the data collection)
   const [data, setData] = useState({
     memory: [],
@@ -39,7 +39,7 @@ const Metrics = React.forwardRef(({ applicationSelected }, ref) => {
   }
 
   useEffect(() => {
-    if (applicationSelected.id) {
+    if (applicationSelected.id && applicationStatus === STATUS_RUNNING) {
       getAppMetrics(applicationSelected.id, (_, metric) => {
         const parsedMetric = JSON.parse(metric)
         const { date, cpu, elu, rss, totalHeapSize, usedHeapSize, newSpaceSize, oldSpaceSize, entrypoint } = parsedMetric
@@ -68,12 +68,12 @@ const Metrics = React.forwardRef(({ applicationSelected }, ref) => {
       callApiStartMetrics(applicationSelected.id)
     }
     return callApiStopMetrics
-  }, [applicationSelected.id])
+  }, [applicationSelected.id, applicationStatus])
 
   const { memory, cpuEL, latency } = data
 
   // We need at least 2 data points to render the charts properly
-  if (memory.length < 2) {
+  if (memory.length < 2 && applicationStatus === STATUS_RUNNING) {
     return (
       <LoadingSpinnerV2
         loading
@@ -97,12 +97,12 @@ const Metrics = React.forwardRef(({ applicationSelected }, ref) => {
             <div className={`${commonStyles.mediumFlexRow} ${commonStyles.fullWidth} ${commonStyles.itemsCenter}`}>
               <Icons.MetricsIcon color={WHITE} size={MEDIUM} />
               <h2 className={`${typographyStyles.desktopHeadline2} ${typographyStyles.textWhite}`}>Metrics</h2>
-              <p className={`${typographyStyles.desktopBodySmall} ${typographyStyles.textWhite} ${typographyStyles.opacity70}`}>(Last 5 minutes)</p>
+              <p className={`${typographyStyles.desktopBodySmall} ${typographyStyles.textWhite} ${typographyStyles.opacity70}`}>{applicationStatus === STATUS_RUNNING ? '(Last 5 minutes)' : '(The application is stopped. Restart the app to collect new metrics.)'}</p>
               {paused ? <p className={`${typographyStyles.desktopBodySmall}  ${typographyStyles.textWhite} ${typographyStyles.opacity70}`}>Paused, click on a chart to resume</p> : null}
             </div>
           </div>
 
-          <div className={`${commonStyles.mediumFlexBlock} ${commonStyles.fullWidth}`}>
+          <div className={`${commonStyles.mediumFlexBlock} ${commonStyles.fullWidth} ${styles.metricsContainer}`}>
             <BorderedBox color={WHITE} borderColorOpacity={OPACITY_30} backgroundColor={TRANSPARENT} classes={styles.boxMetricContainer}>
               <LineChart
                 data={memory}
@@ -138,7 +138,7 @@ const Metrics = React.forwardRef(({ applicationSelected }, ref) => {
               />
             </BorderedBox>
           </div>
-        </div>w:
+        </div>
       </div>
     </div>
   )
