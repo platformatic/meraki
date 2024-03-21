@@ -1,5 +1,5 @@
 import { RuntimeApiClient } from '@platformatic/control'
-import { Writable } from 'node:stream'
+import { Writable, pipeline } from 'node:stream'
 import logger from 'electron-log'
 import split from 'split2'
 
@@ -40,8 +40,10 @@ class Metrics {
       }
     })
 
-    this.#currentStream.pipe(split()).pipe(callbackWritable).on('error', (err) => {
-      logger.error('Error streaming metrics', err)
+    pipeline(this.#currentStream, split(), callbackWritable, (err) => {
+      if (err) {
+        logger.error('Error streaming metrics', err)
+      }
     })
   }
 
