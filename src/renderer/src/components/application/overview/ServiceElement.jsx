@@ -52,10 +52,18 @@ function ServiceElement ({
   }
 
   function getIcon () {
-    const envTypescript = service.config.plugins.typescript
+    
     let typeScript = false
+    if (service.config.plugins && service.config.plugins.typescript) {
+      const envTypescript = service.config.plugins.typescript
+      if (envTypescript.indexOf('{') === 0) {
+        typeScript = service.env[envTypescript.replace(/[{}]/g), ''].toLowerCase() === 'true'
+      } else {
+        typescript = envTypescript.toLowerCase() === 'true'
+      }
+    }
     if (envTypescript) {
-      typeScript = service.env[envTypescript.replace('{', '').replace('}', '')].toLowerCase() === 'true'
+      
     }
     return typeScript ? <TypescriptIcon /> : <JavascriptIcon />
   }
