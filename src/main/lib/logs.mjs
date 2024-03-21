@@ -1,5 +1,5 @@
 import { RuntimeApiClient } from '@platformatic/control'
-import { Writable, Readable, pipeline } from 'node:stream'
+import { Writable, pipeline } from 'node:stream'
 import Fastify from 'fastify'
 import split from 'split2'
 import logger from 'electron-log'
