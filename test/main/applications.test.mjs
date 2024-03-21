@@ -85,6 +85,9 @@ test('start one runtime, see it in list and stop it', async (t) => {
   const applicationsApi = await Applications.create()
   const { id } = await applicationsApi.importApplication(appDir)
   const { runtime } = await applicationsApi.startRuntime(id)
+  const pid = applicationsApi.getPid(id)
+  expect(pid).toBe(runtime.pid)
+
   onTestFinished(() => runtime.kill('SIGINT'))
 
   const applications = await applicationsApi.getApplications()
@@ -163,6 +166,9 @@ test('import automatically a running runtime, started externally', async (t) => 
   expect(applications[0].running).toBe(true)
   expect(applications[0].insideMeraki).toBe(false)
   expect(applications[0].automaticallyImported).toBe(true)
+
+  const pid = applicationsApi.getPid(applications[0].id)
+  expect(pid).toBe(runtime.pid)
 }, 60000)
 
 test('open application', async (t) => {
