@@ -62,9 +62,6 @@ function ServiceElement ({
         typescript = envTypescript.toLowerCase() === 'true'
       }
     }
-    if (envTypescript) {
-      
-    }
     return typeScript ? <TypescriptIcon /> : <JavascriptIcon />
   }
 
