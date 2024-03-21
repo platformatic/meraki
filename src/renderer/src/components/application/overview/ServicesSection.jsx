@@ -8,12 +8,14 @@ import commonStyles from '~/styles/CommonStyles.module.css'
 import { Button, ModalDirectional } from '@platformatic/ui-components'
 import Icons from '@platformatic/ui-components/src/components/icons'
 import ServiceElement from './ServiceElement'
-import { STATUS_STOPPED, STATUS_RUNNING } from '~/ui-constants'
+import { STATUS_RUNNING } from '~/ui-constants'
 import modalStyles from '~/styles/ModalStyles.module.css'
+import useStackablesStore from '~/useStackablesStore'
 
-function ServicesSection ({ id, services, entrypoint, applicationStatus, onClickEditApplication }) {
+function ServicesSection ({ id, services, entrypoint, onClickEditApplication }) {
+  const globalState = useStackablesStore()
+  const { applicationStatus } = globalState
   const [showModalScalarIntegration, setShowModalScalarIntegration] = useState(false)
-
   function handleCloseModalAPIReference () {
     setShowModalScalarIntegration(false)
   }
@@ -83,10 +85,6 @@ ServicesSection.propTypes = {
     */
   entrypoint: PropTypes.string,
   /**
-   * applicationStatus
-    */
-  applicationStatus: PropTypes.oneOf([STATUS_RUNNING, STATUS_STOPPED]),
-  /**
    * onClickEditApplication
     */
   onClickEditApplication: PropTypes.func
@@ -96,7 +94,6 @@ ServicesSection.defaultProps = {
   id: {},
   services: [],
   entrypoint: '',
-  applicationStatus: STATUS_STOPPED,
   onClickEditApplication: () => {}
 }
 

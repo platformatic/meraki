@@ -13,14 +13,15 @@ import ApplicationStatusPills from '~/components/ui/ApplicationStatusPills'
 import MerakiIcon from '~/components/ui/MerakiIcon'
 import Forms from '@platformatic/ui-components/src/components/forms'
 import { callStartApplication, callStopApplication } from '~/api'
+import useStackablesStore from '~/useStackablesStore'
 
 function TopContent ({
   applicationSelected,
-  applicationStatus,
-  onSuccessfulStart,
-  onSuccessfulStop,
   onErrorOccurred
 }) {
+  const globalState = useStackablesStore()
+  const { applicationStatus, setApplicationStatus } = globalState
+
   const [form, setForm] = useState({ automaticRestart: false })
   const [changingStatus, setChangingStatus] = useState(false)
 
@@ -28,7 +29,7 @@ function TopContent ({
     try {
       setChangingStatus(true)
       await callStopApplication(applicationSelected.id)
-      onSuccessfulStop()
+      setApplicationStatus(STATUS_STOPPED)
     } catch (error) {
       console.error(`Error on callStopApplication ${error}`)
       onErrorOccurred(error)
@@ -41,7 +42,7 @@ function TopContent ({
     try {
       setChangingStatus(true)
       await callStartApplication(applicationSelected.id)
-      onSuccessfulStart()
+      setApplicationStatus(STATUS_RUNNING)
     } catch (error) {
       console.error(`Error on callStartApplication ${error}`)
       onErrorOccurred(error)
@@ -164,18 +165,6 @@ TopContent.propTypes = {
     */
   applicationSelected: PropTypes.object,
   /**
-   * applicationStatus
-    */
-  applicationStatus: PropTypes.oneOf([STATUS_RUNNING, STATUS_STOPPED]),
-  /**
-   * onSuccessfulStart
-    */
-  onSuccessfulStart: PropTypes.func,
-  /**
-   * onSuccessfulStop
-    */
-  onSuccessfulStop: PropTypes.func,
-  /**
    * onErrorOccurred
     */
   onErrorOccurred: PropTypes.func
@@ -183,9 +172,6 @@ TopContent.propTypes = {
 
 TopContent.defaultProps = {
   applicationSelected: {},
-  applicationStatus: STATUS_STOPPED,
-  onSuccessfulStart: () => {},
-  onSuccessfulStop: () => {},
   onErrorOccurred: () => {}
 }
 
