@@ -37,23 +37,32 @@ function OverviewSection ({ applicationSelected, applicationStatus }) {
           <h3 className={`${typographyStyles.desktopHeadline3} ${typographyStyles.textWhite}`}>Overview</h3>
         </div>
         <div className={`${commonStyles.mediumFlexRow} ${commonStyles.itemsCenter} `}>
-          <div className={`${commonStyles.smallFlexRow} ${commonStyles.itemsCenter}`}>
-            <span className={`${typographyStyles.desktopBody} ${typographyStyles.textWhite} ${typographyStyles.opacity70}`}>Current Platformatic Version: </span>
-            <span className={`${typographyStyles.desktopBodyLarge} ${typographyStyles.textWarningYellow}`}>{applicationSelected.platformaticVersion || '-'}</span>
-          </div>
-          {!applicationSelected.isLatestPltVersion && (
-            <BorderedBox
-              color={WARNING_YELLOW}
-              backgroundColor={WARNING_YELLOW}
-              backgroundColorOpacity={OPACITY_10}
-              classes={`${commonStyles.buttonPadding} ${styles.updatePlatformaticBox}`}
-            >
+          {!applicationSelected.platformaticVersion
+            ? (
               <div className={`${commonStyles.smallFlexRow} ${commonStyles.itemsCenter}`}>
-                <Icons.AlertIcon size={SMALL} color={WARNING_YELLOW} />
-                <span className={`${typographyStyles.desktopBody} ${typographyStyles.textWarningYellow}`}>There is a new Platformatic version.</span>
-              </div>
-            </BorderedBox>
-          )}
+                <span className={`${typographyStyles.desktopBody} ${typographyStyles.textWhite} ${typographyStyles.opacity70}`}>Current Platformatic Version: -</span>
+              </div>)
+            : (
+              <>
+                <div className={`${commonStyles.smallFlexRow} ${commonStyles.itemsCenter}`}>
+                  <span className={`${typographyStyles.desktopBody} ${typographyStyles.textWhite} ${typographyStyles.opacity70}`}>Current Platformatic Version: </span>
+                  <span className={`${typographyStyles.desktopBodyLarge} ${typographyStyles.textWarningYellow}`}>{applicationSelected.platformaticVersion || '-'}</span>
+                </div>
+                {!applicationSelected.isLatestPltVersion && (
+                  <BorderedBox
+                    color={WARNING_YELLOW}
+                    backgroundColor={WARNING_YELLOW}
+                    backgroundColorOpacity={OPACITY_10}
+                    classes={`${commonStyles.buttonPadding} ${styles.updatePlatformaticBox}`}
+                  >
+                    <div className={`${commonStyles.smallFlexRow} ${commonStyles.itemsCenter}`}>
+                      <Icons.AlertIcon size={SMALL} color={WARNING_YELLOW} />
+                      <span className={`${typographyStyles.desktopBody} ${typographyStyles.textWarningYellow}`}>There is a new Platformatic version.</span>
+                    </div>
+                  </BorderedBox>
+                )}
+              </>
+              )}
         </div>
 
         <div className={`${commonStyles.mediumFlexRow} ${commonStyles.fullWidth} ${commonStyles.itemsCenter} ${commonStyles.justifyBetween} `}>
