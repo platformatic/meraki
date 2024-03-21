@@ -97,7 +97,7 @@ test('start one runtime, see it in list and stop it', async (t) => {
   expect(applications[0].path).toBe(appDir)
   expect(applications[0].runtime.pid).toBe(runtime.pid)
   expect(applications[0].insideMeraki).toBe(true)
-  expect(applications[0].platformaticVersion).toBe('1.29.0')
+  expect(applications[0].platformaticVersion).toBe('1.30.0')
   expect(applications[0].isLatestPltVersion).toBe(false)
   expect(applications[0].automaticallyImported).toBe(false)
   {
@@ -122,7 +122,7 @@ test('start one runtime, see it in list and stop it', async (t) => {
       })
       .reply(200, {
         'dist-tags': {
-          latest: '1.29.0'
+          latest: '1.30.0'
         }
       })
     // We get another instance of the APIm because we get the platformatic version once

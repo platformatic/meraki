@@ -157,7 +157,6 @@ class Applications {
   }
 
   getPid (id) {
-    console.log(this.#applications)
     const pid = this.#started[id]
     if (pid) {
       return pid
