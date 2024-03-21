@@ -110,43 +110,15 @@ class Logs {
   // and returns the URL to access it. We need this to use electron-dl (which uses the electron native APIs)
   // to download the logs
   async getAllLogsURL (id) {
-    async function * concatStreams (readables) {
-      for (const readable of readables) {
-        for await (const chunk of readable) {
-          yield chunk
-        }
-      }
-    }
-
     if (!this.#logServer) {
       this.#logServer = Fastify()
-
       this.#logServer.get('/logs/:id', async (req, reply) => {
         const pid = this.#applications.getPid(id)
         if (!pid) throw new Error('Application running PID not found')
-
-        const logIndexes = await this.#runtimeClient.getRuntimeLogIndexes(pid)
-
-        const logStreams = []
-        for (const index of logIndexes) {
-          try {
-            const logStream = await this.#runtimeClient.getRuntimeLogsStream(pid, index)
-            logStreams.push(logStream)
-          } catch (err) {
-            if (err.statusCode === 404) {
-              // This is a log file that was deleted
-              continue
-            }
-            logger.error('Error getting log stream', err)
-            throw err
-          }
-        }
-
-        const fullLogStream = Readable.from(concatStreams(logStreams))
+        const fullLogStream = await this.#runtimeClient.getRuntimeAllLogsStream(pid)
         return reply.send(fullLogStream)
       })
-      // TODO: We should use a unix socket for that
-      await this.#logServer.listen(0)
+      await this.#logServer.listen(0) // TODO: We should use a unix socket for that
     }
     const port = this.#logServer.server.address().port
     return `http://127.0.0.1:${port}/logs/${id}`
