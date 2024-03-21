@@ -42,7 +42,11 @@ class Metrics {
 
     pipeline(this.#currentStream, split(), callbackWritable, (err) => {
       if (err) {
-        logger.error('Error streaming metrics', err)
+        if (err.code === 'ERR_STREAM_PREMATURE_CLOSE') {
+          logger.info(`metrics stream closed for application ${id}`)
+        } else {
+          logger.error('Error streaming metrics', err)
+        }
       }
     })
   }

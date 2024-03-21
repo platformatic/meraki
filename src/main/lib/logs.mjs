@@ -81,7 +81,11 @@ class Logs {
 
     pipeline(this.#currentLiveStream, split(), new WriteableBuffer(callback), (err) => {
       if (err) {
-        logger.error('Error streaming logs', err)
+        if (err.code === 'ERR_STREAM_PREMATURE_CLOSE') {
+          logger.info(`logs stream closed for application ${id}`)
+        } else {
+          logger.error('Error streaming logs', err)
+        }
       }
     })
   }
