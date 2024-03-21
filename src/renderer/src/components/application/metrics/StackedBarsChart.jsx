@@ -16,7 +16,8 @@ const StackedBarsChart = ({
   const percentiles = {
     P99: '#FA6221',
     P95: '#C61BE2',
-    P90: '#2192FA'
+    P90: '#2192FA',
+    P50: '#00B3A4'
   }
 
   // The setter is missing on purpose. We don't want to trigger a rerender when the mouse position changes
@@ -97,13 +98,20 @@ const StackedBarsChart = ({
 
     const barWidth = 2
     const barOffset = -(barWidth * 2)
+
+    chart.append('rect')
+      .attr('fill', percentiles.P50)
+      .attr('x', d => x(d.time) + barOffset)
+      .attr('y', d => y(d.P50))
+      .attr('width', barWidth)
+      .attr('height', d => h - yMargin - y(d.P50)) // We calculate the height upside-down
+
     chart.append('rect')
       .attr('fill', percentiles.P90)
       .attr('x', d => x(d.time) + barOffset)
       .attr('y', d => y(d.P90))
       .attr('width', barWidth)
-      .attr('height', d => h - yMargin - y(d.P90)) // We calculate the height upside-down
-      .attr('class', 'P90')
+      .attr('height', d => h - yMargin - y(d.P90 - d.P50))
 
     chart.append('rect')
       .attr('fill', percentiles.P95)
