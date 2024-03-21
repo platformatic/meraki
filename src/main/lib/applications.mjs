@@ -1,6 +1,6 @@
 import execa from 'execa'
 import { RuntimeApiClient } from '@platformatic/control'
-import { access } from 'node:fs/promises'
+import { access, rm } from 'node:fs/promises'
 import { createRequire } from 'node:module'
 import { npmInstall } from './run-npm.mjs'
 import { getLatestPlatformaticVersion, findExecutable } from './utils.mjs'
@@ -207,8 +207,15 @@ class Applications {
     return { ...application, ...appMetadata }
   }
 
-  async deleteApplication (id) {
-    return this.#mapper.entities.application.delete({ where: { id: { eq: id } } })
+  async deleteApplication (id, opts = { removeFolder: false }) {
+    const { removeFolder } = opts
+    const app = await this.getApplication(id)
+    const appFolder = app.path
+    const ret = await this.#mapper.entities.application.delete({ where: { id: { eq: id } } })
+    if (removeFolder) {
+      await rm(appFolder, { recursive: true })
+    }
+    return ret
   }
 
   static async create (merakiFolder, merakiConfigFolder) {

@@ -246,7 +246,7 @@ app.whenReady().then(async () => {
   })
 
   ipcMain.handle('delete-app', async (_, id) => {
-    return appApis.deleteApplication(id)
+    return appApis.deleteApplication(id, { removeFolder: true })
   })
 
   ipcMain.handle('start-app', async (_, appId) => {
