@@ -9,7 +9,7 @@ import commonStyles from '~/styles/CommonStyles.module.css'
 import { BorderedBox, Button, HorizontalSeparator } from '@platformatic/ui-components'
 import Forms from '@platformatic/ui-components/src/components/forms'
 import Log from './Log'
-import { PRETTY, RAW, DIRECTION_UP, DIRECTION_DOWN, STATUS_PAUSED_LOGS, STATUS_RESUMED_LOGS, STATUS_STOPPED } from '~/ui-constants'
+import { PRETTY, RAW, DIRECTION_UP, DIRECTION_DOWN, DIRECTION_STILL, STATUS_PAUSED_LOGS, STATUS_RESUMED_LOGS, STATUS_STOPPED } from '~/ui-constants'
 import LogFilterSelector from './LogFilterSelector'
 import {
   callApiStartLogs,
@@ -42,6 +42,7 @@ const ApplicationLogs = React.forwardRef(({ applicationSelected }, ref) => {
   const [statusPausedLogs, setStatusPausedLogs] = useState('')
   const globalState = useStackablesStore()
   const { applicationStatus } = globalState
+  const [filteredLogsLengthAtPause, setFilteredLogsLengthAtPause] = useState(0)
 
   useEffect(() => {
     if (applicationSelected.id) {
@@ -68,6 +69,9 @@ const ApplicationLogs = React.forwardRef(({ applicationSelected }, ref) => {
         setStatusPausedLogs(STATUS_RESUMED_LOGS)
       }
     }
+    if (scrollDirection === DIRECTION_STILL) {
+      setFilteredLogsLengthAtPause(filteredLogs.length)
+    }
   }, [scrollDirection, filteredLogs])
 
   useEffect(() => {
@@ -86,12 +90,6 @@ const ApplicationLogs = React.forwardRef(({ applicationSelected }, ref) => {
       }
     }
   }, [statusPausedLogs])
-
-  useEffect(() => {
-    if (scrollDirection === DIRECTION_UP) {
-      setDisplayGoToBottom(true)
-    }
-  }, [scrollDirection])
 
   function handleScroll (event) {
     if (event.currentTarget.scrollTop < previousScrollTop) {
@@ -152,8 +150,10 @@ const ApplicationLogs = React.forwardRef(({ applicationSelected }, ref) => {
   ])
 
   useEffect(() => {
-    if (logContentRef?.current?.scrollHeight) console.log(logContentRef.current.scrollHeight)
-  }, [logContentRef, logContentRef?.current, logContentRef?.current?.scrollHeight])
+    if (scrollDirection !== DIRECTION_DOWN && filteredLogsLengthAtPause > 0 && filteredLogsLengthAtPause < filteredLogs.length) {
+      setDisplayGoToBottom(true)
+    }
+  }, [scrollDirection, filteredLogs.length, filteredLogsLengthAtPause])
 
   function handleChangeService (event) {
     setFilterLogsByService({
@@ -187,6 +187,7 @@ const ApplicationLogs = React.forwardRef(({ applicationSelected }, ref) => {
   function resumeScrolling () {
     setScrollDirection(DIRECTION_DOWN)
     setDisplayGoToBottom(false)
+    setFilteredLogsLengthAtPause(0)
   }
 
   async function loadPreviousLogs () {
@@ -204,6 +205,11 @@ const ApplicationLogs = React.forwardRef(({ applicationSelected }, ref) => {
 
   function onlyUnique (value, index, array) {
     return array.indexOf(value) === index
+  }
+
+  function handlingClickArrow () {
+    setScrollDirection(DIRECTION_STILL)
+    setFilteredLogsLengthAtPause(filteredLogs.length)
   }
 
   return (
@@ -270,7 +276,7 @@ const ApplicationLogs = React.forwardRef(({ applicationSelected }, ref) => {
               {filteredLogs?.length > 0 && (
                 <>
                   <hr className={styles.logDividerTop} />
-                  {filteredLogs.map((log, index) => <Log key={index} log={log} display={displayLog} onClickArrow={() => setScrollDirection('still')} />)}
+                  {filteredLogs.map((log, index) => <Log key={index} log={log} display={displayLog} onClickArrow={() => handlingClickArrow()} />)}
                   <hr className={styles.logDividerBottom} />
                 </>
               )}
