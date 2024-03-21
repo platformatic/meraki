@@ -132,8 +132,8 @@ function Row ({
         </div>
         <div className={styles.tableCell}>
           <div className={`${styles.customSmallFlexRow}`}>
-            <span className={`${typographyStyles.desktopBody} ${typographyStyles.textWhite} ${typographyStyles.opacity70}`}>{platformaticVersion}</span>
-            {!isLatestPltVersion && <Icons.AlertIcon color={WARNING_YELLOW} size={SMALL} />}
+            <span className={`${typographyStyles.desktopBody} ${typographyStyles.textWhite} ${typographyStyles.opacity70}`}>{platformaticVersion || '-'}</span>
+            {!isLatestPltVersion && platformaticVersion && <Icons.AlertIcon color={WARNING_YELLOW} size={SMALL} />}
           </div>
         </div>
       </div>
