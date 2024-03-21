@@ -67,7 +67,6 @@ export const createApp = async (dir, { projectName, services, entrypoint, port, 
   const projectDir = join(dir, projectName)
 
   mkdirp.sync(projectDir)
-
   if (!services || services.length === 0) {
     logger.error('No services to create')
     throw new errors.NoServicesError()
@@ -91,7 +90,7 @@ export const createApp = async (dir, { projectName, services, entrypoint, port, 
 
   const generator = new runtime.Generator({
     logger,
-    projectName
+    name: projectName
   })
 
   if (!generator) {
@@ -157,7 +156,7 @@ export const createApp = async (dir, { projectName, services, entrypoint, port, 
     await generator.prepare()
     await generator.writeFiles()
   } else {
-    generator.setUpdate()
+    generator.update({ services })
   }
 
   await npmInstall(null, { cwd: projectDir }, logger)
