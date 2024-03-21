@@ -51,6 +51,19 @@ function ServiceElement ({
     return service.pluginsDesc.find(pluginDesc => pluginDesc.name === plugin.name).id
   }
 
+  function getIcon () {
+    let typeScript = false
+    if (service.config.plugins && service.config.plugins.typescript) {
+      const envTypescript = service.config.plugins.typescript
+      if (envTypescript.indexOf('{') === 0) {
+        typeScript = service.env[envTypescript.replace(/[{}]/g, '')].toLowerCase() === 'true'
+      } else {
+        typeScript = envTypescript.toLowerCase() === 'true'
+      }
+    }
+    return typeScript ? <TypescriptIcon /> : <JavascriptIcon />
+  }
+
   return (
     <BorderedBox classes={styles.paddingElement} backgroundColor={RICH_BLACK} color={WHITE} borderColorOpacity={OPACITY_30}>
       <div className={`${commonStyles.smallFlexBlock} ${commonStyles.fullWidth}`}>
@@ -61,7 +74,7 @@ function ServiceElement ({
             {applicationEntrypoint && (
               <span className={`${typographyStyles.desktopBodySmall} ${typographyStyles.textWhite} ${typographyStyles.opacity70}`}>(This service is the Application Entrypoint)</span>
             )}
-            {service.typescript ? <TypescriptIcon /> : <JavascriptIcon />}
+            {getIcon()}
           </div>
 
           <div className={`${styles.buttonContainer}`}>

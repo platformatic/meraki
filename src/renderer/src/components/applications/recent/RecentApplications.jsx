@@ -32,6 +32,7 @@ const RecentApplications = React.forwardRef(({ onClickCreateNewApp }, ref) => {
       handleClick: () => {
         navigate(HOME_PATH)
         setCurrentPage(PAGE_RECENT_APPS)
+        setReloadApplications(true)
       },
       key: PAGE_RECENT_APPS,
       page: PAGE_RECENT_APPS
