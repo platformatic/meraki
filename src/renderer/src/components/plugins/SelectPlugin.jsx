@@ -189,7 +189,7 @@ function SelectPlugin ({ onClick, serviceName }) {
                     containerClassName: `${commonStyles.mediumFlexBlock} ${commonStyles.itemsCenter}`,
                     sentences: [{
                       style: `${typographyStyles.desktopBodyLarge} ${typographyStyles.textWhite}`,
-                      text: 'Loading plugins....'
+                      text: 'Loading plugins...'
                     }, {
                       style: `${typographyStyles.desktopBodyLarge} ${typographyStyles.textWhite} ${typographyStyles.opacity70}`,
                       text: 'This process will just take a few seconds.'

@@ -129,12 +129,14 @@ export const generateFormForViewEnvironmentVariable = (services) => {
       formErrors = {}
 
       service.templateEnvVariables.forEach(envVar => {
-        const { var: envName, label } = envVar
+        const { var: envName, label, configValue, type } = envVar
         const value = service.env[Object.keys(service.env).find(k => k.endsWith(envName))]
         form[envName] = {
           label,
           var: envName,
-          value
+          value,
+          configValue,
+          type
         }
         validations[`${envName}Valid`] = value !== ''
         formErrors[envName] = ''
@@ -163,12 +165,13 @@ export const generateFormForViewEnvironmentVariable = (services) => {
 
       if (envVars.length > 0) {
         envVars.forEach(envVar => {
-          const { name: envName, path, description } = envVar
+          const { name: envName, path, description, type } = envVar
           const value = service.env[Object.keys(service.env).find(k => k.endsWith(envName))]
           pluginForm[envName] = {
             path,
             value,
-            description
+            description,
+            type
           }
           pluginValidations[`${envName}Valid`] = value !== ''
           pluginFormErrors[envName] = ''
@@ -212,12 +215,14 @@ export const generateFormForEditEnvironmentVariable = (services, addUpdatedAt = 
       formErrors = {}
 
       service.templateEnvVariables.forEach(envVar => {
-        const { var: envName, label } = envVar
+        const { var: envName, label, configValue, type } = envVar
         const value = service.env[Object.keys(service.env).find(k => k.endsWith(envName))]
         form[envName] = {
           label,
           var: envName,
-          value
+          value,
+          configValue,
+          type
         }
         validations[`${envName}Valid`] = value !== ''
         formErrors[envName] = ''
@@ -273,12 +278,13 @@ export const generateFormForEditEnvironmentVariable = (services, addUpdatedAt = 
 
         if (envVars.length > 0) {
           envVars.forEach(envVar => {
-            const { name: envName, path, description } = envVar
+            const { name: envName, path, description, type } = envVar
             const value = service.env[Object.keys(service.env).find(k => k.endsWith(envName))]
             pluginForm[envName] = {
               path,
               value,
-              description
+              description,
+              type
             }
             pluginValidations[`${envName}Valid`] = value !== ''
             pluginFormErrors[envName] = ''

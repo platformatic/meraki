@@ -598,17 +598,20 @@ test('prepare services with multiple templates and plugins for environment varia
         FST_PLUGIN_HTTP_PROXY_UPSTREAM: {
           value: 'http://single-signon.example.com',
           path: 'upstream',
-          description: 'An URL (including protocol) that represents the target server to use for proxying.'
+          description: 'An URL (including protocol) that represents the target server to use for proxying.',
+          type: 'string'
         },
         FST_PLUGIN_HTTP_PROXY_PREFIX: {
           value: '/signon',
           path: 'prefix',
-          description: 'The prefix to mount this plugin on.'
+          description: 'The prefix to mount this plugin on.',
+          type: 'string'
         },
         FST_PLUGIN_HTTP_PROXY_HTTP2: {
           value: 'false',
           path: 'http2',
-          description: 'Whether to use HTTP/2 for proxying.'
+          description: 'Whether to use HTTP/2 for proxying.',
+          type: 'boolean'
         }
       },
       validForm: true,
@@ -642,7 +645,8 @@ test('prepare services with multiple templates and plugins for environment varia
         FST_PLUGIN_PASSPORT_SESSION: {
           value: 'true',
           path: 'session',
-          description: 'Save login state in session, defaults to true'
+          description: 'Save login state in session, defaults to true',
+          type: 'boolean'
         }
       },
       validForm: true,
@@ -933,12 +937,16 @@ test('prepare services with multiple templates and plugins for environment varia
       DATABASE_URL: {
         value: 'sqlite://./db.sqlite',
         label: 'What is the connection string?',
-        var: 'DATABASE_URL'
+        var: 'DATABASE_URL',
+        type: 'string',
+        configValue: 'connectionString'
       },
       PLT_APPLY_MIGRATIONS: {
         label: 'Should migrations be applied automatically on startup?',
         value: undefined,
-        var: 'PLT_APPLY_MIGRATIONS'
+        var: 'PLT_APPLY_MIGRATIONS',
+        type: 'boolean',
+        configValue: undefined
       }
     },
     validForm: true,
@@ -956,17 +964,20 @@ test('prepare services with multiple templates and plugins for environment varia
         FST_PLUGIN_HTTP_PROXY_UPSTREAM: {
           value: 'http://single-signon.example.com',
           path: 'upstream',
-          description: 'An URL (including protocol) that represents the target server to use for proxying.'
+          description: 'An URL (including protocol) that represents the target server to use for proxying.',
+          type: 'string'
         },
         FST_PLUGIN_HTTP_PROXY_PREFIX: {
           value: '/signon',
           path: 'prefix',
-          description: 'The prefix to mount this plugin on.'
+          description: 'The prefix to mount this plugin on.',
+          type: 'string'
         },
         FST_PLUGIN_HTTP_PROXY_HTTP2: {
           value: 'false',
           path: 'http2',
-          description: 'Whether to use HTTP/2 for proxying.'
+          description: 'Whether to use HTTP/2 for proxying.',
+          type: 'boolean'
         }
       },
       validForm: true,

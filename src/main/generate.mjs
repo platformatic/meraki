@@ -63,11 +63,10 @@ export const prepareFolder = async (path, tempNames, logger, appName = 'appName'
 //     }
 //   ]
 // ]
-export const createApp = async (dir, { projectName, services, entrypoint, port, logLevel, typescript, createGitHubRepository, installGitHubAction }, logger) => {
+export const createApp = async (dir, { projectName, services, entrypoint, port, logLevel, typescript, createGitHubRepository, installGitHubAction }, logger, isUpdate = false) => {
   const projectDir = join(dir, projectName)
 
   mkdirp.sync(projectDir)
-
   if (!services || services.length === 0) {
     logger.error('No services to create')
     throw new errors.NoServicesError()
@@ -91,7 +90,7 @@ export const createApp = async (dir, { projectName, services, entrypoint, port, 
 
   const generator = new runtime.Generator({
     logger,
-    projectName
+    name: projectName
   })
 
   if (!generator) {
@@ -107,51 +106,58 @@ export const createApp = async (dir, { projectName, services, entrypoint, port, 
     installGitHubAction
   })
 
-  for (const service of services) {
-    const templateName = service.template
-    const serviceName = service.name
-    const template = await importOrLocal({
-      projectDir,
-      pkg: templateName,
-      logger
-    })
+  if (!isUpdate) {
+    for (const service of services) {
+      const templateName = service.template
+      const serviceName = service.name
+      const template = await importOrLocal({
+        projectDir,
+        pkg: templateName,
+        logger
+      })
 
-    if (!template) {
-      logger.error(`Could not load template ${templateName}`)
-      throw new Error(`Could not load template ${templateName}`)
-    }
-
-    if (!template.Generator) {
-      logger.error(`Template ${templateName} does not have a Generator`)
-      throw new Error(`Template ${templateName} does not have a Generator`)
-    }
-
-    const templateGenerator = new template.Generator({
-      logger
-    })
-
-    templateGenerator.setConfig({
-      ...templateGenerator.getDefaultConfig(),
-      serviceName,
-      plugin: true,
-      tests: true,
-      isRuntimeContext: true
-    })
-
-    templateGenerator.setConfigFields(service.fields)
-
-    // plugins
-    if (service.plugins) {
-      for (const plugin of service.plugins) {
-        await templateGenerator.addPackage(plugin)
+      if (!template) {
+        logger.error(`Could not load template ${templateName}`)
+        throw new Error(`Could not load template ${templateName}`)
       }
+
+      if (!template.Generator) {
+        logger.error(`Template ${templateName} does not have a Generator`)
+        throw new Error(`Template ${templateName} does not have a Generator`)
+      }
+
+      const templateGenerator = new template.Generator({
+        logger
+      })
+
+      templateGenerator.setConfig({
+        ...templateGenerator.getDefaultConfig(),
+        serviceName,
+        plugin: true,
+        tests: true,
+        isRuntimeContext: true
+      })
+
+      templateGenerator.setConfigFields(service.fields)
+
+      // plugins
+      if (service.plugins) {
+        for (const plugin of service.plugins) {
+          await templateGenerator.addPackage(plugin)
+        }
+      }
+      generator.addService(templateGenerator, serviceName)
     }
-    generator.addService(templateGenerator, serviceName)
   }
 
-  generator.setEntryPoint(entrypoint)
-  await generator.prepare()
-  await generator.writeFiles()
+  if (!isUpdate) {
+    // Creation
+    generator.setEntryPoint(entrypoint)
+    await generator.prepare()
+    await generator.writeFiles()
+  } else {
+    generator.update({ services })
+  }
 
   await npmInstall(null, { cwd: projectDir }, logger)
 
@@ -160,6 +166,7 @@ export const createApp = async (dir, { projectName, services, entrypoint, port, 
     const servicePath = join(projectDir, 'services', serviceFolder)
     await npmInstall(null, { cwd: servicePath }, logger)
   }
+
   await generator.postInstallActions()
 
   await enableManagementAPI(projectDir)

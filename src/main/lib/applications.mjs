@@ -190,6 +190,13 @@ class Applications {
     })
   }
 
+  async updateApplication (id, name) {
+    return this.#mapper.entities.application.save({
+      fields: ['id', 'name'],
+      input: { id, name }
+    })
+  }
+
   async openApplication (id) {
     const app = await this.getApplication(id)
     if (!app) {

@@ -14,6 +14,10 @@ export const callCreateApp = async (path, project) => {
   return await window.api.createApp(path, project)
 }
 
+export const callUpdateApp = async (id, path, project) => {
+  return await window.api.updateApp(id, path, project)
+}
+
 export const callImportApp = async (path, folderName) => {
   return await window.api.importApp(path, folderName)
 }
