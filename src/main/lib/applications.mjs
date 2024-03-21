@@ -157,7 +157,21 @@ class Applications {
   }
 
   getPid (id) {
-    return this.#started[id]
+    console.log(this.#applications)
+    const pid = this.#started[id]
+    if (pid) {
+      return pid
+    }
+
+    // Can be the id of an application not started by meraki.
+    const application = this.#applications.find((app) => app.id === id)
+    if (!application) {
+      throw new Error(`Application with id ${id} not found, cannot extract PID`)
+    }
+    if (application.running) {
+      return application.runtime.pid
+    }
+    throw new Error(`Application with id ${id} is not running`)
   }
 
   getApplication (id) {
