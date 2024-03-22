@@ -24,10 +24,13 @@ function Row ({
   onClickDelete
 }) {
   const [buttonClicked, setButtonClicked] = useState(false)
+  const [buttonRestartClicked, setButtonRestartClicked] = useState(false)
+
   const navigate = useNavigate()
 
   useEffect(() => {
     setButtonClicked(false)
+    setButtonRestartClicked(false)
   }, [status])
 
   function goToApplication () {
@@ -44,6 +47,11 @@ function Row ({
     onClickStop()
   }
 
+  function handleRestart () {
+    setButtonRestartClicked(true)
+    onClickRestart()
+  }
+
   function getStartStopButton () {
     if (buttonClicked) {
       return (
@@ -57,6 +65,7 @@ function Row ({
     if (status === STATUS_STOPPED) {
       return (
         <ButtonOnlyIcon
+          disabled={buttonRestartClicked}
           textClass={typographyStyles.desktopBody}
           altLabel='Start application'
           paddingClass={commonStyles.buttonSquarePadding}
@@ -70,6 +79,7 @@ function Row ({
     }
     return (
       <ButtonOnlyIcon
+        disabled={buttonRestartClicked}
         textClass={typographyStyles.desktopBody}
         altLabel='Stop application'
         paddingClass={commonStyles.buttonSquarePadding}
@@ -78,6 +88,31 @@ function Row ({
         onClick={() => handleStop()}
         hoverEffect={DULLS_BACKGROUND_COLOR}
         platformaticIcon={{ size: SMALL, iconName: 'CircleStopIcon', color: WHITE }}
+      />
+    )
+  }
+
+  function getRestartButton () {
+    if (buttonRestartClicked) {
+      return (
+        <div className={`${styles.containerRunning} ${commonStyles.buttonSquarePadding}`}>
+          <div className={styles.clockWiseRotation}>
+            <Icons.RestartIcon size={MEDIUM} color={WHITE} />
+          </div>
+        </div>
+      )
+    }
+
+    return (
+      <ButtonOnlyIcon
+        textClass={typographyStyles.desktopBody}
+        altLabel='Restart application'
+        paddingClass={commonStyles.buttonSquarePadding}
+        color={WHITE}
+        backgroundColor={RICH_BLACK}
+        onClick={() => handleRestart()}
+        hoverEffect={DULLS_BACKGROUND_COLOR}
+        platformaticIcon={{ size: SMALL, iconName: 'RestartIcon', color: WHITE }}
       />
     )
   }
@@ -140,16 +175,7 @@ function Row ({
         <div className={styles.tableCell}>
           <div className={`${styles.buttonsContainer} `}>
             {getStartStopButton()}
-            <ButtonOnlyIcon
-              textClass={typographyStyles.desktopBody}
-              altLabel='Restart application'
-              paddingClass={commonStyles.buttonSquarePadding}
-              color={WHITE}
-              backgroundColor={RICH_BLACK}
-              onClick={() => onClickRestart()}
-              hoverEffect={DULLS_BACKGROUND_COLOR}
-              platformaticIcon={{ size: SMALL, iconName: 'RestartIcon', color: WHITE }}
-            />
+            {getRestartButton()}
             <ButtonOnlyIcon
               textClass={typographyStyles.desktopBody}
               altLabel='Delete application'
