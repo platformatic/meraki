@@ -20,7 +20,6 @@ import useStackablesStore from '~/useStackablesStore'
 function App ({ path }) {
   const globalState = useStackablesStore()
   const { reloadApplications, setApplications, setReloadApplications, resetWizardState } = globalState
-
   const [currentBodyComponent, setCurrentBodyComponent] = useState(null)
   const [showCreateNewAppHeader, setShowCreateNewAppHeader] = useState(true)
   const [showModalImportApplication, setShowModalImportApplication] = useState(false)

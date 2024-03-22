@@ -8,7 +8,8 @@ const initialState = {
   currentPage: '',
   applications: [],
   reloadApplications: true,
-  applicationStatus: STATUS_STOPPED
+  applicationStatus: STATUS_STOPPED,
+  restartAutomaticApplications: {}
 }
 
 const useStackablesStore = create((set, get) => ({
@@ -159,6 +160,14 @@ const useStackablesStore = create((set, get) => ({
       return {
         ...state,
         applicationStatus: status
+      }
+    })
+  },
+  setRestartAutomaticApplication: (value) => {
+    set((state) => {
+      return {
+        ...state,
+        restartAutomaticApplications: { ...state.restartAutomaticApplications, ...value }
       }
     })
   },
