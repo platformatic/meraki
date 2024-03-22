@@ -54,7 +54,7 @@ function ServiceElement ({
   function getIcon () {
     let typeScript = false
     if (service.config.plugins && service.config.plugins.typescript) {
-      const envTypescript = service.config.plugins.typescript
+      const envTypescript = service.config.plugins.typescript.toString()
       if (envTypescript.indexOf('{') === 0) {
         typeScript = service.env[envTypescript.replace(/[{}]/g, '')].toLowerCase() === 'true'
       } else {

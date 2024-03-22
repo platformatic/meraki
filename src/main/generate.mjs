@@ -64,7 +64,10 @@ export const prepareFolder = async (path, tempNames, logger, appName = 'appName'
 //   ]
 // ]
 export const createApp = async (dir, { projectName, services, entrypoint, port, logLevel, typescript, createGitHubRepository, installGitHubAction }, logger, isUpdate = false) => {
-  const projectDir = join(dir, projectName)
+  let projectDir = dir
+  if (!projectDir.endsWith(projectName)) {
+    projectDir = join(dir, projectName)
+  }
 
   mkdirp.sync(projectDir)
   if (!services || services.length === 0) {
