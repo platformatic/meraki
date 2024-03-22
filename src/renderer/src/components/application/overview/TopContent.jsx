@@ -55,10 +55,8 @@ function TopContent ({
     try {
       setChangingRestartStatus(true)
       if (applicationStatus === STATUS_RUNNING) {
-        console.log('callStopApplication')
         await callStopApplication(applicationSelected.id)
       }
-      console.log('callStartApplication')
       await callStartApplication(applicationSelected.id)
       setApplicationStatus(STATUS_RUNNING)
     } catch (error) {

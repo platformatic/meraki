@@ -88,7 +88,6 @@ const AllApplications = React.forwardRef(({ onClickCreateNewApp }, ref) => {
 
   async function handleRestartApplication (id, status) {
     try {
-      console.log('status, id', id, status)
       if (STATUS_STOPPED === status) {
         await callStopApplication(id)
       }
