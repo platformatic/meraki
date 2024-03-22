@@ -214,6 +214,8 @@ test('open application', async (t) => {
     automaticallyImported: false,
     configPath: `${appDir}/platformatic.json`,
     entrypoint: 'service-1',
+    port: 3042,
+    loggerLevel: 'info',
     services: [
       {
         id: 'service-1',
@@ -270,5 +272,6 @@ test('open application', async (t) => {
     ]
   }
 
+  delete applicationDesc.config
   expect(applicationDesc).toEqual(expected)
 }, 60000)

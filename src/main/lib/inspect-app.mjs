@@ -60,6 +60,8 @@ const inspectApp = async (path) => {
   const loaded = await loadConfig({}, ['-c', configPath], platformaticRuntime)
 
   const config = loaded.configManager.current
+  const port = config.server?.port
+  const loggerLevel = config.server?.logger?.level
   const envKeys = Object.keys(loaded.configManager.env)
 
   const services = []
@@ -98,6 +100,9 @@ const inspectApp = async (path) => {
   const runtime = {
     $schema: config.$schema,
     configPath,
+    config,
+    port,
+    loggerLevel,
     entrypoint: config.entrypoint,
     path,
     services
