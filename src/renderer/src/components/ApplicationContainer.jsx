@@ -32,7 +32,6 @@ function ApplicationContainer () {
   const { appId } = useParams()
   const [innerLoading, setInnerLoading] = useState(true)
   const [applicationSelected, setApplicationSelected] = useState(null)
-  const [reloadApplication, setReloadApplication] = useState(true)
   const [cssClassNames] = useState('scroll-down')
   // const [currentPage, setCurrentPage] = useState(null)
   const overViewRef = useRef(null)
@@ -41,13 +40,16 @@ function ApplicationContainer () {
   const envVarRef = useRef(null)
   const [components, setComponents] = useState([])
   const [currentComponent, setCurrentComponent] = useState(null)
+  const [reloadApplication, setReloadApplication] = useState(true)
   const { height: innerHeight } = useWindowDimensions()
   const [showModalEditApplicationFlow, setShowModalEditApplicationFlow] = useState(false)
 
   useEffect(() => {
     if (appId && reloadApplication) {
       async function getApplication () {
+        setInnerLoading(true)
         const applicationSelected = await callOpenApplication(appId)
+        console.log('applicationSelected', applicationSelected)
         setApplicationSelected(applicationSelected)
         setReloadApplication(false)
       }
@@ -85,6 +87,7 @@ function ApplicationContainer () {
   }, [applicationSelected])
 
   useEffect(() => {
+    console.log(components.length)
     if (components.length > 0) {
       setCurrentComponent(components.find(component => component.key === APPLICATION_PAGE_OVERVIEW))
       setCurrentPage(APPLICATION_PAGE_OVERVIEW)
@@ -109,10 +112,12 @@ function ApplicationContainer () {
     resetWizardState()
   }
 
-  function handleSuccessfulEditApplicationFlow () {
-    setReloadApplication(true)
+  async function handleSuccessfulEditApplicationFlow () {
     setShowModalEditApplicationFlow(false)
     resetWizardState()
+    setApplicationSelected(null)
+    setComponents([])
+    setReloadApplication(true)
   }
 
   function renderComponent () {

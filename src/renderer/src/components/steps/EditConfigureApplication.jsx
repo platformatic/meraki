@@ -245,7 +245,7 @@ const ConfigureApplication = React.forwardRef(({ onNext, onBack }, ref) => {
         <Button
           type='button'
           disabled={!validForm}
-          label='Generate App'
+          label='Update App'
           onClick={() => onClickGenerateApp()}
           color={RICH_BLACK}
           bordered={false}

@@ -12,7 +12,7 @@ import { STATUS_RUNNING } from '~/ui-constants'
 import modalStyles from '~/styles/ModalStyles.module.css'
 import useStackablesStore from '~/useStackablesStore'
 
-function ServicesSection ({ id, services, entrypoint, onClickEditApplication }) {
+function ServicesSection ({ applicationSelected, onClickEditApplication }) {
   const globalState = useStackablesStore()
   const { applicationStatus } = globalState
   const [showModalScalarIntegration, setShowModalScalarIntegration] = useState(false)
@@ -53,7 +53,7 @@ function ServicesSection ({ id, services, entrypoint, onClickEditApplication }) 
         </div>
 
         <div className={styles.servicesContainer}>
-          {services.map((service, index) => <ServiceElement key={index} id={service.id} service={service} applicationEntrypoint={entrypoint === service.id} applicationStatus={applicationStatus} onClickScalarIntegration={() => setShowModalScalarIntegration(true)} />)}
+          {applicationSelected.services.map((service, index) => <ServiceElement key={index} id={service.id} service={service} applicationEntrypoint={applicationSelected.entrypoint === service.id} applicationStatus={applicationStatus} onClickScalarIntegration={() => setShowModalScalarIntegration(true)} />)}
         </div>
       </div>
       {showModalScalarIntegration && (
@@ -73,17 +73,9 @@ function ServicesSection ({ id, services, entrypoint, onClickEditApplication }) 
 
 ServicesSection.propTypes = {
   /**
-   * id
+   * applicationSelected
     */
-  id: PropTypes.string,
-  /**
-   * services
-    */
-  services: PropTypes.array,
-  /**
-   * entrypoint
-    */
-  entrypoint: PropTypes.string,
+  applicationSelected: PropTypes.object,
   /**
    * onClickEditApplication
     */
@@ -91,9 +83,7 @@ ServicesSection.propTypes = {
 }
 
 ServicesSection.defaultProps = {
-  id: {},
-  services: [],
-  entrypoint: '',
+  applicationSelected: {},
   onClickEditApplication: () => {}
 }
 

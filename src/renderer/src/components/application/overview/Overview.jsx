@@ -42,20 +42,22 @@ const Overview = React.forwardRef(({ applicationSelected, onClickEditApplication
     }, 1)
   }, [])
 
+  console.log('applicationSelected', applicationSelected.services)
+
   return showErrorComponent
     ? <ErrorComponent error={error} message={error.message} onClickDismiss={() => setShowErrorComponent(false)} />
     : (
       <div className={styles.container} ref={ref}>
         <div className={styles.content}>
           <TopContent
-            applicationSelected={applicationSelected}
+            applicationSelected={{ ...applicationSelected }}
             onErrorOccurred={(error) => {
               setError(error)
               setShowErrorComponent(true)
             }}
           />
           <HorizontalSeparator marginBottom={MARGIN_0} marginTop={MARGIN_0} color={WHITE} opacity={OPACITY_30} />
-          <OverviewSection applicationSelected={applicationSelected} />
+          <OverviewSection applicationSelected={{ ...applicationSelected }} />
           <HorizontalSeparator
             marginBottom={MARGIN_0}
             marginTop={MARGIN_0}
@@ -63,9 +65,7 @@ const Overview = React.forwardRef(({ applicationSelected, onClickEditApplication
             opacity={OPACITY_30}
           />
           <ServicesSection
-            id={applicationSelected.id}
-            services={applicationSelected.services}
-            entrypoint={applicationSelected.entrypoint}
+            applicationSelected={{ ...applicationSelected }}
             onClickEditApplication={onClickEditApplication}
           />
         </div>

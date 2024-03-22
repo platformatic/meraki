@@ -106,7 +106,7 @@ const UpdatingApplication = React.forwardRef(({ onBack, onClickGoToApps, applica
         />
         <Button
           disabled={!appGenerated}
-          label='Go to Apps'
+          label='Go to App'
           onClick={() => onClickGoToApps()}
           color={RICH_BLACK}
           bordered={false}
