@@ -145,7 +145,7 @@ function TableRecent ({
             key={application.id} {...application}
             onClickStop={() => onStopApplication(application.id)}
             onClickStart={() => onStartApplication(application.id)}
-            onClickRestart={() => onRestartApplication(application.id)}
+            onClickRestart={() => onRestartApplication(application.id, application.status)}
             onClickDelete={() => onDeleteApplication({ id: application.id, name: application.name })}
 
           />

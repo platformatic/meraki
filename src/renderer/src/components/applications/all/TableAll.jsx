@@ -281,7 +281,7 @@ function TableAll ({
               key={application.id} {...application}
               onClickStop={() => onStopApplication(application.id)}
               onClickStart={() => onStartApplication(application.id)}
-              onClickRestart={() => onRestartApplication(application.id)}
+              onClickRestart={() => onRestartApplication(application.id, application.status.value.toLowerCase())}
               onClickDelete={() => onDeleteApplication({ id: application.id, name: application.name })}
             />
           ))}

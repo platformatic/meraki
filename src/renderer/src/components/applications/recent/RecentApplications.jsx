@@ -18,6 +18,7 @@ const RecentApplications = React.forwardRef(({ onClickCreateNewApp }, ref) => {
   const globalState = useStackablesStore()
   const { applications, setNavigation, setCurrentPage, reloadApplications, setReloadApplications } = globalState
   const [showErrorComponent, setShowErrorComponent] = useState(false)
+  const [error, setError] = useState(null)
   const [localApplications, setLocalApplications] = useState([])
   const [applicationsLoaded, setApplicationsLoaded] = useState(false)
   const [runningApps, setRunningApps] = useState('-')
@@ -72,8 +73,9 @@ const RecentApplications = React.forwardRef(({ onClickCreateNewApp }, ref) => {
       await callStopApplication(id)
       setReloadApplications(true)
     } catch (error) {
-      setShowErrorComponent(true)
       console.error(`Error on callStopApplication ${error}`)
+      setShowErrorComponent(true)
+      setError(error)
     }
   }
 
@@ -82,13 +84,24 @@ const RecentApplications = React.forwardRef(({ onClickCreateNewApp }, ref) => {
       await callStartApplication(id)
       setReloadApplications(true)
     } catch (error) {
-      setShowErrorComponent(true)
       console.error(`Error on callStartApplication ${error}`)
+      setShowErrorComponent(true)
+      setError(error)
     }
   }
 
-  function handleRestartApplication () {
-    setReloadApplications(true)
+  async function handleRestartApplication (id, status) {
+    try {
+      if (STATUS_STOPPED === status) {
+        await callStopApplication(id)
+      }
+      await callStartApplication(id)
+      setReloadApplications(true)
+    } catch (error) {
+      console.error(`Error on handleRestartApplication ${error}`)
+      setShowErrorComponent(true)
+      setError(error)
+    }
   }
 
   function handleDeleteApplication (applicationSelected) {
@@ -112,7 +125,7 @@ const RecentApplications = React.forwardRef(({ onClickCreateNewApp }, ref) => {
   }
 
   return showErrorComponent
-    ? <ErrorComponent onClickDismiss={() => setShowErrorComponent(false)} />
+    ? <ErrorComponent error={error} onClickDismiss={() => setShowErrorComponent(false)} />
     : (
       <>
         <div className={styles.container} ref={ref}>
@@ -126,7 +139,7 @@ const RecentApplications = React.forwardRef(({ onClickCreateNewApp }, ref) => {
               applications={localApplications}
               onStopApplication={(id) => handleStopApplication(id)}
               onStartApplication={(id) => handleStartApplication(id)}
-              onRestartApplication={handleRestartApplication}
+              onRestartApplication={(id, status) => handleRestartApplication(id, status)}
               onDeleteApplication={handleDeleteApplication}
               onErrorOccurred={() => setShowErrorComponent(true)}
               onClickCreateNewApp={() => onClickCreateNewApp()}
