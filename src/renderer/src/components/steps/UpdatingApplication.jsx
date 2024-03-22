@@ -65,7 +65,7 @@ const UpdatingApplication = React.forwardRef(({ onBack, onClickGoToApps, applica
       <div className={`${styles.container} ${commonStyles.mediumFlexBlock} ${commonStyles.fullWidth}`} ref={ref}>
         <div className={commonStyles.mediumFlexBlock}>
           <Title
-            title={`Generating ${formData.createApplication.application}`}
+            title={`Updating ${formData.createApplication.application}`}
             iconName='AppIcon'
             dataAttrName='cy'
             dataAttrValue='step-title'
