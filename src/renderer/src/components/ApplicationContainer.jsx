@@ -49,7 +49,6 @@ function ApplicationContainer () {
       async function getApplication () {
         setInnerLoading(true)
         const applicationSelected = await callOpenApplication(appId)
-        console.log('applicationSelected', applicationSelected)
         setApplicationSelected(applicationSelected)
         setReloadApplication(false)
       }
@@ -87,7 +86,6 @@ function ApplicationContainer () {
   }, [applicationSelected])
 
   useEffect(() => {
-    console.log(components.length)
     if (components.length > 0) {
       setCurrentComponent(components.find(component => component.key === APPLICATION_PAGE_OVERVIEW))
       setCurrentPage(APPLICATION_PAGE_OVERVIEW)

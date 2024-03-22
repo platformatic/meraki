@@ -42,8 +42,6 @@ const Overview = React.forwardRef(({ applicationSelected, onClickEditApplication
     }, 1)
   }, [])
 
-  console.log('applicationSelected', applicationSelected.services)
-
   return showErrorComponent
     ? <ErrorComponent error={error} message={error.message} onClickDismiss={() => setShowErrorComponent(false)} />
     : (

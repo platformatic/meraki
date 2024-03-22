@@ -308,13 +308,11 @@ const getLanguage = (service) => {
   let typeScript = false
   if (service.config.plugins && service.config.plugins.typescript) {
     const envTypescript = service.config.plugins.typescript.toString()
-    console.log('getLanguage', envTypescript)
     if (envTypescript.indexOf('{') === 0) {
       typeScript = service.env[envTypescript.replace(/[{}]/g, '')].toLowerCase() === 'true'
     } else {
       typeScript = envTypescript.toLowerCase() === 'true'
     }
-    console.log('typeScript', typeScript)
   }
   return typeScript
 }
