@@ -50,7 +50,21 @@ function TopContent ({
     }
   }
 
-  function onRestart () {}
+  async function handleRestartApplication () {
+    try {
+      setChangingStatus(true)
+      if (applicationStatus === STATUS_RUNNING) {
+        await callStopApplication(applicationSelected.id)
+      }
+      await callStartApplication(applicationSelected.id)
+      setApplicationStatus(STATUS_RUNNING)
+    } catch (error) {
+      console.error(`Error on handleRestartApplication ${error}`)
+      onErrorOccurred(error)
+    } finally {
+      setChangingStatus(false)
+    }
+  }
 
   function handleChange (event) {
     const isCheckbox = event.target.type === 'checkbox'
@@ -130,7 +144,7 @@ function TopContent ({
           <Button
             type='button'
             label='Restart'
-            onClick={() => onRestart()}
+            onClick={() => handleRestartApplication()}
             color={WHITE}
             backgroundColor={TRANSPARENT}
             paddingClass={commonStyles.buttonPadding}

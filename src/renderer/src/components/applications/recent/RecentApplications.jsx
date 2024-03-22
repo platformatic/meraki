@@ -87,8 +87,16 @@ const RecentApplications = React.forwardRef(({ onClickCreateNewApp }, ref) => {
     }
   }
 
-  function handleRestartApplication () {
-    setReloadApplications(true)
+  async function handleRestartApplication (id, status) {
+    try {
+      if (STATUS_STOPPED === status) {
+        await callStopApplication(id)
+      }
+      await callStartApplication(id)
+      setReloadApplications(true)
+    } catch (error) {
+      console.error(`Error on handleRestartApplication ${error}`)
+    }
   }
 
   function handleDeleteApplication (applicationSelected) {
@@ -126,7 +134,7 @@ const RecentApplications = React.forwardRef(({ onClickCreateNewApp }, ref) => {
               applications={localApplications}
               onStopApplication={(id) => handleStopApplication(id)}
               onStartApplication={(id) => handleStartApplication(id)}
-              onRestartApplication={handleRestartApplication}
+              onRestartApplication={(id, status) => handleRestartApplication(id, status)}
               onDeleteApplication={handleDeleteApplication}
               onErrorOccurred={() => setShowErrorComponent(true)}
               onClickCreateNewApp={() => onClickCreateNewApp()}
