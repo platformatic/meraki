@@ -7,7 +7,7 @@ import {
   APPLICATION_PAGE_ENV_VAR,
   BREAKPOINTS_HEIGHT_LG,
   HEIGHT_LG,
-  HEIGHT_MD
+  HEIGHT_MD, STATUS_RUNNING
 } from '~/ui-constants'
 import { CSSTransition, SwitchTransition } from 'react-transition-group'
 import typographyStyles from '~/styles/Typography.module.css'
@@ -22,13 +22,13 @@ import EnvironmentVariables from '~/components/application/environment-variables
 import EditApplicationFlow from '~/components/application/edit/EditApplicationFlow'
 import SideBar from '~/components/ui/SideBar'
 import { useParams } from 'react-router-dom'
-import { callOpenApplication } from '~/api'
+import { callOpenApplication, callStartApplication } from '~/api'
 import { LoadingSpinnerV2 } from '@platformatic/ui-components'
 import useStackablesStore from '~/useStackablesStore'
 
 function ApplicationContainer () {
   const globalState = useStackablesStore()
-  const { currentPage, setCurrentPage, resetWizardState, setApplicationStatus } = globalState
+  const { currentPage, setCurrentPage, resetWizardState, setApplicationStatus, restartAutomaticApplications } = globalState
   const { appId } = useParams()
   const [innerLoading, setInnerLoading] = useState(true)
   const [applicationSelected, setApplicationSelected] = useState(null)
@@ -85,6 +85,11 @@ function ApplicationContainer () {
     }
   }, [applicationSelected])
 
+  async function handleStartApplication () {
+    await callStartApplication(appId)
+    setApplicationStatus(STATUS_RUNNING)
+  }
+
   useEffect(() => {
     if (components.length > 0) {
       setCurrentComponent(components.find(component => component.key === APPLICATION_PAGE_OVERVIEW))
@@ -116,6 +121,9 @@ function ApplicationContainer () {
     setApplicationSelected(null)
     setComponents([])
     setReloadApplication(true)
+    if (restartAutomaticApplications[appId]) {
+      handleStartApplication()
+    }
   }
 
   function renderComponent () {

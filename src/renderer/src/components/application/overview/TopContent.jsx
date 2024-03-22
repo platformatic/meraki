@@ -20,9 +20,8 @@ function TopContent ({
   onErrorOccurred
 }) {
   const globalState = useStackablesStore()
-  const { applicationStatus, setApplicationStatus } = globalState
-
-  const [form, setForm] = useState({ automaticRestart: false })
+  const { applicationStatus, setApplicationStatus, restartAutomaticApplications, setRestartAutomaticApplication } = globalState
+  const [form, setForm] = useState({ automaticRestart: restartAutomaticApplications[applicationSelected.id] || false })
   const [changingStatus, setChangingStatus] = useState(false)
 
   async function handleStopApplication () {
@@ -57,6 +56,7 @@ function TopContent ({
     const isCheckbox = event.target.type === 'checkbox'
     const value = isCheckbox ? event.target.checked : event.target.value
     setForm(form => ({ ...form, [event.target.name]: value }))
+    setRestartAutomaticApplication({ [applicationSelected.id]: value })
   }
 
   return (
