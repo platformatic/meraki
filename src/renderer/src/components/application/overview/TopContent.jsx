@@ -23,6 +23,7 @@ function TopContent ({
   const { applicationStatus, setApplicationStatus, restartAutomaticApplications, setRestartAutomaticApplication } = globalState
   const [form, setForm] = useState({ automaticRestart: restartAutomaticApplications[applicationSelected.id] || false })
   const [changingStatus, setChangingStatus] = useState(false)
+  const [changingRestartStatus, setChangingRestartStatus] = useState(false)
 
   async function handleStopApplication () {
     try {
@@ -52,17 +53,19 @@ function TopContent ({
 
   async function handleRestartApplication () {
     try {
-      setChangingStatus(true)
+      setChangingRestartStatus(true)
       if (applicationStatus === STATUS_RUNNING) {
+        console.log('callStopApplication')
         await callStopApplication(applicationSelected.id)
       }
+      console.log('callStartApplication')
       await callStartApplication(applicationSelected.id)
       setApplicationStatus(STATUS_RUNNING)
     } catch (error) {
       console.error(`Error on handleRestartApplication ${error}`)
       onErrorOccurred(error)
     } finally {
-      setChangingStatus(false)
+      setChangingRestartStatus(false)
     }
   }
 
@@ -128,6 +131,7 @@ function TopContent ({
               )
             : (
               <Button
+                disabled={changingRestartStatus}
                 type='button'
                 label={applicationStatus === STATUS_RUNNING ? 'Stop' : 'Start'}
                 onClick={() => applicationStatus === STATUS_RUNNING ? handleStopApplication() : handleStartApplication()}
@@ -141,16 +145,32 @@ function TopContent ({
                 textClass={typographyStyles.desktopBody}
               />
               )}
-          <Button
-            type='button'
-            label='Restart'
-            onClick={() => handleRestartApplication()}
-            color={WHITE}
-            backgroundColor={TRANSPARENT}
-            paddingClass={commonStyles.buttonPadding}
-            platformaticIcon={{ iconName: 'RestartIcon', color: WHITE }}
-            textClass={typographyStyles.desktopBody}
-          />
+          {changingRestartStatus
+            ? (
+              <Button
+                type='button'
+                label='Restarting...'
+                onClick={() => {}}
+                color={WHITE}
+                backgroundColor={TRANSPARENT}
+                paddingClass={commonStyles.buttonPadding}
+                platformaticIcon={{ iconName: 'RestartIcon', color: WHITE }}
+                textClass={typographyStyles.desktopBody}
+              />
+              )
+            : (
+              <Button
+                type='button'
+                label='Restart'
+                onClick={() => handleRestartApplication()}
+                color={WHITE}
+                backgroundColor={TRANSPARENT}
+                paddingClass={commonStyles.buttonPadding}
+                platformaticIcon={{ iconName: 'RestartIcon', color: WHITE }}
+                textClass={typographyStyles.desktopBody}
+              />
+              )}
+
         </div>
       </div>
 
