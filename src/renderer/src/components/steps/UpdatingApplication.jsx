@@ -65,7 +65,7 @@ const UpdatingApplication = React.forwardRef(({ onBack, onClickGoToApps, applica
       <div className={`${styles.container} ${commonStyles.mediumFlexBlock} ${commonStyles.fullWidth}`} ref={ref}>
         <div className={commonStyles.mediumFlexBlock}>
           <Title
-            title={`Generating ${formData.createApplication.application}`}
+            title={`Updating ${formData.createApplication.application}`}
             iconName='AppIcon'
             dataAttrName='cy'
             dataAttrValue='step-title'
@@ -102,16 +102,18 @@ const UpdatingApplication = React.forwardRef(({ onBack, onClickGoToApps, applica
           backgroundColor={TRANSPARENT}
           paddingClass={`${commonStyles.buttonPadding} cy-action-back`}
           disabled={!appGeneratedError}
+          textClass={typographyStyles.desktopBody}
         />
         <Button
           disabled={!appGenerated}
-          label='Go to Apps'
+          label='Go to App'
           onClick={() => onClickGoToApps()}
           color={RICH_BLACK}
           bordered={false}
           backgroundColor={WHITE}
           hoverEffect={BOX_SHADOW}
           paddingClass={commonStyles.buttonPadding}
+          textClass={typographyStyles.desktopBody}
         />
       </div>
     </>

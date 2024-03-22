@@ -304,8 +304,29 @@ export const generateFormForEditEnvironmentVariable = (services, addUpdatedAt = 
   return tmpServices
 }
 
+const getLanguage = (service) => {
+  let typeScript = false
+  if (service.config.plugins && service.config.plugins.typescript) {
+    const envTypescript = service.config.plugins.typescript.toString()
+    if (envTypescript.indexOf('{') === 0) {
+      typeScript = service.env[envTypescript.replace(/[{}]/g, '')].toLowerCase() === 'true'
+    } else {
+      typeScript = envTypescript.toLowerCase() === 'true'
+    }
+  }
+  return typeScript
+}
+
 export const prepareStoreForEditApplication = (application) => {
   const createApplication = { application: application.name, path: application.path }
+  const configureApplication = {
+    entrypoint: application.entrypoint,
+    port: `${application.port}`,
+    logLevel: application.loggerLevel,
+    typescript: getLanguage(application.services[0]),
+    createGitHubRepository: false,
+    installGitHubActions: false
+  }
   const services = application.services.map(service => ({
     name: service.id,
     newService: false,
@@ -325,7 +346,8 @@ export const prepareStoreForEditApplication = (application) => {
 
   return {
     formData: {
-      createApplication
+      createApplication,
+      configureApplication
     },
     services
   }

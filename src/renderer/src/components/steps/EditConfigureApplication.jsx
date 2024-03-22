@@ -21,12 +21,12 @@ const ConfigureApplication = React.forwardRef(({ onNext, onBack }, ref) => {
   const { formData, services, addFormData } = globalState
   const logLevels = ['trace', 'info', 'debug', 'warn', 'error']
   const [form, setForm] = useState({
-    entryPoint: services[0].name,
-    port: '3042',
-    logLevel: 'info',
-    language: TYPESCRIPT,
-    createGitHubRepository: true,
-    installGitHubActions: true
+    entryPoint: formData.configureApplication.entrypoint,
+    port: formData.configureApplication.port,
+    logLevel: formData.configureApplication.logLevel,
+    language: formData.configureApplication.typescript ? TYPESCRIPT : JAVASCRIPT,
+    createGitHubRepository: formData.configureApplication.createGitHubRepository,
+    installGitHubActions: formData.configureApplication.installGitHubActions
   })
   const [validations, setValidations] = useState({ portValid: true, formErrors: { port: '' } })
   // eslint-disable-next-line no-unused-vars
@@ -245,7 +245,7 @@ const ConfigureApplication = React.forwardRef(({ onNext, onBack }, ref) => {
         <Button
           type='button'
           disabled={!validForm}
-          label='Generate App'
+          label='Update App'
           onClick={() => onClickGenerateApp()}
           color={RICH_BLACK}
           bordered={false}

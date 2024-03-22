@@ -40,18 +40,21 @@ function ApplicationContainer () {
   const envVarRef = useRef(null)
   const [components, setComponents] = useState([])
   const [currentComponent, setCurrentComponent] = useState(null)
+  const [reloadApplication, setReloadApplication] = useState(true)
   const { height: innerHeight } = useWindowDimensions()
   const [showModalEditApplicationFlow, setShowModalEditApplicationFlow] = useState(false)
 
   useEffect(() => {
-    if (appId) {
+    if (appId && reloadApplication) {
       async function getApplication () {
+        setInnerLoading(true)
         const applicationSelected = await callOpenApplication(appId)
         setApplicationSelected(applicationSelected)
+        setReloadApplication(false)
       }
       getApplication()
     }
-  }, [appId])
+  }, [appId, reloadApplication])
 
   useEffect(() => {
     if (applicationSelected !== null) {
@@ -107,9 +110,12 @@ function ApplicationContainer () {
     resetWizardState()
   }
 
-  function handleSuccessfulEditApplicationFlow () {
+  async function handleSuccessfulEditApplicationFlow () {
     setShowModalEditApplicationFlow(false)
     resetWizardState()
+    setApplicationSelected(null)
+    setComponents([])
+    setReloadApplication(true)
   }
 
   function renderComponent () {

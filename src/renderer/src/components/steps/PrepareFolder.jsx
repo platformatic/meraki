@@ -121,6 +121,7 @@ const PrepareFolder = React.forwardRef(({ onNext, onBack }, ref) => {
             color={WHITE}
             backgroundColor={TRANSPARENT}
             paddingClass={`${commonStyles.buttonPadding} cy-action-back`}
+            textClass={typographyStyles.desktopBody}
           />
         </div>
         {folderPreparedError
@@ -132,6 +133,7 @@ const PrepareFolder = React.forwardRef(({ onNext, onBack }, ref) => {
               backgroundColor={WHITE}
               hoverEffect={BOX_SHADOW}
               paddingClass={`${commonStyles.buttonPadding} cy-action-close`}
+              textClass={typographyStyles.desktopBody}
             />
           : <Button
               disabled={!folderPreparedSuccess}
@@ -143,6 +145,7 @@ const PrepareFolder = React.forwardRef(({ onNext, onBack }, ref) => {
               hoverEffect={DULLS_BACKGROUND_COLOR}
               hoverEffectProperties={{ changeBackgroundColor: ANTI_FLASH_WHITE }}
               paddingClass={`${commonStyles.buttonPadding} cy-action-next`}
+              textClass={typographyStyles.desktopBody}
             />}
       </div>
     </>
