@@ -16,6 +16,7 @@ function Row ({
   insideMeraki,
   isLatestPltVersion,
   name,
+  lastStarted,
   status,
   platformaticVersion,
   onClickStop,
@@ -30,8 +31,11 @@ function Row ({
 
   useEffect(() => {
     setButtonClicked(false)
-    setButtonRestartClicked(false)
   }, [status])
+
+  useEffect(() => {
+    setButtonRestartClicked(false)
+  }, [lastStarted])
 
   function goToApplication () {
     navigate(APPLICATION_PATH.replace(':appId', id))
@@ -220,6 +224,10 @@ Row.propTypes = {
     */
   platformaticVersion: PropTypes.string,
   /**
+   * lastStarted
+    */
+  lastStarted: PropTypes.string,
+  /**
    * onClickStop
     */
   onClickStop: PropTypes.func,
@@ -242,6 +250,7 @@ Row.defaultProps = {
   isLatestPltVersion: false,
   name: '',
   status: '',
+  lastStarted: '-',
   platformaticVersion: '-',
   onClickStop: () => {},
   onClickStart: () => {},

@@ -92,7 +92,7 @@ const RecentApplications = React.forwardRef(({ onClickCreateNewApp }, ref) => {
 
   async function handleRestartApplication (id, status) {
     try {
-      if (STATUS_STOPPED === status) {
+      if (STATUS_RUNNING === status) {
         await callStopApplication(id)
       }
       await callStartApplication(id)
