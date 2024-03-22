@@ -158,7 +158,7 @@ const ApplicationLogs = React.forwardRef(({ applicationSelected }, ref) => {
   function handleChangeService (event) {
     setFilterLogsByService({
       label: event.target.value,
-      value: event.target.value,
+      value: event.target.value
     })
   }
 
