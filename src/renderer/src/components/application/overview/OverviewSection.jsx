@@ -9,6 +9,9 @@ import styles from './OverviewSection.module.css'
 import typographyStyles from '~/styles/Typography.module.css'
 import commonStyles from '~/styles/CommonStyles.module.css'
 import modalStyles from '~/styles/ModalStyles.module.css'
+// import { ApiReferenceReact } from '@scalar/api-reference-react'
+import Scalar from '~/components/Scalar'
+
 
 function OverviewSection () {
   const globalState = useStackablesStore()
@@ -114,9 +117,9 @@ function OverviewSection () {
           setIsOpen={() => handleCloseModalAPIReference()}
           title='Back to Overview'
           titleClassName={`${typographyStyles.desktopBody} ${typographyStyles.textWhite} cy-modal-template`}
-          classNameModalLefty={modalStyles.modalLefty}
+          classNameModalLefty={'should-be-full-width'}
         >
-          <p className={`${typographyStyles.desktopBodyLarge} ${typographyStyles.textWhite}`}>Scalar integration</p>
+          <Scalar url={url} />
         </ModalDirectional>
       )}
     </>

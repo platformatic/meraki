@@ -10,8 +10,9 @@ import Icons from '@platformatic/ui-components/src/components/icons'
 import ServiceElement from './ServiceElement'
 import modalStyles from '~/styles/ModalStyles.module.css'
 import useStackablesStore from '~/useStackablesStore'
+import Scalar from '~/components/Scalar'
 
-function ServicesSection ({ onClickEditApplication }) {
+function ServicesSection ({ url, onClickEditApplication }) {
   const globalState = useStackablesStore()
   const applicationStatus = globalState.computed.applicationStatus
   const applicationSelected = globalState.computed.applicationSelected
@@ -61,9 +62,9 @@ function ServicesSection ({ onClickEditApplication }) {
           setIsOpen={() => handleCloseModalAPIReference()}
           title='Back to Overview'
           titleClassName={`${typographyStyles.desktopBody} ${typographyStyles.textWhite} cy-modal-template`}
-          classNameModalLefty={modalStyles.modalLefty}
+          classNameModalLefty={'should-be-full-width'}
         >
-          <p className={`${typographyStyles.desktopBodyLarge} ${typographyStyles.textWhite}`}>Scalar integration</p>
+          <Scalar url={url} />
         </ModalDirectional>
       )}
     </>
