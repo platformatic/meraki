@@ -245,11 +245,11 @@ function SelectTemplate ({ onClick, serviceName }) {
 
   function renderLoginStatus () {
     if (userStatus === 'LOGGED_IN') {
-      return renderLoginStatusMessage('green', 'Log Session valid')
+      return renderLoginStatusMessage('green', 'Login session valid')
     } else if (userStatus === 'INVALID_API_KEY') {
-      return renderLoginStatusMessage('yellow', 'Log session expired', true)
+      return renderLoginStatusMessage('yellow', 'Login session expired', true)
     } else if (userStatus === 'NO_API_KEY') {
-      return renderLoginStatusMessage('red', 'Log session invalid', true)
+      return renderLoginStatusMessage('red', 'Login session invalid', true)
     }
   }
 

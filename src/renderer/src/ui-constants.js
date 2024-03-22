@@ -66,6 +66,7 @@ export const RAW = 'raw'
 export const PRETTY = 'pretty'
 
 export const DIRECTION_DOWN = 'down'
+export const DIRECTION_STILL = 'still'
 export const DIRECTION_UP = 'up'
 
 export const STATUS_PAUSED_LOGS = 'PAUSED'
