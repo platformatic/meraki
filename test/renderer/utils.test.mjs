@@ -1015,6 +1015,8 @@ test('prepareStoreForEditApplication - simple service', async () => {
     isLatestPltVersion: true,
     runtime: null,
     insideMeraki: false,
+    loggerLevel: 'info',
+    port: 3044,
     lastStarted: '2024-03-12T10:58:14.723Z',
     lastUpdated: '2024-03-12T10:58:14.723Z',
     automaticallyImported: false,
@@ -1063,7 +1065,7 @@ test('prepareStoreForEditApplication - simple service', async () => {
         env: {
           PLT_GOATSKIN_DATABASE_URL: 'sqlite://./db.sqlite',
           PLT_GOATSKIN_APPLY_MIGRATIONS: 'true',
-          PLT_GOATSKIN_TYPESCRIPT: 'true'
+          PLT_GOATSKIN_TYPESCRIPT: 'false'
         },
         template: '@platformatic/db',
         plugins: [],
@@ -1119,6 +1121,14 @@ test('prepareStoreForEditApplication - simple service', async () => {
       createApplication: {
         application: 'test-3',
         path: '/Users/antonio/Documents/meraki-test/test-3'
+      },
+      configureApplication: {
+        createGitHubRepository: false,
+        entrypoint: 'goatskin',
+        installGitHubActions: false,
+        logLevel: 'info',
+        port: '3044',
+        typescript: false
       }
     },
     services: [{
@@ -1148,7 +1158,7 @@ test('prepareStoreForEditApplication - simple service', async () => {
       env: {
         PLT_GOATSKIN_DATABASE_URL: 'sqlite://./db.sqlite',
         PLT_GOATSKIN_APPLY_MIGRATIONS: 'true',
-        PLT_GOATSKIN_TYPESCRIPT: 'true'
+        PLT_GOATSKIN_TYPESCRIPT: 'false'
       },
       pluginsDesc: []
     }]
@@ -1167,6 +1177,8 @@ test('prepareStoreForEditApplication - simple service with a plugin', async () =
     platformaticVersion: null,
     isLatestPltVersion: false,
     runtime: null,
+    loggerLevel: 'debug',
+    port: 3042,
     insideMeraki: false,
     lastStarted: null,
     lastUpdated: '2024-03-13T11:02:21.388Z',
@@ -1335,6 +1347,14 @@ test('prepareStoreForEditApplication - simple service with a plugin', async () =
       createApplication: {
         application: 'test-db',
         path: '/Users/antonio/Documents/meraki-test/test-db'
+      },
+      configureApplication: {
+        createGitHubRepository: false,
+        entrypoint: 'hooderdooder',
+        installGitHubActions: false,
+        logLevel: 'debug',
+        port: '3042',
+        typescript: true
       }
     },
     services: [{

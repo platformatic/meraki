@@ -118,6 +118,7 @@ const GeneratingApplication = React.forwardRef(({ onBack, onRestartProcess, useV
           backgroundColor={TRANSPARENT}
           paddingClass={`${commonStyles.buttonPadding} cy-action-back`}
           disabled={!appGeneratedError}
+          textClass={typographyStyles.desktopBody}
         />
         {useVersion === '0'
           ? (
@@ -130,6 +131,7 @@ const GeneratingApplication = React.forwardRef(({ onBack, onRestartProcess, useV
               backgroundColor={WHITE}
               hoverEffect={BOX_SHADOW}
               paddingClass={commonStyles.buttonPadding}
+              textClass={typographyStyles.desktopBody}
             />
             )
           : (
@@ -142,6 +144,7 @@ const GeneratingApplication = React.forwardRef(({ onBack, onRestartProcess, useV
               backgroundColor={WHITE}
               hoverEffect={BOX_SHADOW}
               paddingClass={commonStyles.buttonPadding}
+              textClass={typographyStyles.desktopBody}
             />
             )}
 

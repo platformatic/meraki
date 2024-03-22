@@ -224,6 +224,7 @@ const CreateApplication = React.forwardRef(({ onNext }, ref) => {
           hoverEffect={DULLS_BACKGROUND_COLOR}
           hoverEffectProperties={{ changeBackgroundColor: ANTI_FLASH_WHITE }}
           paddingClass={`${commonStyles.buttonPadding} cy-action-next`}
+          textClass={typographyStyles.desktopBody}
         />
       </div>
     </>

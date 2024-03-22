@@ -13,7 +13,7 @@ import {
 } from '~/ui-constants'
 import ComposeApplication from '~/components/steps/compose-application/ComposeApplication'
 import ConfigureServices from '~/components/steps/configure-services/ConfigureServices'
-import ConfigureApplication from '~/components/steps/ConfigureApplication'
+import EditConfigureApplication from '~/components/steps/EditConfigureApplication'
 import UpdatingApplication from '~/components/steps/UpdatingApplication'
 import PrepareFolder from '~/components/steps/PrepareFolder'
 import { CSSTransition, SwitchTransition } from 'react-transition-group'
@@ -57,7 +57,7 @@ function EditWizard ({
       onBack={() => previousStep(STEP_ADD_TEMPLATE_AND_PLUGINS)}
       onNext={() => nextStep(STEP_CONFIGURE_APPLICATION)}
     />,
-    <ConfigureApplication
+    <EditConfigureApplication
       ref={useRef(null)}
       key={STEP_CONFIGURE_APPLICATION}
       onBack={() => nextStep(STEP_CONFIGURE_SERVICES)}

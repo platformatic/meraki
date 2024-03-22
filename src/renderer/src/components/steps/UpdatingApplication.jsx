@@ -102,6 +102,7 @@ const UpdatingApplication = React.forwardRef(({ onBack, onClickGoToApps, applica
           backgroundColor={TRANSPARENT}
           paddingClass={`${commonStyles.buttonPadding} cy-action-back`}
           disabled={!appGeneratedError}
+          textClass={typographyStyles.desktopBody}
         />
         <Button
           disabled={!appGenerated}
@@ -112,6 +113,7 @@ const UpdatingApplication = React.forwardRef(({ onBack, onClickGoToApps, applica
           backgroundColor={WHITE}
           hoverEffect={BOX_SHADOW}
           paddingClass={commonStyles.buttonPadding}
+          textClass={typographyStyles.desktopBody}
         />
       </div>
     </>
