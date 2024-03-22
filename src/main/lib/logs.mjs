@@ -1,5 +1,5 @@
 import { RuntimeApiClient } from '@platformatic/control'
-import { Writable, Readable } from 'node:stream'
+import { Writable, Readable, pipeline } from 'node:stream'
 import Fastify from 'fastify'
 import split from 'split2'
 import logger from 'electron-log'
@@ -79,8 +79,14 @@ class Logs {
     this.#currentLogIndex = this.#logIndexes.length - 1
     this.#currentLiveStream = this.#runtimeClient.getRuntimeLiveLogsStream(pid, this.#logIndexes[this.#currentLogIndex])
 
-    this.#currentLiveStream.pipe(split()).pipe(new WriteableBuffer(callback)).on('error', (err) => {
-      logger.error('Error streaming logs', err)
+    pipeline(this.#currentLiveStream, split(), new WriteableBuffer(callback), (err) => {
+      if (err) {
+        if (err.code === 'ERR_STREAM_PREMATURE_CLOSE') {
+          logger.info(`logs stream closed for application ${id}`)
+        } else {
+          logger.error('Error streaming logs', err)
+        }
+      }
     })
   }
 
