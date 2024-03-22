@@ -31,6 +31,8 @@ mac:
     teamId: 8VKCB2AW8F
 dmg:
   artifactName: ${productName}-${version}.${ext}
+  window:
+    height: 420
 linux:
   target:
     - AppImage
