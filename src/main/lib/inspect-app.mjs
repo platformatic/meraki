@@ -65,6 +65,7 @@ const inspectApp = async (path) => {
   const envKeys = Object.keys(loaded.configManager.env)
 
   const services = []
+  let entryPointService
   for (const service of config.services) {
     const id = service.id
     const configKey = `PLT_${constantCase(id)}`
@@ -83,7 +84,7 @@ const inspectApp = async (path) => {
     const pluginsDesc = await getMarketPlugins(pluginNames)
     const templateDesc = await getMarketTemplates([template])
 
-    services.push({
+    const meta = {
       id,
       path: service.path,
       configPath: service.config,
@@ -94,7 +95,12 @@ const inspectApp = async (path) => {
       templateEnvVariables,
       pluginsDesc,
       templateDesc
-    })
+    }
+    if (id === config.entrypoint) {
+      entryPointService = meta
+    } else {
+      services.push(meta)
+    }
   }
 
   const runtime = {
@@ -105,7 +111,7 @@ const inspectApp = async (path) => {
     loggerLevel,
     entrypoint: config.entrypoint,
     path,
-    services
+    services: [entryPointService, ...services]
   }
 
   return runtime
