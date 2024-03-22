@@ -137,6 +137,25 @@ test('start one runtime, see it in list and stop it', async (t) => {
     expect(applications[0].running).toBe(true)
     expect(applications[0].isLatestPltVersion).toBe(true)
   }
+
+  {
+    // Start the runtime and delete the application, removing also the folder.
+    mockAgent
+      .get('https://registry.npmjs.org')
+      .intercept({
+        method: 'GET',
+        path: '/platformatic'
+      })
+      .reply(200, {
+        'dist-tags': {
+          latest: '1.29.0'
+        }
+      })
+    const applicationsApi = await Applications.create()
+    const { id } = await applicationsApi.importApplication(appDir)
+    await applicationsApi.deleteApplication(id, { removeFolder: true })
+    await expect(access(appDir)).rejects.toThrowError('ENOENT: no such file or directory')
+  }
 }, 60000)
 
 test('import automatically a running runtime, started externally', async (t) => {
