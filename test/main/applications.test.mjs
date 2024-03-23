@@ -158,6 +158,33 @@ test('start one runtime, see it in list and stop it', async (t) => {
   }
 }, 60000)
 
+test('throws an error if application doesn\'t start', async (t) => {
+  const appDir = await mkdtemp(join(tmpdir(), 'plat-app-test'))
+  const appFixture = join('test', 'fixtures', 'runtime')
+  await cp(appFixture, appDir, { recursive: true })
+  mockAgent
+    .get('https://registry.npmjs.org')
+    .intercept({
+      method: 'GET',
+      path: '/platformatic'
+    })
+    .reply(200, {
+      'dist-tags': {
+        latest: '2.0.0'
+      }
+    })
+
+  // We start the runtime but not through the API
+  const { runtime } = await startRuntimeInFolder(appDir)
+  onTestFinished(() => runtime.kill('SIGINT'))
+
+  const applicationsApi = await Applications.create()
+  const { id } = await applicationsApi.importApplication(appDir)
+
+  // This now must fail (the runtime is already running, so ising the same port)
+  expect(applicationsApi.startRuntime(id)).rejects.toThrowError('Error in starting the runtime: The runtime exited before the operation completed')
+}, 60000)
+
 test('import automatically a running runtime, started externally', async (t) => {
   const appDir = await mkdtemp(join(tmpdir(), 'plat-app-test'))
   const appFixture = join('test', 'fixtures', 'runtime')
