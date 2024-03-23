@@ -110,13 +110,18 @@ class Applications {
     runtime.stdout.pipe(process.stdout)
     runtime.stderr.pipe(process.stderr)
 
-    const output = runtime.stdout.pipe(split(function (line) {
+    const output = runtime.stdout.pipe(split((line) => {
       try {
         const obj = JSON.parse(line)
         return obj
       } catch (err) {
         logger.error(err)
       }
+    }))
+
+    const errorLines = []
+    runtime.stderr.pipe(split((line) => {
+      errorLines.push(line)
     }))
 
     const errorTimeout = setTimeout(() => {
@@ -140,6 +145,12 @@ class Applications {
         }
       }
     }
+
+    // If we reach this point, stdout is closed and the runtime is not started, checkint stderr
+    if (errorLines.length > 0) {
+      throw new Error(`Error in starting the runtime: ${errorLines.join('\n')}`)
+    }
+    throw new Error('Couldn\'t start server, check the logs')
   }
 
   async stopRuntime (id) {
