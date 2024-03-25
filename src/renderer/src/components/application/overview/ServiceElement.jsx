@@ -1,7 +1,7 @@
 'use strict'
 import React, { useState } from 'react'
 import PropTypes from 'prop-types'
-import { RICH_BLACK, WHITE, MEDIUM, OPACITY_30, MARGIN_0, TRANSPARENT, SMALL, MAIN_GREEN, OPACITY_10, TERTIARY_BLUE } from '@platformatic/ui-components/src/components/constants'
+import { RICH_BLACK, WHITE, OPACITY_30, MARGIN_0, TRANSPARENT, SMALL, MAIN_GREEN, OPACITY_10, TERTIARY_BLUE } from '@platformatic/ui-components/src/components/constants'
 import styles from './ServiceElement.module.css'
 import typographyStyles from '~/styles/Typography.module.css'
 import commonStyles from '~/styles/CommonStyles.module.css'
@@ -89,7 +89,7 @@ function ServiceElement ({
               disabled={applicationStatus === STATUS_STOPPED}
             />
             <VerticalSeparator color={WHITE} backgroundColorOpacity={OPACITY_30} />
-            <PlatformaticIcon iconName={expanded ? 'ArrowUpIcon' : 'ArrowDownIcon'} color={WHITE} size={MEDIUM} onClick={() => setExpanded(!expanded)} internalOverHandling />
+            <PlatformaticIcon iconName={expanded ? 'ArrowUpIcon' : 'ArrowDownIcon'} color={WHITE} size={SMALL} onClick={() => setExpanded(!expanded)} internalOverHandling />
           </div>
         </div>
 

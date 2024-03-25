@@ -94,7 +94,9 @@ function TopContent ({
             color={WHITE}
             size={MEDIUM}
           />}
-        <h2 className={`${typographyStyles.desktopHeadline2} ${typographyStyles.textWhite}`}>{applicationSelected.name}</h2>
+        <div className={styles.applicationName}>
+          <h2 className={`${typographyStyles.desktopHeadline2} ${typographyStyles.textWhite} ${typographyStyles.ellipsis}`}>{applicationSelected.name}</h2>
+        </div>
         <ApplicationStatusPills status={applicationStatus} />
       </div>
       <div className={`${commonStyles.smallFlexRow} ${commonStyles.fullWidth} ${commonStyles.itemsCenter} ${commonStyles.justifyBetween} `}>

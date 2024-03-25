@@ -7,3 +7,6 @@
 .buttonContainer {
   @apply flex gap-x-2 justify-end items-center;
 }
+.applicationName {
+  @apply max-w-[40rem]
+}
