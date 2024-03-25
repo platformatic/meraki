@@ -4,8 +4,11 @@
 .flexBlockNoGap {
   @apply flex flex-col items-start gap-y-0;
 }
-.smallFlexRow {
+.tinyFlexRow {
   @apply flex flex-row items-center gap-x-2;
+}
+.smallFlexRow {
+  @apply flex flex-row items-center gap-x-4;
 }
 .smallFlexBlock {
   @apply flex flex-col items-start gap-y-2;
@@ -14,7 +17,7 @@
   @apply flex flex-col items-start gap-y-1;
 }
 .mediumFlexRow {
-  @apply flex flex-row items-center gap-x-2 lg:gap-x-4 w-full;
+  @apply flex flex-row items-center gap-x-2 lg:gap-x-6 w-full;
 }
 .mediumFlexBlock {
   @apply flex flex-col items-start gap-y-2 xl:gap-y-4;

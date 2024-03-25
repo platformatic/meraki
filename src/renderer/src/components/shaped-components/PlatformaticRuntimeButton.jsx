@@ -47,7 +47,7 @@ function PlatformaticRuntimeButton ({ view }) {
         <SmallTitle
           title='Platformatic Runtime'
           titleClassName={`${typographyStyles.desktopBodyLarge} ${typographyStyles.textWhite} ${styles.cursorDefault}`}
-          containerClassName={`${commonStyles.smallFlexRow} ${typographyStyles.textCenter}`}
+          containerClassName={`${commonStyles.tinyFlexRow} ${typographyStyles.textCenter}`}
           platformaticIcon={{
             iconName: 'CircleExclamationIcon',
             disabled: false,

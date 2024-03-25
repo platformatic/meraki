@@ -76,7 +76,7 @@ function TopContent ({
 
   return (
     <div className={`${commonStyles.mediumFlexBlock} ${commonStyles.fullWidth}`}>
-      <div className={`${commonStyles.mediumFlexRow} ${commonStyles.fullWidth}`}>
+      <div className={`${commonStyles.smallFlexRow} ${commonStyles.fullWidth}`}>
         {applicationSelected.insideMeraki &&
           <MerakiIcon
             iconName='MerakiLogoIcon'
@@ -93,16 +93,16 @@ function TopContent ({
         <h2 className={`${typographyStyles.desktopHeadline2} ${typographyStyles.textWhite}`}>{applicationSelected.name}</h2>
         <ApplicationStatusPills status={applicationStatus} />
       </div>
-      <div className={`${commonStyles.mediumFlexRow} ${commonStyles.fullWidth} ${commonStyles.itemsCenter} ${commonStyles.justifyBetween} `}>
-        <div className={`${commonStyles.mediumFlexRow} ${commonStyles.fullWidth} ${commonStyles.itemsCenter} `}>
-          <div className={`${commonStyles.smallFlexRow} ${commonStyles.itemsCenter}`}>
+      <div className={`${commonStyles.smallFlexRow} ${commonStyles.fullWidth} ${commonStyles.itemsCenter} ${commonStyles.justifyBetween} `}>
+        <div className={`${commonStyles.smallFlexRow} ${commonStyles.fullWidth} ${commonStyles.itemsCenter} `}>
+          <div className={`${commonStyles.tinyFlexRow} ${commonStyles.itemsCenter}`}>
             <span className={`${typographyStyles.desktopBodyLarge} ${typographyStyles.textWhite} ${typographyStyles.opacity70}`}>Last Update</span>
             <span className={`${typographyStyles.desktopBodyLarge} ${typographyStyles.textWhite}`}>{getFormattedDate(applicationSelected.lastUpdate)}</span>
           </div>
 
           <VerticalSeparator color={WHITE} backgroundColorOpacity={OPACITY_30} />
 
-          <div className={`${commonStyles.smallFlexRow} ${commonStyles.itemsCenter}`}>
+          <div className={`${commonStyles.tinyFlexRow} ${commonStyles.itemsCenter}`}>
             <span className={`${typographyStyles.desktopBodyLarge} ${typographyStyles.textWhite} ${typographyStyles.opacity70}`}>Last Started</span>
             <span className={`${typographyStyles.desktopBodyLarge} ${typographyStyles.textWhite}`}>{getFormattedDate(applicationSelected.lastStarted)}</span>
           </div>
@@ -172,7 +172,7 @@ function TopContent ({
         </div>
       </div>
 
-      <div className={`${commonStyles.mediumFlexRow} ${commonStyles.fullWidth}`}>
+      <div className={`${commonStyles.smallFlexRow} ${commonStyles.fullWidth}`}>
 
         <Forms.Field
           title='Automatic Restart'

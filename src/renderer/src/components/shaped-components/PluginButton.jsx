@@ -81,7 +81,7 @@ function PluginButton ({
         ? (
           <div className={`${commonStyles.smallFlexBlock} ${commonStyles.justifyBetween} ${commonStyles.itemsCenter} ${commonStyles.fullWidth}`}>
             <span className={`${typographyStyles.desktopBody} ${typographyStyles.textWhite}`}>Plugins: ({totalPlugins})</span>
-            <div className={`${commonStyles.smallFlexRow} ${commonStyles.itemsCenter}`}>
+            <div className={`${commonStyles.tinyFlexRow} ${commonStyles.itemsCenter}`}>
               <span className={`${typographyStyles.desktopBodySmall} ${typographyStyles.textWhite} ${typographyStyles.opacity70} `}>View All</span>
               <PlatformaticIcon iconName='ExpandIcon' color={WHITE} size={SMALL} onClick={() => onClickViewAll()} />
             </div>
@@ -89,8 +89,8 @@ function PluginButton ({
           )
         : (
           <>
-            <div className={`${commonStyles.mediumFlexRow} ${commonStyles.justifyBetween} ${commonStyles.itemsCenter} ${styles.content}`}>
-              <div className={`${commonStyles.smallFlexRow} ${commonStyles.itemsCenter} ${styles.leftContent}`}>
+            <div className={`${commonStyles.smallFlexRow} ${commonStyles.justifyBetween} ${commonStyles.itemsCenter} ${styles.content}`}>
+              <div className={`${commonStyles.tinyFlexRow} ${commonStyles.itemsCenter} ${styles.leftContent}`}>
                 {sortable && <PlatformaticIcon iconName='SortableIcon' color={WHITE} size={SMALL} onClick={() => onClickSort()} />}
                 <span className={`${typographyStyles.desktopBodyLarge} ${typographyStyles.textWhite} ${typographyStyles.opacity70} ${styles.ellipsis}`} title={name}>{name}</span>
               </div>

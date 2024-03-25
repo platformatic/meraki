@@ -68,7 +68,7 @@ function ConfigureEnvVarsTemplateAndPlugins ({
   }
 
   return (
-    <div className={`${commonStyles.mediumFlexRow} ${commonStyles.itemsStart} ${styles.scrollableSection}`}>
+    <div className={`${commonStyles.smallFlexRow} ${commonStyles.itemsStart} ${styles.scrollableSection}`}>
       <TemplateAndPluginTreeSelector
         configuredServices={configuredServices}
         pluginSelected={pluginSelected}
@@ -76,7 +76,7 @@ function ConfigureEnvVarsTemplateAndPlugins ({
         onTemplateSelected={onServiceSelected}
         onPluginSelected={onPluginSelected}
       />
-      <div className={`${commonStyles.mediumFlexRow} ${commonStyles.fullWidth} ${commonStyles.itemsStart} ${styles.scrollableSection}`}>
+      <div className={`${commonStyles.smallFlexRow} ${commonStyles.fullWidth} ${commonStyles.itemsStart} ${styles.scrollableSection}`}>
         <CSSTransition
           key={currentComponent.key}
           timeout={300}

@@ -52,7 +52,7 @@ SmallTitle.propTypes = {
 }
 
 SmallTitle.defaultProps = {
-  containerClassName: `${commonStyles.smallFlexRow} ${commonStyles.textCenter}`,
+  containerClassName: `${commonStyles.tinyFlexRow} ${commonStyles.textCenter}`,
   titleClassName: `${typographyStyles.desktopBodyLarge} ${typographyStyles.textWhite} ${typographyStyles.opacity70}`,
   platformaticIcon: {}
 }

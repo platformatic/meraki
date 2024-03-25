@@ -7,9 +7,6 @@
 .customSmallFlexRowWithButton {
   @apply flex flex-col md:flex-row items-end gap-2 justify-end md:justify-start;
 }
-.trBordered {
-  @apply border-t border-white/30 border-solid;
-}
 .ellipsis {
   @apply truncate w-full;
 }

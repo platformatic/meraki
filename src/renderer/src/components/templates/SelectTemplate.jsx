@@ -219,7 +219,7 @@ function SelectTemplate ({ onClick, serviceName }) {
   function renderLoginStatusMessage (color, message, showInstructions) {
     return (
       <div className={`${commonStyles.extraSmallFlexBlock}`}>
-        <div className={`${commonStyles.smallFlexRow} ${commonStyles.fullWidth}`}>
+        <div className={`${commonStyles.tinyFlexRow} ${commonStyles.fullWidth}`}>
           <div>
             <svg width='10' height='10'>
               <circle cx='5' cy='5' r='4' fill={color} />
@@ -230,7 +230,7 @@ function SelectTemplate ({ onClick, serviceName }) {
           </div>
         </div>
         {showInstructions && (
-          <div className={`${commonStyles.smallFlexRow} ${commonStyles.fullWidth}`}>
+          <div className={`${commonStyles.tinyFlexRow} ${commonStyles.fullWidth}`}>
             <div>
               <svg width='10' height='10' />
             </div>
@@ -272,7 +272,7 @@ function SelectTemplate ({ onClick, serviceName }) {
             <p className={`${typographyStyles.desktopBodySmall} ${typographyStyles.textWhite} ${typographyStyles.opacity70}`}>
               {renderLoginStatus()}
             </p>
-            <div className={`${commonStyles.smallFlexRow} ${commonStyles.fullWidth}`}>
+            <div className={`${commonStyles.tinyFlexRow} ${commonStyles.fullWidth}`}>
               <Forms.Select
                 defaultContainerClassName={styles.select}
                 backgroundColor={RICH_BLACK}
@@ -317,7 +317,7 @@ function SelectTemplate ({ onClick, serviceName }) {
       </div>
       <div className={`${commonStyles.mediumFlexBlock} ${commonStyles.fullWidth}`}>
         {currentView === LIST_TEMPLATES_VIEW && (
-          <div className={`${commonStyles.mediumFlexRow} ${commonStyles.fullWidth} ${commonStyles.justifyCenter}`}>
+          <div className={`${commonStyles.smallFlexRow} ${commonStyles.fullWidth} ${commonStyles.justifyCenter}`}>
             {pages.map(page =>
               <Button
                 key={page}

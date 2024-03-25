@@ -18,7 +18,7 @@ function Title ({ title, iconName, dataAttrName, dataAttrValue }) {
   }
 
   return (
-    <div className={commonStyles.mediumFlexRow} {...dataProps}>
+    <div className={commonStyles.smallFlexRow} {...dataProps}>
       {icon}
       <h2 className={`${typographyStyles.desktopHeadline2} ${typographyStyles.textWhite}`}>{title}</h2>
     </div>

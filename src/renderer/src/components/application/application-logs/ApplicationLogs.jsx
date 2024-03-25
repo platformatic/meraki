@@ -218,14 +218,14 @@ const ApplicationLogs = React.forwardRef(({ applicationSelected }, ref) => {
       <div className={styles.content}>
         <div className={`${commonStyles.largeFlexBlock} ${commonStyles.fullWidth}`}>
           <div className={commonStyles.mediumFlexBlock}>
-            <div className={`${commonStyles.mediumFlexRow} ${commonStyles.fullWidth} ${commonStyles.itemsCenter}`}>
+            <div className={`${commonStyles.smallFlexRow} ${commonStyles.fullWidth} ${commonStyles.itemsCenter}`}>
               <Icons.CodeTestingIcon color={WHITE} size={MEDIUM} />
               <h2 className={`${typographyStyles.desktopHeadline2} ${typographyStyles.textWhite}`}>Logs</h2>
               {applicationStatus === STATUS_STOPPED && <p className={`${typographyStyles.desktopBodySmall} ${typographyStyles.textWhite} ${typographyStyles.opacity70}`}>(The application is stopped. Restart the app to collect new logs.)</p>}
             </div>
           </div>
           <BorderedBox classes={styles.borderexBoxContainer} backgroundColor={RICH_BLACK} color={WHITE} borderColorOpacity={OPACITY_30}>
-            <div className={`${commonStyles.smallFlexRow} ${commonStyles.itemsCenter} ${commonStyles.justifyBetween} ${styles.lateralPadding} ${styles.top}`}>
+            <div className={`${commonStyles.tinyFlexRow} ${commonStyles.itemsCenter} ${commonStyles.justifyBetween} ${styles.lateralPadding} ${styles.top}`}>
               <Forms.Select
                 defaultContainerClassName={styles.select}
                 backgroundColor={RICH_BLACK}
@@ -245,7 +245,7 @@ const ApplicationLogs = React.forwardRef(({ applicationSelected }, ref) => {
                 inputTextClassName={`${typographyStyles.desktopBodySmall} ${typographyStyles.textWhite}`}
               />
               <LogFilterSelector defaultLevelSelected={30} onChangeLevelSelected={(level) => setFilterLogsByLevel(level)} />
-              <div className={`${commonStyles.smallFlexRow} ${commonStyles.justifyEnd}`}>
+              <div className={`${commonStyles.tinyFlexRow} ${commonStyles.justifyEnd}`}>
                 <Button
                   type='button'
                   paddingClass={commonStyles.buttonPadding}
@@ -283,7 +283,7 @@ const ApplicationLogs = React.forwardRef(({ applicationSelected }, ref) => {
               )}
             </div>
             <HorizontalSeparator marginBottom={MARGIN_0} marginTop={MARGIN_0} color={WHITE} opacity={OPACITY_30} />
-            <div className={`${commonStyles.smallFlexRow} ${commonStyles.itemsCenter} ${commonStyles.justifyBetween} ${styles.lateralPadding} ${styles.bottom}`}>
+            <div className={`${commonStyles.tinyFlexRow} ${commonStyles.itemsCenter} ${commonStyles.justifyBetween} ${styles.lateralPadding} ${styles.bottom}`}>
               <Button
                 type='button'
                 paddingClass={commonStyles.buttonPadding}

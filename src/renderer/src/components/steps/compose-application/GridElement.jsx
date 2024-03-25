@@ -22,7 +22,7 @@ function GridElement ({
   const { services } = globalState
 
   return (
-    <div className={`${commonStyles.mediumFlexRow} ${styles.container} ${commonStyles.justifyBetween}`}>
+    <div className={`${commonStyles.smallFlexRow} ${styles.container} ${commonStyles.justifyBetween}`}>
       <div className={commonStyles.flexBlockNoGap}>
         <NameService
           name={service.name}
@@ -31,7 +31,7 @@ function GridElement ({
           onClickRemove={() => onClickRemoveService(service)}
           removeDisabled={services.length < 2}
         />
-        <div className={`${commonStyles.smallFlexRow} ${commonStyles.itemsCenter}`}>
+        <div className={`${commonStyles.tinyFlexRow} ${commonStyles.itemsCenter}`}>
           <span className={`${typographyStyles.desktopBodySmall} ${typographyStyles.textWhite} ${typographyStyles.opacity70} `}>View All</span>
           <PlatformaticIcon iconName='ExpandIcon' color={WHITE} size={SMALL} onClick={() => onClickViewAll()} disabled={!(service?.template?.name)} />
         </div>
@@ -40,7 +40,7 @@ function GridElement ({
         {service?.template?.name &&
         (
           <BorderedBox color={TERTIARY_BLUE} backgroundColor={TERTIARY_BLUE} backgroundColorOpacity={OPACITY_20} classes={styles.box} onClick={() => { onClickPluginHandler(service) }} clickable>
-            <div className={`${commonStyles.smallFlexRow} ${commonStyles.itemsCenter}`}>
+            <div className={`${commonStyles.tinyFlexRow} ${commonStyles.itemsCenter}`}>
               <Icons.StackablesPluginIcon color={TERTIARY_BLUE} size={SMALL} />
               <span className={`${typographyStyles.desktopBodySmall} ${typographyStyles.textWhite} ${typographyStyles.opacity70} `}>{service.plugins.length}</span>
             </div>
@@ -49,7 +49,7 @@ function GridElement ({
         {service?.template?.disabled
           ? (
             <BorderedBox color={WHITE} backgroundColor={WHITE} backgroundColorOpacity={OPACITY_20} classes={styles.boxGrow}>
-              <div className={`${commonStyles.smallFlexRow} ${commonStyles.itemsCenter}`}>
+              <div className={`${commonStyles.tinyFlexRow} ${commonStyles.itemsCenter}`}>
                 <Icons.StackablesTemplateIcon color={WHITE} size={SMALL} />
                 <span className={`${typographyStyles.desktopBodySmall} ${typographyStyles.textWhite} ${typographyStyles.opacity70} `}>{service?.template?.name ? 1 : 0}</span>
               </div>
@@ -57,7 +57,7 @@ function GridElement ({
             )
           : (
             <BorderedBox color={MAIN_GREEN} backgroundColor={MAIN_GREEN} backgroundColorOpacity={OPACITY_20} classes={styles.boxGrow} onClick={() => onClickChangeTemplate(service)} clickable>
-              <div className={`${commonStyles.smallFlexRow} ${commonStyles.itemsCenter}`}>
+              <div className={`${commonStyles.tinyFlexRow} ${commonStyles.itemsCenter}`}>
                 <Icons.StackablesTemplateIcon color={MAIN_GREEN} size={SMALL} />
                 <span className={`${typographyStyles.desktopBodySmall} ${typographyStyles.textWhite} ${typographyStyles.opacity70} `}>{service?.template?.name ? 1 : 0}</span>
               </div>

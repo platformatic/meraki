@@ -99,7 +99,7 @@ const ConfigureApplication = React.forwardRef(({ onNext, onBack }, ref) => {
                 titleClassName={`${typographyStyles.desktopBodySemibold} ${typographyStyles.textWhite} `}
                 helperClassName={`${typographyStyles.desktopBodySmall} ${typographyStyles.textWhite} ${typographyStyles.opacity70}`}
               >
-                <div className={commonStyles.smallFlexRow}>
+                <div className={commonStyles.tinyFlexRow}>
                   {services.map(service => (
                     <Button
                       key={service.name}
@@ -140,7 +140,7 @@ const ConfigureApplication = React.forwardRef(({ onNext, onBack }, ref) => {
                 helperClassName={`${typographyStyles.desktopBodySmall} ${typographyStyles.textWhite} ${typographyStyles.opacity70}`}
                 required
               >
-                <div className={commonStyles.smallFlexRow}>
+                <div className={commonStyles.tinyFlexRow}>
                   {logLevels.map(logLevel => (
                     <Button
                       key={logLevel}
@@ -163,7 +163,7 @@ const ConfigureApplication = React.forwardRef(({ onNext, onBack }, ref) => {
                 helperClassName={`${typographyStyles.desktopBodySmall} ${typographyStyles.textWhite} ${typographyStyles.opacity70}`}
                 required
               >
-                <div className={commonStyles.smallFlexRow}>
+                <div className={commonStyles.tinyFlexRow}>
                   {[TYPESCRIPT, JAVASCRIPT].map(language => (
                     <Button
                       key={language}

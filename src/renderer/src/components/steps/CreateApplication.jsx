@@ -123,7 +123,7 @@ const CreateApplication = React.forwardRef(({ onNext }, ref) => {
           The following Template will be added to you App:
         </p>
         <BorderedBox color={statusLoadingTemplate === ERROR ? ERROR_RED : WHITE} borderColorOpacity={OPACITY_30} backgroundColor={RICH_BLACK} classes={`${commonStyles.buttonPadding} ${styles.borderedBox}`}>
-          <div className={`${commonStyles.smallFlexRow} ${commonStyles.itemsCenter}`}>
+          <div className={`${commonStyles.tinyFlexRow} ${commonStyles.itemsCenter}`}>
             {statusLoadingTemplate === ERROR
               ? (
                 <>

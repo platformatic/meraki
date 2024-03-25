@@ -14,7 +14,7 @@ import TypescriptIcon from '../../ui/icons/TypescriptIcon'
 function ServiceElementTemplate ({ name, id }) {
   return (
     <BorderedBox classes={styles.serviceTemplate} color={MAIN_GREEN} borderColorOpacity={OPACITY_30} backgroundColor={MAIN_GREEN} backgroundColorOpacity={OPACITY_10}>
-      <div className={`${commonStyles.smallFlexRow} ${commonStyles.itemsCenter}`}>
+      <div className={`${commonStyles.tinyFlexRow} ${commonStyles.itemsCenter}`}>
         <Icons.StackablesTemplateIcon color={MAIN_GREEN} size={SMALL} />
         <p className={`${typographyStyles.desktopBody} ${typographyStyles.textWhite} ${typographyStyles.textCenter} ${styles.ellipsis} ${styles.templateName}`} title={name}>{name}</p>
         <PlatformaticIcon iconName='ExpandIcon' color={WHITE} size={SMALL} onClick={() => window.open(`https://marketplace.platformatic.dev/#/detail/template/${id}`, '_blank')} internalOverHandling />
@@ -26,7 +26,7 @@ function ServiceElementTemplate ({ name, id }) {
 function ServiceElementPlugin ({ name, id }) {
   return (
     <BorderedBox classes={styles.servicePlugin} color={TERTIARY_BLUE} borderColorOpacity={OPACITY_30} backgroundColor={TERTIARY_BLUE} backgroundColorOpacity={OPACITY_10}>
-      <div className={`${commonStyles.smallFlexRow} ${commonStyles.itemsCenter}`}>
+      <div className={`${commonStyles.tinyFlexRow} ${commonStyles.itemsCenter}`}>
         <Icons.StackablesPluginIcon color={TERTIARY_BLUE} size={SMALL} />
         <p className={`${typographyStyles.desktopBody} ${typographyStyles.textWhite} ${typographyStyles.textCenter} ${styles.ellipsis} ${styles.pluginName}`} title={name}>{name}</p>
         <PlatformaticIcon iconName='ExpandIcon' color={WHITE} size={SMALL} onClick={() => window.open(`https://marketplace.platformatic.dev/#/detail/plugin/${id}`, '_blank')} internalOverHandling />
@@ -67,8 +67,8 @@ function ServiceElement ({
   return (
     <BorderedBox classes={styles.paddingElement} backgroundColor={RICH_BLACK} color={WHITE} borderColorOpacity={OPACITY_30}>
       <div className={`${commonStyles.smallFlexBlock} ${commonStyles.fullWidth}`}>
-        <div className={`${commonStyles.mediumFlexRow} ${commonStyles.fullWidth} ${commonStyles.itemsCenter} ${commonStyles.justifyBetween} `}>
-          <div className={`${commonStyles.smallFlexRow} ${commonStyles.itemsCenter}`}>
+        <div className={`${commonStyles.smallFlexRow} ${commonStyles.fullWidth} ${commonStyles.itemsCenter} ${commonStyles.justifyBetween} `}>
+          <div className={`${commonStyles.tinyFlexRow} ${commonStyles.itemsCenter}`}>
             {applicationEntrypoint && (<Icons.EntrypointIcon size={SMALL} color={WHITE} />)}
             <span className={`${typographyStyles.desktopBodyLargeSemibold} ${typographyStyles.textWhite}`}>{service.id}</span>
             {applicationEntrypoint && (
@@ -98,13 +98,13 @@ function ServiceElement ({
             <HorizontalSeparator marginBottom={MARGIN_0} marginTop={MARGIN_0} color={WHITE} opacity={OPACITY_30} />
             <div className={`${commonStyles.smallFlexBlock} ${commonStyles.fullWidth}`}>
               {service.template !== null && (
-                <div className={`${commonStyles.smallFlexRow} ${commonStyles.itemsCenter}`}>
+                <div className={`${commonStyles.tinyFlexRow} ${commonStyles.itemsCenter}`}>
                   <span className={`${typographyStyles.desktopBody} ${typographyStyles.textWhite} ${typographyStyles.opacity70}`}>Template: </span>
                   <ServiceElementTemplate name={service.template} id={getTemplateId(service)} />
                 </div>
               )}
               {service.plugins.length > 0 && (
-                <div className={`${commonStyles.smallFlexRow} ${commonStyles.itemsCenter}`}>
+                <div className={`${commonStyles.tinyFlexRow} ${commonStyles.itemsCenter}`}>
                   <span className={`${typographyStyles.desktopBody} ${typographyStyles.textWhite} ${typographyStyles.opacity70}`}>Plugins: </span>
                   {service.plugins.map(plugin => <ServiceElementPlugin key={plugin.name} name={plugin.name} id={getPluginId(plugin, service)} />)}
                 </div>

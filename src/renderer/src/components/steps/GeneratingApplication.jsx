@@ -90,7 +90,7 @@ const GeneratingApplication = React.forwardRef(({ onBack, onRestartProcess, useV
             We are generating your app. <br />Once all the steps are done you will be able to complete and use your new application.
           </p>
         </div>
-        <div className={`${commonStyles.smallFlexRow} ${commonStyles.fullWidth} ${commonStyles.justifyEnd}`}>
+        <div className={`${commonStyles.tinyFlexRow} ${commonStyles.fullWidth} ${commonStyles.justifyEnd}`}>
           <Button
             disabled={!appGenerated}
             label='Copy Logs'
@@ -162,7 +162,7 @@ const GeneratingApplication = React.forwardRef(({ onBack, onRestartProcess, useV
               <span className={`${typographyStyles.opacity70}`}>Your application has been created successfull. <br />Click on "Restart" to create another application from scratch <br /> or click on "Complete" to close the application.</span>
             </p>
             <HorizontalSeparator marginBottom={MARGIN_0} marginTop={MARGIN_0} color={WHITE} opacity={OPACITY_30} />
-            <div className={`${commonStyles.mediumFlexRow} ${commonStyles.justifyBetween}`}>
+            <div className={`${commonStyles.smallFlexRow} ${commonStyles.justifyBetween}`}>
               <Button
                 type='button'
                 paddingClass={commonStyles.buttonPadding}
@@ -171,7 +171,7 @@ const GeneratingApplication = React.forwardRef(({ onBack, onRestartProcess, useV
                 color={WHITE}
                 backgroundColor={TRANSPARENT}
               />
-              <div className={`${commonStyles.smallFlexRow} `}>
+              <div className={`${commonStyles.tinyFlexRow} `}>
                 <Button
                   disabled={!appGenerated}
                   label='Restart'

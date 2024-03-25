@@ -74,7 +74,7 @@ const UpdatingApplication = React.forwardRef(({ onBack, onClickGoToApps, applica
             We are updating your app. <br />Once all the steps are done you will be able to complete and use your application.
           </p>
         </div>
-        <div className={`${commonStyles.smallFlexRow} ${commonStyles.fullWidth} ${commonStyles.justifyEnd}`}>
+        <div className={`${commonStyles.tinyFlexRow} ${commonStyles.fullWidth} ${commonStyles.justifyEnd}`}>
           <Button
             disabled={!appGenerated}
             label='Copy Logs'

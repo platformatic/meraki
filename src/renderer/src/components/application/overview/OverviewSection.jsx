@@ -32,22 +32,22 @@ function OverviewSection ({ applicationSelected }) {
   return (
     <>
       <div className={`${commonStyles.mediumFlexBlock} ${commonStyles.fullWidth}`}>
-        <div className={`${commonStyles.mediumFlexRow} ${commonStyles.fullWidth}`}>
+        <div className={`${commonStyles.smallFlexRow} ${commonStyles.fullWidth}`}>
           <Icons.AppDetailsIcon
             color={WHITE}
             size={MEDIUM}
           />
           <h3 className={`${typographyStyles.desktopHeadline3} ${typographyStyles.textWhite}`}>Overview</h3>
         </div>
-        <div className={`${commonStyles.mediumFlexRow} ${commonStyles.itemsCenter} `}>
+        <div className={`${commonStyles.smallFlexRow} ${commonStyles.itemsCenter} `}>
           {!applicationSelected.platformaticVersion
             ? (
-              <div className={`${commonStyles.smallFlexRow} ${commonStyles.itemsCenter}`}>
+              <div className={`${commonStyles.tinyFlexRow} ${commonStyles.itemsCenter}`}>
                 <span className={`${typographyStyles.desktopBody} ${typographyStyles.textWhite} ${typographyStyles.opacity70}`}>Current Platformatic Version: -</span>
               </div>)
             : (
               <>
-                <div className={`${commonStyles.smallFlexRow} ${commonStyles.itemsCenter}`}>
+                <div className={`${commonStyles.tinyFlexRow} ${commonStyles.itemsCenter}`}>
                   <span className={`${typographyStyles.desktopBody} ${typographyStyles.textWhite} ${typographyStyles.opacity70}`}>Current Platformatic Version: </span>
                   <span className={`${typographyStyles.desktopBodyLarge} ${typographyStyles.textWarningYellow}`}>{applicationSelected.platformaticVersion || '-'}</span>
                 </div>
@@ -58,7 +58,7 @@ function OverviewSection ({ applicationSelected }) {
                     backgroundColorOpacity={OPACITY_10}
                     classes={`${commonStyles.buttonPadding} ${styles.updatePlatformaticBox}`}
                   >
-                    <div className={`${commonStyles.smallFlexRow} ${commonStyles.itemsCenter}`}>
+                    <div className={`${commonStyles.tinyFlexRow} ${commonStyles.itemsCenter}`}>
                       <Icons.AlertIcon size={SMALL} color={WARNING_YELLOW} />
                       <span className={`${typographyStyles.desktopBody} ${typographyStyles.textWarningYellow}`}>There is a new Platformatic version.</span>
                     </div>
@@ -68,9 +68,9 @@ function OverviewSection ({ applicationSelected }) {
               )}
         </div>
 
-        <div className={`${commonStyles.mediumFlexRow} ${commonStyles.fullWidth} ${commonStyles.itemsCenter} ${commonStyles.justifyBetween} `}>
-          <div className={`${commonStyles.mediumFlexRow} ${commonStyles.fullWidth} ${commonStyles.itemsCenter} `}>
-            <div className={`${commonStyles.smallFlexRow} ${commonStyles.itemsCenter}`}>
+        <div className={`${commonStyles.smallFlexRow} ${commonStyles.fullWidth} ${commonStyles.itemsCenter} ${commonStyles.justifyBetween} `}>
+          <div className={`${commonStyles.smallFlexRow} ${commonStyles.fullWidth} ${commonStyles.itemsCenter} `}>
+            <div className={`${commonStyles.tinyFlexRow} ${commonStyles.itemsCenter}`}>
               <span className={`${typographyStyles.desktopBody} ${typographyStyles.textWhite} ${typographyStyles.opacity70}`}>Entrypoint:</span>
               <BorderedBox
                 color={WHITE}
@@ -84,7 +84,7 @@ function OverviewSection ({ applicationSelected }) {
 
             <VerticalSeparator color={WHITE} backgroundColorOpacity={OPACITY_30} />
 
-            <div className={`${commonStyles.smallFlexRow} ${commonStyles.itemsCenter}`}>
+            <div className={`${commonStyles.tinyFlexRow} ${commonStyles.itemsCenter}`}>
               <span className={`${typographyStyles.desktopBodyLarge} ${typographyStyles.textWhite} ${typographyStyles.opacity70}`}>URL:</span>
               <span className={`${typographyStyles.desktopBodyLarge} ${typographyStyles.textWhite}`}>{url} </span>
               <PlatformaticIcon iconName='ExpandIcon' color={WHITE} size={SMALL} onClick={() => window.open(url, '_blank')} internalOverHandling disabled={applicationStatus === STATUS_STOPPED} />

@@ -20,7 +20,7 @@ const NormalView = React.forwardRef(({
   const { services } = globalState
 
   return (
-    <div className={`${commonStyles.mediumFlexRow} ${commonStyles.itemsEnd}`} ref={ref}>
+    <div className={`${commonStyles.smallFlexRow} ${commonStyles.itemsEnd}`} ref={ref}>
       {services.map(service => (
         <div className={`${commonStyles.mediumFlexBlock} ${styles.container}`} key={service.name}>
           <NameService
