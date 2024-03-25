@@ -54,7 +54,7 @@ function DisplayEnvironmentVariables ({ configuredServices }) {
   }
 
   return (
-    <div className={`${commonStyles.smallFlexRow} ${commonStyles.itemsStart} ${styles.scrollableSection}`}>
+    <div className={`${commonStyles.smallFlexRow} ${commonStyles.fullWidth} ${commonStyles.itemsStart} ${styles.scrollableSection}`}>
       <TemplateAndPluginTreeSelector
         configuredServices={configuredServices}
         pluginSelected={pluginSelected}

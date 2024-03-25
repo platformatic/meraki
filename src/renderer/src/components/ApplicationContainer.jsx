@@ -54,6 +54,10 @@ function ApplicationContainer () {
   const [showModalEditApplicationFlow, setShowModalEditApplicationFlow] = useState(false)
 
   useEffect(() => {
+    return () => setApplicationSelectedId(null)
+  }, [])
+
+  useEffect(() => {
     if (appId && reloadApplication) {
       async function getApplication () {
         setInnerLoading(true)
@@ -87,6 +91,7 @@ function ApplicationContainer () {
         <EnvironmentVariables
           ref={envVarRef}
           key={APPLICATION_PAGE_ENV_VAR}
+          services={applicationSelected.services}
         />
       ])
     }
