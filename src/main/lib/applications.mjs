@@ -141,6 +141,7 @@ class Applications {
             fields: ['id', 'startedAt'],
             input: { id, startedAt: new Date() }
           })
+          this.#refreshApplications()
           return { runtime, id, url }
         }
       }
