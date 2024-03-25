@@ -9,10 +9,7 @@
   transform: translate(-50%, -50%);
 }
 .select {
-  @apply basis-1/4
-}
-.selectUl {
-  @apply w-full md:min-w-[150%]
+  @apply max-w-[150px] min-w-[150px];
 }
 .filtersContainer {
   @apply grid grid-cols-1 md:flex md:flex-row gap-2 w-full items-center

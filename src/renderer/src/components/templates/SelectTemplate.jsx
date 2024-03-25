@@ -273,7 +273,7 @@ function SelectTemplate ({ onClick, serviceName }) {
               {renderLoginStatus()}
             </p>
             <div className={`${commonStyles.tinyFlexRow} ${commonStyles.fullWidth}`}>
-              <Forms.Select
+              <Forms.SelectWithInput
                 defaultContainerClassName={styles.select}
                 backgroundColor={RICH_BLACK}
                 placeholder='Select Organization'

@@ -9,7 +9,7 @@ import commonStyles from '~/styles/CommonStyles.module.css'
 import { BorderedBox, Button, HorizontalSeparator } from '@platformatic/ui-components'
 import Forms from '@platformatic/ui-components/src/components/forms'
 import Log from './Log'
-import { PRETTY, RAW, DIRECTION_UP, DIRECTION_DOWN, DIRECTION_STILL, STATUS_PAUSED_LOGS, STATUS_RESUMED_LOGS, STATUS_STOPPED } from '~/ui-constants'
+import { PRETTY, RAW, DIRECTION_UP, DIRECTION_DOWN, DIRECTION_STILL, STATUS_PAUSED_LOGS, STATUS_RESUMED_LOGS, STATUS_STOPPED, FILTER_ALL } from '~/ui-constants'
 import LogFilterSelector from './LogFilterSelector'
 import {
   callApiStartLogs,
@@ -25,11 +25,11 @@ import useStackablesStore from '~/useStackablesStore'
 
 const ApplicationLogs = React.forwardRef(({ applicationSelected }, ref) => {
   const [displayLog, setDisplayLog] = useState(PRETTY)
-  const [filterLogsByService, setFilterLogsByService] = useState({ value: '', label: '' })
+  const [filterLogsByService, setFilterLogsByService] = useState({ label: 'All Services', value: FILTER_ALL })
   const [filterLogsByLevel, setFilterLogsByLevel] = useState('')
   const [filtersInitialized, setFiltersInitialized] = useState(false)
   const [defaultOptionsSelected, setDefaultOptionsSelected] = useState(null)
-  const [optionsServices, setOptionsServices] = useState([])
+  const [optionsServices, setOptionsServices] = useState([{ label: 'All Services', value: FILTER_ALL }])
   const [scrollDirection, setScrollDirection] = useState(DIRECTION_DOWN)
   const [logValue, setLogValue] = useState(null)
   const [applicationLogs, setApplicationLogs] = useState([])
@@ -131,7 +131,7 @@ const ApplicationLogs = React.forwardRef(({ applicationSelected }, ref) => {
       if (filterLogsByLevel || filterLogsByService.value) {
         let founds = [...applicationLogs]
         founds = founds.filter(log => JSON.parse(log).level >= filterLogsByLevel)
-        if (filterLogsByService.value !== null) {
+        if (filterLogsByService.value !== null && filterLogsByService.value !== FILTER_ALL) {
           founds = founds.filter(log => {
             return JSON.parse(log).name.toLowerCase().includes(filterLogsByService.value.toLowerCase()
             )
@@ -155,24 +155,10 @@ const ApplicationLogs = React.forwardRef(({ applicationSelected }, ref) => {
     }
   }, [scrollDirection, filteredLogs.length, filteredLogsLengthAtPause])
 
-  function handleChangeService (event) {
-    setFilterLogsByService({
-      label: event.target.value,
-      value: event.target.value
-    })
-  }
-
   function handleSelectService (event) {
     setFilterLogsByService({
       label: event.detail.label,
       value: event.detail.value
-    })
-  }
-
-  function handleClearService () {
-    setFilterLogsByService({
-      label: '',
-      value: ''
     })
   }
 
@@ -229,14 +215,10 @@ const ApplicationLogs = React.forwardRef(({ applicationSelected }, ref) => {
               <Forms.Select
                 defaultContainerClassName={styles.select}
                 backgroundColor={RICH_BLACK}
-                placeholder='All Services'
                 borderColor={WHITE}
                 options={optionsServices}
                 disabled={optionsServices.length <= 1}
-                defaultOptionsClassName={styles.selectUl}
-                onChange={handleChangeService}
                 onSelect={handleSelectService}
-                onClear={handleClearService}
                 optionsBorderedBottom={false}
                 optionSelected={defaultOptionsSelected}
                 mainColor={WHITE}

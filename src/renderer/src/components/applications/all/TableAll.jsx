@@ -5,8 +5,8 @@ import typographyStyles from '~/styles/Typography.module.css'
 import commonStyles from '~/styles/CommonStyles.module.css'
 import styles from './TableAll.module.css'
 import { LoadingSpinnerV2, Button, PlatformaticIcon, SearchBarV2 } from '@platformatic/ui-components'
-import { RICH_BLACK, WHITE, SMALL, DULLS_BACKGROUND_COLOR, ANTI_FLASH_WHITE, MAIN_GREEN } from '@platformatic/ui-components/src/components/constants'
-import { ASC, DESC, STATUS_RUNNING } from '~/ui-constants'
+import { RICH_BLACK, WHITE, SMALL, DULLS_BACKGROUND_COLOR, ANTI_FLASH_WHITE } from '@platformatic/ui-components/src/components/constants'
+import { ASC, DESC, STATUS_RUNNING, STATUS_STOPPED, FILTER_ALL } from '~/ui-constants'
 import Row from './Row'
 import { sortCollection } from '~/utilitySorting'
 import Forms from '@platformatic/ui-components/src/components/forms'
@@ -31,15 +31,14 @@ function TableAll ({
   const [filteredApplications, setFilteredApplications] = useState([])
   const [optionsStatuses, setOptionsStatuses] = useState([])
   const [filterApplicationsByName, setFilterApplicationsByName] = useState('')
-  const [filterApplicationsByStatus, setFilterApplicationsByStatus] = useState({ label: '', value: '' })
-  const FILTER_ALL = 'all'
+  const [filterApplicationsByStatus, setFilterApplicationsByStatus] = useState({ label: 'All Status', value: FILTER_ALL })
 
   // const orgIdOfUser = globalState.computed.orgIdOfUser
 
   useEffect(() => {
     if (applicationsLoaded) {
       if (applications.length > 0) {
-        setOptionsStatuses([...getOptionsStatusesGrouped(applications)])
+        setOptionsStatuses([...getOptionsStatuses()])
         setFilteredApplications([...applications])
       } else {
         setShowNoResult(true)
@@ -56,7 +55,7 @@ function TableAll ({
 
   useEffect(() => {
     if (filterApplicationsByStatus.value || filterApplicationsByName) {
-      let founds = [...filteredApplications]
+      let founds = [...applications]
       if (filterApplicationsByStatus.value && filterApplicationsByStatus.value !== FILTER_ALL) {
         founds = founds.filter(application => application.status.value.toLowerCase() === filterApplicationsByStatus.value)
       }
@@ -114,23 +113,10 @@ function TableAll ({
     return cb
   }
 
-  function handleChangeStatus (event) {
-    setFilterApplicationsByStatus({
-      label: event.target.value
-    })
-  }
-
   function handleSelectStatus (event) {
     setFilterApplicationsByStatus({
       label: event.detail.label,
       value: event.detail.value
-    })
-  }
-
-  function handleClearStatus () {
-    setFilterApplicationsByStatus({
-      label: '',
-      value: ''
     })
   }
 
@@ -142,33 +128,27 @@ function TableAll ({
     setFilterApplicationsByName(value)
   }
 
-  function getOptionsStatusesGrouped (applications) {
-    const tmpStatuses = applications.map(e => e.status).reduce((acc, currentValue) => {
-      const found = acc.find(a => a.label === currentValue.label)
-      if (found) {
-        found.count += 1
-      } else {
-        acc.push({
-          ...currentValue,
-          count: 1
-        })
-      }
-      return acc
-    }, []).map(status => ({
-      label: status.label,
-      value: status.value,
-      iconName: status.value === STATUS_RUNNING ? 'RunningIcon' : 'CircleStopIcon',
-      iconSize: SMALL,
-      iconColor: status.value === STATUS_RUNNING ? MAIN_GREEN : WHITE
-    }))
-    tmpStatuses.unshift({
-      label: 'All Statuses',
+  function getOptionsStatuses () {
+    return [{
+      label: 'All Status',
       value: FILTER_ALL,
-      iconName: 'CircleFullIcon',
+      iconName: 'AllAppsIcon',
       iconSize: SMALL,
       iconColor: WHITE
-    })
-    return tmpStatuses
+    }, {
+      label: 'Running',
+      value: STATUS_RUNNING,
+      iconName: 'RunningIcon',
+      iconSize: SMALL,
+      iconColor: WHITE
+    }, {
+      label: 'Stopped',
+      value: STATUS_STOPPED,
+      iconName: 'CircleStopIcon',
+      iconSize: SMALL,
+      iconColor: WHITE
+    }
+    ]
   }
 
   function renderComponent () {
@@ -221,13 +201,9 @@ function TableAll ({
           <Forms.Select
             defaultContainerClassName={styles.select}
             backgroundColor={RICH_BLACK}
-            placeholder='All Status'
             borderColor={WHITE}
             options={optionsStatuses}
-            defaultOptionsClassName={styles.selectUl}
-            onChange={handleChangeStatus}
             onSelect={handleSelectStatus}
-            onClear={handleClearStatus}
             optionsBorderedBottom={false}
             mainColor={WHITE}
             borderListColor={WHITE}
