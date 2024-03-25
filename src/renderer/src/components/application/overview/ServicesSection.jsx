@@ -24,7 +24,7 @@ function ServicesSection ({ onClickEditApplication }) {
     <>
       <div className={`${commonStyles.mediumFlexBlock} ${commonStyles.fullWidth}`}>
         <div className={`${commonStyles.tinyFlexRow} ${commonStyles.fullWidth}`}>
-          <Icons.AppDetailsIcon
+          <Icons.ServiceIcon
             color={WHITE}
             size={MEDIUM}
           />

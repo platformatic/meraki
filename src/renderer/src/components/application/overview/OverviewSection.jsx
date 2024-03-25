@@ -32,7 +32,7 @@ function OverviewSection () {
   return (
     <>
       <div className={`${commonStyles.mediumFlexBlock} ${commonStyles.fullWidth}`}>
-        <div className={`${commonStyles.smallFlexRow} ${commonStyles.fullWidth}`}>
+        <div className={`${commonStyles.tinyFlexRow} ${commonStyles.fullWidth}`}>
           <Icons.AppDetailsIcon
             color={WHITE}
             size={MEDIUM}
