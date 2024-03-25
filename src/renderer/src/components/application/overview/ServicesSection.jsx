@@ -8,7 +8,6 @@ import commonStyles from '~/styles/CommonStyles.module.css'
 import { Button, ModalDirectional } from '@platformatic/ui-components'
 import Icons from '@platformatic/ui-components/src/components/icons'
 import ServiceElement from './ServiceElement'
-import { STATUS_RUNNING } from '~/ui-constants'
 import modalStyles from '~/styles/ModalStyles.module.css'
 import useStackablesStore from '~/useStackablesStore'
 
@@ -48,7 +47,6 @@ function ServicesSection ({ onClickEditApplication }) {
               paddingClass={commonStyles.buttonPadding}
               platformaticIcon={{ iconName: 'EditIcon', color: RICH_BLACK }}
               textClass={typographyStyles.desktopBody}
-              disabled={STATUS_RUNNING === applicationStatus}
             />
           </div>
         </div>

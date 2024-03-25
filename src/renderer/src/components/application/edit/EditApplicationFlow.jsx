@@ -5,15 +5,22 @@ import { Modal } from '@platformatic/ui-components'
 import { MODAL_FULL_RICH_BLACK_V2, MODAL_POPUP_V2 } from '@platformatic/ui-components/src/components/constants'
 import HeaderEditApplicationFlow from '~/components/application/edit/HeaderEditApplicationFlow'
 import EditWizard from '~/components/wizard/EditWizard'
+import StopApplicationToEdit from '~/components/application/edit/StopApplicationToEdit'
 import styles from './EditApplicationFlow.module.css'
 import typographyStyles from '~/styles/Typography.module.css'
 import DiscardChanges from '~/components/application/edit/DiscardChanges'
+import { STATUS_RUNNING } from '~/ui-constants'
+import useStackablesStore from '~/useStackablesStore'
 
-function EditApplicationFlow ({ onCloseModal, onClickGoToApps, applicationSelected }) {
+function EditApplicationFlow ({ onCloseModal, onClickGoToApps, onStopApplication }) {
+  const globalState = useStackablesStore()
+  const applicationStatus = globalState.computed.applicationStatus
+  const applicationSelected = globalState.computed.applicationSelected
   const [showModalDiscardChanges, setShowModalDiscardChanges] = useState(false)
 
   function handleCloseModalEditApplication () {
-    setShowModalDiscardChanges(true)
+    setShowModalDiscardChanges(false)
+    onCloseModal()
   }
 
   function handleConfirmDiscardChanges () {
@@ -23,6 +30,24 @@ function EditApplicationFlow ({ onCloseModal, onClickGoToApps, applicationSelect
 
   function handleCloseModalDiscardChanges () {
     setShowModalDiscardChanges(false)
+  }
+
+  function handleStopApplication () {
+    onStopApplication()
+  }
+
+  if (applicationStatus === STATUS_RUNNING) {
+    return (
+      <Modal
+        key='stopApplicationRunning'
+        setIsOpen={() => handleCloseModalEditApplication()}
+        title='Stop the Application to edit'
+        titleClassName={`${typographyStyles.desktopHeadline4} ${typographyStyles.textWhite}`}
+        layout={MODAL_POPUP_V2}
+      >
+        <StopApplicationToEdit onClickCancel={() => handleCloseModalEditApplication()} onClickProceed={() => handleStopApplication()} />
+      </Modal>
+    )
   }
 
   return (
@@ -65,15 +90,15 @@ EditApplicationFlow.propTypes = {
    */
   onClickGoToApps: PropTypes.func,
   /**
-   * applicationSelected
+   * onStopApplication
    */
-  applicationSelected: PropTypes.object
+  onStopApplication: PropTypes.func
 }
 
 EditApplicationFlow.defaultProps = {
   onCloseModal: () => {},
   onClickGoToApps: () => {},
-  applicationSelected: {}
+  onStopApplication: () => {}
 }
 
 export default EditApplicationFlow

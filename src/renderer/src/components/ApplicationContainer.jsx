@@ -22,7 +22,7 @@ import EnvironmentVariables from '~/components/application/environment-variables
 import EditApplicationFlow from '~/components/application/edit/EditApplicationFlow'
 import SideBar from '~/components/ui/SideBar'
 import { useParams } from 'react-router-dom'
-import { callOpenApplication, callStartApplication } from '~/api'
+import { callOpenApplication, callStartApplication, callStopApplication } from '~/api'
 import { LoadingSpinnerV2 } from '@platformatic/ui-components'
 import useStackablesStore from '~/useStackablesStore'
 
@@ -99,6 +99,12 @@ function ApplicationContainer () {
   async function handleStartApplication () {
     const tmp = {}
     tmp[appId] = await callStartApplication(appId)
+    setApplicationsSelected(tmp)
+  }
+
+  async function handleStopApplication () {
+    const tmp = {}
+    tmp[appId] = await callStopApplication(appId)
     setApplicationsSelected(tmp)
   }
 
@@ -205,7 +211,7 @@ function ApplicationContainer () {
           <EditApplicationFlow
             onCloseModal={() => handleCloseEditApplicationFlow()}
             onClickGoToApps={() => handleSuccessfulEditApplicationFlow()}
-            applicationSelected={applicationSelected}
+            onStopApplication={async () => await handleStopApplication()}
           />
         )}
       </>
