@@ -27,11 +27,13 @@ export const getApiApplications = async (path) => {
 }
 
 export const callStartApplication = async (id) => {
-  return await window.api.startApp(id)
+  await window.api.startApp(id)
+  return await window.api.openApp(id)
 }
 
 export const callStopApplication = async (id) => {
-  return await window.api.stopApp(id)
+  await window.api.stopApp(id)
+  return await window.api.openApp(id)
 }
 
 export const callDeleteApplication = async (id) => {

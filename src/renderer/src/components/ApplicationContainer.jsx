@@ -7,8 +7,7 @@ import {
   APPLICATION_PAGE_ENV_VAR,
   BREAKPOINTS_HEIGHT_LG,
   HEIGHT_LG,
-  HEIGHT_MD,
-  TIMEOUT_START
+  HEIGHT_MD
 } from '~/ui-constants'
 import { CSSTransition, SwitchTransition } from 'react-transition-group'
 import typographyStyles from '~/styles/Typography.module.css'
@@ -98,12 +97,9 @@ function ApplicationContainer () {
   }, [applicationSelected])
 
   async function handleStartApplication () {
-    await callStartApplication(appId)
-    setTimeout(async () => {
-      const tmp = {}
-      tmp[appId] = await callOpenApplication(appId)
-      setApplicationsSelected(tmp)
-    }, TIMEOUT_START)
+    const tmp = {}
+    tmp[appId] = await callStartApplication(appId)
+    setApplicationsSelected(tmp)
   }
 
   useEffect(() => {

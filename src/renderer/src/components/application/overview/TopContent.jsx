@@ -7,12 +7,12 @@ import typographyStyles from '~/styles/Typography.module.css'
 import commonStyles from '~/styles/CommonStyles.module.css'
 import { Button, VerticalSeparator } from '@platformatic/ui-components'
 import { getFormattedDate } from '~/utilityDetails'
-import { STATUS_RUNNING, TIMEOUT_STOP, TIMEOUT_START } from '~/ui-constants'
+import { STATUS_RUNNING } from '~/ui-constants'
 import Icons from '@platformatic/ui-components/src/components/icons'
 import ApplicationStatusPills from '~/components/ui/ApplicationStatusPills'
 import MerakiIcon from '~/components/ui/MerakiIcon'
 import Forms from '@platformatic/ui-components/src/components/forms'
-import { callStartApplication, callStopApplication, callOpenApplication } from '~/api'
+import { callStartApplication, callStopApplication } from '~/api'
 import useStackablesStore from '~/useStackablesStore'
 
 function TopContent ({
@@ -29,12 +29,9 @@ function TopContent ({
   async function handleStopApplication () {
     try {
       setChangingStatus(true)
-      await callStopApplication(applicationSelected.id)
-      setTimeout(async () => {
-        const tmp = {}
-        tmp[applicationSelected.id] = await callOpenApplication(applicationSelected.id)
-        setApplicationsSelected(tmp)
-      }, TIMEOUT_STOP)
+      const tmp = {}
+      tmp[applicationSelected.id] = await callStopApplication(applicationSelected.id)
+      setApplicationsSelected(tmp)
     } catch (error) {
       console.error(`Error on callStopApplication ${error}`)
       onErrorOccurred(error)
@@ -46,12 +43,9 @@ function TopContent ({
   async function handleStartApplication () {
     try {
       setChangingStatus(true)
-      await callStartApplication(applicationSelected.id)
-      setTimeout(async () => {
-        const tmp = {}
-        tmp[applicationSelected.id] = await callOpenApplication(applicationSelected.id)
-        setApplicationsSelected(tmp)
-      }, TIMEOUT_START)
+      const tmp = {}
+      tmp[applicationSelected.id] = await callStartApplication(applicationSelected.id)
+      setApplicationsSelected(tmp)
     } catch (error) {
       console.error(`Error on callStartApplication ${error}`)
       onErrorOccurred(error)
@@ -66,12 +60,9 @@ function TopContent ({
       if (applicationStatus === STATUS_RUNNING) {
         await callStopApplication(applicationSelected.id)
       }
-      await callStartApplication(applicationSelected.id)
-      setTimeout(async () => {
-        const tmp = {}
-        tmp[applicationSelected.id] = await callOpenApplication(applicationSelected.id)
-        setApplicationsSelected(tmp)
-      }, TIMEOUT_START)
+      const tmp = {}
+      tmp[applicationSelected.id] = await callStartApplication(applicationSelected.id)
+      setApplicationsSelected(tmp)
     } catch (error) {
       console.error(`Error on handleRestartApplication ${error}`)
       onErrorOccurred(error)

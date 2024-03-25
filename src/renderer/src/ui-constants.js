@@ -73,5 +73,3 @@ export const STATUS_PAUSED_LOGS = 'PAUSED'
 export const STATUS_RESUMED_LOGS = 'RESUMED'
 
 export const FILTER_ALL = 'all'
-export const TIMEOUT_START = 100
-export const TIMEOUT_STOP = 100
