@@ -12,12 +12,13 @@ import { MARGIN_0, OPACITY_30, WHITE } from '@platformatic/ui-components/src/com
 import ErrorComponent from '~/components/screens/ErrorComponent'
 import { useNavigate } from 'react-router-dom'
 
-const Overview = React.forwardRef(({ applicationSelected, onClickEditApplication }, ref) => {
+const Overview = React.forwardRef(({ onClickEditApplication }, ref) => {
   const globalState = useStackablesStore()
   const { breadCrumbs, setNavigation, setCurrentPage, setReloadApplications } = globalState
   const [showErrorComponent, setShowErrorComponent] = useState(false)
   const [error, setError] = useState(false)
   const navigate = useNavigate()
+  const applicationSelected = globalState.computed.applicationSelected
 
   useEffect(() => {
     if (breadCrumbs.length === 0) {
@@ -48,14 +49,13 @@ const Overview = React.forwardRef(({ applicationSelected, onClickEditApplication
       <div className={styles.container} ref={ref}>
         <div className={styles.content}>
           <TopContent
-            applicationSelected={{ ...applicationSelected }}
             onErrorOccurred={(error) => {
               setError(error)
               setShowErrorComponent(true)
             }}
           />
           <HorizontalSeparator marginBottom={MARGIN_0} marginTop={MARGIN_0} color={WHITE} opacity={OPACITY_30} />
-          <OverviewSection applicationSelected={{ ...applicationSelected }} />
+          <OverviewSection />
           <HorizontalSeparator
             marginBottom={MARGIN_0}
             marginTop={MARGIN_0}
@@ -63,7 +63,6 @@ const Overview = React.forwardRef(({ applicationSelected, onClickEditApplication
             opacity={OPACITY_30}
           />
           <ServicesSection
-            applicationSelected={{ ...applicationSelected }}
             onClickEditApplication={onClickEditApplication}
           />
         </div>
@@ -73,17 +72,12 @@ const Overview = React.forwardRef(({ applicationSelected, onClickEditApplication
 
 Overview.propTypes = {
   /**
-   * applicationSelected
-    */
-  applicationSelected: PropTypes.object,
-  /**
    * onClickEditApplication
     */
   onClickEditApplication: PropTypes.func
 }
 
 Overview.defaultProps = {
-  applicationSelected: {},
   onClickEditApplication: () => {}
 }
 

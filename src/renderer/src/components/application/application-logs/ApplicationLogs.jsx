@@ -1,6 +1,5 @@
 'use strict'
 import React, { useState, useEffect, useRef } from 'react'
-import PropTypes from 'prop-types'
 import { RICH_BLACK, WHITE, OPACITY_30, TRANSPARENT, MARGIN_0, MEDIUM } from '@platformatic/ui-components/src/components/constants'
 import styles from './ApplicationLogs.module.css'
 import typographyStyles from '~/styles/Typography.module.css'
@@ -23,7 +22,10 @@ import {
 import Icons from '@platformatic/ui-components/src/components/icons'
 import useStackablesStore from '~/useStackablesStore'
 
-const ApplicationLogs = React.forwardRef(({ applicationSelected }, ref) => {
+const ApplicationLogs = React.forwardRef(({ _props }, ref) => {
+  const globalState = useStackablesStore()
+  const applicationStatus = globalState.computed.applicationStatus
+  const applicationSelected = globalState.computed.applicationSelected
   const [displayLog, setDisplayLog] = useState(PRETTY)
   const [filterLogsByService, setFilterLogsByService] = useState({ label: 'All Services', value: FILTER_ALL })
   const [filterLogsByLevel, setFilterLogsByLevel] = useState('')
@@ -40,8 +42,6 @@ const ApplicationLogs = React.forwardRef(({ applicationSelected }, ref) => {
   const [displayGoToBottom, setDisplayGoToBottom] = useState(false)
   const [showPreviousLogs, setShowPreviousLogs] = useState(true)
   const [statusPausedLogs, setStatusPausedLogs] = useState('')
-  const globalState = useStackablesStore()
-  const { applicationStatus } = globalState
   const [filteredLogsLengthAtPause, setFilteredLogsLengthAtPause] = useState(0)
 
   useEffect(() => {
@@ -299,16 +299,5 @@ const ApplicationLogs = React.forwardRef(({ applicationSelected }, ref) => {
     </div>
   )
 })
-
-ApplicationLogs.propTypes = {
-  /**
-   * applicationSelected
-    */
-  applicationSelected: PropTypes.object
-}
-
-ApplicationLogs.defaultProps = {
-  applicationSelected: {}
-}
 
 export default ApplicationLogs

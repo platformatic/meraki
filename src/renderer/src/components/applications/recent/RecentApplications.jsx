@@ -16,7 +16,7 @@ import DeleteApplication from '~/components/application/DeleteApplication'
 
 const RecentApplications = React.forwardRef(({ onClickCreateNewApp }, ref) => {
   const globalState = useStackablesStore()
-  const { applications, setNavigation, setCurrentPage, reloadApplications, setReloadApplications } = globalState
+  const { applications, setNavigation, setCurrentPage, reloadApplications, setReloadApplications, setApplicationsSelected } = globalState
   const [showErrorComponent, setShowErrorComponent] = useState(false)
   const [error, setError] = useState(null)
   const [localApplications, setLocalApplications] = useState([])
@@ -70,7 +70,9 @@ const RecentApplications = React.forwardRef(({ onClickCreateNewApp }, ref) => {
 
   async function handleStopApplication (id) {
     try {
-      await callStopApplication(id)
+      const tmp = {}
+      tmp[id] = await callStopApplication(id)
+      setApplicationsSelected(tmp)
       setReloadApplications(true)
     } catch (error) {
       console.error(`Error on callStopApplication ${error}`)
@@ -81,7 +83,9 @@ const RecentApplications = React.forwardRef(({ onClickCreateNewApp }, ref) => {
 
   async function handleStartApplication (id) {
     try {
-      await callStartApplication(id)
+      const tmp = {}
+      tmp[id] = await callStartApplication(id)
+      setApplicationsSelected(tmp)
       setReloadApplications(true)
     } catch (error) {
       console.error(`Error on callStartApplication ${error}`)
@@ -95,7 +99,9 @@ const RecentApplications = React.forwardRef(({ onClickCreateNewApp }, ref) => {
       if (STATUS_RUNNING === status) {
         await callStopApplication(id)
       }
-      await callStartApplication(id)
+      const tmp = {}
+      tmp[id] = await callStartApplication(id)
+      setApplicationsSelected(tmp)
       setReloadApplications(true)
     } catch (error) {
       console.error(`Error on handleRestartApplication ${error}`)

@@ -12,9 +12,10 @@ import { STATUS_RUNNING } from '~/ui-constants'
 import modalStyles from '~/styles/ModalStyles.module.css'
 import useStackablesStore from '~/useStackablesStore'
 
-function ServicesSection ({ applicationSelected, onClickEditApplication }) {
+function ServicesSection ({ onClickEditApplication }) {
   const globalState = useStackablesStore()
-  const { applicationStatus } = globalState
+  const applicationStatus = globalState.computed.applicationStatus
+  const applicationSelected = globalState.computed.applicationSelected
   const [showModalScalarIntegration, setShowModalScalarIntegration] = useState(false)
   function handleCloseModalAPIReference () {
     setShowModalScalarIntegration(false)
@@ -73,17 +74,12 @@ function ServicesSection ({ applicationSelected, onClickEditApplication }) {
 
 ServicesSection.propTypes = {
   /**
-   * applicationSelected
-    */
-  applicationSelected: PropTypes.object,
-  /**
    * onClickEditApplication
     */
   onClickEditApplication: PropTypes.func
 }
 
 ServicesSection.defaultProps = {
-  applicationSelected: {},
   onClickEditApplication: () => {}
 }
 

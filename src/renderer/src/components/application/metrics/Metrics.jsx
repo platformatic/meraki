@@ -1,6 +1,5 @@
 'use strict'
 import React, { useEffect, useState } from 'react'
-import PropTypes from 'prop-types'
 import { MEDIUM, WHITE, OPACITY_30, TRANSPARENT } from '@platformatic/ui-components/src/components/constants'
 import styles from './Metrics.module.css'
 import typographyStyles from '~/styles/Typography.module.css'
@@ -13,9 +12,11 @@ import { callApiStartMetrics, getAppMetrics, callApiStopMetrics } from '~/api'
 import LineChart from './LineChart'
 import StackedBarsChart from './StackedBarsChart'
 
-const Metrics = React.forwardRef(({ applicationSelected }, ref) => {
+const Metrics = React.forwardRef(({ _props }, ref) => {
   const globalState = useStackablesStore()
-  const { applicationStatus, setNavigation, setCurrentPage } = globalState
+  const applicationSelected = globalState.computed.applicationSelected
+  const { setNavigation, setCurrentPage } = globalState
+  const applicationStatus = globalState.computed.applicationStatus
   const [paused, setPaused] = useState(false) // This pauses the chart flowing (not the data collection)
   const [data, setData] = useState({
     memory: [],
@@ -143,16 +144,5 @@ const Metrics = React.forwardRef(({ applicationSelected }, ref) => {
     </div>
   )
 })
-
-Metrics.propTypes = {
-  /**
-   * applicationSelected
-    */
-  applicationSelected: PropTypes.object
-}
-
-Metrics.defaultProps = {
-  applicationSelected: {}
-}
 
 export default Metrics
