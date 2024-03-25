@@ -1,6 +1,6 @@
-import { test, expect } from 'vitest'
+import { test, expect, onTestFinished } from 'vitest'
 import { startMarketplace, setUpEnvironment } from './helper.mjs'
-import { mkdtemp, writeFile } from 'node:fs/promises'
+import { mkdtemp, writeFile, rm } from 'node:fs/promises'
 import { tmpdir } from 'node:os'
 import { join } from 'node:path'
 import { mkdirp } from 'mkdirp'
@@ -10,6 +10,7 @@ const { getTemplates, getPlugins } = await import('../../src/main/client.mjs')
 
 test('should invoke marketplace for stackables, no user key', async () => {
   const platformaticDir = await mkdtemp(join(tmpdir(), 'plat-app-test-home'))
+  onTestFinished(() => rm(platformaticDir, { recursive: true }))
   process.env.HOME = platformaticDir
   await mkdirp(join(platformaticDir, '.platformatic'))
   const stacks = [
@@ -39,6 +40,7 @@ test('should invoke marketplace for stackables, no user key', async () => {
 
 test('should invoke marketplace for stackables, passing user key', async () => {
   const platformaticDir = await mkdtemp(join(tmpdir(), 'plat-app-test-home'))
+  onTestFinished(() => rm(platformaticDir, { recursive: true }))
   process.env.HOME = platformaticDir
   await mkdirp(join(platformaticDir, '.platformatic'))
   const configPath = join(platformaticDir, '.platformatic', 'config.json')
@@ -76,6 +78,7 @@ test('should invoke marketplace for stackables, passing user key', async () => {
 
 test('should invoke marketplace for stackables, passing user key but not authorized', async () => {
   const platformaticDir = await mkdtemp(join(tmpdir(), 'plat-app-test-home'))
+  onTestFinished(() => rm(platformaticDir, { recursive: true }))
   process.env.HOME = platformaticDir
   await mkdirp(join(platformaticDir, '.platformatic'))
   const configPath = join(platformaticDir, '.platformatic', 'config.json')

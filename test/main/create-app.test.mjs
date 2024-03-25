@@ -1,8 +1,8 @@
-import { test, beforeEach, expect } from 'vitest'
+import { test, beforeEach, expect, onTestFinished } from 'vitest'
 import { tmpdir } from 'node:os'
 import { join } from 'node:path'
 import { createApp } from '../../src/main/generate.mjs'
-import { mkdtemp } from 'node:fs/promises'
+import { mkdtemp, rm } from 'node:fs/promises'
 import { isFileAccessible } from './helper.mjs'
 const logger = {
   infos: [],
@@ -24,6 +24,7 @@ beforeEach(() => {
 })
 test('Create app with no services should fail', async () => {
   const appDir = await mkdtemp(join(tmpdir(), 'plat-app-test-create'))
+  onTestFinished(() => rm(appDir, { recursive: true }))
 
   // This is wrong, because we have no services but an entrypoint
   const project = {
@@ -43,6 +44,7 @@ test('Create app with no services should fail', async () => {
 
 test('Create app with no entrypoint should fail', async () => {
   const appDir = await mkdtemp(join(tmpdir(), 'plat-app-test-create'))
+  onTestFinished(() => rm(appDir, { recursive: true }))
 
   // This is wrong, because we have no services but an entrypoint
   const project = {
@@ -61,6 +63,7 @@ test('Create app with no entrypoint should fail', async () => {
 
 test('Create app', async (t) => {
   const appDir = await mkdtemp(join(tmpdir(), 'plat-app-test-create'))
+  onTestFinished(() => rm(appDir, { recursive: true }))
   const project = {
     projectName: 'electron-testing',
     services: [
