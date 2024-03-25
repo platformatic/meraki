@@ -68,6 +68,7 @@ jobs:
         shell: bash
 
       - name: Setup Keylocker KSP on windows 
+        if: ${{ input.apply_win_sign == 'true'}}
         run: | 
           curl -X GET  https://one.digicert.com/signingmanager/api-ui/v1/releases/Keylockertools-windows-x64.msi/download -H "x-api-key:%SM_API_KEY%" -o Keylockertools-windows-x64.msi 
           msiexec /i Keylockertools-windows-x64.msi /quiet /qn
@@ -77,11 +78,13 @@ jobs:
         shell: cmd 
       
       - name: Certificates Sync       
+        if: ${{ input.apply_win_sign == 'true'}}
         run: |
           smctl windows certsync
         shell: cmd
 
       - name: SMCTL healthcheck
+        if: ${{ input.apply_win_sign == 'true'}}
         run: |
           smctl healthcheck
         shell: cmd 
