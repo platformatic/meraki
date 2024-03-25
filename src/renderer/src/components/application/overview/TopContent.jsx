@@ -7,20 +7,21 @@ import typographyStyles from '~/styles/Typography.module.css'
 import commonStyles from '~/styles/CommonStyles.module.css'
 import { Button, VerticalSeparator } from '@platformatic/ui-components'
 import { getFormattedDate } from '~/utilityDetails'
-import { STATUS_RUNNING, STATUS_STOPPED } from '~/ui-constants'
+import { STATUS_RUNNING, TIMEOUT_STOP, TIMEOUT_START } from '~/ui-constants'
 import Icons from '@platformatic/ui-components/src/components/icons'
 import ApplicationStatusPills from '~/components/ui/ApplicationStatusPills'
 import MerakiIcon from '~/components/ui/MerakiIcon'
 import Forms from '@platformatic/ui-components/src/components/forms'
-import { callStartApplication, callStopApplication } from '~/api'
+import { callStartApplication, callStopApplication, callOpenApplication } from '~/api'
 import useStackablesStore from '~/useStackablesStore'
 
 function TopContent ({
-  applicationSelected,
   onErrorOccurred
 }) {
   const globalState = useStackablesStore()
-  const { applicationStatus, setApplicationStatus, restartAutomaticApplications, setRestartAutomaticApplication } = globalState
+  const { restartAutomaticApplications, setRestartAutomaticApplication, setApplicationsSelected } = globalState
+  const applicationSelected = globalState.computed.applicationSelected
+  const applicationStatus = globalState.computed.applicationStatus
   const [form, setForm] = useState({ automaticRestart: restartAutomaticApplications[applicationSelected.id] || false })
   const [changingStatus, setChangingStatus] = useState(false)
   const [changingRestartStatus, setChangingRestartStatus] = useState(false)
@@ -29,7 +30,11 @@ function TopContent ({
     try {
       setChangingStatus(true)
       await callStopApplication(applicationSelected.id)
-      setApplicationStatus(STATUS_STOPPED)
+      setTimeout(async () => {
+        const tmp = {}
+        tmp[applicationSelected.id] = await callOpenApplication(applicationSelected.id)
+        setApplicationsSelected(tmp)
+      }, TIMEOUT_STOP)
     } catch (error) {
       console.error(`Error on callStopApplication ${error}`)
       onErrorOccurred(error)
@@ -42,7 +47,11 @@ function TopContent ({
     try {
       setChangingStatus(true)
       await callStartApplication(applicationSelected.id)
-      setApplicationStatus(STATUS_RUNNING)
+      setTimeout(async () => {
+        const tmp = {}
+        tmp[applicationSelected.id] = await callOpenApplication(applicationSelected.id)
+        setApplicationsSelected(tmp)
+      }, TIMEOUT_START)
     } catch (error) {
       console.error(`Error on callStartApplication ${error}`)
       onErrorOccurred(error)
@@ -58,7 +67,11 @@ function TopContent ({
         await callStopApplication(applicationSelected.id)
       }
       await callStartApplication(applicationSelected.id)
-      setApplicationStatus(STATUS_RUNNING)
+      setTimeout(async () => {
+        const tmp = {}
+        tmp[applicationSelected.id] = await callOpenApplication(applicationSelected.id)
+        setApplicationsSelected(tmp)
+      }, TIMEOUT_START)
     } catch (error) {
       console.error(`Error on handleRestartApplication ${error}`)
       onErrorOccurred(error)
@@ -193,17 +206,12 @@ function TopContent ({
 
 TopContent.propTypes = {
   /**
-   * applicationSelected
-    */
-  applicationSelected: PropTypes.object,
-  /**
    * onErrorOccurred
     */
   onErrorOccurred: PropTypes.func
 }
 
 TopContent.defaultProps = {
-  applicationSelected: {},
   onErrorOccurred: () => {}
 }
 

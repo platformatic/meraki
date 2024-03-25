@@ -1,5 +1,4 @@
 import { create } from 'zustand'
-import { STATUS_STOPPED } from './ui-constants'
 
 const initialState = {
   formData: {},
@@ -8,12 +7,21 @@ const initialState = {
   currentPage: '',
   applications: [],
   reloadApplications: true,
-  applicationStatus: STATUS_STOPPED,
-  restartAutomaticApplications: {}
+  restartAutomaticApplications: {},
+  applicationsSelected: {},
+  applicationSelectedId: null
 }
 
 const useStackablesStore = create((set, get) => ({
   ...initialState,
+  computed: {
+    get applicationSelected () {
+      return get().applicationsSelected[get().applicationSelectedId] || null
+    },
+    get applicationStatus () {
+      return get().applicationsSelected[get().applicationSelectedId]?.status || null
+    }
+  },
   addFormData: (newValue) => set((state) => {
     return {
       ...state,
@@ -155,11 +163,19 @@ const useStackablesStore = create((set, get) => ({
       }
     })
   },
-  setApplicationStatus: (status) => {
+  setApplicationSelectedId: (id) => {
     set((state) => {
       return {
         ...state,
-        applicationStatus: status
+        applicationSelectedId: id
+      }
+    })
+  },
+  setApplicationsSelected: (newApplication) => {
+    set((state) => {
+      return {
+        ...state,
+        applicationsSelected: { ...state.applicationsSelected, ...newApplication }
       }
     })
   },

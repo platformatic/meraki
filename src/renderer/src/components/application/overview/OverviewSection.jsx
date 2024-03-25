@@ -1,6 +1,5 @@
 'use strict'
 import React, { useEffect, useState } from 'react'
-import PropTypes from 'prop-types'
 import { WHITE, OPACITY_30, MEDIUM, TRANSPARENT, SMALL, WARNING_YELLOW, OPACITY_10 } from '@platformatic/ui-components/src/components/constants'
 import { BorderedBox, Button, ModalDirectional, PlatformaticIcon, VerticalSeparator } from '@platformatic/ui-components'
 import useStackablesStore from '~/useStackablesStore'
@@ -11,9 +10,10 @@ import typographyStyles from '~/styles/Typography.module.css'
 import commonStyles from '~/styles/CommonStyles.module.css'
 import modalStyles from '~/styles/ModalStyles.module.css'
 
-function OverviewSection ({ applicationSelected }) {
+function OverviewSection () {
   const globalState = useStackablesStore()
-  const { applicationStatus } = globalState
+  const applicationSelected = globalState.computed.applicationSelected
+  const applicationStatus = globalState.computed.applicationStatus
   const [url, setUrl] = useState('-')
   const [showModalScalarIntegration, setShowModalScalarIntegration] = useState(false)
 
@@ -121,17 +121,6 @@ function OverviewSection ({ applicationSelected }) {
       )}
     </>
   )
-}
-
-OverviewSection.propTypes = {
-  /**
-   * applicationSelected
-    */
-  applicationSelected: PropTypes.object
-}
-
-OverviewSection.defaultProps = {
-  applicationSelected: {}
 }
 
 export default OverviewSection

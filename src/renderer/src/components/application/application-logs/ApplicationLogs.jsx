@@ -41,7 +41,7 @@ const ApplicationLogs = React.forwardRef(({ applicationSelected }, ref) => {
   const [showPreviousLogs, setShowPreviousLogs] = useState(true)
   const [statusPausedLogs, setStatusPausedLogs] = useState('')
   const globalState = useStackablesStore()
-  const { applicationStatus } = globalState
+  const applicationStatus = globalState.computed.applicationStatus
   const [filteredLogsLengthAtPause, setFilteredLogsLengthAtPause] = useState(0)
 
   useEffect(() => {

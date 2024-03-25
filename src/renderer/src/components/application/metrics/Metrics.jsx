@@ -15,7 +15,8 @@ import StackedBarsChart from './StackedBarsChart'
 
 const Metrics = React.forwardRef(({ applicationSelected }, ref) => {
   const globalState = useStackablesStore()
-  const { applicationStatus, setNavigation, setCurrentPage } = globalState
+  const { setNavigation, setCurrentPage } = globalState
+  const applicationStatus = globalState.computed.applicationStatus
   const [paused, setPaused] = useState(false) // This pauses the chart flowing (not the data collection)
   const [data, setData] = useState({
     memory: [],

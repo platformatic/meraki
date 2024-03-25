@@ -7,7 +7,8 @@ import {
   APPLICATION_PAGE_ENV_VAR,
   BREAKPOINTS_HEIGHT_LG,
   HEIGHT_LG,
-  HEIGHT_MD, STATUS_RUNNING
+  HEIGHT_MD,
+  TIMEOUT_START
 } from '~/ui-constants'
 import { CSSTransition, SwitchTransition } from 'react-transition-group'
 import typographyStyles from '~/styles/Typography.module.css'
@@ -28,10 +29,18 @@ import useStackablesStore from '~/useStackablesStore'
 
 function ApplicationContainer () {
   const globalState = useStackablesStore()
-  const { currentPage, setCurrentPage, resetWizardState, setApplicationStatus, restartAutomaticApplications } = globalState
+  const {
+    currentPage,
+    setCurrentPage,
+    resetWizardState,
+    restartAutomaticApplications,
+    setApplicationsSelected,
+    setApplicationSelectedId
+  } = globalState
+
   const { appId } = useParams()
   const [innerLoading, setInnerLoading] = useState(true)
-  const [applicationSelected, setApplicationSelected] = useState(null)
+  const applicationSelected = globalState.computed.applicationSelected
   const [cssClassNames] = useState('scroll-down')
   // const [currentPage, setCurrentPage] = useState(null)
   const overViewRef = useRef(null)
@@ -49,7 +58,10 @@ function ApplicationContainer () {
       async function getApplication () {
         setInnerLoading(true)
         const applicationSelected = await callOpenApplication(appId)
-        setApplicationSelected(applicationSelected)
+        const tmp = {}
+        tmp[appId] = applicationSelected
+        setApplicationsSelected(tmp)
+        setApplicationSelectedId(appId)
         setReloadApplication(false)
       }
       getApplication()
@@ -58,28 +70,23 @@ function ApplicationContainer () {
 
   useEffect(() => {
     if (applicationSelected !== null) {
-      setApplicationStatus(applicationSelected.status)
       setComponents([
         <Overview
           ref={overViewRef}
           key={APPLICATION_PAGE_OVERVIEW}
-          applicationSelected={applicationSelected}
           onClickEditApplication={() => setShowModalEditApplicationFlow(true)}
         />,
         <ApplicationLogs
           ref={applicationLogsRef}
           key={APPLICATION_PAGE_LOGS}
-          applicationSelected={applicationSelected}
         />,
         <Metrics
           ref={metricRef}
           key={APPLICATION_PAGE_METRICS}
-          applicationSelected={applicationSelected}
         />,
         <EnvironmentVariables
           ref={envVarRef}
           key={APPLICATION_PAGE_ENV_VAR}
-          services={applicationSelected.services}
         />
       ])
     }
@@ -87,7 +94,11 @@ function ApplicationContainer () {
 
   async function handleStartApplication () {
     await callStartApplication(appId)
-    setApplicationStatus(STATUS_RUNNING)
+    setTimeout(async () => {
+      const tmp = {}
+      tmp[appId] = await callOpenApplication(appId)
+      setApplicationsSelected(tmp)
+    }, TIMEOUT_START)
   }
 
   useEffect(() => {
@@ -118,7 +129,7 @@ function ApplicationContainer () {
   async function handleSuccessfulEditApplicationFlow () {
     setShowModalEditApplicationFlow(false)
     resetWizardState()
-    setApplicationSelected(null)
+    setApplicationSelectedId(null)
     setComponents([])
     setReloadApplication(true)
     if (restartAutomaticApplications[appId]) {

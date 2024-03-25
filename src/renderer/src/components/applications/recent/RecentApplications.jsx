@@ -5,10 +5,10 @@ import styles from './RecentApplications.module.css'
 import typographyStyles from '~/styles/Typography.module.css'
 import TopContent from './TopContent'
 import TableRecent from './TableRecent'
-import { callStartApplication, callStopApplication, callDeleteApplication } from '~/api'
+import { callStartApplication, callStopApplication, callDeleteApplication, callOpenApplication } from '~/api'
 import ErrorComponent from '~/components/screens/ErrorComponent'
 import useStackablesStore from '~/useStackablesStore'
-import { HOME_PATH, PAGE_RECENT_APPS, STATUS_RUNNING, STATUS_STOPPED } from '~/ui-constants'
+import { HOME_PATH, PAGE_RECENT_APPS, STATUS_RUNNING, STATUS_STOPPED, TIMEOUT_STOP, TIMEOUT_START } from '~/ui-constants'
 import { useNavigate } from 'react-router-dom'
 import { Modal } from '@platformatic/ui-components'
 import { MODAL_POPUP_V2 } from '@platformatic/ui-components/src/components/constants'
@@ -16,7 +16,7 @@ import DeleteApplication from '~/components/application/DeleteApplication'
 
 const RecentApplications = React.forwardRef(({ onClickCreateNewApp }, ref) => {
   const globalState = useStackablesStore()
-  const { applications, setNavigation, setCurrentPage, reloadApplications, setReloadApplications } = globalState
+  const { applications, setNavigation, setCurrentPage, reloadApplications, setReloadApplications, setApplicationsSelected } = globalState
   const [showErrorComponent, setShowErrorComponent] = useState(false)
   const [error, setError] = useState(null)
   const [localApplications, setLocalApplications] = useState([])
@@ -71,6 +71,11 @@ const RecentApplications = React.forwardRef(({ onClickCreateNewApp }, ref) => {
   async function handleStopApplication (id) {
     try {
       await callStopApplication(id)
+      setTimeout(async () => {
+        const tmp = {}
+        tmp[id] = await callOpenApplication(id)
+        setApplicationsSelected(tmp)
+      }, TIMEOUT_STOP)
       setReloadApplications(true)
     } catch (error) {
       console.error(`Error on callStopApplication ${error}`)
@@ -82,7 +87,12 @@ const RecentApplications = React.forwardRef(({ onClickCreateNewApp }, ref) => {
   async function handleStartApplication (id) {
     try {
       await callStartApplication(id)
-      setReloadApplications(true)
+      setTimeout(async () => {
+        const tmp = {}
+        tmp[id] = await callOpenApplication(id)
+        setApplicationsSelected(tmp)
+        setReloadApplications(true)
+      }, TIMEOUT_START)
     } catch (error) {
       console.error(`Error on callStartApplication ${error}`)
       setShowErrorComponent(true)
@@ -96,7 +106,12 @@ const RecentApplications = React.forwardRef(({ onClickCreateNewApp }, ref) => {
         await callStopApplication(id)
       }
       await callStartApplication(id)
-      setReloadApplications(true)
+      setTimeout(async () => {
+        const tmp = {}
+        tmp[id] = await callOpenApplication(id)
+        setApplicationsSelected(tmp)
+        setReloadApplications(true)
+      }, TIMEOUT_START)
     } catch (error) {
       console.error(`Error on handleRestartApplication ${error}`)
       setShowErrorComponent(true)
