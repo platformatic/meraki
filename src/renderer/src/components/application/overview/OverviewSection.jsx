@@ -49,10 +49,9 @@ function OverviewSection ({ applicationSelected }) {
               <>
                 <div className={`${commonStyles.tinyFlexRow} ${commonStyles.itemsCenter}`}>
                   <span className={`${typographyStyles.desktopBody} ${typographyStyles.textWhite} ${typographyStyles.opacity70}`}>Current Platformatic Version: </span>
-                  { applicationSelected.platformaticVersion
+                  {applicationSelected.platformaticVersion
                     ? (<span className={`${typographyStyles.desktopBodyLarge} ${typographyStyles.textWhite}`}>{applicationSelected.platformaticVersion}</span>)
-                    : (<span className={`${typographyStyles.desktopBodyLarge} ${typographyStyles.textWhite} ${typographyStyles.opacity70}`}>-</span>)
-                  }
+                    : (<span className={`${typographyStyles.desktopBodyLarge} ${typographyStyles.textWhite} ${typographyStyles.opacity70}`}>-</span>)}
                 </div>
                 {!applicationSelected.isLatestPltVersion && (
                   <BorderedBox
