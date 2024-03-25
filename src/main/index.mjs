@@ -241,6 +241,10 @@ app.whenReady().then(async () => {
     return appApis.getApplications()
   })
 
+  ipcMain.handle('get-application', async (_, id) => {
+    return appApis.getApplication(id)
+  })
+
   ipcMain.handle('import-app', async (_, path, folderName) => {
     return appApis.importApplication(path, folderName)
   })
