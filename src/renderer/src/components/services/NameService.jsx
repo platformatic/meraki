@@ -9,13 +9,13 @@ import { PlatformaticIcon } from '@platformatic/ui-components'
 
 function NameService ({ name, renameDisabled, onClickEdit, onClickRemove, removeDisabled }) {
   return (
-    <div className={`${commonStyles.mediumFlexRow} ${commonStyles.justifyBetween} ${commonStyles.itemsCenter} ${commonStyles.fullWidth}`}>
+    <div className={`${commonStyles.smallFlexRow} ${commonStyles.justifyBetween} ${commonStyles.itemsCenter} ${commonStyles.fullWidth}`}>
       <div className={`${commonStyles.overflowHidden} ${styles.flexGrow}`}>
         <h5 className={`${typographyStyles.desktopHeadline4} ${typographyStyles.textWhite} ${styles.ellipsis} `} title={name}>
           {name}
         </h5>
       </div>
-      <div className={`${commonStyles.smallFlexRow} ${styles.buttonContainer} ${commonStyles.justifyEnd}`}>
+      <div className={`${commonStyles.tinyFlexRow} ${styles.buttonContainer} ${commonStyles.justifyEnd}`}>
         <PlatformaticIcon iconName='EditIcon' color={WHITE} size={MEDIUM} onClick={() => onClickEdit()} disabled={renameDisabled} />
         <PlatformaticIcon iconName='TrashIcon' color={WHITE} size={MEDIUM} onClick={() => onClickRemove()} disabled={removeDisabled} />
       </div>

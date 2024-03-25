@@ -33,7 +33,7 @@ const EnvironmentVariables = React.forwardRef(({ services }, ref) => {
       <div className={styles.content}>
         <div className={`${commonStyles.largeFlexBlock40} ${commonStyles.fullWidth}`}>
           <div className={commonStyles.mediumFlexBlock}>
-            <div className={`${commonStyles.mediumFlexRow} ${commonStyles.fullWidth}`}>
+            <div className={`${commonStyles.smallFlexRow} ${commonStyles.fullWidth}`}>
               <Icons.AppConfigurationIcon color={WHITE} size={MEDIUM} />
               <h2 className={`${typographyStyles.desktopHeadline2} ${typographyStyles.textWhite}`}>Environment Variables</h2>
             </div>

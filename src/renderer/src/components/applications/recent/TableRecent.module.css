@@ -31,9 +31,17 @@
   @apply w-full;
 }
 .tableHeaders {
-  @apply grid grid-cols-4 gap-x-4 w-full top-0 bg-rich-black z-10 border-b border-white/30 border-solid;
+  @apply grid grid-cols-4 gap-x-4 w-full top-0 bg-rich-black z-10 border-0;
   position: sticky;
 }
 .tableHeader {
   @apply pt-0 pb-12 text-left;;
+}
+
+div[class*="tableRow"] {
+  @apply border-t border-white/30 border-solid;
+}
+
+:nth-child(1 of div[class*="tableRow"]) {
+  @apply border-0 !important;
 }

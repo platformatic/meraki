@@ -14,7 +14,7 @@ function DiscardCreate ({ onClickCancel, onClickConfirm }) {
       </p>
       <HorizontalSeparator marginBottom={MARGIN_0} marginTop={MARGIN_0} color={WHITE} opacity={OPACITY_30} />
 
-      <div className={`${commonStyles.mediumFlexRow} ${commonStyles.justifyBetween}`}>
+      <div className={`${commonStyles.smallFlexRow} ${commonStyles.justifyBetween}`}>
         <Button
           type='button'
           label='Cancel'

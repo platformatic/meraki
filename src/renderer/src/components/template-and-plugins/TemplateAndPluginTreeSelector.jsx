@@ -15,7 +15,7 @@ function TemplateSelector ({ onTemplateSelected, service, serviceSelected }) {
   }
   return (
     <div
-      className={`${commonStyles.smallFlexRow} ${styles.cursorPointer} ${styles.overflowHidden}`}
+      className={`${commonStyles.tinyFlexRow} ${styles.cursorPointer} ${styles.overflowHidden}`}
       onClick={() => onTemplateSelected(service)}
       data-cy='template-selector'
     >
@@ -39,7 +39,7 @@ function PluginsContainer ({ service, isTemplateSelected, pluginSelected, onPlug
         ? (<PluginSelector key={service.plugins[0].name} plugin={{ ...service.plugins[0] }} service={{ ...service }} onPluginSelected={onPluginSelected} pluginSelected={pluginSelected} />)
         : (
           <>
-            <div className={`${commonStyles.smallFlexRow} ${commonStyles.fullWidth} ${styles.cursorPointer}`} onClick={() => togglePlugins()}>
+            <div className={`${commonStyles.tinyFlexRow} ${commonStyles.fullWidth} ${styles.cursorPointer}`} onClick={() => togglePlugins()}>
               <span className={`${typographyStyles.desktopBodyLarge} ${typographyStyles.textWhite} ${typographyStyles.opacity70}`}>
                 {hidePlugins ? 'Show' : 'Hide'} Plugins ({service.plugins.length})
               </span>
@@ -60,7 +60,7 @@ function PluginSelector ({ onPluginSelected, service, plugin, pluginSelected }) 
 
   return (
     <div
-      className={`${commonStyles.smallFlexRow} ${commonStyles.fullWidth} ${styles.cursorPointer} ${styles.overflowHidden}`}
+      className={`${commonStyles.tinyFlexRow} ${commonStyles.fullWidth} ${styles.cursorPointer} ${styles.overflowHidden}`}
       onClick={() => onPluginSelected(service, plugin)}
       data-cy='plugin-selector'
     >

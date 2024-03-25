@@ -203,7 +203,7 @@ function SelectPlugin ({ onClick, serviceName }) {
       </div>
       <div className={`${commonStyles.mediumFlexBlock} ${commonStyles.fullWidth}`}>
         {currentView === LIST_PLUGINS_VIEW && (
-          <div className={`${commonStyles.mediumFlexRow} ${commonStyles.fullWidth} ${commonStyles.justifyCenter}`}>
+          <div className={`${commonStyles.smallFlexRow} ${commonStyles.fullWidth} ${commonStyles.justifyCenter}`}>
             {pages.map(page =>
               <Button
                 key={page}

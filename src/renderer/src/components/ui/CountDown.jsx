@@ -44,7 +44,7 @@ function CountDown ({ status }) {
   }, [status])
 
   return (
-    <div className={`${commonStyles.smallFlexRow} ${commonStyles.itemsCenter} ${commonStyles.fullWidth}`}>
+    <div className={`${commonStyles.tinyFlexRow} ${commonStyles.itemsCenter} ${commonStyles.fullWidth}`}>
       {icon}
       <p className={className}>Generation started {seconds}s ago</p>
     </div>

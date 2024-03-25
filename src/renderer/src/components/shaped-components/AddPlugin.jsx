@@ -20,7 +20,7 @@ const AddPlugin = React.forwardRef(({ onClick, inactive }, ref) => {
           <SmallTitle
             title='Add Plugin'
             titleClassName={`${typographyStyles.desktopBodyLarge} ${typographyStyles.textWhite} ${typographyStyles.opacity30}`}
-            containerClassName={`${commonStyles.smallFlexRow} ${typographyStyles.textCenter}`}
+            containerClassName={`${commonStyles.tinyFlexRow} ${typographyStyles.textCenter}`}
             platformaticIcon={{
               iconName: 'CircleAddIcon',
               disabled: true,
@@ -60,7 +60,7 @@ const AddPlugin = React.forwardRef(({ onClick, inactive }, ref) => {
           <SmallTitle
             title='Add Plugin'
             titleClassName={`${typographyStyles.desktopBodyLarge} ${typographyStyles.textWhite} ${hover ? '' : typographyStyles.opacity70}`}
-            containerClassName={`${commonStyles.smallFlexRow} ${typographyStyles.textCenter}`}
+            containerClassName={`${commonStyles.tinyFlexRow} ${typographyStyles.textCenter}`}
             platformaticIcon={{
               iconName: 'CircleAddIcon',
               disabled: false,

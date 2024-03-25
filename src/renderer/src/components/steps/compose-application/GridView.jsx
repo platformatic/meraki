@@ -66,7 +66,7 @@ const GridView = React.forwardRef(({
 
   return (
     <div className={`${commonStyles.mediumFlexBlock}`}>
-      <div className={commonStyles.mediumFlexRow}>
+      <div className={commonStyles.smallFlexRow}>
         <h5 className={`${typographyStyles.desktopHeadline4} ${typographyStyles.textWhite}`}>&nbsp;</h5>
       </div>
 

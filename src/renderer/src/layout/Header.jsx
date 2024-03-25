@@ -17,7 +17,7 @@ function Header ({ showCreateNewApp, onClickCreateNewApp, onClickImportApp }) {
   return (
     <div className={classNameContainer}>
       <div className={classNameHeader}>
-        <div className={`${commonStyles.largeFlexRow} ${commonStyles.itemsCenter}`}>
+        <div className={commonStyles.mediumFlexRow}>
           <MerakiLogo />
           <Navigation />
         </div>

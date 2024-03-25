@@ -82,7 +82,7 @@ function ConfigureService ({ service }) {
 
   return (
     <div className={`${commonStyles.largeFlexBlock} ${commonStyles.fullWidth}`}>
-      <div className={`${commonStyles.mediumFlexRow} ${commonStyles.fullWidth}`}>
+      <div className={`${commonStyles.smallFlexRow} ${commonStyles.fullWidth}`}>
         <Icons.ServiceIcon color={WHITE} size={LARGE} />
         <h3 className={`${typographyStyles.desktopHeadline3} ${typographyStyles.textWhite}`}>{service.name}</h3>
       </div>

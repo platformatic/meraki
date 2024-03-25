@@ -33,7 +33,7 @@
 }
 
 .tableHeaders {
-  @apply grid grid-cols-6 gap-x-4 w-full top-0 bg-rich-black z-10 border-b border-white/30 border-solid;
+  @apply grid grid-cols-6 gap-x-4 w-full top-0 bg-rich-black z-10 border-0;
   position: sticky;
 }
 
@@ -47,4 +47,12 @@
 }
 .thWithIcon {
   @apply flex flex-row items-center gap-x-2
+}
+
+div[class*="tableRow"] {
+  @apply border-t border-white/30 border-solid;
+}
+
+:nth-child(1 of div[class*="tableRow"]) {
+  @apply border-0 !important;
 }

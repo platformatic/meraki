@@ -53,7 +53,7 @@ const AddTemplate = React.forwardRef(({ onClickAddTemplate }, ref) => {
           size: SMALL,
           tip: ''
         }}
-        containerClassName={`${commonStyles.smallFlexRow} ${commonStyles.justifyCenter}`}
+        containerClassName={`${commonStyles.tinyFlexRow} ${commonStyles.justifyCenter}`}
       />
     </div>
   )

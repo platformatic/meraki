@@ -39,7 +39,7 @@ const ComposeApplication = React.forwardRef(({ createMode, onNext, onBack }, ref
   const normalViewRef = useRef(null)
   const gridViewRef = useRef(null)
   const [currentView, setCurrentView] = useState(NORMAL_VIEW)
-  const [currentComponentClassName, setCurrentComponentClassName] = useState(`${commonStyles.mediumFlexRow} ${commonStyles.itemsStretch}`)
+  const [currentComponentClassName, setCurrentComponentClassName] = useState(`${commonStyles.smallFlexRow} ${commonStyles.itemsStretch}`)
   const [currentComponent, setCurrentComponent] = useState(
     <NormalView
       onClickEditNameService={(service) => handleOpenModalEditService(service)}
@@ -52,7 +52,7 @@ const ComposeApplication = React.forwardRef(({ createMode, onNext, onBack }, ref
   )
 
   useEffect(() => {
-    setCurrentComponentClassName(services.length > 3 ? `${commonStyles.mediumFlexRow} ${commonStyles.itemsEnd}` : `${commonStyles.mediumFlexRow} ${commonStyles.itemsStretch}`)
+    setCurrentComponentClassName(services.length > 3 ? `${commonStyles.smallFlexRow} ${commonStyles.itemsEnd}` : `${commonStyles.smallFlexRow} ${commonStyles.itemsStretch}`)
     setCurrentComponent(
       services.length > 3
         ? <GridView
@@ -169,13 +169,13 @@ const ComposeApplication = React.forwardRef(({ createMode, onNext, onBack }, ref
             />
             <p className={`${typographyStyles.desktopBodyLarge} ${typographyStyles.textWhite} ${typographyStyles.opacity70}`}>Select a template and plugins for your service from our Stackables Marketplace. <br />Once you have chosen a template you can add another Service.</p>
           </div>
-          <div className={`${commonStyles.mediumFlexRow} ${commonStyles.fullWidth} ${commonStyles.justifyBetween} ${commonStyles.itemsCenter}`}>
+          <div className={`${commonStyles.smallFlexRow} ${commonStyles.fullWidth} ${commonStyles.justifyBetween} ${commonStyles.itemsCenter}`}>
             <div className={`${commonStyles.flexBlockNoGap}`}>
               <div className={`${commonStyles.largeFlexBlock}`}>
                 <div className={currentComponentClassName}>
                   {currentComponent}
                   <div className={`${commonStyles.mediumFlexBlock} ${commonStyles.fullWidth} ${styles.containerPuzzle}`}>
-                    <div className={commonStyles.mediumFlexRow}>
+                    <div className={commonStyles.smallFlexRow}>
                       <h5 className={`${typographyStyles.desktopHeadline4} ${typographyStyles.textWhite}`}>&nbsp;</h5>
                     </div>
                     <AddService

@@ -59,7 +59,7 @@ function AddService ({ onClick, enabled }) {
         <SmallTitle
           title='Add Service'
           titleClassName={titleClassName}
-          containerClassName={`${commonStyles.smallFlexRow} ${typographyStyles.textCenter}`}
+          containerClassName={`${commonStyles.tinyFlexRow} ${typographyStyles.textCenter}`}
           platformaticIcon={{
             iconName: 'CircleAddIcon',
             disabled: !enabled,

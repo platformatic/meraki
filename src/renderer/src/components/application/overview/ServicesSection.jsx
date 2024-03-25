@@ -23,7 +23,7 @@ function ServicesSection ({ applicationSelected, onClickEditApplication }) {
   return (
     <>
       <div className={`${commonStyles.mediumFlexBlock} ${commonStyles.fullWidth}`}>
-        <div className={`${commonStyles.mediumFlexRow} ${commonStyles.fullWidth}`}>
+        <div className={`${commonStyles.smallFlexRow} ${commonStyles.fullWidth}`}>
           <Icons.AppDetailsIcon
             color={WHITE}
             size={MEDIUM}
@@ -31,7 +31,7 @@ function ServicesSection ({ applicationSelected, onClickEditApplication }) {
           <h3 className={`${typographyStyles.desktopHeadline3} ${typographyStyles.textWhite}`}>Services</h3>
         </div>
 
-        <div className={`${commonStyles.mediumFlexRow} ${commonStyles.fullWidth} ${commonStyles.itemsCenter} ${commonStyles.justifyBetween} `}>
+        <div className={`${commonStyles.smallFlexRow} ${commonStyles.fullWidth} ${commonStyles.itemsCenter} ${commonStyles.justifyBetween} `}>
           <span className={`${typographyStyles.desktopBody} ${typographyStyles.textWhite} ${typographyStyles.opacity70}`}>This is how your application is structured. You can edit it anytime:</span>
 
           <div className={`${styles.buttonContainer}`}>

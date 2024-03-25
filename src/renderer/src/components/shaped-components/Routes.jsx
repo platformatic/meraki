@@ -18,7 +18,7 @@ const Routes = React.forwardRef(({ _object }, ref) => {
         <SmallTitle
           title='routes'
           titleClassName={`${typographyStyles.desktopBodyLarge} ${typographyStyles.textWhite} ${typographyStyles.opacity70}`}
-          containerClassName={`${commonStyles.smallFlexRow} ${typographyStyles.textCenter}`}
+          containerClassName={`${commonStyles.tinyFlexRow} ${typographyStyles.textCenter}`}
           platformaticIcon={{
             iconName: 'FoldersIcon',
             disabled: false,

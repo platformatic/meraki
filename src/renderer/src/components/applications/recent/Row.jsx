@@ -122,7 +122,7 @@ function Row ({
   }
 
   return (
-    <div className={`${styles.tableRow} ${styles.trBordered}`}>
+    <div className={styles.tableRow}>
       <div className={styles.tableSmall}>
         <div className={styles.tableCell}>
           <span className={`${typographyStyles.desktopBodySemibold} ${typographyStyles.textWhite} ${styles.ellipsis}`} title={name}>Name</span>

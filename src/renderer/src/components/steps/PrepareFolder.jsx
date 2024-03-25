@@ -91,7 +91,7 @@ const PrepareFolder = React.forwardRef(({ onNext, onBack }, ref) => {
               We are preparing your folder.<br /> Once all the steps are done you will be able to configure your services.
             </p>
           </div>
-          <div className={`${commonStyles.smallFlexRow} ${commonStyles.fullWidth} ${commonStyles.justifyEnd}`}>
+          <div className={`${commonStyles.tinyFlexRow} ${commonStyles.fullWidth} ${commonStyles.justifyEnd}`}>
             <Button
               disabled={!folderPrepared}
               label='Copy Logs'
@@ -113,7 +113,7 @@ const PrepareFolder = React.forwardRef(({ onNext, onBack }, ref) => {
         </div>
       </div>
       <div className={`${styles.buttonContainer} ${commonStyles.fullWidth}`}>
-        <div className={`${commonStyles.smallFlexRow}`}>
+        <div className={`${commonStyles.tinyFlexRow}`}>
           <Button
             disabled={!folderPrepared}
             label='Back'
