@@ -6,6 +6,13 @@ const { spawnSync } = require('child_process')
 // because we want to use the DigiCert signing tool to sign the executable.
 // See also: https://docs.digicert.com/en/digicert-keylocker/sign-with-digicert-signing-tools/sign-with-smctl.html
 exports.default = async function (configuration) {
+  const applySign = process.env.APPLY_WIN_SIGN === 'true'
+
+  if (!applySign) {
+    console.log('@@@@@@@@@@@@@@@@@@@@@@ APPLY_WIN_SIGN not set to true, skipping signing in windows')
+    return
+  }
+
   console.log('Signing: ', configuration.path)
   const execPath = configuration.path
 
