@@ -148,6 +148,10 @@ const LineChart = ({
       }
 
       for (let i = 0; i < numberOfLines; i++) {
+        if (xPos < xMargin) {
+          tooltipDots[i].style('opacity', 0)
+          continue
+        }
         tooltipDots[i]
           .style('opacity', 1)
           .attr('cx', xPos)
@@ -182,7 +186,11 @@ const LineChart = ({
 
       const maxY = y(d3.max(data.values))
       tooltip.style('left', xPos + 'px').style('top', maxY - (valuesData.length * 15) - 60 + 'px')
-      tooltip.style('opacity', 0.9)
+      if (xPos < xMargin) {
+        tooltip.style('opacity', 0)
+      } else {
+        tooltip.style('opacity', 0.9)
+      }
     }
 
     function hideCircles () {
