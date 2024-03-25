@@ -1,4 +1,4 @@
-import { test, expect, beforeAll, onTestFinished } from 'vitest'
+import { test, expect, beforeAll, afterAll, onTestFinished } from 'vitest'
 import { tmpdir } from 'node:os'
 import { mkdtemp, cp, rm, access } from 'node:fs/promises'
 import { resolve, join } from 'node:path'
@@ -31,8 +31,13 @@ beforeAll(async () => {
   } catch (err) {}
 })
 
+afterAll(async () => {
+  await rm(platformaticTestDir, { recursive: true })
+})
+
 test('start one runtime and stream metrics', async (t) => {
   const appDir = await mkdtemp(join(tmpdir(), 'plat-app-test'))
+  onTestFinished(() => rm(appDir, { recursive: true, force: true }))
   const appFixture = join('test', 'fixtures', 'runtime')
   await cp(appFixture, appDir, { recursive: true })
 

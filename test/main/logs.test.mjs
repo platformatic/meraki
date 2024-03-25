@@ -34,6 +34,7 @@ beforeAll(async () => {
 
 test('start one runtime and stream logs', async (t) => {
   const appDir = await mkdtemp(join(tmpdir(), 'plat-app-test'))
+  onTestFinished(() => rm(appDir, { recursive: true }))
   const appFixture = join('test', 'fixtures', 'runtime')
   await cp(appFixture, appDir, { recursive: true })
 
@@ -82,6 +83,7 @@ test('start one runtime and stream logs', async (t) => {
 
 test('all logs', async (t) => {
   const appDir = await mkdtemp(join(tmpdir(), 'plat-app-test'))
+  onTestFinished(() => rm(appDir, { recursive: true }))
   const appFixture = join('test', 'fixtures', 'runtime')
   await cp(appFixture, appDir, { recursive: true })
 
@@ -115,6 +117,7 @@ test('all logs', async (t) => {
 
 test('previous logs', async (t) => {
   const appDir = await mkdtemp(join(tmpdir(), 'plat-app-test'))
+  onTestFinished(() => rm(appDir, { recursive: true }))
   const appFixture = join('test', 'fixtures', 'runtime')
   await cp(appFixture, appDir, { recursive: true })
 

@@ -68,6 +68,7 @@ test('get empty list of runtimes', async () => {
 
 test('start one runtime, see it in list and stop it', async (t) => {
   const appDir = await mkdtemp(join(tmpdir(), 'plat-app-test'))
+  onTestFinished(() => rm(appDir, { recursive: true, force: true }))
   const appFixture = join('test', 'fixtures', 'runtime')
   await cp(appFixture, appDir, { recursive: true })
   mockAgent
@@ -160,6 +161,7 @@ test('start one runtime, see it in list and stop it', async (t) => {
 
 test('throws an error if application doesn\'t start', async (t) => {
   const appDir = await mkdtemp(join(tmpdir(), 'plat-app-test'))
+  onTestFinished(() => rm(appDir, { recursive: true, force: true }))
   const appFixture = join('test', 'fixtures', 'runtime')
   await cp(appFixture, appDir, { recursive: true })
   mockAgent
@@ -187,6 +189,7 @@ test('throws an error if application doesn\'t start', async (t) => {
 
 test('import automatically a running runtime, started externally', async (t) => {
   const appDir = await mkdtemp(join(tmpdir(), 'plat-app-test'))
+  onTestFinished(() => rm(appDir, { recursive: true, force: true }))
   const appFixture = join('test', 'fixtures', 'runtime')
   await cp(appFixture, appDir, { recursive: true })
   mockAgent
@@ -219,6 +222,8 @@ test('import automatically a running runtime, started externally', async (t) => 
 
 test('open application', async (t) => {
   const appDir = await mkdtemp(join(tmpdir(), 'plat-app-test'))
+  onTestFinished(() => rm(appDir, { recursive: true, force: true }))
+
   const appFixture = join('test', 'fixtures', 'runtime')
   await cp(appFixture, appDir, { recursive: true })
   mockAgent
