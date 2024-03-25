@@ -21,9 +21,11 @@ export const prepareFolder = async (path, tempNames, logger, appName = 'appName'
     logger.error({ path }, `Path ${path} is not a directory`)
     throw new Error(`Path ${path} is not a directory`)
   }
-  const newFolder = join(resolve(path), appName)
+  let newFolder = path
+  if (!newFolder.endsWith(appName)) {
+    newFolder = join(resolve(path), appName)
+  }
   await mkdirp(newFolder)
-
   const templateVariables = {}
   try {
     for (const name of tempNames) {

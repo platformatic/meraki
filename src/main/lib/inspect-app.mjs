@@ -3,11 +3,12 @@ import { constantCase } from 'change-case-all'
 import { readFile } from 'node:fs/promises'
 import { getPlugins as getMarketPlugins, getTemplates as getMarketTemplates } from '../client.mjs'
 import logger from 'electron-log'
+import { join } from 'node:path'
 
 // We need to get the service config from the service path
 // because we don't want the envs to be resolved
 const loadServiceConfig = async (servicePath) => {
-  const configPath = `${servicePath}/platformatic.json`
+  const configPath = join(servicePath, 'platformatic.json')
   const serviceConfig = await readFile(configPath, 'utf8')
   return JSON.parse(serviceConfig)
 }
@@ -56,7 +57,7 @@ const inspectApp = async (path) => {
     logger
   })
 
-  const configPath = `${path}/platformatic.json`
+  const configPath = join(path, 'platformatic.json')
   const loaded = await loadConfig({}, ['-c', configPath], platformaticRuntime)
 
   const config = loaded.configManager.current
