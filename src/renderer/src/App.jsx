@@ -101,6 +101,7 @@ function App ({ path }) {
   function handleCreateApplication () {
     setShowModalCreateApplication(false)
     // setCurrentBodyComponent(<HomeContainer />)
+    setUseTemplateId(null)
     setShowCreateNewAppHeader(true)
     setReloadApplications(true)
     setShowWelcomePage(false)

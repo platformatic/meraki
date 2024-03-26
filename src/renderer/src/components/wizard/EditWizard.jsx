@@ -109,19 +109,18 @@ function EditWizard ({
     setCurrentComponent(components.find(component => component.key === currentStep))
   }, [currentStep])
 
-
-  async function prepareWizard() {
+  async function prepareWizard () {
     const { formData, services } = prepareStoreForEditApplication(applicationSelected)
-    
+
     if (useTemplateIdOnEdit !== null) {
       const templates = await getApiTemplates()
       const templateFound = templates.find(template => template.id === useTemplateIdOnEdit)
       const serviceName = await window.api.getServiceName()
-      services.push( {
+      services.push({
         name: serviceName,
         newService: true,
         renameDisabled: false,
-        template: {...templateFound},
+        template: { ...templateFound },
         plugins: []
       })
     }

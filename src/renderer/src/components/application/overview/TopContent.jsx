@@ -22,7 +22,7 @@ function TopContent ({
   const { restartAutomaticApplications, setRestartAutomaticApplication, setApplicationsSelected } = globalState
   const applicationSelected = globalState.computed.applicationSelected
   const applicationStatus = globalState.computed.applicationStatus
-  const [form, setForm] = useState({ automaticRestart: restartAutomaticApplications[applicationSelected.id] || false })
+  const [form, setForm] = useState({ automaticRestart: restartAutomaticApplications[applicationSelected?.id] || false })
   const [changingStatus, setChangingStatus] = useState(false)
   const [changingRestartStatus, setChangingRestartStatus] = useState(false)
 
