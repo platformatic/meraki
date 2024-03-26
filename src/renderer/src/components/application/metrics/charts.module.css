@@ -11,7 +11,7 @@
 }
 
 .labels {
-  @apply flex  flex-row justify-end space-x-4; 
+  @apply flex flex-row justify-end space-x-4; 
 }
 
 .labelContainer {
@@ -29,6 +29,10 @@
 .line {
   fill: none;
   stroke-width: 2px;
+}
+
+.verticalSeparator {
+  @apply h-[1.25rem]
 }
 
 .tooltip {
@@ -69,7 +73,7 @@
 }
 
 .P50 {
-  color: #00B3A4;
+  color: #FAE421;
 }
 
 .P90 {
@@ -77,11 +81,11 @@
 }
 
 .P95 {
-  color: #C61BE2;
+  color: #FA6221;
 }
 
 .P99 {
-  color: #FA6221;
+  color: #C61BE2;
 }
 
 .grid {

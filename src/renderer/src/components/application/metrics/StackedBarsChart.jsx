@@ -3,6 +3,8 @@ import typographyStyles from '~/styles/Typography.module.css'
 import styles from './charts.module.css'
 import * as d3 from 'd3'
 import { xMargin, yMargin, windowInMinutes } from './chart_constants.js'
+import { OPACITY_30, WHITE } from '@platformatic/ui-components/src/components/constants.js'
+import { VerticalSeparator } from '@platformatic/ui-components'
 
 const StackedBarsChart = ({
   data,
@@ -14,10 +16,10 @@ const StackedBarsChart = ({
   const miny = 0
   const lowermaxy = 10 // y max is dynamic, but we migth want to have a max lower bound. Set to 0 for completely dynamic y max
   const percentiles = {
-    P99: '#FA6221',
-    P95: '#C61BE2',
+    P99: '#C61BE2',
+    P95: '#FA6221',
     P90: '#2192FA',
-    P50: '#00B3A4'
+    P50: '#FAE421'
   }
 
   // The setter is missing on purpose. We don't want to trigger a rerender when the mouse position changes
@@ -197,9 +199,9 @@ const StackedBarsChart = ({
         labels.map((label, i) => {
           return (
             <div key={`label-${i}`} className={styles.labelContainer}>
-              <div className={styles.label}> {label} </div>
+              <div className={styles.label} style={{ color: percentiles[label] }}> {label} </div>
               <div className={`${styles.legendLine} ${styles[`${label}`]}`} />
-              <div>{i !== labels.length - 1 ? '|' : ''}</div>
+              <div>{i !== labels.length - 1 ? <VerticalSeparator color={WHITE} backgroundColorOpacity={OPACITY_30} classes={styles.verticalSeparator} /> : ''}</div>
             </div>
           )
         })
@@ -213,7 +215,7 @@ const StackedBarsChart = ({
     <div className={styles.container}>
       <div className={styles.header}>
         <div className={styles.title}>
-          <span className={typographyStyles.desktopHeadline3}>{title}</span> ({unit})
+          <span className={typographyStyles.desktopHeadline3}>{title}</span> <span className={`${typographyStyles.desktopBodySmall} ${typographyStyles.opacity70}`}>({unit})</span>
         </div>
         <div className={styles.labels}>
           {

@@ -5,6 +5,8 @@ import * as d3 from 'd3'
 import colorSet0 from './colorset0.module.css'
 import colorSet1 from './colorset1.module.css'
 import { xMargin, yMargin, windowInMinutes } from './chart_constants.js'
+import { VerticalSeparator } from '@platformatic/ui-components'
+import { OPACITY_30, WHITE } from '@platformatic/ui-components/src/components/constants.js'
 
 const LineChart = ({
   data,
@@ -208,9 +210,9 @@ const LineChart = ({
         labels.map((label, i) => {
           return (
             <div key={`label-${i}`} className={styles.labelContainer}>
-              <div className={styles.label}> {label} </div>
+              <div className={`${styles.label} ${typographyStyles.desktopBodySmall}`}> {label} </div>
               <div className={`${styles.legendLine} ${colorStyles[`color-${i}`]}`} />
-              <div>{i !== labels.length - 1 ? '|' : ''}</div>
+              <div>{i !== labels.length - 1 ? <VerticalSeparator color={WHITE} backgroundColorOpacity={OPACITY_30} classes={styles.verticalSeparator} /> : ''}</div>
             </div>
           )
         })
@@ -223,7 +225,7 @@ const LineChart = ({
     <div className={styles.container}>
       <div className={styles.header}>
         <div className={styles.title}>
-          <span className={typographyStyles.desktopHeadline3}>{title}</span> ({unit})
+          <span className={typographyStyles.desktopHeadline3}>{title}</span> <span className={`${typographyStyles.desktopBodySmall} ${typographyStyles.opacity70}`}>({unit})</span>
         </div>
         <div className={styles.labels}>
           {
