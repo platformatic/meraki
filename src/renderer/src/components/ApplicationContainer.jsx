@@ -22,7 +22,7 @@ import EnvironmentVariables from '~/components/application/environment-variables
 import EditApplicationFlow from '~/components/application/edit/EditApplicationFlow'
 import SideBar from '~/components/ui/SideBar'
 import { useParams } from 'react-router-dom'
-import { callOpenApplication, callStartApplication, callStopApplication } from '~/api'
+import { callOpenApplication, callStartApplication, callStopApplication, onReceivedTemplateId, onStopReceivingTemplateId } from '~/api'
 import { LoadingSpinnerV2 } from '@platformatic/ui-components'
 import useStackablesStore from '~/useStackablesStore'
 
@@ -34,7 +34,9 @@ function ApplicationContainer () {
     resetWizardState,
     restartAutomaticApplications,
     setApplicationsSelected,
-    setApplicationSelectedId
+    setApplicationSelectedId,
+    useTemplateIdOnEdit,
+    setUseTemplateIdOnEdit
   } = globalState
 
   const { appId } = useParams()
@@ -53,8 +55,24 @@ function ApplicationContainer () {
   const [showModalEditApplicationFlow, setShowModalEditApplicationFlow] = useState(false)
 
   useEffect(() => {
-    return () => setApplicationSelectedId(null)
+    const handlingFunction = (_, templateIdReceived) => {
+      if (templateIdReceived && useTemplateIdOnEdit === null) {
+        setUseTemplateIdOnEdit(templateIdReceived)
+      }
+    }
+    onReceivedTemplateId(handlingFunction)
+    return () => {
+      onStopReceivingTemplateId(handlingFunction)
+      setUseTemplateIdOnEdit(null)
+      setApplicationSelectedId(null)
+    }
   }, [])
+
+  useEffect(() => {
+    if (useTemplateIdOnEdit) {
+      setShowModalEditApplicationFlow(true)
+    }
+  }, [useTemplateIdOnEdit])
 
   useEffect(() => {
     if (appId && reloadApplication) {
@@ -130,11 +148,13 @@ function ApplicationContainer () {
 
   function handleCloseEditApplicationFlow () {
     setShowModalEditApplicationFlow(false)
+    setUseTemplateIdOnEdit(null)
     resetWizardState()
   }
 
   async function handleSuccessfulEditApplicationFlow () {
     setShowModalEditApplicationFlow(false)
+    setUseTemplateIdOnEdit(null)
     resetWizardState()
     setApplicationSelectedId(null)
     setComponents([])
