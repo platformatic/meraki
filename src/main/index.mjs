@@ -12,6 +12,7 @@ import { getAppPath } from './lib/utils.mjs'
 import Applications from './lib/applications.mjs'
 import Logs from './lib/logs.mjs'
 import Metrics from './lib/metrics.mjs'
+import { sendTemplateId } from './template-id.mjs'
 
 log.initialize()
 
@@ -106,6 +107,12 @@ if (!gotTheLock) {
     log.info(`Received second-instance. Opening meraki for: ${passedUrl}`)
     templateId = getTemplateId(passedUrl)
     log.info('Received templateId:', templateId)
+    if (templateId !== undefined) {
+      log.info('send templateId:', templateId)
+
+      sendTemplateId(templateId)
+    }
+
     if (mainWindow) {
       if (mainWindow.isMinimized()) mainWindow.restore()
       mainWindow.focus()
@@ -147,6 +154,10 @@ function createWindow () {
       log.info(`Received args. Opening meraki for: ${passedUrl}`)
       templateId = getTemplateId(passedUrl)
       log.info('Received templateId:' + templateId)
+      if (templateId !== undefined) {
+        log.info('send templateId:', templateId)
+        sendTemplateId(templateId)
+      }
     }
   }
 
@@ -327,10 +338,14 @@ app.on('open-url', (event, url) => {
   log.info('Received open url event for url:' + url)
   templateId = getTemplateId(url)
   log.info('Loaded templateId:', templateId)
+  if (templateId !== undefined) {
+    log.info('send templateId:', templateId)
+    sendTemplateId(templateId)
+  }
 
   if (mainWindow) {
-    log.info('Loading on mainWindow:' + getCurrentURL())
-    mainWindow.loadURL(getCurrentURL())
+    // log.info('Loading on mainWindow:' + getCurrentURL())
+    // mainWindow.loadURL(getCurrentURL())
   } else if (app.isReady()) {
     log.info('Creating a new mainWindow:' + getCurrentURL())
     // In OSx the app can be running with no windows (because closed)

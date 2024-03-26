@@ -84,3 +84,5 @@ export const getAppMetrics = (id, callback) => window.api.onAppMetrics(callback)
 export const callApiStopMetrics = async () => {
   return await window.api.stopMetrics()
 }
+
+export const onReceivedTemplateId = (callback) => window.api.receivedTemplateID(callback)

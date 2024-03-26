@@ -14,14 +14,12 @@ import { RUNNING, SUCCESS, ERROR } from '~/ui-constants'
 
 const CreateApplication = React.forwardRef(({ onNext }, ref) => {
   const globalState = useStackablesStore()
-  const { addFormData, addService, formData } = globalState
+  const { addFormData, addService, formData, useTemplateId } = globalState
   const [form, setForm] = useState({ application: '', folder: '' })
   const [validations, setValidations] = useState({ applicationValid: false, folderValid: false, formErrors: { application: '', folder: '' } })
   const [validForm, setValidForm] = useState(false)
   const [callAddService, setCallAddService] = useState(true)
   const mockUse = import.meta.env.RENDERER_VITE_USE_MOCKS === 'true'
-  const searchParams = new URLSearchParams(document.location.search)
-  const [useTemplateId] = useState(searchParams.get('templateId'))
   const [useTemplate, setUseTemplate] = useState(undefined)
   const [statusLoadingTemplate, setStatusLoadingTemplate] = useState(RUNNING)
 
