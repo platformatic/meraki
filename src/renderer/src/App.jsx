@@ -50,8 +50,8 @@ function App ({ path }) {
         try {
           setApplications([])
           const allApplications = await getApiApplications()
-          if (allApplications.length > 0) {
-            setApplications(allApplications)
+          setApplications(allApplications)
+          if (allApplications.length > 0 && allApplications.find(application => application.automaticallyImported) === undefined) {
             setShowWelcomePage(false)
           } else {
             setShowWelcomePage(true)
@@ -84,6 +84,7 @@ function App ({ path }) {
           key={PAGE_WELCOME}
           onClickImportApp={() => setShowModalImportApplication(true)}
           onClickCreateNewApp={() => setShowModalCreateApplication(true)}
+          onClickGoToApp={() => setShowWelcomePage(false)}
         />
       )
       setShowCreateNewAppHeader(false)

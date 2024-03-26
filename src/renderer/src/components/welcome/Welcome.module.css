@@ -25,3 +25,11 @@
 .paddingTop {
   @apply pt-20
 }
+
+.applicationName {
+  @apply max-w-[90%]
+}
+
+.paddingBottom {
+  @apply pb-2
+}
