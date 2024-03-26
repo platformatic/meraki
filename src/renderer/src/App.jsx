@@ -13,7 +13,7 @@ import { HOME_PATH, APPLICATION_PATH, PAGE_WELCOME } from '~/ui-constants'
 import ImportApplicationFlow from '~/components/application/import/ImportApplicationFlow'
 import CreateApplicationFlow from '~/components/application/create/CreateApplicationFlow'
 import Welcome from '~/components/welcome/Welcome'
-import { getApiApplications, onReceivedTemplateId } from '~/api'
+import { getApiApplications } from '~/api'
 import { isDevMode } from '~/utils'
 import useStackablesStore from '~/useStackablesStore'
 
@@ -24,7 +24,6 @@ function App ({ path }) {
     setApplications,
     setReloadApplications,
     resetWizardState,
-    useTemplateId,
     setUseTemplateId
   } = globalState
   const [currentBodyComponent, setCurrentBodyComponent] = useState(null)
@@ -33,16 +32,6 @@ function App ({ path }) {
   const [showModalCreateApplication, setShowModalCreateApplication] = useState(false)
   const featureFlag = isDevMode()
   const [showErrorComponent, setShowErrorComponent] = useState(false)
-
-  useEffect(() => {
-    onReceivedTemplateId((_, templateIdReceived) => {
-      if (templateIdReceived && useTemplateId === null) {
-        setUseTemplateId(templateIdReceived)
-      }
-    })
-
-    return () => setUseTemplateId(null)
-  }, [])
 
   const {
     ErrorBoundary,
@@ -85,7 +74,7 @@ function App ({ path }) {
           setShowCreateNewAppHeader(false)
           break
         default:
-          setCurrentBodyComponent(<HomeContainer />)
+          setCurrentBodyComponent(<HomeContainer onUseTemplateId={() => setShowModalCreateApplication(true)} />)
           setShowCreateNewAppHeader(true)
           break
       }
@@ -100,12 +89,6 @@ function App ({ path }) {
       setShowCreateNewAppHeader(false)
     }
   }, [showWelcomePage, path])
-
-  useEffect(() => {
-    if (path === HOME_PATH && useTemplateId !== null) {
-      setShowModalCreateApplication(true)
-    }
-  }, [path, useTemplateId])
 
   function handleImportApplication () {
     setShowModalImportApplication(false)
@@ -126,6 +109,7 @@ function App ({ path }) {
 
   function handleCloseModalCreateApplication () {
     setShowModalCreateApplication(false)
+    setUseTemplateId(null)
     resetWizardState()
   }
 

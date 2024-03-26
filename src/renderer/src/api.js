@@ -86,3 +86,4 @@ export const callApiStopMetrics = async () => {
 }
 
 export const onReceivedTemplateId = (callback) => window.api.receivedTemplateID(callback)
+export const onStopReceivingTemplateId = (callback) => window.api.stopReceivingTemplateID(callback)

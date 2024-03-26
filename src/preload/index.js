@@ -55,7 +55,8 @@ if (process.contextIsolated) {
       stopMetrics: () => (ipcRenderer.invoke('stop-metrics')),
 
       // template-id
-      receivedTemplateID: callback => ipcRenderer.on('use-template-id', callback)
+      receivedTemplateID: callback => ipcRenderer.on('use-template-id', callback),
+      stopReceivingTemplateID: callback => ipcRenderer.removeAllListeners('use-template-id', callback)
     })
   } catch (error) {
     console.error(error)
