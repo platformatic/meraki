@@ -1,13 +1,9 @@
 .container {
-  @apply grow relative;
+  @apply grow relative ;
 }
 .content {
-  @apply pt-10 px-6 flex flex-col gap-y-10;
-  outline: 1px solid yello
+  @apply pt-10 px-6 flex flex-col gap-y-10 h-full min-h-[calc(100vH-8rem)] max-h-[calc(100vH-8rem)] overflow-y-auto;
 }
 .boxMetricContainer {
   @apply w-full;
-}
-.metricsContainer {
-  @apply h-full min-h-[calc(100vH-17rem)] max-h-[calc(100vH-17rem)] overflow-y-auto;
 }

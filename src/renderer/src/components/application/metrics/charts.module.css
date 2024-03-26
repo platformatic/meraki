@@ -11,7 +11,7 @@
 }
 
 .labels {
-  @apply flex  flex-row justify-end space-x-4; 
+  @apply flex flex-row justify-end space-x-4; 
 }
 
 .labelContainer {
@@ -29,6 +29,10 @@
 .line {
   fill: none;
   stroke-width: 2px;
+}
+
+.verticalSeparator {
+  @apply h-[1.25rem]
 }
 
 .tooltip {

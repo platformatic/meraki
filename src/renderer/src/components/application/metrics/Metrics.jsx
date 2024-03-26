@@ -93,7 +93,7 @@ const Metrics = React.forwardRef(({ _props }, ref) => {
   return (
     <div className={styles.container} ref={ref}>
       <div className={styles.content}>
-        <div className={`${commonStyles.largeFlexBlock40} ${commonStyles.fullWidth}`}>
+        <div className={`${commonStyles.mediumFlexBlock24} ${commonStyles.fullWidth}`}>
           <div className={commonStyles.mediumFlexBlock}>
             <div className={`${commonStyles.smallFlexRow} ${commonStyles.fullWidth} ${commonStyles.itemsCenter}`}>
               <Icons.MetricsIcon color={WHITE} size={MEDIUM} />
@@ -103,7 +103,7 @@ const Metrics = React.forwardRef(({ _props }, ref) => {
             </div>
           </div>
 
-          <div className={`${commonStyles.mediumFlexBlock} ${commonStyles.fullWidth} ${styles.metricsContainer}`}>
+          <div className={`${commonStyles.mediumFlexBlock} ${commonStyles.fullWidth}`}>
             <BorderedBox color={WHITE} borderColorOpacity={OPACITY_30} backgroundColor={TRANSPARENT} classes={styles.boxMetricContainer}>
               <LineChart
                 data={memory}
