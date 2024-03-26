@@ -32,7 +32,6 @@ function App ({ path }) {
   const [showModalCreateApplication, setShowModalCreateApplication] = useState(false)
   const featureFlag = isDevMode()
   const [showErrorComponent, setShowErrorComponent] = useState(false)
-
   const {
     ErrorBoundary,
     error
