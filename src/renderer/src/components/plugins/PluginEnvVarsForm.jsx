@@ -47,7 +47,7 @@ function PluginEnvVarsForm ({
 
   function renderVariablesText () {
     if (Object.keys(pluginFound.form).length === 0) {
-      return (<><br/><br/><span className={`${typographyStyles.desktopBody} ${typographyStyles.textWhite} ${typographyStyles.opacity70}`}>This plugin has no configurable variables. </span></>)
+      return (<><br /><br /><span className={`${typographyStyles.desktopBody} ${typographyStyles.textWhite} ${typographyStyles.opacity70}`}>This plugin has no configurable variables. </span></>)
     }
     return <span>Variables</span>
   }
