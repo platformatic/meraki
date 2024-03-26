@@ -34,15 +34,17 @@ function ErrorComponent ({ error, message, onClickDismiss }) {
 
   return (
     <div className={styles.container}>
-      <div className={`${commonStyles.mediumFlexBlock} ${commonStyles.fullWidth} ${commonStyles.itemsCenter}`}>
-        <Icons.AlertIcon size={LARGE} color={ERROR_RED} />
-        <div className={`${commonStyles.smallFlexBlock} ${commonStyles.fullWidth} ${commonStyles.justifyCenter}`}>
-          <p className={`${typographyStyles.desktopBodyLarge} ${typographyStyles.textWhite} ${typographyStyles.textCenter} ${commonStyles.fullWidth}`}>
-            Something went wrong!
-          </p>
-          <p className={`${typographyStyles.desktopBody} ${typographyStyles.textWhite} ${typographyStyles.opacity70} ${typographyStyles.textCenter} ${commonStyles.fullWidth}`}>
-            Please check your logs below.
-          </p>
+      <div className={`${commonStyles.largeFlexBlock40} ${commonStyles.fullWidth} ${commonStyles.itemsCenter}`}>
+        <div className={`${commonStyles.mediumFlexBlock} ${commonStyles.fullWidth} ${commonStyles.itemsCenter}`}>
+          <Icons.AlertIcon size={LARGE} color={ERROR_RED} />
+          <div className={`${commonStyles.smallFlexBlock} ${commonStyles.fullWidth} ${commonStyles.justifyCenter}`}>
+            <p className={`${typographyStyles.desktopBodyLarge} ${typographyStyles.textWhite} ${typographyStyles.textCenter} ${commonStyles.fullWidth}`}>
+              Something went wrong!
+            </p>
+            <p className={`${typographyStyles.desktopBody} ${typographyStyles.textWhite} ${typographyStyles.opacity70} ${typographyStyles.textCenter} ${commonStyles.fullWidth}`}>
+              Please check your logs below.
+            </p>
+          </div>
         </div>
         <div className={`${styles.buttonContainer} ${commonStyles.fullWidth}`}>
           <Button

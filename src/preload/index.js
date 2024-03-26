@@ -52,7 +52,11 @@ if (process.contextIsolated) {
       // metrics
       startMetrics: (id) => (ipcRenderer.invoke('start-metrics', id)),
       onAppMetrics: (id, callback) => (ipcRenderer.on('app-metrics', id, callback)),
-      stopMetrics: () => (ipcRenderer.invoke('stop-metrics'))
+      stopMetrics: () => (ipcRenderer.invoke('stop-metrics')),
+
+      // template-id
+      receivedTemplateID: callback => ipcRenderer.on('use-template-id', callback),
+      stopReceivingTemplateID: callback => ipcRenderer.removeAllListeners('use-template-id', callback)
     })
   } catch (error) {
     console.error(error)

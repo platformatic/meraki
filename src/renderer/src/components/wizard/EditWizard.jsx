@@ -25,13 +25,14 @@ import useStackablesStore from '~/useStackablesStore'
 import { LoadingSpinnerV2 } from '@platformatic/ui-components'
 import typographyStyles from '~/styles/Typography.module.css'
 import commonStyles from '~/styles/CommonStyles.module.css'
+import { getApiTemplates } from '~/api'
 
 function EditWizard ({
   onClickGoToApps,
   applicationSelected
 }) {
   const globalState = useStackablesStore()
-  const { formData, initializeWizardState } = globalState
+  const { formData, initializeWizardState, useTemplateIdOnEdit } = globalState
   const NEXT = 'next'; const BACK = 'back'
   const startingStep = STEP_ADD_TEMPLATE_AND_PLUGINS
   const [cssClassNames, setCssClassNames] = useState(NEXT)
@@ -76,8 +77,7 @@ function EditWizard ({
 
   useEffect(() => {
     if (applicationSelected) {
-      const { formData, services } = prepareStoreForEditApplication(applicationSelected)
-      initializeWizardState(formData, services)
+      prepareWizard()
     }
   }, [applicationSelected])
 
@@ -108,6 +108,24 @@ function EditWizard ({
   useEffect(() => {
     setCurrentComponent(components.find(component => component.key === currentStep))
   }, [currentStep])
+
+  async function prepareWizard () {
+    const { formData, services } = prepareStoreForEditApplication(applicationSelected)
+
+    if (useTemplateIdOnEdit !== null) {
+      const templates = await getApiTemplates()
+      const templateFound = templates.find(template => template.id === useTemplateIdOnEdit)
+      const serviceName = await window.api.getServiceName()
+      services.push({
+        name: serviceName,
+        newService: true,
+        renameDisabled: false,
+        template: { ...templateFound },
+        plugins: []
+      })
+    }
+    initializeWizardState(formData, services)
+  }
 
   function renderComponent () {
     if (innerLoading) {

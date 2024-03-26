@@ -19,7 +19,13 @@ import useStackablesStore from '~/useStackablesStore'
 
 function App ({ path }) {
   const globalState = useStackablesStore()
-  const { reloadApplications, setApplications, setReloadApplications, resetWizardState } = globalState
+  const {
+    reloadApplications,
+    setApplications,
+    setReloadApplications,
+    resetWizardState,
+    setUseTemplateId
+  } = globalState
   const [currentBodyComponent, setCurrentBodyComponent] = useState(null)
   const [showCreateNewAppHeader, setShowCreateNewAppHeader] = useState(true)
   const [showModalImportApplication, setShowModalImportApplication] = useState(false)
@@ -68,7 +74,7 @@ function App ({ path }) {
           setShowCreateNewAppHeader(false)
           break
         default:
-          setCurrentBodyComponent(<HomeContainer />)
+          setCurrentBodyComponent(<HomeContainer onUseTemplateId={() => setShowModalCreateApplication(true)} />)
           setShowCreateNewAppHeader(true)
           break
       }
@@ -95,6 +101,7 @@ function App ({ path }) {
   function handleCreateApplication () {
     setShowModalCreateApplication(false)
     // setCurrentBodyComponent(<HomeContainer />)
+    setUseTemplateId(null)
     setShowCreateNewAppHeader(true)
     setReloadApplications(true)
     setShowWelcomePage(false)
@@ -103,6 +110,7 @@ function App ({ path }) {
 
   function handleCloseModalCreateApplication () {
     setShowModalCreateApplication(false)
+    setUseTemplateId(null)
     resetWizardState()
   }
 

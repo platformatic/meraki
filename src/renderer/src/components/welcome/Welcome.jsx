@@ -1,5 +1,5 @@
 'use strict'
-import React from 'react'
+import React, { useEffect } from 'react'
 import PropTypes from 'prop-types'
 import typographyStyles from '~/styles/Typography.module.css'
 import commonStyles from '~/styles/CommonStyles.module.css'
@@ -7,8 +7,36 @@ import styles from './Welcome.module.css'
 import '~/components/component.animation.css'
 import { Button, HorizontalSeparator } from '@platformatic/ui-components'
 import { ANTI_FLASH_WHITE, DULLS_BACKGROUND_COLOR, MARGIN_0, OPACITY_30, RICH_BLACK, SMALL, WHITE } from '@platformatic/ui-components/src/components/constants'
+import { onReceivedTemplateId, onStopReceivingTemplateId } from '~/api'
+import useStackablesStore from '~/useStackablesStore'
 
 const Welcome = React.forwardRef(({ onClickImportApp, onClickCreateNewApp }, ref) => {
+  const globalState = useStackablesStore()
+  const {
+    useTemplateId,
+    setUseTemplateId
+  } = globalState
+
+  useEffect(() => {
+    const handlingFunction = (_, templateIdReceived) => {
+      if (templateIdReceived && useTemplateId === null) {
+        setUseTemplateId(templateIdReceived)
+      }
+    }
+
+    onReceivedTemplateId(handlingFunction)
+    return () => {
+      onStopReceivingTemplateId(handlingFunction)
+      setUseTemplateId(null)
+    }
+  }, [])
+
+  useEffect(() => {
+    if (useTemplateId) {
+      onClickCreateNewApp()
+    }
+  }, [useTemplateId])
+
   return (
     <>
       <div className={styles.container}>

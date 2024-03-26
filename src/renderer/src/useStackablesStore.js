@@ -9,7 +9,9 @@ const initialState = {
   reloadApplications: true,
   restartAutomaticApplications: {},
   applicationsSelected: {},
-  applicationSelectedId: null
+  applicationSelectedId: null,
+  useTemplateId: null,
+  useTemplateIdOnEdit: null
 }
 
 const useStackablesStore = create((set, get) => ({
@@ -176,6 +178,22 @@ const useStackablesStore = create((set, get) => ({
       return {
         ...state,
         applicationsSelected: { ...state.applicationsSelected, ...newApplication }
+      }
+    })
+  },
+  setUseTemplateId: (templateId) => {
+    set((state) => {
+      return {
+        ...state,
+        useTemplateId: templateId
+      }
+    })
+  },
+  setUseTemplateIdOnEdit: (templateId) => {
+    set((state) => {
+      return {
+        ...state,
+        useTemplateIdOnEdit: templateId
       }
     })
   },

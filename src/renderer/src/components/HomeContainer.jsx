@@ -1,4 +1,5 @@
 'use strict'
+import PropTypes from 'prop-types'
 import { useRef, useState, useEffect } from 'react'
 import {
   // PAGE_WELCOME,
@@ -16,10 +17,11 @@ import RecentApplications from '~/components/applications/recent/RecentApplicati
 import AllApplications from '~/components/applications/all/AllApplications'
 import SideBar from '~/components/ui/SideBar'
 import useStackablesStore from '~/useStackablesStore'
+import { onReceivedTemplateId, onStopReceivingTemplateId } from '~/api'
 
-function HomeContainer () {
+function HomeContainer ({ onUseTemplateId }) {
   const globalState = useStackablesStore()
-  const { currentPage, setCurrentPage } = globalState
+  const { currentPage, setCurrentPage, useTemplateId, setUseTemplateId } = globalState
   const [cssClassNames] = useState('scroll-down')
   // const [currentPage, setCurrentPage] = useState(PAGE_WELCOME)
   const [components] = useState([
@@ -52,6 +54,26 @@ function HomeContainer () {
     }
   }, [currentPage])
 
+  useEffect(() => {
+    const handlingFunction = (_, templateIdReceived) => {
+      if (templateIdReceived && useTemplateId === null) {
+        setUseTemplateId(templateIdReceived)
+      }
+    }
+
+    onReceivedTemplateId(handlingFunction)
+    return () => {
+      onStopReceivingTemplateId(handlingFunction)
+      setUseTemplateId(null)
+    }
+  }, [])
+
+  useEffect(() => {
+    if (useTemplateId) {
+      onUseTemplateId()
+    }
+  }, [useTemplateId])
+
   return (
     <>
       <div className={styles.content}>
@@ -82,6 +104,17 @@ function HomeContainer () {
       </div>
     </>
   )
+}
+
+HomeContainer.propTypes = {
+  /**
+   * onUseTemplateId
+    */
+  onUseTemplateId: PropTypes.func
+}
+
+HomeContainer.defaultProps = {
+  onUseTemplateId: () => {}
 }
 
 export default HomeContainer
