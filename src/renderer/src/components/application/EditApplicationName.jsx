@@ -44,21 +44,27 @@ function EditApplicationName ({ name, onClickCancel, onClickConfirm }) {
   return (
     <form onSubmit={handleSubmit}>
       <div className={`${commonStyles.mediumFlexBlock} ${commonStyles.fullWidth}`}>
-        <Forms.Input
-          placeholder='Enter the name of your application'
-          name='application'
-          borderColor={WHITE}
-          value={form.application}
-          onChange={handleChange}
-          errorMessage={validations.formErrors.application}
-          backgroundColor={RICH_BLACK}
-          inputTextClassName={`${typographyStyles.desktopBody} ${typographyStyles.textWhite}`}
-          verticalPaddingClassName={commonStyles.noVerticalPadding}
-        />
+        <Forms.Field
+          title='Application Name'
+          titleClassName={`${typographyStyles.desktopBodySemibold} ${typographyStyles.textWhite} `}
+        >
+          <Forms.Input
+            placeholder='Enter the name of your application'
+            name='application'
+            borderColor={WHITE}
+            value={form.application}
+            onChange={handleChange}
+            errorMessage={validations.formErrors.application}
+            backgroundColor={RICH_BLACK}
+            inputTextClassName={`${typographyStyles.desktopBody} ${typographyStyles.textWhite}`}
+            verticalPaddingClassName={commonStyles.noVerticalPadding}
+          />
+        </Forms.Field>
         <HorizontalSeparator marginBottom={MARGIN_0} marginTop={MARGIN_0} color={WHITE} opacity={OPACITY_30} />
         <div className={`${commonStyles.smallFlexRow} ${commonStyles.fullWidth} ${commonStyles.justifyBetween}`}>
           <Button
             type='button'
+            textClass={typographyStyles.desktopBody}
             paddingClass={commonStyles.buttonPadding}
             label='Cancel'
             onClick={() => onClickCancel()}
@@ -68,8 +74,9 @@ function EditApplicationName ({ name, onClickCancel, onClickConfirm }) {
           <Button
             disabled={!validForm}
             type='button'
+            textClass={typographyStyles.desktopBody}
             paddingClass={commonStyles.buttonPadding}
-            label='Save Changes'
+            label='Rename Application'
             onClick={(event) => handleSubmit(event)}
             color={RICH_BLACK}
             backgroundColor={WHITE}
