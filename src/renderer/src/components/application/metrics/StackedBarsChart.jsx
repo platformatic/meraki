@@ -176,7 +176,11 @@ const StackedBarsChart = ({
       </div>`)
       const maxY = y(data.P99)
       tooltip.style('left', xPos + 'px').style('top', maxY - (valuesData.length * 15) - 60 + 'px')
-      tooltip.style('opacity', 0.9)
+      if (xPos < xMargin) {
+        tooltip.style('opacity', 0)
+      } else {
+        tooltip.style('opacity', 0.9)
+      }
     }
 
     function hideTooltip () {
