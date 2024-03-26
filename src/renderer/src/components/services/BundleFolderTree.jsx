@@ -1,5 +1,5 @@
 'use strict'
-import React from 'react'
+import React, { useState, useEffect } from 'react'
 import { MEDIUM, SMALL, TRANSPARENT, WHITE } from '@platformatic/ui-components/src/components/constants'
 import Icons from '@platformatic/ui-components/src/components/icons'
 import typographyStyles from '~/styles/Typography.module.css'
@@ -12,10 +12,29 @@ import FoldersLineIcon from '~/components/services/FoldersLineIcon'
 
 const BundleFolderTree = React.forwardRef(({ _ }, ref) => {
   const globalState = useStackablesStore()
+  const [containerClassName, setContainerClassName] = useState('')
   const { formData, services } = globalState
 
+  useEffect(() => {
+    switch (services.length) {
+      case 0:
+        setContainerClassName('')
+        break
+
+      case 1:
+        setContainerClassName(styles.containerNumberServices1)
+        break
+      case 2:
+        setContainerClassName(styles.containerNumberServices2)
+        break
+      default:
+        setContainerClassName(styles.containerNumberServicesOver)
+        break
+    }
+  }, [services.length])
+
   return (
-    <div className={`${commonStyles.smallFlexRow} ${commonStyles.itemsCenter}`} ref={ref}>
+    <div className={`${commonStyles.smallFlexRow} ${commonStyles.itemsCenter} ${containerClassName}`} ref={ref}>
       <ArrowConnector />
       <div className={`${commonStyles.mediumFlexBlock} ${styles.serviceContainer} ${commonStyles.overflowHidden}`}>
         <h5 className={`${typographyStyles.desktopHeadline4} ${typographyStyles.textWhite} ${typographyStyles.ellipsis}`} title={formData.createApplication.application}>{formData.createApplication.application}</h5>
