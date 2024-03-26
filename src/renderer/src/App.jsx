@@ -103,7 +103,7 @@ function App ({ path }) {
 
   useEffect(() => {
     if (path === HOME_PATH && useTemplateId !== null) {
-      setShowModalCreateApplication()
+      setShowModalCreateApplication(true)
     }
   }, [path, useTemplateId])
 
