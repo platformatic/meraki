@@ -13,7 +13,7 @@ function RemoveService ({ name, onClickCancel, onClickConfirm }) {
         <span className={`${typographyStyles.opacity70}`}>You are about to delete </span>{name}
       </p>
       <HorizontalSeparator marginBottom={MARGIN_0} marginTop={MARGIN_0} color={WHITE} opacity={OPACITY_30} />
-      <div className={`${commonStyles.smallFlexRow} ${commonStyles.justifyBetween}`}>
+      <div className={`${commonStyles.smallFlexRow} ${commonStyles.fullWidth} ${commonStyles.justifyBetween}`}>
         <Button
           type='button'
           paddingClass={commonStyles.buttonPadding}

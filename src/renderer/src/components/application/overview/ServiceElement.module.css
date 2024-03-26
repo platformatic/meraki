@@ -2,7 +2,7 @@
   @apply p-4
 }
 .buttonContainer {
-  @apply flex gap-x-2 justify-end items-center;
+  @apply flex gap-x-6 justify-end items-center;
 }
 .servicePlugin {
  @apply flex flex-wrap flex-row gap-x-2 items-center px-4 py-2 w-fit
