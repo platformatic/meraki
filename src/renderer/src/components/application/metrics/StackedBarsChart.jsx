@@ -3,6 +3,8 @@ import typographyStyles from '~/styles/Typography.module.css'
 import styles from './charts.module.css'
 import * as d3 from 'd3'
 import { xMargin, yMargin, windowInMinutes } from './chart_constants.js'
+import { OPACITY_30, WHITE } from '@platformatic/ui-components/src/components/constants.js'
+import { VerticalSeparator } from '@platformatic/ui-components'
 
 const StackedBarsChart = ({
   data,
@@ -197,9 +199,9 @@ const StackedBarsChart = ({
         labels.map((label, i) => {
           return (
             <div key={`label-${i}`} className={styles.labelContainer}>
-              <div className={styles.label} style={{color: percentiles[label] }}> {label} </div>
+              <div className={styles.label} style={{ color: percentiles[label] }}> {label} </div>
               <div className={`${styles.legendLine} ${styles[`${label}`]}`} />
-              <div>{i !== labels.length - 1 ? '|' : ''}</div>
+              <div>{i !== labels.length - 1 ? <VerticalSeparator color={WHITE} backgroundColorOpacity={OPACITY_30} classes={styles.verticalSeparator} /> : ''}</div>
             </div>
           )
         })
