@@ -39,7 +39,7 @@
 }
 
 .progressContainer {
-  @apply absolute bottom-[-0.4rem] left-0 z-0 w-full px-6 h-[2px];
+  @apply absolute bottom-[-0.375rem] left-0 z-0 w-full px-6 h-[2px];
   box-sizing: border-box;
 }
 

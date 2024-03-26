@@ -237,7 +237,7 @@ const ApplicationLogs = React.forwardRef(({ _props }, ref) => {
                 inputTextClassName={`${typographyStyles.desktopBodySmall} ${typographyStyles.textWhite}`}
               />
               <LogFilterSelector defaultLevelSelected={30} onChangeLevelSelected={(level) => setFilterLogsByLevel(level)} />
-              <div className={`${commonStyles.tinyFlexRow} ${commonStyles.justifyEnd}`}>
+              <div className={`${commonStyles.tinyFlexRow} ${commonStyles.justifyEnd} ${styles.buttonContainer}`}>
                 <Button
                   type='button'
                   paddingClass={commonStyles.buttonPadding}
