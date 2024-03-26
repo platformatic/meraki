@@ -22,7 +22,6 @@ function RemoveService ({ name, onClickCancel, onClickConfirm }) {
           onClick={() => onClickCancel()}
           color={WHITE}
           backgroundColor={TRANSPARENT}
-          
         />
         <Button
           type='button'

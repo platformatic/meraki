@@ -19,7 +19,10 @@ function EditApplicationFlow ({ onCloseModal, onClickGoToApps, onStopApplication
   const [showModalDiscardChanges, setShowModalDiscardChanges] = useState(false)
 
   function handleCloseModalEditApplication () {
-    setShowModalDiscardChanges(false)
+    setShowModalDiscardChanges(true)
+  }
+
+  function handleCloseModalStopApplication () {
     onCloseModal()
   }
 
@@ -40,12 +43,12 @@ function EditApplicationFlow ({ onCloseModal, onClickGoToApps, onStopApplication
     return (
       <Modal
         key='stopApplicationRunning'
-        setIsOpen={() => handleCloseModalEditApplication()}
+        setIsOpen={() => handleCloseModalStopApplication()}
         title='Stop the Application to edit'
         titleClassName={`${typographyStyles.desktopHeadline4} ${typographyStyles.textWhite}`}
         layout={MODAL_POPUP_V2}
       >
-        <StopApplicationToEdit onClickCancel={() => handleCloseModalEditApplication()} onClickProceed={() => handleStopApplication()} />
+        <StopApplicationToEdit onClickCancel={() => handleCloseModalStopApplication()} onClickProceed={() => handleStopApplication()} />
       </Modal>
     )
   }
