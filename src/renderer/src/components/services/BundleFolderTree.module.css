@@ -1,3 +1,18 @@
+.containerNumberServices1 {
+  min-width: calc(var(--compose-application-width) * 4);
+  max-width: calc(var(--compose-application-width) * 4);
+  width: calc(var(--compose-application-width) * 4);
+}
+.containerNumberServices2 {
+  min-width: calc(var(--compose-application-width) * 3);
+  max-width: calc(var(--compose-application-width) * 3);
+  width: calc(var(--compose-application-width) * 3);
+}
+.containerNumberServicesOver {
+  min-width: calc(var(--compose-application-width) * 2);
+  max-width: calc(var(--compose-application-width) * 2);
+  width: calc(var(--compose-application-width) * 2);
+}
 .serviceContainer {
   min-width: var(--compose-application-width);
   max-width: var(--compose-application-width);
@@ -7,7 +22,6 @@
   @apply relative;
   min-width: calc(var(--compose-application-width) * 0.60);
   max-width: calc(var(--compose-application-width) * 0.60);
-  
 }
 .horizontalDivided {
   @apply absolute top-[20%] left-[-1rem] w-[1rem] border-b-0 border-l-0 border-r-0 border-t border-white/30

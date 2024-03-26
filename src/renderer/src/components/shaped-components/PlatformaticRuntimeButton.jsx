@@ -9,14 +9,17 @@ import useStackablesStore from '~/useStackablesStore'
 import RuntimeLargeCard from '../backgrounds/RuntimeLargeCard'
 import RuntimeMediumCard from '../backgrounds/RuntimeMediumCard'
 import { NORMAL_VIEW } from '~/ui-constants'
-import SmallTitle from '~/components/ui/SmallTitle'
 import RuntimeLargeCardGridView from '../backgrounds/RuntimeLargeCardGridView'
-import { SMALL, WHITE } from '@platformatic/ui-components/src/components/constants'
+import { ALIGNMENT_RIGHT, SMALL, WHITE } from '@platformatic/ui-components/src/components/constants'
+import { TooltipV2 } from '@platformatic/ui-components'
+import tooltipStyles from '~/styles/TooltipStyles.module.css'
+import Icons from '@platformatic/ui-components/src/components/icons'
 
 function PlatformaticRuntimeButton ({ view }) {
   const globalState = useStackablesStore()
   const { services } = globalState
   const [currentBackgroundComponent, setCurrentBackgroundComponent] = useState(<RuntimeSmallCard classNameSvg={styles.svg} />)
+  const [iconOver, setIconOver] = useState(false)
 
   useEffect(() => {
     if (services.length > 0) {
@@ -44,19 +47,13 @@ function PlatformaticRuntimeButton ({ view }) {
     <div className={styles.container}>
       {currentBackgroundComponent}
       <div className={`${commonStyles.smallFlexBlock} ${commonStyles.itemsCenter} ${styles.buttonContainer}`}>
-        <SmallTitle
-          title='Platformatic Runtime'
-          titleClassName={`${typographyStyles.desktopBodyLarge} ${typographyStyles.textWhite} ${styles.cursorDefault}`}
-          containerClassName={`${commonStyles.tinyFlexRow} ${typographyStyles.textCenter}`}
-          platformaticIcon={{
-            iconName: 'CircleExclamationIcon',
-            disabled: false,
-            inactive: false,
-            color: WHITE,
-            size: SMALL,
-            tip: 'Platformatic Runtime is an environment for running multiple Platformatic microservices as a single monolithic deployment unit.'
-          }}
-        />
+        <div className={`${commonStyles.tinyFlexRow} ${typographyStyles.textCenter}`}>
+          <div className={`${styles.iconContainer} container-circle-icon`} onMouseOver={() => setIconOver(false)} onMouseLeave={() => setIconOver(false)}>
+            <Icons.CircleExclamationIcon color={WHITE} size={SMALL} />
+            {iconOver && <TooltipV2 tooltipClassName={tooltipStyles.tooltipDarkStyle} text='Platformatic Runtime is an environment for running multiple Platformatic microservices as a single monolithic deployment unit.' visible alignment={ALIGNMENT_RIGHT} elementClassName='container-circle-icon' />}
+          </div>
+          <span className={`${typographyStyles.desktopBodyLarge} ${typographyStyles.textWhite} ${styles.cursorDefault}`} title='Platformatic Runtime'>Platformatic Runtime</span>
+        </div>
       </div>
     </div>
 

@@ -51,7 +51,7 @@ function TemplateEnvVarsForm ({
 
   function renderVariablesText () {
     if (Object.keys(configuredServiceFound.form).length === 0) {
-      return <span className={`${typographyStyles.desktopBody} ${typographyStyles.textWhite} ${typographyStyles.opacity70}`}> This template has no configurable variables. </span>
+      return (<><br /><br /><span className={`${typographyStyles.desktopBody} ${typographyStyles.textWhite} ${typographyStyles.opacity70}`}> This Template has no configurable variables. </span></>)
     }
     return <span>Variables</span>
   }

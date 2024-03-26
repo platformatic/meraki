@@ -8,7 +8,7 @@ import commonStyles from '~/styles/CommonStyles.module.css'
 import { BorderedBox, Button, HorizontalSeparator } from '@platformatic/ui-components'
 import Forms from '@platformatic/ui-components/src/components/forms'
 import Log from './Log'
-import { PRETTY, RAW, DIRECTION_UP, DIRECTION_DOWN, DIRECTION_STILL, STATUS_PAUSED_LOGS, STATUS_RESUMED_LOGS, STATUS_STOPPED, FILTER_ALL } from '~/ui-constants'
+import { PRETTY, RAW, DIRECTION_UP, DIRECTION_DOWN, DIRECTION_STILL, STATUS_PAUSED_LOGS, STATUS_RESUMED_LOGS, STATUS_STOPPED, FILTER_ALL, APPLICATION_PAGE_LOGS } from '~/ui-constants'
 import LogFilterSelector from './LogFilterSelector'
 import {
   callApiStartLogs,
@@ -24,6 +24,7 @@ import useStackablesStore from '~/useStackablesStore'
 
 const ApplicationLogs = React.forwardRef(({ _props }, ref) => {
   const globalState = useStackablesStore()
+  const { setNavigation, setCurrentPage } = globalState
   const applicationStatus = globalState.computed.applicationStatus
   const applicationSelected = globalState.computed.applicationSelected
   const [displayLog, setDisplayLog] = useState(PRETTY)
@@ -105,6 +106,15 @@ const ApplicationLogs = React.forwardRef(({ _props }, ref) => {
   }
 
   useEffect(() => {
+    setNavigation({
+      label: 'Logs',
+      handleClick: () => {
+        setCurrentPage(APPLICATION_PAGE_LOGS)
+      },
+      key: APPLICATION_PAGE_LOGS,
+      page: APPLICATION_PAGE_LOGS
+    }, 2)
+
     return () => callApiStopLogs()
   }, [])
 
