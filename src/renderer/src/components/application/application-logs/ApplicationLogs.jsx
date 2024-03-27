@@ -39,7 +39,6 @@ const ApplicationLogs = React.forwardRef(({ _props }, ref) => {
   const [filteredLogs, setFilteredLogs] = useState([])
   const logContentRef = useRef()
   const [previousScrollTop, setPreviousScrollTop] = useState(0)
-  const [displayGoToTop, setDisplayGoToTop] = useState(false)
   const [displayGoToBottom, setDisplayGoToBottom] = useState(false)
   const [showPreviousLogs, setShowPreviousLogs] = useState(true)
   const [statusPausedLogs, setStatusPausedLogs] = useState('')
@@ -70,7 +69,7 @@ const ApplicationLogs = React.forwardRef(({ _props }, ref) => {
         setStatusPausedLogs(STATUS_RESUMED_LOGS)
       }
     }
-    if (scrollDirection === DIRECTION_STILL) {
+    if (scrollDirection !== DIRECTION_DOWN) {
       setFilteredLogsLengthAtPause(filteredLogs.length)
     }
   }, [scrollDirection, filteredLogs])
@@ -108,13 +107,7 @@ const ApplicationLogs = React.forwardRef(({ _props }, ref) => {
   function handleScroll (event) {
     if (event.currentTarget.scrollTop < previousScrollTop) {
       setScrollDirection(DIRECTION_UP)
-      setStatusPausedLogs(STATUS_PAUSED_LOGS)
-    }
-    // 30 Height of a single line
-    if (event.currentTarget.scrollTop * 30 > logContentRef.current.clientHeight) {
-      setDisplayGoToTop(true)
-    } else {
-      setDisplayGoToTop(false)
+      // setStatusPausedLogs(STATUS_PAUSED_LOGS)
     }
   }
 
@@ -171,15 +164,6 @@ const ApplicationLogs = React.forwardRef(({ _props }, ref) => {
     setFilterLogsByService({
       label: event.detail.label,
       value: event.detail.value
-    })
-  }
-
-  function clickGoToTop () {
-    setScrollDirection(DIRECTION_UP)
-    logContentRef.current.scrollTo({
-      top: 0,
-      left: 0,
-      behavior: 'smooth'
     })
   }
 
@@ -278,15 +262,7 @@ const ApplicationLogs = React.forwardRef(({ _props }, ref) => {
             </div>
             <HorizontalSeparator marginBottom={MARGIN_0} marginTop={MARGIN_0} color={WHITE} opacity={OPACITY_30} />
             <div className={`${commonStyles.tinyFlexRow} ${commonStyles.itemsCenter} ${commonStyles.justifyBetween} ${styles.lateralPadding} ${styles.bottom}`}>
-              <Button
-                type='button'
-                paddingClass={commonStyles.buttonPadding}
-                label='Go to Top'
-                onClick={() => clickGoToTop()}
-                color={displayGoToTop ? WHITE : RICH_BLACK}
-                backgroundColor={RICH_BLACK}
-                disabled={!displayGoToTop}
-              />
+              <div>&nbsp;</div>
 
               {displayGoToBottom
                 ? (

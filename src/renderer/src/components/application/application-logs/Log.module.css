@@ -1,11 +1,21 @@
 .icon {
   @apply absolute top-[1rem] right-[1rem];
 }
+.displayedElements {
+  @apply py-1 relative
+}
 .log {
-  @apply relative flex flex-row gap-x-2 items-center py-1 px-2 rounded;
+  @apply relative flex flex-row gap-x-2 items-center py-1 px-2 rounded w-fit;
+}
+.logRawContainer {
+  @apply w-full inline-block
 }
 .logRaw {
+  @apply inline-block;
   word-break: break-word;
+}
+.request {
+  @apply max-w-[290px] lg:max-w-[600px] inline-block truncate
 }
 .log10 {
   @apply bg-tertiary-blue/15; ;
@@ -43,10 +53,10 @@
   @apply py-0;
 }
 .logContainerClassNameInactive {
-  @apply p-0;
+  @apply p-0 relative;
 }
 .logContainerClassNameActive {
-  @apply p-2 border border-solid rounded;
+  @apply border-solid rounded border-[0.5px] relative;
 }
 .logContainerClassNameActive10 {
   @apply border-tertiary-blue;
@@ -64,5 +74,8 @@
   @apply border-error-red;
 }
 .msg {
-  @apply w-[290px] lg:w-[470px] inline-block truncate
+  @apply max-w-[290px] lg:max-w-[470px] inline-block truncate
+}
+.copyPasteIcon {
+  @apply absolute top-[0.5rem] right-[0.5rem]
 }
