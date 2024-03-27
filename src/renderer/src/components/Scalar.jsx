@@ -1,6 +1,6 @@
 import { ApiReferenceReact } from '@scalar/api-reference-react'
 
-export default function Scalar({ url }) {
+export default function Scalar ({ url }) {
   const customCss = `.dark-mode {
     --theme-color-1: rgb(255 255 255 / var(--tw-text-opacity));
     --theme-background-1: rgb(0 5 11 / var(--tw-bg-opacity));
@@ -12,12 +12,14 @@ export default function Scalar({ url }) {
     display: none !important;
   }`
 
-  return <ApiReferenceReact
-  configuration={{
-    customCss,
-    spec: {
-      url: `${url}/documentation/json`,
-    },
-  }}
-/>
+  return (
+    <ApiReferenceReact
+      configuration={{
+        customCss,
+        spec: {
+          url: `${url}/documentation/json`
+        }
+      }}
+    />
+  )
 }

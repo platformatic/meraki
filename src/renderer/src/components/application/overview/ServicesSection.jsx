@@ -8,7 +8,6 @@ import commonStyles from '~/styles/CommonStyles.module.css'
 import { Button, ModalDirectional } from '@platformatic/ui-components'
 import Icons from '@platformatic/ui-components/src/components/icons'
 import ServiceElement from './ServiceElement'
-import modalStyles from '~/styles/ModalStyles.module.css'
 import useStackablesStore from '~/useStackablesStore'
 import Scalar from '~/components/Scalar'
 
@@ -62,7 +61,7 @@ function ServicesSection ({ url, onClickEditApplication }) {
           setIsOpen={() => handleCloseModalAPIReference()}
           title='Back to Overview'
           titleClassName={`${typographyStyles.desktopBody} ${typographyStyles.textWhite} cy-modal-template`}
-          classNameModalLefty={'should-be-full-width'}
+          classNameModalLefty='should-be-full-width'
         >
           <Scalar url={url} />
         </ModalDirectional>
