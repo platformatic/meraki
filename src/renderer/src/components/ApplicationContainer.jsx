@@ -173,7 +173,7 @@ function ApplicationContainer () {
             containerClassName: `${commonStyles.mediumFlexBlock} ${commonStyles.itemsCenter}`,
             sentences: [{
               style: `${typographyStyles.desktopBodyLarge} ${typographyStyles.textWhite}`,
-              text: 'Loading your applications...'
+              text: 'Loading your application...'
             }, {
               style: `${typographyStyles.desktopBodyLarge} ${typographyStyles.textWhite} ${typographyStyles.opacity70}`,
               text: 'This process will just take a few seconds.'

@@ -13,7 +13,7 @@
 .smallFlexBlock {
   @apply flex flex-col items-start gap-y-2;
 }
-.extraSmallFlexBlock {
+.miniFlexBlock {
   @apply flex flex-col items-start gap-y-1;
 }
 .mediumFlexRow {

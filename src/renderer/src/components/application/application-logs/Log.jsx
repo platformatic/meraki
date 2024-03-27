@@ -79,14 +79,14 @@ function Log ({ log, display, onClickArrow }) {
       </div>
       )
     : (
-      <div className={`${commonStyles.smallFlexBlock} ${commonStyles.fullWidth}`}>
+      <div className={`${commonStyles.flexBlockNoGap} ${commonStyles.fullWidth}`}>
         <p className={`${styles.log} ${typographyStyles.desktopOtherCliTerminalSmall} ${typographyStyles.textWhite}`}>
           <span>[{getFormattedLogTimestamp(time, true)}]</span>
           <span>{levelDisplayed}</span>
           <span>({name}/{pid}):</span>
           <span>{msg}</span>
         </p>
-        <p className={`${styles.log} ${typographyStyles.desktopOtherCliTerminalSmall} ${typographyStyles.textWhite}`}><pre>{JSON.stringify(JSON.parse(log), null, 2)}</pre></p>
+        <p className={`${styles.log} ${styles.logRaw} ${typographyStyles.desktopOtherCliTerminalSmall} ${typographyStyles.textWhite}`}>{log}</p>
       </div>
       )
 }

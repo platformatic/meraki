@@ -218,7 +218,7 @@ function SelectTemplate ({ onClick, serviceName }) {
 
   function renderLoginStatusMessage (color, message, showInstructions) {
     return (
-      <div className={`${commonStyles.extraSmallFlexBlock}`}>
+      <div className={`${commonStyles.miniFlexBlock}`}>
         <div className={`${commonStyles.tinyFlexRow} ${commonStyles.fullWidth}`}>
           <div>
             <svg width='10' height='10'>
