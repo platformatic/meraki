@@ -87,3 +87,11 @@ export const callApiStopMetrics = async () => {
 
 export const onReceivedTemplateId = (callback) => window.api.receivedTemplateID(callback)
 export const onStopReceivingTemplateId = (callback) => window.api.stopReceivingTemplateID(callback)
+
+export const startProxy = async (id, serviceId) => {
+  return window.api.startProxy(id, serviceId)
+}
+
+export const stopProxy = async () => {
+  return await window.api.stopProxy()
+}

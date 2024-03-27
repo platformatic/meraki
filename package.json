@@ -32,6 +32,7 @@
     "@electron-toolkit/preload": "^3.0.0",
     "@electron-toolkit/utils": "^3.0.0",
     "@fastify/error": "^3.4.1",
+    "@fastify/http-proxy": "^9.5.0",
     "@platformatic/client": "^1.31.1",
     "@platformatic/control": "^1.31.1",
     "@platformatic/sql-mapper": "^1.31.1",

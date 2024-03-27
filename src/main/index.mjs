@@ -12,6 +12,7 @@ import { getAppPath } from './lib/utils.mjs'
 import Applications from './lib/applications.mjs'
 import Logs from './lib/logs.mjs'
 import Metrics from './lib/metrics.mjs'
+import Proxy from './lib/runtime-proxy.mjs'
 import { sendTemplateId } from './template-id.mjs'
 
 log.initialize()
@@ -191,6 +192,7 @@ app.whenReady().then(async () => {
   const appApis = await Applications.create(merakiFolder, merakiConfigFolder)
   const logsApi = new Logs(appApis)
   const metricsApi = new Metrics(appApis)
+  const proxyApi = new Proxy(appApis)
 
   // Default open or close DevTools by F12 in development
   // and ignore CommandOrControl + R in production.
@@ -331,6 +333,16 @@ app.whenReady().then(async () => {
 
   ipcMain.handle('stop-metrics', async (_) => {
     metricsApi.stop()
+  })
+
+  // ********** PROXY ********** //
+  // id: application id
+  ipcMain.handle('start-proxy', async (_, id, serviceId) => {
+    return proxyApi.start(id, serviceId)
+  })
+
+  ipcMain.handle('stop-proxy', async (_) => {
+    return proxyApi.stop()
   })
 })
 
