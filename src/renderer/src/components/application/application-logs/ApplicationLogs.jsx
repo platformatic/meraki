@@ -8,7 +8,7 @@ import commonStyles from '~/styles/CommonStyles.module.css'
 import { BorderedBox, Button, HorizontalSeparator } from '@platformatic/ui-components'
 import Forms from '@platformatic/ui-components/src/components/forms'
 import Log from './Log'
-import { PRETTY, RAW, DIRECTION_UP, DIRECTION_DOWN, DIRECTION_STILL, STATUS_PAUSED_LOGS, STATUS_RESUMED_LOGS, STATUS_STOPPED, FILTER_ALL, APPLICATION_PAGE_LOGS } from '~/ui-constants'
+import { PRETTY, RAW, DIRECTION_UP, DIRECTION_DOWN, DIRECTION_STILL, STATUS_PAUSED_LOGS, STATUS_RESUMED_LOGS, STATUS_RUNNING, STATUS_STOPPED, FILTER_ALL, APPLICATION_PAGE_LOGS } from '~/ui-constants'
 import LogFilterSelector from './LogFilterSelector'
 import {
   callApiStartLogs,
@@ -260,7 +260,7 @@ const ApplicationLogs = React.forwardRef(({ _props }, ref) => {
             </div>
             <HorizontalSeparator marginBottom={MARGIN_0} marginTop={MARGIN_0} color={WHITE} opacity={OPACITY_30} />
             <div className={`${styles.logsContainer} ${styles.lateralPadding}`} ref={logContentRef} onScroll={handleScroll}>
-              {showPreviousLogs && (
+              {applicationStatus === STATUS_RUNNING && showPreviousLogs && (
                 <div className={styles.previousLogContainer}>
                   <p className={`${typographyStyles.desktopBodySmall} ${typographyStyles.textWhite} ${typographyStyles.textCenter} ${commonStyles.fullWidth} `}><span className={`${commonStyles.cursorPointer} ${typographyStyles.textTertiaryBlue}`} onClick={() => loadPreviousLogs()}>Click Here</span> to load previous logs</p>
                 </div>
