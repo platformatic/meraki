@@ -27,7 +27,6 @@ function ServicesSection ({ url, onClickEditApplication }) {
   async function onClickAPIReference (id, serviceId) {
     const url = await startProxy(id, serviceId)
     setProxyURL(url)
-    console.log('@@@@@@@@@@@@@@@@@@@@@@', url)
     setShowModalScalarIntegration(true)
   }
 
