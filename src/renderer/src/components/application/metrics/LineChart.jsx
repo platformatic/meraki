@@ -187,7 +187,11 @@ const LineChart = ({
       </div>`)
 
       const maxY = y(d3.max(data.values))
-      tooltip.style('left', xPos + 'px').style('top', maxY - (valuesData.length * 15) - 60 + 'px')
+      const tooltipWidth = 120
+      const tooltipHeight = 60 + (valuesData.length * 15)
+      const tx = xPos + tooltipWidth < w ? xPos : w - tooltipWidth
+      const ty = maxY - tooltipHeight
+      tooltip.style('left', tx + 'px').style('top', ty + 'px')
       if (xPos < xMargin) {
         tooltip.style('opacity', 0)
       } else {
