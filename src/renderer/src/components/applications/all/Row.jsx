@@ -21,7 +21,7 @@ function Row ({
   status,
   platformaticVersion,
   lastStarted,
-  lastUpdate,
+  lastUpdated,
   onClickStop,
   onClickStart,
   onClickRestart,
@@ -176,7 +176,7 @@ function Row ({
           <span className={`${typographyStyles.desktopBodySemibold} ${typographyStyles.textWhite} ${styles.ellipsis}`} title={name}>Last Update</span>
         </div>
         <div className={styles.tableCell}>
-          <span className={`${typographyStyles.desktopBody} ${typographyStyles.textWhite} ${typographyStyles.opacity70}`}>{getFormattedDate(lastUpdate)}</span>
+          <span className={`${typographyStyles.desktopBody} ${typographyStyles.textWhite} ${typographyStyles.opacity70}`}>{getFormattedDate(lastUpdated)}</span>
         </div>
       </div>
       <div className={styles.tableSmall}>
@@ -246,9 +246,9 @@ Row.propTypes = {
     */
   lastStarted: PropTypes.string,
   /**
-   * lastUpdate
+   * lastUpdated
     */
-  lastUpdate: PropTypes.string,
+  lastUpdated: PropTypes.string,
   /**
    * onClickStop
     */
@@ -274,7 +274,7 @@ Row.defaultProps = {
   status: '',
   platformaticVersion: '-',
   lastStarted: '-',
-  lastUpdate: '-',
+  lastUpdated: '-',
   onClickStop: () => {},
   onClickStart: () => {},
   onClickRestart: () => {},

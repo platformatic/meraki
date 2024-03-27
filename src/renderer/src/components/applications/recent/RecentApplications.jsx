@@ -48,8 +48,8 @@ const RecentApplications = React.forwardRef(({ onClickCreateNewApp }, ref) => {
         setTimeout(() => {
           let keyA, keyB
           const recentApplications = [...applications].sort((a, b) => {
-            keyA = new Date(b.lastUpdate)
-            keyB = new Date(a.lastUpdate)
+            keyA = new Date(b.lastUpdated)
+            keyB = new Date(a.lastUpdated)
             if (keyA < keyB) {
               return 1
             }
