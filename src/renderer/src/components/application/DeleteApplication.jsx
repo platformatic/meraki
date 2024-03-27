@@ -20,7 +20,7 @@ function DeleteApplication ({ name, onClickCancel, onClickConfirm }) {
     onClickConfirm()
     setDeleting(true)
   }
-  
+
   async function onClickDelete () {
     onClickConfirm()
     setDeleting(true)
@@ -68,7 +68,7 @@ function DeleteApplication ({ name, onClickCancel, onClickConfirm }) {
             type='button'
             textClass={typographyStyles.desktopBody}
             paddingClass={commonStyles.buttonPadding}
-            label={deleting ? 'Deleting App...': 'Delete App'}
+            label={deleting ? 'Deleting App...' : 'Delete App'}
             onClick={() => onClickDelete()}
             color={WHITE}
             backgroundColor={ERROR_RED}
