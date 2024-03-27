@@ -41,7 +41,7 @@ const UpdatingApplication = React.forwardRef(({ onBack, onClickGoToApps, applica
     }
     generateApplication()
 
-    return () => removeLogInfo(callbackOnLog)
+    return () => removeLogInfo()
   }, [])
 
   useEffect(() => {

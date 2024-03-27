@@ -14,7 +14,6 @@ import {
   callApiStartLogs,
   callApiStopLogs,
   getAppLogs,
-  removeAppLogs,
   callApiGetAllLogs,
   callApiPauseLogs,
   callApiResumeLogs,
@@ -103,13 +102,8 @@ const ApplicationLogs = React.forwardRef(({ _props }, ref) => {
       page: APPLICATION_PAGE_LOGS
     }, 2)
 
-    return () => onLeaveComponent()
+    return () => callApiStopLogs()
   }, [])
-
-  function onLeaveComponent () {
-    callApiStopLogs()
-    removeAppLogs(callbackOnLog)
-  }
 
   function handleScroll (event) {
     if (event.currentTarget.scrollTop < previousScrollTop) {
