@@ -1,7 +1,7 @@
 'use strict'
 import React, { useState } from 'react'
 import PropTypes from 'prop-types'
-import styles from './ConfigureApplication.module.css'
+import styles from './EditConfigureApplication.module.css'
 import commonStyles from '~/styles/CommonStyles.module.css'
 import typographyStyles from '~/styles/Typography.module.css'
 import {
@@ -16,7 +16,7 @@ import '~/components/component.animation.css'
 import Forms from '@platformatic/ui-components/src/components/forms'
 import { TYPESCRIPT, JAVASCRIPT } from '~/ui-constants'
 
-const ConfigureApplication = React.forwardRef(({ onNext, onBack }, ref) => {
+const EditConfigureApplication = React.forwardRef(({ onNext, onBack }, ref) => {
   const globalState = useStackablesStore()
   const { formData, services, addFormData } = globalState
   const logLevels = ['trace', 'info', 'debug', 'warn', 'error']
@@ -25,7 +25,7 @@ const ConfigureApplication = React.forwardRef(({ onNext, onBack }, ref) => {
     port: formData.configureApplication.port,
     logLevel: formData.configureApplication.logLevel,
     language: formData.configureApplication.typescript ? TYPESCRIPT : JAVASCRIPT,
-    createGitHubRepository: formData.configureApplication.createGitHubRepository,
+    createGitHubRepository: false,
     installGitHubActions: formData.configureApplication.installGitHubActions
   })
   const [validations, setValidations] = useState({ portValid: true, formErrors: { port: '' } })
@@ -39,7 +39,7 @@ const ConfigureApplication = React.forwardRef(({ onNext, onBack }, ref) => {
         port: form.port,
         logLevel: form.logLevel,
         typescript: form.language === TYPESCRIPT,
-        createGitHubRepository: form.createGitHubRepository,
+        createGitHubRepository: false,
         installGitHubActions: form.installGitHubActions
       }
     })
@@ -178,21 +178,6 @@ const ConfigureApplication = React.forwardRef(({ onNext, onBack }, ref) => {
                   ))}
                 </div>
               </Forms.Field>
-
-              <Forms.Field
-                title='Create Git Repository'
-                helper='Create a Git Repository for you Application'
-                titleClassName={`${typographyStyles.desktopBodySemibold} ${typographyStyles.textWhite} `}
-                helperClassName={`${typographyStyles.desktopBodySmall} ${typographyStyles.textWhite} ${typographyStyles.opacity70}`}
-              >
-                <Forms.ToggleSwitch
-                  label='Toggle on will create a GitHub repository'
-                  labelClassName={`${typographyStyles.desktopBodySmall} ${typographyStyles.textWhite} ${typographyStyles.opacity70}`}
-                  name='createGitHubRepository'
-                  onChange={handleChange}
-                  checked={form.createGitHubRepository}
-                />
-              </Forms.Field>
             </div>
 
             {/* <BorderedBox color={WHITE} borderColorOpacity={30} backgroundColor={TRANSPARENT} classes={`${commonStyles.largeFlexRow}`}>
@@ -260,7 +245,7 @@ const ConfigureApplication = React.forwardRef(({ onNext, onBack }, ref) => {
   )
 })
 
-ConfigureApplication.propTypes = {
+EditConfigureApplication.propTypes = {
   /**
      * onNext
      */
@@ -271,9 +256,9 @@ ConfigureApplication.propTypes = {
   onBack: PropTypes.func
 }
 
-ConfigureApplication.defaultProps = {
+EditConfigureApplication.defaultProps = {
   onNext: () => {},
   onBack: () => {}
 }
 
-export default ConfigureApplication
+export default EditConfigureApplication
