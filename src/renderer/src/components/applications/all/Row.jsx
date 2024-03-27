@@ -115,6 +115,7 @@ function Row ({
         backgroundColor={RICH_BLACK}
         onClick={() => handleRestart()}
         hoverEffect={DULLS_BACKGROUND_COLOR}
+        disabled={status.value === STATUS_STOPPED}
         platformaticIcon={{ size: SMALL, iconName: 'RestartIcon', color: WHITE }}
       />
     )

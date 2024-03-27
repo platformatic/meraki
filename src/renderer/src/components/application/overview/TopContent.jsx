@@ -14,6 +14,7 @@ import MerakiIcon from '~/components/ui/MerakiIcon'
 import Forms from '@platformatic/ui-components/src/components/forms'
 import { callStartApplication, callStopApplication } from '~/api'
 import useStackablesStore from '~/useStackablesStore'
+import { STATUS_STOPPED } from '../../../ui-constants'
 
 function TopContent ({
   onErrorOccurred
@@ -177,6 +178,7 @@ function TopContent ({
                 paddingClass={commonStyles.buttonPadding}
                 platformaticIcon={{ iconName: 'RestartIcon', color: WHITE }}
                 textClass={typographyStyles.desktopBody}
+                disabled={applicationStatus === STATUS_STOPPED}
               />
               )}
 
