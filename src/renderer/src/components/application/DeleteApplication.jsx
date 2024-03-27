@@ -9,6 +9,7 @@ import Forms from '@platformatic/ui-components/src/components/forms'
 
 function DeleteApplication ({ name, onClickCancel, onClickConfirm }) {
   const [form, setForm] = useState({ name: '' })
+  const [deleting, setDeleting] = useState(false)
 
   function handleChange (event) {
     setForm({ name: event.target.value })
@@ -17,6 +18,12 @@ function DeleteApplication ({ name, onClickCancel, onClickConfirm }) {
   async function handleSubmit (event) {
     event.preventDefault()
     onClickConfirm()
+    setDeleting(true)
+  }
+
+  async function onClickDelete () {
+    onClickConfirm()
+    setDeleting(true)
   }
 
   return (
@@ -61,12 +68,12 @@ function DeleteApplication ({ name, onClickCancel, onClickConfirm }) {
             type='button'
             textClass={typographyStyles.desktopBody}
             paddingClass={commonStyles.buttonPadding}
-            label='Delete App'
-            onClick={() => onClickConfirm()}
+            label={deleting ? 'Deleting App...' : 'Delete App'}
+            onClick={() => onClickDelete()}
             color={WHITE}
             backgroundColor={ERROR_RED}
             hoverEffect={DULLS_BACKGROUND_COLOR}
-            disabled={form.name !== name}
+            disabled={form.name !== name || deleting}
             bordered={false}
           />
         </div>

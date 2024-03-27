@@ -9,7 +9,7 @@ import { BorderedBox, Button } from '@platformatic/ui-components'
 import useStackablesStore from '~/useStackablesStore'
 import CountDown from '~/components/ui/CountDown'
 import '~/components/component.animation.css'
-import { callPrepareFolder, logInfo, quitApp } from '~/api'
+import { callPrepareFolder, logInfo, quitApp, removeLogInfo } from '~/api'
 import { NONE, RUNNING, SUCCESS, ERROR } from '~/ui-constants'
 import Title from '~/components/ui/Title'
 const PrepareFolder = React.forwardRef(({ onNext, onBack }, ref) => {
@@ -45,8 +45,10 @@ const PrepareFolder = React.forwardRef(({ onNext, onBack }, ref) => {
         setFolderPrepared(true)
       }
     }
-    logInfo((_, value) => setLogValue(value))
+    logInfo(callbackOnLog)
     prepareFolder()
+
+    return () => removeLogInfo()
   }, [])
 
   useEffect(() => {
@@ -55,6 +57,8 @@ const PrepareFolder = React.forwardRef(({ onNext, onBack }, ref) => {
       setNpmLogs([...npmLogs, { level: logValue.level, message: str.join(' - ') }])
     }
   }, [logValue])
+
+  const callbackOnLog = (_, value) => setLogValue(value)
 
   function onClickConfigureServices () {
     onNext()

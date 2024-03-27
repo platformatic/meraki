@@ -25,6 +25,7 @@ if (process.contextIsolated) {
       getPlugins: () => (ipcRenderer.invoke('get-plugins')),
       prepareFolder: (folder, templates, appName) => (ipcRenderer.invoke('prepare-folder', folder, templates, appName)),
       onLog: callback => ipcRenderer.on('log', callback),
+      removeLog: () => ipcRenderer.removeAllListeners('log'),
       quitApp: () => (ipcRenderer.invoke('quit-app')),
       getServiceName: () => (ipcRenderer.invoke('generate-name')),
       onUserStatus: callback => ipcRenderer.on('user-status', callback),
@@ -45,7 +46,10 @@ if (process.contextIsolated) {
       onAppLog: callback => ipcRenderer.on('app-logs', callback),
       pauseLogs: () => (ipcRenderer.invoke('pause-logs')),
       resumeLogs: () => (ipcRenderer.invoke('resume-logs')),
-      stopLogs: () => (ipcRenderer.invoke('stop-logs')),
+      stopLogs: () => {
+        ipcRenderer.removeAllListeners('app-logs')
+        return ipcRenderer.invoke('stop-logs')
+      },
       getPreviousLogs: (id) => (ipcRenderer.invoke('get-previous-logs', id)),
       getAllLogs: (id) => (ipcRenderer.invoke('get-all-logs', id)),
 

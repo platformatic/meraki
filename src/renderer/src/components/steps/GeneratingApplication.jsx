@@ -9,7 +9,7 @@ import { WHITE, TRANSPARENT, RICH_BLACK, OPACITY_30, MODAL_POPUP_V2, MARGIN_0, B
 import useStackablesStore from '~/useStackablesStore'
 import Title from '~/components/ui/Title'
 import CountDown from '~/components/ui/CountDown'
-import { callCreateApp, logInfo, quitApp } from '~/api'
+import { callCreateApp, logInfo, removeLogInfo, quitApp } from '~/api'
 import { NONE, RUNNING, SUCCESS, ERROR } from '~/ui-constants'
 
 const GeneratingApplication = React.forwardRef(({ onBack, onRestartProcess, useVersion, onClickGoToApps }, ref) => {
@@ -25,7 +25,7 @@ const GeneratingApplication = React.forwardRef(({ onBack, onRestartProcess, useV
   const [showModalContinue, setShowModalContinue] = useState(false)
 
   useEffect(() => {
-    logInfo((_, value) => setLogValue(value))
+    logInfo(callbackOnLog)
     async function generateApplication () {
       try {
         setCountDownStatus(RUNNING)
@@ -43,6 +43,8 @@ const GeneratingApplication = React.forwardRef(({ onBack, onRestartProcess, useV
       }
     }
     generateApplication()
+
+    return () => removeLogInfo()
   }, [])
 
   useEffect(() => {
@@ -75,6 +77,8 @@ const GeneratingApplication = React.forwardRef(({ onBack, onRestartProcess, useV
     reset()
     onRestartProcess()
   }
+
+  const callbackOnLog = (_, value) => setLogValue(value)
 
   return !restartInProgress && (
     <>

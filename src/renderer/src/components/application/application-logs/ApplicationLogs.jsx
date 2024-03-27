@@ -46,11 +46,11 @@ const ApplicationLogs = React.forwardRef(({ _props }, ref) => {
   const [filteredLogsLengthAtPause, setFilteredLogsLengthAtPause] = useState(0)
 
   useEffect(() => {
-    if (applicationSelected.id) {
-      getAppLogs((_, value) => setLogValue(value))
+    if (applicationSelected.id && applicationStatus === STATUS_RUNNING) {
+      getAppLogs(callbackOnLog)
       callApiStartLogs(applicationSelected.id)
     }
-  }, [applicationSelected.id])
+  }, [applicationSelected.id, applicationStatus])
 
   useEffect(() => {
     if (logValue) {
@@ -92,19 +92,6 @@ const ApplicationLogs = React.forwardRef(({ _props }, ref) => {
     }
   }, [statusPausedLogs])
 
-  function handleScroll (event) {
-    if (event.currentTarget.scrollTop < previousScrollTop) {
-      setScrollDirection(DIRECTION_UP)
-      setStatusPausedLogs(STATUS_PAUSED_LOGS)
-    }
-    // 30 Height of a single line
-    if (event.currentTarget.scrollTop * 30 > logContentRef.current.clientHeight) {
-      setDisplayGoToTop(true)
-    } else {
-      setDisplayGoToTop(false)
-    }
-  }
-
   useEffect(() => {
     setNavigation({
       label: 'Logs',
@@ -117,6 +104,19 @@ const ApplicationLogs = React.forwardRef(({ _props }, ref) => {
 
     return () => callApiStopLogs()
   }, [])
+
+  function handleScroll (event) {
+    if (event.currentTarget.scrollTop < previousScrollTop) {
+      setScrollDirection(DIRECTION_UP)
+      setStatusPausedLogs(STATUS_PAUSED_LOGS)
+    }
+    // 30 Height of a single line
+    if (event.currentTarget.scrollTop * 30 > logContentRef.current.clientHeight) {
+      setDisplayGoToTop(true)
+    } else {
+      setDisplayGoToTop(false)
+    }
+  }
 
   useEffect(() => {
     if (applicationLogs.length > 0) {
@@ -164,6 +164,8 @@ const ApplicationLogs = React.forwardRef(({ _props }, ref) => {
       setDisplayGoToBottom(true)
     }
   }, [scrollDirection, filteredLogs.length, filteredLogsLengthAtPause])
+
+  const callbackOnLog = (_, value) => setLogValue(value)
 
   function handleSelectService (event) {
     setFilterLogsByService({

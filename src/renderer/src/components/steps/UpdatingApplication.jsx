@@ -9,7 +9,7 @@ import { WHITE, TRANSPARENT, RICH_BLACK, OPACITY_30, BOX_SHADOW } from '@platfor
 import useStackablesStore from '~/useStackablesStore'
 import Title from '~/components/ui/Title'
 import CountDown from '~/components/ui/CountDown'
-import { callUpdateApp, logInfo } from '~/api'
+import { callUpdateApp, logInfo, removeLogInfo } from '~/api'
 import { NONE, RUNNING, SUCCESS, ERROR } from '~/ui-constants'
 
 const UpdatingApplication = React.forwardRef(({ onBack, onClickGoToApps, applicationSelectedId }, ref) => {
@@ -22,7 +22,8 @@ const UpdatingApplication = React.forwardRef(({ onBack, onClickGoToApps, applica
   const [countDownStatus, setCountDownStatus] = useState(NONE)
 
   useEffect(() => {
-    logInfo((_, value) => setLogValue(value))
+    logInfo(callbackOnLog)
+
     async function generateApplication () {
       try {
         setCountDownStatus(RUNNING)
@@ -39,6 +40,8 @@ const UpdatingApplication = React.forwardRef(({ onBack, onClickGoToApps, applica
       }
     }
     generateApplication()
+
+    return () => removeLogInfo()
   }, [])
 
   useEffect(() => {
@@ -47,6 +50,8 @@ const UpdatingApplication = React.forwardRef(({ onBack, onClickGoToApps, applica
       setNpmLogs([...npmLogs, { level: logValue.level, message: str.join(' - ') }])
     }
   }, [logValue])
+
+  const callbackOnLog = (_, value) => setLogValue(value)
 
   function renderLog (log, index) {
     let className = `${typographyStyles.desktopOtherCliTerminalSmall} `
