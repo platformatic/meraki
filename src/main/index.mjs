@@ -12,7 +12,7 @@ import { getAppPath } from './lib/utils.mjs'
 import Applications from './lib/applications.mjs'
 import Logs from './lib/logs.mjs'
 import Metrics from './lib/metrics.mjs'
-import Proxy from './runtime-proxy.mjs'
+import Proxy from './lib/runtime-proxy.mjs'
 import { sendTemplateId } from './template-id.mjs'
 
 log.initialize()
