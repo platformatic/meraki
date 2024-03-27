@@ -45,6 +45,8 @@ export const callOpenApplication = async (id) => {
 }
 
 export const logInfo = callback => window.api.onLog(callback)
+export const removeLogInfo = callback => window.api.removeLog(callback)
+
 export const registerUserStatusListener = callback => window.api.onUserStatus(callback)
 
 export const quitApp = () => window.api.quitApp()
@@ -53,6 +55,7 @@ export const callApiStartLogs = async (id) => {
   return await window.api.startLogs(id)
 }
 export const getAppLogs = callback => window.api.onAppLog(callback)
+export const removeAppLogs = callback => window.api.removeAppLog(callback)
 
 export const callApiPauseLogs = async () => {
   return await window.api.pauseLogs()

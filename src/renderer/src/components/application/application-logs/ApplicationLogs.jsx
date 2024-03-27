@@ -14,6 +14,7 @@ import {
   callApiStartLogs,
   callApiStopLogs,
   getAppLogs,
+  removeAppLogs,
   callApiGetAllLogs,
   callApiPauseLogs,
   callApiResumeLogs,
@@ -46,11 +47,11 @@ const ApplicationLogs = React.forwardRef(({ _props }, ref) => {
   const [filteredLogsLengthAtPause, setFilteredLogsLengthAtPause] = useState(0)
 
   useEffect(() => {
-    if (applicationSelected.id) {
-      getAppLogs((_, value) => setLogValue(value))
+    if (applicationSelected.id && applicationStatus === STATUS_RUNNING) {
+      getAppLogs(callbackOnLog)
       callApiStartLogs(applicationSelected.id)
     }
-  }, [applicationSelected.id])
+  }, [applicationSelected.id, applicationStatus])
 
   useEffect(() => {
     if (logValue) {
@@ -92,6 +93,24 @@ const ApplicationLogs = React.forwardRef(({ _props }, ref) => {
     }
   }, [statusPausedLogs])
 
+  useEffect(() => {
+    setNavigation({
+      label: 'Logs',
+      handleClick: () => {
+        setCurrentPage(APPLICATION_PAGE_LOGS)
+      },
+      key: APPLICATION_PAGE_LOGS,
+      page: APPLICATION_PAGE_LOGS
+    }, 2)
+
+    return () => onLeaveComponent()
+  }, [])
+
+  function onLeaveComponent () {
+    callApiStopLogs()
+    removeAppLogs(callbackOnLog)
+  }
+
   function handleScroll (event) {
     if (event.currentTarget.scrollTop < previousScrollTop) {
       setScrollDirection(DIRECTION_UP)
@@ -104,19 +123,6 @@ const ApplicationLogs = React.forwardRef(({ _props }, ref) => {
       setDisplayGoToTop(false)
     }
   }
-
-  useEffect(() => {
-    setNavigation({
-      label: 'Logs',
-      handleClick: () => {
-        setCurrentPage(APPLICATION_PAGE_LOGS)
-      },
-      key: APPLICATION_PAGE_LOGS,
-      page: APPLICATION_PAGE_LOGS
-    }, 2)
-
-    return () => callApiStopLogs()
-  }, [])
 
   useEffect(() => {
     if (applicationLogs.length > 0) {
@@ -164,6 +170,8 @@ const ApplicationLogs = React.forwardRef(({ _props }, ref) => {
       setDisplayGoToBottom(true)
     }
   }, [scrollDirection, filteredLogs.length, filteredLogsLengthAtPause])
+
+  const callbackOnLog = (_, value) => setLogValue(value)
 
   function handleSelectService (event) {
     setFilterLogsByService({
