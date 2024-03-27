@@ -48,7 +48,7 @@ const PrepareFolder = React.forwardRef(({ onNext, onBack }, ref) => {
     logInfo(callbackOnLog)
     prepareFolder()
 
-    return () => removeLogInfo(callbackOnLog)
+    return () => removeLogInfo()
   }, [])
 
   useEffect(() => {

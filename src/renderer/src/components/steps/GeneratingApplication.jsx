@@ -44,7 +44,7 @@ const GeneratingApplication = React.forwardRef(({ onBack, onRestartProcess, useV
     }
     generateApplication()
 
-    return () => removeLogInfo(callbackOnLog)
+    return () => removeLogInfo()
   }, [])
 
   useEffect(() => {
