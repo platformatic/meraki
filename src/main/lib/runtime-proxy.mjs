@@ -34,7 +34,7 @@ class RuntimeProxy {
     const socketPath = this.#getSocketPath(pid)
 
     if (!this.#runtimeProxy) {
-      this.#runtimeProxy = Fastify({ logger: true, level: 'debug' })
+      this.#runtimeProxy = Fastify()
 
       this.#runtimeProxy.register(proxy, {
         upstream: 'http://localhost',
