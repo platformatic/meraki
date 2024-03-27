@@ -6,10 +6,9 @@ import typographyStyles from '~/styles/Typography.module.css'
 import styles from './Log.module.css'
 import { CopyAndPaste, PlatformaticIcon } from '@platformatic/ui-components'
 import { WHITE, SMALL } from '@platformatic/ui-components/src/components/constants'
-import { PRETTY } from '~/ui-constants'
 import { getFormattedLogTimestamp } from '~/utilityDetails'
 
-function Log ({ log, display, onClickArrow }) {
+function Log ({ log, onClickArrow }) {
   const [displayJson, setDisplayJson] = useState(false)
   const [logContainerClassName, setLogContainerClassName] = useState(normalClassName())
   const { level, time, pid, name, msg, reqId, req, hostname, responseTime, ...rest } = JSON.parse(log)
@@ -96,49 +95,45 @@ function Log ({ log, display, onClickArrow }) {
     return content
   }
 
-  return display === PRETTY
-    ? (
-      <div className={logContainerClassName}>
-        <div className={logClassName}>
-          <PlatformaticIcon iconName={displayJson ? 'ArrowDownIcon' : 'ArrowRightIcon'} color={WHITE} size={SMALL} onClick={() => handleChangeDisplayView()} disabled={!reqId} />
-          <span>{getFormattedLogTimestamp(time)}</span>
-          <span className={styles[`text${level}`]}>{levelDisplayed}</span>
-          <span>-</span>
-          <span>{name}</span>
-          {reqId &&
-            <>
-              <span>-</span>
-              <span>“..{reqId.substr(-4)}”</span>
-            </>}
-          {req &&
-            <>
-              <span>-</span>
-              <span className={styles.request}>{req.method} {req.url} </span>
-            </>}
-          <p className={msgClassName}>{msg}</p>
-        </div>
-        {displayJson && (
+  return (
+    <div className={logContainerClassName}>
+      <div className={logClassName}>
+        <PlatformaticIcon iconName={displayJson ? 'ArrowDownIcon' : 'ArrowRightIcon'} color={WHITE} size={SMALL} onClick={() => handleChangeDisplayView()} disabled={!reqId} />
+        <span>{getFormattedLogTimestamp(time)}</span>
+        <span className={styles[`text${level}`]}>{levelDisplayed}</span>
+        <span>-</span>
+        <span>{name}</span>
+        {reqId &&
           <>
-            <div className={styles.copyPasteIcon}>
-              <CopyAndPaste value={log} tooltipLabel='Log copied!' color={WHITE} size={SMALL} />
-            </div>
-            <div className={styles.displayedElements}>
-              <div className={`${typographyStyles.desktopOtherCliTerminalSmall} ${typographyStyles.textWhite}`} key=''>
-                <pre>{cleanElement(JSON.stringify({ reqId }, null, 2))}</pre>
-              </div>
-              {req && (
-                <div className={`${typographyStyles.desktopOtherCliTerminalSmall} ${typographyStyles.textWhite}`} key=''>
-                  <pre>{cleanJson(JSON.stringify({ req }, null, 2))}</pre>
-                </div>)}
-              {displayRest()}
-            </div>
-          </>
-        )}
+            <span>-</span>
+            <span>“..{reqId.substr(-4)}”</span>
+          </>}
+        {req &&
+          <>
+            <span>-</span>
+            <span className={styles.request}>{req.method} {req.url} </span>
+          </>}
+        <p className={msgClassName}>{msg}</p>
       </div>
-      )
-    : (
-      <span className={`${styles.log} ${styles.logRaw} ${typographyStyles.desktopOtherCliTerminalSmall} ${typographyStyles.textWhite}`}>{log}</span>
-      )
+      {displayJson && (
+        <>
+          <div className={styles.copyPasteIcon}>
+            <CopyAndPaste value={log} tooltipLabel='Log copied!' color={WHITE} size={SMALL} />
+          </div>
+          <div className={styles.displayedElements}>
+            <div className={`${typographyStyles.desktopOtherCliTerminalSmall} ${typographyStyles.textWhite}`} key=''>
+              <pre>{cleanElement(JSON.stringify({ reqId }, null, 2))}</pre>
+            </div>
+            {req && (
+              <div className={`${typographyStyles.desktopOtherCliTerminalSmall} ${typographyStyles.textWhite}`} key=''>
+                <pre>{cleanJson(JSON.stringify({ req }, null, 2))}</pre>
+              </div>)}
+            {displayRest()}
+          </div>
+        </>
+      )}
+    </div>
+  )
 }
 
 Log.propTypes = {
@@ -147,10 +142,6 @@ Log.propTypes = {
     */
   log: PropTypes.string,
   /**
-   * display
-   */
-  display: PropTypes.string,
-  /**
    * onClickArrow
    */
   onClickArrow: PropTypes.func
@@ -158,7 +149,6 @@ Log.propTypes = {
 
 Log.defaultProps = {
   log: '',
-  display: PRETTY,
   onClickArrow: () => {}
 }
 
