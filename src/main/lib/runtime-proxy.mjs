@@ -39,7 +39,6 @@ class RuntimeProxy {
       this.#runtimeProxy.register(proxy, {
         upstream: 'http://localhost',
         rewritePrefix: `/api/v1/services/${serviceId}/proxy`,
-        globalAgent: true,
         undici: new Client({
           hostname: 'localhost',
           protocol: 'http:'
