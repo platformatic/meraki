@@ -10,3 +10,6 @@
 .applicationName {
   @apply max-w-[40rem]
 }
+.dateContainer {
+  @apply flex flex-row items-center gap-x-2 lg:gap-x-4 w-full;
+}

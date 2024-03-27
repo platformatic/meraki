@@ -100,7 +100,7 @@ function TopContent ({
         <ApplicationStatusPills status={applicationStatus} />
       </div>
       <div className={`${commonStyles.smallFlexRow} ${commonStyles.fullWidth} ${commonStyles.itemsCenter} ${commonStyles.justifyBetween} `}>
-        <div className={`${commonStyles.smallFlexRow} ${commonStyles.fullWidth} ${commonStyles.itemsCenter} `}>
+        <div className={styles.dateContainer}>
           <div className={`${commonStyles.tinyFlexRow} ${commonStyles.itemsCenter}`}>
             <span className={`${typographyStyles.desktopBodyLarge} ${typographyStyles.textWhite} ${typographyStyles.opacity70}`}>Last Update</span>
             <span className={`${typographyStyles.desktopBodyLarge} ${typographyStyles.textWhite}`}>{getFormattedDate(applicationSelected.lastUpdated)}</span>
@@ -114,9 +114,14 @@ function TopContent ({
           </div>
 
           <VerticalSeparator color={WHITE} backgroundColorOpacity={OPACITY_30} />
+
+          <div className={`${commonStyles.tinyFlexRow} ${commonStyles.itemsCenter}`}>
+            <span className={`${typographyStyles.desktopBodyLarge} ${typographyStyles.textWhite} ${typographyStyles.opacity70}`}>Created On</span>
+            <span className={`${typographyStyles.desktopBodyLarge} ${typographyStyles.textWhite}`}>{getFormattedDate(applicationSelected.createdAt)}</span>
+          </div>
         </div>
 
-        <div className={`${styles.buttonContainer} ${commonStyles.fullWidth}`}>
+        <div className={styles.buttonContainer}>
           {changingStatus
             ? (
               <Button
