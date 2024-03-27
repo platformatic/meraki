@@ -269,9 +269,9 @@ function SelectTemplate ({ onClick, serviceName }) {
         </div>
         <div className={`${commonStyles.mediumFlexBlock24} ${commonStyles.fullWidth}`}>
           <div className={`${commonStyles.smallFlexBlock} ${commonStyles.fullWidth}`}>
-            <p className={`${typographyStyles.desktopBodySmall} ${typographyStyles.textWhite} ${typographyStyles.opacity70}`}>
+            <div className={`${typographyStyles.desktopBodySmall} ${typographyStyles.textWhite} ${typographyStyles.opacity70}`}>
               {renderLoginStatus()}
-            </p>
+            </div>
             <div className={`${commonStyles.tinyFlexRow} ${commonStyles.fullWidth}`}>
               <Forms.SelectWithInput
                 defaultContainerClassName={styles.select}

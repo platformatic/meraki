@@ -2,7 +2,7 @@
   @apply absolute top-[1rem] right-[1rem];
 }
 .log {
-  @apply relative flex flex-row gap-x-2 items-center py-1 px-2;
+  @apply relative flex flex-row gap-x-2 items-center py-1 px-2 rounded;
 }
 .log10 {
   @apply bg-tertiary-blue/15; ;
@@ -43,7 +43,7 @@
   @apply p-0;
 }
 .logContainerClassNameActive {
-  @apply p-2 border border-solid rounded-sm;
+  @apply p-2 border border-solid rounded;
 }
 .logContainerClassNameActive10 {
   @apply border-tertiary-blue;

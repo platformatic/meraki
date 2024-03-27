@@ -257,8 +257,8 @@ const ComposeApplication = React.forwardRef(({ createMode, onNext, onBack }, ref
         <Modal
           key='editApplicationName'
           setIsOpen={() => setShowModalEditApplicationName(false)}
-          title='Application Name'
-          titleClassName={`${typographyStyles.desktopBody} ${typographyStyles.textWhite} ${typographyStyles.opacity70}`}
+          title='Rename Application'
+          titleClassName={`${typographyStyles.desktopHeadline4} ${typographyStyles.textWhite}`}
           layout={MODAL_POPUP_V2}
         >
           <EditApplicationName
@@ -272,8 +272,8 @@ const ComposeApplication = React.forwardRef(({ createMode, onNext, onBack }, ref
         <Modal
           key='editService'
           setIsOpen={() => handleCloseModalEditService()}
-          title='Service Name'
-          titleClassName={`${typographyStyles.desktopBody} ${typographyStyles.textWhite} ${typographyStyles.opacity70}`}
+          title='Rename Service'
+          titleClassName={`${typographyStyles.desktopHeadline4} ${typographyStyles.textWhite}`}
           layout={MODAL_POPUP_V2}
         >
           <EditService

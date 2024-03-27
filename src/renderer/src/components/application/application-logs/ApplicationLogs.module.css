@@ -4,6 +4,7 @@
 .content {
   @apply py-10 px-6 flex flex-col gap-y-10; 
 }
+.buttonContainer,
 .select {
   @apply basis-1/4
 }
@@ -29,5 +30,5 @@
   margin-inline-end: unset;
 }
 .previousLogContainer {
-  @apply sticky w-full bg-rich-black mx-auto top-0 z-10 pb-1; 
+  @apply w-full bg-rich-black mx-auto top-0 z-10 pb-1; 
 }
