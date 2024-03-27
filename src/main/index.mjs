@@ -323,6 +323,10 @@ app.whenReady().then(async () => {
     return logsApi.getPreviousLogs(id)
   })
 
+  ipcMain.handle('there-are-prev-logs', async (_) => {
+    return logsApi.thereArePreviousLogs()
+  })
+
   // ********** METRICS ********** //
   // id: application id
   ipcMain.handle('start-metrics', async (_, id, callback) => {

@@ -154,6 +154,10 @@ class Logs {
       throw err
     }
   }
+
+  thereArePreviousLogs () {
+    return this.#currentLogIndex > 0
+  }
 }
 
 export default Logs

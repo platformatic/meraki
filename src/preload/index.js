@@ -52,6 +52,7 @@ if (process.contextIsolated) {
       },
       getPreviousLogs: (id) => (ipcRenderer.invoke('get-previous-logs', id)),
       getAllLogs: (id) => (ipcRenderer.invoke('get-all-logs', id)),
+      thereArePreviousLogs: (id) => (ipcRenderer.invoke('there-are-prev-logs')),
 
       // metrics
       startMetrics: (id) => (ipcRenderer.invoke('start-metrics', id)),
