@@ -262,6 +262,7 @@ test('open application', async (t) => {
     insideMeraki: false,
     lastStarted: null,
     lastUpdated: applicationDesc.lastUpdated,
+    createdAt: applicationDesc.createdAt,
     automaticallyImported: false,
     configPath: `${appDir}/platformatic.json`,
     entrypoint: 'service-1',

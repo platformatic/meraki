@@ -62,6 +62,7 @@ class Applications {
         insideMeraki: false,
         lastStarted: app.startedAt,
         lastUpdated: app.updatedAt,
+        createdAt: app.createdAt,
         automaticallyImported: !!app.automaticallyImported
       }
       const runtime = runningRuntimes.find((runtime) => runtime.projectDir === app.path)
