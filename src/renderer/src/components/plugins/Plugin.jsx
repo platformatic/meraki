@@ -34,11 +34,11 @@ function Plugin ({ name, onClickCardPlugin, isSelected, description, tags, autho
   }
 
   function normalClassName () {
-    return `${commonStyles.extraSmallFlexBlock} ${styles.container} ${styles.unSelected}`
+    return `${commonStyles.miniFlexBlock} ${styles.container} ${styles.unSelected}`
   }
 
   function hoverClassName () {
-    return `${commonStyles.extraSmallFlexBlock} ${styles.container} ${styles.selected}`
+    return `${commonStyles.miniFlexBlock} ${styles.container} ${styles.selected}`
   }
 
   return (

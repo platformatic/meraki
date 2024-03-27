@@ -76,7 +76,7 @@ const Welcome = React.forwardRef(({ onClickImportApp, onClickCreateNewApp }, ref
               />
             </div>
             <HorizontalSeparator marginBottom={MARGIN_0} marginTop={MARGIN_0} color={WHITE} opacity={OPACITY_30} />
-            <div className={commonStyles.extraSmallFlexBlock}>
+            <div className={commonStyles.miniFlexBlock}>
               <p className={`${typographyStyles.desktopBodyLargeSemibold} ${typographyStyles.textWhite}`}>Applications running in your System</p>
               <p className={`${typographyStyles.desktopBody} ${typographyStyles.textWhite} ${typographyStyles.opacity70}`}>You don’t have running application in your system.</p>
             </div>

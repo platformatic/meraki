@@ -4,6 +4,9 @@
 .log {
   @apply relative flex flex-row gap-x-2 items-center py-1 px-2 rounded;
 }
+.logRaw {
+  word-break: break-word;
+}
 .log10 {
   @apply bg-tertiary-blue/15; ;
 }
