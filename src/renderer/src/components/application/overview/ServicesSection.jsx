@@ -10,14 +10,25 @@ import Icons from '@platformatic/ui-components/src/components/icons'
 import ServiceElement from './ServiceElement'
 import useStackablesStore from '~/useStackablesStore'
 import Scalar from '~/components/Scalar'
+import { startProxy, stopProxy } from '~/api'
 
 function ServicesSection ({ url, onClickEditApplication }) {
   const globalState = useStackablesStore()
   const applicationStatus = globalState.computed.applicationStatus
   const applicationSelected = globalState.computed.applicationSelected
   const [showModalScalarIntegration, setShowModalScalarIntegration] = useState(false)
-  function handleCloseModalAPIReference () {
+  const [proxyURL, setProxyURL] = useState(null)
+
+  async function handleCloseModalAPIReference () {
+    await stopProxy()
     setShowModalScalarIntegration(false)
+  }
+
+  async function onClickAPIReference (id, serviceId) {
+    const url = await startProxy(id, serviceId)
+    setProxyURL(url)
+    console.log('@@@@@@@@@@@@@@@@@@@@@@', url)
+    setShowModalScalarIntegration(true)
   }
 
   return (
@@ -52,7 +63,10 @@ function ServicesSection ({ url, onClickEditApplication }) {
         </div>
 
         <div className={styles.servicesContainer}>
-          {applicationSelected.services.map((service, index) => <ServiceElement key={index} id={service.id} service={service} applicationEntrypoint={applicationSelected.entrypoint === service.id} applicationStatus={applicationStatus} onClickScalarIntegration={() => setShowModalScalarIntegration(true)} />)}
+          {applicationSelected.services.map((service, index) => <ServiceElement
+            key={index} id={service.id} service={service} applicationEntrypoint={applicationSelected.entrypoint === service.id} applicationStatus={applicationStatus}
+            onClickScalarIntegration={() => onClickAPIReference(applicationSelected.id, service.id)}
+                                                                />)}
         </div>
       </div>
       {showModalScalarIntegration && (
@@ -63,7 +77,7 @@ function ServicesSection ({ url, onClickEditApplication }) {
           titleClassName={`${typographyStyles.desktopBody} ${typographyStyles.textWhite} cy-modal-template`}
           classNameModalLefty='should-be-full-width'
         >
-          <Scalar url={url} />
+          <Scalar url={proxyURL} />
         </ModalDirectional>
       )}
     </>
