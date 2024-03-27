@@ -1,7 +1,6 @@
 'use strict'
 import React, { useEffect, useState } from 'react'
 import PropTypes from 'prop-types'
-// import commonStyles from '~/styles/CommonStyles.module.css'
 import typographyStyles from '~/styles/Typography.module.css'
 import styles from './Log.module.css'
 import { CopyAndPaste, PlatformaticIcon } from '@platformatic/ui-components'
