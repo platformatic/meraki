@@ -30,7 +30,7 @@ beforeAll(async () => {
   } catch (err) {}
 })
 
-test('start one runtime and invoke a service', async (t) => {
+test('start one runtime and invoke the services', async (t) => {
   const appDir = await mkdtemp(join(tmpdir(), 'plat-app-test'))
   onTestFinished(() => rm(appDir, { recursive: true }))
   const appFixture = join('test', 'fixtures', 'runtime')
@@ -62,4 +62,29 @@ test('start one runtime and invoke a service', async (t) => {
     expect(bodyJson).toEqual({ runtime: 'runtime-1', service: 'service-2' })
     await proxyApi.stop()
   }
+
+  {
+    // non existing service id
+    const serviceURL = await proxyApi.start(id, 'service-non-existing')
+    const res = await request(`${serviceURL}/hello`)
+    const body = await res.body.text()
+    const bodyJson = JSON.parse(body)
+    expect(res.statusCode).toBe(500)
+    expect(bodyJson).toEqual({
+      statusCode: 500,
+      error: 'Internal Server Error',
+      message: 'Service not found. Available services are: service-1, service-2'
+    })
+    await proxyApi.stop()
+  }
+
+  {
+    // non existent application id
+    const id = 'non-existent-id'
+    await expect(proxyApi.start(id, 'service-1')).rejects.toThrowError(`Application with id ${id} not found, cannot extract PID`)
+  }
+
+  // runtime stopped
+  await applicationsApi.stopRuntime(id)
+  await expect(proxyApi.start(id, 'service-1')).rejects.toThrowError(`Application with id ${id} is not running`)
 }, 60000)

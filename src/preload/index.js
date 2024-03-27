@@ -56,7 +56,11 @@ if (process.contextIsolated) {
 
       // template-id
       receivedTemplateID: callback => ipcRenderer.on('use-template-id', callback),
-      stopReceivingTemplateID: callback => ipcRenderer.removeAllListeners('use-template-id', callback)
+      stopReceivingTemplateID: callback => ipcRenderer.removeAllListeners('use-template-id', callback),
+
+      // proxy
+      startProxy: (id, serviceId) => (ipcRenderer.invoke('start-proxy', id, serviceId)),
+      stopProxy: () => (ipcRenderer.invoke('stop-proxy'))
     })
   } catch (error) {
     console.error(error)
