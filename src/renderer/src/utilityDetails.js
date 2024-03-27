@@ -60,3 +60,14 @@ export const getFormattedDate = (date) => {
   if (formattedDate === 'Invalid Date') return '-'
   return `${ABB_MONTH_NAMES[formattedDate.getMonth()]} ${formattedDate.getDate()}, ${formattedDate.getFullYear()}`
 }
+
+export const getFormattedLogTimestamp = (date, includeMilliseconds = false) => {
+  if (date === '-') return '-'
+  if (!(typeof date === 'string' || typeof date === 'number')) return '-'
+
+  const formattedDate = new Date(date)
+  if (formattedDate === 'Invalid Date') return '-'
+  let retString = `${String(formattedDate.getHours()).padStart(2, '0')}:${String(formattedDate.getMinutes()).padStart(2, '0')}:${String(formattedDate.getSeconds()).padStart(2, '0')}`
+  if (includeMilliseconds) retString += `.${String(formattedDate.getMilliseconds()).padStart(3, '0')}`
+  return retString
+}

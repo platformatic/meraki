@@ -7,12 +7,12 @@ import styles from './Log.module.css'
 import { PlatformaticIcon } from '@platformatic/ui-components'
 import { WHITE, SMALL } from '@platformatic/ui-components/src/components/constants'
 import { PRETTY } from '~/ui-constants'
+import { getFormattedLogTimestamp } from '~/utilityDetails'
 
 function Log ({ log, display, onClickArrow }) {
   const [displayJson, setDisplayJson] = useState(false)
   const [logContainerClassName, setLogContainerClassName] = useState(normalClassName())
-  const { level, pid, name, hostname, msg, time } = JSON.parse(log)
-  const timestamp = new Date(time).toISOString()
+  const { level, pid, name, msg, time } = JSON.parse(log)
   const levelDisplayed = getLevel(level)
 
   function getLevel (level) {
@@ -61,15 +61,16 @@ function Log ({ log, display, onClickArrow }) {
       <div className={logContainerClassName}>
         <div className={logClassName}>
           <PlatformaticIcon iconName={displayJson ? 'ArrowDownIcon' : 'ArrowRightIcon'} color={WHITE} size={SMALL} onClick={() => handleChangeDisplayView()} internalOverHandling />
-          <span>[{`${timestamp}`}]</span>
+          <span>{getFormattedLogTimestamp(time)}</span>
           <span className={styles[`text${level}`]}>{levelDisplayed}</span>
-          <span>{hostname}</span>
+          <span>-</span>
           {name && (
             <>
               <span>{name}</span>
               <span>({pid})</span>
             </>
           )}
+          <span>-</span>
           <p className={styles.msg}>{msg}</p>
         </div>
         {displayJson && (
@@ -80,10 +81,10 @@ function Log ({ log, display, onClickArrow }) {
     : (
       <div className={`${commonStyles.smallFlexBlock} ${commonStyles.fullWidth}`}>
         <p className={`${styles.log} ${typographyStyles.desktopOtherCliTerminalSmall} ${typographyStyles.textWhite}`}>
-          <span>[{`${timestamp}`}]</span>&nbsp;
-          <span>{levelDisplayed}</span>&nbsp;
-          <span>{hostname}</span>&nbsp;
-          <span>{msg}</span>&nbsp;
+          <span>[{getFormattedLogTimestamp(time, true)}]</span>
+          <span>{levelDisplayed}</span>
+          <span>({name}/{pid}):</span>
+          <span>{msg}</span>
         </p>
         <p className={`${styles.log} ${typographyStyles.desktopOtherCliTerminalSmall} ${typographyStyles.textWhite}`}><pre>{JSON.stringify(JSON.parse(log), null, 2)}</pre></p>
       </div>
