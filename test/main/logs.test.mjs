@@ -146,10 +146,15 @@ test('previous logs', async (t) => {
 
   logs.start(id, send)
   await sleep(1500)
+  expect(logs.thereArePreviousLogs()).toBe(true)
   expect(receivedLogs.join('\n')).toContain('test-logs-3')
+
+  expect(logs.thereArePreviousLogs()).toBe(true)
   const prevLogs2 = await logs.getPreviousLogs(id)
   expect(prevLogs2).toContain('test-logs-2')
+  expect(logs.thereArePreviousLogs()).toBe(true)
   const prevLogs1 = await logs.getPreviousLogs(id)
+  expect(logs.thereArePreviousLogs()).toBe(false)
   expect(prevLogs1).toContain('test-logs-1')
   logs.stop()
   await applicationsApi.stopRuntime(id)
