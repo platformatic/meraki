@@ -93,10 +93,10 @@ function TableAll ({
   }
 
   function handleSortByLastUpdate () {
-    setSortActiveOn('lastUpdate')
+    setSortActiveOn('lastUpdated')
     const newValue = sortByLastUpdate === '' ? ASC : sortByLastUpdate === ASC ? DESC : ASC
     setSortByLastUpdate(newValue)
-    setFilteredApplications(sortCollection(filteredApplications, 'lastUpdate', newValue === ASC))
+    setFilteredApplications(sortCollection(filteredApplications, 'lastUpdated', newValue === ASC))
   }
 
   function handleSortByLastStarted () {
@@ -235,7 +235,7 @@ function TableAll ({
               <div className={styles.thWithIcon}>
 
                 <span className={`${typographyStyles.desktopOtherOverlineNormal} ${typographyStyles.textWhite}`}>Last Update</span>
-                <PlatformaticIcon iconName={getSortIcon('lastUpdate', sortByStatus === ASC ? 'SortDownIcon' : 'SortUpIcon')} color={WHITE} size={SMALL} onClick={() => handleSortByLastUpdate()} />
+                <PlatformaticIcon iconName={getSortIcon('lastUpdated', sortByStatus === ASC ? 'SortDownIcon' : 'SortUpIcon')} color={WHITE} size={SMALL} onClick={() => handleSortByLastUpdate()} />
               </div>
             </div>
             <div className={styles.tableHeader}>

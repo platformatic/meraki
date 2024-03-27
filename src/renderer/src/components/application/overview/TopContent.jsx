@@ -103,7 +103,7 @@ function TopContent ({
         <div className={`${commonStyles.smallFlexRow} ${commonStyles.fullWidth} ${commonStyles.itemsCenter} `}>
           <div className={`${commonStyles.tinyFlexRow} ${commonStyles.itemsCenter}`}>
             <span className={`${typographyStyles.desktopBodyLarge} ${typographyStyles.textWhite} ${typographyStyles.opacity70}`}>Last Update</span>
-            <span className={`${typographyStyles.desktopBodyLarge} ${typographyStyles.textWhite}`}>{getFormattedDate(applicationSelected.lastUpdate)}</span>
+            <span className={`${typographyStyles.desktopBodyLarge} ${typographyStyles.textWhite}`}>{getFormattedDate(applicationSelected.lastUpdated)}</span>
           </div>
 
           <VerticalSeparator color={WHITE} backgroundColorOpacity={OPACITY_30} />
