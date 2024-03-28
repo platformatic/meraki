@@ -35,7 +35,7 @@ class RuntimeProxy {
     const socketPath = this.#getSocketPath(pid)
 
     const runtimeUrl = runtime.runtime.url
-    const runtimePort = runtimeUrl.split(':')[2]
+    const runtimePort = runtimeUrl.split(':').pop()
 
     const client = new Client({
       hostname: 'localhost',
