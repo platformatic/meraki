@@ -5,8 +5,8 @@ import typographyStyles from '~/styles/Typography.module.css'
 import commonStyles from '~/styles/CommonStyles.module.css'
 import styles from './ErrorComponent.module.css'
 import Icons from '@platformatic/ui-components/src/components/icons'
-import { ANTI_FLASH_WHITE, DULLS_BACKGROUND_COLOR, ERROR_RED, LARGE, SMALL, RICH_BLACK, WHITE, TRANSPARENT, OPACITY_30, MARGIN_0, ALIGNMENT_CENTER } from '@platformatic/ui-components/src/components/constants'
-import { BorderedBox, Button, HorizontalSeparator, TooltipV2 } from '@platformatic/ui-components'
+import { ANTI_FLASH_WHITE, DULLS_BACKGROUND_COLOR, ERROR_RED, LARGE, SMALL, RICH_BLACK, WHITE, TRANSPARENT, OPACITY_30, MARGIN_0 } from '@platformatic/ui-components/src/components/constants'
+import { BorderedBox, Button, HorizontalSeparator, Tooltip } from '@platformatic/ui-components'
 import tooltipStyles from '~/styles/TooltipStyles.module.css'
 
 // eslint-disable-next-line no-unused-vars
@@ -74,7 +74,13 @@ function ErrorComponent ({ error, message, onClickDismiss }) {
       {showLogs && (
         <BorderedBox color={WHITE} borderColorOpacity={OPACITY_30} backgroundColor={TRANSPARENT} classes={styles.showedLogsContainer}>
           <div className={`${styles.buttonLogsContainer} ${commonStyles.fullWidth}`}>
-            <div className={styles.buttonCopyLogContainer}>
+            <Tooltip
+              tooltipClassName={tooltipStyles.tooltipDarkStyle}
+              visible={logsCopied}
+              content={(<span>Logs copied!</span>)}
+              offset={4}
+              activeDependsOnVisible
+            >
               <Button
                 label='Copy Logs'
                 onClick={() => copyLogs()}
@@ -84,8 +90,7 @@ function ErrorComponent ({ error, message, onClickDismiss }) {
                 textClass={`${typographyStyles.desktopBody} action-copy-logs`}
                 platformaticIcon={getButtonCopyIcon()}
               />
-              {logsCopied && <TooltipV2 tooltipClassName={tooltipStyles.tooltipDarkStyle} text='Logs copied!' visible alignment={ALIGNMENT_CENTER} elementClassName='action-copy-logs' />}
-            </div>
+            </Tooltip>
             <Button
               label='Report issue'
               disabled

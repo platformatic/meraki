@@ -4,8 +4,9 @@ import PropTypes from 'prop-types'
 import typographyStyles from '~/styles/Typography.module.css'
 import styles from './Log.module.css'
 import { CopyAndPaste, PlatformaticIcon } from '@platformatic/ui-components'
-import { WHITE, SMALL } from '@platformatic/ui-components/src/components/constants'
+import { WHITE, SMALL, POSITION_END } from '@platformatic/ui-components/src/components/constants'
 import { getFormattedLogTimestamp } from '~/utilityDetails'
+import tooltipStyles from '~/styles/TooltipStyles.module.css'
 
 function Log ({ log, onClickArrow }) {
   const [displayJson, setDisplayJson] = useState(false)
@@ -117,7 +118,7 @@ function Log ({ log, onClickArrow }) {
       {displayJson && (
         <>
           <div className={styles.copyPasteIcon}>
-            <CopyAndPaste value={log} tooltipLabel='Log copied!' color={WHITE} size={SMALL} />
+            <CopyAndPaste value={log} tooltipLabel='Log copied!' color={WHITE} size={SMALL} tooltipClassName={tooltipStyles.tooltipDarkStyle} position={POSITION_END} />
           </div>
           <div className={styles.displayedElements}>
             <div className={`${typographyStyles.desktopOtherCliTerminalSmall} ${typographyStyles.textWhite}`} key=''>
