@@ -8,7 +8,20 @@ import commonStyles from '~/styles/CommonStyles.module.css'
 import { BorderedBox, Button, HorizontalSeparator } from '@platformatic/ui-components'
 import Forms from '@platformatic/ui-components/src/components/forms'
 import Log from './Log'
-import { PRETTY, RAW, DIRECTION_UP, DIRECTION_DOWN, DIRECTION_STILL, STATUS_PAUSED_LOGS, STATUS_RESUMED_LOGS, STATUS_RUNNING, STATUS_STOPPED, FILTER_ALL, APPLICATION_PAGE_LOGS } from '~/ui-constants'
+import {
+  PRETTY,
+  RAW,
+  DIRECTION_UP,
+  DIRECTION_DOWN,
+  DIRECTION_STILL,
+  DIRECTION_TAIL,
+  STATUS_PAUSED_LOGS,
+  STATUS_RESUMED_LOGS,
+  STATUS_RUNNING,
+  STATUS_STOPPED,
+  FILTER_ALL,
+  APPLICATION_PAGE_LOGS
+} from '~/ui-constants'
 import LogFilterSelector from './LogFilterSelector'
 import {
   callApiStartLogs,
@@ -33,13 +46,12 @@ const ApplicationLogs = React.forwardRef(({ _props }, ref) => {
   const [filtersInitialized, setFiltersInitialized] = useState(false)
   const [defaultOptionsSelected, setDefaultOptionsSelected] = useState(null)
   const [optionsServices, setOptionsServices] = useState([{ label: 'All Services', value: FILTER_ALL }])
-  const [scrollDirection, setScrollDirection] = useState(DIRECTION_DOWN)
+  const [scrollDirection, setScrollDirection] = useState(DIRECTION_TAIL)
   const [logValue, setLogValue] = useState(null)
   const [applicationLogs, setApplicationLogs] = useState([])
   const [filteredLogs, setFilteredLogs] = useState([])
   const logContentRef = useRef()
-  const [previousScrollTop, setPreviousScrollTop] = useState(0)
-  const [displayGoToTop, setDisplayGoToTop] = useState(false)
+  const [lastScrollTop, setLastScrollTop] = useState(0)
   const [displayGoToBottom, setDisplayGoToBottom] = useState(false)
   const [showPreviousLogs, setShowPreviousLogs] = useState(true)
   const [statusPausedLogs, setStatusPausedLogs] = useState('')
@@ -59,18 +71,17 @@ const ApplicationLogs = React.forwardRef(({ _props }, ref) => {
   }, [logValue])
 
   useEffect(() => {
-    if (scrollDirection === DIRECTION_DOWN && filteredLogs.length > 0) {
+    if (scrollDirection === DIRECTION_TAIL && filteredLogs.length > 0) {
       logContentRef.current.scrollTo({
         top: logContentRef.current.scrollHeight,
         left: 0,
         behavior: 'smooth'
       })
-      setPreviousScrollTop(logContentRef.current.scrollTop)
       if (statusPausedLogs === STATUS_PAUSED_LOGS) {
         setStatusPausedLogs(STATUS_RESUMED_LOGS)
       }
     }
-    if (scrollDirection === DIRECTION_STILL) {
+    if (scrollDirection !== DIRECTION_TAIL) {
       setFilteredLogsLengthAtPause(filteredLogs.length)
     }
   }, [scrollDirection, filteredLogs])
@@ -106,16 +117,18 @@ const ApplicationLogs = React.forwardRef(({ _props }, ref) => {
   }, [])
 
   function handleScroll (event) {
-    if (event.currentTarget.scrollTop < previousScrollTop) {
+    // setStatusPausedLogs(STATUS_PAUSED_LOGS)
+    const st = event.currentTarget.scrollTop // Credits: "https://github.com/qeremy/so/blob/master/so.dom.js#L426"
+    if (st > lastScrollTop) {
+      // downscroll code
+      if (scrollDirection !== DIRECTION_TAIL) {
+        setScrollDirection(DIRECTION_DOWN)
+      }
+    } else if (st < lastScrollTop) {
+      // upscroll code
       setScrollDirection(DIRECTION_UP)
-      setStatusPausedLogs(STATUS_PAUSED_LOGS)
     }
-    // 30 Height of a single line
-    if (event.currentTarget.scrollTop * 30 > logContentRef.current.clientHeight) {
-      setDisplayGoToTop(true)
-    } else {
-      setDisplayGoToTop(false)
-    }
+    setLastScrollTop(st <= 0 ? 0 : st)
   }
 
   useEffect(() => {
@@ -160,7 +173,7 @@ const ApplicationLogs = React.forwardRef(({ _props }, ref) => {
   ])
 
   useEffect(() => {
-    if (scrollDirection !== DIRECTION_DOWN && filteredLogsLengthAtPause > 0 && filteredLogsLengthAtPause < filteredLogs.length) {
+    if (scrollDirection !== DIRECTION_TAIL && filteredLogsLengthAtPause > 0 && filteredLogsLengthAtPause < filteredLogs.length) {
       setDisplayGoToBottom(true)
     }
   }, [scrollDirection, filteredLogs.length, filteredLogsLengthAtPause])
@@ -174,17 +187,8 @@ const ApplicationLogs = React.forwardRef(({ _props }, ref) => {
     })
   }
 
-  function clickGoToTop () {
-    setScrollDirection(DIRECTION_UP)
-    logContentRef.current.scrollTo({
-      top: 0,
-      left: 0,
-      behavior: 'smooth'
-    })
-  }
-
   function resumeScrolling () {
-    setScrollDirection(DIRECTION_DOWN)
+    setScrollDirection(DIRECTION_TAIL)
     setDisplayGoToBottom(false)
     setFilteredLogsLengthAtPause(0)
   }
@@ -209,6 +213,18 @@ const ApplicationLogs = React.forwardRef(({ _props }, ref) => {
   function handlingClickArrow () {
     setScrollDirection(DIRECTION_STILL)
     setFilteredLogsLengthAtPause(filteredLogs.length)
+  }
+
+  function renderLogs () {
+    if (displayLog === PRETTY) {
+      return filteredLogs.map((log, index) => <Log key={index} log={log} display={displayLog} onClickArrow={() => handlingClickArrow()} />)
+    }
+
+    return (
+      <span className={`${typographyStyles.desktopOtherCliTerminalSmall} ${typographyStyles.textWhite}`}>
+        {filteredLogs}
+      </span>
+    )
   }
 
   return (
@@ -271,22 +287,14 @@ const ApplicationLogs = React.forwardRef(({ _props }, ref) => {
               {filteredLogs?.length > 0 && (
                 <>
                   <hr className={styles.logDividerTop} />
-                  {filteredLogs.map((log, index) => <Log key={index} log={log} display={displayLog} onClickArrow={() => handlingClickArrow()} />)}
+                  {renderLogs()}
                   <hr className={styles.logDividerBottom} />
                 </>
               )}
             </div>
             <HorizontalSeparator marginBottom={MARGIN_0} marginTop={MARGIN_0} color={WHITE} opacity={OPACITY_30} />
             <div className={`${commonStyles.tinyFlexRow} ${commonStyles.itemsCenter} ${commonStyles.justifyBetween} ${styles.lateralPadding} ${styles.bottom}`}>
-              <Button
-                type='button'
-                paddingClass={commonStyles.buttonPadding}
-                label='Go to Top'
-                onClick={() => clickGoToTop()}
-                color={displayGoToTop ? WHITE : RICH_BLACK}
-                backgroundColor={RICH_BLACK}
-                disabled={!displayGoToTop}
-              />
+              <div>&nbsp;</div>
 
               {displayGoToBottom
                 ? (
