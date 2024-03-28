@@ -8,7 +8,7 @@ import { STATUS_STOPPED, STATUS_RUNNING } from '~/ui-constants'
 import styles from './OverviewSection.module.css'
 import typographyStyles from '~/styles/Typography.module.css'
 import commonStyles from '~/styles/CommonStyles.module.css'
-// import { ApiReferenceReact } from '@scalar/api-reference-react'
+import { startProxy, stopProxy } from '~/api'
 import Scalar from '~/components/Scalar'
 
 function OverviewSection () {
@@ -16,7 +16,20 @@ function OverviewSection () {
   const applicationSelected = globalState.computed.applicationSelected
   const applicationStatus = globalState.computed.applicationStatus
   const [url, setUrl] = useState('-')
+  const [proxyURL, setProxyURL] = useState(null)
   const [showModalScalarIntegration, setShowModalScalarIntegration] = useState(false)
+
+  console.log('@@@@@@@@@', proxyURL)
+  async function handleCloseModalAPIReference () {
+    await stopProxy()
+    setShowModalScalarIntegration(false)
+  }
+
+  async function onClickAPIReference (id) {
+    const url = await startProxy(id)
+    setProxyURL(url)
+    setShowModalScalarIntegration(true)
+  }
 
   useEffect(() => {
     if (applicationStatus === STATUS_RUNNING && applicationSelected?.runtime?.url) {
@@ -25,10 +38,6 @@ function OverviewSection () {
       setUrl('-')
     }
   }, [applicationStatus, applicationSelected.runtime])
-
-  function handleCloseModalAPIReference () {
-    setShowModalScalarIntegration(false)
-  }
 
   return (
     <>
@@ -98,7 +107,7 @@ function OverviewSection () {
             <Button
               type='button'
               label='API reference'
-              onClick={() => setShowModalScalarIntegration(true)}
+              onClick={() => onClickAPIReference(applicationSelected.id)}
               color={WHITE}
               backgroundColor={TRANSPARENT}
               paddingClass={commonStyles.buttonPadding}
@@ -117,7 +126,7 @@ function OverviewSection () {
           titleClassName={`${typographyStyles.desktopBody} ${typographyStyles.textWhite} cy-modal-template`}
           classNameModalLefty='should-be-full-width'
         >
-          <Scalar url={url} />
+          <Scalar url={proxyURL} />
         </ModalDirectional>
       )}
     </>
