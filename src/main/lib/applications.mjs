@@ -7,6 +7,7 @@ import { getLatestPlatformaticVersion, findExecutable } from './utils.mjs'
 import { resolve, join } from 'node:path'
 import getSqlMapper from './db.mjs'
 import { inspectApp } from './inspect-app.mjs'
+import which from 'which'
 import split from 'split2'
 import pino from 'pino'
 const logger = pino()
@@ -102,8 +103,15 @@ class Applications {
     await npmInstall(null, { cwd: appFolder }, logger)
     const configFile = join(appFolder, 'platformatic.json')
     const runtimeCliPath = this.#getRuntimeCliPath(appFolder)
-    // We canot use `process.execPath` because it's the path to the electron binary
-    const nodePath = process.platform === 'win32' ? 'node' : await findExecutable('node')
+
+    // We cannot use `process.execPath` because it's the path to the electron binary
+    let nodePath
+    if (process.platform === 'win32') {
+      nodePath = await which('node')
+    } else {
+      nodePath = await findExecutable('node')
+    }
+
     const runtime = execa(
       nodePath, [runtimeCliPath, 'start', '-c', configFile],
       { env, cleanup: true, cwd: appFolder }
