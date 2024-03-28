@@ -9,7 +9,7 @@ import useErrorBoundary from 'use-error-boundary'
 import ErrorComponent from '~/components/screens/ErrorComponent'
 import ApplicationContainer from '~/components/ApplicationContainer'
 import HomeContainer from '~/components/HomeContainer'
-import { HOME_PATH, APPLICATION_PATH, PAGE_WELCOME, STATUS_RUNNING } from '~/ui-constants'
+import { HOME_PATH, APPLICATION_PATH, PAGE_WELCOME } from '~/ui-constants'
 import ImportApplicationFlow from '~/components/application/import/ImportApplicationFlow'
 import CreateApplicationFlow from '~/components/application/create/CreateApplicationFlow'
 import Welcome from '~/components/welcome/Welcome'
@@ -51,7 +51,7 @@ function App ({ path }) {
           setApplications([])
           const allApplications = await getApiApplications()
           setApplications(allApplications)
-          if (allApplications.length === 0 || (!skipCheckOnAutomaticallyImported && allApplications.find(application => application.automaticallyImported && application.status === STATUS_RUNNING))) {
+          if (allApplications.length === 0 || (!skipCheckOnAutomaticallyImported && allApplications.find(application => !application.automaticallyImported) === undefined)) {
             setShowWelcomePage(true)
           } else {
             setShowWelcomePage(false)
