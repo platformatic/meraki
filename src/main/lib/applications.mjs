@@ -108,8 +108,6 @@ class Applications {
       nodePath, [runtimeCliPath, 'start', '-c', configFile],
       { env, cleanup: true, cwd: appFolder }
     )
-    runtime.stdout.pipe(process.stdout)
-    runtime.stderr.pipe(process.stderr)
 
     const output = runtime.stdout.pipe(split((line) => {
       try {
