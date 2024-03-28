@@ -6,6 +6,7 @@ import split from 'split2'
 import { dirname } from 'node:path'
 import log from 'electron-log'
 import { findExecutable } from './utils.mjs'
+import which from 'which'
 
 async function npmInstall (pkg = null, options, logger) {
   const installOptions = ['install']
@@ -16,7 +17,8 @@ async function npmInstall (pkg = null, options, logger) {
 
   if (process.platform === 'win32' || !app) {
     log.info('Running in windows, using npm from PATH')
-    child = execa('npm', installOptions, options)
+    const npmExec = await which('npm')
+    child = execa(npmExec, installOptions, options)
   } else {
     // OSx and linux
     const executable = await findExecutable('npm')
