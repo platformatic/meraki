@@ -3,7 +3,6 @@ import { useState, useEffect } from 'react'
 import PropTypes from 'prop-types'
 import '~/App.css'
 import Header from '~/layout/Header'
-import Wizard from '~/components/Wizard'
 import log from 'electron-log/renderer'
 import useErrorBoundary from 'use-error-boundary'
 import ErrorComponent from '~/components/screens/ErrorComponent'
@@ -14,7 +13,6 @@ import ImportApplicationFlow from '~/components/application/import/ImportApplica
 import CreateApplicationFlow from '~/components/application/create/CreateApplicationFlow'
 import Welcome from '~/components/welcome/Welcome'
 import { getApiApplications } from '~/api'
-import { isDevMode } from '~/utils'
 import useStackablesStore from '~/useStackablesStore'
 
 function App ({ path }) {
@@ -31,7 +29,6 @@ function App ({ path }) {
   const [showModalImportApplication, setShowModalImportApplication] = useState(false)
   const [showModalCreateApplication, setShowModalCreateApplication] = useState(false)
   const [skipCheckOnAutomaticallyImported, setSkipCheckOnAutomaticallyImported] = useState(false)
-  const featureFlag = isDevMode()
   const [showErrorComponent, setShowErrorComponent] = useState(false)
   const {
     ErrorBoundary,
@@ -124,13 +121,13 @@ function App ({ path }) {
       )
     : (
       <ErrorBoundary>
-        <div className={featureFlag ? 'rootV1' : 'rootV0'}>
+        <div className='rootV1'>
           <Header
-            showCreateNewApp={featureFlag && showCreateNewAppHeader}
+            showCreateNewApp={showCreateNewAppHeader}
             onClickCreateNewApp={() => setShowModalCreateApplication(true)}
             onClickImportApp={() => setShowModalImportApplication(true)}
           />
-          {featureFlag ? currentBodyComponent : <Wizard useVersion='0' />}
+          {currentBodyComponent}
         </div>
         {showModalImportApplication && (
           <ImportApplicationFlow
