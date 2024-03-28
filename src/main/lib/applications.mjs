@@ -107,8 +107,8 @@ class Applications {
     // We cannot use `process.execPath` because it's the path to the electron binary
     let nodePath
     if (process.platform === 'win32') {
-      // We need the full path, not just the executable name 
-      // see: https://github.com/netlify/build/issues/387   
+      // We need the full path, not just the executable name
+      // see: https://github.com/netlify/build/issues/387
       // We cannot use `findExecutable` because it uses `which` which is not available on windows
       nodePath = await which('node')
     } else {
