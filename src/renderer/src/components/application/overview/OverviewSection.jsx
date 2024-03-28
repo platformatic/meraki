@@ -19,7 +19,6 @@ function OverviewSection () {
   const [proxyURL, setProxyURL] = useState(null)
   const [showModalScalarIntegration, setShowModalScalarIntegration] = useState(false)
 
-  console.log('@@@@@@@@@', proxyURL)
   async function handleCloseModalAPIReference () {
     await stopProxy()
     setShowModalScalarIntegration(false)
