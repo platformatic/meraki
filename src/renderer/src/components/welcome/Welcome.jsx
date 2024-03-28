@@ -62,7 +62,7 @@ const Welcome = React.forwardRef(({ onClickImportApp, onClickCreateNewApp, onCli
     }
     return (
       <>
-        <p className={`${typographyStyles.desktopBody} ${typographyStyles.textWhite} ${typographyStyles.opacity70} ${styles.paddingBottom}`}>Click on the Application name to see the details.</p>
+        <p className={`${typographyStyles.desktopBody} ${typographyStyles.textWhite} ${typographyStyles.opacity70} ${styles.paddingBottom}`}>All the applications listed below are automatically imported into Meraki.<br /> Click on the application name to see the details</p>
         <BorderedBox color={WHITE} borderColorOpacity={OPACITY_30} backgroundColor={TRANSPARENT} classes={`${commonStyles.mediumFlexBlock24} ${commonStyles.fullWidth}`}>
           {
             automaticallyImportedApplications.map(application => (
