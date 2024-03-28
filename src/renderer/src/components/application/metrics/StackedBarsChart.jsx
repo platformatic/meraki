@@ -154,7 +154,7 @@ const StackedBarsChart = ({
       }
 
       // Prepare the tooltip
-      const timeString = d3.timeFormat('%H:%M:%S %p')(data.time)
+      const timeString = d3.timeFormat('%H:%M:%S.%L %p')(data.time)
       const valuesData = labels.map((label) => {
         return {
           label,
@@ -164,20 +164,26 @@ const StackedBarsChart = ({
 
       tooltip.html(`
       <div ${styles.tooltipContainer}>
-        <div class="${styles.tooltipTime}"><div class="${styles.time}">${timeString}</div></div>
+        <div class="${styles.tooltipTime}">
+          <div class="${styles.time}">${timeString}</div>
+        </div>
         <div class="${styles.tooltipTable}">
           ${valuesData.map(v => {
             return `
               <div class="${styles.tooltipLine}">
-                <div class="${typographyStyles.desktopBodySmallest}">${v.label}</div>
-                <div class="${typographyStyles.desktopBodySmallest} ${styles.tooltipValue}">${v.value}</div>
+                <div class="${typographyStyles.desktopBodySmallest} ${styles.tooltipLabel}">${v.label}</div>
+                <div class="${styles.tooltipValueContainer}">
+                  <div class="${typographyStyles.desktopBodySmallest} ${styles.tooltipValue}">${v.value}</div>
+                  <div class="${typographyStyles.desktopBodySmallest} ${styles.tooltipUnit}">${unit}</div>
+                </div>
               </div>
           `
           }).join('')}
         </div>
       </div>`)
+
       const maxY = y(data.P99)
-      const tooltipWidth = 120
+      const tooltipWidth = 160
       const tooltipHeight = 60 + (valuesData.length * 15)
       const tx = xPos + tooltipWidth < w ? xPos : w - tooltipWidth
       const ty = maxY - tooltipHeight
