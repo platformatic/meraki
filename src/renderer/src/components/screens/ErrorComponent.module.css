@@ -10,6 +10,3 @@
 .buttonLogsContainer {
   @apply flex justify-end items-center gap-x-2;
 }
-.buttonCopyLogContainer {
-  @apply relative;
-}
