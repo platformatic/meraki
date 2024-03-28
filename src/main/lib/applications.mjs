@@ -103,7 +103,7 @@ class Applications {
     const configFile = join(appFolder, 'platformatic.json')
     const runtimeCliPath = this.#getRuntimeCliPath(appFolder)
     // We canot use `process.execPath` because it's the path to the electron binary
-    const nodePath = await findExecutable('node')
+    const nodePath = process.platform === 'win32' ? 'node' : await findExecutable('node')
     const runtime = execa(
       nodePath, [runtimeCliPath, 'start', '-c', configFile],
       { env, cleanup: true, cwd: appFolder }
