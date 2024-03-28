@@ -35,6 +35,7 @@ import {
 } from '~/api'
 import Icons from '@platformatic/ui-components/src/components/icons'
 import useStackablesStore from '~/useStackablesStore'
+import useOnScreen from '~/hooks/useOnScreen'
 
 const ApplicationLogs = React.forwardRef(({ _props }, ref) => {
   const globalState = useStackablesStore()
@@ -57,6 +58,8 @@ const ApplicationLogs = React.forwardRef(({ _props }, ref) => {
   const [showPreviousLogs, setShowPreviousLogs] = useState(false)
   const [statusPausedLogs, setStatusPausedLogs] = useState('')
   const [filteredLogsLengthAtPause, setFilteredLogsLengthAtPause] = useState(0)
+  const bottomRef = useRef()
+  const isBottomOnScreen = useOnScreen(bottomRef)
 
   useEffect(() => {
     if (applicationSelected.id && applicationStatus === STATUS_RUNNING) {
@@ -71,7 +74,6 @@ const ApplicationLogs = React.forwardRef(({ _props }, ref) => {
       setApplicationLogs([...applicationLogs, ...logValue])
     }
   }, [logValue])
-  
 
   useEffect(() => {
     if (scrollDirection === DIRECTION_TAIL && filteredLogs.length > 0) {
@@ -107,6 +109,12 @@ const ApplicationLogs = React.forwardRef(({ _props }, ref) => {
   }, [statusPausedLogs])
 
   useEffect(() => {
+    if (isBottomOnScreen && scrollDirection === DIRECTION_DOWN) {
+      resumeScrolling()
+    }
+  }, [isBottomOnScreen, scrollDirection])
+
+  useEffect(() => {
     setNavigation({
       label: 'Logs',
       handleClick: () => {
@@ -118,7 +126,6 @@ const ApplicationLogs = React.forwardRef(({ _props }, ref) => {
 
     return () => callApiStopLogs()
   }, [])
-
 
   useEffect(() => {
     if (applicationLogs.length > 0) {
@@ -231,7 +238,7 @@ const ApplicationLogs = React.forwardRef(({ _props }, ref) => {
     setLastScrollTop(st <= 0 ? 0 : st)
   }
 
-  async function checkIfThereArePreviousLogs() {
+  async function checkIfThereArePreviousLogs () {
     const val = await callThereArePreviousLogs()
     setShowPreviousLogs(val)
   }
@@ -297,9 +304,9 @@ const ApplicationLogs = React.forwardRef(({ _props }, ref) => {
                 <>
                   <hr className={styles.logDividerTop} />
                   {renderLogs()}
-                  <hr className={styles.logDividerBottom} />
                 </>
               )}
+              <div ref={bottomRef} className={styles.logDividerBottom} />
             </div>
             <HorizontalSeparator marginBottom={MARGIN_0} marginTop={MARGIN_0} color={WHITE} opacity={OPACITY_30} />
             <div className={`${commonStyles.tinyFlexRow} ${commonStyles.itemsCenter} ${commonStyles.justifyBetween} ${styles.lateralPadding} ${styles.bottom}`}>
