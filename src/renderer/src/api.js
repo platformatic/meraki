@@ -64,6 +64,10 @@ export const callApiGetAllLogs = async (id) => {
   return await window.api.getAllLogs(id)
 }
 
+export const callThereArePreviousLogs = async () => {
+  return await window.api.thereArePreviousLogs()
+}
+
 export const callApiResumeLogs = async () => {
   return await window.api.resumeLogs()
 }

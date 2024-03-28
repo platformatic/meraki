@@ -27,6 +27,7 @@ import {
   callApiStartLogs,
   callApiStopLogs,
   getAppLogs,
+  callThereArePreviousLogs,
   callApiGetAllLogs,
   callApiPauseLogs,
   callApiResumeLogs,
@@ -53,7 +54,7 @@ const ApplicationLogs = React.forwardRef(({ _props }, ref) => {
   const logContentRef = useRef()
   const [lastScrollTop, setLastScrollTop] = useState(0)
   const [displayGoToBottom, setDisplayGoToBottom] = useState(false)
-  const [showPreviousLogs, setShowPreviousLogs] = useState(true)
+  const [showPreviousLogs, setShowPreviousLogs] = useState(false)
   const [statusPausedLogs, setStatusPausedLogs] = useState('')
   const [filteredLogsLengthAtPause, setFilteredLogsLengthAtPause] = useState(0)
 
@@ -61,6 +62,7 @@ const ApplicationLogs = React.forwardRef(({ _props }, ref) => {
     if (applicationSelected.id && applicationStatus === STATUS_RUNNING) {
       getAppLogs(callbackOnLog)
       callApiStartLogs(applicationSelected.id)
+      checkIfThereArePreviousLogs()
     }
   }, [applicationSelected.id, applicationStatus])
 
@@ -69,6 +71,7 @@ const ApplicationLogs = React.forwardRef(({ _props }, ref) => {
       setApplicationLogs([...applicationLogs, ...logValue])
     }
   }, [logValue])
+  
 
   useEffect(() => {
     if (scrollDirection === DIRECTION_TAIL && filteredLogs.length > 0) {
@@ -116,20 +119,6 @@ const ApplicationLogs = React.forwardRef(({ _props }, ref) => {
     return () => callApiStopLogs()
   }, [])
 
-  function handleScroll (event) {
-    // setStatusPausedLogs(STATUS_PAUSED_LOGS)
-    const st = event.currentTarget.scrollTop // Credits: "https://github.com/qeremy/so/blob/master/so.dom.js#L426"
-    if (st > lastScrollTop) {
-      // downscroll code
-      if (scrollDirection !== DIRECTION_TAIL) {
-        setScrollDirection(DIRECTION_DOWN)
-      }
-    } else if (st < lastScrollTop) {
-      // upscroll code
-      setScrollDirection(DIRECTION_UP)
-    }
-    setLastScrollTop(st <= 0 ? 0 : st)
-  }
 
   useEffect(() => {
     if (applicationLogs.length > 0) {
@@ -225,6 +214,26 @@ const ApplicationLogs = React.forwardRef(({ _props }, ref) => {
         {filteredLogs}
       </span>
     )
+  }
+
+  function handleScroll (event) {
+    // setStatusPausedLogs(STATUS_PAUSED_LOGS)
+    const st = event.currentTarget.scrollTop // Credits: "https://github.com/qeremy/so/blob/master/so.dom.js#L426"
+    if (st > lastScrollTop) {
+      // downscroll code
+      if (scrollDirection !== DIRECTION_TAIL) {
+        setScrollDirection(DIRECTION_DOWN)
+      }
+    } else if (st < lastScrollTop) {
+      // upscroll code
+      setScrollDirection(DIRECTION_UP)
+    }
+    setLastScrollTop(st <= 0 ? 0 : st)
+  }
+
+  async function checkIfThereArePreviousLogs() {
+    const val = await callThereArePreviousLogs()
+    setShowPreviousLogs(val)
   }
 
   return (
