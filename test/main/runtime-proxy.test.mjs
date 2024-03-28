@@ -44,6 +44,32 @@ test('start one runtime and invoke the services', async (t) => {
   onTestFinished(() => runtime.kill('SIGINT'))
 
   {
+    // inject the server on the runtime entrypoint
+    const serviceURL = await proxyApi.start(id)
+    const res = await request(`${serviceURL}/documentation/json`)
+    const body = await res.body.text()
+    const bodyJson = JSON.parse(body)
+    expect(res.statusCode).toBe(200)
+    const servers = bodyJson.servers
+    expect(servers).toHaveLength(1)
+    expect(servers[0].url).toMatch('http://localhost:')
+    await proxyApi.stop()
+  }
+
+  {
+    // inject the server for a service that is not the entrypoint
+    const serviceURL = await proxyApi.start(id, 'service-1')
+    const res = await request(`${serviceURL}/documentation/json`)
+    const body = await res.body.text()
+    const bodyJson = JSON.parse(body)
+    expect(res.statusCode).toBe(200)
+    const servers = bodyJson.servers
+    expect(servers).toHaveLength(1)
+    expect(servers[0].url).toMatch('http://localhost:')
+    await proxyApi.stop()
+  }
+
+  {
     const serviceURL = await proxyApi.start(id, 'service-1')
     const res = await request(`${serviceURL}/hello`)
     const body = await res.body.text()

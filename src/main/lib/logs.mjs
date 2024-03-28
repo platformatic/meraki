@@ -121,7 +121,7 @@ class Logs {
       await this.#logServer.listen(0) // TODO: We should use a unix socket for that
     }
     const port = this.#logServer.server.address().port
-    return `http://127.0.0.1:${port}/logs/${id}`
+    return `http://localhost:${port}/logs/${id}`
   }
 
   async closeLogServer () {
