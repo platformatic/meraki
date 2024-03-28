@@ -30,9 +30,9 @@ function App ({ path }) {
   const [showCreateNewAppHeader, setShowCreateNewAppHeader] = useState(true)
   const [showModalImportApplication, setShowModalImportApplication] = useState(false)
   const [showModalCreateApplication, setShowModalCreateApplication] = useState(false)
+  const [skipCheckOnAutomaticallyImported, setSkipCheckOnAutomaticallyImported] = useState(false)
   const featureFlag = isDevMode()
   const [showErrorComponent, setShowErrorComponent] = useState(false)
-
   const {
     ErrorBoundary,
     error
@@ -50,11 +50,11 @@ function App ({ path }) {
         try {
           setApplications([])
           const allApplications = await getApiApplications()
-          if (allApplications.length > 0) {
-            setApplications(allApplications)
-            setShowWelcomePage(false)
-          } else {
+          setApplications(allApplications)
+          if (allApplications.length === 0 || (!skipCheckOnAutomaticallyImported && allApplications.find(application => !application.automaticallyImported) === undefined)) {
             setShowWelcomePage(true)
+          } else {
+            setShowWelcomePage(false)
           }
         } catch (error) {
           console.error(`Error on catch ${error}`)
@@ -84,6 +84,10 @@ function App ({ path }) {
           key={PAGE_WELCOME}
           onClickImportApp={() => setShowModalImportApplication(true)}
           onClickCreateNewApp={() => setShowModalCreateApplication(true)}
+          onClickGoToApp={() => {
+            setSkipCheckOnAutomaticallyImported(true)
+            setShowWelcomePage(false)
+          }}
         />
       )
       setShowCreateNewAppHeader(false)

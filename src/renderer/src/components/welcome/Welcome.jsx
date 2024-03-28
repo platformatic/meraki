@@ -1,23 +1,31 @@
 'use strict'
-import React, { useEffect } from 'react'
+import React, { useEffect, useState } from 'react'
 import PropTypes from 'prop-types'
 import typographyStyles from '~/styles/Typography.module.css'
 import commonStyles from '~/styles/CommonStyles.module.css'
 import styles from './Welcome.module.css'
 import '~/components/component.animation.css'
-import { Button, HorizontalSeparator } from '@platformatic/ui-components'
-import { ANTI_FLASH_WHITE, DULLS_BACKGROUND_COLOR, MARGIN_0, OPACITY_30, RICH_BLACK, SMALL, WHITE } from '@platformatic/ui-components/src/components/constants'
+import { BorderedBox, Button, HorizontalSeparator } from '@platformatic/ui-components'
+import { ANTI_FLASH_WHITE, DULLS_BACKGROUND_COLOR, MARGIN_0, OPACITY_30, RICH_BLACK, SMALL, TRANSPARENT, WHITE } from '@platformatic/ui-components/src/components/constants'
 import { onReceivedTemplateId, onStopReceivingTemplateId } from '~/api'
 import useStackablesStore from '~/useStackablesStore'
+import Icons from '@platformatic/ui-components/src/components/icons'
+import { APPLICATION_PATH } from '~/ui-constants'
+import { useNavigate } from 'react-router-dom'
 
-const Welcome = React.forwardRef(({ onClickImportApp, onClickCreateNewApp }, ref) => {
+const Welcome = React.forwardRef(({ onClickImportApp, onClickCreateNewApp, onClickGoToApp }, ref) => {
   const globalState = useStackablesStore()
   const {
+    applications,
     useTemplateId,
-    setUseTemplateId
+    setUseTemplateId,
+    resetNavigation
   } = globalState
+  const [automaticallyImportedApplications, setAutomaticallyImportedApplications] = useState([])
+  const navigate = useNavigate()
 
   useEffect(() => {
+    resetNavigation()
     const handlingFunction = (_, templateIdReceived) => {
       if (templateIdReceived && useTemplateId === null) {
         setUseTemplateId(templateIdReceived)
@@ -36,6 +44,40 @@ const Welcome = React.forwardRef(({ onClickImportApp, onClickCreateNewApp }, ref
       onClickCreateNewApp()
     }
   }, [useTemplateId])
+
+  useEffect(() => {
+    if (applications.length > 0) {
+      setAutomaticallyImportedApplications([...applications.filter(application => application.automaticallyImported)])
+    }
+  }, [applications])
+
+  function goToApplication (id) {
+    navigate(APPLICATION_PATH.replace(':appId', id))
+    onClickGoToApp()
+  }
+
+  function renderApplications () {
+    if (automaticallyImportedApplications.length === 0) {
+      return (<p className={`${typographyStyles.desktopBody} ${typographyStyles.textWhite} ${typographyStyles.opacity70}`}>You don’t have running application in your system.</p>)
+    }
+    return (
+      <>
+        <p className={`${typographyStyles.desktopBody} ${typographyStyles.textWhite} ${typographyStyles.opacity70} ${styles.paddingBottom}`}>All the applications listed below are automatically imported into Meraki.<br /> Click on the application name to see the details</p>
+        <BorderedBox color={WHITE} borderColorOpacity={OPACITY_30} backgroundColor={TRANSPARENT} classes={`${commonStyles.mediumFlexBlock24} ${commonStyles.fullWidth}`}>
+          {
+            automaticallyImportedApplications.map(application => (
+              <div className={`${commonStyles.tinyFlexRow} ${commonStyles.fullWidth} ${commonStyles.itemsCenter} ${commonStyles.cursorPointer}`} key={application.id} onClick={() => goToApplication(application.id)}>
+                <Icons.CLIIcon size={SMALL} color={WHITE} />
+                <div className={styles.applicationName}>
+                  <span className={`${typographyStyles.desktopBodySemibold} ${typographyStyles.textWhite} ${typographyStyles.ellipsis}`}>{application.name}</span>
+                </div>
+              </div>
+            ))
+          }
+        </BorderedBox>
+      </>
+    )
+  }
 
   return (
     <>
@@ -76,9 +118,9 @@ const Welcome = React.forwardRef(({ onClickImportApp, onClickCreateNewApp }, ref
               />
             </div>
             <HorizontalSeparator marginBottom={MARGIN_0} marginTop={MARGIN_0} color={WHITE} opacity={OPACITY_30} />
-            <div className={commonStyles.miniFlexBlock}>
+            <div className={`${commonStyles.miniFlexBlock} ${commonStyles.fullWidth}`}>
               <p className={`${typographyStyles.desktopBodyLargeSemibold} ${typographyStyles.textWhite}`}>Applications running in your System</p>
-              <p className={`${typographyStyles.desktopBody} ${typographyStyles.textWhite} ${typographyStyles.opacity70}`}>You don’t have running application in your system.</p>
+              {renderApplications()}
             </div>
           </div>
         </div>
@@ -98,12 +140,17 @@ Welcome.propTypes = {
   /**
      * onClickCreateNewApp
     */
-  onClickCreateNewApp: PropTypes.func
+  onClickCreateNewApp: PropTypes.func,
+  /**
+     * onClickGoToApp
+    */
+  onClickGoToApp: PropTypes.func
 }
 
 Welcome.defaultProps = {
   onClickImportApp: () => {},
-  onClickCreateNewApp: () => {}
+  onClickCreateNewApp: () => {},
+  onClickGoToApp: () => {}
 }
 
 export default Welcome
