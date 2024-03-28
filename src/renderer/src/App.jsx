@@ -50,7 +50,7 @@ function App ({ path }) {
           setApplications([])
           const allApplications = await getApiApplications()
           setApplications(allApplications)
-          if (allApplications.length > 0 && allApplications.find(application => application.automaticallyImported) === undefined) {
+          if (allApplications.length > 0 && allApplications.find(application => application.automaticallyImported)) {
             setShowWelcomePage(false)
           } else {
             setShowWelcomePage(true)
