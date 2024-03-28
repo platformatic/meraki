@@ -100,7 +100,7 @@ class Applications {
       throw new Error(`Application with id ${id} not found`)
     }
     const appFolder = app[0].path
-    await npmInstall(null, { cwd: appFolder }, logger)
+    await npmInstall(null, { cwd: appFolder })
     const configFile = join(appFolder, 'platformatic.json')
     const runtimeCliPath = this.#getRuntimeCliPath(appFolder)
 
