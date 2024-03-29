@@ -47,25 +47,27 @@ const Overview = React.forwardRef(({ onClickEditApplication }, ref) => {
     ? <ErrorComponent error={error} message={error.message} onClickDismiss={() => setShowErrorComponent(false)} />
     : (
       <div className={styles.container} ref={ref}>
-        <div className={styles.content}>
-          <TopContent
-            onErrorOccurred={(error) => {
-              setError(error)
-              setShowErrorComponent(true)
-            }}
-          />
-          <HorizontalSeparator marginBottom={MARGIN_0} marginTop={MARGIN_0} color={WHITE} opacity={OPACITY_30} />
-          <OverviewSection />
-          <HorizontalSeparator
-            marginBottom={MARGIN_0}
-            marginTop={MARGIN_0}
-            color={WHITE}
-            opacity={OPACITY_30}
-          />
-          <ServicesSection
-            url={applicationSelected.runtime?.url}
-            onClickEditApplication={onClickEditApplication}
-          />
+        <div className={styles.containerElement}>
+          <div className={styles.content}>
+            <TopContent
+              onErrorOccurred={(error) => {
+                setError(error)
+                setShowErrorComponent(true)
+              }}
+            />
+            <HorizontalSeparator marginBottom={MARGIN_0} marginTop={MARGIN_0} color={WHITE} opacity={OPACITY_30} />
+            <OverviewSection />
+            <HorizontalSeparator
+              marginBottom={MARGIN_0}
+              marginTop={MARGIN_0}
+              color={WHITE}
+              opacity={OPACITY_30}
+            />
+            <ServicesSection
+              url={applicationSelected.runtime?.url}
+              onClickEditApplication={onClickEditApplication}
+            />
+          </div>
         </div>
       </div>
       )
