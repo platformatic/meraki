@@ -62,7 +62,10 @@ class RuntimeProxy {
             spec = await res.body.json()
             spec.servers = [{ url: `http://localhost:${this.#runtimeProxy.server.address().port}` }]
           } else {
-            const res = await request((`http://localhost:${runtimePort}/documentation/json`), {
+            // in win, if the runtime listens on 0.0.0.0, if localhost is used and resolved
+            // to ::1, this wont work, so we need to use 127.0.0.1.
+            // TODO: find a better solution
+            const res = await request((`http://127.0.0.1:${runtimePort}/documentation/json`), {
               headers: {
                 'Content-Type': 'application/json'
               }
