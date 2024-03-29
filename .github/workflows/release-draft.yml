@@ -51,6 +51,7 @@ jobs:
       APPLY_WIN_SIGN: ${{ inputs.apply_win_sign }}
     steps:
       - run: echo "Creating Windows release for tag ${{ inputs.tag_name }}"
+      - run: echo "Siging in windows ${{ inputs.apply_win_sign }}"
       - name: Set up certificate 
         run: | 
           echo "${{ secrets.SM_CLIENT_CERT_FILE_B64 }}" | base64 --decode > /d/Certificate_pkcs12.p12 
@@ -68,7 +69,7 @@ jobs:
         shell: bash
 
       - name: Setup Keylocker KSP on windows 
-        if: ${{ inputs.apply_win_sign == 'true'}}
+        if: inputs.apply_win_sign == 'true'
         run: | 
           curl -X GET  https://one.digicert.com/signingmanager/api-ui/v1/releases/Keylockertools-windows-x64.msi/download -H "x-api-key:%SM_API_KEY%" -o Keylockertools-windows-x64.msi 
           msiexec /i Keylockertools-windows-x64.msi /quiet /qn
@@ -78,13 +79,13 @@ jobs:
         shell: cmd 
       
       - name: Certificates Sync       
-        if: ${{ inputs.apply_win_sign == 'true'}}
+        if: inputs.apply_win_sign == 'true'
         run: |
           smctl windows certsync
         shell: cmd
 
       - name: SMCTL healthcheck
-        if: ${{ inputs.apply_win_sign == 'true'}}
+        if: inputs.apply_win_sign == 'true'
         run: |
           smctl healthcheck
         shell: cmd 
