@@ -87,7 +87,6 @@ function TopContent ({
             iconName='MerakiLogoIcon'
             color={WHITE}
             size={MEDIUM}
-            tip='Application inside Meraki'
             onClick={() => {}}
           />}
         {!applicationSelected.insideMeraki &&

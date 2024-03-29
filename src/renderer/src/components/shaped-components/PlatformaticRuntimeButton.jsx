@@ -10,16 +10,14 @@ import RuntimeLargeCard from '../backgrounds/RuntimeLargeCard'
 import RuntimeMediumCard from '../backgrounds/RuntimeMediumCard'
 import { NORMAL_VIEW } from '~/ui-constants'
 import RuntimeLargeCardGridView from '../backgrounds/RuntimeLargeCardGridView'
-import { ALIGNMENT_RIGHT, SMALL, WHITE } from '@platformatic/ui-components/src/components/constants'
-import { TooltipV2 } from '@platformatic/ui-components'
+import { SMALL, WHITE } from '@platformatic/ui-components/src/components/constants'
 import tooltipStyles from '~/styles/TooltipStyles.module.css'
-import Icons from '@platformatic/ui-components/src/components/icons'
+import { PlatformaticIcon, TooltipAbsolute } from '@platformatic/ui-components'
 
 function PlatformaticRuntimeButton ({ view }) {
   const globalState = useStackablesStore()
   const { services } = globalState
   const [currentBackgroundComponent, setCurrentBackgroundComponent] = useState(<RuntimeSmallCard classNameSvg={styles.svg} />)
-  const [iconOver, setIconOver] = useState(false)
 
   useEffect(() => {
     if (services.length > 0) {
@@ -48,10 +46,13 @@ function PlatformaticRuntimeButton ({ view }) {
       {currentBackgroundComponent}
       <div className={`${commonStyles.smallFlexBlock} ${commonStyles.itemsCenter} ${styles.buttonContainer}`}>
         <div className={`${commonStyles.tinyFlexRow} ${typographyStyles.textCenter}`}>
-          <div className={`${styles.iconContainer} container-circle-icon`} onMouseOver={() => setIconOver(false)} onMouseLeave={() => setIconOver(false)}>
-            <Icons.CircleExclamationIcon color={WHITE} size={SMALL} />
-            {iconOver && <TooltipV2 tooltipClassName={tooltipStyles.tooltipDarkStyle} text='Platformatic Runtime is an environment for running multiple Platformatic microservices as a single monolithic deployment unit.' visible alignment={ALIGNMENT_RIGHT} elementClassName='container-circle-icon' />}
-          </div>
+          <TooltipAbsolute
+            tooltipClassName={`${tooltipStyles.tooltipDarkStyle} ${styles.smallMargin}`}
+            content={(<span>Platformatic Runtime is an environment <br />for running multiple Platformatic microservices <br />as a single monolithic deployment unit.</span>)}
+            offset={80}
+          >
+            <PlatformaticIcon iconName='CircleExclamationIcon' color={WHITE} size={SMALL} onClick={() => {}} internalOverHandling />
+          </TooltipAbsolute>
           <span className={`${typographyStyles.desktopBodyLarge} ${typographyStyles.textWhite} ${styles.cursorDefault}`} title='Platformatic Runtime'>Platformatic Runtime</span>
         </div>
       </div>

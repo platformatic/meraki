@@ -5,7 +5,7 @@ import typographyStyles from '~/styles/Typography.module.css'
 import commonStyles from '~/styles/CommonStyles.module.css'
 import tooltipStyles from '~/styles/TooltipStyles.module.css'
 import { DULLS_BACKGROUND_COLOR, ERROR_RED, MEDIUM, RICH_BLACK, SMALL, WARNING_YELLOW, WHITE } from '@platformatic/ui-components/src/components/constants'
-import { ButtonOnlyIcon, Icons, PlatformaticIcon } from '@platformatic/ui-components'
+import { ButtonOnlyIcon, Icons, PlatformaticIcon, TooltipAbsolute } from '@platformatic/ui-components'
 import styles from './Row.module.css'
 import { getFormattedDate } from '~/utilityDetails'
 import MerakiIcon from '~/components/ui/MerakiIcon'
@@ -130,25 +130,33 @@ function Row ({
         <div className={styles.tableCell}>
           <div className={`${styles.customSmallFlexRow} ${styles.linkToApplication}`} onClick={() => goToApplication()}>
             {insideMeraki &&
-              <MerakiIcon
-                iconName='MerakiLogoIcon'
-                color={WHITE}
-                size={MEDIUM}
-                tip='Application inside Meraki'
-                tipClassName={tooltipStyles.tooltipDarkStyle}
-                onClick={() => {}}
-                internalOverHandling
-              />}
+              <TooltipAbsolute
+                tooltipClassName={tooltipStyles.tooltipDarkStyle}
+                content={(<span>Application inside Meraki</span>)}
+                offset={4}
+              >
+                <MerakiIcon
+                  iconName='MerakiLogoIcon'
+                  color={WHITE}
+                  size={MEDIUM}
+                  onClick={() => {}}
+                  internalOverHandling
+                />
+              </TooltipAbsolute>}
             {!insideMeraki &&
-              <PlatformaticIcon
-                iconName='CLIIcon'
-                color={WHITE}
-                size={MEDIUM}
-                tip='Application outside Meraki'
-                tipClassName={tooltipStyles.tooltipDarkStyle}
-                onClick={() => {}}
-                internalOverHandling
-              />}
+              <TooltipAbsolute
+                tooltipClassName={tooltipStyles.tooltipDarkStyle}
+                content={(<span>Application outside Meraki</span>)}
+                offset={4}
+              >
+                <PlatformaticIcon
+                  iconName='CLIIcon'
+                  color={WHITE}
+                  size={MEDIUM}
+                  onClick={() => {}}
+                  internalOverHandling
+                />
+              </TooltipAbsolute>}
             <span className={`${typographyStyles.desktopBodySemibold} ${typographyStyles.textWhite} ${styles.ellipsis}`} title={name}>{name}</span>
           </div>
         </div>
