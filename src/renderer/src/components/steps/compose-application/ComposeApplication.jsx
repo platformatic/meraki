@@ -158,7 +158,7 @@ const ComposeApplication = React.forwardRef(({ createMode, onNext, onBack }, ref
   return (
     <>
       <div className={styles.container} ref={ref}>
-        <div className={`${commonStyles.largeFlexBlock}`}>
+        <div className={styles.content}>
           <div className={`${commonStyles.mediumFlexBlock} ${commonStyles.fullWidth}`}>
             <EditableTitle
               title={formData.createApplication.application}

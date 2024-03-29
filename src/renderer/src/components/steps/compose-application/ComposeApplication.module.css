@@ -1,6 +1,9 @@
 .container {
   @apply flex flex-col justify-between h-full grow
 }
+.content {
+  @apply flex flex-col items-start gap-y-10;
+}
 .buttonContainerForEditMode {
   @apply flex justify-end;
 }
