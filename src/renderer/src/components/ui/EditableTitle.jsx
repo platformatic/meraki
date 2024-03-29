@@ -23,7 +23,7 @@ function EditableTitle ({ title, iconName, onClickIcon, dataAttrName, dataAttrVa
       <div className={commonStyles.smallFlexRow}>
         {icon}
         <h2 className={`${typographyStyles.desktopHeadline2} ${typographyStyles.textWhite}`} {...dataProps}>{title}</h2>
-        <PlatformaticIcon iconName='EditIcon' color={WHITE} size={MEDIUM} onClick={() => onClickIcon()} />
+        <PlatformaticIcon iconName='EditIcon' color={WHITE} size={MEDIUM} onClick={() => onClickIcon()} internalOverHandling />
       </div>
     </div>
   )

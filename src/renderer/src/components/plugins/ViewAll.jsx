@@ -40,7 +40,6 @@ function ViewAll ({ serviceName }) {
                   index={index}
                   {...plugin}
                   heightType={PLUGINS_3}
-                  sortable
                   onClickRemove={() => removePlugin(serviceName, plugin.name)}
                 />
               </CSSTransition>

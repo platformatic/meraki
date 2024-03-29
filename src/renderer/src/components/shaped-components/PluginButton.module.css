@@ -5,7 +5,7 @@
   @apply px-4 relative
 }
 .leftContent {
-  @apply overflow-hidden w-1/2
+  @apply overflow-x-hidden max-w-[calc(100%-2rem)]
 }
 .ellipsis {
   @apply truncate;
