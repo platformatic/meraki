@@ -209,7 +209,7 @@ const StackedBarsChart = ({
         labels.map((label, i) => {
           return (
             <div key={`label-${i}`} className={styles.labelContainer}>
-              <div className={styles.label} style={{ color: percentiles[label] }}> {label} </div>
+              <div className={styles.label}> {label} </div>
               <div className={`${styles.legendLine} ${styles[`${label}`]}`} />
               <div>{i !== labels.length - 1 ? <VerticalSeparator color={WHITE} backgroundColorOpacity={OPACITY_30} classes={styles.verticalSeparator} /> : ''}</div>
             </div>

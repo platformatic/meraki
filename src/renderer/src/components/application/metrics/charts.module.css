@@ -3,7 +3,7 @@
 } 
 
 .header {
-  @apply flex justify-between relative w-full;
+  @apply flex justify-between relative w-full items-center;
 } 
 
 .title {
@@ -15,7 +15,7 @@
 }
 
 .labelContainer {
-  @apply flex flex-row justify-end space-x-4 w-full; 
+  @apply flex flex-row justify-end space-x-4 w-full items-center;  
 }
 
 .label {
@@ -23,7 +23,7 @@
 }
 
 .legendLine {
-  @apply border-t-2 border-solid rounded-full w-8 h-0 mt-2;
+  @apply border-t-2 border-solid rounded-full w-8 h-0;
 }
 
 .line {
