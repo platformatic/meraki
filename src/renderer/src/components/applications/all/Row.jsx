@@ -133,7 +133,7 @@ function Row ({
               <TooltipAbsolute
                 tooltipClassName={tooltipStyles.tooltipDarkStyle}
                 content={(<span>Application inside Meraki</span>)}
-                offset={4}
+                offset={44}
               >
                 <MerakiIcon
                   iconName='MerakiLogoIcon'
@@ -147,7 +147,7 @@ function Row ({
               <TooltipAbsolute
                 tooltipClassName={tooltipStyles.tooltipDarkStyle}
                 content={(<span>Application outside Meraki</span>)}
-                offset={4}
+                offset={44}
               >
                 <PlatformaticIcon
                   iconName='CLIIcon'
