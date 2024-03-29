@@ -16,8 +16,8 @@ function NameService ({ name, renameDisabled, onClickEdit, onClickRemove, remove
         </h5>
       </div>
       <div className={`${commonStyles.tinyFlexRow} ${styles.buttonContainer} ${commonStyles.justifyEnd}`}>
-        <PlatformaticIcon iconName='EditIcon' color={WHITE} size={MEDIUM} onClick={() => onClickEdit()} disabled={renameDisabled} />
-        <PlatformaticIcon iconName='TrashIcon' color={WHITE} size={MEDIUM} onClick={() => onClickRemove()} disabled={removeDisabled} />
+        <PlatformaticIcon iconName='EditIcon' color={WHITE} size={MEDIUM} onClick={() => onClickEdit()} disabled={renameDisabled} internalOverHandling />
+        <PlatformaticIcon iconName='TrashIcon' color={WHITE} size={MEDIUM} onClick={() => onClickRemove()} disabled={removeDisabled} internalOverHandling />
       </div>
     </div>
   )

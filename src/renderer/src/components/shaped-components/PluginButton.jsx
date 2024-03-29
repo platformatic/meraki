@@ -10,13 +10,11 @@ import BrickPath from './BrickPath'
 import { ONLY_PLUGIN, PLUGINS_2, PLUGINS_3 } from '~/ui-constants'
 
 function PluginButton ({
-  onClickSort,
   onClickRemove,
   onClickViewAll,
   index,
   name,
   heightType,
-  sortable,
   viewAll,
   totalPlugins
 }) {
@@ -83,7 +81,7 @@ function PluginButton ({
             <span className={`${typographyStyles.desktopBody} ${typographyStyles.textWhite}`}>Plugins: ({totalPlugins})</span>
             <div className={`${commonStyles.tinyFlexRow} ${commonStyles.itemsCenter}`}>
               <span className={`${typographyStyles.desktopBodySmall} ${typographyStyles.textWhite} ${typographyStyles.opacity70} `}>View All</span>
-              <PlatformaticIcon iconName='ExpandIcon' color={WHITE} size={SMALL} onClick={() => onClickViewAll()} />
+              <PlatformaticIcon iconName='ExpandIcon' color={WHITE} size={SMALL} onClick={() => onClickViewAll()} internalOverHandling />
             </div>
           </div>
           )
@@ -91,12 +89,11 @@ function PluginButton ({
           <>
             <div className={`${commonStyles.smallFlexRow} ${commonStyles.justifyBetween} ${commonStyles.itemsCenter} ${styles.content}`}>
               <div className={`${commonStyles.tinyFlexRow} ${commonStyles.itemsCenter} ${styles.leftContent}`}>
-                {sortable && <PlatformaticIcon iconName='SortableIcon' color={WHITE} size={SMALL} onClick={() => onClickSort()} />}
-                <span className={`${typographyStyles.desktopBodyLarge} ${typographyStyles.textWhite} ${typographyStyles.opacity70} ${styles.ellipsis}`} title={name}>{name}</span>
+                <span className={`${typographyStyles.desktopBodyLarge} ${typographyStyles.textWhite} ${typographyStyles.ellipsis}`}>{name}</span>
               </div>
             </div>
             <div className={styles.deleteContainer}>
-              <PlatformaticIcon iconName='TrashIcon' color={WHITE} size={MEDIUM} onClick={() => onClickRemove()} />
+              <PlatformaticIcon iconName='TrashIcon' color={WHITE} size={MEDIUM} onClick={() => onClickRemove()} internalOverHandling />
             </div>
           </>
           )}
@@ -105,10 +102,6 @@ function PluginButton ({
 }
 
 PluginButton.propTypes = {
-  /**
-   * onClickSort
-    */
-  onClickSort: PropTypes.func,
   /**
    * onClickRemove
     */
@@ -121,10 +114,6 @@ PluginButton.propTypes = {
    * index
     */
   index: PropTypes.number,
-  /**
-   * sortable
-    */
-  sortable: PropTypes.bool,
   /**
    * viewAll
     */
@@ -140,12 +129,10 @@ PluginButton.propTypes = {
 }
 
 PluginButton.defaultProps = {
-  onClickSort: () => {},
   onClickRemove: () => {},
   onClickViewAll: () => {},
   name: '',
   index: 0,
-  sortable: true,
   viewAll: false,
   totalPlugins: 0,
   heightType: ONLY_PLUGIN
