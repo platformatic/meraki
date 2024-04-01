@@ -30,7 +30,7 @@ function ErrorComponent ({ error, message, onClickDismiss }) {
     return { iconName: 'CLIIcon', size: SMALL, color: WHITE }
   }
 
-  function reportIssue () {}
+  // function reportIssue () {}
 
   return (
     <div className={styles.container}>
@@ -91,7 +91,7 @@ function ErrorComponent ({ error, message, onClickDismiss }) {
                 platformaticIcon={getButtonCopyIcon()}
               />
             </Tooltip>
-            <Button
+            {/* <Button
               label='Report issue'
               disabled
               onClick={() => reportIssue()}
@@ -100,7 +100,7 @@ function ErrorComponent ({ error, message, onClickDismiss }) {
               paddingClass={`${commonStyles.buttonPadding} cy-action-dismiss`}
               textClass={typographyStyles.desktopBody}
               platformaticIcon={{ iconName: 'LogsRiskIcon', size: SMALL, color: WHITE }}
-            />
+            /> */}
           </div>
           <HorizontalSeparator marginTop={MARGIN_0} marginBottom={MARGIN_0} color={WHITE} opacity={OPACITY_30} />
           <div className={`${styles.logContainer} ${typographyStyles.desktopOtherCliTerminalSmall} ${typographyStyles.textWhite}`}>
