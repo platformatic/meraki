@@ -12,3 +12,15 @@
 .stoppedPills {
   @apply bg-white/15
 }
+
+.clockWiseRotation {
+  animation: rotationClockwise 2s infinite linear;
+}
+@keyframes rotationClockwise {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(359deg);
+  }
+}
