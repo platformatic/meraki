@@ -65,7 +65,7 @@ function Log ({ log, onClickArrow }) {
     return element.replace(/(^{\n|}$)/g, '').replace('"', '').replace('"', '')
   }
 
-  function checkDisabledArrow() {
+  function checkDisabledArrow () {
     return !(reqId || (req && Object.keys(req)?.length > 0) || (rest && Object.keys(rest)?.length > 0))
   }
 
