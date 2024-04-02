@@ -65,13 +65,16 @@
   @apply px-4 py-[7px] !important
 }
 .buttonPadding {
-  @apply px-4 py-2 !important
+  @apply px-2 py-2 !important
 }
 .smallButtonPadding {
   @apply px-2 py-1 !important
 }
 .buttonSquarePadding {
   @apply p-2 !important;
+}
+.smallButtonSquarePadding {
+  @apply p-1 !important;
 }
 .noPadding {
   @apply p-0 !important

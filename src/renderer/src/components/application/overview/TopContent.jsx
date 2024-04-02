@@ -81,106 +81,108 @@ function TopContent ({
 
   return (
     <div className={`${commonStyles.mediumFlexBlock} ${commonStyles.fullWidth}`}>
-      <div className={`${commonStyles.smallFlexRow} ${commonStyles.fullWidth}`}>
-        {applicationSelected.insideMeraki &&
-          <MerakiIcon
-            iconName='MerakiLogoIcon'
-            color={WHITE}
-            size={MEDIUM}
-            onClick={() => {}}
-          />}
-        {!applicationSelected.insideMeraki &&
-          <Icons.CLIIcon
-            color={WHITE}
-            size={MEDIUM}
-          />}
-        <div className={styles.applicationName}>
-          <h2 className={`${typographyStyles.desktopHeadline2} ${typographyStyles.textWhite} ${typographyStyles.ellipsis}`}>{applicationSelected.name}</h2>
+      <div className={`${commonStyles.smallFlexBlock} ${commonStyles.fullWidth}`}>
+        <div className={`${commonStyles.smallFlexRow} ${commonStyles.fullWidth}`}>
+          {applicationSelected.insideMeraki &&
+            <MerakiIcon
+              iconName='MerakiLogoIcon'
+              color={WHITE}
+              size={MEDIUM}
+              onClick={() => {}}
+            />}
+          {!applicationSelected.insideMeraki &&
+            <Icons.CLIIcon
+              color={WHITE}
+              size={MEDIUM}
+            />}
+          <div className={styles.applicationName}>
+            <h3 className={`${typographyStyles.desktopHeadline3} ${typographyStyles.textWhite} ${typographyStyles.ellipsis}`}>{applicationSelected.name}</h3>
+          </div>
+          <ApplicationStatusPills status={applicationStatus} />
         </div>
-        <ApplicationStatusPills status={applicationStatus} />
-      </div>
-      <div className={`${commonStyles.smallFlexRow} ${commonStyles.fullWidth} ${commonStyles.itemsCenter} ${commonStyles.justifyBetween} `}>
-        <div className={styles.dateContainer}>
-          <div className={`${commonStyles.tinyFlexRow} ${commonStyles.itemsCenter}`}>
-            <span className={`${typographyStyles.desktopBodyLarge} ${typographyStyles.textWhite} ${typographyStyles.opacity70}`}>Last Update</span>
-            <span className={`${typographyStyles.desktopBodyLarge} ${typographyStyles.textWhite}`}>{getFormattedDate(applicationSelected.lastUpdated)}</span>
+        <div className={`${commonStyles.smallFlexRow} ${commonStyles.fullWidth} ${commonStyles.itemsCenter} ${commonStyles.justifyBetween} `}>
+          <div className={styles.dateContainer}>
+            <div className={`${commonStyles.tinyFlexRow} ${commonStyles.itemsCenter}`}>
+              <span className={`${typographyStyles.desktopBody} ${typographyStyles.textWhite} ${typographyStyles.opacity70}`}>Last Update</span>
+              <span className={`${typographyStyles.desktopBody} ${typographyStyles.textWhite}`}>{getFormattedDate(applicationSelected.lastUpdated)}</span>
+            </div>
+
+            <VerticalSeparator color={WHITE} backgroundColorOpacity={OPACITY_30} />
+
+            <div className={`${commonStyles.tinyFlexRow} ${commonStyles.itemsCenter}`}>
+              <span className={`${typographyStyles.desktopBody} ${typographyStyles.textWhite} ${typographyStyles.opacity70}`}>Last Started</span>
+              <span className={`${typographyStyles.desktopBody} ${typographyStyles.textWhite}`}>{getFormattedDate(applicationSelected.lastStarted)}</span>
+            </div>
+
+            <VerticalSeparator color={WHITE} backgroundColorOpacity={OPACITY_30} />
+
+            <div className={`${commonStyles.tinyFlexRow} ${commonStyles.itemsCenter}`}>
+              <span className={`${typographyStyles.desktopBody} ${typographyStyles.textWhite} ${typographyStyles.opacity70}`}>Created On</span>
+              <span className={`${typographyStyles.desktopBody} ${typographyStyles.textWhite}`}>{getFormattedDate(applicationSelected.createdAt)}</span>
+            </div>
           </div>
 
-          <VerticalSeparator color={WHITE} backgroundColorOpacity={OPACITY_30} />
+          <div className={styles.buttonContainer}>
+            {changingStatus
+              ? (
+                <Button
+                  type='button'
+                  label='Loading'
+                  onClick={() => {}}
+                  color={RICH_BLACK}
+                  bordered={false}
+                  backgroundColor={WHITE}
+                  hoverEffect={DULLS_BACKGROUND_COLOR}
+                  hoverEffectProperties={{ changeBackgroundColor: ANTI_FLASH_WHITE }}
+                  paddingClass={commonStyles.buttonPadding}
+                  platformaticIcon={{ iconName: 'RunningIcon', color: RICH_BLACK }}
+                  textClass={typographyStyles.desktopBody}
+                />
+                )
+              : (
+                <Button
+                  disabled={changingRestartStatus}
+                  type='button'
+                  label={applicationStatus === STATUS_RUNNING ? 'Stop' : 'Start'}
+                  onClick={() => applicationStatus === STATUS_RUNNING ? handleStopApplication() : handleStartApplication()}
+                  color={RICH_BLACK}
+                  bordered={false}
+                  backgroundColor={WHITE}
+                  hoverEffect={DULLS_BACKGROUND_COLOR}
+                  hoverEffectProperties={{ changeBackgroundColor: ANTI_FLASH_WHITE }}
+                  paddingClass={commonStyles.buttonPadding}
+                  platformaticIcon={{ iconName: applicationStatus === STATUS_RUNNING ? 'CircleStopIcon' : 'CirclePlayIcon', color: RICH_BLACK }}
+                  textClass={typographyStyles.desktopBody}
+                />
+                )}
+            {changingRestartStatus
+              ? (
+                <Button
+                  type='button'
+                  label='Restarting...'
+                  onClick={() => {}}
+                  color={WHITE}
+                  backgroundColor={TRANSPARENT}
+                  paddingClass={commonStyles.buttonPadding}
+                  platformaticIcon={{ iconName: 'RestartIcon', color: WHITE }}
+                  textClass={typographyStyles.desktopBody}
+                />
+                )
+              : (
+                <Button
+                  type='button'
+                  label='Restart'
+                  onClick={() => handleRestartApplication()}
+                  color={WHITE}
+                  backgroundColor={TRANSPARENT}
+                  paddingClass={commonStyles.buttonPadding}
+                  platformaticIcon={{ iconName: 'RestartIcon', color: WHITE }}
+                  textClass={typographyStyles.desktopBody}
+                  disabled={applicationStatus === STATUS_STOPPED}
+                />
+                )}
 
-          <div className={`${commonStyles.tinyFlexRow} ${commonStyles.itemsCenter}`}>
-            <span className={`${typographyStyles.desktopBodyLarge} ${typographyStyles.textWhite} ${typographyStyles.opacity70}`}>Last Started</span>
-            <span className={`${typographyStyles.desktopBodyLarge} ${typographyStyles.textWhite}`}>{getFormattedDate(applicationSelected.lastStarted)}</span>
           </div>
-
-          <VerticalSeparator color={WHITE} backgroundColorOpacity={OPACITY_30} />
-
-          <div className={`${commonStyles.tinyFlexRow} ${commonStyles.itemsCenter}`}>
-            <span className={`${typographyStyles.desktopBodyLarge} ${typographyStyles.textWhite} ${typographyStyles.opacity70}`}>Created On</span>
-            <span className={`${typographyStyles.desktopBodyLarge} ${typographyStyles.textWhite}`}>{getFormattedDate(applicationSelected.createdAt)}</span>
-          </div>
-        </div>
-
-        <div className={styles.buttonContainer}>
-          {changingStatus
-            ? (
-              <Button
-                type='button'
-                label='Loading'
-                onClick={() => {}}
-                color={RICH_BLACK}
-                bordered={false}
-                backgroundColor={WHITE}
-                hoverEffect={DULLS_BACKGROUND_COLOR}
-                hoverEffectProperties={{ changeBackgroundColor: ANTI_FLASH_WHITE }}
-                paddingClass={commonStyles.buttonPadding}
-                platformaticIcon={{ iconName: 'RunningIcon', color: RICH_BLACK }}
-                textClass={typographyStyles.desktopBody}
-              />
-              )
-            : (
-              <Button
-                disabled={changingRestartStatus}
-                type='button'
-                label={applicationStatus === STATUS_RUNNING ? 'Stop' : 'Start'}
-                onClick={() => applicationStatus === STATUS_RUNNING ? handleStopApplication() : handleStartApplication()}
-                color={RICH_BLACK}
-                bordered={false}
-                backgroundColor={WHITE}
-                hoverEffect={DULLS_BACKGROUND_COLOR}
-                hoverEffectProperties={{ changeBackgroundColor: ANTI_FLASH_WHITE }}
-                paddingClass={commonStyles.buttonPadding}
-                platformaticIcon={{ iconName: applicationStatus === STATUS_RUNNING ? 'CircleStopIcon' : 'CirclePlayIcon', color: RICH_BLACK }}
-                textClass={typographyStyles.desktopBody}
-              />
-              )}
-          {changingRestartStatus
-            ? (
-              <Button
-                type='button'
-                label='Restarting...'
-                onClick={() => {}}
-                color={WHITE}
-                backgroundColor={TRANSPARENT}
-                paddingClass={commonStyles.buttonPadding}
-                platformaticIcon={{ iconName: 'RestartIcon', color: WHITE }}
-                textClass={typographyStyles.desktopBody}
-              />
-              )
-            : (
-              <Button
-                type='button'
-                label='Restart'
-                onClick={() => handleRestartApplication()}
-                color={WHITE}
-                backgroundColor={TRANSPARENT}
-                paddingClass={commonStyles.buttonPadding}
-                platformaticIcon={{ iconName: 'RestartIcon', color: WHITE }}
-                textClass={typographyStyles.desktopBody}
-                disabled={applicationStatus === STATUS_STOPPED}
-              />
-              )}
-
         </div>
       </div>
 

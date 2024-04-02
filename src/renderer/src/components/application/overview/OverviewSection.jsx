@@ -40,13 +40,13 @@ function OverviewSection () {
 
   return (
     <>
-      <div className={`${commonStyles.mediumFlexBlock} ${commonStyles.fullWidth}`}>
+      <div className={`${commonStyles.smallFlexBlock} ${commonStyles.fullWidth}`}>
         <div className={`${commonStyles.tinyFlexRow} ${commonStyles.fullWidth}`}>
           <Icons.AppDetailsIcon
             color={WHITE}
             size={MEDIUM}
           />
-          <h3 className={`${typographyStyles.desktopHeadline3} ${typographyStyles.textWhite}`}>Overview</h3>
+          <h4 className={`${typographyStyles.desktopHeadline4} ${typographyStyles.textWhite}`}>Overview</h4>
         </div>
         <div className={`${commonStyles.smallFlexRow} ${commonStyles.itemsCenter} `}>
           {!applicationSelected.platformaticVersion
