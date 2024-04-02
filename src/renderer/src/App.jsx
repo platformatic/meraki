@@ -16,8 +16,13 @@ import Welcome from '~/components/welcome/Welcome'
 import { getApiApplications } from '~/api'
 import { isDevMode } from '~/utils'
 import useStackablesStore from '~/useStackablesStore'
+import { LoadingSpinnerV2 } from '@platformatic/ui-components'
+import typographyStyles from '~/styles/Typography.module.css'
+import commonStyles from '~/styles/CommonStyles.module.css'
+import loadingSpinnerStyles from '~/styles/LoadingSpinnerStyles.module.css'
 
 function App ({ path }) {
+  const LOADING = 'LOADING'; const WELCOME_PAGE = 'WELCOME_PAGE'; const LIST = 'LIST'
   const globalState = useStackablesStore()
   const {
     reloadApplications,
@@ -42,7 +47,7 @@ function App ({ path }) {
       log.error(error)
     }
   })
-  const [showWelcomePage, setShowWelcomePage] = useState(true)
+  const [showComponent, setShowComponent] = useState(LOADING)
 
   useEffect(() => {
     if (reloadApplications) {
@@ -52,9 +57,9 @@ function App ({ path }) {
           const allApplications = await getApiApplications()
           setApplications(allApplications)
           if (allApplications.length === 0 || (!skipCheckOnAutomaticallyImported && allApplications.find(application => !application.automaticallyImported) === undefined)) {
-            setShowWelcomePage(true)
+            setShowComponent(WELCOME_PAGE)
           } else {
-            setShowWelcomePage(false)
+            setShowComponent(LIST)
           }
         } catch (error) {
           console.error(`Error on catch ${error}`)
@@ -67,7 +72,7 @@ function App ({ path }) {
   }, [reloadApplications])
 
   useEffect(() => {
-    if (!showWelcomePage) {
+    if (showComponent === LIST) {
       switch (path) {
         case APPLICATION_PATH:
           setCurrentBodyComponent(<ApplicationContainer />)
@@ -78,7 +83,8 @@ function App ({ path }) {
           setShowCreateNewAppHeader(true)
           break
       }
-    } else {
+    }
+    if (showComponent === WELCOME_PAGE) {
       setCurrentBodyComponent(
         <Welcome
           key={PAGE_WELCOME}
@@ -86,20 +92,20 @@ function App ({ path }) {
           onClickCreateNewApp={() => setShowModalCreateApplication(true)}
           onClickGoToApp={() => {
             setSkipCheckOnAutomaticallyImported(true)
-            setShowWelcomePage(false)
+            setShowComponent(LIST)
           }}
         />
       )
       setShowCreateNewAppHeader(false)
     }
-  }, [showWelcomePage, path])
+  }, [showComponent, path])
 
   function handleImportApplication () {
     setShowModalImportApplication(false)
     // setCurrentBodyComponent(<HomeContainer />)
     setShowCreateNewAppHeader(true)
     setReloadApplications(true)
-    setShowWelcomePage(false)
+    setShowComponent(LIST)
   }
 
   function handleCreateApplication () {
@@ -108,7 +114,7 @@ function App ({ path }) {
     setUseTemplateId(null)
     setShowCreateNewAppHeader(true)
     setReloadApplications(true)
-    setShowWelcomePage(false)
+    setShowComponent(LIST)
     resetWizardState()
   }
 
@@ -116,6 +122,22 @@ function App ({ path }) {
     setShowModalCreateApplication(false)
     setUseTemplateId(null)
     resetWizardState()
+  }
+
+  if (showComponent === LOADING) {
+    return (
+      <LoadingSpinnerV2
+        loading
+        applySentences={{
+          containerClassName: `${commonStyles.mediumFlexBlock} ${commonStyles.itemsCenter}`,
+          sentences: [{
+            style: `${typographyStyles.desktopBodyLarge} ${typographyStyles.textWhite}`,
+            text: 'Loading Meraki...'
+          }]
+        }}
+        containerClassName={loadingSpinnerStyles.loadingSpinner}
+      />
+    )
   }
 
   return showErrorComponent
