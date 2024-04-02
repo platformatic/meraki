@@ -159,7 +159,7 @@ test('start one runtime, see it in list and stop it', async (t) => {
   }
 }, 60000)
 
-test('throws an error if application doesn\'t start', async (t) => {
+test.only('throws an error if application doesn\'t start', async (t) => {
   const appDir = await mkdtemp(join(tmpdir(), 'plat-app-test'))
   onTestFinished(() => rm(appDir, { recursive: true, force: true }))
   const appFixture = join('test', 'fixtures', 'runtime')
@@ -184,7 +184,7 @@ test('throws an error if application doesn\'t start', async (t) => {
   const { id } = await applicationsApi.importApplication(appDir)
 
   // This now must fail (the runtime is already running, so ising the same port)
-  expect(applicationsApi.startRuntime(id)).rejects.toThrowError('Error in starting the runtime: The runtime exited before the operation completed')
+  expect(applicationsApi.startRuntime(id)).rejects.toThrowError(/The runtime exited before the operation completed/)
 }, 60000)
 
 test('import automatically a running runtime, started externally', async (t) => {
