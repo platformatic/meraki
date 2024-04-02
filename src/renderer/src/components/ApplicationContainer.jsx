@@ -206,7 +206,7 @@ function ApplicationContainer () {
               onClick: () => setCurrentPage(APPLICATION_PAGE_LOGS)
             }, {
               name: APPLICATION_PAGE_ENV_VAR,
-              label: 'Services Configs',
+              label: 'Services configurations',
               iconName: 'AppConfigurationIcon',
               onClick: () => setCurrentPage(APPLICATION_PAGE_ENV_VAR)
             }]}

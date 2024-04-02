@@ -1,5 +1,5 @@
 .container {
-  @apply border-solid border-white/30 border-r px-2 py-4 xl:px-6 xl:py-10 flex flex-col justify-between shrink-0;
+  @apply border-solid border-white/30 border-r px-6 py-10 flex flex-col justify-between shrink-0;
   box-sizing: border-box;
   max-width: 120px;
   min-width: 120px;

@@ -2,7 +2,7 @@
   @apply max-h-[calc(100vh-18rem)];
 }
 .content {
-  @apply flex flex-col items-start gap-y-3 xl:gap-y-10 w-full;
+  @apply flex flex-col items-start gap-y-10 w-full;
 }
 .loadingSpinner {
   @apply absolute left-1/2 top-1/2;

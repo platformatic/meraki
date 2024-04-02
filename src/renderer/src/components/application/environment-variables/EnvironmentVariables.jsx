@@ -18,7 +18,7 @@ const EnvironmentVariables = React.forwardRef(({ services }, ref) => {
 
   useEffect(() => {
     setNavigation({
-      label: 'Services Configs',
+      label: 'Services configurations',
       handleClick: () => {
         // navigate(APPLICATION_PATH.replace(':id', applicationSelected.id))
         setCurrentPage(APPLICATION_PAGE_ENV_VAR)
@@ -35,7 +35,7 @@ const EnvironmentVariables = React.forwardRef(({ services }, ref) => {
           <div className={commonStyles.mediumFlexBlock}>
             <div className={`${commonStyles.smallFlexRow} ${commonStyles.fullWidth}`}>
               <Icons.AppConfigurationIcon color={WHITE} size={MEDIUM} />
-              <h2 className={`${typographyStyles.desktopHeadline2} ${typographyStyles.textWhite}`}>Services Configs</h2>
+              <h2 className={`${typographyStyles.desktopHeadline2} ${typographyStyles.textWhite}`}>Services configurations</h2>
             </div>
             <p className={`${typographyStyles.desktopBody} ${typographyStyles.textWhite} ${typographyStyles.opacity70}`}>These are the environment variables of your application. You can edit anytime by clicking on “Edit application” in your Application overview.</p>
           </div>

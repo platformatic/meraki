@@ -65,7 +65,7 @@ function ServiceElement ({
   }
 
   return (
-    <BorderedBox classes={styles.paddingElement} backgroundColor={RICH_BLACK} color={WHITE} borderColorOpacity={OPACITY_30}>
+    <BorderedBox classes={commonStyles.smallButtonPadding} backgroundColor={RICH_BLACK} color={WHITE} borderColorOpacity={OPACITY_30}>
       <div className={`${commonStyles.smallFlexBlock} ${commonStyles.fullWidth}`}>
         <div className={`${commonStyles.smallFlexRow} ${commonStyles.fullWidth} ${commonStyles.itemsCenter} ${commonStyles.justifyBetween} `}>
           <div className={`${commonStyles.tinyFlexRow} ${commonStyles.itemsCenter}`}>

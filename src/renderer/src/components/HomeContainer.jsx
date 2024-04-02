@@ -35,7 +35,7 @@ function HomeContainer ({ onUseTemplateId }) {
     />
 
   ])
-  const [currentComponent, setCurrentComponent] = useState(components.find(component => component.key === PAGE_RECENT_APPS))
+  const [currentComponent, setCurrentComponent] = useState(null)
   const { height: innerHeight } = useWindowDimensions()
 
   useEffect(() => {
@@ -74,7 +74,7 @@ function HomeContainer ({ onUseTemplateId }) {
     }
   }, [useTemplateId])
 
-  return (
+  return currentComponent && (
     <>
       <div className={styles.content}>
         <SideBar

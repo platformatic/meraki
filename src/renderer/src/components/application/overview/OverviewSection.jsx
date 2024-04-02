@@ -67,7 +67,7 @@ function OverviewSection () {
                     color={WARNING_YELLOW}
                     backgroundColor={WARNING_YELLOW}
                     backgroundColorOpacity={OPACITY_10}
-                    classes={`${commonStyles.buttonPadding} ${styles.updatePlatformaticBox}`}
+                    classes={`${commonStyles.smallButtonPadding} ${styles.updatePlatformaticBox}`}
                   >
                     <div className={`${commonStyles.tinyFlexRow} ${commonStyles.itemsCenter}`}>
                       <Icons.AlertIcon size={SMALL} color={WARNING_YELLOW} />
@@ -87,7 +87,7 @@ function OverviewSection () {
                 color={WHITE}
                 backgroundColor={WHITE}
                 backgroundColorOpacity={OPACITY_30}
-                classes={commonStyles.buttonPadding}
+                classes={commonStyles.smallButtonPadding}
               >
                 <span className={`${typographyStyles.desktopBody} ${typographyStyles.textWhite}`}>{applicationSelected.entrypoint}</span>
               </BorderedBox>

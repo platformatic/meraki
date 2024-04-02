@@ -18,7 +18,9 @@ function ApplicationStatusPills ({ status }) {
   }
   return (
     <div className={styles.runningPills}>
-      <Icons.RunningIcon color={MAIN_GREEN} size={SMALL} />
+      <div className={styles.clockWiseRotation}>
+        <Icons.RunningIcon color={MAIN_GREEN} size={SMALL} />
+      </div>
       <span className={`${typographyStyles.desktopOtherOverlineNormal} ${typographyStyles.textMainGreen}`}>{status}</span>
     </div>
   )

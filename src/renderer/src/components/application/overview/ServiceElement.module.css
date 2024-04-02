@@ -1,14 +1,11 @@
-.paddingElement {
-  @apply p-4
-}
 .buttonContainer {
   @apply flex gap-x-6 justify-end items-center;
 }
 .servicePlugin {
- @apply flex flex-wrap flex-row gap-x-2 items-center px-4 py-2 w-fit
+ @apply flex flex-wrap flex-row gap-x-2 items-center px-2 py-1 w-fit
 }
 .serviceTemplate {
-  @apply flex flex-row gap-x-2 items-center px-4 py-2 grow-0 w-fit
+  @apply flex flex-row gap-x-2 items-center px-2 py-1 grow-0 w-fit
 }
 .pluginName,
 .templateName {

@@ -128,6 +128,7 @@ function createWindow () {
     maxWidth: 1440,
     minWidth: 1280,
     minHeight: 750,
+    fullscreenable: false,
     show: false,
     title: `Platformatic Meraki v${version}`,
     autoHideMenuBar: false,
