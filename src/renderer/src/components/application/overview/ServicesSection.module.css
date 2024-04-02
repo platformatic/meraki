@@ -1,5 +1,5 @@
 .servicesContainer{
-  @apply flex flex-col gap-y-4 w-full;
+  @apply flex flex-col gap-y-2 w-full;
 }
 .buttonContainer {
   @apply flex gap-x-2 justify-end items-center;

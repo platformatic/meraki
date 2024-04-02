@@ -35,7 +35,7 @@ const EnvironmentVariables = React.forwardRef(({ services }, ref) => {
           <div className={commonStyles.mediumFlexBlock}>
             <div className={`${commonStyles.smallFlexRow} ${commonStyles.fullWidth}`}>
               <Icons.AppConfigurationIcon color={WHITE} size={MEDIUM} />
-              <h2 className={`${typographyStyles.desktopHeadline2} ${typographyStyles.textWhite}`}>Services configurations</h2>
+              <h3 className={`${typographyStyles.desktopHeadline3} ${typographyStyles.textWhite}`}>Services configurations</h3>
             </div>
             <p className={`${typographyStyles.desktopBody} ${typographyStyles.textWhite} ${typographyStyles.opacity70}`}>These are the environment variables of your application. You can edit anytime by clicking on “Edit application” in your Application overview.</p>
           </div>

@@ -9,10 +9,10 @@ import { VerticalSeparator, Icons } from '@platformatic/ui-components'
 
 function TopContent ({ totalApps, runningApps, stoppedApps }) {
   return (
-    <div className={`${styles.container} ${commonStyles.mediumFlexBlock}`}>
+    <div className={`${styles.container} ${commonStyles.smallFlexBlock}`}>
       <div className={`${commonStyles.smallFlexRow} ${commonStyles.fullWidth} ${commonStyles.itemsCenter}`}>
         <Icons.AllAppsIcon color={WHITE} size={MEDIUM} />
-        <h2 className={`${typographyStyles.desktopHeadline2} ${typographyStyles.textWhite}`}>All Apps</h2>
+        <h3 className={`${typographyStyles.desktopHeadline3} ${typographyStyles.textWhite}`}>All Apps</h3>
       </div>
 
       <p className={`${typographyStyles.desktopBodyLarge} ${typographyStyles.textWhite} ${typographyStyles.opacity70}`}>

@@ -16,7 +16,7 @@
 }
 .table {
   @apply w-full relative max-h-[calc(100vh-23rem)] w-full;
-  border-spacing: 0 24px;
+  border-spacing: 0 16px;
   vertical-align: middle;
   border-collapse: collapse;
   overflow-x: hidden;

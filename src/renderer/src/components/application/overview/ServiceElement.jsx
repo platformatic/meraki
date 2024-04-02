@@ -83,8 +83,8 @@ function ServiceElement ({
               onClick={() => onClickScalarIntegration()}
               color={WHITE}
               backgroundColor={TRANSPARENT}
-              paddingClass={commonStyles.buttonSquarePadding}
-              platformaticIcon={{ iconName: 'APIDocsIcon', color: WHITE }}
+              paddingClass={commonStyles.smallButtonSquarePadding}
+              platformaticIcon={{ iconName: 'APIDocsIcon', color: WHITE, size: SMALL }}
               textClass={typographyStyles.desktopBody}
               disabled={applicationStatus === STATUS_STOPPED}
             />

@@ -27,3 +27,7 @@
 .paddingTop {
   @apply pt-20
 }
+
+.borderedBoxPadding {
+  @apply px-4 py-2 !important
+}

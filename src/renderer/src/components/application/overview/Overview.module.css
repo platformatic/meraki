@@ -5,7 +5,7 @@
   @apply py-10 px-6 flex flex-col gap-y-10 h-full min-h-[calc(100vH-10rem)] max-h-[calc(100vH-10rem)] overflow-y-auto;
 }
 .content {
-  @apply flex flex-col items-start justify-between xl:justify-normal gap-y-10;
+  @apply flex flex-col items-start justify-between xl:justify-normal gap-y-8;
   box-sizing: border-box;
 }
 .buttonContainer {

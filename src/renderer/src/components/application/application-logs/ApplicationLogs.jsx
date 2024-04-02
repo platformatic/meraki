@@ -250,7 +250,7 @@ const ApplicationLogs = React.forwardRef(({ _props }, ref) => {
           <div className={commonStyles.mediumFlexBlock}>
             <div className={`${commonStyles.smallFlexRow} ${commonStyles.fullWidth} ${commonStyles.itemsCenter}`}>
               <Icons.CodeTestingIcon color={WHITE} size={MEDIUM} />
-              <h2 className={`${typographyStyles.desktopHeadline2} ${typographyStyles.textWhite}`}>Logs</h2>
+              <h3 className={`${typographyStyles.desktopHeadline3} ${typographyStyles.textWhite}`}>Logs</h3>
               {applicationStatus === STATUS_STOPPED && <p className={`${typographyStyles.desktopBodySmall} ${typographyStyles.textWhite} ${typographyStyles.opacity70}`}>(The application is stopped. Restart the app to collect new logs.)</p>}
             </div>
           </div>

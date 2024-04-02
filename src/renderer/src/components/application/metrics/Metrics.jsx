@@ -97,7 +97,7 @@ const Metrics = React.forwardRef(({ _props }, ref) => {
           <div className={commonStyles.mediumFlexBlock}>
             <div className={`${commonStyles.smallFlexRow} ${commonStyles.fullWidth} ${commonStyles.itemsCenter}`}>
               <Icons.MetricsIcon color={WHITE} size={MEDIUM} />
-              <h2 className={`${typographyStyles.desktopHeadline2} ${typographyStyles.textWhite}`}>Metrics</h2>
+              <h3 className={`${typographyStyles.desktopHeadline3} ${typographyStyles.textWhite}`}>Metrics</h3>
               <p className={`${typographyStyles.desktopBodySmall} ${typographyStyles.textWhite} ${typographyStyles.opacity70}`}>{applicationStatus === STATUS_RUNNING ? '(Last 5 minutes)' : '(The application is stopped. Restart the app to collect new metrics.)'}</p>
               {paused ? <p className={`${typographyStyles.desktopBodySmall}  ${typographyStyles.textWhite} ${typographyStyles.opacity70}`}>Paused, click on a chart to resume</p> : null}
             </div>

@@ -33,34 +33,36 @@ function ServicesSection ({ url, onClickEditApplication }) {
   return (
     <>
       <div className={`${commonStyles.mediumFlexBlock} ${commonStyles.fullWidth}`}>
-        <div className={`${commonStyles.tinyFlexRow} ${commonStyles.fullWidth}`}>
-          <Icons.ServiceIcon
-            color={WHITE}
-            size={MEDIUM}
-          />
-          <h3 className={`${typographyStyles.desktopHeadline3} ${typographyStyles.textWhite}`}>Services</h3>
-        </div>
-
-        <div className={`${commonStyles.smallFlexRow} ${commonStyles.fullWidth} ${commonStyles.itemsCenter} ${commonStyles.justifyBetween} `}>
-          <span className={`${typographyStyles.desktopBody} ${typographyStyles.textWhite} ${typographyStyles.opacity70}`}>This is how your application is structured. You can edit it anytime:</span>
-
-          <div className={`${styles.buttonContainer}`}>
-            <Button
-              type='button'
-              label='Edit Application'
-              onClick={() => onClickEditApplication()}
-              color={RICH_BLACK}
-              bordered={false}
-              backgroundColor={WHITE}
-              hoverEffect={DULLS_BACKGROUND_COLOR}
-              hoverEffectProperties={{ changeBackgroundColor: ANTI_FLASH_WHITE }}
-              paddingClass={commonStyles.buttonPadding}
-              platformaticIcon={{ iconName: 'EditIcon', color: RICH_BLACK }}
-              textClass={typographyStyles.desktopBody}
+        <div className={`${commonStyles.smallFlexBlock} ${commonStyles.fullWidth}`}>
+          <div className={`${commonStyles.tinyFlexRow} ${commonStyles.fullWidth}`}>
+            <Icons.ServiceIcon
+              color={WHITE}
+              size={MEDIUM}
             />
+            <h4 className={`${typographyStyles.desktopHeadline4} ${typographyStyles.textWhite}`}>Services</h4>
           </div>
-        </div>
 
+          <div className={`${commonStyles.smallFlexRow} ${commonStyles.fullWidth} ${commonStyles.itemsCenter} ${commonStyles.justifyBetween} `}>
+            <span className={`${typographyStyles.desktopBody} ${typographyStyles.textWhite} ${typographyStyles.opacity70}`}>This is how your application is structured. You can edit it anytime:</span>
+
+            <div className={`${styles.buttonContainer}`}>
+              <Button
+                type='button'
+                label='Edit Application'
+                onClick={() => onClickEditApplication()}
+                color={RICH_BLACK}
+                bordered={false}
+                backgroundColor={WHITE}
+                hoverEffect={DULLS_BACKGROUND_COLOR}
+                hoverEffectProperties={{ changeBackgroundColor: ANTI_FLASH_WHITE }}
+                paddingClass={commonStyles.buttonPadding}
+                platformaticIcon={{ iconName: 'EditIcon', color: RICH_BLACK }}
+                textClass={typographyStyles.desktopBody}
+              />
+            </div>
+          </div>
+
+        </div>
         <div className={styles.servicesContainer}>
           {applicationSelected.services.map((service, index) => <ServiceElement
             key={index} id={service.id} service={service} applicationEntrypoint={applicationSelected.entrypoint === service.id} applicationStatus={applicationStatus}

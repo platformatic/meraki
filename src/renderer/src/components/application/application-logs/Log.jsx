@@ -65,6 +65,10 @@ function Log ({ log, onClickArrow }) {
     return element.replace(/(^{\n|}$)/g, '').replace('"', '').replace('"', '')
   }
 
+  function checkDisabledArrow () {
+    return !(reqId || (req && Object.keys(req)?.length > 0) || (rest && Object.keys(rest)?.length > 0))
+  }
+
   function displayRest () {
     if (!rest) return (<></>)
     let variable = ''
@@ -98,7 +102,7 @@ function Log ({ log, onClickArrow }) {
   return (
     <div className={logContainerClassName}>
       <div className={logClassName}>
-        <PlatformaticIcon iconName={displayJson ? 'ArrowDownIcon' : 'ArrowRightIcon'} color={WHITE} size={SMALL} onClick={() => handleChangeDisplayView()} disabled={!reqId} />
+        <PlatformaticIcon iconName={displayJson ? 'ArrowDownIcon' : 'ArrowRightIcon'} color={WHITE} size={SMALL} onClick={() => handleChangeDisplayView()} disabled={checkDisabledArrow()} />
         <span>{getFormattedLogTimestamp(time)}</span>
         <span className={styles[`text${level}`]}>{levelDisplayed}</span>
         <span>-</span>
