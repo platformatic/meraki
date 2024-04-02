@@ -184,7 +184,7 @@ test('throws an error if application doesn\'t start', async (t) => {
   const { id } = await applicationsApi.importApplication(appDir)
 
   // This now must fail (the runtime is already running, so ising the same port)
-  expect(applicationsApi.startRuntime(id)).rejects.toThrowError('Error in starting the runtime: The runtime exited before the operation completed')
+  expect(applicationsApi.startRuntime(id)).rejects.toThrowError(/The runtime exited before the operation completed/)
 }, 60000)
 
 test('import automatically a running runtime, started externally', async (t) => {

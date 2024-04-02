@@ -41,9 +41,6 @@ class Applications {
     }
   }
 
-  // TODO: This might be polled to refresh the current list of running runtimes
-  // and generate an event to notify the UI
-
   async #refreshApplications () {
     const runningRuntimes = await this.#runtimeClient.getRuntimes()
     await this.#createMissingApplications(runningRuntimes)
@@ -139,8 +136,10 @@ class Applications {
     }, 30000)
 
     // Here we check every message of the runtime output only to check if the runtime is started
+    const outputLines = []
     for await (const message of output) {
       if (message.msg) {
+        outputLines.push(message.msg)
         const url = message.url ??
           message.msg.match(/server listening at (.+)/i)?.[1]
 
@@ -158,8 +157,12 @@ class Applications {
     }
 
     // If we reach this point, stdout is closed and the runtime is not started, checkint stderr
+    clearTimeout(errorTimeout)
+    const errorOut = errorLines.map((line) => `  ${line}`).join('\n')
+    const outputOut = outputLines.map((line) => `  ${line}`).join('\n')
     if (errorLines.length > 0) {
-      throw new Error(`Error in starting the runtime: ${errorLines.join('\n')}`)
+      const errorMessage = `\n${errorOut} \n Output:\n ${outputOut}`
+      throw new Error(errorMessage)
     }
     throw new Error('Couldn\'t start server, check the logs')
   }
