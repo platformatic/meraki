@@ -159,7 +159,7 @@ test('start one runtime, see it in list and stop it', async (t) => {
   }
 }, 60000)
 
-test.only('throws an error if application doesn\'t start', async (t) => {
+test('throws an error if application doesn\'t start', async (t) => {
   const appDir = await mkdtemp(join(tmpdir(), 'plat-app-test'))
   onTestFinished(() => rm(appDir, { recursive: true, force: true }))
   const appFixture = join('test', 'fixtures', 'runtime')
