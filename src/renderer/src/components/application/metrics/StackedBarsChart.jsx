@@ -225,7 +225,7 @@ const StackedBarsChart = ({
     <div className={styles.container}>
       <div className={styles.header}>
         <div className={styles.title}>
-          <span className={typographyStyles.desktopHeadline3}>{title}</span> <span className={`${typographyStyles.desktopBodySmall} ${typographyStyles.opacity70}`}>({unit})</span>
+          <span className={typographyStyles.desktopBodyLargeMedium}>{title}</span> <span className={`${typographyStyles.desktopBodySmall} ${typographyStyles.opacity70}`}>({unit})</span>
         </div>
         <div className={styles.labels}>
           {

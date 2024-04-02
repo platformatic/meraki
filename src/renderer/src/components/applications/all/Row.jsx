@@ -58,9 +58,9 @@ function Row ({
   function getStartStopButton () {
     if (buttonClicked) {
       return (
-        <div className={`${styles.containerRunning} ${commonStyles.buttonSquarePadding}`}>
+        <div className={`${styles.containerRunning} ${commonStyles.smallButtonSquarePadding}`}>
           <div className={styles.clockWiseRotation}>
-            <Icons.RunningIcon size={MEDIUM} color={WHITE} />
+            <Icons.RunningIcon size={SMALL} color={WHITE} />
           </div>
         </div>
       )
@@ -71,7 +71,7 @@ function Row ({
           disabled={buttonRestartClicked}
           textClass={typographyStyles.desktopBody}
           altLabel='Start application'
-          paddingClass={commonStyles.buttonSquarePadding}
+          paddingClass={commonStyles.smallButtonSquarePadding}
           color={WHITE}
           backgroundColor={RICH_BLACK}
           onClick={() => handleStart()}
@@ -85,7 +85,7 @@ function Row ({
         disabled={buttonRestartClicked}
         textClass={typographyStyles.desktopBody}
         altLabel='Stop application'
-        paddingClass={commonStyles.buttonSquarePadding}
+        paddingClass={commonStyles.smallButtonSquarePadding}
         color={WHITE}
         backgroundColor={RICH_BLACK}
         onClick={() => handleStop()}
@@ -98,9 +98,9 @@ function Row ({
   function getRestartButton () {
     if (buttonRestartClicked) {
       return (
-        <div className={`${styles.containerRunning} ${commonStyles.buttonSquarePadding}`}>
+        <div className={`${styles.containerRunning} ${commonStyles.smallButtonSquarePadding}`}>
           <div className={styles.clockWiseRotation}>
-            <Icons.RestartIcon size={MEDIUM} color={WHITE} />
+            <Icons.RestartIcon size={SMALL} color={WHITE} />
           </div>
         </div>
       )
@@ -110,7 +110,7 @@ function Row ({
       <ButtonOnlyIcon
         textClass={typographyStyles.desktopBody}
         altLabel='Restart application'
-        paddingClass={commonStyles.buttonSquarePadding}
+        paddingClass={commonStyles.smallButtonSquarePadding}
         color={WHITE}
         backgroundColor={RICH_BLACK}
         onClick={() => handleRestart()}
@@ -207,7 +207,7 @@ function Row ({
             <ButtonOnlyIcon
               textClass={typographyStyles.desktopBody}
               altLabel='Delete application'
-              paddingClass={commonStyles.buttonSquarePadding}
+              paddingClass={commonStyles.smallButtonSquarePadding}
               color={ERROR_RED}
               backgroundColor={RICH_BLACK}
               onClick={() => onClickDelete()}

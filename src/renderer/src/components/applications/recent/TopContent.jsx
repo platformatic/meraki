@@ -9,10 +9,10 @@ import { VerticalSeparator, Icons } from '@platformatic/ui-components'
 
 function TopContent ({ runningApps, stoppedApps }) {
   return (
-    <div className={`${styles.container} ${commonStyles.mediumFlexBlock}`}>
+    <div className={`${styles.container} ${commonStyles.smallFlexBlock}`}>
       <div className={`${commonStyles.smallFlexRow} ${commonStyles.fullWidth} ${commonStyles.itemsCenter}`}>
         <Icons.RecentAppsIcon color={WHITE} size={MEDIUM} />
-        <h2 className={`${typographyStyles.desktopHeadline2} ${typographyStyles.textWhite}`}>Recent Apps</h2>
+        <h3 className={`${typographyStyles.desktopHeadline3} ${typographyStyles.textWhite}`}>Recent Apps</h3>
       </div>
       <p className={`${typographyStyles.desktopBodyLarge} ${typographyStyles.textWhite} ${typographyStyles.opacity70}`}>
         Manage all your applications. You can create or import existing applications anytime.

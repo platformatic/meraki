@@ -52,6 +52,9 @@
 .desktopBodySmallest {
   @apply font-inter font-light text-[0.75rem] leading-[1.125rem];
 }
+.desktopBodyLargeMedium {
+  @apply font-inter font-medium text-[1rem] leading-[1.5rem] lg:text-[1.125rem] lg:leading-[1.688rem];
+}
 .desktopBodyLargeSemibold {
   @apply font-inter font-semibold text-[1rem] leading-[1.5rem] lg:text-[1.125rem] lg:leading-[1.688rem];
 }
