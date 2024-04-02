@@ -156,6 +156,8 @@ function ApplicationContainer () {
     setShowModalEditApplicationFlow(false)
     setUseTemplateIdOnEdit(null)
     resetWizardState()
+    setInnerLoading(true)
+    setApplicationsSelected(null)
     setApplicationSelectedId(null)
     setComponents([])
     setReloadApplication(true)
