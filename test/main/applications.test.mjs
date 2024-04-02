@@ -328,7 +328,7 @@ test('open application', async (t) => {
   expect(applicationDesc).toEqual(expected)
 }, 60000)
 
-test.only('delete does not fail if the folder is missing', async (t) => {
+test('delete does not fail if the folder is missing', async (t) => {
   const appDir = await mkdtemp(join(tmpdir(), 'plat-app-test'))
   onTestFinished(() => rm(appDir, { recursive: true, force: true }))
   const appFixture = join('test', 'fixtures', 'runtime')
