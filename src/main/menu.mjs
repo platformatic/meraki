@@ -39,7 +39,8 @@ const template = [
       { role: 'resetZoom' },
       { role: 'zoomIn' },
       { role: 'zoomOut' },
-      { type: 'separator' }
+      { type: 'separator' },
+      { role: 'togglefullscreen' }
     ]
   },
   {
