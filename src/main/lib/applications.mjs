@@ -251,7 +251,15 @@ class Applications {
     const appFolder = app.path
     const ret = await this.#mapper.entities.application.delete({ where: { id: { eq: id } } })
     if (removeFolder) {
-      await rm(appFolder, { recursive: true })
+      try {
+        await access(appFolder)
+        await rm(appFolder, { recursive: true })
+      } catch (err) {
+        if (err.code !== 'ENOENT') {
+          logger.error(`Error removing folder ${appFolder}`)
+          throw err
+        }
+      }
     }
     return ret
   }

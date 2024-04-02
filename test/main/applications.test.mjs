@@ -327,3 +327,29 @@ test('open application', async (t) => {
   delete applicationDesc.config
   expect(applicationDesc).toEqual(expected)
 }, 60000)
+
+test.only('delete does not fail if the folder is missing', async (t) => {
+  const appDir = await mkdtemp(join(tmpdir(), 'plat-app-test'))
+  onTestFinished(() => rm(appDir, { recursive: true, force: true }))
+  const appFixture = join('test', 'fixtures', 'runtime')
+  await cp(appFixture, appDir, { recursive: true })
+  mockAgent
+    .get('https://registry.npmjs.org')
+    .intercept({
+      method: 'GET',
+      path: '/platformatic'
+    })
+    .reply(200, {
+      'dist-tags': {
+        latest: '2.0.0'
+      }
+    })
+
+  const applicationsApi = await Applications.create()
+  const { id } = await applicationsApi.importApplication(appDir)
+
+  // We delete the folder
+  await rm(appDir, { recursive: true })
+  // This should not fail
+  await applicationsApi.deleteApplication(id)
+}, 60000)
