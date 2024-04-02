@@ -64,7 +64,7 @@ const Overview = React.forwardRef(({ onClickEditApplication }, ref) => {
               opacity={OPACITY_30}
             />
             <ServicesSection
-              url={applicationSelected.runtime?.url}
+              url={applicationSelected?.runtime?.url ?? '-'}
               onClickEditApplication={onClickEditApplication}
             />
           </div>
