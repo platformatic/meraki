@@ -116,10 +116,8 @@ class Applications {
 
     if (process.platform !== 'win32') {
       const path = nodePath.split('/').slice(0, -1).join('/')
-      console.log("@@@@@@@@@@@@@@@@@@", path)
-      options.env.PATH = `${path}`
+      options.env.PATH = path
     }
-    console.log("@@@@@@@@@@@@@@@@@@", options.env.PATH)
 
     const runtime = execa(
       nodePath, [runtimeCliPath, 'start', '-c', configFile],
