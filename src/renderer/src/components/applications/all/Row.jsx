@@ -60,7 +60,7 @@ function Row ({
       return (
         <div className={`${styles.containerRunning} ${commonStyles.smallButtonSquarePadding}`}>
           <div className={styles.clockWiseRotation}>
-            <Icons.RunningIcon size={SMALL} color={WHITE} />
+            <Icons.RunningIcon size={MEDIUM} color={WHITE} />
           </div>
         </div>
       )
