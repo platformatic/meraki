@@ -256,7 +256,7 @@ const ApplicationLogs = React.forwardRef(({ _props }, ref) => {
           {applicationStatus === STATUS_STOPPED
             ? (
               <div className={`${styles.noLogs} ${commonStyles.smallFlexBlock} ${commonStyles.itemsCenter} ${commonStyles.justifyCenter} ${styles.flexGrow}`}>
-                <Icons.BillingIcon color={WHITE} size={LARGE} />
+                <Icons.BuiltInLoggingIcon color={WHITE} size={LARGE} />
                 <p className={`${typographyStyles.desktopBodyLarge} ${typographyStyles.textWhite}`}>There are no Logs for this App</p>
                 <p className={`${typographyStyles.desktopBody} ${typographyStyles.textWhite} ${typographyStyles.opacity70}`}>This application is stopped. Run the app to collect new Event Logs.</p>
               </div>

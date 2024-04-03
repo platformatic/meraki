@@ -106,7 +106,7 @@ const Metrics = React.forwardRef(({ _props }, ref) => {
           {applicationStatus === STATUS_STOPPED
             ? (
               <div className={`${styles.noMetrics} ${commonStyles.smallFlexBlock} ${commonStyles.itemsCenter} ${commonStyles.justifyCenter} ${styles.flexGrow}`}>
-                <Icons.BillingIcon color={WHITE} size={LARGE} />
+                <Icons.NoMetricsIcon color={WHITE} size={LARGE} />
                 <p className={`${typographyStyles.desktopBodyLarge} ${typographyStyles.textWhite}`}>There are no metrics for this App</p>
                 <p className={`${typographyStyles.desktopBody} ${typographyStyles.textWhite} ${typographyStyles.opacity70}`}>This application is stopped. Run the app to collect new metrics.</p>
               </div>
