@@ -105,7 +105,7 @@ function OverviewSection () {
           <div className={`${styles.buttonContainer}`}>
             <Button
               type='button'
-              label='API reference'
+              label='Test it'
               onClick={() => onClickAPIReference(applicationSelected.id)}
               color={WHITE}
               backgroundColor={TRANSPARENT}
