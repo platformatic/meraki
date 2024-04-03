@@ -23,7 +23,7 @@
   @apply flex flex-col items-start gap-y-2 xl:gap-y-4;
 }
 .mediumFlexBlock24 {
-  @apply flex flex-col items-start gap-y-2 xl:gap-y-6;
+  @apply flex flex-col items-start gap-y-6;
 }
 .largeFlexRow {
   @apply flex flex-row items-center gap-x-3 lg:gap-x-10 w-full;

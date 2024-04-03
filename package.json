@@ -36,7 +36,7 @@
     "@platformatic/client": "^1.31.1",
     "@platformatic/control": "^1.31.1",
     "@platformatic/sql-mapper": "^1.31.1",
-    "@platformatic/ui-components": "^0.3.1",
+    "@platformatic/ui-components": "^0.3.2",
     "@scalar/api-reference-react": "^0.1.15",
     "autoprefixer": "^10.4.16",
     "boring-name-generator": "^1.0.3",
