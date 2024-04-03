@@ -12,12 +12,14 @@ export default function useOnScreen (ref) {
   }, [])
 
   useEffect(() => {
-    observerRef.current.observe(ref.current)
+    if (ref?.current) {
+      observerRef.current.observe(ref.current)
 
-    return () => {
-      observerRef.current.disconnect()
+      return () => {
+        observerRef.current.disconnect()
+      }
     }
-  }, [ref])
+  }, [ref?.current])
 
   return isOnScreen
 }

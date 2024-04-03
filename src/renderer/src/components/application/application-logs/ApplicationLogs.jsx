@@ -1,6 +1,6 @@
 'use strict'
 import React, { useState, useEffect, useRef } from 'react'
-import { RICH_BLACK, WHITE, OPACITY_30, TRANSPARENT, MARGIN_0, MEDIUM } from '@platformatic/ui-components/src/components/constants'
+import { RICH_BLACK, WHITE, OPACITY_30, TRANSPARENT, MARGIN_0, MEDIUM, LARGE } from '@platformatic/ui-components/src/components/constants'
 import styles from './ApplicationLogs.module.css'
 import typographyStyles from '~/styles/Typography.module.css'
 import commonStyles from '~/styles/CommonStyles.module.css'
@@ -246,90 +246,99 @@ const ApplicationLogs = React.forwardRef(({ _props }, ref) => {
   return (
     <div className={styles.container} ref={ref}>
       <div className={styles.content}>
-        <div className={`${commonStyles.largeFlexBlock} ${commonStyles.fullWidth}`}>
+        <div className={`${commonStyles.largeFlexBlock} ${commonStyles.fullWidth} ${styles.flexGrow}`}>
           <div className={commonStyles.mediumFlexBlock}>
             <div className={`${commonStyles.smallFlexRow} ${commonStyles.fullWidth} ${commonStyles.itemsCenter}`}>
               <Icons.CodeTestingIcon color={WHITE} size={MEDIUM} />
               <h3 className={`${typographyStyles.desktopHeadline3} ${typographyStyles.textWhite}`}>Logs</h3>
-              {applicationStatus === STATUS_STOPPED && <p className={`${typographyStyles.desktopBodySmall} ${typographyStyles.textWhite} ${typographyStyles.opacity70}`}>(The application is stopped. Restart the app to collect new logs.)</p>}
             </div>
           </div>
-          <BorderedBox classes={styles.borderexBoxContainer} backgroundColor={RICH_BLACK} color={WHITE} borderColorOpacity={OPACITY_30}>
-            <div className={`${commonStyles.tinyFlexRow} ${commonStyles.itemsCenter} ${commonStyles.justifyBetween} ${styles.lateralPadding} ${styles.top}`}>
-              <Forms.Select
-                defaultContainerClassName={styles.select}
-                backgroundColor={RICH_BLACK}
-                borderColor={WHITE}
-                options={optionsServices}
-                disabled={optionsServices.length <= 1}
-                onSelect={handleSelectService}
-                optionsBorderedBottom={false}
-                optionSelected={defaultOptionsSelected}
-                mainColor={WHITE}
-                borderListColor={WHITE}
-                value={filterLogsByService.label}
-                inputTextClassName={`${typographyStyles.desktopBodySmall} ${typographyStyles.textWhite}`}
-              />
-              <LogFilterSelector defaultLevelSelected={30} onChangeLevelSelected={(level) => setFilterLogsByLevel(level)} />
-              <div className={`${commonStyles.tinyFlexRow} ${commonStyles.justifyEnd} ${styles.buttonContainer}`}>
-                <Button
-                  type='button'
-                  paddingClass={commonStyles.buttonPadding}
-                  label='Pretty'
-                  onClick={() => setDisplayLog(PRETTY)}
-                  color={WHITE}
-                  backgroundColor={RICH_BLACK}
-                  selected={displayLog === PRETTY}
-                />
-                <Button
-                  type='button'
-                  paddingClass={commonStyles.buttonPadding}
-                  label='Raw'
-                  onClick={() => setDisplayLog(RAW)}
-                  color={WHITE}
-                  backgroundColor={TRANSPARENT}
-                  selected={displayLog === RAW}
-                />
+          {applicationStatus === STATUS_STOPPED
+            ? (
+              <div className={`${styles.noLogs} ${commonStyles.smallFlexBlock} ${commonStyles.itemsCenter} ${commonStyles.justifyCenter} ${styles.flexGrow}`}>
+                <Icons.BillingIcon color={WHITE} size={LARGE} />
+                <p className={`${typographyStyles.desktopBodyLarge} ${typographyStyles.textWhite}`}>There are no Logs for this App</p>
+                <p className={`${typographyStyles.desktopBody} ${typographyStyles.textWhite} ${typographyStyles.opacity70}`}>This application is stopped. Run the app to collect new Event Logs.</p>
               </div>
-            </div>
-            <HorizontalSeparator marginBottom={MARGIN_0} marginTop={MARGIN_0} color={WHITE} opacity={OPACITY_30} />
-            <div className={`${styles.logsContainer} ${styles.lateralPadding}`} ref={logContentRef} onScroll={handleScroll}>
-              {applicationStatus === STATUS_RUNNING && showPreviousLogs && (
-                <div className={styles.previousLogContainer}>
-                  <p className={`${typographyStyles.desktopBodySmall} ${typographyStyles.textWhite} ${typographyStyles.textCenter} ${commonStyles.fullWidth} `}><span className={`${commonStyles.cursorPointer} ${typographyStyles.textTertiaryBlue}`} onClick={() => loadPreviousLogs()}>Click Here</span> to load previous logs</p>
+              )
+            : (
+              <BorderedBox classes={styles.borderexBoxContainer} backgroundColor={RICH_BLACK} color={WHITE} borderColorOpacity={OPACITY_30}>
+                <div className={`${commonStyles.tinyFlexRow} ${commonStyles.itemsCenter} ${commonStyles.justifyBetween} ${styles.lateralPadding} ${styles.top}`}>
+                  <Forms.Select
+                    defaultContainerClassName={styles.select}
+                    backgroundColor={RICH_BLACK}
+                    borderColor={WHITE}
+                    options={optionsServices}
+                    disabled={optionsServices.length <= 1}
+                    onSelect={handleSelectService}
+                    optionsBorderedBottom={false}
+                    optionSelected={defaultOptionsSelected}
+                    mainColor={WHITE}
+                    borderListColor={WHITE}
+                    value={filterLogsByService.label}
+                    inputTextClassName={`${typographyStyles.desktopBodySmall} ${typographyStyles.textWhite}`}
+                  />
+                  <LogFilterSelector defaultLevelSelected={30} onChangeLevelSelected={(level) => setFilterLogsByLevel(level)} />
+                  <div className={`${commonStyles.tinyFlexRow} ${commonStyles.justifyEnd} ${styles.buttonContainer}`}>
+                    <Button
+                      type='button'
+                      paddingClass={commonStyles.buttonPadding}
+                      label='Pretty'
+                      onClick={() => setDisplayLog(PRETTY)}
+                      color={WHITE}
+                      backgroundColor={RICH_BLACK}
+                      selected={displayLog === PRETTY}
+                    />
+                    <Button
+                      type='button'
+                      paddingClass={commonStyles.buttonPadding}
+                      label='Raw'
+                      onClick={() => setDisplayLog(RAW)}
+                      color={WHITE}
+                      backgroundColor={TRANSPARENT}
+                      selected={displayLog === RAW}
+                    />
+                  </div>
                 </div>
-              )}
-
-              {filteredLogs?.length > 0 && (
-                <>
-                  <hr className={styles.logDividerTop} />
-                  {renderLogs()}
-                </>
-              )}
-              <div ref={bottomRef} className={styles.logDividerBottom} />
-            </div>
-            <HorizontalSeparator marginBottom={MARGIN_0} marginTop={MARGIN_0} color={WHITE} opacity={OPACITY_30} />
-            <div className={`${commonStyles.tinyFlexRow} ${commonStyles.itemsCenter} ${commonStyles.justifyBetween} ${styles.lateralPadding} ${styles.bottom}`}>
-              <div>&nbsp;</div>
-
-              {displayGoToBottom
-                ? (
-                  <p className={`${typographyStyles.desktopBodySmall} ${typographyStyles.textWhite}`}>There are new logs. <span className={`${commonStyles.cursorPointer} ${typographyStyles.textTertiaryBlue}`} onClick={() => resumeScrolling()}>Go to the bottom</span> to resume</p>
-                  )
-                : (
-                  <p className={`${typographyStyles.desktopBodySmall} ${typographyStyles.textRichBlack}`}>There are new logs. Go to the bottom to resume</p>
+                <HorizontalSeparator marginBottom={MARGIN_0} marginTop={MARGIN_0} color={WHITE} opacity={OPACITY_30} />
+                <div className={`${styles.logsContainer} ${styles.lateralPadding}`} ref={logContentRef} onScroll={handleScroll}>
+                  {applicationStatus === STATUS_RUNNING && showPreviousLogs && (
+                    <div className={styles.previousLogContainer}>
+                      <p className={`${typographyStyles.desktopBodySmall} ${typographyStyles.textWhite} ${typographyStyles.textCenter} ${commonStyles.fullWidth} `}><span className={`${commonStyles.cursorPointer} ${typographyStyles.textTertiaryBlue}`} onClick={() => loadPreviousLogs()}>Click Here</span> to load previous logs</p>
+                    </div>
                   )}
-              <Button
-                type='button'
-                paddingClass={commonStyles.buttonPadding}
-                label='Save Logs'
-                onClick={() => callApiGetAllLogs(applicationSelected.id)}
-                color={WHITE}
-                backgroundColor={TRANSPARENT}
-              />
-            </div>
 
-          </BorderedBox>
+                  {filteredLogs?.length > 0 && (
+                    <>
+                      <hr className={styles.logDividerTop} />
+                      {renderLogs()}
+                    </>
+                  )}
+                  <div ref={bottomRef} className={styles.logDividerBottom} />
+                </div>
+                <HorizontalSeparator marginBottom={MARGIN_0} marginTop={MARGIN_0} color={WHITE} opacity={OPACITY_30} />
+                <div className={`${commonStyles.tinyFlexRow} ${commonStyles.itemsCenter} ${commonStyles.justifyBetween} ${styles.lateralPadding} ${styles.bottom}`}>
+                  <div>&nbsp;</div>
+
+                  {displayGoToBottom
+                    ? (
+                      <p className={`${typographyStyles.desktopBodySmall} ${typographyStyles.textWhite}`}>There are new logs. <span className={`${commonStyles.cursorPointer} ${typographyStyles.textTertiaryBlue}`} onClick={() => resumeScrolling()}>Go to the bottom</span> to resume</p>
+                      )
+                    : (
+                      <p className={`${typographyStyles.desktopBodySmall} ${typographyStyles.textRichBlack}`}>There are new logs. Go to the bottom to resume</p>
+                      )}
+                  <Button
+                    type='button'
+                    paddingClass={commonStyles.buttonPadding}
+                    label='Save Logs'
+                    onClick={() => callApiGetAllLogs(applicationSelected.id)}
+                    color={WHITE}
+                    backgroundColor={TRANSPARENT}
+                  />
+                </div>
+
+              </BorderedBox>
+              )}
         </div>
       </div>
     </div>

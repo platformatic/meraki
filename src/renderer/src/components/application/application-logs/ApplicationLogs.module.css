@@ -2,7 +2,10 @@
   @apply grow relative;
 }
 .content {
-  @apply py-10 px-6 flex flex-col gap-y-10; 
+  @apply py-10 px-6 flex flex-col gap-y-10 h-[calc(100%-5rem)]; 
+}
+.flexGrow {
+  @apply grow;
 }
 .buttonContainer,
 .select {
@@ -17,7 +20,6 @@
 .top, .bottom {
   @apply shrink-0 grow-0;
 }
-
 .logsContainer {
   @apply grow h-full min-h-[calc(100vH-25rem)] max-h-[calc(100vH-25rem)] overflow-y-auto flex flex-col gap-y-1;
 }
@@ -31,4 +33,7 @@
 }
 .previousLogContainer {
   @apply w-full bg-rich-black mx-auto top-0 z-10 pb-1; 
+}
+.noLogs {
+  @apply w-full;
 }

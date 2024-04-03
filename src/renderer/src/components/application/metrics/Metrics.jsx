@@ -1,13 +1,13 @@
 'use strict'
 import React, { useEffect, useState } from 'react'
-import { MEDIUM, WHITE, OPACITY_30, TRANSPARENT } from '@platformatic/ui-components/src/components/constants'
+import { MEDIUM, WHITE, OPACITY_30, TRANSPARENT, LARGE } from '@platformatic/ui-components/src/components/constants'
 import styles from './Metrics.module.css'
 import typographyStyles from '~/styles/Typography.module.css'
 import commonStyles from '~/styles/CommonStyles.module.css'
 import { BorderedBox, LoadingSpinnerV2 } from '@platformatic/ui-components'
 import Icons from '@platformatic/ui-components/src/components/icons'
 import useStackablesStore from '~/useStackablesStore'
-import { APPLICATION_PAGE_METRICS, STATUS_RUNNING } from '~/ui-constants'
+import { APPLICATION_PAGE_METRICS, STATUS_RUNNING, STATUS_STOPPED } from '~/ui-constants'
 import { callApiStartMetrics, getAppMetrics, callApiStopMetrics } from '~/api'
 import LineChart from './LineChart'
 import StackedBarsChart from './StackedBarsChart'
@@ -93,52 +93,62 @@ const Metrics = React.forwardRef(({ _props }, ref) => {
   return (
     <div className={styles.container} ref={ref}>
       <div className={styles.content}>
-        <div className={`${commonStyles.mediumFlexBlock24} ${commonStyles.fullWidth}`}>
+        <div className={`${commonStyles.mediumFlexBlock24} ${commonStyles.fullWidth} ${styles.flexGrow}`}>
           <div className={commonStyles.mediumFlexBlock}>
             <div className={`${commonStyles.smallFlexRow} ${commonStyles.fullWidth} ${commonStyles.itemsCenter}`}>
               <Icons.MetricsIcon color={WHITE} size={MEDIUM} />
               <h3 className={`${typographyStyles.desktopHeadline3} ${typographyStyles.textWhite}`}>Metrics</h3>
-              <p className={`${typographyStyles.desktopBodySmall} ${typographyStyles.textWhite} ${typographyStyles.opacity70}`}>{applicationStatus === STATUS_RUNNING ? '(Last 5 minutes)' : '(The application is stopped. Restart the app to collect new metrics.)'}</p>
+              <p className={`${typographyStyles.desktopBodySmall} ${typographyStyles.textWhite} ${typographyStyles.opacity70}`}>{applicationStatus === STATUS_RUNNING ? '(Last 5 minutes)' : ''}</p>
               {paused ? <p className={`${typographyStyles.desktopBodySmall}  ${typographyStyles.textWhite} ${typographyStyles.opacity70}`}>Paused, click on a chart to resume</p> : null}
             </div>
           </div>
 
-          <div className={`${commonStyles.mediumFlexBlock} ${commonStyles.fullWidth}`}>
-            <BorderedBox color={WHITE} borderColorOpacity={OPACITY_30} backgroundColor={TRANSPARENT} classes={styles.boxMetricContainer}>
-              <LineChart
-                data={memory}
-                title='Memory'
-                unit='MB'
-                labels={['RSS', 'Total Heap', 'Heap Used', 'New Space', 'Old Space']}
-                colorSet={0}
-                paused={paused}
-                setPaused={setPaused}
-              />
-            </BorderedBox>
+          {applicationStatus === STATUS_STOPPED
+            ? (
+              <div className={`${styles.noMetrics} ${commonStyles.smallFlexBlock} ${commonStyles.itemsCenter} ${commonStyles.justifyCenter} ${styles.flexGrow}`}>
+                <Icons.BillingIcon color={WHITE} size={LARGE} />
+                <p className={`${typographyStyles.desktopBodyLarge} ${typographyStyles.textWhite}`}>There are no metrics for this App</p>
+                <p className={`${typographyStyles.desktopBody} ${typographyStyles.textWhite} ${typographyStyles.opacity70}`}>This application is stopped. Run the app to collect new metrics.</p>
+              </div>
+              )
+            : (
+              <div className={`${commonStyles.mediumFlexBlock} ${commonStyles.fullWidth}`}>
+                <BorderedBox color={WHITE} borderColorOpacity={OPACITY_30} backgroundColor={TRANSPARENT} classes={styles.boxMetricContainer}>
+                  <LineChart
+                    data={memory}
+                    title='Memory'
+                    unit='MB'
+                    labels={['RSS', 'Total Heap', 'Heap Used', 'New Space', 'Old Space']}
+                    colorSet={0}
+                    paused={paused}
+                    setPaused={setPaused}
+                  />
+                </BorderedBox>
 
-            <BorderedBox color={WHITE} borderColorOpacity={OPACITY_30} backgroundColor={TRANSPARENT} classes={styles.boxMetricContainer}>
-              <LineChart
-                data={cpuEL}
-                title='CPU Usage & Event loop utilization'
-                unit='%'
-                lowerMaxY={100}
-                labels={['CPU usage', 'Event Loop Utilization']}
-                colorSet={1}
-                paused={paused}
-                setPaused={setPaused}
-              />
-            </BorderedBox>
+                <BorderedBox color={WHITE} borderColorOpacity={OPACITY_30} backgroundColor={TRANSPARENT} classes={styles.boxMetricContainer}>
+                  <LineChart
+                    data={cpuEL}
+                    title='CPU Usage & Event loop utilization'
+                    unit='%'
+                    lowerMaxY={100}
+                    labels={['CPU usage', 'Event Loop Utilization']}
+                    colorSet={1}
+                    paused={paused}
+                    setPaused={setPaused}
+                  />
+                </BorderedBox>
 
-            <BorderedBox color={WHITE} borderColorOpacity={OPACITY_30} backgroundColor={TRANSPARENT} classes={styles.boxMetricContainer}>
-              <StackedBarsChart
-                data={latency}
-                title='Entrypoint Latency'
-                unit='ms'
-                paused={paused}
-                setPaused={setPaused}
-              />
-            </BorderedBox>
-          </div>
+                <BorderedBox color={WHITE} borderColorOpacity={OPACITY_30} backgroundColor={TRANSPARENT} classes={styles.boxMetricContainer}>
+                  <StackedBarsChart
+                    data={latency}
+                    title='Entrypoint Latency'
+                    unit='ms'
+                    paused={paused}
+                    setPaused={setPaused}
+                  />
+                </BorderedBox>
+              </div>
+              )}
         </div>
       </div>
     </div>

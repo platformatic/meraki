@@ -7,3 +7,9 @@
 .boxMetricContainer {
   @apply w-full;
 }
+.noMetrics {
+  @apply w-full grow;
+}
+.flexGrow {
+  @apply grow;
+}
