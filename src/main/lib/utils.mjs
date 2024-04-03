@@ -42,7 +42,6 @@ async function getLatestPlatformaticVersion (pkg) {
   return null
 }
 
-
 async function findExecutableInShellPath (executableName) {
   const DEFAULT_SHELL = process.platform === 'darwin' ? '/bin/zsh' : '/bin/bash'
   const currentShell = process.env.SHELL || DEFAULT_SHELL
