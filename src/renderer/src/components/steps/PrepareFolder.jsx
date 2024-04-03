@@ -83,7 +83,7 @@ const PrepareFolder = React.forwardRef(({ onNext, onBack }, ref) => {
   return (
     <>
       <div className={styles.container} ref={ref}>
-        <div className={commonStyles.mediumFlexBlock}>
+        <div className={styles.content}>
           <div className={`${commonStyles.mediumFlexBlock} ${commonStyles.fullWidth}`}>
             <Title
               title={formData.createApplication.application}
@@ -105,7 +105,7 @@ const PrepareFolder = React.forwardRef(({ onNext, onBack }, ref) => {
               paddingClass={`${commonStyles.buttonPadding} cy-action-donwload-logs`}
             />
           </div>
-          <BorderedBox classes={`${commonStyles.fullWidth} ${styles.content}`} backgroundColor={TRANSPARENT} borderColorOpacity={OPACITY_30} color={WHITE}>
+          <BorderedBox classes={`${commonStyles.fullWidth} ${styles.logContainer}`} backgroundColor={TRANSPARENT} borderColorOpacity={OPACITY_30} color={WHITE}>
             <div className={`${commonStyles.flexBlockNoGap} `}>
               {npmLogs.map((log, index) => renderLog(log, index))}
             </div>
@@ -113,7 +113,6 @@ const PrepareFolder = React.forwardRef(({ onNext, onBack }, ref) => {
           <div className={`${commonStyles.mediumFlexBlock} ${commonStyles.halfWidth}`}>
             <CountDown status={countDownStatus} />
           </div>
-
         </div>
       </div>
       <div className={`${styles.buttonContainer} ${commonStyles.fullWidth}`}>

@@ -5,5 +5,8 @@
   @apply flex justify-between;
 }
 .content {
-  @apply overflow-y-auto overflow-x-hidden max-h-[calc(100vH-22rem)] min-h-[calc(100vH-22rem)] lg:max-h-[calc(100vH-32rem)] lg:min-h-[calc(100vH-32rem)]
+  @apply flex flex-col items-start gap-y-2 xl:gap-y-4 pb-8 h-[calc(100%-2rem)] grow ;
+}
+.logContainer {
+  @apply overflow-y-auto overflow-x-hidden max-h-[45vH];
 }
