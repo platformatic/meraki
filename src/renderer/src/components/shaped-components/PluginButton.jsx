@@ -4,12 +4,13 @@ import PropTypes from 'prop-types'
 import typographyStyles from '~/styles/Typography.module.css'
 import styles from './PluginButton.module.css'
 import commonStyles from '~/styles/CommonStyles.module.css'
-import { ModalDirectional, PlatformaticIcon } from '@platformatic/ui-components'
+import { ModalDirectional, PlatformaticIcon, Tooltip } from '@platformatic/ui-components'
 import { MEDIUM, SMALL, WHITE } from '@platformatic/ui-components/src/components/constants'
 import BrickPath from './BrickPath'
 import { ONLY_PLUGIN, PLUGINS_2, PLUGINS_3 } from '~/ui-constants'
 import modalStyles from '~/styles/ModalStyles.module.css'
 import PluginDetail from '../plugins/PluginDetail'
+import tooltipStyles from '~/styles/TooltipStyles.module.css'
 
 function PluginButton ({
   onClickRemove,
@@ -97,11 +98,18 @@ function PluginButton ({
           )
         : (
           <>
-            <div className={`${commonStyles.smallFlexRow} ${commonStyles.justifyBetween} ${commonStyles.itemsCenter} ${styles.content} ${commonStyles.cursorPointer}`} onClick={() => setShowModalDetail(true)}>
-              <div className={`${commonStyles.tinyFlexRow} ${commonStyles.itemsCenter} ${styles.leftContent}`}>
-                <span className={`${typographyStyles.desktopBodyLarge} ${typographyStyles.textWhite} ${typographyStyles.ellipsis}`}>{name}</span>
+            <Tooltip
+              tooltipClassName={tooltipStyles.tooltipDarkStyle}
+              content={(<span>{name}</span>)}
+              offset={12}
+            >
+              <div className={`${commonStyles.smallFlexRow} ${commonStyles.justifyBetween} ${commonStyles.itemsCenter} ${styles.content} ${commonStyles.cursorPointer}`} onClick={() => setShowModalDetail(true)}>
+                <div className={`${commonStyles.tinyFlexRow} ${commonStyles.itemsCenter} ${styles.leftContent}`}>
+                  <span className={`${typographyStyles.desktopBodyLarge} ${typographyStyles.textWhite} ${typographyStyles.ellipsis}`}>{name}</span>
+                </div>
               </div>
-            </div>
+            </Tooltip>
+
             <div className={styles.deleteContainer}>
               <PlatformaticIcon iconName='TrashIcon' color={WHITE} size={MEDIUM} onClick={() => onClickRemove()} internalOverHandling />
             </div>
