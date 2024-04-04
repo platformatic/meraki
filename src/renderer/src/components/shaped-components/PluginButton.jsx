@@ -4,22 +4,32 @@ import PropTypes from 'prop-types'
 import typographyStyles from '~/styles/Typography.module.css'
 import styles from './PluginButton.module.css'
 import commonStyles from '~/styles/CommonStyles.module.css'
-import { PlatformaticIcon } from '@platformatic/ui-components'
+import { ModalDirectional, PlatformaticIcon } from '@platformatic/ui-components'
 import { MEDIUM, SMALL, WHITE } from '@platformatic/ui-components/src/components/constants'
 import BrickPath from './BrickPath'
 import { ONLY_PLUGIN, PLUGINS_2, PLUGINS_3 } from '~/ui-constants'
+import modalStyles from '~/styles/ModalStyles.module.css'
+import PluginDetail from '../plugins/PluginDetail'
 
 function PluginButton ({
   onClickRemove,
   onClickViewAll,
   index,
+  id,
   name,
+  author,
+  description,
+  homepage,
+  downloads,
+  releasedAt,
+  tags,
   heightType,
   viewAll,
   totalPlugins
 }) {
   const ref = useRef(null)
   const [hover, setHover] = useState(false)
+  const [showModalDetail, setShowModalDetail] = useState(false)
 
   function getSpecificContainerClassName () {
     let specContainerClassName
@@ -87,7 +97,7 @@ function PluginButton ({
           )
         : (
           <>
-            <div className={`${commonStyles.smallFlexRow} ${commonStyles.justifyBetween} ${commonStyles.itemsCenter} ${styles.content}`}>
+            <div className={`${commonStyles.smallFlexRow} ${commonStyles.justifyBetween} ${commonStyles.itemsCenter} ${styles.content} ${commonStyles.cursorPointer}`} onClick={() => setShowModalDetail(true)}>
               <div className={`${commonStyles.tinyFlexRow} ${commonStyles.itemsCenter} ${styles.leftContent}`}>
                 <span className={`${typographyStyles.desktopBodyLarge} ${typographyStyles.textWhite} ${typographyStyles.ellipsis}`}>{name}</span>
               </div>
@@ -95,6 +105,26 @@ function PluginButton ({
             <div className={styles.deleteContainer}>
               <PlatformaticIcon iconName='TrashIcon' color={WHITE} size={MEDIUM} onClick={() => onClickRemove()} internalOverHandling />
             </div>
+            {showModalDetail && (
+              <ModalDirectional
+                key={id}
+                setIsOpen={() => setShowModalDetail(false)}
+                title='Back to Application'
+                titleClassName={`${typographyStyles.desktopBody} ${typographyStyles.textWhite}`}
+                classNameModalLefty={modalStyles.modalLefty}
+              >
+                <PluginDetail
+                  name={name}
+                  description={description}
+                  tags={tags}
+                  author={author}
+                  homepage={homepage}
+                  downloads={downloads}
+                  releasedAt={releasedAt}
+                  onClickSelectPlugin={() => {}}
+                />
+              </ModalDirectional>
+            )}
           </>
           )}
     </div>
@@ -103,9 +133,40 @@ function PluginButton ({
 
 PluginButton.propTypes = {
   /**
+   * id
+    */
+  id: PropTypes.string,
+  /**
    * onClickRemove
     */
   onClickRemove: PropTypes.func,
+  /**
+   * description
+    */
+  description: PropTypes.string,
+  /**
+   * tags
+    */
+  tags: PropTypes.arrayOf(PropTypes.string),
+  /**
+   * author
+    */
+  author: PropTypes.string,
+  /**
+   * downloads
+    */
+  downloads: PropTypes.oneOfType([
+    PropTypes.string,
+    PropTypes.number
+  ]),
+  /**
+   * releasedAt
+    */
+  releasedAt: PropTypes.string,
+  /**
+   * homepage
+    */
+  homepage: PropTypes.string,
   /**
    * name
     */
@@ -131,11 +192,18 @@ PluginButton.propTypes = {
 PluginButton.defaultProps = {
   onClickRemove: () => {},
   onClickViewAll: () => {},
+  id: '',
   name: '',
   index: 0,
   viewAll: false,
   totalPlugins: 0,
-  heightType: ONLY_PLUGIN
+  heightType: ONLY_PLUGIN,
+  description: '',
+  author: '',
+  downloads: 0,
+  homepage: '',
+  releasedAt: '-',
+  tags: []
 }
 
 export default PluginButton

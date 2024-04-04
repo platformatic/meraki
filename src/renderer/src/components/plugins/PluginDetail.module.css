@@ -2,5 +2,11 @@
   @apply flex flex-col justify-between h-full w-full
 }
 .link {
-  @apply no-underline
+  @apply no-underline;
+}
+.wrap {
+  @apply flex flex-row flex-wrap items-center gap-4 max-h-[1rem] w-full;
+}
+.selfAuto {
+  @apply self-auto;
 }
