@@ -89,7 +89,7 @@ const UpdatingApplication = React.forwardRef(({ onBack, onClickGoToApps, applica
             paddingClass={`${commonStyles.buttonPadding} cy-action-donwload-logs`}
           />
         </div>
-        <BorderedBox classes={`${commonStyles.fullWidth} ${styles.content}`} backgroundColor={TRANSPARENT} borderColorOpacity={OPACITY_30} color={WHITE}>
+        <BorderedBox classes={`${commonStyles.fullWidth} ${styles.logContainer}`} backgroundColor={TRANSPARENT} borderColorOpacity={OPACITY_30} color={WHITE}>
           <div className={`${commonStyles.flexBlockNoGap} `}>
             {npmLogs.map((log, index) => renderLog(log, index))}
           </div>
