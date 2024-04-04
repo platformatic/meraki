@@ -19,11 +19,11 @@
 }
 .tableRow > .tableSmall > .tableCell:nth-child(odd) {
   display: none;
-  @apply py-2;
+  @apply py-4;
 }
 
 .tableRow > .tableSmall > .tableCell {
-  @apply py-2;
+  @apply py-4;
 }
 
 .tableRow:last-child > .tableSmall:last-child > .tableCell:last-child {
