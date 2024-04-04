@@ -2,7 +2,7 @@
   @apply grow relative;
 }
 .content {
-  @apply py-10 px-6 flex flex-col gap-y-10 h-[calc(100%-5rem)]; 
+  @apply py-10 px-6 flex flex-col gap-y-10 max-h-[calc(100%-5rem)] h-full;
 }
 .flexGrow {
   @apply grow;
@@ -12,7 +12,7 @@
   @apply basis-1/4
 }
 .borderexBoxContainer {
-  @apply py-4 px-0 w-full flex flex-col gap-y-4;
+  @apply py-4 px-0 w-full flex flex-col gap-y-4 h-full max-h-[calc(100vH-13rem)] min-h-[calc(100vH-13rem)];
 }
 .lateralPadding {
   @apply px-4;
@@ -20,8 +20,11 @@
 .top, .bottom {
   @apply shrink-0 grow-0;
 }
+.bottom {
+  @apply py-2;
+}
 .logsContainer {
-  @apply grow h-full min-h-[calc(100vH-25rem)] max-h-[calc(100vH-25rem)] overflow-y-auto flex flex-col gap-y-1;
+  @apply grow h-full min-h-[calc(100%-10rem)] max-h-[calc(100%-10rem)] overflow-y-auto flex flex-col gap-y-1 grow;
 }
 .logDividerBottom,
 .logDividerTop {
