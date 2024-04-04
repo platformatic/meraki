@@ -31,11 +31,16 @@
   @apply w-full;
 }
 .tableHeaders {
-  @apply grid grid-cols-4 gap-x-4 w-full top-0 bg-rich-black z-10 border-0;
+  @apply grid grid-cols-12 gap-x-4 w-full top-0 bg-rich-black z-10 border-0;
   position: sticky;
 }
 .tableHeader {
-  @apply pt-0 pb-12 text-left;;
+  @apply col-span-2;
+  @apply pt-0 pb-12 text-left;
+}
+
+.colSpan6 {
+  @apply !col-span-6;
 }
 
 div[class*="tableRow"] {

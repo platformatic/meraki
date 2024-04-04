@@ -124,7 +124,7 @@ function Row ({
 
   return (
     <div className={styles.tableRow}>
-      <div className={styles.tableSmall}>
+      <div className={`${styles.tableSmall} ${styles.colSpan6}`}>
         <div className={styles.tableCell}>
           <span className={`${typographyStyles.desktopBodySemibold} ${typographyStyles.textWhite} ${styles.ellipsis}`} title={name}>Name</span>
         </div>

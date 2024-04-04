@@ -11,9 +11,13 @@
   @apply truncate w-full;
 }
 .tableRow {
-  @apply grid grid-cols-4 gap-x-4 w-full items-center;
+  @apply grid grid-cols-12 gap-x-4 w-full items-center;
+}
+.colSpan6 {
+  @apply !col-span-6;
 }
 .tableSmall {
+  @apply col-span-2;
   display: table-cell;
   vertical-align: middle;
 }

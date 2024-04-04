@@ -115,7 +115,7 @@ function TableRecent ({
     return (
       <div className={styles.table}>
         <div className={styles.tableHeaders}>
-          <div className={styles.tableHeader}>
+          <div className={`${styles.tableHeader} ${styles.colSpan6}`}>
             <div className={styles.thWithIcon}>
               <span className={`${typographyStyles.desktopOtherOverlineNormal} ${typographyStyles.textWhite}`}>Name</span>
               <PlatformaticIcon iconName={getSortIcon('name', sortByName === ASC ? 'SortDownIcon' : 'SortUpIcon')} color={WHITE} size={SMALL} onClick={() => handleSortByName()} />
