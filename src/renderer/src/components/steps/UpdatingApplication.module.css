@@ -2,8 +2,8 @@
   @apply grow pb-8 h-[calc(100%-2rem)];
   flex-basis: 1rem;
 }
-.content {
-  @apply overflow-x-hidden overflow-y-auto grow max-h-[45vH];
+.logContainer {
+  @apply overflow-x-hidden overflow-y-auto grow max-h-[calc(45vH-2rem)] p-4;
 }
 .buttonContainer {
   @apply flex justify-between;
