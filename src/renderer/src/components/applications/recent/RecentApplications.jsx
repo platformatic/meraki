@@ -10,8 +10,8 @@ import ErrorComponent from '~/components/screens/ErrorComponent'
 import useStackablesStore from '~/useStackablesStore'
 import { HOME_PATH, PAGE_RECENT_APPS, STATUS_RUNNING, STATUS_STOPPED } from '~/ui-constants'
 import { useNavigate } from 'react-router-dom'
-import { Modal } from '@platformatic/ui-components'
-import { MODAL_POPUP_V2 } from '@platformatic/ui-components/src/components/constants'
+import { HorizontalSeparator, Modal } from '@platformatic/ui-components'
+import { MARGIN_0, MODAL_POPUP_V2, OPACITY_30, WHITE } from '@platformatic/ui-components/src/components/constants'
 import DeleteApplication from '~/components/application/DeleteApplication'
 
 const RecentApplications = React.forwardRef(({ onClickCreateNewApp }, ref) => {
@@ -140,6 +140,7 @@ const RecentApplications = React.forwardRef(({ onClickCreateNewApp }, ref) => {
               runningApps={runningApps}
               stoppedApps={stoppedApps}
             />
+            <HorizontalSeparator marginBottom={MARGIN_0} marginTop={MARGIN_0} color={WHITE} opacity={OPACITY_30} />
             <TableRecent
               applicationsLoaded={applicationsLoaded}
               applications={localApplications}

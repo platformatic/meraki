@@ -10,7 +10,7 @@ import { VerticalSeparator, Icons } from '@platformatic/ui-components'
 function TopContent ({ runningApps, stoppedApps }) {
   return (
     <div className={`${styles.container} ${commonStyles.smallFlexBlock}`}>
-      <div className={`${commonStyles.smallFlexRow} ${commonStyles.fullWidth} ${commonStyles.itemsCenter}`}>
+      <div className={`${commonStyles.tinyFlexRow} ${commonStyles.fullWidth} ${commonStyles.itemsCenter}`}>
         <Icons.RecentAppsIcon color={WHITE} size={MEDIUM} />
         <h3 className={`${typographyStyles.desktopHeadline3} ${typographyStyles.textWhite}`}>Recent Apps</h3>
       </div>

@@ -11,19 +11,23 @@
   @apply truncate w-full;
 }
 .tableRow {
-  @apply grid grid-cols-4 gap-x-4 w-full items-center;
+  @apply grid grid-cols-12 gap-x-4 w-full items-center;
+}
+.colSpan6 {
+  @apply !col-span-6;
 }
 .tableSmall {
+  @apply col-span-2;
   display: table-cell;
   vertical-align: middle;
 }
 .tableRow > .tableSmall > .tableCell:nth-child(odd) {
   display: none;
-  @apply py-2;
+  @apply py-4;
 }
 
 .tableRow > .tableSmall > .tableCell {
-  @apply py-2;
+  @apply py-4;
 }
 
 .tableRow:last-child > .tableSmall:last-child > .tableCell:last-child {
