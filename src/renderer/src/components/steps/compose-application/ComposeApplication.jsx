@@ -180,7 +180,7 @@ const ComposeApplication = React.forwardRef(({ createMode, onNext, onBack }, ref
                     </div>
                     <AddService
                       onClick={() => onClickAddService()}
-                      enabled={services.find(service => Object.keys(service.template).length === 0) === undefined || currentView === GRID_VIEW}
+                      enabled={services.find(service => Object.keys(service.template).length === 0) === undefined}
                     />
                   </div>
                 </div>
