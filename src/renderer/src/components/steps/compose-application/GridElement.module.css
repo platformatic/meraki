@@ -1,12 +1,18 @@
 .container {
-  @apply border border-solid border-white/30 rounded-md py-0.5 px-2 xl:px-4 xl:py-2 2xl:py-4 w-auto h-fit grow;
+  @apply border border-solid border-white/30 rounded-md py-0.5 p-2 w-auto grow;
 }
 .box {
-  @apply px-0.5 py-0 xl:px-4 xl:py-2 w-fit
+  @apply p-2 w-fit
 }
 .boxGrow {
-  @apply px-0.5 py-0 xl:px-4 xl:py-2 w-fit grow
+  @apply p-2 w-fit grow
 }
 .buttonsContainer {
-  @apply flex flex-col gap-y-1 xl:flex-row gap-x-2 xl:justify-end;
+  @apply flex flex-row gap-x-2 xl:justify-end;
+}
+.contentLeft {
+  @apply flex flex-col items-start gap-y-0 max-w-[50%]; 
+}
+.minButton {
+  @apply min-w-[2rem];
 }

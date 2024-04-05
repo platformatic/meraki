@@ -31,7 +31,7 @@ const GridView = React.forwardRef(({
       setGridClassName(styles.gridClassName)
       setContentClassName(styles.container)
     }
-  }, [services?.length])
+  }, [services?.length, maxNumber])
 
   useEffect(() => {
     if (innerHeight > BREAKPOINTS_HEIGHT_LG) {
@@ -49,9 +49,10 @@ const GridView = React.forwardRef(({
 
     return groupedServices.map((group, index) => (
       <div className={gridClassName} key={index}>
-        {group.map(service => (
+        {group.map((service, groupedIndex) => (
           <GridElement
             key={service.name}
+            gridElementIndex={groupedIndex}
             service={{ ...service }}
             onClickEditNameService={() => onClickEditNameService(service)}
             onClickRemoveService={() => onClickRemoveService(service)}

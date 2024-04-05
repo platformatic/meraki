@@ -1,5 +1,7 @@
 .gridClassName {
-  @apply flex flex-col gap-2 w-full h-full
+  @apply flex flex-col gap-2 w-full h-full grow;
+  min-height: calc(var(--compose-application-height) * 0.7);
+  max-height: calc(var(--compose-application-height) * 0.7); 
 }
 .container {
   @apply flex flex-row gap-x-2 w-full overflow-x-auto;
