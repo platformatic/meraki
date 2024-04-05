@@ -3,9 +3,9 @@ import PropTypes from 'prop-types'
 import typographyStyles from '~/styles/Typography.module.css'
 import styles from './AddService.module.css'
 import commonStyles from '~/styles/CommonStyles.module.css'
-import SmallTitle from '../ui/SmallTitle'
 import React, { useRef, useState, useEffect } from 'react'
 import { SMALL, WHITE } from '@platformatic/ui-components/src/components/constants'
+import Icons from '@platformatic/ui-components/src/components/icons'
 
 function AddService ({ onClick, enabled }) {
   const [hover, setHover] = useState(false)
@@ -56,19 +56,10 @@ function AddService ({ onClick, enabled }) {
       </svg>
 
       <div className={`${commonStyles.smallFlexBlock} ${commonStyles.itemsCenter}`}>
-        <SmallTitle
-          title='Add Service'
-          titleClassName={titleClassName}
-          containerClassName={`${commonStyles.tinyFlexRow} ${typographyStyles.textCenter}`}
-          platformaticIcon={{
-            iconName: 'CircleAddIcon',
-            disabled: !enabled,
-            inactive: !hover,
-            color: WHITE,
-            size: SMALL,
-            tip: ''
-          }}
-        />
+        <div className={`${commonStyles.tinyFlexRow} ${typographyStyles.textCenter}`}>
+          <Icons.CircleAddIcon color={WHITE} size={SMALL} disabled={!enabled} inactive={enabled && !hover} />
+          <span className={titleClassName} title='Add Service'>Add Service</span>
+        </div>
       </div>
     </div>
   )

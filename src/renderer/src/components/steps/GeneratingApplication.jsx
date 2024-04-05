@@ -1,23 +1,24 @@
 'use strict'
 import React, { useEffect, useState } from 'react'
 import PropTypes from 'prop-types'
-import { BorderedBox, Button, HorizontalSeparator, Modal } from '@platformatic/ui-components'
+import { BorderedBox, Button, HorizontalSeparator, Modal, Tooltip } from '@platformatic/ui-components'
 import commonStyles from '~/styles/CommonStyles.module.css'
 import typographyStyles from '~/styles/Typography.module.css'
 import styles from './GeneratingApplication.module.css'
-import { WHITE, TRANSPARENT, RICH_BLACK, OPACITY_30, MODAL_POPUP_V2, MARGIN_0, BOX_SHADOW } from '@platformatic/ui-components/src/components/constants'
+import { WHITE, TRANSPARENT, RICH_BLACK, OPACITY_30, MODAL_POPUP_V2, MARGIN_0, BOX_SHADOW, SMALL } from '@platformatic/ui-components/src/components/constants'
 import useStackablesStore from '~/useStackablesStore'
 import Title from '~/components/ui/Title'
 import CountDown from '~/components/ui/CountDown'
 import { callCreateApp, logInfo, removeLogInfo, quitApp } from '~/api'
 import { NONE, RUNNING, SUCCESS, ERROR } from '~/ui-constants'
+import tooltipStyles from '~/styles/TooltipStyles.module.css'
 
 const GeneratingApplication = React.forwardRef(({ onBack, onRestartProcess, useVersion, onClickGoToApps }, ref) => {
   const globalState = useStackablesStore()
   const { formData, reset } = globalState
   const [appGenerated, setAppGenerated] = useState(false)
   const [appGeneratedError, setAppGeneratedError] = useState(false)
-  // const [appGeneratedSuccess, setAppGeneratedSuccess] = useState(false)
+  const [logsCopied, setLogsCopied] = useState(false)
   const [npmLogs, setNpmLogs] = useState([])
   const [logValue, setLogValue] = useState(null)
   const [countDownStatus, setCountDownStatus] = useState(NONE)
@@ -61,9 +62,20 @@ const GeneratingApplication = React.forwardRef(({ onBack, onRestartProcess, useV
   }
 
   function onClickCopyLogs () {
+    setLogsCopied(true)
     let str = ''
     npmLogs.forEach(log => (str += `${log.message}\r\n`))
     navigator.clipboard.writeText(str)
+    setTimeout(() => {
+      setLogsCopied(false)
+    }, 1000)
+  }
+
+  function getButtonCopyIcon () {
+    if (logsCopied) {
+      return { iconName: 'CircleCheckMarkIcon', size: SMALL, color: WHITE }
+    }
+    return { iconName: 'CLIIcon', size: SMALL, color: WHITE }
   }
 
   function onClickComplete () {
@@ -97,14 +109,24 @@ const GeneratingApplication = React.forwardRef(({ onBack, onRestartProcess, useV
             </p>
           </div>
           <div className={`${commonStyles.tinyFlexRow} ${commonStyles.fullWidth} ${commonStyles.justifyEnd}`}>
-            <Button
-              disabled={!appGenerated}
-              label='Copy Logs'
-              onClick={() => onClickCopyLogs()}
-              color={WHITE}
-              backgroundColor={RICH_BLACK}
-              paddingClass={`${commonStyles.buttonPadding} cy-action-donwload-logs`}
-            />
+            <Tooltip
+              tooltipClassName={tooltipStyles.tooltipDarkStyle}
+              visible={logsCopied}
+              content={(<span>Logs copied!</span>)}
+              offset={4}
+              activeDependsOnVisible
+            >
+              <Button
+                disabled={!appGenerated}
+                label='Copy Logs'
+                onClick={() => onClickCopyLogs()}
+                color={WHITE}
+                backgroundColor={RICH_BLACK}
+                paddingClass={`${commonStyles.buttonPadding} cy-action-dismiss`}
+                textClass={`${typographyStyles.desktopBody} action-copy-logs`}
+                platformaticIcon={getButtonCopyIcon()}
+              />
+            </Tooltip>
           </div>
           <BorderedBox classes={`${commonStyles.fullWidth} ${styles.logContainer}`} backgroundColor={TRANSPARENT} borderColorOpacity={OPACITY_30} color={WHITE}>
             <div className={`${commonStyles.flexBlockNoGap} `}>
