@@ -263,7 +263,7 @@ function SelectTemplate ({ onClick, serviceName }) {
             dataAttrName='cy'
             dataAttrValue='modal-title'
           />
-          <p className={`${typographyStyles.desktopBodyLarge} ${typographyStyles.textWhite} ${typographyStyles.opacity70}`}>
+          <p className={`${typographyStyles.desktopBody} ${typographyStyles.textWhite} ${typographyStyles.opacity70}`}>
             Select a template from our Stackables Marketplace to be uses as a base for your new Service. If you don’t want to select any Template your new service will be built on top of Platformatic Service.
           </p>
         </div>

@@ -4,7 +4,7 @@ import PropTypes from 'prop-types'
 import styles from './ComposeApplication.module.css'
 import commonStyles from '~/styles/CommonStyles.module.css'
 import typographyStyles from '~/styles/Typography.module.css'
-import { WHITE, RICH_BLACK, MODAL_POPUP_V2, TRANSPARENT, DULLS_BACKGROUND_COLOR, ANTI_FLASH_WHITE } from '@platformatic/ui-components/src/components/constants'
+import { WHITE, RICH_BLACK, MODAL_POPUP_V2, TRANSPARENT, DULLS_BACKGROUND_COLOR, ANTI_FLASH_WHITE, SMALL } from '@platformatic/ui-components/src/components/constants'
 import { Button, Modal, ModalDirectional } from '@platformatic/ui-components'
 import useStackablesStore from '~/useStackablesStore'
 /* import PluginHandler from '~/components/plugins/PluginHandler'
@@ -167,7 +167,7 @@ const ComposeApplication = React.forwardRef(({ createMode, onNext, onBack }, ref
               dataAttrName='cy'
               dataAttrValue='step-title'
             />
-            <p className={`${typographyStyles.desktopBodyLarge} ${typographyStyles.textWhite} ${typographyStyles.opacity70}`}>Select a template and plugins for your service from our Stackables Marketplace. <br />Once you have chosen a template you can add another Service.</p>
+            <p className={`${typographyStyles.desktopBody} ${typographyStyles.textWhite} ${typographyStyles.opacity70}`}>Select a template and plugins for your service from our Stackables Marketplace. <br />Once you have chosen a template you can add another Service.</p>
           </div>
           <div className={`${commonStyles.smallFlexRow} ${commonStyles.fullWidth} ${commonStyles.justifyBetween} ${commonStyles.itemsCenter}`}>
             <div className={`${commonStyles.flexBlockNoGap}`}>
@@ -201,6 +201,7 @@ const ComposeApplication = React.forwardRef(({ createMode, onNext, onBack }, ref
             backgroundColor={TRANSPARENT}
             paddingClass={`${commonStyles.buttonPadding} cy-action-back`}
             textClass={typographyStyles.desktopBody}
+            platformaticIcon={{ iconName: 'ArrowLeftIcon', size: SMALL, color: WHITE }}
           />
         )}
 
@@ -215,6 +216,7 @@ const ComposeApplication = React.forwardRef(({ createMode, onNext, onBack }, ref
           hoverEffectProperties={{ changeBackgroundColor: ANTI_FLASH_WHITE }}
           paddingClass={`${commonStyles.buttonPadding} cy-action-next`}
           textClass={typographyStyles.desktopBody}
+          platformaticIconAfter={{ iconName: 'ArrowRightIcon', size: SMALL, color: RICH_BLACK }}
         />
       </div>
       {showModalTemplate && (

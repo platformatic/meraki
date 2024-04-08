@@ -18,7 +18,7 @@ function TemplateDetail ({ name, description, tags, author, homepage, downloads,
             dataAttrName='cy'
             dataAttrValue='modal-title'
           />
-          <p className={`${typographyStyles.desktopBodyLarge} ${typographyStyles.textWhite} ${typographyStyles.opacity70}`}>{description}</p>
+          <p className={`${typographyStyles.desktopBody} ${typographyStyles.textWhite} ${typographyStyles.opacity70}`}>{description}</p>
           <div className={`${commonStyles.smallFlexRow} ${commonStyles.fullWidth} ${commonStyles.itemsCenter} `}>
             <div className={`${commonStyles.tinyFlexRow} ${commonStyles.itemsCenter}`}>
               <Icons.ComputerIcon color={WHITE} size={SMALL} />

@@ -105,7 +105,7 @@ const PrepareFolder = React.forwardRef(({ onNext, onBack }, ref) => {
               dataAttrName='cy'
               dataAttrValue='step-title'
             />
-            <p className={`${typographyStyles.desktopBodyLarge} ${typographyStyles.textWhite} ${typographyStyles.opacity70}`}>
+            <p className={`${typographyStyles.desktopBody} ${typographyStyles.textWhite} ${typographyStyles.opacity70}`}>
               We are preparing your folder.<br /> Once all the steps are done you will be able to configure your services.
             </p>
           </div>
@@ -149,6 +149,8 @@ const PrepareFolder = React.forwardRef(({ onNext, onBack }, ref) => {
             backgroundColor={TRANSPARENT}
             paddingClass={`${commonStyles.buttonPadding} cy-action-back`}
             textClass={typographyStyles.desktopBody}
+            platformaticIcon={{ iconName: 'ArrowLeftIcon', size: SMALL, color: WHITE }}
+
           />
         </div>
         {folderPreparedError
@@ -173,6 +175,7 @@ const PrepareFolder = React.forwardRef(({ onNext, onBack }, ref) => {
               hoverEffectProperties={{ changeBackgroundColor: ANTI_FLASH_WHITE }}
               paddingClass={`${commonStyles.buttonPadding} cy-action-next`}
               textClass={typographyStyles.desktopBody}
+              platformaticIconAfter={{ iconName: 'ArrowRightIcon', size: SMALL, color: RICH_BLACK }}
             />}
       </div>
     </>

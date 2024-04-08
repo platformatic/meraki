@@ -5,7 +5,7 @@ import Forms from '@platformatic/ui-components/src/components/forms'
 import styles from './CreateApplication.module.css'
 import commonStyles from '~/styles/CommonStyles.module.css'
 import typographyStyles from '~/styles/Typography.module.css'
-import { WHITE, RICH_BLACK, TRANSPARENT, OPACITY_30, MAIN_GREEN, MEDIUM, MARGIN_0, ERROR_RED, DULLS_BACKGROUND_COLOR, ANTI_FLASH_WHITE } from '@platformatic/ui-components/src/components/constants'
+import { WHITE, RICH_BLACK, TRANSPARENT, OPACITY_30, MAIN_GREEN, MEDIUM, MARGIN_0, ERROR_RED, DULLS_BACKGROUND_COLOR, ANTI_FLASH_WHITE, SMALL } from '@platformatic/ui-components/src/components/constants'
 import { BorderedBox, Button, HorizontalSeparator, Icons, LoadingSpinnerV2 } from '@platformatic/ui-components'
 import useStackablesStore from '~/useStackablesStore'
 import Title from '~/components/ui/Title'
@@ -153,7 +153,7 @@ const CreateApplication = React.forwardRef(({ onNext }, ref) => {
               dataAttrName='cy'
               dataAttrValue='step-title'
             />
-            <p className={`${typographyStyles.desktopBodyLarge} ${typographyStyles.textWhite} ${typographyStyles.opacity70}`}>Start by entering the name of your Application, and the destination folder.</p>
+            <p className={`${typographyStyles.desktopBody} ${typographyStyles.textWhite} ${typographyStyles.opacity70}`}>Start by entering the name of your Application, and the destination folder.</p>
           </div>
           {useTemplateId &&
             <div className={`${commonStyles.mediumFlexBlock} ${commonStyles.fullWidth} ${styles.useTemplateIdContainer} ${commonStyles.justifyEnd}`}>
@@ -223,6 +223,7 @@ const CreateApplication = React.forwardRef(({ onNext }, ref) => {
           hoverEffectProperties={{ changeBackgroundColor: ANTI_FLASH_WHITE }}
           paddingClass={`${commonStyles.buttonPadding} cy-action-next`}
           textClass={typographyStyles.desktopBody}
+          platformaticIconAfter={{ iconName: 'ArrowRightIcon', size: SMALL, color: RICH_BLACK }}
         />
       </div>
     </>
