@@ -47,7 +47,7 @@ const BundleFolderTree = React.forwardRef(({ _ }, ref) => {
             {services.length > 0 && (
               <div className={`${styles.flexContainerServices}`}>
                 <div className={styles.folderLineIconContainer}>
-                  <FoldersLineIcon width={24} height={(28 * services.length) + (5 * services.length)} topPosition={-13} />
+                  <FoldersLineIcon width={24} height={(28 * services.length) + (3 * services.length)} topPosition={-13} />
                 </div>
                 <div className={`${commonStyles.smallFlexBlock}`}>
                   {services.map((service, index) => (
