@@ -69,15 +69,17 @@ function GridElement ({
           : (
             <BorderedBox color={MAIN_GREEN} backgroundColor={MAIN_GREEN} backgroundColorOpacity={OPACITY_20} classes={styles.boxGrow} onClick={() => onClickChangeTemplate(service)} clickable>
               <div className={`${commonStyles.tinyFlexRow} ${commonStyles.itemsCenter}`}>
-                {service?.template?.name ? (
-                  <>
-                    <Icons.StackablesTemplateIcon color={MAIN_GREEN} size={SMALL} />
-                    <span className={`${typographyStyles.desktopBodySmall} ${typographyStyles.textWhite} ${typographyStyles.opacity70} `}>1</span>
-                  </>
-                ) : (
-                  <Icons.CircleAddIcon color={MAIN_GREEN} size={SMALL} />
-                )}
-                  
+                {service?.template?.name
+                  ? (
+                    <>
+                      <Icons.StackablesTemplateIcon color={MAIN_GREEN} size={SMALL} />
+                      <span className={`${typographyStyles.desktopBodySmall} ${typographyStyles.textWhite} ${typographyStyles.opacity70} `}>1</span>
+                    </>
+                    )
+                  : (
+                    <Icons.CircleAddIcon color={MAIN_GREEN} size={SMALL} />
+                    )}
+
               </div>
             </BorderedBox>
             )}
