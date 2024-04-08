@@ -160,6 +160,8 @@ function SelectPlugin ({ onClick, serviceName }) {
     }
     return (
       <NoResults
+        title='No Plugin found'
+        iconName='MissingTemplateIcon'
         searchedValue={filterPluginsByValue}
         dataAttrName='cy'
         dataAttrValue='template-no-results'

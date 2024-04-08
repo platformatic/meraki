@@ -209,6 +209,8 @@ function SelectTemplate ({ onClick, serviceName }) {
     }
     return (
       <NoResults
+        title='No Template found'
+        iconName='MissingTemplateIcon'
         searchedValue={filterTemplatesByName}
         dataAttrName='cy'
         dataAttrValue='template-no-results'
