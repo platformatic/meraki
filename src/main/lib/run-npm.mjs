@@ -7,8 +7,22 @@ import { dirname } from 'node:path'
 import log from 'electron-log'
 import { findExecutable } from './utils.mjs'
 import which from 'which'
+import { stat } from 'fs/promises'
 
 async function npmInstall (pkg = null, options, logger) {
+  // if cwd is not a folder, npm install will fail.
+  const folder = options.cwd
+
+  if (!folder) {
+    logger.error('cwd is not defined')
+    return
+  }
+  const s = await stat(folder)
+  if (!s.isDirectory()) {
+    logger.info(`Path ${folder} is not a directory, not running npm install`)
+    return
+  }
+
   const installOptions = ['install']
   let child = null
   if (pkg) {
