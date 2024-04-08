@@ -172,6 +172,7 @@ const CreateApplication = React.forwardRef(({ onNext }, ref) => {
                 value={form.application}
                 onChange={handleChangeApplication}
                 errorMessage={validations.formErrors.application}
+                errorMessageTextClassName={`${typographyStyles.desktopBodySmall} ${typographyStyles.textErrorRed}`}
                 inputTextClassName={`${typographyStyles.desktopBodySmall} ${typographyStyles.textWhite}`}
                 verticalPaddingClassName={commonStyles.noVerticalPadding}
                 backgroundColor={RICH_BLACK}
@@ -199,6 +200,7 @@ const CreateApplication = React.forwardRef(({ onNext }, ref) => {
                 value={form.folder}
                 onChange={mockUse ? handleChange : () => {}}
                 errorMessage={validations.formErrors.folder}
+                errorMessageTextClassName={`${typographyStyles.desktopBodySmall} ${typographyStyles.textErrorRed}`}
                 backgroundColor={RICH_BLACK}
                 readOnly={!mockUse}
                 inputTextClassName={`${typographyStyles.desktopBodySmall} ${typographyStyles.textWhite}`}

@@ -39,6 +39,7 @@ function TemplateEnvVarsForm ({
           value={configuredServiceFound.form[element].value}
           onChange={onChange}
           errorMessage={configuredServiceFound.validations.formErrors[element]}
+          errorMessageTextClassName={`${typographyStyles.desktopBodySmall} ${typographyStyles.textErrorRed}`}
           backgroundColor={RICH_BLACK}
           inputTextClassName={`${typographyStyles.desktopBody} ${typographyStyles.textWhite}`}
           verticalPaddingClassName={commonStyles.noVerticalPadding}

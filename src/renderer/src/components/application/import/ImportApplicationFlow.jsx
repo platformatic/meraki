@@ -124,6 +124,7 @@ function ImportApplicationFlow ({ onCloseModal, onClickConfirm }) {
                 value={form.folder}
                 readOnly
                 errorMessage={validations.formErrors.folder}
+                errorMessageTextClassName={`${typographyStyles.desktopBodySmall} ${typographyStyles.textErrorRed}`}
                 backgroundColor={RICH_BLACK}
                 inputTextClassName={`${typographyStyles.desktopBodySmall} ${typographyStyles.textWhite} ${typographyStyles.ellipsis}`}
                 verticalPaddingClassName={commonStyles.noVerticalPadding}

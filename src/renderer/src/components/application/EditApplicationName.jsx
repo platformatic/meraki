@@ -55,6 +55,7 @@ function EditApplicationName ({ name, onClickCancel, onClickConfirm }) {
             value={form.application}
             onChange={handleChange}
             errorMessage={validations.formErrors.application}
+            errorMessageTextClassName={`${typographyStyles.desktopBodySmall} ${typographyStyles.textErrorRed}`}
             backgroundColor={RICH_BLACK}
             inputTextClassName={`${typographyStyles.desktopBody} ${typographyStyles.textWhite}`}
             verticalPaddingClassName={commonStyles.noVerticalPadding}

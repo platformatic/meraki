@@ -128,6 +128,7 @@ const EditConfigureApplication = React.forwardRef(({ onNext, onBack }, ref) => {
                   value={form.port}
                   onChange={handleChange}
                   errorMessage={validations.formErrors.port}
+                  errorMessageTextClassName={`${typographyStyles.desktopBodySmall} ${typographyStyles.textErrorRed}`}
                   backgroundColor={RICH_BLACK}
                   inputTextClassName={`${typographyStyles.desktopBody} ${typographyStyles.textWhite}`}
                   verticalPaddingClassName={commonStyles.noVerticalPadding}

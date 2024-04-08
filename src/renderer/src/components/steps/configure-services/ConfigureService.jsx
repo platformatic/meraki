@@ -70,6 +70,7 @@ function ConfigureService ({ service }) {
           value={form[element]}
           onChange={handleChange}
           errorMessage={validations.formErrors[element]}
+          errorMessageTextClassName={`${typographyStyles.desktopBodySmall} ${typographyStyles.textErrorRed}`}
           backgroundColor={RICH_BLACK}
           inputTextClassName={`${typographyStyles.desktopBody} ${typographyStyles.textWhite}`}
           verticalPaddingClassName={commonStyles.noVerticalPadding}
