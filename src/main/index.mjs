@@ -6,6 +6,7 @@ import icon from '../../resources/icon.png?asset'
 import setupMenu from './menu.mjs'
 import { getTemplates, getPlugins } from './client.mjs'
 import { prepareFolder, createApp } from './generate.mjs'
+import { autoCheckForUpdates } from './updater.mjs'
 import log from 'electron-log'
 import { download } from 'electron-dl'
 import { getAppPath } from './lib/utils.mjs'
@@ -348,6 +349,8 @@ app.whenReady().then(async () => {
   ipcMain.handle('stop-proxy', async (_) => {
     return proxyApi.stop()
   })
+
+  autoCheckForUpdates()
 })
 
 app.on('open-url', (event, url) => {
