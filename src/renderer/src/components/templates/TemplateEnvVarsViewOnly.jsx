@@ -37,6 +37,7 @@ function TemplateEnvVarsViewOnly ({
           borderColor={WHITE}
           value={configuredServiceFound.form[element].value}
           errorMessage={configuredServiceFound.validations.formErrors[element]}
+          errorMessageTextClassName={`${typographyStyles.desktopBodySmall} ${typographyStyles.textErrorRed}`}
           backgroundColor={RICH_BLACK}
           inputTextClassName={`${typographyStyles.desktopBody} ${typographyStyles.textWhite}`}
           verticalPaddingClassName={commonStyles.noVerticalPadding}

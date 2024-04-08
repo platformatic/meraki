@@ -1,7 +1,7 @@
 'use strict'
 import React, { useState } from 'react'
 import PropTypes from 'prop-types'
-import { ERROR_RED, MAIN_GREEN, MEDIUM, SMALL, TRANSPARENT, WHITE } from '@platformatic/ui-components/src/components/constants'
+import { MAIN_GREEN, MEDIUM, SMALL, TRANSPARENT, WARNING_YELLOW, WHITE } from '@platformatic/ui-components/src/components/constants'
 import Icons from '@platformatic/ui-components/src/components/icons'
 import typographyStyles from '~/styles/Typography.module.css'
 import styles from './TemplateAndPluginTreeSelector.module.css'
@@ -21,7 +21,7 @@ function TemplateSelector ({ onTemplateSelected, service, serviceSelected }) {
     >
       <Icons.ServiceIcon color={WHITE} size={MEDIUM} />
       <h5 className={className}>{service.name}</h5>
-      {service.validForm ? <Icons.CircleCheckMarkIcon color={MAIN_GREEN} size={SMALL} /> : <Icons.AlertIcon color={ERROR_RED} size={SMALL} />}
+      {service.validForm ? <Icons.CircleCheckMarkIcon color={MAIN_GREEN} size={SMALL} /> : <Icons.AlertIcon color={WARNING_YELLOW} size={SMALL} />}
     </div>
   )
 }
@@ -66,7 +66,7 @@ function PluginSelector ({ onPluginSelected, service, plugin, pluginSelected }) 
     >
       <Icons.StackablesPluginIcon color={WHITE} size={SMALL} />
       <span className={className} title={plugin.name}>{plugin.name}</span>
-      {plugin.validForm ? <Icons.CircleCheckMarkIcon color={MAIN_GREEN} size={SMALL} /> : <Icons.AlertIcon color={ERROR_RED} size={SMALL} />}
+      {plugin.validForm ? <Icons.CircleCheckMarkIcon color={MAIN_GREEN} size={SMALL} /> : <Icons.AlertIcon color={WARNING_YELLOW} size={SMALL} />}
 
     </div>
   )

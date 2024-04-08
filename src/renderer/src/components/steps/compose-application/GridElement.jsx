@@ -25,8 +25,9 @@ function GridElement ({
   const [hover, setHover] = useState(false)
   let gridElementClassName = `${commonStyles.smallFlexRow} ${styles.container} ${commonStyles.justifyBetween} gridElement`
   const gridElementStyle = {}
+
   if (groupIndex > 0) {
-    gridElementStyle.height = document.getElementsByClassName('gridElement')[0].getBoundingClientRect().height + 'px'
+    gridElementStyle.height = (document.getElementsByClassName('gridElement')[0]?.getBoundingClientRect()?.height ?? 0) + 'px'
     gridElementClassName += ` ${styles.containerOthers}`
   } else {
     gridElementClassName += ` ${styles.containerFirst}`
