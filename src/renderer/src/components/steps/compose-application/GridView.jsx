@@ -42,17 +42,17 @@ const GridView = React.forwardRef(({
   }, [innerHeight])
 
   function renderContent () {
+    console.log('renderContent')
     const groupedServices = []
     for (let i = 0; i < services.length; i += maxNumber) {
       groupedServices.push(services.slice(i, i + maxNumber))
     }
-
     return groupedServices.map((group, index) => (
       <div className={gridClassName} key={index}>
-        {group.map((service, groupedIndex) => (
+        {group.map((service, groupIndex) => (
           <GridElement
-            key={service.name}
-            gridElementIndex={groupedIndex}
+            key={`${service.name}-${groupIndex}-${index}`}
+            groupIndex={index}
             service={{ ...service }}
             onClickEditNameService={() => onClickEditNameService(service)}
             onClickRemoveService={() => onClickRemoveService(service)}

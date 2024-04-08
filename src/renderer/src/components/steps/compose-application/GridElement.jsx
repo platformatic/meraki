@@ -13,6 +13,7 @@ import { useState } from 'react'
 
 function GridElement ({
   service,
+  groupIndex,
   onClickEditNameService,
   onClickRemoveService,
   onClickViewAll,
@@ -22,9 +23,17 @@ function GridElement ({
   const globalState = useStackablesStore()
   const { services } = globalState
   const [hover, setHover] = useState(false)
+  let gridElementClassName = `${commonStyles.smallFlexRow} ${styles.container} ${commonStyles.justifyBetween} gridElement`
+  const gridElementStyle = {}
+  if (groupIndex > 0) {
+    gridElementStyle.height = document.getElementsByClassName('gridElement')[0].getBoundingClientRect().height + 'px'
+    gridElementClassName += ` ${styles.containerOthers}`
+  } else {
+    gridElementClassName += ` ${styles.containerFirst}`
+  }
 
   return (
-    <div className={`${commonStyles.smallFlexRow} ${styles.container} ${commonStyles.justifyBetween}`}>
+    <div className={gridElementClassName} style={gridElementStyle}>
       <div className={styles.contentLeft}>
         <NameService
           name={service.name}
@@ -77,9 +86,10 @@ function GridElement ({
                     </>
                     )
                   : (
-                    <Icons.CircleAddIcon color={MAIN_GREEN} size={SMALL} />
+                    <div className={styles.emptyContainer}>
+                      <Icons.CircleAddIcon color={MAIN_GREEN} size={SMALL} />
+                    </div>
                     )}
-
               </div>
             </BorderedBox>
             )}
@@ -91,6 +101,7 @@ function GridElement ({
 
 GridElement.propTypes = {
   service: PropTypes.object,
+  groupIndex: PropTypes.number,
   onClickEditNameService: PropTypes.func,
   onClickRemoveService: PropTypes.func,
   onClickViewAll: PropTypes.func,
@@ -100,6 +111,7 @@ GridElement.propTypes = {
 
 GridElement.defaultProps = {
   service: {},
+  groupIndex: 0,
   onClickEditNameService: () => {},
   onClickRemoveService: () => {},
   onClickViewAll: () => {},
