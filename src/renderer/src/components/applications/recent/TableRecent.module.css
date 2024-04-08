@@ -16,7 +16,8 @@
   min-height: inherit;
 }
 .thWithIcon {
-  @apply flex flex-row items-center gap-x-2
+  @apply flex flex-row items-center gap-x-2;
+  user-select: none;
 }
 .table {
   @apply w-full relative max-h-[calc(100vh-23rem)] w-full;

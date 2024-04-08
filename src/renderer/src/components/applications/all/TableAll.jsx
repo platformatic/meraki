@@ -228,21 +228,20 @@ function TableAll ({
             <div className={styles.tableHeader}>
               <div className={styles.thWithIcon}>
                 <span className={`${typographyStyles.desktopOtherOverlineNormal} ${typographyStyles.textWhite}`}>Plt Version</span>
-                <PlatformaticIcon iconName={getSortIcon('platformaticVersion', sortByPltVersion === ASC ? 'SortDownIcon' : 'SortUpIcon')} color={WHITE} size={SMALL} onClick={() => handleSortByPltVersion()} />
+                <PlatformaticIcon iconName={getSortIcon('platformaticVersion', sortByPltVersion === ASC ? 'SortDownIcon' : 'SortUpIcon')} color={WHITE} size={SMALL} onClick={() => handleSortByPltVersion()} onDoubleClick={() => console.log('hola 1')} />
               </div>
             </div>
             <div className={styles.tableHeader}>
               <div className={styles.thWithIcon}>
-
                 <span className={`${typographyStyles.desktopOtherOverlineNormal} ${typographyStyles.textWhite}`}>Last Update</span>
-                <PlatformaticIcon iconName={getSortIcon('lastUpdated', sortByStatus === ASC ? 'SortDownIcon' : 'SortUpIcon')} color={WHITE} size={SMALL} onClick={() => handleSortByLastUpdate()} />
+                <PlatformaticIcon iconName={getSortIcon('lastUpdated', sortByLastUpdate === ASC ? 'SortDownIcon' : 'SortUpIcon')} color={WHITE} size={SMALL} onClick={() => handleSortByLastUpdate()} onDoubleClick={() => console.log('hola 2')} />
               </div>
             </div>
             <div className={styles.tableHeader}>
               <div className={styles.thWithIcon}>
 
                 <span className={`${typographyStyles.desktopOtherOverlineNormal} ${typographyStyles.textWhite}`}>Last Started</span>
-                <PlatformaticIcon iconName={getSortIcon('lastStarted', sortByStatus === ASC ? 'SortDownIcon' : 'SortUpIcon')} color={WHITE} size={SMALL} onClick={() => handleSortByLastStarted()} />
+                <PlatformaticIcon iconName={getSortIcon('lastStarted', sortByLastStarted === ASC ? 'SortDownIcon' : 'SortUpIcon')} color={WHITE} size={SMALL} onClick={() => handleSortByLastStarted()} onDoubleClick={() => console.log('hola 3')} />
               </div>
             </div>
             <div className={styles.tableHeader}>
