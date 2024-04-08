@@ -10,17 +10,17 @@ import Icons from '@platformatic/ui-components/src/components/icons'
 function AddService ({ onClick, enabled }) {
   const [hover, setHover] = useState(false)
   const ref = useRef(null)
-  const [titleClassName, setTitleClassName] = useState(`${typographyStyles.desktopBodyLarge} ${typographyStyles.textWhite} `)
+  const [titleClassName, setTitleClassName] = useState(`${typographyStyles.desktopBody} ${typographyStyles.textWhite} `)
 
   useEffect(() => {
     if (enabled) {
       if (hover) {
-        setTitleClassName(`${typographyStyles.desktopBodyLarge} ${typographyStyles.textWhite}`)
+        setTitleClassName(`${typographyStyles.desktopBody} ${typographyStyles.textWhite}`)
       } else {
-        setTitleClassName(`${typographyStyles.desktopBodyLarge} ${typographyStyles.textWhite} ${typographyStyles.opacity70}`)
+        setTitleClassName(`${typographyStyles.desktopBody} ${typographyStyles.textWhite} ${typographyStyles.opacity70}`)
       }
     } else {
-      setTitleClassName(`${typographyStyles.desktopBodyLarge} ${typographyStyles.textWhite} ${typographyStyles.opacity30}`)
+      setTitleClassName(`${typographyStyles.desktopBody} ${typographyStyles.textWhite} ${typographyStyles.opacity30}`)
     }
   }, [hover, enabled])
 

@@ -53,7 +53,7 @@ function PlatformaticRuntimeButton ({ view }) {
           >
             <PlatformaticIcon iconName='CircleExclamationIcon' color={WHITE} size={SMALL} onClick={() => {}} internalOverHandling />
           </TooltipAbsolute>
-          <span className={`${typographyStyles.desktopBodyLarge} ${typographyStyles.textWhite} ${styles.cursorDefault}`} title='Platformatic Runtime'>Platformatic Runtime</span>
+          <span className={`${typographyStyles.desktopBody} ${typographyStyles.textWhite} ${styles.cursorDefault}`} title='Platformatic Runtime'>Platformatic Runtime</span>
         </div>
       </div>
     </div>
