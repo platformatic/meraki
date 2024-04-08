@@ -61,11 +61,13 @@ function GridElement ({
         (
           <BorderedBox color={TERTIARY_BLUE} backgroundColor={TERTIARY_BLUE} backgroundColorOpacity={OPACITY_20} classes={styles.box} onClick={() => { onClickPluginHandler(service) }} clickable>
             <div className={`${commonStyles.tinyFlexRow} ${commonStyles.itemsCenter}`}>
-              {service.plugins.length > 0 ? (
-                <Icons.StackablesPluginIcon color={TERTIARY_BLUE} size={SMALL} />
-              ) : (
-                <Icons.CircleAddIcon color={TERTIARY_BLUE} size={SMALL} />
-              )}
+              {service.plugins.length > 0
+                ? (
+                  <Icons.StackablesPluginIcon color={TERTIARY_BLUE} size={SMALL} />
+                  )
+                : (
+                  <Icons.CircleAddIcon color={TERTIARY_BLUE} size={SMALL} />
+                  )}
               <span className={`${typographyStyles.desktopBodySmall} ${typographyStyles.textWhite} ${typographyStyles.opacity70} `}>{service.plugins.length}</span>
             </div>
           </BorderedBox>
@@ -88,8 +90,8 @@ function GridElement ({
                     )
                   : (
                     <Icons.CircleAddIcon color={MAIN_GREEN} size={SMALL} />
-                  )}
-                <span className={`${typographyStyles.desktopBodySmall} ${typographyStyles.textWhite} ${typographyStyles.opacity70} `}> {service?.template?.name ? 1 : 0}</span>    
+                    )}
+                <span className={`${typographyStyles.desktopBodySmall} ${typographyStyles.textWhite} ${typographyStyles.opacity70} `}> {service?.template?.name ? 1 : 0}</span>
               </div>
             </BorderedBox>
             )}
