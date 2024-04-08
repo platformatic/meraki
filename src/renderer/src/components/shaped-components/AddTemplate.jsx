@@ -9,13 +9,13 @@ import { SMALL, WHITE } from '@platformatic/ui-components/src/components/constan
 
 const AddTemplate = React.forwardRef(({ onClickAddTemplate }, ref) => {
   const [hover, setHover] = useState(false)
-  const [titleClassName, setTitleClassName] = useState(`${typographyStyles.desktopBodyLarge} ${typographyStyles.textWhite} ${typographyStyles.opacity70}`)
+  const [titleClassName, setTitleClassName] = useState(`${typographyStyles.desktopBody} ${typographyStyles.textWhite} ${typographyStyles.opacity70}`)
 
   useEffect(() => {
     if (hover) {
-      setTitleClassName(`${typographyStyles.desktopBodyLarge} ${typographyStyles.textWhite}`)
+      setTitleClassName(`${typographyStyles.desktopBody} ${typographyStyles.textWhite}`)
     } else {
-      setTitleClassName(`${typographyStyles.desktopBodyLarge} ${typographyStyles.textWhite} ${typographyStyles.opacity70}`)
+      setTitleClassName(`${typographyStyles.desktopBody} ${typographyStyles.textWhite} ${typographyStyles.opacity70}`)
     }
   }, [hover])
 
