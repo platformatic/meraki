@@ -61,7 +61,11 @@ function GridElement ({
         (
           <BorderedBox color={TERTIARY_BLUE} backgroundColor={TERTIARY_BLUE} backgroundColorOpacity={OPACITY_20} classes={styles.box} onClick={() => { onClickPluginHandler(service) }} clickable>
             <div className={`${commonStyles.tinyFlexRow} ${commonStyles.itemsCenter}`}>
-              <Icons.StackablesPluginIcon color={TERTIARY_BLUE} size={SMALL} />
+              {service.plugins.length > 0 ? (
+                <Icons.StackablesPluginIcon color={TERTIARY_BLUE} size={SMALL} />
+              ) : (
+                <Icons.CircleAddIcon color={TERTIARY_BLUE} size={SMALL} />
+              )}
               <span className={`${typographyStyles.desktopBodySmall} ${typographyStyles.textWhite} ${typographyStyles.opacity70} `}>{service.plugins.length}</span>
             </div>
           </BorderedBox>
@@ -80,16 +84,12 @@ function GridElement ({
               <div className={`${commonStyles.tinyFlexRow} ${commonStyles.itemsCenter}`}>
                 {service?.template?.name
                   ? (
-                    <>
-                      <Icons.StackablesTemplateIcon color={MAIN_GREEN} size={SMALL} />
-                      <span className={`${typographyStyles.desktopBodySmall} ${typographyStyles.textWhite} ${typographyStyles.opacity70} `}>1</span>
-                    </>
+                    <Icons.StackablesTemplateIcon color={MAIN_GREEN} size={SMALL} />
                     )
                   : (
-                    <div className={styles.emptyContainer}>
-                      <Icons.CircleAddIcon color={MAIN_GREEN} size={SMALL} />
-                    </div>
-                    )}
+                    <Icons.CircleAddIcon color={MAIN_GREEN} size={SMALL} />
+                  )}
+                <span className={`${typographyStyles.desktopBodySmall} ${typographyStyles.textWhite} ${typographyStyles.opacity70} `}> {service?.template?.name ? 1 : 0}</span>    
               </div>
             </BorderedBox>
             )}
