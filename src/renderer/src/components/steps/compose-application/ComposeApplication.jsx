@@ -52,7 +52,7 @@ const ComposeApplication = React.forwardRef(({ createMode, onNext, onBack }, ref
   )
 
   useEffect(() => {
-    setCurrentComponentClassName(services.length > 3 ? `${commonStyles.smallFlexRow} ${commonStyles.itemsEnd}` : `${commonStyles.smallFlexRow} ${commonStyles.itemsStretch}`)
+    setCurrentComponentClassName(services.length > 3 ? `${commonStyles.smallFlexRow} ${commonStyles.itemsStart}` : `${commonStyles.smallFlexRow} ${commonStyles.itemsStretch}`)
     setCurrentComponent(
       services.length > 3
         ? <GridView

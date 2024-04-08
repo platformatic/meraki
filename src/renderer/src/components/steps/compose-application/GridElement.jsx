@@ -13,6 +13,7 @@ import { useState } from 'react'
 
 function GridElement ({
   service,
+  groupIndex,
   onClickEditNameService,
   onClickRemoveService,
   onClickViewAll,
@@ -22,10 +23,18 @@ function GridElement ({
   const globalState = useStackablesStore()
   const { services } = globalState
   const [hover, setHover] = useState(false)
+  let gridElementClassName = `${commonStyles.smallFlexRow} ${styles.container} ${commonStyles.justifyBetween} gridElement`
+  const gridElementStyle = {}
+  if (groupIndex > 0) {
+    gridElementStyle.height = document.getElementsByClassName('gridElement')[0].getBoundingClientRect().height + 'px'
+    gridElementClassName += ` ${styles.containerOthers}`
+  } else {
+    gridElementClassName += ` ${styles.containerFirst}`
+  }
 
   return (
-    <div className={`${commonStyles.smallFlexRow} ${styles.container} ${commonStyles.justifyBetween}`}>
-      <div className={commonStyles.flexBlockNoGap}>
+    <div className={gridElementClassName} style={gridElementStyle}>
+      <div className={styles.contentLeft}>
         <NameService
           name={service.name}
           renameDisabled={service.renameDisabled}
@@ -52,7 +61,13 @@ function GridElement ({
         (
           <BorderedBox color={TERTIARY_BLUE} backgroundColor={TERTIARY_BLUE} backgroundColorOpacity={OPACITY_20} classes={styles.box} onClick={() => { onClickPluginHandler(service) }} clickable>
             <div className={`${commonStyles.tinyFlexRow} ${commonStyles.itemsCenter}`}>
-              <Icons.StackablesPluginIcon color={TERTIARY_BLUE} size={SMALL} />
+              {service.plugins.length > 0
+                ? (
+                  <Icons.StackablesPluginIcon color={TERTIARY_BLUE} size={SMALL} />
+                  )
+                : (
+                  <Icons.CircleAddIcon color={TERTIARY_BLUE} size={SMALL} />
+                  )}
               <span className={`${typographyStyles.desktopBodySmall} ${typographyStyles.textWhite} ${typographyStyles.opacity70} `}>{service.plugins.length}</span>
             </div>
           </BorderedBox>
@@ -69,8 +84,14 @@ function GridElement ({
           : (
             <BorderedBox color={MAIN_GREEN} backgroundColor={MAIN_GREEN} backgroundColorOpacity={OPACITY_20} classes={styles.boxGrow} onClick={() => onClickChangeTemplate(service)} clickable>
               <div className={`${commonStyles.tinyFlexRow} ${commonStyles.itemsCenter}`}>
-                <Icons.StackablesTemplateIcon color={MAIN_GREEN} size={SMALL} />
-                <span className={`${typographyStyles.desktopBodySmall} ${typographyStyles.textWhite} ${typographyStyles.opacity70} `}>{service?.template?.name ? 1 : 0}</span>
+                {service?.template?.name
+                  ? (
+                    <Icons.StackablesTemplateIcon color={MAIN_GREEN} size={SMALL} />
+                    )
+                  : (
+                    <Icons.CircleAddIcon color={MAIN_GREEN} size={SMALL} />
+                    )}
+                <span className={`${typographyStyles.desktopBodySmall} ${typographyStyles.textWhite} ${typographyStyles.opacity70} `}> {service?.template?.name ? 1 : 0}</span>
               </div>
             </BorderedBox>
             )}
@@ -82,6 +103,7 @@ function GridElement ({
 
 GridElement.propTypes = {
   service: PropTypes.object,
+  groupIndex: PropTypes.number,
   onClickEditNameService: PropTypes.func,
   onClickRemoveService: PropTypes.func,
   onClickViewAll: PropTypes.func,
@@ -91,6 +113,7 @@ GridElement.propTypes = {
 
 GridElement.defaultProps = {
   service: {},
+  groupIndex: 0,
   onClickEditNameService: () => {},
   onClickRemoveService: () => {},
   onClickViewAll: () => {},
