@@ -1,7 +1,7 @@
 'use strict'
 import React from 'react'
 import PropTypes from 'prop-types'
-import { MEDIUM, WHITE } from '@platformatic/ui-components/src/components/constants'
+import { ERROR_RED, SMALL, WHITE } from '@platformatic/ui-components/src/components/constants'
 import typographyStyles from '~/styles/Typography.module.css'
 import styles from './NameService.module.css'
 import commonStyles from '~/styles/CommonStyles.module.css'
@@ -11,13 +11,13 @@ function NameService ({ name, renameDisabled, onClickEdit, onClickRemove, remove
   return (
     <div className={`${commonStyles.smallFlexRow} ${commonStyles.justifyBetween} ${commonStyles.itemsCenter} ${commonStyles.fullWidth}`}>
       <div className={`${commonStyles.overflowHidden} ${styles.flexGrow}`}>
-        <h5 className={`${typographyStyles.desktopHeadline4} ${typographyStyles.textWhite} ${styles.ellipsis} `} title={name}>
+        <span className={`${typographyStyles.desktopBodyLargeSemibold} ${typographyStyles.textWhite} ${styles.ellipsis} `} title={name}>
           {name}
-        </h5>
+        </span>
       </div>
       <div className={`${commonStyles.tinyFlexRow} ${styles.buttonContainer} ${commonStyles.justifyEnd}`}>
-        <PlatformaticIcon iconName='EditIcon' color={WHITE} size={MEDIUM} onClick={() => onClickEdit()} disabled={renameDisabled} internalOverHandling />
-        <PlatformaticIcon iconName='TrashIcon' color={WHITE} size={MEDIUM} onClick={() => onClickRemove()} disabled={removeDisabled} internalOverHandling />
+        <PlatformaticIcon iconName='EditIcon' color={WHITE} size={SMALL} onClick={() => onClickEdit()} disabled={renameDisabled} internalOverHandling />
+        <PlatformaticIcon iconName='TrashIcon' color={ERROR_RED} size={SMALL} onClick={() => onClickRemove()} disabled={removeDisabled} internalOverHandling />
       </div>
     </div>
   )

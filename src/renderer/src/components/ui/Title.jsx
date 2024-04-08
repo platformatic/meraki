@@ -3,13 +3,13 @@ import React from 'react'
 import PropTypes from 'prop-types'
 import typographyStyles from '~/styles/Typography.module.css'
 import commonStyles from '~/styles/CommonStyles.module.css'
-import { LARGE, WHITE } from '@platformatic/ui-components/src/components/constants'
+import { MEDIUM, WHITE } from '@platformatic/ui-components/src/components/constants'
 import { Icons } from '@platformatic/ui-components'
 
 function Title ({ title, iconName, dataAttrName, dataAttrValue }) {
   const icon = React.createElement(Icons[`${iconName}`], {
     color: WHITE,
-    size: LARGE
+    size: MEDIUM
   })
 
   const dataProps = {}
@@ -18,9 +18,9 @@ function Title ({ title, iconName, dataAttrName, dataAttrValue }) {
   }
 
   return (
-    <div className={commonStyles.smallFlexRow} {...dataProps}>
+    <div className={commonStyles.tinyFlexRow} {...dataProps}>
       {icon}
-      <h2 className={`${typographyStyles.desktopHeadline2} ${typographyStyles.textWhite}`}>{title}</h2>
+      <h3 className={`${typographyStyles.desktopHeadline3} ${typographyStyles.textWhite}`}>{title}</h3>
     </div>
   )
 }

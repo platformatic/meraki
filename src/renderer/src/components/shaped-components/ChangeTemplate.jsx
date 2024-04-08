@@ -87,7 +87,7 @@ function ChangeTemplate ({
       </svg>
       <div className={`${commonStyles.smallFlexBlock} ${commonStyles.itemsCenter} ${styles.content}`}>
         {showIcon && <Icons.StackablesTemplateIcon color={disabled ? WHITE : MAIN_GREEN} size={LARGE} />}
-        <p className={`${typographyStyles.desktopBodyLarge} ${typographyStyles.textWhite} ${typographyStyles.textCenter} ${styles.ellipsis}`} title={name}>{name}</p>
+        <p className={`${typographyStyles.desktopBody} ${typographyStyles.textWhite} ${typographyStyles.textCenter} ${styles.ellipsis}`} title={name}>{name}</p>
         {clickable && <p className={`${typographyStyles.desktopBodySmall} ${typographyStyles.textWhite} ${typographyStyles.textCenter} ${typographyStyles.opacity70}`}>Change Template</p>}
       </div>
     </div>

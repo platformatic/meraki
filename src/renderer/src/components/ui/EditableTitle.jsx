@@ -3,14 +3,14 @@ import React from 'react'
 import PropTypes from 'prop-types'
 import commonStyles from '~/styles/CommonStyles.module.css'
 import typographyStyles from '~/styles/Typography.module.css'
-import { LARGE, MEDIUM, WHITE } from '@platformatic/ui-components/src/components/constants'
+import { MEDIUM, SMALL, WHITE } from '@platformatic/ui-components/src/components/constants'
 import { Icons, PlatformaticIcon } from '@platformatic/ui-components'
 import styles from './EditableTitle.module.css'
 
 function EditableTitle ({ title, iconName, onClickIcon, dataAttrName, dataAttrValue }) {
   const icon = React.createElement(Icons[`${iconName}`], {
     color: WHITE,
-    size: LARGE
+    size: MEDIUM
   })
 
   const dataProps = {}
@@ -20,10 +20,10 @@ function EditableTitle ({ title, iconName, onClickIcon, dataAttrName, dataAttrVa
 
   return (
     <div className={styles.container}>
-      <div className={commonStyles.smallFlexRow}>
+      <div className={commonStyles.tinyFlexRow}>
         {icon}
-        <h2 className={`${typographyStyles.desktopHeadline2} ${typographyStyles.textWhite}`} {...dataProps}>{title}</h2>
-        <PlatformaticIcon iconName='EditIcon' color={WHITE} size={MEDIUM} onClick={() => onClickIcon()} internalOverHandling />
+        <h3 className={`${typographyStyles.desktopHeadline3} ${typographyStyles.textWhite}`} {...dataProps}>{title}</h3>
+        <PlatformaticIcon iconName='EditIcon' color={WHITE} size={SMALL} onClick={() => onClickIcon()} internalOverHandling />
       </div>
     </div>
   )

@@ -104,7 +104,7 @@ const GeneratingApplication = React.forwardRef(({ onBack, onRestartProcess, useV
               dataAttrName='cy'
               dataAttrValue='step-title'
             />
-            <p className={`${typographyStyles.desktopBodyLarge} ${typographyStyles.textWhite} ${typographyStyles.opacity70}`}>
+            <p className={`${typographyStyles.desktopBody} ${typographyStyles.textWhite} ${typographyStyles.opacity70}`}>
               We are generating your app. <br />Once all the steps are done you will be able to complete and use your new application.
             </p>
           </div>
@@ -148,6 +148,7 @@ const GeneratingApplication = React.forwardRef(({ onBack, onRestartProcess, useV
           paddingClass={`${commonStyles.buttonPadding} cy-action-back`}
           disabled={!appGeneratedError}
           textClass={typographyStyles.desktopBody}
+          platformaticIcon={{ iconName: 'ArrowLeftIcon', size: SMALL, color: WHITE }}
         />
         {useVersion === '0'
           ? (
@@ -174,6 +175,7 @@ const GeneratingApplication = React.forwardRef(({ onBack, onRestartProcess, useV
               hoverEffect={BOX_SHADOW}
               paddingClass={commonStyles.buttonPadding}
               textClass={typographyStyles.desktopBody}
+              platformaticIconAfter={{ iconName: 'ArrowRightIcon', size: SMALL, color: RICH_BLACK }}
             />
             )}
 

@@ -4,7 +4,7 @@ import PropTypes from 'prop-types'
 import styles from './ConfigureServices.module.css'
 import commonStyles from '~/styles/CommonStyles.module.css'
 import typographyStyles from '~/styles/Typography.module.css'
-import { WHITE, RICH_BLACK, TRANSPARENT, ANTI_FLASH_WHITE, DULLS_BACKGROUND_COLOR } from '@platformatic/ui-components/src/components/constants'
+import { WHITE, RICH_BLACK, TRANSPARENT, ANTI_FLASH_WHITE, DULLS_BACKGROUND_COLOR, SMALL } from '@platformatic/ui-components/src/components/constants'
 import { Button } from '@platformatic/ui-components'
 import useStackablesStore from '~/useStackablesStore'
 import Title from '~/components/ui/Title'
@@ -125,7 +125,7 @@ const ConfigureServices = React.forwardRef(({ onNext, onBack }, ref) => {
               dataAttrName='cy'
               dataAttrValue='step-title'
             />
-            <p className={`${typographyStyles.desktopBodyLarge} ${typographyStyles.textWhite} ${typographyStyles.opacity70}`}>Select a template and plugins for your service from our Stackables Marketplace. <br />Once you have chosen a template you can add another Service.</p>
+            <p className={`${typographyStyles.desktopBody} ${typographyStyles.textWhite} ${typographyStyles.opacity70}`}>Select a template and plugins for your service from our Stackables Marketplace. <br />Once you have chosen a template you can add another Service.</p>
           </div>
           <div className={`${commonStyles.mediumFlexBlock} ${commonStyles.fullWidth} ${styles.content}`}>
             <ConfigureEnvVarsTemplateAndPlugins
@@ -145,6 +145,7 @@ const ConfigureServices = React.forwardRef(({ onNext, onBack }, ref) => {
           backgroundColor={TRANSPARENT}
           paddingClass={`${commonStyles.buttonPadding} cy-action-back`}
           textClass={typographyStyles.desktopBody}
+          platformaticIcon={{ iconName: 'ArrowLeftIcon', size: SMALL, color: WHITE }}
         />
         <Button
           disabled={disabled}
@@ -157,6 +158,7 @@ const ConfigureServices = React.forwardRef(({ onNext, onBack }, ref) => {
           hoverEffectProperties={{ changeBackgroundColor: ANTI_FLASH_WHITE }}
           paddingClass={`${commonStyles.buttonPadding} cy-action-next`}
           textClass={typographyStyles.desktopBody}
+          platformaticIconAfter={{ iconName: 'ArrowRightIcon', size: SMALL, color: RICH_BLACK }}
         />
       </div>
     </>

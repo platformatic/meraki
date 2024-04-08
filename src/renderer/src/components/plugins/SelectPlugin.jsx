@@ -160,6 +160,8 @@ function SelectPlugin ({ onClick, serviceName }) {
     }
     return (
       <NoResults
+        title='No Plugin found'
+        iconName='MissingTemplateIcon'
         searchedValue={filterPluginsByValue}
         dataAttrName='cy'
         dataAttrValue='template-no-results'
@@ -177,7 +179,7 @@ function SelectPlugin ({ onClick, serviceName }) {
             dataAttrName='cy'
             dataAttrValue='modal-title'
           />
-          <p className={`${typographyStyles.desktopBodyLarge} ${typographyStyles.textWhite} ${typographyStyles.opacity70}`}>Select one or more Plugins to be added to your new service. Adding a plugin to your service is optional.</p>
+          <p className={`${typographyStyles.desktopBody} ${typographyStyles.textWhite} ${typographyStyles.opacity70}`}>Select one or more Plugins to be added to your new service. Adding a plugin to your service is optional.</p>
         </div>
         <div className={`${commonStyles.mediumFlexBlock24} ${commonStyles.fullWidth}`}>
           <SearchBarV2 placeholder='Search for a Plugin' onClear={handleClearPlugins} onChange={handleFilterPlugins} />
