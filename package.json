@@ -47,6 +47,7 @@
     "electron-updater": "^6.1.8",
     "execa": "^5.1.1",
     "mkdirp": "^3.0.1",
+    "npm-check-updates": "^16.14.18",
     "pino": "^8.19.0",
     "postgrator": "^7.2.0",
     "react": "^18.2.0",

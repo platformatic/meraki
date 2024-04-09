@@ -1,0 +1,16 @@
+{
+  "name": "service-1",
+  "scripts": {
+    "start": "platformatic start",
+    "test": "node --test test/**"
+  },
+  "devDependencies": {
+    "fastify": "^4.26.0"
+  },
+  "dependencies": {
+    "@platformatic/runtime": "1.33.0"
+  },
+  "engines": {
+    "node": "^18.8.0 || >=20.6.0"
+  }
+}

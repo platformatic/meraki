@@ -3,11 +3,11 @@ import { RuntimeApiClient } from '@platformatic/control'
 import { access, rm } from 'node:fs/promises'
 import { createRequire } from 'node:module'
 import { npmInstall } from './run-npm.mjs'
+import { upgradePlt } from './upgrade-plt.mjs'
 import { getLatestPlatformaticVersion, findExecutable } from './utils.mjs'
 import { resolve, join } from 'node:path'
 import getSqlMapper from './db.mjs'
 import { inspectApp } from './inspect-app.mjs'
-import which from 'which'
 import split from 'split2'
 import pino from 'pino'
 const logger = pino()
@@ -102,15 +102,7 @@ class Applications {
     const runtimeCliPath = this.#getRuntimeCliPath(appFolder)
 
     // We cannot use `process.execPath` because it's the path to the electron binary
-    let nodePath
-    if (process.platform === 'win32') {
-      // We need the full path, not just the executable name
-      // see: https://github.com/netlify/build/issues/387
-      // We cannot use `findExecutable` because it uses `which` which is not available on windows
-      nodePath = await which('node')
-    } else {
-      nodePath = await findExecutable('node')
-    }
+    const nodePath = await findExecutable('node')
 
     const options = { env, cleanup: true, cwd: appFolder }
 
@@ -282,6 +274,15 @@ class Applications {
     const mapper = await getSqlMapper(merakiFolder, merakiConfigFolder)
     const latestPlatformaticVersion = await getLatestPlatformaticVersion()
     return new Applications(mapper, latestPlatformaticVersion)
+  }
+
+  // The uiLogger emits events to the UI
+  async upgradeApplicationPlt (id, uiLogger) {
+    const app = await this.getApplication(id)
+    if (!app) {
+      throw new Error(`Application with id ${id} not found`)
+    }
+    await upgradePlt({ cwd: app.path }, uiLogger)
   }
 }
 

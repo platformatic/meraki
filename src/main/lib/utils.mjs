@@ -5,6 +5,7 @@ import { request } from 'undici'
 import { homedir } from 'node:os'
 import log from 'electron-log'
 import execa from 'execa'
+import which from 'which'
 
 const isMac = process.platform === 'darwin'
 
@@ -70,6 +71,14 @@ async function findExecutableInShellPath (executableName) {
 }
 
 async function findExecutable (executableName) {
+  if (process.platform === 'win32') {
+    // windows
+    log.info(`Running in windows, using ${executableName} from PATH`)
+    const execInPath = await which(executableName)
+    return execInPath
+  }
+
+  // mac and linux
   const execInPath = await findExecutableInShellPath(executableName)
   if (execInPath === null) {
     const paths = [
@@ -79,12 +88,23 @@ async function findExecutable (executableName) {
     ]
     for (const location of paths) {
       if (await isFileAccessible(location)) {
+        log.info(`Running in OSx or Linux, Using ${executableName} found in ${location} from well-known locations`)
         return location
       }
     }
     return null
   }
+
+  log.info(`Running in OSx or Linux, Using ${executableName} found in ${execInPath}`)
   return execInPath
 }
 
-export { getAppPath, getLatestPlatformaticVersion, findExecutable, isFileAccessible }
+async function findNpmExecutable () {
+  const npmExec = await findExecutable('npm')
+  if (npmExec === null) {
+    throw new Error('Cannot find npm executable')
+  }
+  return npmExec
+}
+
+export { getAppPath, getLatestPlatformaticVersion, findExecutable, findNpmExecutable, isFileAccessible }
