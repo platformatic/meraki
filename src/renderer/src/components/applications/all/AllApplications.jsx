@@ -156,6 +156,7 @@ const AllApplications = React.forwardRef(({ onClickCreateNewApp }, ref) => {
             title='Delete Application'
             titleClassName={`${typographyStyles.desktopHeadline4} ${typographyStyles.textWhite}`}
             layout={MODAL_POPUP_V2}
+            permanent
           >
             <DeleteApplication
               name={applicationSelected.name}

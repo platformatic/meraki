@@ -120,6 +120,7 @@ function PluginButton ({
                 title='Back to Application'
                 titleClassName={`${typographyStyles.desktopBody} ${typographyStyles.textWhite}`}
                 classNameModalLefty={modalStyles.modalLefty}
+                permanent
               >
                 <PluginDetail
                   name={name}

@@ -78,6 +78,7 @@ function Plugin ({ name, onClickCardPlugin, isSelected, description, tags, autho
           title='Back to Plugin'
           titleClassName={`${typographyStyles.desktopBody} ${typographyStyles.textWhite}`}
           classNameModalLefty={modalStyles.modalLefty}
+          permanent
         >
           <PluginDetail
             name={name}

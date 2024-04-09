@@ -47,6 +47,7 @@ function EditApplicationFlow ({ onCloseModal, onClickGoToApps, onStopApplication
         title='Stop the Application to edit'
         titleClassName={`${typographyStyles.desktopHeadline4} ${typographyStyles.textWhite}`}
         layout={MODAL_POPUP_V2}
+        permanent
       >
         <StopApplicationToEdit onClickCancel={() => handleCloseModalStopApplication()} onClickProceed={() => handleStopApplication()} />
       </Modal>
@@ -72,6 +73,7 @@ function EditApplicationFlow ({ onCloseModal, onClickGoToApps, onStopApplication
           title='Discard Changes'
           titleClassName={`${typographyStyles.desktopHeadline4} ${typographyStyles.textWhite}`}
           layout={MODAL_POPUP_V2}
+          permanent
         >
           <DiscardChanges
             onClickCancel={() => handleCloseModalDiscardChanges()}

@@ -187,6 +187,7 @@ const GeneratingApplication = React.forwardRef(({ onBack, onRestartProcess, useV
           title='Application Created!'
           titleClassName={`${typographyStyles.desktopHeadline4} ${typographyStyles.textWhite}`}
           layout={MODAL_POPUP_V2}
+          permanent
         >
           <div className={`${commonStyles.mediumFlexBlock} ${commonStyles.fullWidth}`}>
             <p className={`${typographyStyles.desktopBody} ${typographyStyles.textWhite} ${commonStyles.fullWidth}`}>

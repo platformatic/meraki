@@ -97,6 +97,7 @@ function ImportApplicationFlow ({ onCloseModal, onClickConfirm }) {
         title='Import Application'
         titleClassName={`${typographyStyles.desktopHeadline4} ${typographyStyles.textWhite}`}
         layout={MODAL_POPUP_V2}
+        permanent
       >
         <form onSubmit={handleSubmit}>
           <div className={`${commonStyles.mediumFlexBlock} ${commonStyles.fullWidth}`}>

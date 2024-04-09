@@ -110,7 +110,10 @@ const ComposeApplication = React.forwardRef(({ createMode, onNext, onBack }, ref
   }
 
   async function onClickAddService () {
-    const serviceName = await window.api.getServiceName()
+    let serviceName = await window.api.getServiceName()
+    if (services.find(service => service.name === serviceName)) {
+      serviceName += `-${services.filter(service => service.name === serviceName).length}`
+    }
     addService(serviceName)
   }
 
@@ -226,6 +229,7 @@ const ComposeApplication = React.forwardRef(({ createMode, onNext, onBack }, ref
           title='Back to Application view'
           titleClassName={`${typographyStyles.desktopBody} ${typographyStyles.textWhite} cy-modal-template`}
           classNameModalLefty={modalStyles.modalLefty}
+          permanent
         >
           <SelectTemplate onClick={() => handleCloseModalTemplate()} serviceName={serviceSelected.name} />
         </ModalDirectional>
@@ -237,6 +241,7 @@ const ComposeApplication = React.forwardRef(({ createMode, onNext, onBack }, ref
           title='Back to Application view'
           titleClassName={`${typographyStyles.desktopBody} ${typographyStyles.textWhite} `}
           classNameModalLefty={modalStyles.modalLefty}
+          permanent
         >
           <SelectPlugin
             onClick={() => handleCloseModalPlugin()}
@@ -251,6 +256,7 @@ const ComposeApplication = React.forwardRef(({ createMode, onNext, onBack }, ref
           title='Back to Application view'
           titleClassName={`${typographyStyles.desktopBody} ${typographyStyles.textWhite} `}
           smallLayout
+          permanent
         >
           <ViewAll onClick={() => handleCloseModalViewAll()} serviceName={serviceSelected.name} />
         </ModalDirectional>
@@ -262,6 +268,7 @@ const ComposeApplication = React.forwardRef(({ createMode, onNext, onBack }, ref
           title='Rename Application'
           titleClassName={`${typographyStyles.desktopHeadline4} ${typographyStyles.textWhite}`}
           layout={MODAL_POPUP_V2}
+          permanent
         >
           <EditApplicationName
             name={formData.createApplication.application}
@@ -277,6 +284,7 @@ const ComposeApplication = React.forwardRef(({ createMode, onNext, onBack }, ref
           title='Rename Service'
           titleClassName={`${typographyStyles.desktopHeadline4} ${typographyStyles.textWhite}`}
           layout={MODAL_POPUP_V2}
+          permanent
         >
           <EditService
             name={serviceSelected.name}
@@ -292,6 +300,7 @@ const ComposeApplication = React.forwardRef(({ createMode, onNext, onBack }, ref
           title='Delete Service'
           titleClassName={`${typographyStyles.desktopHeadline4} ${typographyStyles.textWhite}`}
           layout={MODAL_POPUP_V2}
+          permanent
         >
           <RemoveService
             name={serviceSelected.name}

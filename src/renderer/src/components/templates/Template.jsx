@@ -89,6 +89,7 @@ function Template ({
           title='Back to Template'
           titleClassName={`${typographyStyles.desktopBody} ${typographyStyles.textWhite} `}
           classNameModalLefty={modalStyles.modalLefty}
+          permanent
         >
           <TemplateDetail
             name={name}
