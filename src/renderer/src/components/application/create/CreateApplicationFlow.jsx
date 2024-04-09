@@ -39,6 +39,7 @@ function CreateApplicationFlow ({ onCloseModal, onClickGoToApps }) {
           title='Close Application'
           titleClassName={`${typographyStyles.desktopHeadline4} ${typographyStyles.textWhite}`}
           layout={MODAL_POPUP_V2}
+          permanent
         >
           <DiscardCreate
             onClickCancel={() => handleCloseModalDiscardCreate()}

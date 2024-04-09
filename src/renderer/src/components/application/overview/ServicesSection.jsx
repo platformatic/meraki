@@ -77,6 +77,7 @@ function ServicesSection ({ url, onClickEditApplication }) {
           title='Back to Overview'
           titleClassName={`${typographyStyles.desktopBody} ${typographyStyles.textWhite} cy-modal-template`}
           classNameModalLefty='should-be-full-width'
+          permanent
         >
           <Scalar url={proxyURL} />
         </ModalDirectional>
