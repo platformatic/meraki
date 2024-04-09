@@ -10,7 +10,7 @@ import { BorderedBox, PlatformaticIcon } from '@platformatic/ui-components'
 
 function TemplateSelector ({ onTemplateSelected, service, serviceSelected }) {
   let className = `${typographyStyles.desktopHeadline4} ${typographyStyles.textWhite} ${styles.ellipsisTemplate}`
-  if (serviceSelected?.template !== service.template) {
+  if (serviceSelected?.name !== service.name) {
     className += ` ${typographyStyles.opacity70}`
   }
   return (
@@ -36,7 +36,7 @@ function PluginsContainer ({ service, isTemplateSelected, pluginSelected, onPlug
   return (
     <div className={`${commonStyles.smallFlexBlock} ${styles.pluginContainer}`}>
       {service?.plugins.length === 1
-        ? (<PluginSelector key={service.plugins[0].name} plugin={{ ...service.plugins[0] }} service={{ ...service }} onPluginSelected={onPluginSelected} pluginSelected={pluginSelected} />)
+        ? (<PluginSelector key={service.plugins[0].name} plugin={{ ...service.plugins[0] }} service={{ ...service }} onPluginSelected={onPluginSelected} pluginSelected={pluginSelected} isTemplateSelected={isTemplateSelected} />)
         : (
           <>
             <div className={`${commonStyles.tinyFlexRow} ${commonStyles.fullWidth} ${styles.cursorPointer}`} onClick={() => togglePlugins()}>
@@ -45,17 +45,21 @@ function PluginsContainer ({ service, isTemplateSelected, pluginSelected, onPlug
               </span>
               <PlatformaticIcon iconName={hidePlugins ? 'ArrowDownIcon' : 'ArrowUpIcon'} color={WHITE} size={SMALL} onClick={() => {}} />
             </div>
-            {!hidePlugins && service.plugins.map(plugin => (<PluginSelector key={plugin.name} plugin={{ ...plugin }} onPluginSelected={onPluginSelected} service={service} pluginSelected={pluginSelected} />))}
+            {!hidePlugins && service.plugins.map(plugin => (<PluginSelector key={plugin.name} plugin={{ ...plugin }} onPluginSelected={onPluginSelected} service={service} pluginSelected={pluginSelected} isTemplateSelected={isTemplateSelected} />))}
           </>
           )}
     </div>
   )
 }
 
-function PluginSelector ({ onPluginSelected, service, plugin, pluginSelected }) {
+function PluginSelector ({ onPluginSelected, service, plugin, pluginSelected, isTemplateSelected }) {
   let className = `${typographyStyles.desktopBodyLarge} ${typographyStyles.textWhite} ${styles.ellipsisPlugin}`
-  if (pluginSelected?.name !== plugin.name) {
+  if (!isTemplateSelected) {
     className += ` ${typographyStyles.opacity70}`
+  } else {
+    if (pluginSelected?.name !== plugin.name) {
+      className += ` ${typographyStyles.opacity70}`
+    }
   }
 
   return (
@@ -83,7 +87,7 @@ function TemplateAndPluginTreeSelector ({ configuredServices, onTemplateSelected
         {configuredServices.map(configuredService => (
           <div className={`${commonStyles.smallFlexBlock} ${commonStyles.fullWidth} ${commonStyles.overflowHidden}`} key={configuredService.name}>
             <TemplateSelector onTemplateSelected={onTemplateSelected} service={{ ...configuredService }} serviceSelected={serviceSelected} />
-            {configuredService.plugins.length > 0 && <PluginsContainer service={configuredService} onPluginSelected={handlePluginSelected} pluginSelected={pluginSelected} />}
+            {configuredService.plugins.length > 0 && <PluginsContainer service={configuredService} onPluginSelected={handlePluginSelected} pluginSelected={pluginSelected} isTemplateSelected={serviceSelected?.name === configuredService.name} />}
           </div>
         ))}
       </div>
