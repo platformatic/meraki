@@ -1,5 +1,6 @@
 'use strict'
 import React, { useEffect, useState } from 'react'
+import PropTypes from 'prop-types'
 import { WHITE, OPACITY_30, MEDIUM, TRANSPARENT, SMALL, WARNING_YELLOW, OPACITY_10 } from '@platformatic/ui-components/src/components/constants'
 import { BorderedBox, Button, ModalDirectional, PlatformaticIcon, VerticalSeparator } from '@platformatic/ui-components'
 import useStackablesStore from '~/useStackablesStore'
@@ -11,7 +12,7 @@ import commonStyles from '~/styles/CommonStyles.module.css'
 import { startProxy, stopProxy } from '~/api'
 import Scalar from '~/components/Scalar'
 
-function OverviewSection () {
+function OverviewSection ({ onClickUpgradeAppPlt }) {
   const globalState = useStackablesStore()
   const applicationSelected = globalState.computed.applicationSelected
   const applicationStatus = globalState.computed.applicationStatus
@@ -72,6 +73,7 @@ function OverviewSection () {
                     <div className={`${commonStyles.tinyFlexRow} ${commonStyles.itemsCenter}`}>
                       <Icons.AlertIcon size={SMALL} color={WARNING_YELLOW} />
                       <span className={`${typographyStyles.desktopBody} ${typographyStyles.textWarningYellow}`}>There is a new Platformatic version.</span>
+                      <span className={`${commonStyles.cursorPointer} ${typographyStyles.textTertiaryBlue}`} onClick={() => onClickUpgradeAppPlt()}>Update now</span>
                     </div>
                   </BorderedBox>
                 )}
@@ -131,6 +133,17 @@ function OverviewSection () {
       )}
     </>
   )
+}
+
+OverviewSection.propTypes = {
+  /**
+   * onClickUpgradeAppPlt
+    */
+  onClickUpgradeAppPlt: PropTypes.func
+}
+
+OverviewSection.defaultProps = {
+  onClickUpgradeAppPlt: () => {}
 }
 
 export default OverviewSection

@@ -22,7 +22,14 @@ import EnvironmentVariables from '~/components/application/environment-variables
 import EditApplicationFlow from '~/components/application/edit/EditApplicationFlow'
 import SideBar from '~/components/ui/SideBar'
 import { useParams } from 'react-router-dom'
-import { callOpenApplication, callStartApplication, callStopApplication, onReceivedTemplateId, onStopReceivingTemplateId } from '~/api'
+import {
+  callOpenApplication,
+  callStartApplication,
+  callStopApplication,
+  onReceivedTemplateId,
+  onStopReceivingTemplateId,
+  callUpgradeAppPlt
+} from '~/api'
 import { LoadingSpinnerV2 } from '@platformatic/ui-components'
 import useStackablesStore from '~/useStackablesStore'
 
@@ -96,6 +103,7 @@ function ApplicationContainer () {
           ref={overViewRef}
           key={APPLICATION_PAGE_OVERVIEW}
           onClickEditApplication={() => setShowModalEditApplicationFlow(true)}
+          onClickUpgradeAppPlt={() => upgradeAppPlt(true)}
         />,
         <ApplicationLogs
           ref={applicationLogsRef}
@@ -113,18 +121,6 @@ function ApplicationContainer () {
       ])
     }
   }, [applicationSelected])
-
-  async function handleStartApplication () {
-    const tmp = {}
-    tmp[appId] = await callStartApplication(appId)
-    setApplicationsSelected(tmp)
-  }
-
-  async function handleStopApplication () {
-    const tmp = {}
-    tmp[appId] = await callStopApplication(appId)
-    setApplicationsSelected(tmp)
-  }
 
   useEffect(() => {
     if (components.length > 0) {
@@ -145,6 +141,27 @@ function ApplicationContainer () {
   useEffect(() => {
     setCurrentComponent(components.find(component => component.key === currentPage))
   }, [currentPage])
+
+  async function handleStartApplication () {
+    const tmp = {}
+    tmp[appId] = await callStartApplication(appId)
+    setApplicationsSelected(tmp)
+  }
+
+  async function handleStopApplication () {
+    const tmp = {}
+    tmp[appId] = await callStopApplication(appId)
+    setApplicationsSelected(tmp)
+  }
+
+  async function upgradeAppPlt () {
+    setInnerLoading(true)
+    await callUpgradeAppPlt(appId)
+    setApplicationsSelected(null)
+    setApplicationSelectedId(null)
+    setComponents([])
+    setReloadApplication(true)
+  }
 
   function handleCloseEditApplicationFlow () {
     setShowModalEditApplicationFlow(false)

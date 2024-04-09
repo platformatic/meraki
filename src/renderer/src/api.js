@@ -18,6 +18,10 @@ export const callUpdateApp = async (id, path, project) => {
   return await window.api.updateApp(id, path, project)
 }
 
+export const callUpgradeAppPlt = async (id) => {
+  return await window.api.upgradeAppPlt(id)
+}
+
 export const callImportApp = async (path, folderName) => {
   return await window.api.importApp(path, folderName)
 }
