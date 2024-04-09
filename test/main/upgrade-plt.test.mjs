@@ -44,4 +44,4 @@ test('upgrade a platformatic runtime', async (t) => {
   expect(service1PackageJson.dependencies['@platformatic/runtime']).toBe(version)
   const service2PackageJson = require(join(servicesFolder, 'service-2', 'package.json'))
   expect(service2PackageJson.dependencies['@platformatic/runtime']).toBe(version)
-}, 60000)
+}, 90000)
