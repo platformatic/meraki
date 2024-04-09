@@ -1,9 +1,8 @@
 .container {
-  @apply grow pb-8 h-[calc(100%-2rem)];
-  flex-basis: 1rem;
+  @apply grow pb-8 h-[calc(100%-2rem)] overflow-hidden;
 }
 .logContainer {
-  @apply overflow-x-hidden overflow-y-auto grow max-h-[calc(45vH-2rem)] p-4;
+  @apply overflow-y-auto overflow-x-hidden max-h-[54%] p-4 grow;
 }
 .buttonContainer {
   @apply flex justify-between;

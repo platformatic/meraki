@@ -1,5 +1,5 @@
 .container {
-  @apply flex flex-col h-full justify-between grow
+  @apply flex flex-col h-full justify-between grow h-[calc(100%-1rem)] xl:h-[calc(100%-2rem)]
 }
 .buttonContainer {
   @apply flex justify-between;
@@ -8,5 +8,5 @@
   @apply flex flex-col items-start gap-y-2 xl:gap-y-4 pb-8 h-[calc(100%-2rem)] grow ;
 }
 .logContainer {
-  @apply overflow-y-auto overflow-x-hidden max-h-[calc(45vH-2rem)] p-4;
+  @apply overflow-y-auto overflow-x-hidden max-h-[54%] p-4 grow;
 }
