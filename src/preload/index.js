@@ -39,6 +39,7 @@ if (process.contextIsolated) {
     stopApp: (id) => (ipcRenderer.invoke('stop-app', id)),
     openApp: (id) => (ipcRenderer.invoke('open-app', id)),
     updateApp: (id, folder, project) => (ipcRenderer.invoke('update-app', id, folder, project)),
+    upgradeAppPlt: (id) => (ipcRenderer.invoke('upgrade-app-plt', id)),
 
     // logs
     startLogs: (id) => (ipcRenderer.invoke('start-logs', id)),

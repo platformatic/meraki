@@ -279,6 +279,10 @@ app.whenReady().then(async () => {
     return appApis.openApplication(id)
   })
 
+  ipcMain.handle('upgrade-app-plt', async (_, id) => {
+    await appApis.upgradeApplicationPlt(id, uiLogger)
+  })
+
   // ********** LOGS ********** //
   // id: application id
   ipcMain.handle('start-logs', async (_, id, callback) => {
