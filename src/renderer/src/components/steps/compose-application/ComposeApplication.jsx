@@ -112,7 +112,7 @@ const ComposeApplication = React.forwardRef(({ createMode, onNext, onBack }, ref
   async function onClickAddService () {
     let serviceName = await window.api.getServiceName()
     if (services.find(service => service.name === serviceName)) {
-      serviceName += `-${services.length}`
+      serviceName += `-${services.filter(service => service.name === serviceName).length}`
     }
     addService(serviceName)
   }
