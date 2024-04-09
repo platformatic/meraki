@@ -1,12 +1,11 @@
 .container {
- @apply grow h-full;
- flex-basis: 1rem;
+ @apply grow h-full overflow-hidden;
 }
 .content {
-  @apply flex flex-col items-start gap-y-2 xl:gap-y-4 pb-8 h-[calc(100%-2rem)] grow w-full;
+  @apply flex flex-col items-start gap-y-2 xl:gap-y-4 pb-8 h-[calc(100%-2rem)] grow w-full overflow-hidden;
 }
 .logContainer {
-  @apply overflow-y-auto overflow-x-hidden max-h-[calc(45vH-2rem)] p-4;
+  @apply overflow-y-auto overflow-x-hidden max-h-[54%] p-4 grow;
 }
 .buttonContainer {
   @apply flex justify-between;

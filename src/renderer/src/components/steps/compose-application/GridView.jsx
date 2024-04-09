@@ -42,7 +42,6 @@ const GridView = React.forwardRef(({
   }, [innerHeight])
 
   function renderContent () {
-    console.log('renderContent')
     const groupedServices = []
     for (let i = 0; i < services.length; i += maxNumber) {
       groupedServices.push(services.slice(i, i + maxNumber))

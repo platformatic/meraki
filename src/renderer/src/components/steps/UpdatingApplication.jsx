@@ -81,44 +81,46 @@ const UpdatingApplication = React.forwardRef(({ onBack, onClickGoToApps, applica
   return (
     <>
       <div className={`${styles.container} ${commonStyles.mediumFlexBlock} ${commonStyles.fullWidth}`} ref={ref}>
-        <div className={commonStyles.mediumFlexBlock}>
-          <Title
-            title={`Updating ${formData.createApplication.application}`}
-            iconName='AppIcon'
-            dataAttrName='cy'
-            dataAttrValue='step-title'
-          />
-          <p className={`${typographyStyles.desktopBody} ${typographyStyles.textWhite} ${typographyStyles.opacity70}`}>
-            We are updating your app. <br />Once all the steps are done you will be able to complete and use your application.
-          </p>
-        </div>
-        <div className={`${commonStyles.tinyFlexRow} ${commonStyles.fullWidth} ${commonStyles.justifyEnd}`}>
-          <Tooltip
-            tooltipClassName={tooltipStyles.tooltipDarkStyle}
-            visible={logsCopied}
-            content={(<span>Logs copied!</span>)}
-            offset={4}
-            activeDependsOnVisible
-          >
-            <Button
-              disabled={!appGenerated}
-              label='Copy Logs'
-              onClick={() => onClickCopyLogs()}
-              color={WHITE}
-              backgroundColor={RICH_BLACK}
-              paddingClass={`${commonStyles.buttonPadding} cy-action-dismiss`}
-              textClass={`${typographyStyles.desktopBody} action-copy-logs`}
-              platformaticIcon={getButtonCopyIcon()}
+        <div className={styles.content}>
+          <div className={commonStyles.mediumFlexBlock}>
+            <Title
+              title={`Updating ${formData.createApplication.application}`}
+              iconName='AppIcon'
+              dataAttrName='cy'
+              dataAttrValue='step-title'
             />
-          </Tooltip>
-        </div>
-        <BorderedBox classes={`${commonStyles.fullWidth} ${styles.logContainer}`} backgroundColor={TRANSPARENT} borderColorOpacity={OPACITY_30} color={WHITE}>
-          <div className={`${commonStyles.flexBlockNoGap} `}>
-            {npmLogs.map((log, index) => renderLog(log, index))}
+            <p className={`${typographyStyles.desktopBody} ${typographyStyles.textWhite} ${typographyStyles.opacity70}`}>
+              We are updating your app. <br />Once all the steps are done you will be able to complete and use your application.
+            </p>
           </div>
-        </BorderedBox>
-        <div className={`${commonStyles.mediumFlexBlock} ${commonStyles.halfWidth}`}>
-          <CountDown status={countDownStatus} />
+          <div className={`${commonStyles.tinyFlexRow} ${commonStyles.fullWidth} ${commonStyles.justifyEnd}`}>
+            <Tooltip
+              tooltipClassName={tooltipStyles.tooltipDarkStyle}
+              visible={logsCopied}
+              content={(<span>Logs copied!</span>)}
+              offset={4}
+              activeDependsOnVisible
+            >
+              <Button
+                disabled={!appGenerated}
+                label='Copy Logs'
+                onClick={() => onClickCopyLogs()}
+                color={WHITE}
+                backgroundColor={RICH_BLACK}
+                paddingClass={`${commonStyles.buttonPadding} cy-action-dismiss`}
+                textClass={`${typographyStyles.desktopBody} action-copy-logs`}
+                platformaticIcon={getButtonCopyIcon()}
+              />
+            </Tooltip>
+          </div>
+          <BorderedBox classes={`${commonStyles.fullWidth} ${styles.logContainer}`} backgroundColor={TRANSPARENT} borderColorOpacity={OPACITY_30} color={WHITE}>
+            <div className={`${commonStyles.flexBlockNoGap} `}>
+              {npmLogs.map((log, index) => renderLog(log, index))}
+            </div>
+          </BorderedBox>
+          <div className={`${commonStyles.mediumFlexBlock} ${commonStyles.halfWidth}`}>
+            <CountDown status={countDownStatus} />
+          </div>
         </div>
       </div>
       <div className={`${styles.buttonContainer} ${commonStyles.fullWidth}`}>
