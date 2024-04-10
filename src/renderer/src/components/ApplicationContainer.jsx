@@ -45,9 +45,9 @@ function ApplicationContainer () {
     useTemplateIdOnEdit,
     setUseTemplateIdOnEdit
   } = globalState
-
   const { appId } = useParams()
   const [innerLoading, setInnerLoading] = useState(true)
+  const [upgradingPlt, setUpgradingPlt] = useState(false)
   const applicationSelected = globalState.computed.applicationSelected
   const [cssClassNames] = useState('scroll-down')
   // const [currentPage, setCurrentPage] = useState(null)
@@ -156,10 +156,12 @@ function ApplicationContainer () {
 
   async function upgradeAppPlt () {
     setInnerLoading(true)
+    setUpgradingPlt(true)
     await callUpgradeAppPlt(appId)
     setApplicationsSelected(null)
     setApplicationSelectedId(null)
     setComponents([])
+    setUpgradingPlt(false)
     setReloadApplication(true)
   }
 
@@ -192,10 +194,10 @@ function ApplicationContainer () {
             containerClassName: `${commonStyles.mediumFlexBlock} ${commonStyles.itemsCenter}`,
             sentences: [{
               style: `${typographyStyles.desktopBodyLarge} ${typographyStyles.textWhite}`,
-              text: 'Loading your application...'
+              text: upgradingPlt ? 'Upgrading your application to latest Platformatic Version...' : 'Loading your application...'
             }, {
               style: `${typographyStyles.desktopBodyLarge} ${typographyStyles.textWhite} ${typographyStyles.opacity70}`,
-              text: 'This process will just take a few seconds.'
+              text: upgradingPlt ? 'Once finished start the application to make the upgrade effective!' : 'This process will just take a few seconds.'
             }]
           }}
           containerClassName={styles.loadingSpinner}
