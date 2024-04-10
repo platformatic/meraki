@@ -25,7 +25,8 @@ function Row ({
   onClickStop,
   onClickStart,
   onClickRestart,
-  onClickDelete
+  onClickDelete,
+  onClickUpgradeAppPlt
 }) {
   const navigate = useNavigate()
   const [buttonClicked, setButtonClicked] = useState(false)
@@ -179,7 +180,12 @@ function Row ({
             {!isLatestPltVersion && platformaticVersion && (
               <TooltipAbsolute
                 tooltipClassName={`${tooltipStyles.tooltipDarkStyle} ${styles.smallMargin}`}
-                content={(<span>There is a new Platformatic Version</span>)}
+                content={(
+                  <>
+                    <span>There is a new Platformatic Version.</span>&nbsp;
+                    <span className={`${commonStyles.cursorPointer} ${typographyStyles.textTertiaryBlue}`} onClick={() => onClickUpgradeAppPlt(id)}>Update now</span>
+                  </>
+                )}
                 offset={44}
                 position={POSITION_CENTER}
               >
@@ -282,7 +288,11 @@ Row.propTypes = {
   /**
    * onClickDelete
     */
-  onClickDelete: PropTypes.func
+  onClickDelete: PropTypes.func,
+  /**
+   * onClickUpgradeAppPlt
+    */
+  onClickUpgradeAppPlt: PropTypes.func
 }
 
 Row.defaultProps = {
@@ -296,7 +306,8 @@ Row.defaultProps = {
   onClickStop: () => {},
   onClickStart: () => {},
   onClickRestart: () => {},
-  onClickDelete: () => {}
+  onClickDelete: () => {},
+  onClickUpgradeAppPlt: () => {}
 }
 
 export default Row
