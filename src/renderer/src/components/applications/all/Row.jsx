@@ -183,7 +183,7 @@ function Row ({
                 content={(
                   <>
                     <span>There is a new Platformatic Version.</span>&nbsp;
-                    <span className={`${commonStyles.cursorPointer} ${typographyStyles.textTertiaryBlue}`} onClick={() => onClickUpgradeAppPlt(id)}>Update now</span>
+                    {/* <span className={`${commonStyles.cursorPointer} ${typographyStyles.textTertiaryBlue}`} onClick={() => onClickUpgradeAppPlt(id)}>Update now</span> */}
                   </>
                 )}
                 offset={44}

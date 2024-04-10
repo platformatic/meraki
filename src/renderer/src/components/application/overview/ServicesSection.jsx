@@ -12,7 +12,7 @@ import useStackablesStore from '~/useStackablesStore'
 import Scalar from '~/components/Scalar'
 import { startProxy, stopProxy } from '~/api'
 
-function ServicesSection ({ url, onClickEditApplication }) {
+function ServicesSection ({ onClickEditApplication }) {
   const globalState = useStackablesStore()
   const applicationStatus = globalState.computed.applicationStatus
   const applicationSelected = globalState.computed.applicationSelected
@@ -43,7 +43,7 @@ function ServicesSection ({ url, onClickEditApplication }) {
           </div>
 
           <div className={`${commonStyles.smallFlexRow} ${commonStyles.fullWidth} ${commonStyles.itemsCenter} ${commonStyles.justifyBetween} `}>
-            <span className={`${typographyStyles.desktopBody} ${typographyStyles.textWhite} ${typographyStyles.opacity70}`}>This is how your application is structured. You can edit it anytime:</span>
+            <span className={`${typographyStyles.desktopBody} ${typographyStyles.textWhite} ${typographyStyles.opacity70}`}>This is how your application is structured. {applicationSelected.isLatestPltVersion ? 'You can edit it anytime' : 'The Platformatic Version needs to be updated to edit your app'}</span>
 
             <div className={`${styles.buttonContainer}`}>
               <Button
@@ -58,6 +58,7 @@ function ServicesSection ({ url, onClickEditApplication }) {
                 paddingClass={commonStyles.buttonPadding}
                 platformaticIcon={{ iconName: 'EditIcon', color: RICH_BLACK }}
                 textClass={typographyStyles.desktopBody}
+                disabled={!applicationSelected.isLatestPltVersion}
               />
             </div>
           </div>

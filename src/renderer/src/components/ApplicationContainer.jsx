@@ -231,6 +231,7 @@ function ApplicationContainer () {
             bottomItems={[{
               label: 'Edit App',
               iconName: 'AppEditIcon',
+              disabled: !applicationSelected.isLatestPltVersion,
               onClick: () => setShowModalEditApplicationFlow(true)
             }]}
           />
