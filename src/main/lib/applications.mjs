@@ -282,7 +282,11 @@ class Applications {
     if (!app) {
       throw new Error(`Application with id ${id} not found`)
     }
-    await upgradePlt({ cwd: app.path }, uiLogger)
+    const upgradedVersion = await upgradePlt({ cwd: app.path }, uiLogger)
+    await this.#mapper.entities.application.save({
+      fields: ['id', 'lastPltVersion'],
+      input: { id: app.id, lastPltVersion: upgradedVersion }
+    })
   }
 }
 

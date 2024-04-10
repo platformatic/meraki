@@ -5,6 +5,7 @@ import { resolve, join } from 'node:path'
 import { mkdirp } from 'mkdirp'
 import Applications from '../../src/main/lib/applications.mjs'
 import { startRuntimeInFolder } from './helper.mjs'
+import execa from 'execa'
 
 const { MockAgent, setGlobalDispatcher } = require('undici')
 
@@ -352,4 +353,33 @@ test('delete does not fail if the folder is missing', async (t) => {
   await rm(appDir, { recursive: true })
   // This should not fail
   await applicationsApi.deleteApplication(id)
+}, 60000)
+
+test.only('upgrade plt on an application', async (t) => {
+  const appDir = await mkdtemp(join(tmpdir(), 'plat-app-test'))
+  onTestFinished(() => rm(appDir, { recursive: true, force: true }))
+  const appFixture = join('test', 'fixtures', 'old')
+  await cp(appFixture, appDir, { recursive: true })
+  mockAgent
+    .get('https://registry.npmjs.org')
+    .intercept({
+      method: 'GET',
+      path: '/platformatic'
+    })
+    .reply(200, {
+      'dist-tags': {
+        latest: '2.0.0'
+      }
+    })
+
+  const applicationsApi = await Applications.create()
+  const { id } = await applicationsApi.importApplication(appDir)
+
+  const { stdout: expectedVersion } = await execa('npm', ['view', 'platformatic', 'version'], { cwd: appDir })
+
+  await applicationsApi.upgradeApplicationPlt(id, console)
+
+  const applications = await applicationsApi.getApplications()
+  expect(applications.length).toBe(1)
+  expect(applications[0].platformaticVersion).toBe(expectedVersion)
 }, 60000)
