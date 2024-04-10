@@ -30,7 +30,7 @@ function ServicesSection ({ url, onClickEditApplication }) {
     setShowModalScalarIntegration(true)
   }
 
-  return (
+  return applicationSelected && (
     <>
       <div className={`${commonStyles.mediumFlexBlock} ${commonStyles.fullWidth}`}>
         <div className={`${commonStyles.smallFlexBlock} ${commonStyles.fullWidth}`}>

@@ -20,6 +20,7 @@ import Metrics from '~/components/application/metrics/Metrics'
 import ApplicationLogs from '~/components/application/application-logs/ApplicationLogs'
 import EnvironmentVariables from '~/components/application/environment-variables/EnvironmentVariables'
 import EditApplicationFlow from '~/components/application/edit/EditApplicationFlow'
+import UpgradePlatformaticFlow from '~/components/application/upgrade-platformatic/UpgradePlatformaticFlow'
 import SideBar from '~/components/ui/SideBar'
 import { useParams } from 'react-router-dom'
 import {
@@ -27,8 +28,7 @@ import {
   callStartApplication,
   callStopApplication,
   onReceivedTemplateId,
-  onStopReceivingTemplateId,
-  callUpgradeAppPlt
+  onStopReceivingTemplateId
 } from '~/api'
 import { LoadingSpinnerV2 } from '@platformatic/ui-components'
 import useStackablesStore from '~/useStackablesStore'
@@ -47,7 +47,6 @@ function ApplicationContainer () {
   } = globalState
   const { appId } = useParams()
   const [innerLoading, setInnerLoading] = useState(true)
-  const [upgradingPlt, setUpgradingPlt] = useState(false)
   const applicationSelected = globalState.computed.applicationSelected
   const [cssClassNames] = useState('scroll-down')
   // const [currentPage, setCurrentPage] = useState(null)
@@ -60,6 +59,7 @@ function ApplicationContainer () {
   const [reloadApplication, setReloadApplication] = useState(true)
   const { height: innerHeight } = useWindowDimensions()
   const [showModalEditApplicationFlow, setShowModalEditApplicationFlow] = useState(false)
+  const [showUpgradePlatformaticFlow, setShowUpgradePlatformaticFlow] = useState(false)
 
   useEffect(() => {
     const handlingFunction = (_, templateIdReceived) => {
@@ -97,13 +97,13 @@ function ApplicationContainer () {
   }, [appId, reloadApplication])
 
   useEffect(() => {
-    if (applicationSelected !== null) {
+    if (applicationSelected) {
       setComponents([
         <Overview
           ref={overViewRef}
           key={APPLICATION_PAGE_OVERVIEW}
           onClickEditApplication={() => setShowModalEditApplicationFlow(true)}
-          onClickUpgradeAppPlt={() => upgradeAppPlt(true)}
+          onClickUpgradeAppPlt={() => setShowUpgradePlatformaticFlow(true)}
         />,
         <ApplicationLogs
           ref={applicationLogsRef}
@@ -119,6 +119,8 @@ function ApplicationContainer () {
           services={applicationSelected.services}
         />
       ])
+    } else {
+      setComponents([])
     }
   }, [applicationSelected])
 
@@ -154,15 +156,11 @@ function ApplicationContainer () {
     setApplicationsSelected(tmp)
   }
 
-  async function upgradeAppPlt () {
-    setInnerLoading(true)
-    setUpgradingPlt(true)
-    await callUpgradeAppPlt(appId)
-    setApplicationsSelected(null)
+  function handleTerminateUpgradePlatformaticFlow () {
     setApplicationSelectedId(null)
-    setComponents([])
-    setUpgradingPlt(false)
+    setInnerLoading(true)
     setReloadApplication(true)
+    setShowUpgradePlatformaticFlow(false)
   }
 
   function handleCloseEditApplicationFlow () {
@@ -178,7 +176,6 @@ function ApplicationContainer () {
     setInnerLoading(true)
     setApplicationsSelected(null)
     setApplicationSelectedId(null)
-    setComponents([])
     setReloadApplication(true)
     if (restartAutomaticApplications[appId]) {
       handleStartApplication()
@@ -194,10 +191,10 @@ function ApplicationContainer () {
             containerClassName: `${commonStyles.mediumFlexBlock} ${commonStyles.itemsCenter}`,
             sentences: [{
               style: `${typographyStyles.desktopBodyLarge} ${typographyStyles.textWhite}`,
-              text: upgradingPlt ? 'Upgrading your application to latest Platformatic Version...' : 'Loading your application...'
+              text: 'Loading your application...'
             }, {
               style: `${typographyStyles.desktopBodyLarge} ${typographyStyles.textWhite} ${typographyStyles.opacity70}`,
-              text: upgradingPlt ? 'Once finished start the application to make the upgrade effective!' : 'This process will just take a few seconds.'
+              text: 'This process will just take a few seconds.'
             }]
           }}
           containerClassName={styles.loadingSpinner}
@@ -253,6 +250,13 @@ function ApplicationContainer () {
             onCloseModal={() => handleCloseEditApplicationFlow()}
             onClickGoToApps={() => handleSuccessfulEditApplicationFlow()}
             onStopApplication={async () => await handleStopApplication()}
+          />
+        )}
+        {showUpgradePlatformaticFlow && (
+          <UpgradePlatformaticFlow
+            onTerminateUpgradePlatformaticFlow={() => handleTerminateUpgradePlatformaticFlow()}
+            onStopApplication={async () => await handleStopApplication()}
+            onCancelUpgrade={() => setShowUpgradePlatformaticFlow(false)}
           />
         )}
       </>

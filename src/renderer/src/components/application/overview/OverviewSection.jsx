@@ -37,9 +37,9 @@ function OverviewSection ({ onClickUpgradeAppPlt }) {
     } else {
       setUrl('-')
     }
-  }, [applicationStatus, applicationSelected.runtime])
+  }, [applicationStatus, applicationSelected?.runtime?.url])
 
-  return (
+  return applicationSelected && (
     <>
       <div className={`${commonStyles.smallFlexBlock} ${commonStyles.fullWidth}`}>
         <div className={`${commonStyles.tinyFlexRow} ${commonStyles.fullWidth}`}>
