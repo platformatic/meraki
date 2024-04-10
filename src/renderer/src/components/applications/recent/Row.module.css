@@ -56,3 +56,6 @@
 .containerRunning {
   @apply border border-solid border-white/30 rounded
 }
+.smallMargin {
+  @apply ml-[6px];
+}

@@ -79,7 +79,7 @@ function TopContent ({
     setRestartAutomaticApplication({ [applicationSelected.id]: value })
   }
 
-  return (
+  return applicationSelected && (
     <div className={`${commonStyles.mediumFlexBlock} ${commonStyles.fullWidth}`}>
       <div className={`${commonStyles.smallFlexBlock} ${commonStyles.fullWidth}`}>
         <div className={`${commonStyles.smallFlexRow} ${commonStyles.fullWidth}`}>

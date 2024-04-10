@@ -20,9 +20,16 @@ import Metrics from '~/components/application/metrics/Metrics'
 import ApplicationLogs from '~/components/application/application-logs/ApplicationLogs'
 import EnvironmentVariables from '~/components/application/environment-variables/EnvironmentVariables'
 import EditApplicationFlow from '~/components/application/edit/EditApplicationFlow'
+import UpgradePlatformaticFlow from '~/components/application/upgrade-platformatic/UpgradePlatformaticFlow'
 import SideBar from '~/components/ui/SideBar'
 import { useParams } from 'react-router-dom'
-import { callOpenApplication, callStartApplication, callStopApplication, onReceivedTemplateId, onStopReceivingTemplateId } from '~/api'
+import {
+  callOpenApplication,
+  callStartApplication,
+  callStopApplication,
+  onReceivedTemplateId,
+  onStopReceivingTemplateId
+} from '~/api'
 import { LoadingSpinnerV2 } from '@platformatic/ui-components'
 import useStackablesStore from '~/useStackablesStore'
 
@@ -38,7 +45,6 @@ function ApplicationContainer () {
     useTemplateIdOnEdit,
     setUseTemplateIdOnEdit
   } = globalState
-
   const { appId } = useParams()
   const [innerLoading, setInnerLoading] = useState(true)
   const applicationSelected = globalState.computed.applicationSelected
@@ -53,6 +59,7 @@ function ApplicationContainer () {
   const [reloadApplication, setReloadApplication] = useState(true)
   const { height: innerHeight } = useWindowDimensions()
   const [showModalEditApplicationFlow, setShowModalEditApplicationFlow] = useState(false)
+  const [showUpgradePlatformaticFlow, setShowUpgradePlatformaticFlow] = useState(false)
 
   useEffect(() => {
     const handlingFunction = (_, templateIdReceived) => {
@@ -90,12 +97,13 @@ function ApplicationContainer () {
   }, [appId, reloadApplication])
 
   useEffect(() => {
-    if (applicationSelected !== null) {
+    if (applicationSelected) {
       setComponents([
         <Overview
           ref={overViewRef}
           key={APPLICATION_PAGE_OVERVIEW}
           onClickEditApplication={() => setShowModalEditApplicationFlow(true)}
+          onClickUpgradeAppPlt={() => setShowUpgradePlatformaticFlow(true)}
         />,
         <ApplicationLogs
           ref={applicationLogsRef}
@@ -111,20 +119,10 @@ function ApplicationContainer () {
           services={applicationSelected.services}
         />
       ])
+    } else {
+      setComponents([])
     }
   }, [applicationSelected])
-
-  async function handleStartApplication () {
-    const tmp = {}
-    tmp[appId] = await callStartApplication(appId)
-    setApplicationsSelected(tmp)
-  }
-
-  async function handleStopApplication () {
-    const tmp = {}
-    tmp[appId] = await callStopApplication(appId)
-    setApplicationsSelected(tmp)
-  }
 
   useEffect(() => {
     if (components.length > 0) {
@@ -146,6 +144,28 @@ function ApplicationContainer () {
     setCurrentComponent(components.find(component => component.key === currentPage))
   }, [currentPage])
 
+  async function handleStartApplication () {
+    const tmp = {}
+    tmp[appId] = await callStartApplication(appId)
+    setApplicationsSelected(tmp)
+  }
+
+  async function handleStopApplication () {
+    const tmp = {}
+    tmp[appId] = await callStopApplication(appId)
+    setApplicationsSelected(tmp)
+  }
+
+  function handleTerminateUpgradePlatformaticFlow () {
+    setApplicationSelectedId(null)
+    setInnerLoading(true)
+    setReloadApplication(true)
+    setShowUpgradePlatformaticFlow(false)
+    if (restartAutomaticApplications[appId]) {
+      handleStartApplication()
+    }
+  }
+
   function handleCloseEditApplicationFlow () {
     setShowModalEditApplicationFlow(false)
     setUseTemplateIdOnEdit(null)
@@ -159,7 +179,6 @@ function ApplicationContainer () {
     setInnerLoading(true)
     setApplicationsSelected(null)
     setApplicationSelectedId(null)
-    setComponents([])
     setReloadApplication(true)
     if (restartAutomaticApplications[appId]) {
       handleStartApplication()
@@ -215,6 +234,7 @@ function ApplicationContainer () {
             bottomItems={[{
               label: 'Edit App',
               iconName: 'AppEditIcon',
+              disabled: !applicationSelected.isLatestPltVersion,
               onClick: () => setShowModalEditApplicationFlow(true)
             }]}
           />
@@ -234,6 +254,13 @@ function ApplicationContainer () {
             onCloseModal={() => handleCloseEditApplicationFlow()}
             onClickGoToApps={() => handleSuccessfulEditApplicationFlow()}
             onStopApplication={async () => await handleStopApplication()}
+          />
+        )}
+        {showUpgradePlatformaticFlow && (
+          <UpgradePlatformaticFlow
+            onTerminateUpgradePlatformaticFlow={() => handleTerminateUpgradePlatformaticFlow()}
+            onStopApplication={async () => await handleStopApplication()}
+            onCancelUpgrade={() => setShowUpgradePlatformaticFlow(false)}
           />
         )}
       </>

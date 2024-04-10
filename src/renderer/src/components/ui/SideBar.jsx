@@ -11,11 +11,21 @@ function SideBar ({ selected, topItems, bottomItems }) {
   function Item ({ item }) {
     const [hover, setHover] = useState(selected === item.name)
 
+    function handleMouseLeave () {
+      if (item.disabled) return
+      return selected !== item.name ? setHover(false) : {}
+    }
+
+    function handleMouseOver () {
+      if (item.disabled) return
+      return selected !== item.name ? setHover(true) : {}
+    }
+
     return (
       <div
         className={`${commonStyles.smallFlexBlock} ${commonStyles.itemsCenter} ${typographyStyles.desktopBodySmallest} ${typographyStyles.textWhite} ${typographyStyles.textCenter} ${hover ? '' : typographyStyles.opacity70}`}
-        onMouseLeave={() => selected !== item.name ? setHover(false) : {}}
-        onMouseOver={() => selected !== item.name ? setHover(true) : {}}
+        onMouseLeave={() => handleMouseLeave}
+        onMouseOver={() => handleMouseOver}
       >
         <ButtonOnlyIcon
           altLabel={item.label}
@@ -26,8 +36,9 @@ function SideBar ({ selected, topItems, bottomItems }) {
           hoverEffect={DULLS_BACKGROUND_COLOR}
           platformaticIcon={{ size: SMALL, iconName: item.iconName, color: WHITE }}
           selected={selected === item.name}
+          disabled={item.disabled || false}
         />
-        <span>{item.label}</span>
+        <span className={item.disabled ? typographyStyles.opacity30 : ''}>{item.label}</span>
       </div>
     )
   }

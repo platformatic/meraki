@@ -12,7 +12,7 @@ import { MARGIN_0, OPACITY_30, WHITE } from '@platformatic/ui-components/src/com
 import ErrorComponent from '~/components/screens/ErrorComponent'
 import { useNavigate } from 'react-router-dom'
 
-const Overview = React.forwardRef(({ onClickEditApplication }, ref) => {
+const Overview = React.forwardRef(({ onClickEditApplication, onClickUpgradeAppPlt }, ref) => {
   const globalState = useStackablesStore()
   const { breadCrumbs, setNavigation, setCurrentPage, setReloadApplications } = globalState
   const [showErrorComponent, setShowErrorComponent] = useState(false)
@@ -56,7 +56,7 @@ const Overview = React.forwardRef(({ onClickEditApplication }, ref) => {
               }}
             />
             <HorizontalSeparator marginBottom={MARGIN_0} marginTop={MARGIN_0} color={WHITE} opacity={OPACITY_30} />
-            <OverviewSection />
+            <OverviewSection onClickUpgradeAppPlt={onClickUpgradeAppPlt} />
             <HorizontalSeparator
               marginBottom={MARGIN_0}
               marginTop={MARGIN_0}
@@ -77,11 +77,16 @@ Overview.propTypes = {
   /**
    * onClickEditApplication
     */
-  onClickEditApplication: PropTypes.func
+  onClickEditApplication: PropTypes.func,
+  /**
+   * onClickUpgradeAppPlt
+    */
+  onClickUpgradeAppPlt: PropTypes.func
 }
 
 Overview.defaultProps = {
-  onClickEditApplication: () => {}
+  onClickEditApplication: () => {},
+  onClickUpgradeAppPlt: () => {}
 }
 
 export default Overview

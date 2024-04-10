@@ -3,7 +3,7 @@ import PropTypes from 'prop-types'
 import { useState, useEffect } from 'react'
 import typographyStyles from '~/styles/Typography.module.css'
 import commonStyles from '~/styles/CommonStyles.module.css'
-import { DULLS_BACKGROUND_COLOR, ERROR_RED, MEDIUM, RICH_BLACK, SMALL, WARNING_YELLOW, WHITE } from '@platformatic/ui-components/src/components/constants'
+import { DULLS_BACKGROUND_COLOR, ERROR_RED, MEDIUM, POSITION_CENTER, RICH_BLACK, SMALL, WARNING_YELLOW, WHITE } from '@platformatic/ui-components/src/components/constants'
 import { ButtonOnlyIcon, Icons, PlatformaticIcon, TooltipAbsolute } from '@platformatic/ui-components'
 import styles from './Row.module.css'
 import MerakiIcon from '~/components/ui/MerakiIcon'
@@ -22,7 +22,8 @@ function Row ({
   onClickStop,
   onClickStart,
   onClickRestart,
-  onClickDelete
+  onClickDelete,
+  onClickUpgradeAppPlt
 }) {
   const [buttonClicked, setButtonClicked] = useState(false)
   const [buttonRestartClicked, setButtonRestartClicked] = useState(false)
@@ -177,7 +178,21 @@ function Row ({
         <div className={styles.tableCell}>
           <div className={`${styles.customSmallFlexRow}`}>
             <span className={`${typographyStyles.desktopBody} ${typographyStyles.textWhite} ${typographyStyles.opacity70}`}>{platformaticVersion || '-'}</span>
-            {!isLatestPltVersion && platformaticVersion && <Icons.AlertIcon color={WARNING_YELLOW} size={SMALL} />}
+            {!isLatestPltVersion && platformaticVersion && (
+              <TooltipAbsolute
+                tooltipClassName={`${tooltipStyles.tooltipDarkStyle} ${styles.smallMargin}`}
+                content={(
+                  <>
+                    <span>There is a new Platformatic Version.</span>&nbsp;
+                    {/* <span className={`${commonStyles.cursorPointer} ${typographyStyles.textTertiaryBlue}`} onClick={() => onClickUpgradeAppPlt(id)}>Update now</span> */}
+                  </>
+                )}
+                offset={44}
+                position={POSITION_CENTER}
+              >
+                <Icons.AlertIcon color={WARNING_YELLOW} size={SMALL} />
+              </TooltipAbsolute>
+            )}
           </div>
         </div>
       </div>
@@ -251,7 +266,11 @@ Row.propTypes = {
   /**
    * onClickDelete
     */
-  onClickDelete: PropTypes.func
+  onClickDelete: PropTypes.func,
+  /**
+   * onClickUpgradeAppPlt
+    */
+  onClickUpgradeAppPlt: PropTypes.func
 }
 
 Row.defaultProps = {
@@ -264,7 +283,8 @@ Row.defaultProps = {
   onClickStop: () => {},
   onClickStart: () => {},
   onClickRestart: () => {},
-  onClickDelete: () => {}
+  onClickDelete: () => {},
+  onClickUpgradeAppPlt: () => {}
 }
 
 export default Row
