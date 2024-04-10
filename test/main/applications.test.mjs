@@ -355,7 +355,7 @@ test('delete does not fail if the folder is missing', async (t) => {
   await applicationsApi.deleteApplication(id)
 }, 60000)
 
-test.only('upgrade plt on an application', async (t) => {
+test('upgrade plt on an application', async (t) => {
   const appDir = await mkdtemp(join(tmpdir(), 'plat-app-test'))
   onTestFinished(() => rm(appDir, { recursive: true, force: true }))
   const appFixture = join('test', 'fixtures', 'old')
