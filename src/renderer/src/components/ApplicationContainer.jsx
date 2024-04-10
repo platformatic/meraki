@@ -161,6 +161,9 @@ function ApplicationContainer () {
     setInnerLoading(true)
     setReloadApplication(true)
     setShowUpgradePlatformaticFlow(false)
+    if (restartAutomaticApplications[appId]) {
+      handleStartApplication()
+    }
   }
 
   function handleCloseEditApplicationFlow () {
