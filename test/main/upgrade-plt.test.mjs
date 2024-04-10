@@ -24,7 +24,7 @@ beforeAll(async () => {
 
 test('upgrade a platformatic runtime', async (t) => {
   const appDir = await mkdtemp(join(tmpdir(), 'plat-app-test'))
-  // onTestFinished(() => rm(appDir, { recursive: true }))
+  onTestFinished(() => rm(appDir, { recursive: true }))
   const appFixture = join('test', 'fixtures', 'old')
   await cp(appFixture, appDir, { recursive: true })
 
