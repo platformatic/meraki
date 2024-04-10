@@ -8,7 +8,7 @@
     "fastify": "^4.26.0"
   },
   "dependencies": {
-    "@platformatic/runtime": "1.33.0"
+    "@platformatic/runtime": "1.28.0"
   },
   "engines": {
     "node": "^18.8.0 || >=20.6.0"

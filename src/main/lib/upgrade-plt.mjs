@@ -20,10 +20,11 @@ const upgradePlt = async (options, logger) => {
 
   // Update all platformatic packages in the root folder
   await ncu.run({
-    packageFile: 'package.json',
+    packageFile: join(folder, 'package.json'),
     upgrade: true,
     cwd: folder,
     install: 'never',
+    target: 'latest',
     filter: ['@platformatic/*', 'platformatic*']
   })
 
@@ -48,6 +49,7 @@ const upgradePlt = async (options, logger) => {
       upgrade: true,
       cwd: serviceFolder,
       install: 'never',
+      target: 'latest',
       filter: ['@platformatic/*', 'platformatic*']
     })
     await npmInstall(null, { cwd: serviceFolder }, logger)

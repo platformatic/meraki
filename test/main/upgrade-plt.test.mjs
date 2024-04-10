@@ -1,6 +1,6 @@
 import { test, expect, beforeAll, onTestFinished } from 'vitest'
 import { tmpdir } from 'node:os'
-import { mkdtemp, cp, rm, access } from 'node:fs/promises'
+import { mkdtemp, cp, rm, access, readFile } from 'node:fs/promises'
 import { resolve, join } from 'node:path'
 import { mkdirp } from 'mkdirp'
 import Applications from '../../src/main/lib/applications.mjs'
@@ -36,7 +36,7 @@ test('upgrade a platformatic runtime', async (t) => {
 
   await upgradePlt({ cwd: appDir }, console)
 
-  const rootPackageJson = require(join(appDir, 'package.json'))
+  const rootPackageJson = JSON.parse(await readFile(join(appDir, 'package.json'), 'utf-8'))
   expect(rootPackageJson.dependencies.platformatic).toBe(version)
 
   const servicesFolder = join(appDir, 'services')
