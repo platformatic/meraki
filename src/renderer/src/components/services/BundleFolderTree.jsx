@@ -38,7 +38,7 @@ const BundleFolderTree = React.forwardRef(({ _ }, ref) => {
       <ArrowConnector />
       <div className={`${commonStyles.mediumFlexBlock} ${styles.serviceContainer} ${commonStyles.overflowHidden}`}>
         <p className={`${typographyStyles.desktopBodyLargeSemibold} ${typographyStyles.textWhite} ${typographyStyles.ellipsis}`} title={formData.createApplication.application}>{formData.createApplication.application}</p>
-        <BorderedBox color={WHITE} borderColorOpacity={30} backgroundColor={TRANSPARENT} classes={commonStyles.fullWidth}>
+        <BorderedBox color={WHITE} borderColorOpacity={30} backgroundColor={TRANSPARENT} classes={styles.boxContainer}>
           <div className={`${commonStyles.smallFlexBlock} ${commonStyles.fullWidth}`}>
             <div className={`${commonStyles.tinyFlexRow} ${commonStyles.justifyCenter}`}>
               <Icons.FoldersIcon color={WHITE} size={MEDIUM} />
@@ -47,7 +47,7 @@ const BundleFolderTree = React.forwardRef(({ _ }, ref) => {
             {services.length > 0 && (
               <div className={`${styles.flexContainerServices}`}>
                 <div className={styles.folderLineIconContainer}>
-                  <FoldersLineIcon width={24} height={(28 * services.length) + (3 * services.length)} topPosition={-13} />
+                  <FoldersLineIcon width={24} height={(28 * services.length) + (4 * services.length)} topPosition={-13} />
                 </div>
                 <div className={`${commonStyles.smallFlexBlock}`}>
                   {services.map((service, index) => (
