@@ -35,10 +35,14 @@ async function isFileAccessible (filename) {
 }
 
 async function getLatestPlatformaticVersion (pkg) {
-  const res = await request('https://registry.npmjs.org/platformatic')
-  if (res.statusCode === 200) {
-    const json = await res.body.json()
-    return json['dist-tags'].latest
+  try {
+    const res = await request('https://registry.npmjs.org/platformatic')
+    if (res.statusCode === 200) {
+      const json = await res.body.json()
+      return json['dist-tags'].latest
+    }
+  } catch (err) {
+    log.error(err)
   }
   return null
 }

@@ -9,7 +9,6 @@ autoUpdater.logger = log
 
 autoUpdater.on('error', (error) => {
   log.error(error)
-  dialog.showErrorBox('Error: ', error == null ? 'unknown' : (error.stack || error).toString())
 })
 
 autoUpdater.on('update-available', async (event) => {
@@ -64,8 +63,12 @@ export function checkForUpdates (menuItem, focusedWindow, event) {
 }
 
 // export this to MenuItem click callback
-export function autoCheckForUpdates () {
+export async function autoCheckForUpdates () {
   log.info('Checking for updates...')
-  autoUpdater.checkForUpdates()
-  log.info('Checking for updates...done')
+  try {
+    await autoUpdater.checkForUpdates()
+  } catch (err) {
+    log.error(`Error in checking update: ${err}`)
+  }
+  log.info('Checking for update done')
 }

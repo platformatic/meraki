@@ -55,7 +55,7 @@ class Applications {
         running: false,
         status: 'stopped',
         platformaticVersion: app.lastPltVersion,
-        isLatestPltVersion: app.lastPltVersion === this.latestPlatformaticVersion,
+        isLatestPltVersion: this.latestPlatformaticVersion ? app.lastPltVersion === this.latestPlatformaticVersion : true,
         runtime: null,
         insideMeraki: false,
         lastStarted: app.startedAt,
