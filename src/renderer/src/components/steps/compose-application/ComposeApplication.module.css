@@ -19,5 +19,4 @@
 .wrapperContainerPuzzle {
   max-height: var(--compose-application-height);
   min-height: var(--compose-application-height);
-  border: 1px solid red;
 }
