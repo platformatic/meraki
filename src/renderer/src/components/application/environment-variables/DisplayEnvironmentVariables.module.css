@@ -1,5 +1,3 @@
-.scrollableSection {
-  min-height: calc(100vH - 27rem);
-  max-height: calc(100vH - 27rem);
-  @apply h-full overflow-x-hidden overflow-y-auto;
+.wrapperContainer {
+  @apply min-h-[calc(100%-5rem)] max-h-[calc(100%-5rem)] h-full;
 }

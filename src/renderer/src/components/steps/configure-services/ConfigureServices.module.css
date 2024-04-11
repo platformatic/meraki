@@ -1,9 +1,7 @@
 .container {
-  @apply flex flex-col h-full overflow-x-hidden overflow-y-auto justify-between grow
+  @apply flex flex-col gap-y-3 xl:gap-y-10 max-h-[calc(100%-2rem)] min-h-[calc(100%-2rem)] h-full justify-between grow pb-8;
+  flex-basis: 1rem;
 }
 .buttonContainer {
   @apply flex justify-between;
-}
-.content {
-  @apply overflow-y-auto
 }

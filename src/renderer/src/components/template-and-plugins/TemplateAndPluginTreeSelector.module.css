@@ -1,5 +1,5 @@
 .container {
-  @apply max-w-[17rem] min-w-[17rem]
+  @apply max-w-[17rem] min-w-[17rem] h-full overflow-y-auto;
 }
 .cursorPointer {
   @apply cursor-pointer

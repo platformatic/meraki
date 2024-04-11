@@ -82,16 +82,18 @@ function TemplateAndPluginTreeSelector ({ configuredServices, onTemplateSelected
   }
 
   return (
-    <BorderedBox color={WHITE} borderColorOpacity={30} backgroundColor={TRANSPARENT} classes={`${commonStyles.fullWidth} ${styles.container}`}>
-      <div className={`${commonStyles.mediumFlexBlock} ${commonStyles.fullWidth}`}>
-        {configuredServices.map(configuredService => (
-          <div className={`${commonStyles.smallFlexBlock} ${commonStyles.fullWidth} ${commonStyles.overflowHidden}`} key={configuredService.name}>
-            <TemplateSelector onTemplateSelected={onTemplateSelected} service={{ ...configuredService }} serviceSelected={serviceSelected} />
-            {configuredService.plugins.length > 0 && <PluginsContainer service={configuredService} onPluginSelected={handlePluginSelected} pluginSelected={pluginSelected} isTemplateSelected={serviceSelected?.name === configuredService.name} />}
-          </div>
-        ))}
-      </div>
-    </BorderedBox>
+    <div className={styles.container}>
+      <BorderedBox color={WHITE} borderColorOpacity={30} backgroundColor={TRANSPARENT} classes={commonStyles.fullWidth}>
+        <div className={`${commonStyles.mediumFlexBlock} ${commonStyles.fullWidth}`}>
+          {configuredServices.map(configuredService => (
+            <div className={`${commonStyles.smallFlexBlock} ${commonStyles.fullWidth} ${commonStyles.overflowHidden}`} key={configuredService.name}>
+              <TemplateSelector onTemplateSelected={onTemplateSelected} service={{ ...configuredService }} serviceSelected={serviceSelected} />
+              {configuredService.plugins.length > 0 && <PluginsContainer service={configuredService} onPluginSelected={handlePluginSelected} pluginSelected={pluginSelected} isTemplateSelected={serviceSelected?.name === configuredService.name} />}
+            </div>
+          ))}
+        </div>
+      </BorderedBox>
+    </div>
   )
 }
 

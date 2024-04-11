@@ -35,3 +35,9 @@
 .ellipsis {
   @apply truncate
 }
+.boxContainer {
+  @apply w-full;
+  max-height: calc(var(--compose-application-height) * 0.7);
+  height: 100%;
+  overflow-y: auto;
+}

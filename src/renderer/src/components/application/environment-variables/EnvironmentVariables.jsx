@@ -31,7 +31,7 @@ const EnvironmentVariables = React.forwardRef(({ services }, ref) => {
   return (
     <div className={styles.container} ref={ref}>
       <div className={styles.content}>
-        <div className={`${commonStyles.largeFlexBlock40} ${commonStyles.fullWidth}`}>
+        <div className={styles.containerEnv}>
           <div className={commonStyles.mediumFlexBlock}>
             <div className={`${commonStyles.smallFlexRow} ${commonStyles.fullWidth}`}>
               <Icons.AppConfigurationIcon color={WHITE} size={MEDIUM} />
@@ -40,9 +40,7 @@ const EnvironmentVariables = React.forwardRef(({ services }, ref) => {
             <p className={`${typographyStyles.desktopBody} ${typographyStyles.textWhite} ${typographyStyles.opacity70}`}>These are the environment variables of your application. You can edit anytime by clicking on “Edit application” in your Application overview.</p>
           </div>
           <HorizontalSeparator marginBottom={MARGIN_0} marginTop={MARGIN_0} color={WHITE} opacity={OPACITY_30} />
-          <div className={`${commonStyles.mediumFlexBlock} ${commonStyles.fullWidth}`}>
-            <DisplayEnvironmentVariables configuredServices={generateFormForViewEnvironmentVariable(services)} />
-          </div>
+          <DisplayEnvironmentVariables configuredServices={generateFormForViewEnvironmentVariable(services)} />
         </div>
       </div>
     </div>

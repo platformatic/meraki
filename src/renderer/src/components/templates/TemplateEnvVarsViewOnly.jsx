@@ -5,6 +5,7 @@ import { BorderedBox, Forms } from '@platformatic/ui-components'
 import commonStyles from '~/styles/CommonStyles.module.css'
 import typographyStyles from '~/styles/Typography.module.css'
 import { OPACITY_30, RICH_BLACK, TRANSPARENT, WHITE } from '@platformatic/ui-components/src/components/constants'
+import styles from './TemplateEnvVarsViewOnly.module.css'
 
 function TemplateEnvVarsViewOnly ({
   configuredServices,
@@ -57,15 +58,17 @@ function TemplateEnvVarsViewOnly ({
   }
 
   return (
-    <BorderedBox
-      color={WHITE}
-      borderColorOpacity={OPACITY_30}
-      backgroundColor={TRANSPARENT}
-      classes={`${commonStyles.mediumFlexBlock} ${commonStyles.fullWidth}`}
-    >
-      <p className={`${typographyStyles.desktopBody} ${typographyStyles.textWhite}`}>{templateName} {renderVariablesText()}</p>
-      {configuredServiceFound && renderFormContainer()}
-    </BorderedBox>
+    <div className={styles.boxContainer}>
+      <BorderedBox
+        color={WHITE}
+        borderColorOpacity={OPACITY_30}
+        backgroundColor={TRANSPARENT}
+        classes={`${commonStyles.mediumFlexBlock} ${commonStyles.fullWidth}`}
+      >
+        <p className={`${typographyStyles.desktopBody} ${typographyStyles.textWhite}`}>{templateName} {renderVariablesText()}</p>
+        {configuredServiceFound && renderFormContainer()}
+      </BorderedBox>
+    </div>
   )
 }
 

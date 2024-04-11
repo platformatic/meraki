@@ -2,5 +2,9 @@
   @apply grow relative;
 }
 .content {
-  @apply pt-10 px-6 flex flex-col gap-y-10; 
+  @apply py-10 px-6 flex flex-col gap-y-10 h-full;
+}
+.containerEnv {
+  @apply flex flex-col items-start gap-y-3 xl:gap-y-10 h-full w-full max-h-[calc(100%-5rem)] min-h-[calc(100%-5rem)] xl:max-h-[calc(100%-10rem)] xl:min-h-[calc(100%-10rem)] ;
+  flex-basis: 1rem;
 }
