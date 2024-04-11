@@ -287,6 +287,7 @@ class Applications {
       fields: ['id', 'lastPltVersion'],
       input: { id: app.id, lastPltVersion: upgradedVersion }
     })
+    await this.#refreshApplications()
   }
 }
 

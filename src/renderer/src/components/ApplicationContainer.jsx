@@ -159,6 +159,7 @@ function ApplicationContainer () {
   function handleTerminateUpgradePlatformaticFlow () {
     setApplicationSelectedId(null)
     setInnerLoading(true)
+    setApplicationsSelected(null)
     setReloadApplication(true)
     setShowUpgradePlatformaticFlow(false)
     if (restartAutomaticApplications[appId]) {
@@ -205,7 +206,7 @@ function ApplicationContainer () {
       )
     }
 
-    return (
+    return applicationSelected && (
       <>
         <div className={styles.content}>
           <SideBar
