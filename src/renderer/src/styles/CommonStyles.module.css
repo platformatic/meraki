@@ -91,3 +91,6 @@
 .cursorPointer {
   @apply cursor-pointer;
 }
+.flexGrow {
+  @apply grow;
+}

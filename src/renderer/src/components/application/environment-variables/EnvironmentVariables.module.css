@@ -2,5 +2,9 @@
   @apply grow relative;
 }
 .content {
-  @apply pt-10 px-6 flex flex-col gap-y-10; 
+  @apply py-10 px-6 flex flex-col gap-y-10 h-full;
+}
+.containerEnv {
+  @apply flex flex-col items-start gap-y-3 xl:gap-y-10 w-full h-[calc(100%-5rem)];
+  outline: 1px solid red;
 }
