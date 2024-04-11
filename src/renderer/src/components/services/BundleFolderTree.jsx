@@ -38,32 +38,34 @@ const BundleFolderTree = React.forwardRef(({ _ }, ref) => {
       <ArrowConnector />
       <div className={`${commonStyles.mediumFlexBlock} ${styles.serviceContainer} ${commonStyles.overflowHidden}`}>
         <p className={`${typographyStyles.desktopBodyLargeSemibold} ${typographyStyles.textWhite} ${typographyStyles.ellipsis}`} title={formData.createApplication.application}>{formData.createApplication.application}</p>
-        <BorderedBox color={WHITE} borderColorOpacity={30} backgroundColor={TRANSPARENT} classes={styles.boxContainer}>
-          <div className={`${commonStyles.smallFlexBlock} ${commonStyles.fullWidth}`}>
-            <div className={`${commonStyles.tinyFlexRow} ${commonStyles.justifyCenter}`}>
-              <Icons.FoldersIcon color={WHITE} size={MEDIUM} />
-              <p className={`${typographyStyles.desktopBodyLargeSemibold} ${typographyStyles.textWhite}`}>Services</p>
-            </div>
-            {services.length > 0 && (
-              <div className={`${styles.flexContainerServices}`}>
-                <div className={styles.folderLineIconContainer}>
-                  <FoldersLineIcon width={24} height={(28 * services.length) + (4 * services.length)} topPosition={-13} />
-                </div>
-                <div className={`${commonStyles.smallFlexBlock}`}>
-                  {services.map((service, index) => (
-                    <div className={`${styles.foldersContainer}`} key={index}>
-                      {index + 1 !== services.length && <hr className={styles.horizontalDivided} />}
-                      <div className={`${commonStyles.tinyFlexRow} ${typographyStyles.textCenter} ${commonStyles.overflowHidden}`}>
-                        <Icons.FolderIcon color={WHITE} size={SMALL} inactive />
-                        <span className={`${typographyStyles.desktopBody} ${typographyStyles.textWhite} ${typographyStyles.opacity70} ${styles.ellipsis}`} title={service.name}>{service.name}</span>
-                      </div>
-                    </div>
-                  ))}
-                </div>
+        <div className={styles.boxContainer}>
+          <BorderedBox color={WHITE} borderColorOpacity={30} backgroundColor={TRANSPARENT} classes={commonStyles.fullWidth}>
+            <div className={`${commonStyles.smallFlexBlock} ${commonStyles.fullWidth}`}>
+              <div className={`${commonStyles.tinyFlexRow} ${commonStyles.justifyCenter}`}>
+                <Icons.FoldersIcon color={WHITE} size={MEDIUM} />
+                <p className={`${typographyStyles.desktopBodyLargeSemibold} ${typographyStyles.textWhite}`}>Services</p>
               </div>
-            )}
-          </div>
-        </BorderedBox>
+              {services.length > 0 && (
+                <div className={`${styles.flexContainerServices}`}>
+                  <div className={styles.folderLineIconContainer}>
+                    <FoldersLineIcon width={24} height={(28 * services.length) + (4 * services.length)} topPosition={-13} />
+                  </div>
+                  <div className={`${commonStyles.smallFlexBlock}`}>
+                    {services.map((service, index) => (
+                      <div className={`${styles.foldersContainer}`} key={index}>
+                        {index + 1 !== services.length && <hr className={styles.horizontalDivided} />}
+                        <div className={`${commonStyles.tinyFlexRow} ${typographyStyles.textCenter} ${commonStyles.overflowHidden}`}>
+                          <Icons.FolderIcon color={WHITE} size={SMALL} inactive />
+                          <span className={`${typographyStyles.desktopBody} ${typographyStyles.textWhite} ${typographyStyles.opacity70} ${styles.ellipsis}`} title={service.name}>{service.name}</span>
+                        </div>
+                      </div>
+                    ))}
+                  </div>
+                </div>
+              )}
+            </div>
+          </BorderedBox>
+        </div>
       </div>
     </div>
   )
