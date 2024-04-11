@@ -68,7 +68,7 @@ function PluginEnvVarsViewOnly ({
       color={WHITE}
       borderColorOpacity={OPACITY_30}
       backgroundColor={TRANSPARENT}
-      classes={`${commonStyles.mediumFlexBlock} ${commonStyles.fullWidth}`}
+      classes={`${commonStyles.mediumFlexBlock} ${commonStyles.fullWidth} ${commonStyles.fullHeight} ${commonStyles.overflowYAuto}`}
     >
       <p className={`${typographyStyles.desktopBody} ${typographyStyles.textWhite} ${commonStyles.fullWidth}`}>{pluginName} {renderVariablesText()}</p>
       {pluginFound && renderFormContainer()}

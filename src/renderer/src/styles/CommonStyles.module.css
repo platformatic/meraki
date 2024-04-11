@@ -94,3 +94,6 @@
 .flexGrow {
   @apply grow;
 }
+.overflowYAuto {
+  @apply overflow-y-auto overflow-x-hidden;
+}
