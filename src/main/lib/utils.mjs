@@ -111,4 +111,6 @@ async function findNpmExecutable () {
   return npmExec
 }
 
-export { getAppPath, getLatestPlatformaticVersion, findExecutable, findNpmExecutable, isFileAccessible }
+const cleanNpmVersion = (version) => (version.replace(/[\^|~]/, ''))
+
+export { cleanNpmVersion, getAppPath, getLatestPlatformaticVersion, findExecutable, findNpmExecutable, isFileAccessible }
