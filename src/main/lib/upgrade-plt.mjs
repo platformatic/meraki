@@ -3,6 +3,7 @@
 import { join } from 'node:path'
 import { stat, access, readdir } from 'fs/promises'
 import { npmInstall } from './run-npm.mjs'
+import { cleanNpmVersion } from './utils.mjs'
 import * as ncu from 'npm-check-updates'
 
 const upgradePlt = async (options, logger) => {
@@ -61,7 +62,8 @@ const upgradePlt = async (options, logger) => {
     })
     await npmInstall(null, { cwd: serviceFolder }, logger)
   }
-  return latest
+
+  return cleanNpmVersion(latest)
 }
 
 export { upgradePlt }

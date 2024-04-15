@@ -5,6 +5,7 @@ import { resolve, join } from 'node:path'
 import { mkdirp } from 'mkdirp'
 import Applications from '../../src/main/lib/applications.mjs'
 import { upgradePlt } from '../../src/main/lib/upgrade-plt.mjs'
+import { cleanNpmVersion } from '../../src/main/lib/utils.mjs'
 import execa from 'execa'
 
 // Setup meraki app folder (for migrations) and config folder (for the DB)
@@ -37,11 +38,11 @@ test('upgrade a platformatic runtime', async (t) => {
   await upgradePlt({ cwd: appDir }, console)
 
   const rootPackageJson = JSON.parse(await readFile(join(appDir, 'package.json'), 'utf-8'))
-  expect(rootPackageJson.dependencies.platformatic).toBe(version)
+  expect(cleanNpmVersion(rootPackageJson.dependencies.platformatic)).toBe(version)
 
   const servicesFolder = join(appDir, 'services')
   const service1PackageJson = require(join(servicesFolder, 'service-1', 'package.json'))
-  expect(service1PackageJson.dependencies['@platformatic/runtime']).toBe(version)
+  expect(cleanNpmVersion(service1PackageJson.dependencies['@platformatic/runtime'])).toBe(version)
   const service2PackageJson = require(join(servicesFolder, 'service-2', 'package.json'))
-  expect(service2PackageJson.dependencies['@platformatic/runtime']).toBe(version)
+  expect(cleanNpmVersion(service2PackageJson.dependencies['@platformatic/runtime'])).toBe(version)
 }, 90000)
