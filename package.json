@@ -26,7 +26,8 @@
     "clean": "rimraf ./out && rimraf ./dist && rimraf ./coverage",
     "release:win": "electron-builder -p always --win --config",
     "release:linux": "electron-builder -p always --linux --config",
-    "release:mac": "electron-builder -p always --mac --universal --config"
+    "release:mac:arm64": "electron-builder -p always --mac --arm64 --config",
+    "release:mac:intel": "electron-builder -p always --mac --x64 --config"
   },
   "dependencies": {
     "@electron-toolkit/preload": "^3.0.0",

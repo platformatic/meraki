@@ -102,7 +102,7 @@ jobs:
       - run: npm run build:win
       - run: npm run release:win
 
-  release-mac:
+  release-mac-amd64:
     needs: run-test 
     runs-on: macos-14
     timeout-minutes: 15
@@ -124,5 +124,29 @@ jobs:
       - run: brew install python-setuptools
       - run: npm ci
       - run: npm run build
-      - run: npm run release:mac
+      - run: npm run release:mac:amd64
+
+  release-mac-x64:
+    needs: run-test 
+    runs-on: macos-12
+    timeout-minutes: 15
+    env: 
+      CSC_LINK: ${{ secrets.CSC_LINK }}
+      CSC_KEY_PASSWORD: ${{ secrets.CSC_KEY_PASSWORD }}
+      APPLE_ID: ${{ secrets.APPLE_ID }}
+      APPLE_APP_SPECIFIC_PASSWORD: ${{ secrets.APPLE_APP_SPECIFIC_PASSWORD }}
+    steps:
+      - run: echo "Creating Mac release for tag ${{ inputs.tag_name }}"
+      - uses: actions/checkout@v4.1.1
+        with:
+          ref: ${{ inputs.tag_name }}
+          fetch-depth: 0 # https://github.com/actions/checkout/issues/1471
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 18
+      # for building the native modules with python 3.12
+      - run: brew install python-setuptools
+      - run: npm ci
+      - run: npm run build
+      - run: npm run release:mac:intel
 
