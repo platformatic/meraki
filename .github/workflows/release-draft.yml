@@ -102,7 +102,7 @@ jobs:
       - run: npm run build:win
       - run: npm run release:win
 
-  release-mac-amd64:
+  release-mac-arm64:
     needs: run-test 
     runs-on: macos-14
     timeout-minutes: 15
@@ -124,7 +124,7 @@ jobs:
       - run: brew install python-setuptools
       - run: npm ci
       - run: npm run build
-      - run: npm run release:mac:amd64
+      - run: npm run release:mac:arm64
 
   release-mac-x64:
     needs: run-test 
