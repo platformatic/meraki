@@ -30,7 +30,7 @@ mac:
   notarize:
     teamId: 8VKCB2AW8F
 dmg:
-  artifactName: ${productName}-${version}.${ext}
+  artifactName: ${productName}-${version}-${arch}.${ext}
   window:
     height: 420
 linux:
