@@ -128,7 +128,7 @@ jobs:
 
   release-mac-x64:
     needs: run-test 
-    runs-on: macos-12
+    runs-on: macos-13
     timeout-minutes: 15
     env: 
       CSC_LINK: ${{ secrets.CSC_LINK }}
