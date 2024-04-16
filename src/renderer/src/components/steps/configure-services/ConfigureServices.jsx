@@ -47,9 +47,9 @@ const ConfigureServices = React.forwardRef(({ onNext, onBack }, ref) => {
     newForm[fieldName].value = fieldValue
     switch (fieldName) {
       default:
-        tmpValid = fieldValue.length > 0 && /^\S+$/g.test(fieldValue)
+        tmpValid = fieldValue.length > 0 && /^[^\s]+(\s+[^\s]+)*$/g.test(fieldValue)
         newValidations[`${fieldName}Valid`] = tmpValid
-        newValidations.formErrors[fieldName] = tmpValid ? '' : 'The field is not valid, make sure you are using regular characters'
+        newValidations.formErrors[fieldName] = tmpValid ? '' : 'The field is not valid, spaces on start or end!'
         break
     }
     setConfiguredServices(configuredServices => {
@@ -79,9 +79,9 @@ const ConfigureServices = React.forwardRef(({ onNext, onBack }, ref) => {
 
     newForm[fieldName].value = fieldValue
 
-    const tmpValid = fieldValue.length > 0 && /^\S+$/g.test(fieldValue)
+    const tmpValid = fieldValue.length > 0 && /^[^\s]+(\s+[^\s]+)*$/g.test(fieldValue)
     newValidations[`${fieldName}Valid`] = tmpValid
-    newValidations.formErrors[fieldName] = tmpValid ? '' : 'The field is not valid, make sure you are using regular characters'
+    newValidations.formErrors[fieldName] = tmpValid ? '' : 'The field is not valid, spaces on start or end!'
 
     const newFormValid = Object.keys(newValidations).findIndex(element => newValidations[element] === false) === -1
 
