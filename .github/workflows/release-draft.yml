@@ -145,7 +145,7 @@ jobs:
         with:
           node-version: 18
       # for building the native modules with python 3.12
-      - run: brew install python-setuptools
+      - run: sudo -H pip install setuptools
       - run: npm ci
       - run: npm run build
       - run: npm run release:mac:intel
