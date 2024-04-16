@@ -7,7 +7,8 @@ import {
   APPLICATION_PAGE_ENV_VAR,
   BREAKPOINTS_HEIGHT_LG,
   HEIGHT_LG,
-  HEIGHT_MD
+  HEIGHT_MD,
+  HOME_PATH
 } from '~/ui-constants'
 import { CSSTransition, SwitchTransition } from 'react-transition-group'
 import typographyStyles from '~/styles/Typography.module.css'
@@ -22,7 +23,7 @@ import EnvironmentVariables from '~/components/application/environment-variables
 import EditApplicationFlow from '~/components/application/edit/EditApplicationFlow'
 import UpgradePlatformaticFlow from '~/components/application/upgrade-platformatic/UpgradePlatformaticFlow'
 import SideBar from '~/components/ui/SideBar'
-import { useParams } from 'react-router-dom'
+import { useNavigate, useParams } from 'react-router-dom'
 import {
   callOpenApplication,
   callStartApplication,
@@ -32,6 +33,7 @@ import {
 } from '~/api'
 import { LoadingSpinnerV2 } from '@platformatic/ui-components'
 import useStackablesStore from '~/useStackablesStore'
+import ErrorComponent from '~/components/screens/ErrorComponent'
 
 function ApplicationContainer () {
   const globalState = useStackablesStore()
@@ -45,6 +47,8 @@ function ApplicationContainer () {
     useTemplateIdOnEdit,
     setUseTemplateIdOnEdit
   } = globalState
+
+  const navigate = useNavigate()
   const { appId } = useParams()
   const [innerLoading, setInnerLoading] = useState(true)
   const applicationSelected = globalState.computed.applicationSelected
@@ -60,6 +64,8 @@ function ApplicationContainer () {
   const { height: innerHeight } = useWindowDimensions()
   const [showModalEditApplicationFlow, setShowModalEditApplicationFlow] = useState(false)
   const [showUpgradePlatformaticFlow, setShowUpgradePlatformaticFlow] = useState(false)
+  const [showErrorComponent, setShowErrorComponent] = useState(false)
+  const [error, setError] = useState(null)
 
   useEffect(() => {
     const handlingFunction = (_, templateIdReceived) => {
@@ -84,13 +90,19 @@ function ApplicationContainer () {
   useEffect(() => {
     if (appId && reloadApplication) {
       async function getApplication () {
-        setInnerLoading(true)
-        const applicationSelected = await callOpenApplication(appId)
-        const tmp = {}
-        tmp[appId] = applicationSelected
-        setApplicationsSelected(tmp)
-        setApplicationSelectedId(appId)
-        setReloadApplication(false)
+        try {
+          setInnerLoading(true)
+          const applicationSelected = await callOpenApplication(appId)
+          const tmp = {}
+          tmp[appId] = applicationSelected
+          setApplicationsSelected(tmp)
+          setApplicationSelectedId(appId)
+          setReloadApplication(false)
+        } catch (error) {
+          console.error(`Error on getApplication ${error}`)
+          setError(error)
+          setShowErrorComponent(true)
+        }
       }
       getApplication()
     }
@@ -186,7 +198,17 @@ function ApplicationContainer () {
     }
   }
 
+  function handleDismiss () {
+    setError(null)
+    setShowErrorComponent(false)
+    navigate(HOME_PATH)
+  }
+
   function renderComponent () {
+    if (showErrorComponent) {
+      return (<ErrorComponent error={error} message={error.message} onClickDismiss={() => handleDismiss()} />)
+    }
+
     if (innerLoading) {
       return (
         <LoadingSpinnerV2
