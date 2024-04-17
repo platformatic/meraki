@@ -25,6 +25,35 @@ function TemplateEnvVarsViewOnly ({
     )
   }
 
+  function renderContentBasedOnType (element) {
+    if (configuredServiceFound.form[element].type === 'boolean') {
+      return (
+        <Forms.ToggleSwitch
+          label=''
+          labelClassName={`${typographyStyles.desktopBodySmall} ${typographyStyles.textWhite} ${typographyStyles.opacity70}`}
+          name={element}
+          checked={configuredServiceFound.form[element].value}
+        />
+      )
+    }
+    return (
+      <Forms.Input
+        placeholder=''
+        name={element}
+        borderColor={WHITE}
+        value={configuredServiceFound.form[element].value}
+        errorMessage={configuredServiceFound.validations.formErrors[element]}
+        errorMessageTextClassName={`${typographyStyles.desktopBodySmall} ${typographyStyles.textErrorRed}`}
+        backgroundColor={RICH_BLACK}
+        inputTextClassName={`${typographyStyles.desktopBody} ${typographyStyles.textWhite}`}
+        verticalPaddingClassName={commonStyles.noVerticalPadding}
+        dataAttrName='cy'
+        dataAttrValue='config-service'
+        readOnly
+      />
+    )
+  }
+
   function renderForm () {
     return Object.keys(configuredServiceFound.form).map((element) => (
       <Forms.Field
@@ -32,20 +61,7 @@ function TemplateEnvVarsViewOnly ({
         key={element}
         titleClassName={`${typographyStyles.desktopBodySemibold} ${typographyStyles.textWhite} `}
       >
-        <Forms.Input
-          placeholder=''
-          name={element}
-          borderColor={WHITE}
-          value={configuredServiceFound.form[element].value}
-          errorMessage={configuredServiceFound.validations.formErrors[element]}
-          errorMessageTextClassName={`${typographyStyles.desktopBodySmall} ${typographyStyles.textErrorRed}`}
-          backgroundColor={RICH_BLACK}
-          inputTextClassName={`${typographyStyles.desktopBody} ${typographyStyles.textWhite}`}
-          verticalPaddingClassName={commonStyles.noVerticalPadding}
-          dataAttrName='cy'
-          dataAttrValue='config-service'
-          readOnly
-        />
+        {renderContentBasedOnType(element)}
       </Forms.Field>
     ))
   }
