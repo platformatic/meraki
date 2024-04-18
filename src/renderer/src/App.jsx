@@ -133,7 +133,6 @@ function App ({ path }) {
 
   function poll () {
     const intervalId = setInterval(async () => {
-      console.log('polling...')
       setApplications([])
       const allApplications = await getApiApplications()
       setApplications(allApplications)
@@ -142,7 +141,6 @@ function App ({ path }) {
   }
 
   function stopPoll () {
-    console.log('end polling!')
     clearInterval(intervalPoll)
     setIntervalPoll(null)
   }
