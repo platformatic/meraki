@@ -45,11 +45,13 @@ function App ({ path }) {
     }
   })
   const [showComponent, setShowComponent] = useState(LOADING)
+  const [intervalPoll, setIntervalPoll] = useState(null)
 
   useEffect(() => {
     if (reloadApplications) {
       async function getApplications () {
         try {
+          stopPoll()
           setApplications([])
           const allApplications = await getApiApplications()
           setApplications(allApplications)
@@ -57,6 +59,9 @@ function App ({ path }) {
             setShowComponent(WELCOME_PAGE)
           } else {
             setShowComponent(LIST)
+          }
+          if (!intervalPoll) {
+            poll()
           }
         } catch (error) {
           console.error(`Error on catch ${error}`)
@@ -69,9 +74,14 @@ function App ({ path }) {
   }, [reloadApplications])
 
   useEffect(() => {
+    return () => stopPoll()
+  }, [])
+
+  useEffect(() => {
     if (showComponent === LIST) {
       switch (path) {
         case APPLICATION_PATH:
+          stopPoll()
           setCurrentBodyComponent(<ApplicationContainer />)
           setShowCreateNewAppHeader(false)
           break
@@ -119,6 +129,22 @@ function App ({ path }) {
     setShowModalCreateApplication(false)
     setUseTemplateId(null)
     resetWizardState()
+  }
+
+  function poll () {
+    const intervalId = setInterval(async () => {
+      console.log('polling...')
+      setApplications([])
+      const allApplications = await getApiApplications()
+      setApplications(allApplications)
+    }, 2000)
+    setIntervalPoll(intervalId)
+  }
+
+  function stopPoll () {
+    console.log('end polling!')
+    clearInterval(intervalPoll)
+    setIntervalPoll(null)
   }
 
   if (showComponent === LOADING) {

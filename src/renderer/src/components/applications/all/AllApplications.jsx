@@ -16,7 +16,14 @@ import DeleteApplication from '~/components/application/DeleteApplication'
 
 const AllApplications = React.forwardRef(({ onClickCreateNewApp }, ref) => {
   const globalState = useStackablesStore()
-  const { applications, setNavigation, setCurrentPage, reloadApplications, setReloadApplications, setApplicationsSelected } = globalState
+  const {
+    applications,
+    setNavigation,
+    setCurrentPage,
+    reloadApplications,
+    setReloadApplications,
+    setApplicationsSelected
+  } = globalState
   const [showErrorComponent, setShowErrorComponent] = useState(false)
   const [error, setError] = useState(null)
   const [showModalDeleteApplication, setShowModalDeleteApplication] = useState(false)
@@ -25,6 +32,7 @@ const AllApplications = React.forwardRef(({ onClickCreateNewApp }, ref) => {
   const [applicationsLoaded, setApplicationsLoaded] = useState(false)
   const [runningApps, setRunningApps] = useState('-')
   const [stoppedApps, setStoppedApps] = useState('-')
+  const [totalApps, setTotalApps] = useState('-')
   const navigate = useNavigate()
 
   useEffect(() => {
@@ -57,6 +65,7 @@ const AllApplications = React.forwardRef(({ onClickCreateNewApp }, ref) => {
           setLocalApplications([...myReworkedApplications])
           setStoppedApps(myReworkedApplications.filter(a => a.status.value === STATUS_STOPPED).length)
           setRunningApps(myReworkedApplications.filter(a => a.status.value === STATUS_RUNNING).length)
+          setTotalApps(myReworkedApplications.length)
           setApplicationsLoaded(true)
         }, 100)
       }
@@ -133,7 +142,7 @@ const AllApplications = React.forwardRef(({ onClickCreateNewApp }, ref) => {
         <div className={styles.container} ref={ref}>
           <div className={styles.content}>
             <TopContent
-              totalApps={localApplications.length || '-'}
+              totalApps={totalApps}
               runningApps={runningApps}
               stoppedApps={stoppedApps}
             />
