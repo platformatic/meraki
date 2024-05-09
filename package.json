@@ -46,7 +46,7 @@
     "electron-dl": "^3.5.2",
     "electron-log": "^5.1.1",
     "electron-updater": "^6.1.8",
-    "execa": "^5.1.1",
+    "execa": "^9.0.0",
     "mkdirp": "^3.0.1",
     "npm-check-updates": "^16.14.18",
     "pino": "^9.0.0",
