@@ -19,14 +19,16 @@ async function importOrLocal ({ projectDir, pkg, logger }) {
 
     try {
       const fileToImport = _require.resolve(pkg)
-      return await import(pathToFileURL(fileToImport))
+      const fileToImportUrl = `${pathToFileURL(fileToImport)}?update=${Date.now()}`
+      return await import(fileToImportUrl)
     } catch (err) {}
 
     await npmInstall(pkg, { cwd: projectDir }, logger)
 
     logger.info({ name: pkg, path: projectDir }, 'Installed!')
     const fileToImport = _require.resolve(pkg)
-    return await import(pathToFileURL(fileToImport))
+    const fileToImportUrl = `${pathToFileURL(fileToImport)}?update=${Date.now()}`
+    return await import(fileToImportUrl)
   }
 }
 
