@@ -188,10 +188,70 @@ test('throws an error if application doesn\'t start', async (t) => {
   expect(applicationsApi.startRuntime(id)).rejects.toThrowError(/The runtime exited before the operation completed/)
 }, 60000)
 
+test('import  and start a runtime with no name', async (t) => {
+  const appDir = await mkdtemp(join(tmpdir(), 'plat-app-test'))
+  onTestFinished(() => rm(appDir, { recursive: true, force: true }))
+  const appFixture = join('test', 'fixtures', 'runtime-noname')
+  await cp(appFixture, appDir, { recursive: true })
+  mockAgent
+    .get('https://registry.npmjs.org')
+    .intercept({
+      method: 'GET',
+      path: '/platformatic'
+    })
+    .reply(200, {
+      'dist-tags': {
+        latest: '2.0.0'
+      }
+    })
+
+  const applicationsApi = await Applications.create()
+  const { id } = await applicationsApi.importApplication(appDir)
+  const { runtime } = await applicationsApi.startRuntime(id)
+
+  const pid = applicationsApi.getPid(id)
+  expect(pid).toBe(runtime.pid)
+
+  onTestFinished(() => runtime.kill('SIGINT'))
+}, 60000)
+
 test('import automatically a running runtime, started externally', async (t) => {
   const appDir = await mkdtemp(join(tmpdir(), 'plat-app-test'))
   onTestFinished(() => rm(appDir, { recursive: true, force: true }))
   const appFixture = join('test', 'fixtures', 'runtime')
+  await cp(appFixture, appDir, { recursive: true })
+  mockAgent
+    .get('https://registry.npmjs.org')
+    .intercept({
+      method: 'GET',
+      path: '/platformatic'
+    })
+    .reply(200, {
+      'dist-tags': {
+        latest: '2.0.0'
+      }
+    })
+
+  const applicationsApi = await Applications.create()
+
+  // We start the runtime but not through the API
+  const { runtime } = await startRuntimeInFolder(appDir)
+  onTestFinished(() => runtime.kill('SIGINT'))
+
+  const applications = await applicationsApi.getApplications()
+  expect(applications.length).toBe(1)
+  expect(applications[0].running).toBe(true)
+  expect(applications[0].insideMeraki).toBe(false)
+  expect(applications[0].automaticallyImported).toBe(true)
+
+  const pid = applicationsApi.getPid(applications[0].id)
+  expect(pid).toBe(runtime.pid)
+}, 60000)
+
+test('import automatically a running runtime with no name, defaultin the name to folder name', async (t) => {
+  const appDir = await mkdtemp(join(tmpdir(), 'plat-app-test'))
+  onTestFinished(() => rm(appDir, { recursive: true, force: true }))
+  const appFixture = join('test', 'fixtures', 'runtime-noname')
   await cp(appFixture, appDir, { recursive: true })
   mockAgent
     .get('https://registry.npmjs.org')

@@ -1,0 +1,6 @@
+{
+  "version": "1.0.42",
+  "dependencies": {
+    "platformatic": "1.30.0"
+  }
+}
