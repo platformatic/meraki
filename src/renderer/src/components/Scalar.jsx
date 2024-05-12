@@ -18,7 +18,8 @@ export default function Scalar ({ url }) {
         customCss,
         spec: {
           url: `${url}/documentation/json`
-        }
+        },
+        showSidebar: false
       }}
     />
   )
