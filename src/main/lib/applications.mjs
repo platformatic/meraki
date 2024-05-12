@@ -5,7 +5,7 @@ import { createRequire } from 'node:module'
 import { npmInstall } from './run-npm.mjs'
 import { upgradePlt } from './upgrade-plt.mjs'
 import { getLatestPlatformaticVersion, findExecutable } from './utils.mjs'
-import { resolve, join } from 'node:path'
+import { resolve, join, basename } from 'node:path'
 import getSqlMapper from './db.mjs'
 import { inspectApp } from './inspect-app.mjs'
 import split from 'split2'
@@ -36,7 +36,8 @@ class Applications {
     for (const runtime of runningRuntimes) {
       let app = apps.find((app) => app.path === runtime.projectDir)
       if (!app) {
-        app = await this.createApplication(runtime.packageName, runtime.projectDir, true)
+        const name = runtime.packageName || basename(runtime.projectDir)
+        app = await this.createApplication(name, runtime.projectDir, true)
       }
     }
   }
@@ -210,11 +211,11 @@ class Applications {
     }
     const packageJson = require(packageJsonPath)
     let { name } = packageJson
-    // This is a workaround for a plt bug that sets the name to "undefined"
-    // TODO: remove
-    if (name && name === 'undefined') {
-      name = folderName
+    // This is a workaround for a plt bug that sets the name to "undefined" as string
+    if (!name || name === 'undefined') {
+      name = folderName || basename(path)
     }
+
     const app = this.createApplication(name || folderName, path)
     await this.#refreshApplications()
     return app
