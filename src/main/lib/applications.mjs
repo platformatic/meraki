@@ -27,7 +27,8 @@ class Applications {
   }
 
   async #getApps () {
-    return this.#mapper.entities.application.find({})
+    // Temporary, we need to paginate this
+    return this.#mapper.entities.application.find({ limit: 100 })
   }
 
   // If there is a new running application, this is imported automatically
