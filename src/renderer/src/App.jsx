@@ -35,13 +35,14 @@ function App ({ path }) {
   const [showModalCreateApplication, setShowModalCreateApplication] = useState(false)
   const [skipCheckOnAutomaticallyImported, setSkipCheckOnAutomaticallyImported] = useState(false)
   const [showErrorComponent, setShowErrorComponent] = useState(false)
+  const [error, setError] = useState(null)
   const {
-    ErrorBoundary,
-    error
+    ErrorBoundary
   } = useErrorBoundary({
     onDidCatch: (error) => {
-      setShowErrorComponent(true)
       log.error(error)
+      setError(error)
+      setShowErrorComponent(true)
     }
   })
   const [showComponent, setShowComponent] = useState(LOADING)
@@ -65,6 +66,8 @@ function App ({ path }) {
           }
         } catch (error) {
           console.error(`Error on catch ${error}`)
+          setError(error)
+          setShowErrorComponent(true)
         } finally {
           setReloadApplications(false)
         }
