@@ -20,7 +20,11 @@ import commonStyles from '~/styles/CommonStyles.module.css'
 import loadingSpinnerStyles from '~/styles/LoadingSpinnerStyles.module.css'
 
 function App ({ path }) {
-  const LOADING = 'LOADING'; const WELCOME_PAGE = 'WELCOME_PAGE'; const LIST = 'LIST'
+  const LOADING = 'LOADING'
+  const WELCOME_PAGE = 'WELCOME_PAGE'
+  const LIST = 'LIST'
+  const ERROR = 'ERROR'
+
   const globalState = useStackablesStore()
   const {
     reloadApplications,
@@ -66,6 +70,7 @@ function App ({ path }) {
           }
         } catch (error) {
           console.error(`Error on catch ${error}`)
+          setShowComponent(ERROR)
           setError(error)
           setShowErrorComponent(true)
         } finally {
