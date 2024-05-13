@@ -1,11 +1,7 @@
+import { pathToFileURL } from 'node:url'
 import path from 'node:path'
 import { createRequire } from 'module'
 import { npmInstall } from './run-npm.mjs'
-
-const getFilePathWithVersion = (file) => {
-  const ext = path.extname(file)
-  return `${file}?version=${Date.now()}${ext}`
-}
 
 async function importOrLocal ({ projectDir, pkg, logger }) {
   if (pkg) {
@@ -23,19 +19,14 @@ async function importOrLocal ({ projectDir, pkg, logger }) {
 
     try {
       const fileToImport = _require.resolve(pkg)
-      const fileWithVersion = getFilePathWithVersion(fileToImport)
-      return await import(fileWithVersion)
+      return await import(pathToFileURL(fileToImport))
     } catch (err) {}
 
     await npmInstall(pkg, { cwd: projectDir }, logger)
 
     logger.info({ name: pkg, path: projectDir }, 'Installed!')
     const fileToImport = _require.resolve(pkg)
-
-    // adding a date to the URL to avoid using the cached module
-    const fileWithVersion = getFilePathWithVersion(fileToImport)
-    const ret = await import(fileWithVersion)
-    return ret
+    return await import(pathToFileURL(fileToImport))
   }
 }
 
