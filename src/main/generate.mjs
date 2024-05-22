@@ -138,8 +138,6 @@ export const createApp = async (dir, { projectName, services, entrypoint, port, 
       templateGenerator.setConfig({
         ...templateGenerator.getDefaultConfig(),
         serviceName,
-        plugin: true,
-        tests: true,
         isRuntimeContext: true
       })
 
