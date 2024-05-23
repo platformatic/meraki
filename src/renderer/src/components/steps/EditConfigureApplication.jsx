@@ -22,16 +22,16 @@ const EditConfigureApplication = React.forwardRef(({ onNext, onBack }, ref) => {
   const { formData, services, addFormData } = globalState
   const logLevels = ['trace', 'info', 'debug', 'warn', 'error']
   const [form, setForm] = useState({
-    entryPoint: formData.configureApplication.entrypoint,
+    entryPoint: services.find(service => service.name === formData.configureApplication.entrypoint)?.name || '',
     port: formData.configureApplication.port,
     logLevel: formData.configureApplication.logLevel,
     language: formData.configureApplication.typescript ? TYPESCRIPT : JAVASCRIPT,
     createGitHubRepository: false,
     installGitHubActions: formData.configureApplication.installGitHubActions
   })
-  const [validations, setValidations] = useState({ portValid: true, formErrors: { port: '' } })
+  const [validations, setValidations] = useState({ portValid: true, entryPointValid: checkValidityForm(), formErrors: { port: '' } })
   // eslint-disable-next-line no-unused-vars
-  const [validForm, setValidForm] = useState(true)
+  const [validForm, setValidForm] = useState(checkValidityForm())
 
   function onClickGenerateApp () {
     addFormData({
@@ -47,6 +47,19 @@ const EditConfigureApplication = React.forwardRef(({ onNext, onBack }, ref) => {
     onNext()
   }
 
+  function checkValidityForm () {
+    // if entrypoint is not set correctly
+    const entryPointValid = services.find(service => service.name === formData.configureApplication.entrypoint)?.name || ''
+    if (!entryPointValid) {
+      return false
+    }
+    return true
+  }
+
+  function updateEntryPoint (name) {
+    validateField('entryPoint', name, setForm(form => ({ ...form, entryPoint: name })))
+  }
+
   function handleChange (event) {
     const isCheckbox = event.target.type === 'checkbox'
     const value = isCheckbox ? event.target.checked : event.target.value
@@ -55,11 +68,15 @@ const EditConfigureApplication = React.forwardRef(({ onNext, onBack }, ref) => {
 
   function validateField (fieldName, fieldValue, callback = () => {}) {
     let portValid = validations.portValid
+    let entryPointValid = validations.entryPointValid
     const formErrors = { ...validations.formErrors }
     switch (fieldName) {
       case 'port':
         portValid = fieldValue.length > 0 && !isNaN(fieldValue) && Number(fieldValue) >= 0 && Number(fieldValue) <= 65536 && /^\S+$/g.test(fieldValue)
         formErrors.port = fieldValue.length > 0 ? (portValid ? '' : 'The field is not valid, make sure you are putting a value between 0 and 65536') : ''
+        break
+      case 'entryPoint':
+        entryPointValid = fieldValue !== ''
         break
       default:
         break
@@ -67,6 +84,7 @@ const EditConfigureApplication = React.forwardRef(({ onNext, onBack }, ref) => {
     const nextValidation = {
       ...validations,
       portValid,
+      entryPointValid,
       formErrors
     }
     setValidations(nextValidation)
@@ -74,7 +92,7 @@ const EditConfigureApplication = React.forwardRef(({ onNext, onBack }, ref) => {
   }
 
   function validateForm (validations, callback = () => {}) {
-    setValidForm(validations.portValid)
+    setValidForm(validations.portValid && validations.entryPointValid)
     return callback
   }
 
@@ -106,9 +124,9 @@ const EditConfigureApplication = React.forwardRef(({ onNext, onBack }, ref) => {
                       key={service.name}
                       type='button'
                       label={service.name}
-                      onClick={() => setForm(form => ({ ...form, entryPoint: service.name }))}
+                      onClick={() => updateEntryPoint(service.name)}
                       color={WHITE}
-                      backgroundColor={TRANSPARENT}
+                      backgroundColor={RICH_BLACK}
                       paddingClass={commonStyles.buttonPadding}
                       selected={service.name === form.entryPoint}
                     />
@@ -173,7 +191,7 @@ const EditConfigureApplication = React.forwardRef(({ onNext, onBack }, ref) => {
                       label={language.charAt(0).toUpperCase() + language.slice(1)}
                       onClick={() => setForm(form => ({ ...form, language }))}
                       color={WHITE}
-                      backgroundColor={TRANSPARENT}
+                      backgroundColor={RICH_BLACK}
                       selected={language === form.language}
                       paddingClass={commonStyles.buttonPadding}
                     />
@@ -225,7 +243,7 @@ const EditConfigureApplication = React.forwardRef(({ onNext, onBack }, ref) => {
           label='Back'
           onClick={() => onBack()}
           color={WHITE}
-          backgroundColor={TRANSPARENT}
+          backgroundColor={RICH_BLACK}
           paddingClass={`${commonStyles.buttonPadding} cy-action-back`}
           textClass={typographyStyles.desktopBody}
           platformaticIcon={{ iconName: 'ArrowLeftIcon', size: SMALL, color: WHITE }}
