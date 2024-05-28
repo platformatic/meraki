@@ -66,7 +66,11 @@ async function findExecutableInShellPath (executableName) {
   let binPath = null
   try {
     const { stdout } = await execa(currentShell, ['-c', `. ${sourceFile}; which ${executableName}`], options)
-    binPath = stdout?.trim()
+    // We might have some spurious output in stdout (e.g. zsh hooks, etc) so we need to split it and get the last line
+    // which we assums is the `which` output
+    const out = stdout.split('\n')
+    const whichOutput = out.at(-1)
+    binPath = whichOutput?.trim()
     log.info(`Found ${executableName} in PATH after sourcing ${sourceFile}: ${binPath}`)
   } catch (err) {
     log.warn(`Error finding ${executableName} in PATH after sourcing ${sourceFile}: ${err.message}`)
