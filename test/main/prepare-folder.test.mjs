@@ -49,7 +49,7 @@ test('Install a non-existent template', async () => {
   } catch (err) {
     expect(err).toBeInstanceOf(Error)
     expect(err.message).toContain('Command failed with exit code 1')
-    expect(logger.errors[0]).toEqual(['npm ERR! code E404'])
+    expect(logger.errors[0][0]).toContain('code E404')
   }
 })
 
