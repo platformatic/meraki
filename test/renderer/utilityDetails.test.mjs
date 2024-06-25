@@ -20,9 +20,15 @@ test('return label donwloads', async () => {
 })
 
 test('return label released At', async () => {
-  expect('54 years ago').toEqual(getLabelReleasedAt('0'))
-  expect('54 years ago').toEqual(getLabelReleasedAt(0))
-  expect('54 years ago').toEqual(getLabelReleasedAt(0))
+  const today = new Date()
+  const oneDay = 1000 * 60 * 60 * 24
+  const result = Math.round((today.getTime() / oneDay))
+  const numberOfDaysSinceEpoch = result.toFixed(0)
+  const numberOfYearsSinceEpoch = (numberOfDaysSinceEpoch / 365).toFixed(0)
+
+  expect(`${numberOfYearsSinceEpoch} years ago`).toEqual(getLabelReleasedAt('0'))
+  expect(`${numberOfYearsSinceEpoch} years ago`).toEqual(getLabelReleasedAt(0))
+  expect(`${numberOfYearsSinceEpoch} years ago`).toEqual(getLabelReleasedAt(0))
   expect('-').toEqual(getLabelReleasedAt('-'))
   expect('-').toEqual(getLabelReleasedAt(null))
   expect('-').toEqual(getLabelReleasedAt(undefined))
