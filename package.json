@@ -79,7 +79,7 @@
     "snazzy": "^9.0.0",
     "standard": "^17.1.0",
     "vite": "^4.4.9",
-    "vitest": "^1.6.0"
+    "vitest": "^2.0.0"
   },
   "optionalDependencies": {
     "dmg-license": "^1.0.11"
