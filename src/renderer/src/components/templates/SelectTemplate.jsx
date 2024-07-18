@@ -12,7 +12,6 @@ import NoResults from '~/components/ui/NoResults'
 import useStackablesStore from '~/useStackablesStore'
 import { getApiTemplates, registerUserStatusListener } from '~/api'
 import { MAX_MUMBER_SELECT, MIN_MUMBER_SELECT, NO_RESULTS_VIEW, LIST_TEMPLATES_VIEW, MAX_HEIGHT_CHANGE_NUMBER_SELECT } from '~/ui-constants'
-import Forms from '@platformatic/ui-components/src/components/forms'
 import useWindowDimensions from '~/hooks/useWindowDimensions'
 
 function SelectTemplate ({ onClick, serviceName }) {
@@ -21,7 +20,6 @@ function SelectTemplate ({ onClick, serviceName }) {
   const [templates, setTemplates] = useState([])
   const [innerLoading, setInnerLoading] = useState(true)
   const [filteredTemplates, setFilteredTemplates] = useState([])
-  const [optionsOrganizationsTemplates, setOptionsOrganizationsTemplates] = useState([])
   const [groupedTemplates, setGroupedTemplates] = useState([])
   const [userStatus, setUserStatus] = useState(null)
   const [currentPage, setCurrentPage] = useState(1)
@@ -30,7 +28,6 @@ function SelectTemplate ({ onClick, serviceName }) {
   const [templateSelected, setTemplateSelected] = useState(null)
   const scrollRef = useRef(null)
   const [filterTemplatesByName, setFilterTemplatesByName] = useState('')
-  const [filterTemplatesByOrgName, setFilterTemplatesByOrgName] = useState('')
   const [maxStackableDispay, setMaxStackableDispay] = useState(MAX_MUMBER_SELECT)
   const { height: innerHeight } = useWindowDimensions()
   const [templateContainerClassName, setTemplateContainerClassName] = useState(`${styles.templatesContainer} ${styles.templatesContainerMediumHeight}`)
@@ -42,7 +39,6 @@ function SelectTemplate ({ onClick, serviceName }) {
   useEffect(() => {
     async function getTemplates () {
       const templates = await getApiTemplates()
-      setOptionsOrganizationsTemplates([...getOrganizationGrouped(templates)])
       setTemplates(templates)
       setFilteredTemplates([...templates])
       setTemplateSelected(templates[0])
@@ -73,17 +69,14 @@ function SelectTemplate ({ onClick, serviceName }) {
   }, [templates, serviceName, Object.keys(getService(serviceName).template).length])
 
   useEffect(() => {
-    if (filterTemplatesByOrgName || filterTemplatesByName) {
+    if (filterTemplatesByName) {
       let founds = [...templates]
-      if (filterTemplatesByOrgName) {
-        founds = templates.filter(template => template.orgName === filterTemplatesByOrgName)
-      }
       founds = founds.filter(template => template.name.toLowerCase().includes(filterTemplatesByName.toLowerCase()))
       setFilteredTemplates(founds)
     } else {
       setFilteredTemplates([...templates])
     }
-  }, [filterTemplatesByOrgName, filterTemplatesByName])
+  }, [filterTemplatesByName])
 
   useEffect(() => {
     if (filteredTemplates.length > 0) {
@@ -107,36 +100,6 @@ function SelectTemplate ({ onClick, serviceName }) {
   function handleUsePlatformaticService () {
     setTemplate(serviceName, templateSelected)
     onClick()
-  }
-
-  function getOrganizationGrouped (templates) {
-    return templates.map(e => e?.orgName || 'No Name').reduce((acc, currentValue) => {
-      const found = acc.find(a => a.label === currentValue)
-      if (found) {
-        found.count += 1
-      } else {
-        acc.push({
-          label: currentValue,
-          count: 1
-        })
-      }
-      return acc
-    }, []).sort((a, b) => {
-      const labelA = a.label.toUpperCase()
-      const labelB = b.label.toUpperCase()
-      if (labelA < labelB) {
-        return -1
-      }
-      if (labelA > labelB) {
-        return 1
-      }
-      return 0
-    }).map(ele => ({
-      label: ele.label,
-      value: ele.label,
-      iconName: 'OrganizationIcon',
-      descriptionValue: `( ${ele.count} ${ele.count > 1 ? 'Templates' : 'Template'} )`
-    }))
   }
 
   function handleClearTemplates () {
@@ -166,18 +129,6 @@ function SelectTemplate ({ onClick, serviceName }) {
     })
   }
 
-  // Functions Related to Form.Select
-  function handleChangeOrganization (event) {
-    setFilterTemplatesByOrgName(event.target.value)
-  }
-
-  function handleSelectOrganization (event) {
-    setFilterTemplatesByOrgName(event.detail.value)
-  }
-
-  function handleClearOrganization () {
-    setFilterTemplatesByOrgName('')
-  }
   // End Functions Related to Form.Select
 
   function renderListTemplates () {
@@ -275,21 +226,6 @@ function SelectTemplate ({ onClick, serviceName }) {
               {renderLoginStatus()}
             </div>
             <div className={`${commonStyles.tinyFlexRow} ${commonStyles.fullWidth}`}>
-              <Forms.SelectWithInput
-                defaultContainerClassName={styles.select}
-                backgroundColor={RICH_BLACK}
-                placeholder='Select Organization'
-                borderColor={WHITE}
-                options={optionsOrganizationsTemplates}
-                defaultOptionsClassName={styles.selectUl}
-                onChange={handleChangeOrganization}
-                onSelect={handleSelectOrganization}
-                onClear={handleClearOrganization}
-                optionsBorderedBottom={false}
-                mainColor={WHITE}
-                borderListColor={WHITE}
-                value={filterTemplatesByOrgName}
-              />
               <SearchBarV2
                 placeholder='Search for a Template'
                 onClear={handleClearTemplates}
