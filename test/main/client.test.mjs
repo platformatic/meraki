@@ -8,7 +8,7 @@ import { mkdirp } from 'mkdirp'
 setUpEnvironment()
 const { getTemplates, getPlugins } = await import('../../src/main/client.mjs')
 
-test('should invoke marketplace for stackables, no user key', async () => {
+test('should invoke marketplace for stackables', async () => {
   const platformaticDir = await mkdtemp(join(tmpdir(), 'plat-app-test-home'))
   onTestFinished(() => rm(platformaticDir, { recursive: true }))
   process.env.HOME = platformaticDir
@@ -29,8 +29,6 @@ test('should invoke marketplace for stackables, no user key', async () => {
   ]
   await startMarketplace({
     getStackablesCallback: (request, reply) => {
-      const headers = request.headers
-      expect(headers['x-platformatic-user-api-key']).toBeUndefined()
       reply.code(200).send(stacks)
     }
   })
@@ -38,16 +36,14 @@ test('should invoke marketplace for stackables, no user key', async () => {
   expect(stackables).toEqual(stacks)
 })
 
-test('should invoke marketplace for stackables, passing user key', async () => {
+test('should invoke marketplace for stackables', async () => {
   const platformaticDir = await mkdtemp(join(tmpdir(), 'plat-app-test-home'))
   onTestFinished(() => rm(platformaticDir, { recursive: true }))
   process.env.HOME = platformaticDir
   await mkdirp(join(platformaticDir, '.platformatic'))
   const configPath = join(platformaticDir, '.platformatic', 'config.json')
-  const userApiKey = '123456787654321'
   const config = {
-    $schema: 'https://platformatic.dev/schemas/v1.12.1/login',
-    userApiKey
+    $schema: 'https://platformatic.dev/schemas/v1.12.1/login'
   }
   await writeFile(configPath, JSON.stringify(config), 'utf8')
 
@@ -67,52 +63,7 @@ test('should invoke marketplace for stackables, passing user key', async () => {
   ]
   await startMarketplace({
     getStackablesCallback: (request, reply) => {
-      const headers = request.headers
-      expect(headers['x-platformatic-user-api-key']).toEqual(userApiKey)
       reply.code(200).send(stacks)
-    }
-  })
-  const stackables = await getTemplates()
-  expect(stackables).toEqual(stacks)
-})
-
-test('should invoke marketplace for stackables, passing user key but not authorized', async () => {
-  const platformaticDir = await mkdtemp(join(tmpdir(), 'plat-app-test-home'))
-  onTestFinished(() => rm(platformaticDir, { recursive: true }))
-  process.env.HOME = platformaticDir
-  await mkdirp(join(platformaticDir, '.platformatic'))
-  const configPath = join(platformaticDir, '.platformatic', 'config.json')
-  const userApiKey = '123456787654321'
-  const config = {
-    $schema: 'https://platformatic.dev/schemas/v1.12.1/login',
-    userApiKey
-  }
-  await writeFile(configPath, JSON.stringify(config), 'utf8')
-
-  const stacks = [
-    {
-      orgName: 'org1',
-      name: 'stackable1',
-      description: 'stackable1 description',
-      public: true
-    },
-    {
-      orgName: 'org2',
-      name: 'stackable2',
-      description: 'stackable2 description',
-      public: true
-    }
-  ]
-  await startMarketplace({
-    getStackablesCallback: (request, reply) => {
-      const headers = request.headers
-      if (headers['x-platformatic-user-api-key']) {
-        reply.code(401).send({
-          message: 'Unauthorized'
-        })
-      } else {
-        reply.code(200).send(stacks)
-      }
     }
   })
   const stackables = await getTemplates()
