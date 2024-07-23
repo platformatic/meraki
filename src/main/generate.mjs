@@ -153,9 +153,9 @@ export const createApp = async (dir, { projectName, services, entrypoint, port, 
     }
   }
 
+  generator.setEntryPoint(entrypoint)
   if (!isUpdate) {
     // Creation
-    generator.setEntryPoint(entrypoint)
     await generator.prepare()
     await generator.writeFiles()
   } else {
