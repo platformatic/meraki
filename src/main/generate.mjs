@@ -153,14 +153,18 @@ export const createApp = async (dir, { projectName, services, entrypoint, port, 
     }
   }
 
-  generator.setEntryPoint(entrypoint)
   if (!isUpdate) {
     // Creation
+    generator.setEntryPoint(entrypoint)
     await generator.prepare()
     await generator.writeFiles()
   } else {
     await generator.loadFromDir()
-    generator.update({ services })
+    await generator.update({ services })
+    generator.setEntryPoint(entrypoint)
+    // We need to call this twice becasue the `setEntryPoint` fails if the service is "uknonwn".
+    // This is basically a workaround for a bug in the runtime,
+    await generator.update({ services })
   }
 
   await npmInstall(null, { cwd: projectDir }, logger)
