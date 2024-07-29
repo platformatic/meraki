@@ -10,6 +10,7 @@
     "url": "git+https://github.com/platformatic/meraki.git"
   },
   "scripts": {
+    "rebuild": "electron-rebuild -f -w better-sqlite3",
     "lint": "standard . | snazzy",
     "start": "electron-vite preview",
     "fix-electron-deps": "electron-rebuild -f -w better-sqlite3",
