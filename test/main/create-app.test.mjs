@@ -61,7 +61,7 @@ test('Create app with no entrypoint should fail', async () => {
   }
 }, 20000)
 
-test('Create app', async (t) => {
+test('Create app', async () => {
   const appDir = await mkdtemp(join(tmpdir(), 'plat-app-test-create'))
   onTestFinished(() => rm(appDir, { recursive: true }))
   const project = {
@@ -112,6 +112,7 @@ test('Create app', async (t) => {
       expect(await isFileAccessible(join(appDir, file)))
     }
   } catch (err) {
-    test.fails('Should have not thrown an error')
+    console.error(err)
+    throw err
   }
 }, 60000)

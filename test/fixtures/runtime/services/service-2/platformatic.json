@@ -4,6 +4,8 @@
     "openapi": true
   },
   "plugins": {
-    "paths": ["plugin.js"]
+    "paths": [
+      "plugin.js"
+    ]
   }
 }
