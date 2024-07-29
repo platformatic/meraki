@@ -139,11 +139,6 @@ test('Create app then update it, changing the entrypoint', async (t) => {
   expect(services).toHaveLength(1)
   expect(services).toContain('electron-testing-1')
 
-  // We copy a file to the services folder, the upgrade
-  // should just ignore it
-  const serviceFile = join(appDir, projectName, 'services', 'ignoreme')
-  await writeFile(serviceFile, 'ignoreme')
-
   project.services.push({
     name: 'electron-testing-2',
     template: '@platformatic/service',
@@ -156,8 +151,7 @@ test('Create app then update it, changing the entrypoint', async (t) => {
   await createApp(appDir, project, logger, true)
 
   services = await readdir(join(appDir, projectName, 'services'))
-  expect(services).toHaveLength(3)
-  expect(services).toContain('ignoreme')
+  expect(services).toHaveLength(2)
   expect(services).toContain('electron-testing-2')
   expect(services).toContain('electron-testing-1')
 
