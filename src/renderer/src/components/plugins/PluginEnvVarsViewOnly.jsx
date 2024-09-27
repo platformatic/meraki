@@ -16,6 +16,36 @@ function PluginEnvVarsViewOnly ({
   const configuredServiceFound = configuredServices.find(configuredService => configuredService.template === templateName && configuredService.name === serviceName)
   const pluginFound = configuredServiceFound.plugins.find(plugin => plugin.name === pluginName) || {}
 
+  function renderContentBasedOnType (element) {
+    console.log('pluginFound.form[element]', pluginFound.form[element], pluginFound.form[element].type === 'boolean')
+    if (pluginFound.form[element].type === 'boolean') {
+      return (
+        <Forms.ToggleSwitch
+          label=''
+          labelClassName={`${typographyStyles.desktopBodySmall} ${typographyStyles.textWhite} ${typographyStyles.opacity70}`}
+          name={element}
+          checked={pluginFound.form[element].value}
+        />
+      )
+    }
+
+    return (
+      <Forms.Input
+        placeholder=''
+        name={element}
+        borderColor={WHITE}
+        value={pluginFound.form[element].value}
+        errorMessage={pluginFound.validations.formErrors[element]}
+        errorMessageTextClassName={`${typographyStyles.desktopBodySmall} ${typographyStyles.textErrorRed}`}
+        backgroundColor={RICH_BLACK}
+        inputTextClassName={`${typographyStyles.desktopBody} ${typographyStyles.textWhite}`}
+        verticalPaddingClassName={commonStyles.noVerticalPadding}
+        dataAttrName='cy'
+        dataAttrValue='config-service'
+        readOnly
+      />
+    )
+  }
   function renderForm () {
     if (Object.keys(pluginFound.form).length === 0) {
       return <></>
@@ -28,20 +58,7 @@ function PluginEnvVarsViewOnly ({
         titleClassName={`${typographyStyles.desktopBodySemibold} ${typographyStyles.textWhite} `}
         helperClassName={`${typographyStyles.desktopBodySmall} ${typographyStyles.textWhite} ${typographyStyles.opacity70}`}
       >
-        <Forms.Input
-          placeholder=''
-          name={element}
-          borderColor={WHITE}
-          value={pluginFound.form[element].value}
-          errorMessage={pluginFound.validations.formErrors[element]}
-          errorMessageTextClassName={`${typographyStyles.desktopBodySmall} ${typographyStyles.textErrorRed}`}
-          backgroundColor={RICH_BLACK}
-          inputTextClassName={`${typographyStyles.desktopBody} ${typographyStyles.textWhite}`}
-          verticalPaddingClassName={commonStyles.noVerticalPadding}
-          dataAttrName='cy'
-          dataAttrValue='config-service'
-          readOnly
-        />
+        {renderContentBasedOnType(element)}
       </Forms.Field>
     ))
   }
