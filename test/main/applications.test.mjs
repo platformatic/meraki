@@ -295,7 +295,7 @@ test('open application', async (t) => {
     })
     .reply(200, {
       'dist-tags': {
-        latest: '2.0.0'
+        latest: '3.0.0'
       }
     })
 
@@ -328,7 +328,6 @@ test('open application', async (t) => {
     configPath: `${appDir}/platformatic.json`,
     entrypoint: 'service-1',
     port: 3042,
-    loggerLevel: 'info',
     services: [
       {
         id: 'service-1',
