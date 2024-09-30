@@ -8,7 +8,6 @@ import { getTemplates, getPlugins } from './client.mjs'
 import { prepareFolder, createApp } from './generate.mjs'
 import { autoCheckForUpdates } from './updater.mjs'
 import log from 'electron-log'
-import { download } from 'electron-dl'
 import { getAppPath } from './lib/utils.mjs'
 import Applications from './lib/applications.mjs'
 import Logs from './lib/logs.mjs'
@@ -305,6 +304,8 @@ app.whenReady().then(async () => {
   })
 
   ipcMain.handle('get-all-logs', async (_, id) => {
+    // BEcause now it's a "PureESM package"
+    const { download } = await import('electron-dl')
     if (!id) {
       throw new Error('Application ID is required')
     }

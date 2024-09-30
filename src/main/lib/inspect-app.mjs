@@ -14,9 +14,15 @@ const loadServiceConfig = async (servicePath) => {
 }
 
 const getTemplate = (serviceConfig) => {
+  console.log('serviceConfig', serviceConfig.$schema)
+  // TODO: support both schemas
   let template
   if (serviceConfig?.$schema?.startsWith('https://platformatic.dev/schemas')) {
     template = serviceConfig?.$schema?.split('/').slice(-1)
+    template = `@platformatic/${template}`
+  } else if (serviceConfig?.$schema?.startsWith('https://schemas.platformatic.dev')) {
+    template = serviceConfig?.$schema?.split('https://schemas.platformatic.dev/@platformatic/')[1]
+    template = template.split('/')[0]
     template = `@platformatic/${template}`
   } else {
     template = serviceConfig?.module || serviceConfig?.extends
@@ -51,6 +57,7 @@ const getEnvVariables = async (projectDir, name) => {
 }
 
 const inspectApp = async (path) => {
+  console.log('@@@@@@@@@@@@@@@@@@@@@@@@@@@@@ HERE')
   const { loadConfig, platformaticRuntime } = await importOrLocal({
     projectDir: path,
     pkg: '@platformatic/runtime',
