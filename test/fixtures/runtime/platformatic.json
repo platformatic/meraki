@@ -1,16 +1,11 @@
 {
   "$schema": "https://platformatic.dev/schemas/v1.22.0/runtime",
   "entrypoint": "service-1",
-  "hotReload": false,
   "autoload": {
     "path": "./services"
   },
   "server": {
     "hostname": "{PLT_SERVER_HOSTNAME}",
-    "port": "{PORT}",
-    "logger": {
-      "level": "{PLT_SERVER_LOGGER_LEVEL}"
-    }
-  },
-  "managementApi": true
+    "port": "{PORT}"
+  }
 }
