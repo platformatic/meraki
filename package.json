@@ -37,7 +37,7 @@
     "@fastify/http-proxy": "^9.5.0",
     "@platformatic/client": "^1.41.0",
     "@platformatic/control": "^1.41.0",
-    "@platformatic/sql-mapper": "^1.41.0",
+    "@platformatic/sql-mapper": "^2.0.0",
     "@platformatic/ui-components": "^0.6.0",
     "@scalar/api-reference-react": "^0.1.15",
     "autoprefixer": "^10.4.19",
