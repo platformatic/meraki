@@ -60,7 +60,7 @@
     "tailwindcss": "^3.3.6",
     "undici": "^6.16.0",
     "use-error-boundary": "^2.0.6",
-    "which": "^4.0.0",
+    "which": "^5.0.0",
     "zustand": "^4.5.2"
   },
   "devDependencies": {
