@@ -34,7 +34,8 @@ async function startMarketplace (options = {}) {
     await marketplace.close()
   })
 
-  return marketplace.listen({ port: 13042 })
+  const url = await marketplace.listen({ port: 13042 })
+  return { url, marketplace }
 }
 
 async function isFileAccessible (filename) {

@@ -1,4 +1,4 @@
-import { test, expect, onTestFinished } from 'vitest'
+import { test, expect, onTestFinished, afterEach } from 'vitest'
 import { startMarketplace, setUpEnvironment } from './helper.mjs'
 import { mkdtemp, writeFile, rm } from 'node:fs/promises'
 import { tmpdir } from 'node:os'
@@ -7,6 +7,12 @@ import { mkdirp } from 'mkdirp'
 
 setUpEnvironment()
 const { getTemplates, getPlugins } = await import('../../src/main/client.mjs')
+let marketplace
+afterEach(async () => {
+  if (marketplace) {
+    await marketplace.close()
+  }
+})
 
 test('should invoke marketplace for stackables', async () => {
   const platformaticDir = await mkdtemp(join(tmpdir(), 'plat-app-test-home'))
@@ -27,11 +33,12 @@ test('should invoke marketplace for stackables', async () => {
       public: true
     }
   ]
-  await startMarketplace({
-    getStackablesCallback: (request, reply) => {
+  const ret = await startMarketplace({
+    getStackablesCallback: (_request, reply) => {
       reply.code(200).send(stacks)
     }
   })
+  marketplace = ret.marketplace
   const stackables = await getTemplates()
   expect(stackables).toEqual(stacks)
 })
@@ -61,11 +68,12 @@ test('should invoke marketplace for stackables', async () => {
       public: true
     }
   ]
-  await startMarketplace({
-    getStackablesCallback: (request, reply) => {
+  const ret = await startMarketplace({
+    getStackablesCallback: (_request, reply) => {
       reply.code(200).send(stacks)
     }
   })
+  marketplace = ret.marketplace
   const stackables = await getTemplates()
   expect(stackables).toEqual(stacks)
 })
@@ -93,11 +101,12 @@ test('should invoke marketplace for stackables', async () => {
       envVars: []
     }
   ]
-  await startMarketplace({
-    getPluginsCallback: (request, reply) => {
+  const ret = await startMarketplace({
+    getPluginsCallback: (_, reply) => {
       reply.code(200).send(plugs)
     }
   })
+  marketplace = ret.marketplace
   const plugins = await getPlugins()
   expect(plugins).toEqual(plugs)
 })

@@ -57,7 +57,6 @@ const getEnvVariables = async (projectDir, name) => {
 }
 
 const inspectApp = async (path) => {
-  console.log('@@@@@@@@@@@@@@@@@@@@@@@@@@@@@ HERE')
   const { loadConfig, platformaticRuntime } = await importOrLocal({
     projectDir: path,
     pkg: '@platformatic/runtime',
