@@ -1,4 +1,4 @@
-import execa from 'execa'
+import { execa } from 'execa'
 import { RuntimeApiClient } from '@platformatic/control'
 import { access, rm } from 'node:fs/promises'
 import { createRequire } from 'node:module'

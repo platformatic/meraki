@@ -1,5 +1,5 @@
 import fastify from 'fastify'
-import execa from 'execa'
+import { execa } from 'execa'
 import { afterEach } from 'vitest'
 import { access } from 'node:fs/promises'
 import { createRequire } from 'node:module'
