@@ -87,7 +87,7 @@ class RuntimeProxy {
         undici: client
       })
 
-      await this.#runtimeProxy.listen(0)
+      await this.#runtimeProxy.listen({ port: 0 })
     }
     const port = this.#runtimeProxy.server.address().port
     return `http://localhost:${port}`

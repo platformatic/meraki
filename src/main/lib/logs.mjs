@@ -118,7 +118,7 @@ class Logs {
         const fullLogStream = await this.#runtimeClient.getRuntimeAllLogsStream(pid)
         return reply.send(fullLogStream)
       })
-      await this.#logServer.listen(0) // TODO: We should use a unix socket for that
+      await this.#logServer.listen({ port: 0 }) // TODO: We should use a unix socket for that
     }
     const port = this.#logServer.server.address().port
     return `http://localhost:${port}/logs/${id}`

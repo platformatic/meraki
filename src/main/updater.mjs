@@ -1,6 +1,8 @@
 import { dialog } from 'electron'
-import { autoUpdater } from 'electron-updater'
+import pkg from 'electron-updater'
 import log from 'electron-log'
+
+const { autoUpdater } = pkg
 
 let updater = null
 autoUpdater.autoDownload = false

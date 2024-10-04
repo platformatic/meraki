@@ -6,7 +6,7 @@ import { mkdirp } from 'mkdirp'
 import Applications from '../../src/main/lib/applications.mjs'
 import { upgradePlt } from '../../src/main/lib/upgrade-plt.mjs'
 import { cleanNpmVersion } from '../../src/main/lib/utils.mjs'
-import execa from 'execa'
+import { execa } from 'execa'
 
 // Setup meraki app folder (for migrations) and config folder (for the DB)
 const platformaticTestDir = await mkdtemp(join(tmpdir(), 'plat-app-test'))

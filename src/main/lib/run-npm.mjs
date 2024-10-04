@@ -1,6 +1,6 @@
 'use strict'
 
-import execa from 'execa'
+import { execa } from 'execa'
 import { app } from 'electron'
 import split from 'split2'
 import { dirname } from 'node:path'

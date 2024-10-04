@@ -5,7 +5,7 @@ import { resolve, join } from 'node:path'
 import { mkdirp } from 'mkdirp'
 import Applications from '../../src/main/lib/applications.mjs'
 import { startRuntimeInFolder } from './helper.mjs'
-import execa from 'execa'
+import { execa } from 'execa'
 
 const { MockAgent, setGlobalDispatcher } = require('undici')
 
