@@ -1,5 +1,5 @@
 import fastify from 'fastify'
-import execa from 'execa'
+import { execa } from 'execa'
 import { afterEach } from 'vitest'
 import { access } from 'node:fs/promises'
 import { createRequire } from 'node:module'
@@ -34,7 +34,8 @@ async function startMarketplace (options = {}) {
     await marketplace.close()
   })
 
-  return marketplace.listen({ port: 13042 })
+  const url = await marketplace.listen({ port: 13042 })
+  return { url, marketplace }
 }
 
 async function isFileAccessible (filename) {

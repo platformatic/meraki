@@ -4,7 +4,7 @@ import { access } from 'node:fs/promises'
 import { request } from 'undici'
 import { homedir } from 'node:os'
 import log from 'electron-log'
-import execa from 'execa'
+import { execa } from 'execa'
 import which from 'which'
 
 const isMac = process.platform === 'darwin'
